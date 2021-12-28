@@ -2,6 +2,7 @@
 
 namespace staabm\PHPStanDba;
 
+use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -25,7 +26,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 {
 	public function getClass(): string
 	{
-		return \PDO::class;
+		return PDO::class;
 	}
 
 	public function isMethodSupported(MethodReflection $methodReflection): bool
