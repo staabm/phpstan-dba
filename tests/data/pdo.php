@@ -10,8 +10,6 @@ class Foo {
 	{
 		$stmt = $pdo->query('SELECT name, id FROM foo', PDO::FETCH_ASSOC);
 		assertType('PDOStatement<array{id: int<0, max>, name: string}>', $stmt);
-		$it = $stmt->getIterator();
-		assertType('Traversable<mixed, array{id: int<0, max>, name: string}>', $it);
 
 		foreach($stmt as $row) {
 			assertType('int<0, max>', $row['id']);
