@@ -1,0 +1,29 @@
+name: Static analysis
+
+on:
+  pull_request:
+
+jobs:
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      - name: Setup PHP
+        id: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.0
+          coverage: none
+
+      - uses: "ramsey/composer-install@v2"
+        with:
+          composer-options: "--prefer-dist --no-progress --no-suggest"
+
+      - run: vendor/bin/phpstan

@@ -1,0 +1,20 @@
+includes:
+    - config/dba.neon
+
+parameters:
+    level: 6
+
+    paths:
+        - src/
+        - tests/
+
+    ignoreErrors:
+        -
+            message: '#.*has no return type specified.#'
+            path: tests/*
+        -
+            message: '#.*return type has no value type specified in iterable type iterable.#'
+            path: tests/*
+
+    stubFiles:
+        - config/PdoStatement.stub

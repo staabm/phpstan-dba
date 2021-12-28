@@ -1,4 +1,5 @@
 services:
     -
         class: staabm\PHPStanDba\PdoQueryDynamicReturnTypeExtension
-        tags: [phpstan.rules.rule]
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
