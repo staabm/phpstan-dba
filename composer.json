@@ -1,0 +1,26 @@
+{
+	"name": "staabm/phpstan-dba",
+	"license": "MIT",
+	"require": {
+		"php": "^8.0",
+		"phpstan/phpstan": "^1.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9",
+		"phpstan/phpstan-strict-rules": "^1.1",
+		"phpstan/phpstan-phpunit": "^1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"staabm\\PHPStanDba\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"staabm\\PHPStanDba\\tests\\": "tests/"
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
+}
