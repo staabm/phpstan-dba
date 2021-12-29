@@ -9,7 +9,7 @@ class Foo {
 	public function querySelected(PDO $pdo)
 	{
 		$stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
-		assertType('PDOStatement<array{adaid: int<0, max>, email: string}>', $stmt);
+		assertType('PDOStatement<array{adaid: int, email: string}>', $stmt);
 
 		foreach($stmt as $row) {
 			assertType('int<0, max>', $row['adaid']);

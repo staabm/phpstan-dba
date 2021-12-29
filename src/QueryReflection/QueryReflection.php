@@ -85,10 +85,7 @@ final class QueryReflection {
 			}
 			$result->free();
 
-			return TypeCombinator::union(
-				new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]),
-				new ConstantBooleanType(false)
-			);
+			return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
 		}
 
 		return null;
