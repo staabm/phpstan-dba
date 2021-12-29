@@ -3,3 +3,8 @@ services:
         class: staabm\PHPStanDba\Extensions\PdoQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DeployerRunMysqlQueryDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicFunctionReturnTypeExtension
