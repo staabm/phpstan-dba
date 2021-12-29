@@ -73,7 +73,9 @@ final class QueryReflection
             return null;
         }
 
+        $queryString = $this->stripTraillingLimit($queryString);
         $queryString .= ' LIMIT 0';
+
         $result = $this->db->query($queryString);
         if ($result) {
             $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
@@ -247,5 +249,10 @@ final class QueryReflection
         }
 
         return null;
+    }
+
+    private function stripTraillingLimit(string $query): string
+    {
+        return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $query);
     }
 }
