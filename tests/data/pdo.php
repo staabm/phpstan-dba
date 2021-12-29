@@ -38,6 +38,21 @@ class Foo {
 		$stmt = $pdo->query($query, PDO::FETCH_ASSOC);
 		assertType('PDOStatement<array>|false', $stmt);
 	}
+
+	public function nonAssocQueries(PDO $pdo)
+	{
+		$stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
+		assertType('PDOStatement<array>|false', $stmt);
+
+		$stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_NUM);
+		assertType('PDOStatement<array>|false', $stmt);
+
+		$stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_COLUMN);
+		assertType('PDOStatement<array>|false', $stmt);
+
+		$stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_OBJ);
+		assertType('PDOStatement<array>|false', $stmt);
+	}
 /*
 	public function queryAll(PDO $pdo)
 	{

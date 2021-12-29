@@ -11,6 +11,7 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
@@ -45,11 +46,16 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 			new ConstantBooleanType(false)
 		);
 
-		if (count($args) === 0) {
+		if (count($args) < 2) {
 			return $defaultReturn;
 		}
 
 		$queryType = $scope->getType($args[0]->value);
+		$fetchModeType = $scope->getType($args[1]->value);
+		if (!$fetchModeType instanceof ConstantIntegerType || $fetchModeType->getValue() !== PDO::FETCH_ASSOC) {
+			return $defaultReturn;
+		}
+
 		if ($queryType instanceof ConstantScalarType) {
 			$queryString = $queryType->getValue();
 
