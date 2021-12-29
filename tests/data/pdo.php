@@ -8,12 +8,12 @@ use function PHPStan\Testing\assertType;
 class Foo {
 	public function querySelected(PDO $pdo)
 	{
-		$stmt = $pdo->query('SELECT name, id FROM foo', PDO::FETCH_ASSOC);
-		assertType('PDOStatement<array{id: int<0, max>, name: string}>', $stmt);
+		$stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
+		assertType('PDOStatement<array{adaid: int<0, max>, email: string}>', $stmt);
 
 		foreach($stmt as $row) {
-			assertType('int<0, max>', $row['id']);
-			assertType('string', $row['name']);
+			assertType('int<0, max>', $row['adaid']);
+			assertType('string', $row['email']);
 		}
 	}
 
