@@ -29,11 +29,11 @@ class Foo
         assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
     }
 
-	public function queryWithNullColumn(PDO $pdo)
-	{
-		$stmt = $pdo->query('SELECT eladaid FROM ak', PDO::FETCH_ASSOC);
-		assertType('PDOStatement<array{eladaid: int<-2147483648, 2147483647>|null}>', $stmt);
-	}
+    public function queryWithNullColumn(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT eladaid FROM ak', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{eladaid: int<-2147483648, 2147483647>|null}>', $stmt);
+    }
 
     public function syntaxError(PDO $pdo)
     {
