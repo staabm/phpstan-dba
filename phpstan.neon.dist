@@ -1,5 +1,6 @@
 includes:
-    - config/dba.neon
+    - config/stubFiles.neon
+    - config/extensions.neon
 
 parameters:
     level: 6
@@ -22,7 +23,3 @@ parameters:
     excludePaths:
         analyseAndScan:
             - *fixtures/**
-
-    stubFiles:
-        - config/PdoStatement.stub
-        - config/Mysqli.stub

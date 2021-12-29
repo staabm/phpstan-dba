@@ -10,6 +10,9 @@ class DbaInferenceTest extends TypeInferenceTestCase
     {
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo.php');
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli.php');
+
+		// make sure class definitions within the test files are known to reflection
+		require_once __DIR__.'/data/runMysqlQuery.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/runMysqlQuery.php');
     }
 
@@ -29,7 +32,8 @@ class DbaInferenceTest extends TypeInferenceTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../config/dba.neon',
+            __DIR__.'/../config/stubFiles.neon',
+            __DIR__.'/../config/extensions.neon',
         ];
     }
 }

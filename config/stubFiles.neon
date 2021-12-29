@@ -1,0 +1,4 @@
+parameters:
+    stubFiles:
+        - PdoStatement.stub
+        - Mysqli.stub
