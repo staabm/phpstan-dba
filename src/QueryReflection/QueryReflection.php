@@ -62,7 +62,7 @@ final class QueryReflection {
 	public function getResultType(Expr $expr, Scope $scope):?Type {
 		$queryString = $this->resolveQueryString($expr, $scope);
 
-		if (strpos(ltrim($queryString), 'SELECT') !== 0) {
+		if ($this->getQueryType($queryString) !== 'SELECT') {
 			return null;
 		}
 
@@ -217,5 +217,16 @@ final class QueryReflection {
 			if ($flagId & $n) $result[] = $t;
 		}
 		return $result;
+	}
+
+	private function getQueryType(string $query): ?string
+	{
+		$query = ltrim($query);
+
+		if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
+			return strtoupper($matches[1]);
+		}
+
+		return null;
 	}
 }
