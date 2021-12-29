@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @template TValue
+ * @implements Traversable<int, TValue>
+ * @implements IteratorAggregate<int, TValue>
+ * @link https://www.php.net/manual/en/mysqli-result.fetch-object.php
+ */
+class mysqli_result implements Traversable, IteratorAggregate
+{
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @param array<mixed> $ctorArgs
+     * @return false|null|T
+     */
+    public function fetch_object($class = \stdclass::class, array $ctorArgs = array()) {}
+}

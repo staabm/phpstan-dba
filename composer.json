@@ -3,9 +3,11 @@
 	"license": "MIT",
 	"require": {
 		"php": "^8.0",
+		"ext-mysqli": "*",
 		"phpstan/phpstan": "^1.2"
 	},
 	"require-dev": {
+		"ext-pdo": "*",
 		"phpunit/phpunit": "^9",
 		"phpstan/phpstan-php-parser": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",

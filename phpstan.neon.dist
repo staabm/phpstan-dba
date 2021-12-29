@@ -25,3 +25,4 @@ parameters:
 
     stubFiles:
         - config/PdoStatement.stub
+        - config/Mysqli.stub

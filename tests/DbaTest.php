@@ -9,6 +9,7 @@ class DbaTest extends TypeInferenceTestCase
 	public function dataFileAsserts(): iterable
 	{
 		yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo.php');
+		yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
 		yield from $this->gatherAssertTypes(__DIR__ . '/data/runMysqlQuery.php');
 	}
 
