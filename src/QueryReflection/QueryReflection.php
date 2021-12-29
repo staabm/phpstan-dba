@@ -2,18 +2,13 @@
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use PDOStatement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
@@ -21,6 +16,10 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 
 final class QueryReflection {
+	const FETCH_TYPE_ASSOC = 1;
+	const FETCH_TYPE_NUMERIC = 2;
+	const FETCH_TYPE_BOTH = 3;
+
 	/**
 	 * @var \mysqli
 	 */
@@ -59,7 +58,10 @@ final class QueryReflection {
 		}
 	}
 
-	public function getResultType(Expr $expr, Scope $scope):?Type {
+	/**
+	 * @param self::FETCH_TYPE* $fetchType
+	 */
+	public function getResultType(Expr $expr, Scope $scope, int $fetchType):?Type {
 		$queryString = $this->resolveQueryString($expr, $scope);
 
 		if ($this->getQueryType($queryString) !== 'SELECT') {
@@ -74,15 +76,24 @@ final class QueryReflection {
 			/* Get field information for all result-columns */
 			$finfo = $result->fetch_fields();
 
+			$i = 0;
 			foreach ($finfo as $val) {
-				$arrayBuilder->setOffsetValueType(
-					new ConstantStringType($val->name),
-					$this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
-				);
+				if ($fetchType === self::FETCH_TYPE_ASSOC) {
+					$arrayBuilder->setOffsetValueType(
+						new ConstantStringType($val->name),
+						$this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
+					);
+				} elseif ($fetchType === self::FETCH_TYPE_NUMERIC) {
+					$arrayBuilder->setOffsetValueType(
+						new ConstantIntegerType($i),
+						$this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
+					);
+				}
+				$i++;
 			}
 			$result->free();
 
-			return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
+			return $arrayBuilder->getArray();
 		}
 
 		return null;
