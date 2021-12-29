@@ -95,16 +95,18 @@ final class QueryReflection {
 	}
 
 	private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags): Type {
-		switch($this->flags2txt($mysqlFlags)) {
-			case 'NUM': {
-				return new IntegerType();
+		foreach($this->flags2txt($mysqlFlags) as $flag) {
+			switch($flag) {
+				case 'NUM': {
+					return new IntegerType();
+				}
+				// ???
+				case 'NOT_NULL':
+				case 'AUTO_INCREMENT':
+				case 'PRI_KEY':
+				case 'MULTIPLE_KEY':
+				case 'NO_DEFAULT_VALUE':
 			}
-			// ???
-			case 'NOT_NULL':
-			case 'AUTO_INCREMENT':
-			case 'PRI_KEY':
-			case 'MULTIPLE_KEY':
-			case 'NO_DEFAULT_VALUE':
 		}
 
 		switch($this->type2txt($mysqlType)) {
