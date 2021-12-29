@@ -2,7 +2,6 @@
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use PDO;
 use PDOStatement;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;

@@ -56,7 +56,6 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 			$queryReflection = new QueryReflection();
 			$resultType = $queryReflection->getResultType($queryString);
 			if ($resultType) {
-				//var_dump($resultType->describe(VerbosityLevel::precise()));
 				return $resultType;
 			}
 		}
