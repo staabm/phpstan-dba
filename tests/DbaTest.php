@@ -24,13 +24,10 @@ class DbaTest extends TypeInferenceTestCase
 		$this->assertFileAsserts($assertType, $file, ...$args);
 	}
 
-	/*
 	public static function getAdditionalConfigFiles(): array
 	{
 		return [
-			__DIR__ . '/../../../conf/bleedingEdge.neon',
-			__DIR__ . '/typeAliases.neon',
+			__DIR__ . '/../config/dba.neon'
 		];
 	}
-	*/
 }
