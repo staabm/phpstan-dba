@@ -57,7 +57,9 @@ final class QueryReflection {
 	}
 
 	public function getResultType(string $queryString):?Type {
-		// XXX skip queries that are not SELECT
+		if (strpos(ltrim($queryString), 'SELECT') !== 0) {
+			return null;
+		}
 
 		$queryString .= ' LIMIT 0';
 		$result = $this->db->query($queryString);
@@ -72,16 +74,6 @@ final class QueryReflection {
 					new ConstantStringType($val->name),
 					$this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
 				);
-
-				/*
-				printf("Name:      %s\n",   $val->name);
-				printf("Table:     %s\n",   $val->table);
-				printf("Max. Len:  %d\n",   $val->max_length);
-				printf("Length:    %d\n",   $val->length);
-				printf("charsetnr: %d\n",   $val->charsetnr);
-				printf("Flags:     %s\n",   h_flags2txt($val->flags));
-				printf("Type:      %s\n\n", h_type2txt($val->type));
-				*/
 			}
 			$result->free();
 
