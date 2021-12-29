@@ -3,6 +3,7 @@
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\IntegerRangeType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 
 /**
@@ -32,7 +33,8 @@ final class MysqlIntegerRanges
 
     public function signedBigInt(): Type
     {
-        return IntegerRangeType::fromInterval(-2 ** 63, 2 ** 63 - 1);
+        // the range is so big, we just assume its int
+        return new IntegerType();
     }
 
     public function unsignedTinyInt(): Type
@@ -57,6 +59,7 @@ final class MysqlIntegerRanges
 
     public function unsignedBigInt(): Type
     {
-        return IntegerRangeType::fromInterval(0, 2 ** 64 - 1);
+        // the range is so big, we just assume its int
+        return new IntegerType();
     }
 }
