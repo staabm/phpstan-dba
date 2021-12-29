@@ -20,10 +20,11 @@ class DbCredentials
 {
 }
 
-class Foo {
-	public function run(string $prodHostname, DbCredentials $dbCredentials)
-	{
-		$prodDomains = runMysqlQuery('SELECT cmsdomainid FROM cmsdomain WHERE url ="'.$prodHostname.'" and standard=1', $dbCredentials);
-		assertType('array<int, array{string}>|null', $prodDomains);
-	}
+class Foo
+{
+    public function run(string $prodHostname, DbCredentials $dbCredentials)
+    {
+        $prodDomains = runMysqlQuery('SELECT cmsdomainid FROM cmsdomain WHERE url ="'.$prodHostname.'" and standard=1', $dbCredentials);
+        assertType('array<int, array{string}>|null', $prodDomains);
+    }
 }

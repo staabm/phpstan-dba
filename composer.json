@@ -11,7 +11,8 @@
 		"phpunit/phpunit": "^9",
 		"phpstan/phpstan-php-parser": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
-		"phpstan/phpstan-phpunit": "^1.0"
+		"phpstan/phpstan-phpunit": "^1.0",
+		"friendsofphp/php-cs-fixer": "3.4.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -22,6 +23,14 @@
 		"psr-4": {
 			"staabm\\PHPStanDba\\tests\\": "tests/"
 		}
+	},
+	"scripts": {
+		"csfix": [
+			"php-cs-fixer fix"
+		],
+		"phpstan": [
+			"phpstan analyse -c phpstan.neon.dist"
+		]
 	},
 	"config": {
 		"sort-packages": true
