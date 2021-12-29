@@ -70,7 +70,7 @@ final class QueryReflection {
 			foreach ($finfo as $val) {
 				$arrayBuilder->setOffsetValueType(
 					new ConstantStringType($val->name),
-					$this->mapMysqlToPHPStanType($val->type, $val->flags)
+					$this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
 				);
 
 				/*
@@ -91,19 +91,60 @@ final class QueryReflection {
 		return null;
 	}
 
-	private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags): Type {
+	private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type {
+		$numeric = false;
+		$notNull = false;
+		$unsigned = false;
+		$autoIncrement = false;
+
 		foreach($this->flags2txt($mysqlFlags) as $flag) {
 			switch($flag) {
 				case 'NUM': {
-					return new IntegerType();
+					$numeric = true;
+					break;
 				}
+				case 'NOT_NULL': {
+					$notNull = true;
+					break;
+				}
+				case 'AUTO_INCREMENT': {
+					$autoIncrement = true;
+					break;
+				}
+				case 'UNSIGNED':
+				{
+					$unsigned = true;
+					break;
+				}
+
 				// ???
-				case 'NOT_NULL':
-				case 'AUTO_INCREMENT':
 				case 'PRI_KEY':
 				case 'MULTIPLE_KEY':
 				case 'NO_DEFAULT_VALUE':
 			}
+		}
+
+		$mysqlIntegerRanges = new MysqlIntegerRanges();
+		$phpstanType = null;
+		if ($numeric) {
+			if ($length == 1) {
+				$phpstanType = $mysqlIntegerRanges->signedTinyInt();
+			}
+			if ($length == 11) {
+				$phpstanType = $mysqlIntegerRanges->signedInt();
+			}
+		}
+
+		if ($autoIncrement) {
+			$phpstanType = $mysqlIntegerRanges->unsignedInt();
+		}
+
+		if ($phpstanType) {
+			if ($notNull === false) {
+				$phpstanType = TypeCombinator::addNull($phpstanType);
+			}
+
+			return $phpstanType;
 		}
 
 		switch($this->type2txt($mysqlType)) {
