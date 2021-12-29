@@ -29,6 +29,12 @@ class Foo
         assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
     }
 
+    public function syntaxError(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array>|false', $stmt);
+    }
+
     public function concatedQuerySelected(PDO $pdo, int $int, string $string, float $float)
     {
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.$int, PDO::FETCH_ASSOC);

@@ -14,3 +14,7 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryRule
+        tags: [phpstan.rules.rule]

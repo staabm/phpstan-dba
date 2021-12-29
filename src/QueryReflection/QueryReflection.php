@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use mysqli_result;
+use mysqli_sql_exception;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
@@ -22,6 +24,8 @@ final class QueryReflection
     public const FETCH_TYPE_ASSOC = 1;
     public const FETCH_TYPE_NUMERIC = 2;
     public const FETCH_TYPE_BOTH = 3;
+
+	public const MYSQL_SYNTAX_ERROR_CODE = 1064;
 
     /**
      * @var \mysqli
@@ -62,21 +66,28 @@ final class QueryReflection
         }
     }
 
+    public function containsSyntaxError(Expr $expr, Scope $scope): bool
+    {
+        try {
+            $this->simulateQuery($expr, $scope);
+
+            return false;
+        } catch (mysqli_sql_exception $e) {
+            return self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode();
+        }
+    }
+
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
     public function getResultType(Expr $expr, Scope $scope, int $fetchType): ?Type
     {
-        $queryString = $this->resolveQueryString($expr, $scope);
-
-        if ('SELECT' !== $this->getQueryType($queryString)) {
+        try {
+            $result = $this->simulateQuery($expr, $scope);
+        } catch (mysqli_sql_exception $e) {
             return null;
         }
 
-        $queryString = $this->stripTraillingLimit($queryString);
-        $queryString .= ' LIMIT 0';
-
-        $result = $this->db->query($queryString);
         if ($result) {
             $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 
@@ -104,6 +115,25 @@ final class QueryReflection
         }
 
         return null;
+    }
+
+    /**
+     * @return mysqli_result<mixed>|bool|null
+     *
+     * @throws mysqli_sql_exception
+     */
+    private function simulateQuery(Expr $expr, Scope $scope)
+    {
+        $queryString = $this->resolveQueryString($expr, $scope);
+
+        if ('SELECT' !== $this->getQueryType($queryString)) {
+            return null;
+        }
+
+        $queryString = $this->stripTraillingLimit($queryString);
+        $queryString .= ' LIMIT 0';
+
+        return $this->db->query($queryString);
     }
 
     private function resolveQueryString(Expr $expr, Scope $scope): string
