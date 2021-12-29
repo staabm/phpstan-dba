@@ -4,6 +4,8 @@ namespace staabm\PHPStanDba\Extensions;
 
 use PDO;
 use PDOStatement;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -15,12 +17,15 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\FloatType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\TypeUtils;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
@@ -50,22 +55,18 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 			return $defaultReturn;
 		}
 
-		$queryType = $scope->getType($args[0]->value);
 		$fetchModeType = $scope->getType($args[1]->value);
 		if (!$fetchModeType instanceof ConstantIntegerType || $fetchModeType->getValue() !== PDO::FETCH_ASSOC) {
 			return $defaultReturn;
 		}
 
-		if ($queryType instanceof ConstantScalarType) {
-			$queryString = $queryType->getValue();
-
-			$queryReflection = new QueryReflection();
-			$resultType = $queryReflection->getResultType($queryString);
-			if ($resultType) {
-				return $resultType;
-			}
+		$queryReflection = new QueryReflection();
+		$resultType = $queryReflection->getResultType($args[0]->value, $scope);
+		if ($resultType) {
+			return $resultType;
 		}
 
 		return $defaultReturn;
 	}
+
 }

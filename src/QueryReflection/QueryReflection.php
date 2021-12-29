@@ -3,6 +3,8 @@
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PDOStatement;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
@@ -10,6 +12,7 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -56,7 +59,9 @@ final class QueryReflection {
 		}
 	}
 
-	public function getResultType(string $queryString):?Type {
+	public function getResultType(Expr $expr, Scope $scope):?Type {
+		$queryString = $this->resolveQueryString($expr, $scope);
+
 		if (strpos(ltrim($queryString), 'SELECT') !== 0) {
 			return null;
 		}
@@ -81,6 +86,48 @@ final class QueryReflection {
 		}
 
 		return null;
+	}
+
+	private function resolveQueryString(Expr $expr, Scope $scope):string {
+		if ($expr instanceof Concat) {
+			$left = $expr->left;
+			$right = $expr->right;
+
+			$leftString = $this->resolveQueryString($left, $scope);
+			$rightString = $this->resolveQueryString($right, $scope);
+
+			if ($leftString && $rightString) {
+				return $leftString . $rightString;
+			}
+			if ($leftString) {
+				return $leftString;
+			}
+			if ($rightString) {
+				return $rightString;
+			}
+		}
+
+		$type = $scope->getType($expr);
+		if ($type instanceof ConstantStringType) {
+			return $type->getValue();
+		}
+
+		$integerType = new IntegerType();
+		if ($integerType->isSuperTypeOf($type)->yes()) {
+			return "1";
+		}
+
+		$stringType = new StringType();
+		if ($stringType->isSuperTypeOf($type)->yes()) {
+			return "1=1";
+		}
+
+		$floatType = new FloatType();
+		if ($floatType->isSuperTypeOf($type)->yes()) {
+			return "1.0";
+		}
+
+		throw new \Exception(sprintf('Unexpected expression type %s', get_class($type)));
 	}
 
 	private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type {
