@@ -5,7 +5,7 @@ namespace PdoTest;
 use PDO;
 use function PHPStan\Testing\assertType;
 
-class pdo
+class Foo
 {
     public function querySelected(PDO $pdo)
     {

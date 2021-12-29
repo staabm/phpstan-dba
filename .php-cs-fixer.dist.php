@@ -20,6 +20,7 @@ return (new PhpCsFixer\Config())
         'ordered_imports' => true,
         'protected_to_private' => false,
         'list_syntax' => ['syntax' => 'long'], // 'short' requires php 7.1+
+        'psr_autoloading' => ['dir' => 'src/'],
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

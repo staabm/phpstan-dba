@@ -5,7 +5,7 @@ namespace MysqliTest;
 use mysqli;
 use function PHPStan\Testing\assertType;
 
-class mysqli
+class Foo
 {
     public function ooQuerySelected(mysqli $mysqli)
     {
