@@ -40,6 +40,9 @@ final class RecordReplayQueryReflector implements QueryReflector
         }
 
         register_shutdown_function(function () {
+            // sort records to prevent unnecessary cache invalidation caused by different order of queries
+            ksort($this->records);
+
             file_put_contents($this->cacheFile, '<?php return '.var_export([
                 'schemaVersion' => self::SCHEMA_VERSION,
                 'records' => $this->records,
