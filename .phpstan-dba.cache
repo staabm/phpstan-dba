@@ -2,6 +2,18 @@
   'schemaVersion' => 'v1-initial',
   'records' => 
   array (
+    'SELECT * FROM ada GROUP BY doesNotExist LIMIT 0' => 
+    array (
+      'containsSyntaxErrors' => true,
+    ),
+    'SELECT * FROM ada ORDER BY doesNotExist LIMIT 0' => 
+    array (
+      'containsSyntaxErrors' => true,
+    ),
+    'SELECT * FROM ada WHERE doesNotExist=1 LIMIT 0' => 
+    array (
+      'containsSyntaxErrors' => true,
+    ),
     'SELECT * FROM unknownTable LIMIT 0' => 
     array (
       'containsSyntaxErrors' => true,

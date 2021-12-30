@@ -33,6 +33,18 @@ class SyntaxErrorInQueryRuleTest extends AbstractServiceAwareRuleTestCase
                 'Query contains a syntax error.',
                 21,
             ],
+            [
+                'Query contains a syntax error.',
+                26,
+            ],
+            [
+                'Query contains a syntax error.',
+                31,
+            ],
+            [
+                'Query contains a syntax error.',
+                36,
+            ],
         ]);
     }
 }
