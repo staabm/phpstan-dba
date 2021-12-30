@@ -1,4 +1,5 @@
 includes:
+    - stubFiles.neon
     - extensions.neon
 
 services:
