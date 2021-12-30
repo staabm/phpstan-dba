@@ -1,6 +1,6 @@
 <?php
 
-namespace staabm\PHPStanDba\QueryReflection;
+namespace staabm\PHPStanDba\Types;
 
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
