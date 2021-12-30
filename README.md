@@ -12,7 +12,11 @@ __Its really early days... and this libs has a few rough edges.__
 
 ## Usage
 
-To get the extension running you need to configure the `QueryReflection` in your phpstan bootstrap file, for example:
+To get the extension running you need to configure the `phpstan-dba`.
+
+1. Include the [`dba.neon`](https://github.com/staabm/phpstan-dba/blob/main/config/dba.neon) from within your PHPStan configuration.
+
+2. Additionally your `bootstrap` file needs to be [configured within your phpstan configuration](https://phpstan.org/config-reference#bootstrap), so it will be automatically included by PHPStan:
 
 ```php
 <?php // bootstrap.php
@@ -38,7 +42,6 @@ QueryReflection::setupReflector(
 );
 ```
 
-This `bootstrap` file needs to be [configured within your phpstan configuration](https://phpstan.org/config-reference#bootstrap), so it will be automatically included by PHPStan.
 As you can see, `phpstan-dba` requires a `mysqli` connection to introspect the database.
 
 ### Record and Replay
