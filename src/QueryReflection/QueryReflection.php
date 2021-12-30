@@ -23,7 +23,12 @@ final class QueryReflection
     public function __construct()
     {
         if (null === self::$reflector) {
-            self::$reflector = new RecordReplayQueryReflector(__DIR__.'/../../.phpstan-dba.cache', new MysqliQueryReflector());
+            self::$reflector = new RecordReplayQueryReflector(
+                __DIR__.'/../../.phpstan-dba.cache',
+                new LazyQueryReflector(function () {
+                    return new MysqliQueryReflector();
+                })
+            );
         }
     }
 
