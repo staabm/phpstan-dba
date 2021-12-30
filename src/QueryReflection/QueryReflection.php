@@ -18,11 +18,13 @@ final class QueryReflection
     /**
      * @var QueryReflector
      */
-    private $reflector;
+    private static $reflector;
 
     public function __construct()
     {
-        $this->reflector = new MysqliQueryReflector();
+        if (null === self::$reflector) {
+            self::$reflector = new RecordReplayQueryReflector(__DIR__.'/../../.phpstan-dba.cache', new MysqliQueryReflector());
+        }
     }
 
     public function containsSyntaxError(Expr $expr, Scope $scope): bool
@@ -33,7 +35,7 @@ final class QueryReflection
             return false;
         }
 
-        return $this->reflector->containsSyntaxError($queryString);
+        return self::$reflector->containsSyntaxError($queryString);
     }
 
     /**
@@ -47,7 +49,7 @@ final class QueryReflection
             return null;
         }
 
-        return $this->reflector->getResultType($queryString, $fetchType);
+        return self::$reflector->getResultType($queryString, $fetchType);
     }
 
     private function builtSimulatedQuery(Expr $expr, Scope $scope): ?string
