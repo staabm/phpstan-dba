@@ -22,9 +22,9 @@ final class MysqliQueryReflector implements QueryReflector
     public const MYSQL_SYNTAX_ERROR_CODE = 1064;
 
     /**
-     * @var mysqli|null
+     * @var mysqli
      */
-    private static $db;
+    private $db;
 
     /**
      * @var array<int, string>
@@ -35,10 +35,11 @@ final class MysqliQueryReflector implements QueryReflector
      */
     private $nativeFlags;
 
-    public function __construct()
+    public function __construct(mysqli $mysqli)
     {
+        $this->db = $mysqli;
         // set a sane default.. atm this should not have any impact
-        self::db()->set_charset('utf8');
+        $this->db->set_charset('utf8');
 
         $this->nativeTypes = [];
         $this->nativeFlags = [];
@@ -55,15 +56,10 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public static function setupConnection(mysqli $mysqli): void
-    {
-        self::$db = $mysqli;
-    }
-
     public function containsSyntaxError(string $simulatedQueryString): bool
     {
         try {
-            self::db()->query($simulatedQueryString);
+            $this->db->query($simulatedQueryString);
 
             return false;
         } catch (mysqli_sql_exception $e) {
@@ -77,7 +73,7 @@ final class MysqliQueryReflector implements QueryReflector
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
     {
         try {
-            $result = self::db()->query($simulatedQueryString);
+            $result = $this->db->query($simulatedQueryString);
 
             if (!$result instanceof mysqli_result) {
                 return null;
@@ -110,15 +106,6 @@ final class MysqliQueryReflector implements QueryReflector
         $result->free();
 
         return $arrayBuilder->getArray();
-    }
-
-    private function db(): mysqli
-    {
-        if (null === self::$db) {
-            throw new \Exception('Database connection not initialized, call '.__CLASS__.'::setupConnection() first');
-        }
-
-        return self::$db;
     }
 
     private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type

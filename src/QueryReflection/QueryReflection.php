@@ -16,20 +16,13 @@ use PHPStan\Type\Type;
 final class QueryReflection
 {
     /**
-     * @var QueryReflector
+     * @var QueryReflector|null
      */
     private static $reflector;
 
-    public function __construct()
+    public static function setupReflector(QueryReflector $reflector): void
     {
-        if (null === self::$reflector) {
-            self::$reflector = new RecordReplayQueryReflector(
-                __DIR__.'/../../.phpstan-dba.cache',
-                new LazyQueryReflector(function () {
-                    return new MysqliQueryReflector();
-                })
-            );
-        }
+        self::$reflector = $reflector;
     }
 
     public function containsSyntaxError(Expr $expr, Scope $scope): bool
@@ -40,7 +33,7 @@ final class QueryReflection
             return false;
         }
 
-        return self::$reflector->containsSyntaxError($queryString);
+        return self::reflector()->containsSyntaxError($queryString);
     }
 
     /**
@@ -54,7 +47,7 @@ final class QueryReflection
             return null;
         }
 
-        return self::$reflector->getResultType($queryString, $fetchType);
+        return self::reflector()->getResultType($queryString, $fetchType);
     }
 
     private function builtSimulatedQuery(Expr $expr, Scope $scope): ?string
@@ -131,5 +124,14 @@ final class QueryReflection
     private function stripTraillingLimit(string $query): ?string
     {
         return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $query);
+    }
+
+    private function reflector(): QueryReflector
+    {
+        if (null === self::$reflector) {
+            throw new \Exception('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
+        }
+
+        return self::$reflector;
     }
 }
