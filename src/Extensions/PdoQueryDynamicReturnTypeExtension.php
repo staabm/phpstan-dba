@@ -46,12 +46,22 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         }
 
         $fetchModeType = $scope->getType($args[1]->value);
-        if (!$fetchModeType instanceof ConstantIntegerType || PDO::FETCH_ASSOC !== $fetchModeType->getValue()) {
+        if (!$fetchModeType instanceof ConstantIntegerType) {
+            return $defaultReturn;
+        }
+
+        if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+            $reflectionFetchType = QueryReflection::FETCH_TYPE_ASSOC;
+        } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+            $reflectionFetchType = QueryReflection::FETCH_TYPE_NUMERIC;
+        } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+            $reflectionFetchType = QueryReflection::FETCH_TYPE_BOTH;
+        } else {
             return $defaultReturn;
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflection::FETCH_TYPE_ASSOC);
+        $resultType = $queryReflection->getResultType($args[0]->value, $scope, $reflectionFetchType);
         if ($resultType) {
             return new GenericObjectType(PDOStatement::class, [$resultType]);
         }

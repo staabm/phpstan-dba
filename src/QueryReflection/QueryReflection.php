@@ -25,7 +25,7 @@ final class QueryReflection
     public const FETCH_TYPE_NUMERIC = 2;
     public const FETCH_TYPE_BOTH = 3;
 
-	public const MYSQL_SYNTAX_ERROR_CODE = 1064;
+    public const MYSQL_SYNTAX_ERROR_CODE = 1064;
 
     /**
      * @var \mysqli
@@ -96,12 +96,13 @@ final class QueryReflection
 
             $i = 0;
             foreach ($finfo as $val) {
-                if (self::FETCH_TYPE_ASSOC === $fetchType) {
+                if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                     $arrayBuilder->setOffsetValueType(
                         new ConstantStringType($val->name),
                         $this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)
                     );
-                } elseif (self::FETCH_TYPE_NUMERIC === $fetchType) {
+                }
+                if (self::FETCH_TYPE_NUMERIC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                     $arrayBuilder->setOffsetValueType(
                         new ConstantIntegerType($i),
                         $this->mapMysqlToPHPStanType($val->type, $val->flags, $val->length)

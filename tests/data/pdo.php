@@ -29,6 +29,12 @@ class Foo
         assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
     }
 
+    public function queryWithNullColumn(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT eladaid FROM ak', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{eladaid: int<-2147483648, 2147483647>|null}>', $stmt);
+    }
+
     public function syntaxError(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
@@ -67,12 +73,21 @@ class Foo
         assertType('PDOStatement<array>|false', $stmt);
     }
 
-    public function nonAssocQueries(PDO $pdo)
+    public function supportedFetchTypes(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_NUM);
+        assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_BOTH);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
+    }
+
+    public function unsupportedFetchTypes(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array>|false', $stmt);
-
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_NUM);
         assertType('PDOStatement<array>|false', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_COLUMN);
@@ -81,15 +96,4 @@ class Foo
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_OBJ);
         assertType('PDOStatement<array>|false', $stmt);
     }
-    /*
-        public function queryAll(PDO $pdo)
-        {
-            $stmt = $pdo->query('SELECT * FROM foo',  PDO::FETCH_ASSOC);
-
-            foreach($stmt as $row) {
-                assertType('positive-int', $row['id']);
-                assertType('string', $row['name']);
-            }
-        }
-    */
 }
