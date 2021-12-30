@@ -14,7 +14,7 @@ __Its really early days... and this libs has a few rough edges.__
 
 To get the extension running you need to configure the `phpstan-dba`.
 
-1. Include the [`dba.neon`](https://github.com/staabm/phpstan-dba/blob/main/config/dba.neon) from within your PHPStan configuration.
+1. [Include](https://phpstan.org/config-reference#multiple-files) the [`dba.neon`](https://github.com/staabm/phpstan-dba/blob/main/config/dba.neon) from within your PHPStan configuration.
 
 2. Additionally your `bootstrap` file needs to be [configured within your phpstan configuration](https://phpstan.org/config-reference#bootstrap), so it will be automatically included by PHPStan:
 
@@ -46,7 +46,8 @@ As you can see, `phpstan-dba` requires a `mysqli` connection to introspect the d
 
 ### Record and Replay
 
-In case you cannot be sure to have a database running at PHPStan analysis time, you can use the [`RecordingQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/RecordingQueryReflector.php) to record the reflection information:
+In case you cannot be sure to have a database running at PHPStan analysis time, you can use the [`RecordingQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/RecordingQueryReflector.php) to record the reflection information.
+With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
 
 ```php
 <?php // bootstrap.php
@@ -80,7 +81,7 @@ The GitHubActions setup of `phpstan-dba` is [using this technique to replay the 
 composer require --dev staabm/phpstan-dba
 ```
 
-## Todos
+## Todos / Caveats
 
 - support the [phpstan/extension-installer](https://github.com/phpstan/extension-installer)
 - support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
