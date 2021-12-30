@@ -25,6 +25,10 @@ final class ReplayQueryReflector implements QueryReflector
 
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
     {
+		// queries with errors don't have a cached result type
+		if ($this->reflectionCache->hasResultType($simulatedQueryString, $fetchType) === false) {
+			return null;
+		}
         return $this->reflectionCache->getResultType($simulatedQueryString, $fetchType);
     }
 }
