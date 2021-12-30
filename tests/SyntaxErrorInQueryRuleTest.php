@@ -22,8 +22,12 @@ class SyntaxErrorInQueryRuleTest extends AbstractServiceAwareRuleTestCase
 
         $this->analyse([__DIR__.'/data/syntax-error-in-query.php'], [
             [
-                'Query contains syntax error.',
+                'Query contains a syntax error.',
                 11,
+            ],
+            [
+                'Query contains a syntax error.',
+                16,
             ],
         ]);
     }

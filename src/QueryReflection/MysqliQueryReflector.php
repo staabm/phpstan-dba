@@ -20,6 +20,7 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 final class MysqliQueryReflector implements QueryReflector
 {
     public const MYSQL_SYNTAX_ERROR_CODE = 1064;
+    public const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
 
     /**
      * @var mysqli
@@ -63,7 +64,7 @@ final class MysqliQueryReflector implements QueryReflector
 
             return false;
         } catch (mysqli_sql_exception $e) {
-            return self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode();
+            return \in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST], true);
         }
     }
 
