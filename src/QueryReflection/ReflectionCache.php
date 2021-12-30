@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use const LOCK_EX;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DbaException;
 
 final class ReflectionCache
 {
@@ -34,7 +35,7 @@ final class ReflectionCache
     public static function load(string $cacheFile): self
     {
         if (!is_readable($cacheFile)) {
-            throw new \Exception(sprintf('Cache file "%s" is not readable', $cacheFile));
+            throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
         }
 
         $cache = include $cacheFile;
@@ -60,7 +61,7 @@ final class ReflectionCache
             'schemaVersion' => self::SCHEMA_VERSION,
             'records' => $records,
         ], true).';', LOCK_EX)) {
-            throw new \Exception(sprintf('Unable to write cache file "%s"', $this->cacheFile));
+            throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
         }
     }
 
@@ -78,12 +79,12 @@ final class ReflectionCache
     public function getContainsSyntaxError(string $simulatedQueryString): bool
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         $cacheEntry = $this->records[$simulatedQueryString];
         if (!\array_key_exists('containsSyntaxErrors', $cacheEntry)) {
-            throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         return $cacheEntry['containsSyntaxErrors'];
@@ -122,16 +123,16 @@ final class ReflectionCache
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         $cacheEntry = $this->records[$simulatedQueryString];
         if (!\array_key_exists('result', $cacheEntry)) {
-            throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         if (!\array_key_exists($fetchType, $cacheEntry['result'])) {
-            throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         return $cacheEntry['result'][$fetchType];

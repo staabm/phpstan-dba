@@ -12,6 +12,7 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DbaException;
 
 final class QueryReflection
 {
@@ -107,7 +108,7 @@ final class QueryReflection
             return '1.0';
         }
 
-        throw new \Exception(sprintf('Unexpected expression type %s', \get_class($type)));
+        throw new DbaException(sprintf('Unexpected expression type %s', \get_class($type)));
     }
 
     private function getQueryType(string $query): ?string
@@ -129,7 +130,7 @@ final class QueryReflection
     private function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
-            throw new \Exception('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
+            throw new DbaException('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
         }
 
         return self::$reflector;
