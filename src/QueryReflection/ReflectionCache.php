@@ -52,7 +52,9 @@ final class ReflectionCache
         $records = $this->records;
 
         // sort records to prevent unnecessary cache invalidation caused by different order of queries
-        ksort($records);
+        uksort($records, function ($queryA, $queryB) {
+            return $queryA <=> $queryB;
+        });
 
         if (false === file_put_contents($this->cacheFile, '<?php return '.var_export([
             'schemaVersion' => self::SCHEMA_VERSION,
@@ -79,7 +81,7 @@ final class ReflectionCache
             throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
-        $cacheEntry = &$this->records[$simulatedQueryString];
+        $cacheEntry = $this->records[$simulatedQueryString];
         if (!\array_key_exists('containsSyntaxErrors', $cacheEntry)) {
             throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
@@ -123,7 +125,7 @@ final class ReflectionCache
             throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
-        $cacheEntry = &$this->records[$simulatedQueryString];
+        $cacheEntry = $this->records[$simulatedQueryString];
         if (!\array_key_exists('result', $cacheEntry)) {
             throw new \Exception(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
