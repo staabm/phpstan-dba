@@ -1,6 +1,9 @@
 name: Static analysis
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -8,6 +11,13 @@ jobs:
   phpstan:
     name: PHPStan
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.0"
+          - "8.1"
 
     steps:
       - uses: actions/checkout@v2
@@ -19,11 +29,17 @@ jobs:
         id: setup-php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: "${{ matrix.php-version }}"
           coverage: none
 
       - uses: "ramsey/composer-install@v2"
         with:
           composer-options: "--prefer-dist --no-progress --no-suggest"
+
+      - name: Setup mysql
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan_dba;'
+          mysql -uroot -h127.0.0.1 -proot phpstan_dba < tests/schema.sql
 
       - run: vendor/bin/phpstan
