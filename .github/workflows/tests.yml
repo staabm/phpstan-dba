@@ -12,6 +12,13 @@ jobs:
     name: PHPUnit
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.0"
+          - "8.1"
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -21,7 +28,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.0
+        php-version: "${{ matrix.php-version }}"
         coverage: none
 
     - uses: "ramsey/composer-install@v2"
