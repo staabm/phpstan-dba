@@ -9,6 +9,9 @@ parameters:
         - src/
         - tests/
 
+    bootstrapFiles:
+        - bootstrap.php
+
     ignoreErrors:
         -
             message: '#Function Deployer\\runMysqlQuery\(\) should return array<int, array<int, string>>\|null but return statement is missing.#'
