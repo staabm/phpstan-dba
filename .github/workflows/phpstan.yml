@@ -1,6 +1,9 @@
 name: Static analysis
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
 
 jobs:
@@ -25,5 +28,11 @@ jobs:
       - uses: "ramsey/composer-install@v2"
         with:
           composer-options: "--prefer-dist --no-progress --no-suggest"
+
+      - name: Setup mysql
+          run: |
+            sudo /etc/init.d/mysql start
+            mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan-dba;'
+            mysql -uroot -h127.0.0.1 -proot phpstan-dba < tests/schema.sql
 
       - run: vendor/bin/phpstan
