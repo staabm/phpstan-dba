@@ -16,6 +16,19 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  */
 final class SyntaxErrorInQueryMethodRule implements Rule
 {
+    /**
+     * @var list<string>
+     */
+    private $classMethods;
+
+    /**
+     * @param list<string> $classMethods
+     */
+    public function __construct(array $classMethods)
+    {
+        $this->classMethods = $classMethods;
+    }
+
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -32,11 +45,17 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        if ('query' !== $methodReflection->getName()) {
-            return [];
+        $unsupportedMethod = true;
+        foreach ($this->classMethods as $classMethod) {
+            list($className, $methodName) = explode('::', $classMethod);
+
+            if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
+                $unsupportedMethod = false;
+                break;
+            }
         }
 
-        if (!\in_array($methodReflection->getDeclaringClass()->getName(), ['PDO', 'mysqli'], true)) {
+        if ($unsupportedMethod) {
             return [];
         }
 

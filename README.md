@@ -75,6 +75,21 @@ This might be usefull if your CI pipeline cannot connect to your development dat
 
 The GitHubActions setup of `phpstan-dba` is [using this technique to replay the reflection information](https://github.com/staabm/phpstan-dba/blob/main/bootstrap.php).
 
+### use `SyntaxErrorInQueryMethodRule` for your custom classes
+
+Reuse the `SyntaxErrorInQueryMethodRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
+
+```
+services:
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			classMethods:
+				- 'myClass::query'
+				- 'anotherClass::takesAQuery'
+```
+
 ## Installation
 
 ```shell

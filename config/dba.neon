@@ -1,12 +1,16 @@
 includes:
-    - stubFiles.neon
-    - extensions.neon
+	- stubFiles.neon
+	- extensions.neon
 
 services:
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
-        tags: [phpstan.rules.rule]
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			classMethods:
+				- 'PDO::query'
+				- 'mysqli::query'
 
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
-        tags: [phpstan.rules.rule]
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+		tags: [phpstan.rules.rule]
