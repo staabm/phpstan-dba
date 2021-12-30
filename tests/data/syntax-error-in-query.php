@@ -16,6 +16,11 @@ class Foo
         $stmt = $pdo->query('SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
 
+    public function unknownTable(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
+    }
+
     public function validQuery(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
