@@ -10,22 +10,26 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
-if (false !== getenv('GITHUB_ACTION')) {
-	// within github actions, we don't have a mysql setup.. rely replaying pre-recorded db-reflection information
-	QueryReflection::setupReflector(
-		new ReplayQueryReflector(
-			ReflectionCache::load(
-				$cacheFile
-			)
-		)
-	);
-} else {
+try {
 	QueryReflection::setupReflector(
 		new RecordingQueryReflector(
 			ReflectionCache::create(
 				$cacheFile
 			),
-			new MysqliQueryReflector(new mysqli('mysql57.ab', 'testuser', 'test', 'phpstan-dba'))
+			new MysqliQueryReflector(@new mysqli('mysql57.ab', 'testuser', 'test', 'phpstan-dba'))
+		)
+	);
+} catch (mysqli_sql_exception $e) {
+	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
+		throw $e;
+	}
+
+	// when we can't connect to the database, we rely replaying pre-recorded db-reflection information
+	QueryReflection::setupReflector(
+		new ReplayQueryReflector(
+			ReflectionCache::load(
+				$cacheFile
+			)
 		)
 	);
 }

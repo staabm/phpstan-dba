@@ -23,6 +23,8 @@ final class MysqliQueryReflector implements QueryReflector
     public const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
     public const MYSQL_UNKNOWN_TABLE = 1146;
 
+    public const MYSQL_HOST_NOT_FOUND = 2002;
+
     /**
      * @var mysqli
      */
