@@ -50,7 +50,10 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         }
 
         $unsupportedFunction = true;
+        $queryArgPosition = null;
         foreach ($this->functionNames as $functionName) {
+            sscanf($functionName, '%[^#]#%s', $functionName, $queryArgPosition);
+
             if (strtolower($functionName) === strtolower($calledFunctionName)) {
                 $unsupportedFunction = false;
                 break;
@@ -65,7 +68,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         $errors = [];
 
         $queryReflection = new QueryReflection();
-        if ($queryReflection->containsSyntaxError($args[0]->value, $scope)) {
+        if ($queryReflection->containsSyntaxError($args[$queryArgPosition]->value, $scope)) {
             $errors[] = RuleErrorBuilder::message('Query contains a syntax error.')->line($node->getLine())->build();
         }
 

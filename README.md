@@ -86,9 +86,11 @@ services:
 		tags: [phpstan.rules.rule]
 		arguments:
 			classMethods:
-				- 'myClass::query'
-				- 'anotherClass::takesAQuery'
+				- 'myClass::query#0'
+				- 'anotherClass::takesAQuery#2'
 ```
+
+__the callable format is `class::method#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
 ### use `SyntaxErrorInQueryMethodRule` for your custom functions
 
@@ -101,8 +103,10 @@ services:
 		tags: [phpstan.rules.rule]
 		arguments:
 			functionNames:
-				- 'Deployer\runMysqlQuery'
+				- 'Deployer\runMysqlQuery#0'
 ```
+
+__the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
 ## Installation
 

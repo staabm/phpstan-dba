@@ -46,8 +46,9 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         }
 
         $unsupportedMethod = true;
+        $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            list($className, $methodName) = explode('::', $classMethod);
+            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
 
             if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
                 $unsupportedMethod = false;
@@ -63,7 +64,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         $errors = [];
 
         $queryReflection = new QueryReflection();
-        if ($queryReflection->containsSyntaxError($args[0]->value, $scope)) {
+        if ($queryReflection->containsSyntaxError($args[$queryArgPosition]->value, $scope)) {
             $errors[] = RuleErrorBuilder::message('Query contains a syntax error.')->line($node->getLine())->build();
         }
 

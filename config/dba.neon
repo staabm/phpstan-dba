@@ -8,12 +8,12 @@ services:
 		tags: [phpstan.rules.rule]
 		arguments:
 			classMethods:
-				- 'PDO::query'
-				- 'mysqli::query'
+				- 'PDO::query#0'
+				- 'mysqli::query#0'
 
 	-
 		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
 		tags: [phpstan.rules.rule]
 		arguments:
 			functionNames:
-				- 'Deployer\runMysqlQuery'
+				- 'Deployer\runMysqlQuery#0'

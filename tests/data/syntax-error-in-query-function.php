@@ -15,4 +15,14 @@ class Foo
     {
         \Deployer\runMysqlQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', $dbCredentials);
     }
+
+    public function mysqliSyntaxError(\mysqli $mysqli)
+    {
+        mysqli_query($mysqli, 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+    }
+
+    public function mysqliValidQuery(\mysqli $mysqli)
+    {
+        mysqli_query($mysqli, 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
+    }
 }
