@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
@@ -55,6 +56,10 @@ final class QueryReflection
     {
         $queryString = $this->resolveQueryString($expr, $scope);
 
+        if (null === $queryString) {
+            return null;
+        }
+
         if ('SELECT' !== $this->getQueryType($queryString)) {
             return null;
         }
@@ -68,7 +73,7 @@ final class QueryReflection
         return $queryString;
     }
 
-    private function resolveQueryString(Expr $expr, Scope $scope): string
+    private function resolveQueryString(Expr $expr, Scope $scope): ?string
     {
         if ($expr instanceof Concat) {
             $left = $expr->left;
@@ -106,6 +111,10 @@ final class QueryReflection
         $floatType = new FloatType();
         if ($floatType->isSuperTypeOf($type)->yes()) {
             return '1.0';
+        }
+
+        if ($type instanceof MixedType) {
+            return null;
         }
 
         throw new DbaException(sprintf('Unexpected expression type %s', \get_class($type)));
