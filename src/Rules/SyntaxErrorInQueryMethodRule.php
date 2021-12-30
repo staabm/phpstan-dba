@@ -12,7 +12,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
- * @implements Rule<Node\Expr\MethodCall>
+ * @implements Rule<MethodCall>
  */
 final class SyntaxErrorInQueryMethodRule implements Rule
 {
@@ -36,7 +36,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        if (!in_array($methodReflection->getDeclaringClass()->getName(), ['PDO', 'mysqli'], true)) {
+        if (!\in_array($methodReflection->getDeclaringClass()->getName(), ['PDO', 'mysqli'], true)) {
             return [];
         }
 
