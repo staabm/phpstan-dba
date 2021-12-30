@@ -57,7 +57,7 @@ final class RecordReplayQueryReflector implements QueryReflector
         if (!\array_key_exists('containsSyntaxErrors', $cacheEntry)) {
             $cacheEntry['containsSyntaxErrors'] = $this->reflector->containsSyntaxError($simulatedQueryString);
         }
-
+// test
         return $cacheEntry['containsSyntaxErrors'];
     }
 
