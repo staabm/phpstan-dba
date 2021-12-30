@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
@@ -100,6 +101,11 @@ final class QueryReflection
 
         $integerType = new IntegerType();
         if ($integerType->isSuperTypeOf($type)->yes()) {
+            return '1';
+        }
+
+        $booleanType = new BooleanType();
+        if ($booleanType->isSuperTypeOf($type)->yes()) {
             return '1';
         }
 
