@@ -17,10 +17,19 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  */
 final class SyntaxErrorInQueryFunctionRule implements Rule
 {
+    /**
+     * @var list<string>
+     */
+    private $functionNames;
+
     private ReflectionProvider $reflectionProvider;
 
-    public function __construct(ReflectionProvider $reflectionProvider)
+    /**
+     * @param list<string> $functionNames
+     */
+    public function __construct(array $functionNames, ReflectionProvider $reflectionProvider)
     {
+        $this->functionNames = $functionNames;
         $this->reflectionProvider = $reflectionProvider;
     }
 
@@ -35,12 +44,20 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             return [];
         }
 
-        $functionName = $this->reflectionProvider->resolveFunctionName($node->name, $scope);
-        if (null === $functionName) {
+        $calledFunctionName = $this->reflectionProvider->resolveFunctionName($node->name, $scope);
+        if (null === $calledFunctionName) {
             return [];
         }
 
-        if ('deployer\runmysqlquery' !== strtolower($functionName)) {
+        $unsupportedFunction = true;
+        foreach ($this->functionNames as $functionName) {
+            if (strtolower($functionName) === strtolower($calledFunctionName)) {
+                $unsupportedFunction = false;
+                break;
+            }
+        }
+
+        if ($unsupportedFunction) {
             return [];
         }
 

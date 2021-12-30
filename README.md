@@ -90,6 +90,20 @@ services:
 				- 'anotherClass::takesAQuery'
 ```
 
+### use `SyntaxErrorInQueryMethodRule` for your custom functions
+
+Reuse the `SyntaxErrorInQueryFunctionRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
+
+```
+services:
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			functionNames:
+				- 'Deployer\runMysqlQuery'
+```
+
 ## Installation
 
 ```shell
@@ -103,4 +117,3 @@ composer require --dev staabm/phpstan-dba
 - cover more real world examples and fine tune the [QueryReflection classes](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection)
 - support a PDO based QueryReflector
 - support running `RecordingQueryReflector` in PHPStan-non-debug mode (currently we see concurrency issues while building the cache)
-
