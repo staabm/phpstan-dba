@@ -26,9 +26,7 @@ if (false !== getenv('GITHUB_ACTION')) {
 			ReflectionCache::create(
 				$cacheFile
 			),
-			new LazyQueryReflector(function () {
-				return new MysqliQueryReflector(new mysqli('mysql57.ab', 'testuser', 'test', 'logitel_clxmobilenet'));
-			})
+			new MysqliQueryReflector(new mysqli('mysql57.ab', 'testuser', 'test', 'logitel_clxmobilenet'))
 		)
 	);
 }
