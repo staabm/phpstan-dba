@@ -16,7 +16,7 @@ try {
 			ReflectionCache::create(
 				$cacheFile
 			),
-			new MysqliQueryReflector(@new mysqli('127.0.0.1', 'root', 'root', 'phpstan-dba'))
+			new MysqliQueryReflector(@new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba'))
 		)
 	);
 } catch (mysqli_sql_exception $e) {
