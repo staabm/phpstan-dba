@@ -23,6 +23,8 @@ use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
 QueryReflection::setupReflector(
@@ -51,6 +53,8 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
