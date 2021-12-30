@@ -14,7 +14,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 /**
  * @implements Rule<Node\Expr\MethodCall>
  */
-final class SyntaxErrorInQueryRule implements Rule
+final class SyntaxErrorInQueryMethodRule implements Rule
 {
     public function getNodeType(): string
     {
@@ -36,7 +36,7 @@ final class SyntaxErrorInQueryRule implements Rule
             return [];
         }
 
-        if ('PDO' !== $methodReflection->getDeclaringClass()->getName()) {
+        if (!in_array($methodReflection->getDeclaringClass()->getName(), ['PDO', 'mysqli'], true)) {
             return [];
         }
 

@@ -4,5 +4,5 @@ includes:
 
 services:
     -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryRule
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
         tags: [phpstan.rules.rule]

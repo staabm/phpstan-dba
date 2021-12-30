@@ -3,17 +3,17 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryRule;
+use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryRule>
+ * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
  */
-class SyntaxErrorInQueryRuleTest extends AbstractServiceAwareRuleTestCase
+class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryRule::class, __DIR__.'/../config/dba.neon');
+        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/../config/dba.neon');
     }
 
     public function testSyntaxErrorInQueryRule(): void
@@ -44,6 +44,10 @@ class SyntaxErrorInQueryRuleTest extends AbstractServiceAwareRuleTestCase
             [
                 'Query contains a syntax error.',
                 36,
+            ],
+            [
+                'Query contains a syntax error.',
+                41,
             ],
         ]);
     }

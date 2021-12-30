@@ -4,7 +4,7 @@ This extension provides following features:
 
 * `PDO->query` knows the array shape of the returned results and therefore can return a generic `PDOStatement`
 * `mysqli->query` knows the array shape of the returned results and therefore can return a generic `mysqli_result`
-* `SyntaxErrorInQueryRule` can inspect sql queries and detect syntax errors
+* `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
