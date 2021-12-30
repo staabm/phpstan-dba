@@ -3,7 +3,7 @@ includes:
     - config/extensions.neon
 
 parameters:
-    level: 6
+    level: max
 
     paths:
         - src/
