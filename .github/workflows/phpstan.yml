@@ -32,7 +32,7 @@ jobs:
       - name: Setup mysql
         run: |
           sudo /etc/init.d/mysql start
-          mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan-dba;'
-          mysql -uroot -h127.0.0.1 -proot 'phpstan-dba' < tests/schema.sql
+          mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan_dba;'
+          mysql -uroot -h127.0.0.1 -proot phpstan_dba < tests/schema.sql
 
       - run: vendor/bin/phpstan
