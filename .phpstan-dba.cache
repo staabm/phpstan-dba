@@ -2,6 +2,10 @@
   'schemaVersion' => 'v1-initial',
   'records' => 
   array (
+    'SELECT * FROM unknownTable LIMIT 0' => 
+    array (
+      'containsSyntaxErrors' => true,
+    ),
     'SELECT akid FROM ak WHERE eadavk>1.0 LIMIT 0' => 
     array (
       'result' => 
@@ -79,6 +83,10 @@
            'allArrays' => NULL,
         )),
       ),
+    ),
+    'SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 0' => 
+    array (
+      'containsSyntaxErrors' => true,
     ),
     'SELECT eladaid FROM ak LIMIT 0' => 
     array (
