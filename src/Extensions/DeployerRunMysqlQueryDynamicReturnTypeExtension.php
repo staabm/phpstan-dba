@@ -17,6 +17,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
@@ -34,7 +35,7 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflection::FETCH_TYPE_NUMERIC);
+        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflector::FETCH_TYPE_NUMERIC);
         if ($resultType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
             foreach ($resultType->getKeyTypes() as $keyType) {

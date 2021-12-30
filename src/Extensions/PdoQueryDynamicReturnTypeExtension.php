@@ -18,6 +18,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -51,11 +52,11 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         }
 
         if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflection::FETCH_TYPE_ASSOC;
+            $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
         } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflection::FETCH_TYPE_NUMERIC;
+            $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
         } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflection::FETCH_TYPE_BOTH;
+            $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
         } else {
             return $defaultReturn;
         }

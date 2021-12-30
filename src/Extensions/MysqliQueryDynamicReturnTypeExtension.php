@@ -19,6 +19,7 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
@@ -46,7 +47,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[1]->value, $scope, QueryReflection::FETCH_TYPE_ASSOC);
+        $resultType = $queryReflection->getResultType($args[1]->value, $scope, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
             return TypeCombinator::union(
                 new GenericObjectType(mysqli_result::class, [$resultType]),
@@ -66,7 +67,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflection::FETCH_TYPE_ASSOC);
+        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
             return TypeCombinator::union(
                 new GenericObjectType(mysqli_result::class, [$resultType]),
