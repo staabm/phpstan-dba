@@ -23,7 +23,7 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
 {
     public function isFunctionSupported(FunctionReflection $functionReflection): bool
     {
-        return 'Deployer\runMysqlQuery' === $functionReflection->getName();
+        return 'deployer\runmysqlquery' === strtolower($functionReflection->getName());
     }
 
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type

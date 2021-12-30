@@ -1,6 +1,6 @@
 <?php
 
-namespace SyntaxErrorInQueryRuleTest;
+namespace SyntaxErrorInQueryMethodRuleTest;
 
 use PDO;
 
@@ -21,20 +21,20 @@ class Foo
         $pdo->query('SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
 
-	public function unknownWhereColumn(PDO $pdo)
-	{
-		$pdo->query('SELECT * FROM ada WHERE doesNotExist=1', PDO::FETCH_ASSOC);
-	}
+    public function unknownWhereColumn(PDO $pdo)
+    {
+        $pdo->query('SELECT * FROM ada WHERE doesNotExist=1', PDO::FETCH_ASSOC);
+    }
 
-	public function unknownOrderColumn(PDO $pdo)
-	{
-		$pdo->query('SELECT * FROM ada ORDER BY doesNotExist', PDO::FETCH_ASSOC);
-	}
+    public function unknownOrderColumn(PDO $pdo)
+    {
+        $pdo->query('SELECT * FROM ada ORDER BY doesNotExist', PDO::FETCH_ASSOC);
+    }
 
-	public function unknownGroupByColumn(PDO $pdo)
-	{
-		$pdo->query('SELECT * FROM ada GROUP BY doesNotExist', PDO::FETCH_ASSOC);
-	}
+    public function unknownGroupByColumn(PDO $pdo)
+    {
+        $pdo->query('SELECT * FROM ada GROUP BY doesNotExist', PDO::FETCH_ASSOC);
+    }
 
     public function unknownTable(PDO $pdo)
     {

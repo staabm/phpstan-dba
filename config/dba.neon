@@ -6,3 +6,7 @@ services:
     -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+        tags: [phpstan.rules.rule]
