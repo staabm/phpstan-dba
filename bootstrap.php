@@ -24,6 +24,8 @@ try {
 		throw $e;
 	}
 
+	echo "\nWARN: Could not connect to MySQL.\nUsing cached reflection.\n";
+
 	// when we can't connect to the database, we rely replaying pre-recorded db-reflection information
 	QueryReflection::setupReflector(
 		new ReplayQueryReflector(
