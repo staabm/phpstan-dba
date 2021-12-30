@@ -109,6 +109,10 @@ final class QueryReflection
             return '1';
         }
 
+        if ($type->isNumericString()->yes()) {
+            return '1';
+        }
+
         $stringType = new StringType();
         if ($stringType->isSuperTypeOf($type)->yes()) {
             return '1=1';
