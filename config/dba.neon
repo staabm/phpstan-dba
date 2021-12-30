@@ -17,3 +17,4 @@ services:
 		arguments:
 			functionNames:
 				- 'Deployer\runMysqlQuery#0'
+				- 'mysqli_query#1'
