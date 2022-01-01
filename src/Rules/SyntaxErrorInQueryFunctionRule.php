@@ -68,7 +68,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         $errors = [];
 
         $queryReflection = new QueryReflection();
-        if ($queryReflection->containsSyntaxError($args[$queryArgPosition]->value, $scope)) {
+        if ($queryReflection->validateQueryString($args[$queryArgPosition]->value, $scope)) {
             $errors[] = RuleErrorBuilder::message('Query contains a syntax error.')->line($node->getLine())->build();
         }
 

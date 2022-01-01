@@ -29,9 +29,9 @@ final class RecordingQueryReflector implements QueryReflector
         $this->reflectionCache->persist();
     }
 
-    public function containsSyntaxError(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): bool
     {
-        $containsSyntaxError = $this->reflector->containsSyntaxError($simulatedQueryString);
+        $containsSyntaxError = $this->reflector->validateQueryString($simulatedQueryString);
 
         $this->reflectionCache->putContainsSyntaxError(
             $simulatedQueryString,
