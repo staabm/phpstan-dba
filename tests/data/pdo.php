@@ -105,4 +105,13 @@ class Foo
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_OBJ);
         assertType('PDOStatement<array>|false', $stmt);
     }
+
+	public function dynamicTableQuery(PDO $pdo) {
+		$stmt = $pdo->query('SELECT email, adaid FROM '. $this->getTable(), PDO::FETCH_ASSOC);
+		assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+	}
+
+	public function getTable() {
+		return 'ada';
+	}
 }
