@@ -11,7 +11,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v1-initial';
+    public const SCHEMA_VERSION = 'v2-error-objects';
 
     /**
      * @var string
