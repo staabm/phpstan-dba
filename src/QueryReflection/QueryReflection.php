@@ -57,6 +57,7 @@ final class QueryReflection
     private function builtSimulatedQuery(Expr $expr, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryString($expr, $scope);
+		var_dump($queryString);
 
         if (null === $queryString) {
             return null;
@@ -95,7 +96,10 @@ final class QueryReflection
             }
         }
 
+
         $type = $scope->getType($expr);
+		var_dump(get_class($expr));
+		var_dump(get_class($type));
         if ($type instanceof ConstantStringType) {
             return $type->getValue();
         }

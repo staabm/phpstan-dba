@@ -14,3 +14,7 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
+    -
+        class: staabm\PHPStanDba\Extensions\RexClassDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension

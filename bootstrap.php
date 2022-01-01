@@ -10,6 +10,13 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
+class rex {
+	static public function getTablePrefix() {
+		return 'ada';
+	}
+}
+
+
 try {
 	QueryReflection::setupReflector(
 		new RecordingQueryReflector(
