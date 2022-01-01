@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\Error;
 
 final class ReplayQueryReflector implements QueryReflector
 {
@@ -18,7 +19,7 @@ final class ReplayQueryReflector implements QueryReflector
         $this->reflectionCache = $cache;
     }
 
-    public function validateQueryString(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): ?Error
     {
         return $this->reflectionCache->getContainsSyntaxError($simulatedQueryString);
     }

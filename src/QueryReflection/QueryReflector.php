@@ -3,6 +3,7 @@
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\Error;
 
 interface QueryReflector
 {
@@ -10,7 +11,7 @@ interface QueryReflector
     public const FETCH_TYPE_NUMERIC = 2;
     public const FETCH_TYPE_BOTH = 3;
 
-    public function validateQueryString(string $simulatedQueryString): bool;
+    public function validateQueryString(string $simulatedQueryString): ?Error;
 
     /**
      * @param self::FETCH_TYPE* $fetchType

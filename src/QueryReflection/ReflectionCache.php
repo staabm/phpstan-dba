@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use staabm\PHPStanDba\Error;
 use const LOCK_EX;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
@@ -18,7 +19,7 @@ final class ReflectionCache
     private $cacheFile;
 
     /**
-     * @var array<string, array{containsSyntaxErrors?: bool, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{containsSyntaxErrors?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $records = [];
 
@@ -76,7 +77,7 @@ final class ReflectionCache
         return \array_key_exists('containsSyntaxErrors', $cacheEntry);
     }
 
-    public function getContainsSyntaxError(string $simulatedQueryString): bool
+    public function getContainsSyntaxError(string $simulatedQueryString): ?Error
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
             throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
@@ -90,7 +91,7 @@ final class ReflectionCache
         return $cacheEntry['containsSyntaxErrors'];
     }
 
-    public function putContainsSyntaxError(string $simulatedQueryString, bool $containsSyntaxError): void
+    public function putContainsSyntaxError(string $simulatedQueryString, ?Error $containsSyntaxError): void
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
             $this->records[$simulatedQueryString] = [];
