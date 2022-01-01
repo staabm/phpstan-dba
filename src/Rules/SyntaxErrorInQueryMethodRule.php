@@ -64,10 +64,10 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         $errors = [];
 
         $queryReflection = new QueryReflection();
-		$error = $queryReflection->validateQueryString($args[$queryArgPosition]->value, $scope);
-		if ($error !== null) {
-			$errors[] = RuleErrorBuilder::message('Query error: '. $error->getMessage() .'('. $error->getCode() .')')->line($node->getLine())->build();
-		}
+        $error = $queryReflection->validateQueryString($args[$queryArgPosition]->value, $scope);
+        if (null !== $error) {
+            $errors[] = RuleErrorBuilder::message('Query error: '.$error->getMessage().'('.$error->getCode().')')->line($node->getLine())->build();
+        }
 
         return $errors;
     }

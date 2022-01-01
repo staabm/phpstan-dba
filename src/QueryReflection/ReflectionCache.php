@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use staabm\PHPStanDba\Error;
 use const LOCK_EX;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {

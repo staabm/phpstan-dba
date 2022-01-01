@@ -2,27 +2,31 @@
 
 namespace staabm\PHPStanDba;
 
-final class Error {
-	/**
-	 * @var string
-	 */
-	private $message;
+final class Error
+{
+    /**
+     * @var string
+     */
+    private $message;
 
-	/**
-	 * @var
-	 */
-	private $code;
+    /**
+     * @var
+     */
+    private $code;
 
-	public function __construct(string $message, int $code) {
-		$this->message = $message;
-		$this->code = $code;
-	}
+    public function __construct(string $message, int $code)
+    {
+        $this->message = $message;
+        $this->code = $code;
+    }
 
-	public function getMessage(): string {
-		return $this->message;
-	}
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
 
-	public function getCode(): int {
-		return $this->code;
-	}
+    public function getCode(): int
+    {
+        return $this->code;
+    }
 }
