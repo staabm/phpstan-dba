@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\Error;
 
 final class RecordingQueryReflector implements QueryReflector
 {
@@ -29,7 +30,7 @@ final class RecordingQueryReflector implements QueryReflector
         $this->reflectionCache->persist();
     }
 
-    public function validateQueryString(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): ?Error
     {
         $containsSyntaxError = $this->reflector->validateQueryString($simulatedQueryString);
 

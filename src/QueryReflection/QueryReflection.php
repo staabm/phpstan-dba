@@ -15,6 +15,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
@@ -28,12 +29,12 @@ final class QueryReflection
         self::$reflector = $reflector;
     }
 
-    public function validateQueryString(Expr $expr, Scope $scope): bool
+    public function validateQueryString(Expr $expr, Scope $scope): ?Error
     {
         $queryString = $this->builtSimulatedQuery($expr, $scope);
 
         if (null === $queryString) {
-            return false;
+            return null;
         }
 
         return self::reflector()->validateQueryString($queryString);
