@@ -60,7 +60,7 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public function containsSyntaxError(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): bool
     {
         try {
             $this->db->query($simulatedQueryString);

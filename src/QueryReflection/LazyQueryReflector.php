@@ -25,13 +25,13 @@ final class LazyQueryReflector implements QueryReflector
         $this->reflectorFactory = $reflectorFactory;
     }
 
-    public function containsSyntaxError(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): bool
     {
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
 
-        return $this->reflector->containsSyntaxError($simulatedQueryString);
+        return $this->reflector->validateQueryString($simulatedQueryString);
     }
 
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type

@@ -28,7 +28,7 @@ final class QueryReflection
         self::$reflector = $reflector;
     }
 
-    public function containsSyntaxError(Expr $expr, Scope $scope): bool
+    public function validateQueryString(Expr $expr, Scope $scope): bool
     {
         $queryString = $this->builtSimulatedQuery($expr, $scope);
 
@@ -36,7 +36,7 @@ final class QueryReflection
             return false;
         }
 
-        return self::reflector()->containsSyntaxError($queryString);
+        return self::reflector()->validateQueryString($queryString);
     }
 
     /**
