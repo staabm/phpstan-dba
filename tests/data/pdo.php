@@ -111,6 +111,9 @@ class Foo
 		assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
 	}
 
+	/**
+	 * @return 'ada'
+	 */
 	public function getTable() {
 		return 'ada';
 	}
