@@ -35,6 +35,9 @@ jobs:
       with:
         composer-options: "--prefer-dist --no-progress --no-suggest"
 
+    - name: Setup Problem Matchers for PHPUnit
+      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
     - name: Setup mysql
       run: |
         sudo /etc/init.d/mysql start
