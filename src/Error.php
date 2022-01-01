@@ -10,7 +10,7 @@ final class Error
     private $message;
 
     /**
-     * @var
+     * @var int
      */
     private $code;
 
