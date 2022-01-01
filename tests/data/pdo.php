@@ -82,6 +82,20 @@ class Foo
         assertType('PDOStatement<array>|false', $stmt);
     }
 
+	public function queryBranches(PDO $pdo, bool $bool, int $adaid)
+	{
+		$query = 'SELECT email, adaid FROM ada';
+		$stmt = $pdo->query($query, PDO::FETCH_NUM);
+		assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
+
+		if ($bool) {
+			$query .= ' WHERE adaid='.$adaid;
+		}
+
+		$stmt = $pdo->query($query, PDO::FETCH_NUM);
+		assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
+	}
+
     public function supportedFetchTypes(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_NUM);
