@@ -19,7 +19,7 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
-	private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])?/i';
+    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])?/i';
 
     /**
      * @var QueryReflector|null
@@ -68,10 +68,10 @@ final class QueryReflection
             return null;
         }
 
-		// skip queries which contain placeholders for now
-		if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) === true) {
-			return null;
-		}
+        // skip queries which contain placeholders for now
+        if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
+            return null;
+        }
 
         $queryString = $this->stripTraillingLimit($queryString);
         if (null === $queryString) {
