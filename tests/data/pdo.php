@@ -74,7 +74,7 @@ class Foo
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array>|false', $stmt);
-      
+
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array>|false', $stmt);
 
