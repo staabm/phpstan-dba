@@ -11,6 +11,7 @@ use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -117,12 +118,16 @@ final class QueryReflection
             return '1';
         }
 
+        if ($type->isNumericString()->yes()) {
+            return '1';
+        }
+
         $floatType = new FloatType();
         if ($floatType->isSuperTypeOf($type)->yes()) {
             return '1.0';
         }
 
-        if ($type instanceof MixedType || $type instanceof StringType) {
+        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType) {
             return null;
         }
 
