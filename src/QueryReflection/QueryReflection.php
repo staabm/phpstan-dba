@@ -19,7 +19,7 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
-    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])?/i';
+    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])+/i';
 
     /**
      * @var QueryReflector|null
