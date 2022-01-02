@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -96,7 +97,7 @@ final class QueryReflection
         }
 
         $type = $scope->getType($expr);
-        if ($type instanceof ConstantStringType) {
+        if ($type instanceof ConstantScalarType) {
             return $type->getValue();
         }
 
@@ -108,11 +109,6 @@ final class QueryReflection
         $booleanType = new BooleanType();
         if ($booleanType->isSuperTypeOf($type)->yes()) {
             return '1';
-        }
-
-        $stringType = new StringType();
-        if ($stringType->isSuperTypeOf($type)->yes()) {
-            return '1=1';
         }
 
         $floatType = new FloatType();
