@@ -116,7 +116,7 @@ final class QueryReflection
             return '1.0';
         }
 
-        if ($type instanceof MixedType) {
+        if ($type instanceof MixedType || $type instanceof StringType) {
             return null;
         }
 
