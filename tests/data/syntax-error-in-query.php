@@ -45,4 +45,11 @@ class Foo
     {
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
+
+	public function queryWithPlaceholder(PDO $pdo) {
+		// atm we just make sure, this is not detected as a syntax error.
+		// a proper return type check should be added in the future.
+		$pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?', PDO::FETCH_ASSOC);
+		$pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
+	}
 }
