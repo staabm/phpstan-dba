@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\Error;
 
 final class LazyQueryReflector implements QueryReflector
 {
@@ -25,13 +26,13 @@ final class LazyQueryReflector implements QueryReflector
         $this->reflectorFactory = $reflectorFactory;
     }
 
-    public function containsSyntaxError(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): ?Error
     {
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
 
-        return $this->reflector->containsSyntaxError($simulatedQueryString);
+        return $this->reflector->validateQueryString($simulatedQueryString);
     }
 
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type

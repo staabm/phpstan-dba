@@ -38,4 +38,10 @@ jobs:
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
+    - name: Setup mysql
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan_dba;'
+        mysql -uroot -h127.0.0.1 -proot phpstan_dba < tests/schema.sql
+
     - run: vendor/bin/phpunit

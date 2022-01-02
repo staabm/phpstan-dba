@@ -15,6 +15,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqliQueryReflector implements QueryReflector
@@ -60,14 +61,18 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public function containsSyntaxError(string $simulatedQueryString): bool
+    public function validateQueryString(string $simulatedQueryString): ?Error
     {
         try {
             $this->db->query($simulatedQueryString);
 
-            return false;
+            return null;
         } catch (mysqli_sql_exception $e) {
-            return \in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true);
+            if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+                return new Error($e->getMessage(), $e->getCode());
+            }
+
+            return null;
         }
     }
 

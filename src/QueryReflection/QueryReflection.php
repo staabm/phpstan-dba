@@ -8,16 +8,19 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\BooleanType;
-use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
+    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])+/i';
+
     /**
      * @var QueryReflector|null
      */
@@ -28,15 +31,15 @@ final class QueryReflection
         self::$reflector = $reflector;
     }
 
-    public function containsSyntaxError(Expr $expr, Scope $scope): bool
+    public function validateQueryString(Expr $expr, Scope $scope): ?Error
     {
         $queryString = $this->builtSimulatedQuery($expr, $scope);
 
         if (null === $queryString) {
-            return false;
+            return null;
         }
 
-        return self::reflector()->containsSyntaxError($queryString);
+        return self::reflector()->validateQueryString($queryString);
     }
 
     /**
@@ -62,6 +65,11 @@ final class QueryReflection
         }
 
         if ('SELECT' !== $this->getQueryType($queryString)) {
+            return null;
+        }
+
+        // skip queries which contain placeholders for now
+        if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
             return null;
         }
 
@@ -95,8 +103,8 @@ final class QueryReflection
         }
 
         $type = $scope->getType($expr);
-        if ($type instanceof ConstantStringType) {
-            return $type->getValue();
+        if ($type instanceof ConstantScalarType) {
+            return (string) $type->getValue();
         }
 
         $integerType = new IntegerType();
@@ -113,17 +121,12 @@ final class QueryReflection
             return '1';
         }
 
-        $stringType = new StringType();
-        if ($stringType->isSuperTypeOf($type)->yes()) {
-            return '1=1';
-        }
-
         $floatType = new FloatType();
         if ($floatType->isSuperTypeOf($type)->yes()) {
             return '1.0';
         }
 
-        if ($type instanceof MixedType) {
+        if ($type instanceof MixedType || $type instanceof StringType) {
             return null;
         }
 
