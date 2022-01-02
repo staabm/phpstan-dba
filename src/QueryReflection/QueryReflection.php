@@ -98,7 +98,7 @@ final class QueryReflection
 
         $type = $scope->getType($expr);
         if ($type instanceof ConstantScalarType) {
-            return $type->getValue();
+            return (string) $type->getValue();
         }
 
         $integerType = new IntegerType();
