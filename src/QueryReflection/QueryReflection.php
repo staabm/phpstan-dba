@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -126,7 +127,7 @@ final class QueryReflection
             return '1.0';
         }
 
-        if ($type instanceof MixedType || $type instanceof StringType) {
+        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType) {
             return null;
         }
 
