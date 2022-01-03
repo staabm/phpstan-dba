@@ -2,6 +2,8 @@
 
 namespace staabm\PHPStanDba;
 
+use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+
 final class Error
 {
     /**
