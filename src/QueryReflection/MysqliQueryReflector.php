@@ -64,7 +64,12 @@ final class MysqliQueryReflector implements QueryReflector
     public function validateQueryString(string $queryString): ?Error
     {
         try {
-            $this->db->query($queryString);
+            $simulatedQuery = QuerySimulation::simulate($queryString);
+            if (null === $simulatedQuery) {
+                return null;
+            }
+
+            $this->db->query($simulatedQuery);
 
             return null;
         } catch (mysqli_sql_exception $e) {
@@ -82,7 +87,11 @@ final class MysqliQueryReflector implements QueryReflector
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         try {
-            $result = $this->db->query($queryString);
+            $simulatedQuery = QuerySimulation::simulate($queryString);
+            if (null === $simulatedQuery) {
+                return null;
+            }
+            $result = $this->db->query($simulatedQuery);
 
             if (!$result instanceof mysqli_result) {
                 return null;
