@@ -32,9 +32,9 @@ final class QueryReflection
         self::$reflector = $reflector;
     }
 
-    public function validateQueryString(Expr $expr, Scope $scope): ?Error
+    public function validateQueryString(Expr $expr, Scope $scope, bool $debug = false): ?Error
     {
-        $queryString = $this->builtSimulatedQuery($expr, $scope);
+        $queryString = $this->builtSimulatedQuery($expr, $scope, $debug);
 
         if (null === $queryString) {
             return null;
@@ -57,25 +57,29 @@ final class QueryReflection
         return self::reflector()->getResultType($queryString, $fetchType);
     }
 
-    private function builtSimulatedQuery(Expr $expr, Scope $scope): ?string
+    private function builtSimulatedQuery(Expr $expr, Scope $scope, bool $debug = false): ?string
     {
         $queryString = $this->resolveQueryString($expr, $scope);
 
         if (null === $queryString) {
+			if ($debug) var_dump(__LINE__);
             return null;
         }
 
         if ('SELECT' !== $this->getQueryType($queryString)) {
+			if ($debug) var_dump(__LINE__);
             return null;
         }
 
         // skip queries which contain placeholders for now
         if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
+			if ($debug) var_dump(__LINE__);
             return null;
         }
 
         $queryString = $this->stripTraillingLimit($queryString);
         if (null === $queryString) {
+			if ($debug) var_dump(__LINE__);
             return null;
         }
         $queryString .= ' LIMIT 0';
