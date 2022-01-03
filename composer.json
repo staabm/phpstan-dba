@@ -34,6 +34,9 @@
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist"
+		],
+		"phpunit": [
+			"phpunit"
 		]
 	},
 	"config": {

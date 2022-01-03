@@ -41,6 +41,11 @@ class Foo
         $pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
     }
 
+    public function incompleteQuery(PDO $pdo, string $tableName)
+    {
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM '.$tableName.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
     public function validQuery(PDO $pdo)
     {
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
