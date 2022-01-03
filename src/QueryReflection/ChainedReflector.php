@@ -10,7 +10,7 @@ use staabm\PHPStanDba\Error;
 final class ChainedReflector implements QueryReflector
 {
     /**
-     * @var list<QueryReflector>
+     * @var QueryReflector[]
      */
     private $reflectors;
 
