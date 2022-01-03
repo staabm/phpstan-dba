@@ -64,7 +64,12 @@ final class MysqliQueryReflector implements QueryReflector
     public function validateQueryString(string $queryString): ?Error
     {
         try {
-            $this->db->query($queryString);
+			$simulatedQuery = $this->simulatedQuery($queryString);
+			if ($simulatedQuery === null) {
+				return null;
+			}
+
+            $this->db->query($simulatedQuery);
 
             return null;
         } catch (mysqli_sql_exception $e) {
@@ -82,7 +87,11 @@ final class MysqliQueryReflector implements QueryReflector
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         try {
-            $result = $this->db->query($queryString);
+			$simulatedQuery = $this->simulatedQuery($queryString);
+			if ($simulatedQuery === null) {
+				return null;
+			}
+            $result = $this->db->query($simulatedQuery);
 
             if (!$result instanceof mysqli_result) {
                 return null;
@@ -207,4 +216,18 @@ final class MysqliQueryReflector implements QueryReflector
 
         return $result;
     }
+
+	private function simulatedQuery(string $queryString): ?string {
+		$queryString = $this->stripTraillingLimit($queryString);
+		if (null === $queryString) {
+			return null;
+		}
+		$queryString .= ' LIMIT 0';
+		return $queryString;
+	}
+
+	private function stripTraillingLimit(string $query): ?string
+	{
+		return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $query);
+	}
 }
