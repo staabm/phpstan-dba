@@ -26,7 +26,7 @@ class Foo
     {
         $prodDomains = runMysqlQuery('SELECT cmsdomainid FROM cmsdomain WHERE url ="'.$prodHostname.'" and standard=1', $dbCredentials);
         assertType('array<int, array<int, string>>|null', $prodDomains);
-		// XXX should be more precise, when we would be smarter in query parsing
-		// assertType('array<int, array{string}>|null', $prodDomains);
+        // XXX should be more precise, when we would be smarter in query parsing
+        // assertType('array<int, array{string}>|null', $prodDomains);
     }
 }
