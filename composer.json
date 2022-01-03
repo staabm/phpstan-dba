@@ -29,6 +29,9 @@
 		"csfix": [
 			"php-cs-fixer fix"
 		],
+		"phpstan-dba-baseline": [
+			"phpstan analyse -c phpstan.neon.dist --debug"
+		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist"
 		]
