@@ -1,5 +1,6 @@
 <?php
 
+use staabm\PHPStanDba\QueryReflection\ChainedReflector;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
@@ -11,12 +12,18 @@ require_once __DIR__ . '/vendor/autoload.php';
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
 try {
+	if (false !== getenv('GITHUB_ACTION')) {
+		$mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
+	} else {
+		$mysqli = @new mysqli('mysql57.ab', 'testuser', 'test', 'phpstan_dba');
+	}
+
 	QueryReflection::setupReflector(
 		new RecordingQueryReflector(
 			ReflectionCache::create(
 				$cacheFile
 			),
-			new MysqliQueryReflector(@new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba'))
+			new MysqliQueryReflector($mysqli),
 		)
 	);
 } catch (mysqli_sql_exception $e) {
