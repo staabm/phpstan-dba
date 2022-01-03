@@ -64,7 +64,7 @@ final class MysqliQueryReflector implements QueryReflector
     public function validateQueryString(string $queryString): ?Error
     {
         try {
-			$simulatedQuery = $this->simulatedQuery($queryString);
+			$simulatedQuery = QuerySimulation::simulate($queryString);
 			if ($simulatedQuery === null) {
 				return null;
 			}
@@ -87,7 +87,7 @@ final class MysqliQueryReflector implements QueryReflector
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         try {
-			$simulatedQuery = $this->simulatedQuery($queryString);
+			$simulatedQuery = QuerySimulation::simulate($queryString);
 			if ($simulatedQuery === null) {
 				return null;
 			}
@@ -217,17 +217,4 @@ final class MysqliQueryReflector implements QueryReflector
         return $result;
     }
 
-	private function simulatedQuery(string $queryString): ?string {
-		$queryString = $this->stripTraillingLimit($queryString);
-		if (null === $queryString) {
-			return null;
-		}
-		$queryString .= ' LIMIT 0';
-		return $queryString;
-	}
-
-	private function stripTraillingLimit(string $query): ?string
-	{
-		return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $query);
-	}
 }
