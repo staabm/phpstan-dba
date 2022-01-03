@@ -37,8 +37,11 @@ final class QueryReflection
         $queryString = $this->builtSimulatedQuery($expr, $scope, $debug);
 
         if (null === $queryString) {
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
+
+		if ($debug) var_dump(__FILE__.':'.__LINE__);
 
         return self::reflector()->validateQueryString($queryString);
     }
@@ -62,24 +65,24 @@ final class QueryReflection
         $queryString = $this->resolveQueryString($expr, $scope);
 
         if (null === $queryString) {
-			if ($debug) var_dump(__LINE__);
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
 
         if ('SELECT' !== $this->getQueryType($queryString)) {
-			if ($debug) var_dump(__LINE__);
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
 
         // skip queries which contain placeholders for now
         if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
-			if ($debug) var_dump(__LINE__);
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
 
         $queryString = $this->stripTraillingLimit($queryString);
         if (null === $queryString) {
-			if ($debug) var_dump(__LINE__);
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
         $queryString .= ' LIMIT 0';
