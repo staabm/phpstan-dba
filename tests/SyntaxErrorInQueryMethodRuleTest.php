@@ -22,11 +22,11 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
         $this->analyse([__DIR__.'/data/syntax-error-in-query.php'], [
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada' at line 1 (1064).",
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 11,
             ],
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada' at line 1 (1064).",
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 16,
             ],
             [
