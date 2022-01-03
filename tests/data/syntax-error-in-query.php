@@ -46,6 +46,17 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM '.$tableName.' LIMIT 1', PDO::FETCH_ASSOC);
     }
 
+    public function incompleteQueryUnion(PDO $pdo)
+    {
+        $add = '';
+        if (rand(0, 1)) {
+            $add .= 'my_other_table';
+        }
+
+        // XXX we might get smarter in query parsing and resolve this query at analysis time
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada .'.$add.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
     public function validQuery(PDO $pdo)
     {
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);

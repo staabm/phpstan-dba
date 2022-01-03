@@ -132,45 +132,6 @@
         )),
       ),
     ),
-    'SELECT cmsdomainid FROM cmsdomain WHERE url ="" and standard=1' => 
-    array (
-      'error' => NULL,
-      'result' => 
-      array (
-        2 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-             'value' => 0,
-          )),
-           'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
-          )),
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
-            )),
-          ),
-           'nextAutoIndex' => 1,
-           'optionalKeys' => 
-          array (
-          ),
-           'allArrays' => NULL,
-        )),
-      ),
-    ),
     'SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
       'error' => 
@@ -466,18 +427,6 @@
           ),
            'allArrays' => NULL,
         )),
-      ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM  LIMIT 1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-      'result' => 
-      array (
-        1 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
@@ -859,18 +808,6 @@
           ),
            'allArrays' => NULL,
         )),
-      ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE ' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-      'result' => 
-      array (
-        1 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=1' => 

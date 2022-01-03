@@ -15,6 +15,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
@@ -117,7 +118,7 @@ final class QueryReflection
             return '1.0';
         }
 
-        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType) {
+        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType || $type instanceof UnionType) {
             return null;
         }
 
