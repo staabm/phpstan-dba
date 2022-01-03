@@ -59,3 +59,15 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
     }
 }
+
+class Incomplete {
+	public function incompleteQuery(PDO $pdo)
+	{
+		$add = '';
+		if (rand(0,1)) {
+			$add .= 'my_other_table';
+		}
+
+		$pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada .'. $add .' LIMIT 1', PDO::FETCH_ASSOC);
+	}
+}
