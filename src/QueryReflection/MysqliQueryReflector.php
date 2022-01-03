@@ -61,17 +61,21 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $simulatedQueryString, bool $debug = false): ?Error
     {
         try {
             $this->db->query($simulatedQueryString);
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
 
             return null;
         } catch (mysqli_sql_exception $e) {
+			if ($debug) var_dump($e);
             if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+				if ($debug) var_dump(__FILE__.':'.__LINE__);
                 return new Error($e->getMessage(), $e->getCode());
             }
 
+			if ($debug) var_dump(__FILE__.':'.__LINE__);
             return null;
         }
     }
