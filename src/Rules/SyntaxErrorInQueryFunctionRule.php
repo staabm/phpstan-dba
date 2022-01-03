@@ -63,6 +63,8 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             }
         }
 
+		var_dump($unsupportedFunction);
+
         if ($unsupportedFunction) {
             return [];
         }

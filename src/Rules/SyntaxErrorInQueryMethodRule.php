@@ -56,6 +56,8 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             }
         }
 
+		var_dump($unsupportedMethod);
+
         if ($unsupportedMethod) {
             return [];
         }
