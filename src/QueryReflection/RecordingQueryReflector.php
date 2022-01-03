@@ -32,15 +32,10 @@ final class RecordingQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-		$simulatedQuery = QuerySimulation::simulate($queryString);
-		if (null === $simulatedQuery) {
-			return null;
-		}
-
         $error = $this->reflector->validateQueryString($queryString);
 
         $this->reflectionCache->putValidationError(
-			$simulatedQuery,
+            $queryString,
             $error
         );
 
@@ -49,11 +44,6 @@ final class RecordingQueryReflector implements QueryReflector
 
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-		$simulatedQuery = QuerySimulation::simulate($queryString);
-		if (null === $simulatedQuery) {
-			return null;
-		}
-
         // built the query string cache, also on result-type checking, to make sure the cachefile contains all required information.
         // result-type checking is triggered by phpstan analysis via our phpstan-extensions, while the query-validation isn't.
         $this->validateQueryString($queryString);
@@ -61,7 +51,7 @@ final class RecordingQueryReflector implements QueryReflector
         $resultType = $this->reflector->getResultType($queryString, $fetchType);
 
         $this->reflectionCache->putResultType(
-			$simulatedQuery,
+            $queryString,
             $fetchType,
             $resultType
         );
