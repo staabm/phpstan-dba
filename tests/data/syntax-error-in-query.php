@@ -41,8 +41,32 @@ class Foo
         $pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
     }
 
+    public function incompleteQuery(PDO $pdo, string $tableName)
+    {
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM '.$tableName.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
+    public function incompleteQueryUnion(PDO $pdo)
+    {
+        $add = '';
+        if (rand(0, 1)) {
+            $add .= 'my_other_table';
+        }
+
+        // XXX we might get smarter in query parsing and resolve this query at analysis time
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada .'.$add.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
     public function validQuery(PDO $pdo)
     {
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
+    }
+
+    public function queryWithPlaceholder(PDO $pdo)
+    {
+        // atm we just make sure, this is not detected as a syntax error.
+        // a proper return type check should be added in the future.
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?', PDO::FETCH_ASSOC);
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
     }
 }

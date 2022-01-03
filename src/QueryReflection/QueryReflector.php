@@ -11,10 +11,10 @@ interface QueryReflector
     public const FETCH_TYPE_NUMERIC = 2;
     public const FETCH_TYPE_BOTH = 3;
 
-    public function validateQueryString(string $simulatedQueryString): ?Error;
+    public function validateQueryString(string $queryString): ?Error;
 
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type;
+    public function getResultType(string $queryString, int $fetchType): ?Type;
 }

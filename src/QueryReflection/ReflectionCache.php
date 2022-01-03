@@ -11,7 +11,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v2-error-objects';
+    public const SCHEMA_VERSION = 'v3-rename-props';
 
     /**
      * @var string
@@ -19,7 +19,7 @@ final class ReflectionCache
     private $cacheFile;
 
     /**
-     * @var array<string, array{containsSyntaxErrors?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $records = [];
 
@@ -66,51 +66,51 @@ final class ReflectionCache
         }
     }
 
-    public function hasContainsSyntaxError(string $simulatedQueryString): bool
+    public function hasValidationError(string $queryString): bool
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
+        if (!\array_key_exists($queryString, $this->records)) {
             return false;
         }
 
-        $cacheEntry = $this->records[$simulatedQueryString];
+        $cacheEntry = $this->records[$queryString];
 
-        return \array_key_exists('containsSyntaxErrors', $cacheEntry);
+        return \array_key_exists('error', $cacheEntry);
     }
 
-    public function getContainsSyntaxError(string $simulatedQueryString): ?Error
+    public function getValidationError(string $queryString): ?Error
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+        if (!\array_key_exists($queryString, $this->records)) {
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
-        $cacheEntry = $this->records[$simulatedQueryString];
-        if (!\array_key_exists('containsSyntaxErrors', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+        $cacheEntry = $this->records[$queryString];
+        if (!\array_key_exists('error', $cacheEntry)) {
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
-        return $cacheEntry['containsSyntaxErrors'];
+        return $cacheEntry['error'];
     }
 
-    public function putContainsSyntaxError(string $simulatedQueryString, ?Error $containsSyntaxError): void
+    public function putValidationError(string $queryString, ?Error $error): void
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            $this->records[$simulatedQueryString] = [];
+        if (!\array_key_exists($queryString, $this->records)) {
+            $this->records[$queryString] = [];
         }
 
-        $cacheEntry = &$this->records[$simulatedQueryString];
-        $cacheEntry['containsSyntaxErrors'] = $containsSyntaxError;
+        $cacheEntry = &$this->records[$queryString];
+        $cacheEntry['error'] = $error;
     }
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function hasResultType(string $simulatedQueryString, int $fetchType): bool
+    public function hasResultType(string $queryString, int $fetchType): bool
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
+        if (!\array_key_exists($queryString, $this->records)) {
             return false;
         }
 
-        $cacheEntry = $this->records[$simulatedQueryString];
+        $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
             return false;
         }
@@ -121,19 +121,19 @@ final class ReflectionCache
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+        if (!\array_key_exists($queryString, $this->records)) {
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
-        $cacheEntry = $this->records[$simulatedQueryString];
+        $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         if (!\array_key_exists($fetchType, $cacheEntry['result'])) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
+            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         return $cacheEntry['result'][$fetchType];
@@ -142,13 +142,13 @@ final class ReflectionCache
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function putResultType(string $simulatedQueryString, int $fetchType, ?Type $resultType): void
+    public function putResultType(string $queryString, int $fetchType, ?Type $resultType): void
     {
-        if (!\array_key_exists($simulatedQueryString, $this->records)) {
-            $this->records[$simulatedQueryString] = [];
+        if (!\array_key_exists($queryString, $this->records)) {
+            $this->records[$queryString] = [];
         }
 
-        $cacheEntry = &$this->records[$simulatedQueryString];
+        $cacheEntry = &$this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
             $cacheEntry['result'] = [];
         }

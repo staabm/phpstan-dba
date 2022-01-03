@@ -22,7 +22,10 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
      */
     private $functionNames;
 
-    private ReflectionProvider $reflectionProvider;
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
 
     /**
      * @param list<string> $functionNames

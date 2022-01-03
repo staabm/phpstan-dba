@@ -45,6 +45,8 @@ final class MysqliQueryReflector implements QueryReflector
         $this->db = $mysqli;
         // set a sane default.. atm this should not have any impact
         $this->db->set_charset('utf8');
+        // enable exception throwing on php <8.1
+        mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
 
         $this->nativeTypes = [];
         $this->nativeFlags = [];
@@ -61,10 +63,15 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
         try {
-            $this->db->query($simulatedQueryString);
+            $simulatedQuery = QuerySimulation::simulate($queryString);
+            if (null === $simulatedQuery) {
+                return null;
+            }
+
+            $this->db->query($simulatedQuery);
 
             return null;
         } catch (mysqli_sql_exception $e) {
@@ -79,10 +86,14 @@ final class MysqliQueryReflector implements QueryReflector
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
         try {
-            $result = $this->db->query($simulatedQueryString);
+            $simulatedQuery = QuerySimulation::simulate($queryString);
+            if (null === $simulatedQuery) {
+                return null;
+            }
+            $result = $this->db->query($simulatedQuery);
 
             if (!$result instanceof mysqli_result) {
                 return null;

@@ -8,17 +8,21 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\BooleanType;
-use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
+    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])+/i';
+
     /**
      * @var QueryReflector|null
      */
@@ -66,11 +70,10 @@ final class QueryReflection
             return null;
         }
 
-        $queryString = $this->stripTraillingLimit($queryString);
-        if (null === $queryString) {
+        // skip queries which contain placeholders for now
+        if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
             return null;
         }
-        $queryString .= ' LIMIT 0';
 
         return $queryString;
     }
@@ -84,20 +87,16 @@ final class QueryReflection
             $leftString = $this->resolveQueryString($left, $scope);
             $rightString = $this->resolveQueryString($right, $scope);
 
-            if ($leftString && $rightString) {
-                return $leftString.$rightString;
+            if (null === $leftString || null === $rightString) {
+                return null;
             }
-            if ($leftString) {
-                return $leftString;
-            }
-            if ($rightString) {
-                return $rightString;
-            }
+
+            return $leftString.$rightString;
         }
 
         $type = $scope->getType($expr);
-        if ($type instanceof ConstantStringType) {
-            return $type->getValue();
+        if ($type instanceof ConstantScalarType) {
+            return (string) $type->getValue();
         }
 
         $integerType = new IntegerType();
@@ -110,9 +109,8 @@ final class QueryReflection
             return '1';
         }
 
-        $stringType = new StringType();
-        if ($stringType->isSuperTypeOf($type)->yes()) {
-            return '1=1';
+        if ($type->isNumericString()->yes()) {
+            return '1';
         }
 
         $floatType = new FloatType();
@@ -120,7 +118,7 @@ final class QueryReflection
             return '1.0';
         }
 
-        if ($type instanceof MixedType) {
+        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType || $type instanceof UnionType) {
             return null;
         }
 
@@ -136,11 +134,6 @@ final class QueryReflection
         }
 
         return null;
-    }
-
-    private function stripTraillingLimit(string $query): ?string
-    {
-        return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $query);
     }
 
     private function reflector(): QueryReflector
