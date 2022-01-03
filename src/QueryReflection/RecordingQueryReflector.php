@@ -32,14 +32,14 @@ final class RecordingQueryReflector implements QueryReflector
 
     public function validateQueryString(string $simulatedQueryString): ?Error
     {
-        $containsSyntaxError = $this->reflector->validateQueryString($simulatedQueryString);
+        $error = $this->reflector->validateQueryString($simulatedQueryString);
 
-        $this->reflectionCache->putContainsSyntaxError(
+        $this->reflectionCache->putValidationError(
             $simulatedQueryString,
-            $containsSyntaxError
+            $error
         );
 
-        return $containsSyntaxError;
+        return $error;
     }
 
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
