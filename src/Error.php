@@ -37,4 +37,12 @@ final class Error
     {
         return $this->code;
     }
+
+    /**
+     * @param array{message: string, code: MysqliQueryReflector::MYSQL_*} $array
+     */
+    public static function __set_state(array $array)
+    {
+        return new self($array['message'], $array['code']);
+    }
 }
