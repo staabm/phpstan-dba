@@ -11,7 +11,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v2-error-objects';
+    public const SCHEMA_VERSION = 'v3-rename-props';
 
     /**
      * @var string
@@ -19,7 +19,7 @@ final class ReflectionCache
     private $cacheFile;
 
     /**
-     * @var array<string, array{containsSyntaxErrors?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $records = [];
 
@@ -66,7 +66,7 @@ final class ReflectionCache
         }
     }
 
-    public function hasContainsSyntaxError(string $simulatedQueryString): bool
+    public function hasValidationError(string $simulatedQueryString): bool
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
             return false;
@@ -74,31 +74,31 @@ final class ReflectionCache
 
         $cacheEntry = $this->records[$simulatedQueryString];
 
-        return \array_key_exists('containsSyntaxErrors', $cacheEntry);
+        return \array_key_exists('error', $cacheEntry);
     }
 
-    public function getContainsSyntaxError(string $simulatedQueryString): ?Error
+    public function getValidationError(string $simulatedQueryString): ?Error
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
             throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
         $cacheEntry = $this->records[$simulatedQueryString];
-        if (!\array_key_exists('containsSyntaxErrors', $cacheEntry)) {
+        if (!\array_key_exists('error', $cacheEntry)) {
             throw new DbaException(sprintf('Cache not populated for query "%s"', $simulatedQueryString));
         }
 
-        return $cacheEntry['containsSyntaxErrors'];
+        return $cacheEntry['error'];
     }
 
-    public function putContainsSyntaxError(string $simulatedQueryString, ?Error $containsSyntaxError): void
+    public function putValidationError(string $simulatedQueryString, ?Error $error): void
     {
         if (!\array_key_exists($simulatedQueryString, $this->records)) {
             $this->records[$simulatedQueryString] = [];
         }
 
         $cacheEntry = &$this->records[$simulatedQueryString];
-        $cacheEntry['containsSyntaxErrors'] = $containsSyntaxError;
+        $cacheEntry['error'] = $error;
     }
 
     /**

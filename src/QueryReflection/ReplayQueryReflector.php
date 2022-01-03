@@ -21,7 +21,7 @@ final class ReplayQueryReflector implements QueryReflector
 
     public function validateQueryString(string $simulatedQueryString): ?Error
     {
-        return $this->reflectionCache->getContainsSyntaxError($simulatedQueryString);
+        return $this->reflectionCache->getValidationError($simulatedQueryString);
     }
 
     public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
