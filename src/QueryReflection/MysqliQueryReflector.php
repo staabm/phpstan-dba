@@ -73,6 +73,9 @@ final class MysqliQueryReflector implements QueryReflector
 
             return null;
         } catch (mysqli_sql_exception $e) {
+			echo "\n";
+			var_dump($e->getMessage());
+			var_dump($e->getCode());
             if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
                 return new Error($e->getMessage(), $e->getCode());
             }
