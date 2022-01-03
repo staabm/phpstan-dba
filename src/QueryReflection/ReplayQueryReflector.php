@@ -19,18 +19,18 @@ final class ReplayQueryReflector implements QueryReflector
         $this->reflectionCache = $cache;
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
-        return $this->reflectionCache->getValidationError($simulatedQueryString);
+        return $this->reflectionCache->getValidationError($queryString);
     }
 
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
         // queries with errors don't have a cached result type
-        if (false === $this->reflectionCache->hasResultType($simulatedQueryString, $fetchType)) {
+        if (false === $this->reflectionCache->hasResultType($queryString, $fetchType)) {
             return null;
         }
 
-        return $this->reflectionCache->getResultType($simulatedQueryString, $fetchType);
+        return $this->reflectionCache->getResultType($queryString, $fetchType);
     }
 }

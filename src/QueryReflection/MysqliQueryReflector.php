@@ -61,10 +61,10 @@ final class MysqliQueryReflector implements QueryReflector
         }
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
         try {
-            $this->db->query($simulatedQueryString);
+            $this->db->query($queryString);
 
             return null;
         } catch (mysqli_sql_exception $e) {
@@ -79,10 +79,10 @@ final class MysqliQueryReflector implements QueryReflector
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
         try {
-            $result = $this->db->query($simulatedQueryString);
+            $result = $this->db->query($queryString);
 
             if (!$result instanceof mysqli_result) {
                 return null;

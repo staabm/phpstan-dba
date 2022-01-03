@@ -22,12 +22,12 @@ final class ChainedReflector implements QueryReflector
         $this->reflectors = $reflectors;
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
         $nooneKnows = true;
 
         foreach ($this->reflectors as $reflector) {
-            $reflectorError = $reflector->validateQueryString($simulatedQueryString);
+            $reflectorError = $reflector->validateQueryString($queryString);
 
             // on "not found" error, we try the next reflector.
             if ($reflectorError) {
@@ -49,10 +49,10 @@ final class ChainedReflector implements QueryReflector
         return null;
     }
 
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
         foreach ($this->reflectors as $reflector) {
-            $reflectorResult = $reflector->getResultType($simulatedQueryString, $fetchType);
+            $reflectorResult = $reflector->getResultType($queryString, $fetchType);
 
             if ($reflectorResult) {
                 return $reflectorResult;

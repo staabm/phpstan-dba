@@ -26,21 +26,21 @@ final class LazyQueryReflector implements QueryReflector
         $this->reflectorFactory = $reflectorFactory;
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
 
-        return $this->reflector->validateQueryString($simulatedQueryString);
+        return $this->reflector->validateQueryString($queryString);
     }
 
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
 
-        return $this->reflector->getResultType($simulatedQueryString, $fetchType);
+        return $this->reflector->getResultType($queryString, $fetchType);
     }
 }

@@ -30,24 +30,24 @@ final class RecordingQueryReflector implements QueryReflector
         $this->reflectionCache->persist();
     }
 
-    public function validateQueryString(string $simulatedQueryString): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
-        $error = $this->reflector->validateQueryString($simulatedQueryString);
+        $error = $this->reflector->validateQueryString($queryString);
 
         $this->reflectionCache->putValidationError(
-            $simulatedQueryString,
+            $queryString,
             $error
         );
 
         return $error;
     }
 
-    public function getResultType(string $simulatedQueryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        $resultType = $this->reflector->getResultType($simulatedQueryString, $fetchType);
+        $resultType = $this->reflector->getResultType($queryString, $fetchType);
 
         $this->reflectionCache->putResultType(
-            $simulatedQueryString,
+            $queryString,
             $fetchType,
             $resultType
         );
