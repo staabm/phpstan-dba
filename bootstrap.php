@@ -28,9 +28,6 @@ try {
 		);
 	}
 
-	QueryReflection::setupReflector(
-		$reflector
-	);
 } catch (mysqli_sql_exception $e) {
 	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
 		throw $e;
@@ -39,11 +36,13 @@ try {
 	echo "\nWARN: Could not connect to MySQL.\nUsing cached reflection.\n";
 
 	// when we can't connect to the database, we rely on replaying pre-recorded db-reflection information
-	QueryReflection::setupReflector(
-		new ReplayQueryReflector(
-			ReflectionCache::load(
-				$cacheFile
-			)
+	$reflector = new ReplayQueryReflector(
+		ReflectionCache::load(
+			$cacheFile
 		)
 	);
 }
+
+QueryReflection::setupReflector(
+	$reflector
+);
