@@ -17,13 +17,19 @@ try {
 		$mysqli = @new mysqli('mysql57.ab', 'testuser', 'test', 'phpstan_dba');
 	}
 
-	QueryReflection::setupReflector(
-		new RecordingQueryReflector(
+	$reflector = new MysqliQueryReflector($mysqli);
+	// record only while phpstan is running - since this file might also be used as phpunit bootscript
+	if (defined('__PHPSTAN_RUNNING__')) {
+		$reflector = new RecordingQueryReflector(
 			ReflectionCache::create(
 				$cacheFile
 			),
-			new MysqliQueryReflector($mysqli),
-		)
+			$reflector
+		);
+	}
+
+	QueryReflection::setupReflector(
+		$reflector
 	);
 } catch (mysqli_sql_exception $e) {
 	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
