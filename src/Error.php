@@ -10,13 +10,13 @@ final class Error
     private $message;
 
     /**
-     * @var MysqliQueryReflector::MYSQL_* $code
+     * @var MysqliQueryReflector::MYSQL_*
      */
     private $code;
 
-	/**
-	 * @param MysqliQueryReflector::MYSQL_* $code
-	 */
+    /**
+     * @param MysqliQueryReflector::MYSQL_* $code
+     */
     public function __construct(string $message, int $code)
     {
         $this->message = $message;
@@ -28,9 +28,9 @@ final class Error
         return $this->message;
     }
 
-	/**
-	 * @return MysqliQueryReflector::MYSQL_*
-	 */
+    /**
+     * @return MysqliQueryReflector::MYSQL_*
+     */
     public function getCode(): int
     {
         return $this->code;
