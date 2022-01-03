@@ -86,15 +86,11 @@ final class QueryReflection
             $leftString = $this->resolveQueryString($left, $scope);
             $rightString = $this->resolveQueryString($right, $scope);
 
-            if ($leftString && $rightString) {
-                return $leftString.$rightString;
+            if (null === $leftString || null === $rightString) {
+                return null;
             }
-            if ($leftString) {
-                return $leftString;
-            }
-            if ($rightString) {
-                return $rightString;
-            }
+
+            return $leftString.$rightString;
         }
 
         $type = $scope->getType($expr);
