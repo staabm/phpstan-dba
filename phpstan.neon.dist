@@ -4,6 +4,7 @@ includes:
 
 parameters:
     level: max
+    phpVersion: 80000 # PHP 8.0
 
     paths:
         - src/
