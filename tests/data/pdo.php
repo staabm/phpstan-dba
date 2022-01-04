@@ -164,7 +164,7 @@ class Foo
         assertType('non-empty-string', $pdo->quote($nonE, PDO::PARAM_BOOL));
         assertType('string', $pdo->quote($s, PDO::PARAM_BOOL));
 
-        // not 100% sure, whether LOB is really not supporte across the board
+        // not 100% sure, whether LOB is really not supported across the board
         assertType('numeric-string|false', $pdo->quote((string) $i, PDO::PARAM_LOB));
         assertType('numeric-string|false', $pdo->quote((string) $f, PDO::PARAM_LOB));
         assertType('numeric-string|false', $pdo->quote((string) $n, PDO::PARAM_LOB));
