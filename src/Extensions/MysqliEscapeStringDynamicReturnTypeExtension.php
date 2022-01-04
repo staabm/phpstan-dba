@@ -64,13 +64,12 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
     {
         $intersection = [new StringType()];
 
-		if ($argType->isNumericString()->yes()) {
-			// a numeric string is by definition non-empty. therefore don't combine the e accessories
-			$intersection[] = new AccessoryNumericStringType();
-		} elseif ($argType->isNonEmptyString()->yes()) {
+        if ($argType->isNumericString()->yes()) {
+            // a numeric string is by definition non-empty. therefore don't combine the e accessories
+            $intersection[] = new AccessoryNumericStringType();
+        } elseif ($argType->isNonEmptyString()->yes()) {
             $intersection[] = new AccessoryNonEmptyStringType();
         }
-
 
         if (\count($intersection) > 1) {
             return new IntersectionType($intersection);
