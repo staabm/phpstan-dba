@@ -33,7 +33,7 @@
 			"phpstan analyse -c phpstan.neon.dist --debug"
 		],
 		"phpstan": [
-			"phpstan analyse -c phpstan.neon.dist"
+			"phpstan analyse -c phpstan.neon.dist --debug"
 		],
 		"phpunit": [
 			"phpunit"
