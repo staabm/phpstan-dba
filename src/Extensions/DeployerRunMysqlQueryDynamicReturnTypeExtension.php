@@ -29,15 +29,16 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
         $args = $functionCall->getArgs();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
         if (\count($args) < 2) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
@@ -50,6 +51,6 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
             return TypeCombinator::addNull(new ArrayType(new IntegerType(), $builder->getArray()));
         }
 
-        return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        return $defaultReturn;
     }
 }

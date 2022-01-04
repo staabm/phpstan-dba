@@ -41,15 +41,16 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
         $args = $functionCall->getArgs();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
         if (\count($args) < 2) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[1]->value, $scope);
         if (null === $queryString) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
@@ -60,21 +61,22 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             );
         }
 
-        return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        return $defaultReturn;
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         if (\count($args) < 1) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
@@ -85,6 +87,6 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             );
         }
 
-        return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        return $defaultReturn;
     }
 }
