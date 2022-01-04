@@ -78,23 +78,23 @@ class Foo
      */
     public function quotedArguments(mysqli $mysqli, int $i, float $f, $n, string $s, $nonE, string $numericString)
     {
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $i));
-		assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $i));
+        assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
 
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $f));
-		assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $f));
+        assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
 
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $n));
-		assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $n));
+        assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
 
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($numericString));
-		assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($numericString));
+        assertType('mysqli_result<array{email: string, adaid: int<0, 4294967295>}>|false', $result);
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($s));
-		assertType('bool|mysqli_result', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($s));
+        assertType('bool|mysqli_result', $result);
 
-		$result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($nonE));
-		assertType('bool|mysqli_result', $result);
+        $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($nonE));
+        assertType('bool|mysqli_result', $result);
     }
 }
