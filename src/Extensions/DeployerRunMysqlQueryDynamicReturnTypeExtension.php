@@ -35,7 +35,12 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[0]->value, $scope, QueryReflector::FETCH_TYPE_NUMERIC);
+        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
+        if (null === $queryString) {
+            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        }
+
+        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
         if ($resultType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
             foreach ($resultType->getKeyTypes() as $keyType) {

@@ -33,9 +33,9 @@ final class QueryReflection
         self::$reflector = $reflector;
     }
 
-    public function validateQueryString(Expr $expr, Scope $scope): ?Error
+    public function validateQueryString(string $queryString): ?Error
     {
-        $queryString = $this->builtSimulatedQuery($expr, $scope);
+        $queryString = $this->builtSimulatedQuery($queryString);
 
         if (null === $queryString) {
             return null;
@@ -47,9 +47,9 @@ final class QueryReflection
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getResultType(Expr $expr, Scope $scope, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        $queryString = $this->builtSimulatedQuery($expr, $scope);
+        $queryString = $this->builtSimulatedQuery($queryString);
 
         if (null === $queryString) {
             return null;
@@ -58,14 +58,8 @@ final class QueryReflection
         return self::reflector()->getResultType($queryString, $fetchType);
     }
 
-    private function builtSimulatedQuery(Expr $expr, Scope $scope): ?string
+    private function builtSimulatedQuery(string $queryString): ?string
     {
-        $queryString = $this->resolveQueryString($expr, $scope);
-
-        if (null === $queryString) {
-            return null;
-        }
-
         if ('SELECT' !== $this->getQueryType($queryString)) {
             return null;
         }
@@ -78,7 +72,7 @@ final class QueryReflection
         return $queryString;
     }
 
-    private function resolveQueryString(Expr $expr, Scope $scope): ?string
+    public function resolveQueryString(Expr $expr, Scope $scope): ?string
     {
         if ($expr instanceof Concat) {
             $left = $expr->left;

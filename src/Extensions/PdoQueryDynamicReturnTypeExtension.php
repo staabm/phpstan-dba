@@ -62,7 +62,12 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         }
 
         $queryReflection = new QueryReflection();
-        $resultType = $queryReflection->getResultType($args[0]->value, $scope, $reflectionFetchType);
+        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
+        if (null === $queryString) {
+            return $defaultReturn;
+        }
+
+        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
         if ($resultType) {
             return new GenericObjectType(PDOStatement::class, [$resultType]);
         }
