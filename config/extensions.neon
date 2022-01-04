@@ -14,3 +14,9 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\MysqliEscapeStringDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+        	- phpstan.broker.dynamicFunctionReturnTypeExtension
