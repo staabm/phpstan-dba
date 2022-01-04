@@ -5,6 +5,7 @@ This extension provides following features:
 * `PDO->query` knows the array shape of the returned results and therefore can return a generic `PDOStatement`
 * `mysqli->query` knows the array shape of the returned results and therefore can return a generic `mysqli_result`
 * `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors - `SyntaxErrorInQueryFunctionRule` can do the same for functions
+* `mysqli_real_escape_string` and `mysqli->real_escape_string` dynamic return type extensions
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
