@@ -54,7 +54,7 @@ class Foo
      * @param non-empty-string $nonE
      * @param numeric-string   $numericString
      */
-    public function escape(myslqi $mysqli, int $i, float $f, $n, string $s, $nonE, string $numericString)
+    public function escape(mysqli $mysqli, int $i, float $f, $n, string $s, $nonE, string $numericString)
     {
         assertType('numeric-string', mysqli_real_escape_string($mysqli, $i));
         assertType('numeric-string', mysqli_real_escape_string($mysqli, $f));
