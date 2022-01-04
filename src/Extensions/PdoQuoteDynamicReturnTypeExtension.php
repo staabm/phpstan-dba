@@ -64,7 +64,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $intersection = [new StringType()];
 
         if ($argType->isNumericString()->yes()) {
-            // a numeric string is by definition non-empty. therefore don't combine the e accessories
+            // a numeric string is by definition non-empty. therefore don't combine the 2 accessories
             $intersection[] = new AccessoryNumericStringType();
         } elseif ($argType->isNonEmptyString()->yes()) {
             $intersection[] = new AccessoryNonEmptyStringType();
