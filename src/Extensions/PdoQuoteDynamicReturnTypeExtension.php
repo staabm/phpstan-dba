@@ -34,8 +34,10 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
         if (\count($args) < 1) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         if (1 === \count($args)) {
@@ -43,7 +45,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         } else {
             $typeType = $scope->getType($args[1]->value);
             if (!$typeType instanceof ConstantIntegerType) {
-                return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+                return $defaultReturn;
             }
             $type = $typeType->getValue();
         }
