@@ -4,63 +4,62 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use mysqli;
-use PhpParser\Node\Expr\FuncCall;
+use PDO;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
-use PHPStan\Type\DynamicFunctionReturnTypeExtension;
+use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 
-final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
+final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {
-        return mysqli::class;
+        return PDO::class;
     }
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return 'real_escape_string' === $methodReflection->getName();
-    }
-
-    public function isFunctionSupported(FunctionReflection $functionReflection): bool
-    {
-        return 'mysqli_real_escape_string' === $functionReflection->getName();
-    }
-
-    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
-    {
-        $args = $functionCall->getArgs();
-        if (\count($args) < 2) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
-        }
-
-        $argType = $scope->getType($args[1]->value);
-
-        return $this->inferType($argType);
+        return 'quote' === $methodReflection->getName();
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        if (0 === \count($args)) {
+        if (\count($args) < 1) {
             return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
         }
 
-        $argType = $scope->getType($args[0]->value);
+        if (1 === \count($args)) {
+            $type = PDO::PARAM_STR;
+        } else {
+            $typeType = $scope->getType($args[1]->value);
+            if (!$typeType instanceof ConstantIntegerType) {
+                return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            }
+            $type = $typeType->getValue();
+        }
 
-        return $this->inferType($argType);
+        $argType = $scope->getType($args[0]->value);
+        $stringType = $this->inferStringType($argType);
+
+        // check for types which are supported by all drivers, therefore cannot return false.
+        if (PDO::PARAM_STR === $type || PDO::PARAM_INT === $type || PDO::PARAM_BOOL === $type) {
+            return $stringType;
+        }
+
+        return TypeCombinator::union($stringType, new ConstantBooleanType(false));
     }
 
-    private function inferType(Type $argType): Type
+    private function inferStringType(Type $argType): Type
     {
         $intersection = [new StringType()];
 

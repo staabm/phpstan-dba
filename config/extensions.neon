@@ -20,3 +20,8 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoQuoteDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
