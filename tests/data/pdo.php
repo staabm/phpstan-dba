@@ -128,4 +128,48 @@ class Foo
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_OBJ);
         assertType('PDOStatement<array>|false', $stmt);
     }
+
+    /**
+     * @param numeric          $n
+     * @param non-empty-string $nonE
+     * @param numeric-string   $numericString
+     */
+    public function quote(PDO $pdo, int $i, float $f, $n, string $s, $nonE, string $numericString)
+    {
+        assertType('numeric-string', $pdo->quote((string) $i));
+        assertType('numeric-string', $pdo->quote((string) $f));
+        assertType('numeric-string', $pdo->quote((string) $n));
+        assertType('numeric-string', $pdo->quote($numericString));
+        assertType('non-empty-string', $pdo->quote($nonE));
+        assertType('string', $pdo->quote($s));
+
+        assertType('numeric-string', $pdo->quote((string) $i, PDO::PARAM_STR));
+        assertType('numeric-string', $pdo->quote((string) $f, PDO::PARAM_STR));
+        assertType('numeric-string', $pdo->quote((string) $n, PDO::PARAM_STR));
+        assertType('numeric-string', $pdo->quote($numericString, PDO::PARAM_STR));
+        assertType('non-empty-string', $pdo->quote($nonE, PDO::PARAM_STR));
+        assertType('string', $pdo->quote($s, PDO::PARAM_STR));
+
+        assertType('numeric-string', $pdo->quote((string) $i, PDO::PARAM_INT));
+        assertType('numeric-string', $pdo->quote((string) $f, PDO::PARAM_INT));
+        assertType('numeric-string', $pdo->quote((string) $n, PDO::PARAM_INT));
+        assertType('numeric-string', $pdo->quote($numericString, PDO::PARAM_INT));
+        assertType('non-empty-string', $pdo->quote($nonE, PDO::PARAM_INT));
+        assertType('string', $pdo->quote($s, PDO::PARAM_INT));
+
+        assertType('numeric-string', $pdo->quote((string) $i, PDO::PARAM_BOOL));
+        assertType('numeric-string', $pdo->quote((string) $f, PDO::PARAM_BOOL));
+        assertType('numeric-string', $pdo->quote((string) $n, PDO::PARAM_BOOL));
+        assertType('numeric-string', $pdo->quote($numericString, PDO::PARAM_BOOL));
+        assertType('non-empty-string', $pdo->quote($nonE, PDO::PARAM_BOOL));
+        assertType('string', $pdo->quote($s, PDO::PARAM_BOOL));
+
+        // not 100% sure, whether LOB is really not supporte across the board
+        assertType('numeric-string|false', $pdo->quote((string) $i, PDO::PARAM_LOB));
+        assertType('numeric-string|false', $pdo->quote((string) $f, PDO::PARAM_LOB));
+        assertType('numeric-string|false', $pdo->quote((string) $n, PDO::PARAM_LOB));
+        assertType('numeric-string|false', $pdo->quote($numericString, PDO::PARAM_LOB));
+        assertType('non-empty-string|false', $pdo->quote($nonE, PDO::PARAM_LOB));
+        assertType('string|false', $pdo->quote($s, PDO::PARAM_LOB));
+    }
 }
