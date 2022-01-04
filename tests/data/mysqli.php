@@ -56,16 +56,16 @@ class Foo
      */
     public function escape(mysqli $mysqli, int $i, float $f, $n, string $s, $nonE, string $numericString)
     {
-        assertType('numeric-string', mysqli_real_escape_string($mysqli, $i));
-        assertType('numeric-string', mysqli_real_escape_string($mysqli, $f));
-        assertType('numeric-string', mysqli_real_escape_string($mysqli, $n));
+        assertType('numeric-string', mysqli_real_escape_string($mysqli, (string) $i));
+        assertType('numeric-string', mysqli_real_escape_string($mysqli, (string) $f));
+        assertType('numeric-string', mysqli_real_escape_string($mysqli, (string) $n));
         assertType('numeric-string', mysqli_real_escape_string($mysqli, $numericString));
         assertType('non-empty-string', mysqli_real_escape_string($mysqli, $nonE));
         assertType('string', mysqli_real_escape_string($mysqli, $s));
 
-        assertType('numeric-string', $mysqli->real_escape_string($i));
-        assertType('numeric-string', $mysqli->real_escape_string($f));
-        assertType('numeric-string', $mysqli->real_escape_string($n));
+        assertType('numeric-string', $mysqli->real_escape_string((string) $i));
+        assertType('numeric-string', $mysqli->real_escape_string((string) $f));
+        assertType('numeric-string', $mysqli->real_escape_string((string) $n));
         assertType('numeric-string', $mysqli->real_escape_string($numericString));
         assertType('non-empty-string', $mysqli->real_escape_string($nonE));
         assertType('string', $mysqli->real_escape_string($s));
