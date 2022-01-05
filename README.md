@@ -116,7 +116,11 @@ __the callable format is `funtionName#parameterIndex`, while the parameter-index
 composer require --dev staabm/phpstan-dba
 ```
 
-## Todos / Caveats
+## Caveats
+
+- running `RecordingQueryReflector` requires in PHPStan-non-debug mode (currently we see concurrency issues while building the cache).
+
+## Todos
 
 - support placeholders in queries
 - support named placeholders in queries
@@ -124,4 +128,3 @@ composer require --dev staabm/phpstan-dba
 - support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
 - cover more real world examples and fine tune the [QueryReflection classes](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection)
 - support a PDO based QueryReflector
-- support running `RecordingQueryReflector` in PHPStan-non-debug mode (currently we see concurrency issues while building the cache)
