@@ -9,6 +9,7 @@ services:
 		arguments:
 			classMethods:
 				- 'PDO::query#0'
+				- 'PDO::prepare#0'
 				- 'mysqli::query#0'
 
 	-

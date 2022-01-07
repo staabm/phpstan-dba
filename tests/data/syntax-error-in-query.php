@@ -6,7 +6,7 @@ use PDO;
 
 class Foo
 {
-    public function syntaxErrorPdo(PDO $pdo)
+    public function syntaxErrorPdoQuery(PDO $pdo)
     {
         $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
@@ -69,4 +69,9 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?', PDO::FETCH_ASSOC);
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
     }
+
+	public function syntaxErrorPdoPrepare(PDO $pdo)
+	{
+		$pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+	}
 }
