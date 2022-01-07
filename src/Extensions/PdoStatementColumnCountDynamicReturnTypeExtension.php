@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
-use PHPStan\Type\UnionType;
 
 final class PdoStatementColumnCountDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -48,11 +41,11 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
                 return $defaultReturn;
             }
 
-			$resultType = $genericTypes[0];
+            $resultType = $genericTypes[0];
 
-			if ($resultType instanceof ConstantArrayType) {
-				return new ConstantIntegerType(count($resultType->getKeyTypes()));
-			}
+            if ($resultType instanceof ConstantArrayType) {
+                return new ConstantIntegerType(\count($resultType->getKeyTypes()));
+            }
         }
 
         return $defaultReturn;
