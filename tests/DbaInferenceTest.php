@@ -28,6 +28,8 @@ class DbaInferenceTest extends TypeInferenceTestCase
         require_once __DIR__.'/data/pdo-fetch-types.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-fetch-types.php');
 
+        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-column-count.php');
+
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli.php');
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli-escape.php');
 
