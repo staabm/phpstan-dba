@@ -1,5 +1,7 @@
-
 vendor/
 
 composer.lock
 .php-cs-fixer.cache
+
+mysqli.php
+pdo.php
