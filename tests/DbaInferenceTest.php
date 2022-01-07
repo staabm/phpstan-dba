@@ -12,6 +12,10 @@ class DbaInferenceTest extends TypeInferenceTestCase
         require_once __DIR__.'/data/pdo.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo.php');
 
+        // make sure class constants can be resolved
+        require_once __DIR__.'/data/pdo-prepare.php';
+        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-prepare.php');
+
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli.php');
 
         // make sure class definitions within the test files are known to reflection

@@ -5,6 +5,11 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
+        class: staabm\PHPStanDba\Extensions\PdoPrepareDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\DeployerRunMysqlQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
