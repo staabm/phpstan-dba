@@ -13,18 +13,12 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\VerbosityLevel;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -41,47 +35,48 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-		$defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-		$statementType = $scope->getType($methodCall->var);
+        $statementType = $scope->getType($methodCall->var);
 
-		if ($statementType instanceof GenericObjectType) {
-			$genericTypes = $statementType->getTypes();
+        if ($statementType instanceof GenericObjectType) {
+            $genericTypes = $statementType->getTypes();
 
-			if (count($genericTypes) !== 1) {
-				return $defaultReturn;
-			}
+            if (1 !== \count($genericTypes)) {
+                return $defaultReturn;
+            }
 
-			$fetchType = PDO::FETCH_BOTH;
-			if (count($args) > 0) {
-				$fetchModeType = $scope->getType($args[0]->value);
-				if (!$fetchModeType instanceof ConstantIntegerType) {
-					return $defaultReturn;
-				}
-				$fetchType = $fetchModeType->getValue();
-			}
+            $fetchType = PDO::FETCH_BOTH;
+            if (\count($args) > 0) {
+                $fetchModeType = $scope->getType($args[0]->value);
+                if (!$fetchModeType instanceof ConstantIntegerType) {
+                    return $defaultReturn;
+                }
+                $fetchType = $fetchModeType->getValue();
+            }
 
-			$resultType = $genericTypes[0];
+            $resultType = $genericTypes[0];
 
-			if (($fetchType === PDO::FETCH_NUM || $fetchType === PDO::FETCH_ASSOC) && $resultType instanceof ConstantArrayType) {
-				$builder = ConstantArrayTypeBuilder::createEmpty();
+            if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
+                $builder = ConstantArrayTypeBuilder::createEmpty();
 
-				$keyTypes = $resultType->getKeyTypes();
-				$valueTypes = $resultType->getValueTypes();
+                $keyTypes = $resultType->getKeyTypes();
+                $valueTypes = $resultType->getValueTypes();
 
-				foreach($keyTypes as $i => $keyType) {
-					if ($fetchType === PDO::FETCH_NUM && $keyType instanceof ConstantIntegerType) {
-						$builder->setOffsetValueType($keyType, $valueTypes[$i]);
-					} elseif ($fetchType === PDO::FETCH_ASSOC && $keyType instanceof ConstantStringType) {
-						$builder->setOffsetValueType($keyType, $valueTypes[$i]);
-					}
-				}
+                foreach ($keyTypes as $i => $keyType) {
+                    if (PDO::FETCH_NUM === $fetchType && $keyType instanceof ConstantIntegerType) {
+                        $builder->setOffsetValueType($keyType, $valueTypes[$i]);
+                    } elseif (PDO::FETCH_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                        $builder->setOffsetValueType($keyType, $valueTypes[$i]);
+                    }
+                }
 
-				return new ArrayType(new IntegerType(), $builder->getArray());
-			}
+                return new ArrayType(new IntegerType(), $builder->getArray());
+            }
 
-			return new ArrayType(new IntegerType(), $resultType);
-		}
-		return $defaultReturn;
+            return new ArrayType(new IntegerType(), $resultType);
+        }
+
+        return $defaultReturn;
     }
 }
