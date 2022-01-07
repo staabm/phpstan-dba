@@ -42,7 +42,7 @@ class Foo
         assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_BOTH);
-		assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}|false', $all);
+        assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_NUM);
         assertType('array{string, int<0, 4294967295>}|false', $all);
