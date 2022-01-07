@@ -19,5 +19,8 @@ class Foo
 
 		$all = $stmt->fetchAll(PDO::FETCH_BOTH);
 		assertType('array<int, array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $all);
+
+		$all = $stmt->fetchAll(PDO::FETCH_NUM);
+		assertType('array<int, array{string, int<0, 4294967295>}>', $all);
     }
 }
