@@ -4,7 +4,7 @@ This extension provides following features:
 
 * the array shape of results can be inferred for `PDOStatement` and `mysqli_result`
   * .. when the query string can be resolved at analysis time. This is even possible for queries containing php-variables, as long as their typ is known in most cases.
-  * builtin we support `mysqli_query`, `mysqli->query`, `PDO->query` and `PDO->prepare`
+  * builtin we support `mysqli_query`, `mysqli->query`, `PDOStatement->fetchAll`, `PDO->query` and `PDO->prepare`
 * `PDO->prepare` knows the array shape of the returned results and therefore can return a generic `PDOStatement`
 * `mysqli->query` knows the array shape of the returned results and therefore can return a generic `mysqli_result`
 * `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors - `SyntaxErrorInQueryFunctionRule` can do the same for functions
