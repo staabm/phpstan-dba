@@ -70,8 +70,8 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
     }
 
-	public function syntaxErrorPdoPrepare(PDO $pdo)
-	{
-		$pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
-	}
+    public function syntaxErrorPdoPrepare(PDO $pdo)
+    {
+        $pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+    }
 }
