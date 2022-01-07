@@ -13,12 +13,15 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -29,7 +32,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return 'fetchAll' === $methodReflection->getName();
+        return in_array($methodReflection->getName(), ['fetchAll', 'fetch'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -75,10 +78,16 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
                     }
                 }
 
-                return new ArrayType(new IntegerType(), $builder->getArray());
+				if ($methodReflection->getName() === 'fetchAll') {
+					return new ArrayType(new IntegerType(), $builder->getArray());
+				}
+				return new UnionType([$builder->getArray(), new ConstantBooleanType(false)]);
             }
 
-            return new ArrayType(new IntegerType(), $resultType);
+			if ($methodReflection->getName() === 'fetchAll') {
+				return new ArrayType(new IntegerType(), $resultType);
+			}
+			return new UnionType([$resultType, new ConstantBooleanType(false)]);
         }
 
         return $defaultReturn;
