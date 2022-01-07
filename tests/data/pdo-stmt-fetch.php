@@ -25,5 +25,9 @@ class Foo
 
         $all = $stmt->fetchAll(PDO::FETCH_ASSOC);
         assertType('array<int, array{email: string, adaid: int<0, 4294967295>}>', $all);
+
+        // not yet supported fetch types
+        $all = $stmt->fetchAll(PDO::FETCH_OBJ);
+        assertType('array|false', $all); // XXX since php8 this cannot return false
     }
 }
