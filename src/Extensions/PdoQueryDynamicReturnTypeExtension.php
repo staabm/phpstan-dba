@@ -42,23 +42,26 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             new ConstantBooleanType(false)
         );
 
-        if (\count($args) < 2) {
+        if (\count($args) < 1) {
             return $defaultReturn;
         }
 
-        $fetchModeType = $scope->getType($args[1]->value);
-        if (!$fetchModeType instanceof ConstantIntegerType) {
-            return $defaultReturn;
-        }
+        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        if (\count($args) >= 2) {
+            $fetchModeType = $scope->getType($args[1]->value);
+            if (!$fetchModeType instanceof ConstantIntegerType) {
+                return $defaultReturn;
+            }
 
-        if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
-        } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
-        } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
-            $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-        } else {
-            return $defaultReturn;
+            if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
+            } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
+            } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+            } else {
+                return $defaultReturn;
+            }
         }
 
         $queryReflection = new QueryReflection();
