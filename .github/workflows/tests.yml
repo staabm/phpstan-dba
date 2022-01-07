@@ -61,6 +61,13 @@ jobs:
     name: PHPUnit (reflection replay)
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: "8.0"
+          - php-version: "8.1"
+
     steps:
     - uses: actions/checkout@v2
       with:
