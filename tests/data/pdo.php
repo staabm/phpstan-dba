@@ -98,6 +98,13 @@ class Foo
         assertType('PDOStatement<array>|false', $stmt);
     }
 
+    public function replaceQuery(PDO $pdo)
+    {
+        $query = "REPLACE INTO ada SET email='test@complex-it.de'";
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array>|false', $stmt);
+    }
+
     public function updateQuery(PDO $pdo)
     {
         $query = "UPDATE ada SET email='test@complex-it.de' where adaid=-5";
