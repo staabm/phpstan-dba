@@ -55,27 +55,8 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 			return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
 		}
 
-		$placeholders = array();
 		$parameterTypes = $scope->getType($args[0]->value);
-		if ($parameterTypes instanceof ConstantArrayType) {
-			$keyTypes = $parameterTypes->getKeyTypes();
-			$valueTypes = $parameterTypes->getValueTypes();
-
-			$placeholders = array();
-			foreach($keyTypes as $i => $keyType) {
-				if ($keyType instanceof ConstantStringType) {
-					$placeholderName = $keyType->getValue();
-
-					if (!str_starts_with($placeholderName, ':')) {
-						$placeholderName = ':' . $placeholderName;
-					}
-
-					if ($valueTypes[$i] instanceof ConstantScalarType) {
-						$placeholders[$placeholderName] = (string) ($valueTypes[$i]->getValue());
-					}
-				}
-			}
-		}
+		$placeholders = $this->resolveParameters($parameterTypes);
 
 		$queryString = 'SELECT email, adaid FROM ada WHERE adaid = :adaid';
 		foreach($placeholders as $placeholderName => $value) {
@@ -93,6 +74,34 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		}
 
 		return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy(), true);
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	public function resolveParameters(Type $parameterTypes): array
+	{
+		$placeholders = array();
+
+		if ($parameterTypes instanceof ConstantArrayType) {
+			$keyTypes = $parameterTypes->getKeyTypes();
+			$valueTypes = $parameterTypes->getValueTypes();
+
+			foreach ($keyTypes as $i => $keyType) {
+				if ($keyType instanceof ConstantStringType) {
+					$placeholderName = $keyType->getValue();
+
+					if (!str_starts_with($placeholderName, ':')) {
+						$placeholderName = ':' . $placeholderName;
+					}
+
+					if ($valueTypes[$i] instanceof ConstantScalarType) {
+						$placeholders[$placeholderName] = (string)($valueTypes[$i]->getValue());
+					}
+				}
+			}
+		}
+		return $placeholders;
 	}
 
 }
