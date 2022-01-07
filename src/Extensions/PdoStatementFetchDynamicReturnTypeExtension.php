@@ -15,6 +15,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
@@ -62,14 +63,16 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
 			$resultType = $genericTypes[0];
 
-			if ($fetchType === PDO::FETCH_NUM && $resultType instanceof ConstantArrayType) {
+			if (($fetchType === PDO::FETCH_NUM || $fetchType === PDO::FETCH_ASSOC) && $resultType instanceof ConstantArrayType) {
 				$builder = ConstantArrayTypeBuilder::createEmpty();
 
 				$keyTypes = $resultType->getKeyTypes();
 				$valueTypes = $resultType->getValueTypes();
 
 				foreach($keyTypes as $i => $keyType) {
-					if ($keyType instanceof ConstantIntegerType) {
+					if ($fetchType === PDO::FETCH_NUM && $keyType instanceof ConstantIntegerType) {
+						$builder->setOffsetValueType($keyType, $valueTypes[$i]);
+					} elseif ($fetchType === PDO::FETCH_ASSOC && $keyType instanceof ConstantStringType) {
 						$builder->setOffsetValueType($keyType, $valueTypes[$i]);
 					}
 				}
