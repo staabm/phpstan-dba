@@ -50,9 +50,9 @@ class Foo
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($s));
-        assertType('bool|mysqli_result', $result);
+        assertType('mysqli_result|true', $result);
 
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($nonE));
-        assertType('bool|mysqli_result', $result);
+        assertType('mysqli_result|true', $result);
     }
 }

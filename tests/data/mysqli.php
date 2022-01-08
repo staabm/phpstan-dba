@@ -25,7 +25,7 @@ class Foo
     public function ooQuery(mysqli $mysqli, string $query)
     {
         $result = $mysqli->query($query);
-        assertType('bool|mysqli_result', $result);
+        assertType('mysqli_result|true', $result);
     }
 
     public function fnQuerySelected(mysqli $mysqli)
@@ -46,6 +46,6 @@ class Foo
     public function fnQuery(mysqli $mysqli, string $query)
     {
         $result = mysqli_query($mysqli, $query);
-        assertType('bool|mysqli_result', $result);
+        assertType('mysqli_result|true', $result);
     }
 }
