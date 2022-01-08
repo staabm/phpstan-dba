@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\TypeSpecifier;
@@ -128,7 +129,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 				return $node->name;
 			}
 			if ($node->name instanceof Node\Identifier) {
-				return $this->node->name->toString();
+				return $node->name->toString();
 			}
 		};
 
@@ -149,6 +150,9 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		return null;
 	}
 
+	/**
+	 * @param callable(Node $node):?Node $filter
+	 */
 	public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
 	{
 		// move to previous expression
