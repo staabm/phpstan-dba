@@ -54,20 +54,31 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 	{
 		// keep original param name because named-parameters
 		$methodCall = $node;
-
 		$stmtType = $scope->getType($methodCall->var);
+
+		$inferedType = $this->inferStatementType($methodCall, $scope);
+		if ($inferedType !== null) {
+			return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
+		}
+
+		return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+	}
+
+	private function inferStatementType(MethodCall $methodCall, Scope $scope): ?Type
+	{
 		$args = $methodCall->getArgs();
 
 		if (count($args) === 0) {
-			return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+			return null;
 		}
 
 		$parameterTypes = $scope->getType($args[0]->value);
 		$placeholders = $this->resolveParameters($parameterTypes);
 		$queryExpr = $this->findQueryStringExpression($methodCall);
 		if ($queryExpr === null) {
-			return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+			return null;
 		}
+
 		// resolve query parameter from "prepare"
 		if ($queryExpr instanceof MethodCall) {
 			$args = $queryExpr->getArgs();
@@ -77,7 +88,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		$queryReflection = new QueryReflection();
 		$queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
 		if ($queryString === null) {
-			return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+			return null;
 		}
 
 		foreach($placeholders as $placeholderName => $value) {
@@ -90,7 +101,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 			$stmtType = new GenericObjectType(PDOStatement::class, [$resultType]);
 		}
 
-		return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy(), true);
+		return $stmtType;
 	}
 
 	/**
