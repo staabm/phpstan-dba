@@ -54,10 +54,10 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
-		// since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-		if ($this->phpVersion->getVersionId() >= 80100) {
-			$defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-		}
+        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80100) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (\count($args) < 2) {
             return $defaultReturn;
@@ -73,10 +73,10 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-		// since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-		if ($this->phpVersion->getVersionId() >= 80100) {
-			$defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-		}
+        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80100) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (0 === \count($args)) {
             return $defaultReturn;

@@ -20,6 +20,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
@@ -52,7 +53,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        if ($this->phpVersion->getVersionId() >= 80000 && !$defaultReturn instanceof MixedType) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -98,11 +99,21 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
                     return new ArrayType(new IntegerType(), $builder->getArray());
                 }
 
+                // since php8 the default error mode changed to exception, therefore false returns are not longer possible
+                if ($this->phpVersion->getVersionId() >= 80000) {
+                    return $builder->getArray();
+                }
+
                 return new UnionType([$builder->getArray(), new ConstantBooleanType(false)]);
             }
 
             if ('fetchAll' === $methodReflection->getName()) {
                 return new ArrayType(new IntegerType(), $resultType);
+            }
+
+            // since php8 the default error mode changed to exception, therefore false returns are not longer possible
+            if ($this->phpVersion->getVersionId() >= 80000) {
+                return $resultType;
             }
 
             return new UnionType([$resultType, new ConstantBooleanType(false)]);
