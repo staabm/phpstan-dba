@@ -71,6 +71,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
+            // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+            if ($this->phpVersion->getVersionId() >= 80100) {
+                return new GenericObjectType(mysqli_result::class, [$resultType]);
+            }
+
             return TypeCombinator::union(
                 new GenericObjectType(mysqli_result::class, [$resultType]),
                 new ConstantBooleanType(false),
@@ -102,6 +107,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
+            // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+            if ($this->phpVersion->getVersionId() >= 80100) {
+                return new GenericObjectType(mysqli_result::class, [$resultType]);
+            }
+
             return TypeCombinator::union(
                 new GenericObjectType(mysqli_result::class, [$resultType]),
                 new ConstantBooleanType(false),

@@ -74,6 +74,11 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $stringType;
         }
 
+        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80000) {
+            return $stringType;
+        }
+
         return TypeCombinator::union($stringType, new ConstantBooleanType(false));
     }
 
