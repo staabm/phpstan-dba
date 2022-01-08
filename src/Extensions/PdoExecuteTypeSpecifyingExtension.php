@@ -151,7 +151,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 	}
 
 	/**
-	 * @param callable(Node $node):?Node $filter
+	 * @param callable(Node $node):bool $filter
 	 */
 	public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
 	{
