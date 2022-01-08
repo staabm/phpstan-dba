@@ -134,3 +134,5 @@ composer require --dev staabm/phpstan-dba
 - support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
 - cover more real world examples and fine tune the [QueryReflection classes](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection)
 - support a PDO based QueryReflector
+- security rule: detect possible sql injections
+- performance rule: detect queries not using indexes
