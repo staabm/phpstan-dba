@@ -21,186 +21,187 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
-use PHPStan\Type\Type;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
-use PHPStan\Type\VerbosityLevel;
+use PHPStan\Type\Type;
+use Rector\NodeTypeResolver\Node\AttributeKey;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 
 final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-	private TypeSpecifier $typeSpecifier;
-	private NodeFinder $nodeFinder;
+    private TypeSpecifier $typeSpecifier;
+    private NodeFinder $nodeFinder;
 
-	public function __construct() {
-		$this->nodeFinder = new NodeFinder();
-	}
+    public function __construct()
+    {
+        $this->nodeFinder = new NodeFinder();
+    }
 
     public function getClass(): string
     {
         return PDOStatement::class;
     }
 
-	public function isMethodSupported(MethodReflection $methodReflection, MethodCall $node, TypeSpecifierContext $context): bool
-	{
-		return 'execute' === $methodReflection->getName();
-	}
+    public function isMethodSupported(MethodReflection $methodReflection, MethodCall $node, TypeSpecifierContext $context): bool
+    {
+        return 'execute' === $methodReflection->getName();
+    }
 
-	public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
-	{
-		$this->typeSpecifier = $typeSpecifier;
-	}
+    public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
+    {
+        $this->typeSpecifier = $typeSpecifier;
+    }
 
-	public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
-	{
-		// keep original param name because named-parameters
-		$methodCall = $node;
-		$stmtType = $scope->getType($methodCall->var);
+    public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
+    {
+        // keep original param name because named-parameters
+        $methodCall = $node;
+        $stmtType = $scope->getType($methodCall->var);
 
-		$inferedType = $this->inferStatementType($methodCall, $scope);
-		if ($inferedType !== null) {
-			return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
-		}
+        $inferedType = $this->inferStatementType($methodCall, $scope);
+        if (null !== $inferedType) {
+            return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
+        }
 
-		return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
-	}
+        return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+    }
 
-	private function inferStatementType(MethodCall $methodCall, Scope $scope): ?Type
-	{
-		$args = $methodCall->getArgs();
+    private function inferStatementType(MethodCall $methodCall, Scope $scope): ?Type
+    {
+        $args = $methodCall->getArgs();
 
-		if (count($args) === 0) {
-			return null;
-		}
+        if (0 === \count($args)) {
+            return null;
+        }
 
-		$parameterTypes = $scope->getType($args[0]->value);
-		$placeholders = $this->resolveParameters($parameterTypes);
-		$queryExpr = $this->findQueryStringExpression($methodCall);
-		if ($queryExpr === null) {
-			return null;
-		}
+        $parameterTypes = $scope->getType($args[0]->value);
+        $placeholders = $this->resolveParameters($parameterTypes);
+        $queryExpr = $this->findQueryStringExpression($methodCall);
+        if (null === $queryExpr) {
+            return null;
+        }
 
-		// resolve query parameter from "prepare"
-		if ($queryExpr instanceof MethodCall) {
-			$args = $queryExpr->getArgs();
-			$queryExpr = $args[0]->value;
-		}
+        // resolve query parameter from "prepare"
+        if ($queryExpr instanceof MethodCall) {
+            $args = $queryExpr->getArgs();
+            $queryExpr = $args[0]->value;
+        }
 
-		$queryReflection = new QueryReflection();
-		$queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-		if ($queryString === null) {
-			return null;
-		}
+        $queryReflection = new QueryReflection();
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+        if (null === $queryString) {
+            return null;
+        }
 
-		foreach($placeholders as $placeholderName => $value) {
-			$queryString = str_replace($placeholderName, $value, $queryString);
-		}
-		$reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-		$resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
+        foreach ($placeholders as $placeholderName => $value) {
+            $queryString = str_replace($placeholderName, $value, $queryString);
+        }
+        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
 
-		if ($resultType) {
-			return new GenericObjectType(PDOStatement::class, [$resultType]);
-		}
+        if ($resultType) {
+            return new GenericObjectType(PDOStatement::class, [$resultType]);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * @return array<string, string>
-	 */
-	public function resolveParameters(Type $parameterTypes): array
-	{
-		$placeholders = array();
+    /**
+     * @return array<string, string>
+     */
+    public function resolveParameters(Type $parameterTypes): array
+    {
+        $placeholders = [];
 
-		if ($parameterTypes instanceof ConstantArrayType) {
-			$keyTypes = $parameterTypes->getKeyTypes();
-			$valueTypes = $parameterTypes->getValueTypes();
+        if ($parameterTypes instanceof ConstantArrayType) {
+            $keyTypes = $parameterTypes->getKeyTypes();
+            $valueTypes = $parameterTypes->getValueTypes();
 
-			foreach ($keyTypes as $i => $keyType) {
-				if ($keyType instanceof ConstantStringType) {
-					$placeholderName = $keyType->getValue();
+            foreach ($keyTypes as $i => $keyType) {
+                if ($keyType instanceof ConstantStringType) {
+                    $placeholderName = $keyType->getValue();
 
-					if (!str_starts_with($placeholderName, ':')) {
-						$placeholderName = ':' . $placeholderName;
-					}
+                    if (!str_starts_with($placeholderName, ':')) {
+                        $placeholderName = ':'.$placeholderName;
+                    }
 
-					if ($valueTypes[$i] instanceof ConstantScalarType) {
-						$placeholders[$placeholderName] = (string)($valueTypes[$i]->getValue());
-					}
-				}
-			}
-		}
-		return $placeholders;
-	}
+                    if ($valueTypes[$i] instanceof ConstantScalarType) {
+                        $placeholders[$placeholderName] = (string) ($valueTypes[$i]->getValue());
+                    }
+                }
+            }
+        }
 
-	private function findQueryStringExpression(MethodCall $methodCall): ?Expr
-	{
-		// todo: use astral simpleNameResolver
-		$nameResolver = function($node) {
-			if (is_string($node->name)) {
-				return $node->name;
-			}
-			if ($node->name instanceof Node\Identifier) {
-				return $node->name->toString();
-			}
-		};
+        return $placeholders;
+    }
 
-		$current = $methodCall;
-		while ($current !== null) {
-			/** @var Assign|null $assign */
-			$assign = $this->findFirstPreviousOfNode($current, function($node) {
-				return $node instanceof Assign;
-			});
+    private function findQueryStringExpression(MethodCall $methodCall): ?Expr
+    {
+        // todo: use astral simpleNameResolver
+        $nameResolver = function ($node) {
+            if (\is_string($node->name)) {
+                return $node->name;
+            }
+            if ($node->name instanceof Node\Identifier) {
+                return $node->name->toString();
+            }
+        };
 
-			if ($assign !== null && $nameResolver($assign->var) === $nameResolver($methodCall->var)) {
-				return $assign->expr;
-			}
+        $current = $methodCall;
+        while (null !== $current) {
+            /** @var Assign|null $assign */
+            $assign = $this->findFirstPreviousOfNode($current, function ($node) {
+                return $node instanceof Assign;
+            });
 
-			$current = $assign;
-		}
+            if (null !== $assign && $nameResolver($assign->var) === $nameResolver($methodCall->var)) {
+                return $assign->expr;
+            }
 
-		return null;
-	}
+            $current = $assign;
+        }
 
-	/**
-	 * @param callable(Node $node):bool $filter
-	 */
-	public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
-	{
-		// move to previous expression
-		$previousStatement = $node->getAttribute(AttributeKey::PREVIOUS_NODE);
-		if ($previousStatement !== null) {
-			if (!$previousStatement instanceof Node) {
-				throw new ShouldNotHappenException();
-			}
-			$foundNode = $this->findFirst([$previousStatement], $filter);
-			// we found what we need
-			if ($foundNode !== null) {
-				return $foundNode;
-			}
+        return null;
+    }
 
-			return $this->findFirstPreviousOfNode($previousStatement, $filter);
-		}
+    /**
+     * @param callable(Node $node):bool $filter
+     */
+    public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
+    {
+        // move to previous expression
+        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS_NODE);
+        if (null !== $previousStatement) {
+            if (!$previousStatement instanceof Node) {
+                throw new ShouldNotHappenException();
+            }
+            $foundNode = $this->findFirst([$previousStatement], $filter);
+            // we found what we need
+            if (null !== $foundNode) {
+                return $foundNode;
+            }
 
-		$parent = $node->getAttribute(AttributeKey::PARENT_NODE);
-		if ($parent instanceof FunctionLike) {
-			return null;
-		}
+            return $this->findFirstPreviousOfNode($previousStatement, $filter);
+        }
 
-		if ($parent instanceof Node) {
-			return $this->findFirstPreviousOfNode($parent, $filter);
-		}
+        $parent = $node->getAttribute(AttributeKey::PARENT_NODE);
+        if ($parent instanceof FunctionLike) {
+            return null;
+        }
 
-		return null;
-	}
+        if ($parent instanceof Node) {
+            return $this->findFirstPreviousOfNode($parent, $filter);
+        }
 
-	/**
-	 * @param Node|Node[] $nodes
-	 */
-	public function findFirst(Node | array $nodes, callable $filter): ?Node
-	{
-		return $this->nodeFinder->findFirst($nodes, $filter);
-	}
+        return null;
+    }
+
+    /**
+     * @param Node|Node[] $nodes
+     */
+    public function findFirst(Node|array $nodes, callable $filter): ?Node
+    {
+        return $this->nodeFinder->findFirst($nodes, $filter);
+    }
 }
