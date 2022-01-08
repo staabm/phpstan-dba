@@ -16,12 +16,23 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Php\PhpVersion;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    public function getClass(): string
+	/**
+	 * @var PhpVersion
+	 */
+	private $phpVersion;
+
+	public function __construct(PhpVersion $phpVersion)
+	{
+		$this->phpVersion = $phpVersion;
+	}
+
+	public function getClass(): string
     {
         return PDO::class;
     }
@@ -40,6 +51,11 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             new GenericObjectType(PDOStatement::class, [new ArrayType($mixed, $mixed)]),
             new ConstantBooleanType(false)
         );
+
+		// since php8 the default error mode changed to exception, therefore false returns are not longer possible
+		if ($this->phpVersion->getVersionId() >= 80000 ) {
+			TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+		}
 
         if (\count($args) < 1) {
             return $defaultReturn;
