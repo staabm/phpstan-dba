@@ -126,6 +126,7 @@ composer require --dev staabm/phpstan-dba
 
 - running `RecordingQueryReflector` requires in PHPStan-non-debug mode (currently we see concurrency issues while building the cache).
 - when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
+- when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 
 ## Todos
 

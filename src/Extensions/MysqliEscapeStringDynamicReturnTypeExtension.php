@@ -14,6 +14,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntersectionType;
@@ -53,10 +54,10 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
-            TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-        }
+		// since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+		if ($this->phpVersion->getVersionId() >= 80100) {
+			TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+		}
 
         if (\count($args) < 2) {
             return $defaultReturn;
@@ -72,10 +73,10 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
-            TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-        }
+		// since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+		if ($this->phpVersion->getVersionId() >= 80100) {
+			TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+		}
 
         if (0 === \count($args)) {
             return $defaultReturn;

@@ -54,8 +54,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80100) {
             TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
