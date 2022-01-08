@@ -199,6 +199,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 
     /**
      * @param Node|Node[] $nodes
+	 * * @param callable(Node $node):bool $filter
      */
     public function findFirst(Node|array $nodes, callable $filter): ?Node
     {
