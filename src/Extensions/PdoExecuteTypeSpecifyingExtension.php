@@ -17,6 +17,7 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
@@ -171,6 +172,9 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		// move to previous expression
 		$previousStatement = $node->getAttribute(AttributeKey::PREVIOUS_NODE);
 		if ($previousStatement !== null) {
+			if (!$previousStatement instanceof Node) {
+				throw new ShouldNotHappenException();
+			}
 			$foundNode = $this->findFirst([$previousStatement], $filter);
 			// we found what we need
 			if ($foundNode !== null) {
