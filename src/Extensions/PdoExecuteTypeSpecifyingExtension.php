@@ -134,7 +134,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		};
 
 		$current = $methodCall;
-		do {
+		while ($current !== null) {
 			/** @var Assign|null $assign */
 			$assign = $this->findFirstPreviousOfNode($current, function($node) {
 				return $node instanceof Assign;
@@ -145,7 +145,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 			}
 
 			$current = $assign;
-		} while ($assign !== null);
+		}
 
 		return null;
 	}
