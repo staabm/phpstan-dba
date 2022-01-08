@@ -37,10 +37,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
         $mixed = new MixedType(true);
 
-        $defaultReturn = TypeCombinator::union(
-            new GenericObjectType(PDOStatement::class, [new ArrayType($mixed, $mixed)]),
-            new ConstantBooleanType(false)
-        );
+		$defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         if (\count($args) < 1) {
             return $defaultReturn;
