@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
@@ -22,6 +23,7 @@ use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Type;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
@@ -50,7 +52,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		$this->typeSpecifier = $typeSpecifier;
 	}
 
-	public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): \PHPStan\Analyser\SpecifiedTypes
+	public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
 	{
 		// keep original param name because named-parameters
 		$methodCall = $node;
@@ -98,10 +100,10 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 		$resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
 
 		if ($resultType) {
-			$stmtType = new GenericObjectType(PDOStatement::class, [$resultType]);
+			return new GenericObjectType(PDOStatement::class, [$resultType]);
 		}
 
-		return $stmtType;
+		return null;
 	}
 
 	/**
