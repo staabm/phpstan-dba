@@ -8,6 +8,7 @@ use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
@@ -24,6 +25,16 @@ use PHPStan\Type\UnionType;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDOStatement::class;
@@ -38,6 +49,11 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     {
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80000) {
+            TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         $statementType = $scope->getType($methodCall->var);
 

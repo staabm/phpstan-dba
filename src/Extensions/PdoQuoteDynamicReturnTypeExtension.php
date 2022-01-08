@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Extensions;
 use PDO;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
@@ -21,6 +22,16 @@ use PHPStan\Type\TypeCombinator;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDO::class;
@@ -35,6 +46,11 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     {
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
+        if ($this->phpVersion->getVersionId() >= 80000) {
+            TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (\count($args) < 1) {
             return $defaultReturn;

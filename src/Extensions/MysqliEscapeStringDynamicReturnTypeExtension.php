@@ -21,6 +21,16 @@ use PHPStan\Type\Type;
 
 final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
+	/**
+	 * @var PhpVersion
+	 */
+	private $phpVersion;
+
+	public function __construct(PhpVersion $phpVersion)
+	{
+		$this->phpVersion = $phpVersion;
+	}
+
     public function getClass(): string
     {
         return mysqli::class;
@@ -39,8 +49,15 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
         $args = $functionCall->getArgs();
-        if (\count($args) < 2) {
-            return ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+		$defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+
+		// since php8 the default error mode changed to exception, therefore false returns are not longer possible
+		if ($this->phpVersion->getVersionId() >= 80000) {
+			TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+		}
+
+		if (\count($args) < 2) {
+            return $defaultReturn;
         }
 
         $argType = $scope->getType($args[1]->value);
@@ -51,8 +68,15 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
+		$defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+		// since php8 the default error mode changed to exception, therefore false returns are not longer possible
+		if ($this->phpVersion->getVersionId() >= 80000) {
+			TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+		}
+
         if (0 === \count($args)) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return $defaultReturn;
         }
 
         $argType = $scope->getType($args[0]->value);

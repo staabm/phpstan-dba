@@ -23,6 +23,16 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
+	/**
+	 * @var PhpVersion
+	 */
+	private $phpVersion;
+
+	public function __construct(PhpVersion $phpVersion)
+	{
+		$this->phpVersion = $phpVersion;
+	}
+
     public function getClass(): string
     {
         return mysqli::class;
