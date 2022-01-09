@@ -135,7 +135,7 @@ final class QueryReflection
         return null;
     }
 
-    static private function reflector(): QueryReflector
+    private static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
             throw new DbaException('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
@@ -144,12 +144,12 @@ final class QueryReflection
         return self::$reflector;
     }
 
-	static public function getRuntimeConfiguration() : RuntimeConfiguration
-	{
-		if (null === self::$runtimeConfiguration) {
-			throw new DbaException('Runtime configuration not initialized, call '.__CLASS__.'::setupReflector() first');
-		}
+    public static function getRuntimeConfiguration(): RuntimeConfiguration
+    {
+        if (null === self::$runtimeConfiguration) {
+            throw new DbaException('Runtime configuration not initialized, call '.__CLASS__.'::setupReflector() first');
+        }
 
-		return self::$runtimeConfiguration;
-	}
+        return self::$runtimeConfiguration;
+    }
 }

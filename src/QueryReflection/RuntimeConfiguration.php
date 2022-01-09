@@ -16,7 +16,7 @@ final class RuntimeConfiguration
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
 
-    public static function create():self
+    public static function create(): self
     {
         return new self();
     }
@@ -24,11 +24,11 @@ final class RuntimeConfiguration
     /**
      * @param self::ERROR_MODE* $mode
      */
-    public function errorMode($mode):self
+    public function errorMode($mode): self
     {
         $this->errorMode = $mode;
 
-		return $this;
+        return $this;
     }
 
     public function throwsPdoExceptions(PhpVersion $phpVersion): bool
