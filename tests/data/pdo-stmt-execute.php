@@ -24,4 +24,22 @@ class Foo
         $stmt->execute([1]);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
+
+	public function errors(PDO $pdo)
+	{
+		$stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+		assertType('PDOStatement', $stmt);
+		$stmt->execute([':wrongParamName' => 1]);
+		assertType('PDOStatement', $stmt);
+
+		$stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+		assertType('PDOStatement', $stmt);
+		$stmt->execute(); // missing parameter
+		assertType('PDOStatement', $stmt);
+
+		$stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+		assertType('PDOStatement', $stmt);
+		$stmt->execute([]); // missing parameter
+		assertType('PDOStatement', $stmt);
+	}
 }
