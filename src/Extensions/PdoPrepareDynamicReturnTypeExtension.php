@@ -10,12 +10,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
