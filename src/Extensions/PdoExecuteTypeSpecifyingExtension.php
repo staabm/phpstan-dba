@@ -106,9 +106,9 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         return null;
     }
 
-	/**
-	 * @param array<string|int, string> $parameters
-	 */
+    /**
+     * @param array<string|int, string> $parameters
+     */
     private function replaceParameters(string $queryString, array $parameters): string
     {
         $replaceFirst = function (string $haystack, string $needle, string $replace) {
@@ -154,10 +154,10 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
                         $parameters[$placeholderName] = (string) ($valueTypes[$i]->getValue());
                     }
                 } elseif ($keyType instanceof ConstantIntegerType) {
-					if ($valueTypes[$i] instanceof ConstantScalarType) {
-						$parameters[$keyType->getValue()] = (string) ($valueTypes[$i]->getValue());
-					}
-				}
+                    if ($valueTypes[$i] instanceof ConstantScalarType) {
+                        $parameters[$keyType->getValue()] = (string) ($valueTypes[$i]->getValue());
+                    }
+                }
             }
         }
 
