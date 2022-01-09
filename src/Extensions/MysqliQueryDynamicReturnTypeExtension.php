@@ -54,8 +54,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
-        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80100) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -71,8 +70,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
-            // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-            if ($this->phpVersion->getVersionId() >= 80100) {
+            if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
                 return new GenericObjectType(mysqli_result::class, [$resultType]);
             }
 
@@ -90,8 +88,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -107,8 +104,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
         if ($resultType) {
-            // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-            if ($this->phpVersion->getVersionId() >= 80100) {
+            if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
                 return new GenericObjectType(mysqli_result::class, [$resultType]);
             }
 

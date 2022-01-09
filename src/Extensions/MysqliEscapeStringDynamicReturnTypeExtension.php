@@ -21,6 +21,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
@@ -54,8 +55,7 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
-        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80100) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -73,8 +73,7 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        // since php8.1 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80100) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 

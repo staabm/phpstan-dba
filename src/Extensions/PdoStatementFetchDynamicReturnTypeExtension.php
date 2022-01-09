@@ -24,6 +24,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -52,8 +53,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000 && !$defaultReturn instanceof MixedType) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion) && !$defaultReturn instanceof MixedType) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -99,8 +99,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
                     return new ArrayType(new IntegerType(), $builder->getArray());
                 }
 
-                // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-                if ($this->phpVersion->getVersionId() >= 80000) {
+                if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
                     return $builder->getArray();
                 }
 
@@ -111,8 +110,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
                 return new ArrayType(new IntegerType(), $resultType);
             }
 
-            // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-            if ($this->phpVersion->getVersionId() >= 80000) {
+            if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
                 return $resultType;
             }
 

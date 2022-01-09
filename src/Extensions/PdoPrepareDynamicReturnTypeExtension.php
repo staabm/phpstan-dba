@@ -52,8 +52,7 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             new ConstantBooleanType(false)
         );
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 

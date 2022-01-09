@@ -19,6 +19,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -47,8 +48,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
         }
 
@@ -74,8 +74,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $stringType;
         }
 
-        // since php8 the default error mode changed to exception, therefore false returns are not longer possible
-        if ($this->phpVersion->getVersionId() >= 80000) {
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             return $stringType;
         }
 
