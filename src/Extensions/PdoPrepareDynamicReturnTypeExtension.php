@@ -8,12 +8,12 @@ use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\ArrayType;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -21,6 +21,16 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDO::class;
@@ -34,12 +44,11 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $mixed = new MixedType(true);
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        $defaultReturn = TypeCombinator::union(
-            new GenericObjectType(PDOStatement::class, [new ArrayType($mixed, $mixed)]),
-            new ConstantBooleanType(false)
-        );
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (\count($args) < 1) {
             return $defaultReturn;

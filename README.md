@@ -1,5 +1,9 @@
 # database handling class reflection extension for PHPStan
 
+phpstan-dba makes your phpstan static code analysis jobs aware of datatypes within your database.
+With this information at hand phpstan-dba is able to detect type inconsistencies between your domain model and database-schema.
+Additionally errors in code handling the results of sql queries can be detected.
+
 This extension provides following features:
 
 * the array shape of results can be inferred for `PDOStatement` and `mysqli_result`
@@ -112,6 +116,15 @@ services:
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
+## Runtime configuration
+
+Within your phpstan-bootstrap file you can configure phpstan-dba so it knows about global runtime configuration state, which cannot be detect automatically.
+Use the [`RuntimeConfiguration`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) builder-object and pass it as a second argument to `QueryReflection::setupReflector()`.
+
+If not configured otherwise, the following defaults are used:
+- when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
+- when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
+
 ## Installation
 
 ```shell
@@ -130,3 +143,5 @@ composer require --dev staabm/phpstan-dba
 - support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
 - cover more real world examples and fine tune the [QueryReflection classes](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection)
 - support a PDO based QueryReflector
+- security rule: detect possible sql injections
+- performance rule: detect queries not using indexes
