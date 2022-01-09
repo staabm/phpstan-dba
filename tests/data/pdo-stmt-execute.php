@@ -23,6 +23,11 @@ class Foo
         assertType('PDOStatement', $stmt);
         $stmt->execute([1]);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? and email = ?');
+        assertType('PDOStatement', $stmt);
+        $stmt->execute([1, 'email@example.org']);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
 
     public function errors(PDO $pdo)
