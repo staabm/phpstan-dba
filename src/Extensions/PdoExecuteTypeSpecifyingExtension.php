@@ -157,11 +157,11 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
                     }
 
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$placeholderName] = (string) ($valueTypes[$i]->getValue());
+                        $parameters[$placeholderName] = $valueTypes[$i]->getValue();
                     }
                 } elseif ($keyType instanceof ConstantIntegerType) {
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$keyType->getValue()] = (string) ($valueTypes[$i]->getValue());
+                        $parameters[$keyType->getValue()] = $valueTypes[$i]->getValue();
                     }
                 }
             }
