@@ -27,10 +27,15 @@ final class QueryReflection
      * @var QueryReflector|null
      */
     private static $reflector;
+    /**
+     * @var RuntimeConfiguration|null
+     */
+    private static $runtimeConfiguration;
 
-    public static function setupReflector(QueryReflector $reflector): void
+    public static function setupReflector(QueryReflector $reflector, RuntimeConfiguration $runtimeConfiguration): void
     {
         self::$reflector = $reflector;
+        self::$runtimeConfiguration = $runtimeConfiguration;
     }
 
     public function validateQueryString(string $queryString): ?Error
@@ -130,12 +135,21 @@ final class QueryReflection
         return null;
     }
 
-    private function reflector(): QueryReflector
+    private static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
             throw new DbaException('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
         }
 
         return self::$reflector;
+    }
+
+    public static function getRuntimeConfiguration(): RuntimeConfiguration
+    {
+        if (null === self::$runtimeConfiguration) {
+            throw new DbaException('Runtime configuration not initialized, call '.__CLASS__.'::setupReflector() first');
+        }
+
+        return self::$runtimeConfiguration;
     }
 }

@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Extensions;
 use PDO;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
@@ -18,9 +19,20 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDO::class;
@@ -35,6 +47,10 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     {
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (\count($args) < 1) {
             return $defaultReturn;
@@ -55,6 +71,10 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
         // check for types which are supported by all drivers, therefore cannot return false.
         if (PDO::PARAM_STR === $type || PDO::PARAM_INT === $type || PDO::PARAM_BOOL === $type) {
+            return $stringType;
+        }
+
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             return $stringType;
         }
 

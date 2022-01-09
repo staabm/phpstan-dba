@@ -43,12 +43,12 @@ class Foo
         assertType('string', $pdo->quote($s, PDO::PARAM_BOOL));
 
         // not 100% sure, whether LOB is really not supported across the board
-        assertType('numeric-string|false', $pdo->quote((string) $i, PDO::PARAM_LOB));
-        assertType('numeric-string|false', $pdo->quote((string) $f, PDO::PARAM_LOB));
-        assertType('numeric-string|false', $pdo->quote((string) $n, PDO::PARAM_LOB));
-        assertType('numeric-string|false', $pdo->quote($numericString, PDO::PARAM_LOB));
-        assertType('non-empty-string|false', $pdo->quote($nonE, PDO::PARAM_LOB));
-        assertType('string|false', $pdo->quote($s, PDO::PARAM_LOB));
+        assertType('numeric-string', $pdo->quote((string) $i, PDO::PARAM_LOB));
+        assertType('numeric-string', $pdo->quote((string) $f, PDO::PARAM_LOB));
+        assertType('numeric-string', $pdo->quote((string) $n, PDO::PARAM_LOB));
+        assertType('numeric-string', $pdo->quote($numericString, PDO::PARAM_LOB));
+        assertType('non-empty-string', $pdo->quote($nonE, PDO::PARAM_LOB));
+        assertType('string', $pdo->quote($s, PDO::PARAM_LOB));
     }
 
     /**
@@ -72,9 +72,9 @@ class Foo
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($s), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement<array>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($nonE), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement<array>', $stmt);
     }
 }

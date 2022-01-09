@@ -1,5 +1,6 @@
 <?php
 
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
@@ -44,5 +45,6 @@ try {
 }
 
 QueryReflection::setupReflector(
-	$reflector
+	$reflector,
+	RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
 );

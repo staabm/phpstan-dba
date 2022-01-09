@@ -8,6 +8,7 @@ use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -19,6 +20,16 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDO::class;
@@ -33,6 +44,10 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     {
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         if (\count($args) < 1) {
             return $defaultReturn;

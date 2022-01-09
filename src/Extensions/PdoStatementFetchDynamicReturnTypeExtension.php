@@ -8,6 +8,7 @@ use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
@@ -19,11 +20,24 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
+
     public function getClass(): string
     {
         return PDOStatement::class;
@@ -38,6 +52,10 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     {
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion) && !$defaultReturn instanceof MixedType) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
         $statementType = $scope->getType($methodCall->var);
 
@@ -81,11 +99,19 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
                     return new ArrayType(new IntegerType(), $builder->getArray());
                 }
 
+                if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+                    return $builder->getArray();
+                }
+
                 return new UnionType([$builder->getArray(), new ConstantBooleanType(false)]);
             }
 
             if ('fetchAll' === $methodReflection->getName()) {
                 return new ArrayType(new IntegerType(), $resultType);
+            }
+
+            if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+                return $resultType;
             }
 
             return new UnionType([$resultType, new ConstantBooleanType(false)]);
