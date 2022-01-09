@@ -24,9 +24,9 @@ use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
@@ -171,7 +171,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
     {
         // move to previous expression
-        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS_NODE);
+        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
         if (null !== $previousStatement) {
             if (!$previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
@@ -185,7 +185,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT_NODE);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof FunctionLike) {
             return null;
         }
