@@ -19,6 +19,7 @@ use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Generic\GenericObjectType;
@@ -76,7 +77,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
-        $placeholders = $this->resolveParameters($parameterTypes);
+        $parameters = $this->resolveParameters($parameterTypes);
         $queryExpr = $this->findQueryStringExpression($methodCall);
         if (null === $queryExpr) {
             return null;
@@ -94,10 +95,8 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
             return null;
         }
 
-        foreach ($placeholders as $placeholderName => $value) {
-            $queryString = str_replace($placeholderName, $value, $queryString);
-        }
         $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $queryString = $this->replaceParameters($queryString, $parameters);
         $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
 
         if ($resultType) {
@@ -107,12 +106,37 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         return null;
     }
 
+	/**
+	 * @param array<string|int, string> $parameters
+	 */
+    private function replaceParameters(string $queryString, array $parameters): string
+    {
+        $replaceFirst = function (string $haystack, string $needle, string $replace) {
+            $pos = strpos($haystack, $needle);
+            if (false !== $pos) {
+                return substr_replace($haystack, $replace, $pos, \strlen($needle));
+            }
+
+            return $haystack;
+        };
+
+        foreach ($parameters as $placeholderKey => $value) {
+            if (\is_int($placeholderKey)) {
+                $queryString = $replaceFirst($queryString, '?', $value);
+            } else {
+                $queryString = str_replace($placeholderKey, $value, $queryString);
+            }
+        }
+
+        return $queryString;
+    }
+
     /**
-     * @return array<string, string>
+     * @return array<string|int, string>
      */
     public function resolveParameters(Type $parameterTypes): array
     {
-        $placeholders = [];
+        $parameters = [];
 
         if ($parameterTypes instanceof ConstantArrayType) {
             $keyTypes = $parameterTypes->getKeyTypes();
@@ -127,13 +151,17 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
                     }
 
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $placeholders[$placeholderName] = (string) ($valueTypes[$i]->getValue());
+                        $parameters[$placeholderName] = (string) ($valueTypes[$i]->getValue());
                     }
-                }
+                } elseif ($keyType instanceof ConstantIntegerType) {
+					if ($valueTypes[$i] instanceof ConstantScalarType) {
+						$parameters[$keyType->getValue()] = (string) ($valueTypes[$i]->getValue());
+					}
+				}
             }
         }
 
-        return $placeholders;
+        return $parameters;
     }
 
     private function findQueryStringExpression(MethodCall $methodCall): ?Expr
