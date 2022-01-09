@@ -45,11 +45,11 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-		$defaultReturn = ParametersAcceptorSelector::selectFromArgs(
-			$scope,
-			$methodCall->getArgs(),
-			$methodReflection->getVariants(),
-		)->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $methodCall->getArgs(),
+            $methodReflection->getVariants(),
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
