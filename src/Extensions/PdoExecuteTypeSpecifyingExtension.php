@@ -125,10 +125,10 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
                 // XXX escaping
                 $value = "'".$value."'";
             } elseif (null === $value) {
-				$value = 'NULL';
-			} else {
-				$value = (string) $value;
-			}
+                $value = 'NULL';
+            } else {
+                $value = (string) $value;
+            }
 
             if (\is_int($placeholderKey)) {
                 $queryString = $replaceFirst($queryString, '?', $value);
