@@ -134,7 +134,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     /**
      * @return array<string|int, string>
      */
-    public function resolveParameters(Type $parameterTypes): array
+    private function resolveParameters(Type $parameterTypes): array
     {
         $parameters = [];
 
@@ -196,7 +196,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     /**
      * @param callable(Node $node):bool $filter
      */
-    public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
+    private function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
     {
         // move to previous expression
         $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
@@ -229,7 +229,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
      * @param Node|Node[] $nodes
      * @param callable(Node $node):bool $filter
      */
-    public function findFirst(Node|array $nodes, callable $filter): ?Node
+    private function findFirst(Node|array $nodes, callable $filter): ?Node
     {
         return $this->nodeFinder->findFirst($nodes, $filter);
     }
