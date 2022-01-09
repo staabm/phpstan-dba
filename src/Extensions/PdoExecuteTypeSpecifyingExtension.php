@@ -107,7 +107,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     }
 
     /**
-     * @param array<string|int, scalar> $parameters
+     * @param array<string|int, scalar|null> $parameters
      */
     private function replaceParameters(string $queryString, array $parameters): string
     {
@@ -124,8 +124,11 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
             if (\is_string($value)) {
                 // XXX escaping
                 $value = "'".$value."'";
-            }
-            $value = (string) $value;
+            } elseif (null === $value) {
+				$value = 'NULL';
+			} else {
+				$value = (string) $value;
+			}
 
             if (\is_int($placeholderKey)) {
                 $queryString = $replaceFirst($queryString, '?', $value);
@@ -138,7 +141,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     }
 
     /**
-     * @return array<string|int, scalar>
+     * @return array<string|int, scalar|null>
      */
     private function resolveParameters(Type $parameterTypes): array
     {
