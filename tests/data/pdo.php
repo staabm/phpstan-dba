@@ -42,7 +42,7 @@ class Foo
     public function syntaxError(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     /**
@@ -76,39 +76,39 @@ class Foo
         // ---- queries, for which we cannot infer the return type
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function dynamicQuery(PDO $pdo, string $query)
     {
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function insertQuery(PDO $pdo)
     {
         $query = "INSERT INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function replaceQuery(PDO $pdo)
     {
         $query = "REPLACE INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function updateQuery(PDO $pdo)
     {
         $query = "UPDATE ada SET email='test@complex-it.de' where adaid=-5";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 }
