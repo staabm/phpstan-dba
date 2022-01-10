@@ -56,12 +56,24 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
+        $stringType = $this->inferType($methodCall, $scope);
+        if (null !== $stringType) {
+            return $stringType;
+        }
+
+        return $defaultReturn;
+    }
+
+    private function inferType(MethodCall $methodCall, Scope $scope): ?Type
+    {
+        $args = $methodCall->getArgs();
+
         if (1 === \count($args)) {
             $type = PDO::PARAM_STR;
         } else {
             $typeType = $scope->getType($args[1]->value);
             if (!$typeType instanceof ConstantIntegerType) {
-                return $defaultReturn;
+                return null;
             }
             $type = $typeType->getValue();
         }
@@ -78,7 +90,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $stringType;
         }
 
-        return TypeCombinator::union($stringType, new ConstantBooleanType(false));
+        return TypeCombinator::union($stringType, new ConstantBooleanType(false));;
     }
 
     private function inferStringType(Type $argType): Type

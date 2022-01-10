@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Extensions;
 
 use PDO;
 use PDOStatement;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Php\PhpVersion;
@@ -54,10 +55,20 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             return $defaultReturn;
         }
 
+        $resultType = $this->inferType($args[0]->value, $scope);
+        if (null !== $resultType) {
+            return $resultType;
+        }
+
+        return $defaultReturn;
+    }
+
+    private function inferType(Expr $queryExpr, Scope $scope): ?Type
+    {
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
         if (null === $queryString) {
-            return $defaultReturn;
+            return null;
         }
 
         $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
@@ -66,6 +77,6 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             return new GenericObjectType(PDOStatement::class, [$resultType]);
         }
 
-        return $defaultReturn;
+        return null;
     }
 }

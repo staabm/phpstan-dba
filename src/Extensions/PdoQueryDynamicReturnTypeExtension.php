@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Extensions;
 
 use PDO;
 use PDOStatement;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Php\PhpVersion;
@@ -59,11 +60,23 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
+        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+        if (null !== $resultType) {
+            return $resultType;
+        }
+
+        return $defaultReturn;
+    }
+
+    private function inferType(MethodCall $methodCall, Expr $queryExpr, Scope $scope): ?Type
+    {
+        $args = $methodCall->getArgs();
+
         $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
         if (\count($args) >= 2) {
             $fetchModeType = $scope->getType($args[1]->value);
             if (!$fetchModeType instanceof ConstantIntegerType) {
-                return $defaultReturn;
+                return null;
             }
 
             if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
@@ -73,14 +86,14 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
                 $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
             } else {
-                return $defaultReturn;
+                return null;
             }
         }
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
         if (null === $queryString) {
-            return $defaultReturn;
+            return null;
         }
 
         $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
@@ -88,6 +101,6 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return new GenericObjectType(PDOStatement::class, [$resultType]);
         }
 
-        return $defaultReturn;
+        return null;
     }
 }
