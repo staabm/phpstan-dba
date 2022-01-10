@@ -4,7 +4,6 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\Rules\PdoStatementExecuteErrorMethodRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
@@ -35,21 +34,21 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
                 18,
             ],
             [
-                "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).",
+                'Query expects 1 placeholders, but no value is given to execute().',
                 21,
             ],
             [
-                "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).",
+                'Query expects 2 placeholders, but 1 value is given to execute().',
                 24,
             ],
             [
-                "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).",
+                'Query expects 2 placeholders, but 1 value is given to execute().',
                 27,
             ],
             [
-                "Query error: Table 'phpstan_dba.unknownTable' doesn't exist (1146).",
+                'Query expects 2 placeholders, but 1 value is given to execute().',
                 30,
-            ]
+            ],
         ]);
     }
 }

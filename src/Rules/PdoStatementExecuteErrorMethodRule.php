@@ -50,9 +50,9 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
         return $this->checkErrors($methodReflection, $methodCall, $scope);
     }
 
-	/**
-	 * @return RuleError[]
-	 */
+    /**
+     * @return RuleError[]
+     */
     private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
     {
         $stmtReflection = new PdoStatementReflection();
@@ -77,20 +77,26 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             }
 
             return [
-                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but no values are given to execute()', $placeholderCount))->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but no values are given to execute().', $placeholderCount))->line($methodCall->getLine())->build(),
             ];
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
         $parameters = $queryReflection->resolveParameters($parameterTypes);
-		if ($parameters === null) {
-			return [];
-		}
+        if (null === $parameters) {
+            return [];
+        }
         $parameterCount = \count($parameters);
 
         if ($parameterCount !== $placeholderCount) {
+            if (1 === $parameterCount) {
+                return [
+                    RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but %s value is given to execute().', $placeholderCount, $parameterCount))->line($methodCall->getLine())->build(),
+                ];
+            }
+
             return [
-                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but %s values are given to execute()', $placeholderCount, $parameterCount))->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but %s values are given to execute().', $placeholderCount, $parameterCount))->line($methodCall->getLine())->build(),
             ];
         }
 
@@ -109,9 +115,10 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
         }
 
         $numPlaceholders = preg_match_all('{:[a-z]+}', $queryString, $matches);
-		if ($numPlaceholders === false || $numPlaceholders < 0) {
-			throw new ShouldNotHappenException();
-		}
-		return $numPlaceholders;
+        if (false === $numPlaceholders || $numPlaceholders < 0) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $numPlaceholders;
     }
 }
