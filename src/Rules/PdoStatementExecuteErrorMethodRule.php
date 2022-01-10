@@ -13,13 +13,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\ConstantScalarType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 /**
  * @implements Rule<MethodCall>
@@ -146,7 +141,7 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
-		// pdo does not support mixing of named and '?' placeholders
+        // pdo does not support mixing of named and '?' placeholders
         $numPlaceholders = substr_count($queryString, '?');
 
         if (0 !== $numPlaceholders) {
