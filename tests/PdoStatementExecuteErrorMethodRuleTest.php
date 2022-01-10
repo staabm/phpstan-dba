@@ -26,7 +26,7 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
                 12,
             ],
             [
-                'Value :wrongParamName is given to execute(), but the query does not containt this placeholder.',
+                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
                 12,
             ],
             [
@@ -34,7 +34,7 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
                 15,
             ],
             [
-                'Value :wrongParamName is given to execute(), but the query does not containt this placeholder.',
+                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
                 15,
             ],
             /*
@@ -43,7 +43,7 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
                 18,
             ],
             [
-                'Value :wrongParamValue is given to execute(), but the query does not containt this placeholder.',
+                'Value :wrongParamValue is given to execute(), but the query does not contain this placeholder.',
                 18,
             ],
             */
