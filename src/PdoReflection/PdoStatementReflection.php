@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
+use PDOStatement;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use Symplify\Astral\ValueObject\AttributeKey;
 
@@ -22,7 +24,25 @@ final class PdoStatementReflection
         $this->nodeFinder = new NodeFinder();
     }
 
-    public function findQueryStringExpression(MethodCall $methodCall): ?Expr
+    public function findPrepareQueryStringExpression(MethodReflection $methodReflection, MethodCall $methodCall): ?Expr
+    {
+        if ('execute' !== $methodReflection->getName() || PdoStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
+            throw new ShouldNotHappenException();
+        }
+
+        $queryExpr = $this->findQueryStringExpression($methodCall);
+
+        // resolve query parameter from "prepare"
+        if ($queryExpr instanceof MethodCall) {
+            $queryArgs = $queryExpr->getArgs();
+
+            return $queryArgs[0]->value;
+        }
+
+        return null;
+    }
+
+    private function findQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         // todo: use astral simpleNameResolver
         $nameResolver = function ($node) {

@@ -61,15 +61,9 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         }
 
         $stmtReflection = new PdoStatementReflection();
-        $queryExpr = $stmtReflection->findQueryStringExpression($methodCall);
+        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
         if (null === $queryExpr) {
             return null;
-        }
-
-        // resolve query parameter from "prepare"
-        if ($queryExpr instanceof MethodCall) {
-            $queryArgs = $queryExpr->getArgs();
-            $queryExpr = $queryArgs[0]->value;
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
