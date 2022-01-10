@@ -150,7 +150,7 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
     /**
      * @return list<string>
      */
-    public function extractNamedPlaceholders(string $queryString): array
+    private function extractNamedPlaceholders(string $queryString): array
     {
         // pdo does not support mixing of named and '?' placeholders
         $numPlaceholders = substr_count($queryString, '?');
