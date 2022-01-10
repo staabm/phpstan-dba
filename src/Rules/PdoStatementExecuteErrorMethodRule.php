@@ -13,8 +13,13 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ConstantScalarType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 /**
  * @implements Rule<MethodCall>
@@ -100,7 +105,21 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             ];
         }
 
-        return [];
+        $errors = [];
+        $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
+        foreach ($namedPlaceholders as $namedPlaceholder) {
+            if (!\array_key_exists($namedPlaceholder, $parameters)) {
+                $errors[] = RuleErrorBuilder::message(sprintf('Query expects placeholder %s, but it is missing from values given to execute().', $namedPlaceholder))->line($methodCall->getLine())->build();
+            }
+        }
+
+        foreach ($parameters as $placeholderKey => $value) {
+            if (!\in_array($placeholderKey, $namedPlaceholders)) {
+                $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not containt this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
+            }
+        }
+
+        return $errors;
     }
 
     /**
@@ -120,5 +139,24 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
         }
 
         return $numPlaceholders;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function extractNamedPlaceholders(string $queryString): array
+    {
+		// pdo does not support mixing of named and '?' placeholders
+        $numPlaceholders = substr_count($queryString, '?');
+
+        if (0 !== $numPlaceholders) {
+            return [];
+        }
+
+        if (preg_match_all('{:[a-z]+}', $queryString, $matches) > 0) {
+            return $matches[0];
+        }
+
+        return [];
     }
 }
