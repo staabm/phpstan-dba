@@ -79,8 +79,8 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
 
         // resolve query parameter from "prepare"
         if ($queryExpr instanceof MethodCall) {
-            $args = $queryExpr->getArgs();
-            $queryExpr = $args[0]->value;
+            $queryArgs = $queryExpr->getArgs();
+            $queryExpr = $queryArgs[0]->value;
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
