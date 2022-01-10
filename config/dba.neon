@@ -4,6 +4,10 @@ includes:
 
 services:
 	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInPdoStmtExecuteMethodRule
+		tags: [phpstan.rules.rule]
+
+	-
 		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
 		tags: [phpstan.rules.rule]
 		arguments:

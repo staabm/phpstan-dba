@@ -4,26 +4,22 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Rules;
 
+use PDO;
+use PDOStatement;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use SyntaxErrorInQueryMethodRuleTest\Foo;
 
 /**
  * @implements Rule<MethodCall>
  *
- * @see SyntaxErrorInQueryMethodRuleTest
+ * @see PdoStatementExecuteErrorMethodRuleTest
  */
-final class SyntaxErrorInQueryMethodRule implements Rule
+final class PdoStatementExecuteErrorMethodRule implements Rule
 {
-    /**
-     * @var list<string>
-     */
-    private $classMethods;
-
     /**
      * @param list<string> $classMethods
      */
@@ -34,7 +30,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
 
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return PDOStatement::class;
     }
 
     public function processNode(Node $node, Scope $scope): array
@@ -48,26 +44,15 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        $unsupportedMethod = true;
-        $queryArgPosition = null;
-        foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
-
-            if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
-                $unsupportedMethod = false;
-                break;
-            }
-        }
-
-        if ($unsupportedMethod) {
-            return [];
-        }
+		if ('execute' !== $methodReflection->getName()) {
+			return [];
+		}
 
         $args = $node->getArgs();
         $errors = [];
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
+        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {
             return $errors;
         }

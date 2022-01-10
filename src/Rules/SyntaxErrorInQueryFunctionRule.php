@@ -11,9 +11,12 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\Tests\SyntaxErrorInQueryFunctionRuleTest;
 
 /**
  * @implements Rule<FuncCall>
+ *
+ * @see SyntaxErrorInQueryFunctionRuleTest
  */
 final class SyntaxErrorInQueryFunctionRule implements Rule
 {
