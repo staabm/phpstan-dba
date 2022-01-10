@@ -139,7 +139,7 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             return $numPlaceholders;
         }
 
-        $numPlaceholders = preg_match_all('{:[a-z]+}', $queryString, $matches);
+        $numPlaceholders = preg_match_all('{:[a-z]+}', $queryString);
         if (false === $numPlaceholders || $numPlaceholders < 0) {
             throw new ShouldNotHappenException();
         }
