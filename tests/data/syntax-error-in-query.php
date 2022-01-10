@@ -3,6 +3,7 @@
 namespace SyntaxErrorInQueryMethodRuleTest;
 
 use PDO;
+use mysqli;
 
 class Foo
 {
@@ -11,7 +12,7 @@ class Foo
         $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
 
-    public function syntaxErrorMysqli(\mysqli $mysqli)
+    public function syntaxErrorMysqli(mysqli $mysqli)
     {
         $mysqli->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
