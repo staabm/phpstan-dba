@@ -55,26 +55,28 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             return $defaultReturn;
         }
 
-		$resultType = $this->inferType($args[0]->value, $scope);
-		if ($resultType !== null) {
-			return $resultType;
-		}
+        $resultType = $this->inferType($args[0]->value, $scope);
+        if (null !== $resultType) {
+            return $resultType;
+        }
 
         return $defaultReturn;
     }
 
-	private function inferType(Expr $queryExpr, Scope $scope): ?Type {
-		$queryReflection = new QueryReflection();
-		$queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-		if (null === $queryString) {
-			return null;
-		}
+    private function inferType(Expr $queryExpr, Scope $scope): ?Type
+    {
+        $queryReflection = new QueryReflection();
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+        if (null === $queryString) {
+            return null;
+        }
 
-		$reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-		$resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
-		if ($resultType) {
-			return new GenericObjectType(PDOStatement::class, [$resultType]);
-		}
-		return null;
-	}
+        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
+        if ($resultType) {
+            return new GenericObjectType(PDOStatement::class, [$resultType]);
+        }
+
+        return null;
+    }
 }
