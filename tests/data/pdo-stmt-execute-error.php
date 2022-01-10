@@ -1,6 +1,6 @@
 <?php
 
-namespace SyntaxErrorInQueryMethodRuleTest;
+namespace PdoStatementExecuteErrorMethodRuleTest;
 
 use PDO;
 
