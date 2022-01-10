@@ -22,19 +22,31 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
 
         $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                'Query expects placeholder :adaid, but it is missing from values given to execute().',
                 12,
             ],
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                'Value :wrongParamName is given to execute(), but the query does not containt this placeholder.',
+                12,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given to execute().',
                 15,
             ],
             [
-                "Query error: Unknown column 'doesNotExist' in 'field list' (1054).",
+                'Value :wrongParamName is given to execute(), but the query does not containt this placeholder.',
+                15,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given to execute().',
                 18,
             ],
             [
-                'Query expects 1 placeholders, but no value is given to execute().',
+                'Value :wrongParamValue is given to execute(), but the query does not containt this placeholder.',
+                18,
+            ],
+            [
+                'Query expects 1 placeholders, but no values are given to execute().',
                 21,
             ],
             [

@@ -14,8 +14,8 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
         $stmt->execute([':wrongParamName' => 1]);
 
-        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
-        $stmt->execute([':wrongParamValue' => 'hello world']);
+        // $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        // $stmt->execute([':adaid' => 'hello world']); // wrong param type
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
         $stmt->execute(); // missing parameter
