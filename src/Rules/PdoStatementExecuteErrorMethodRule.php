@@ -121,7 +121,7 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
 
         foreach ($parameters as $placeholderKey => $value) {
             if (!\in_array($placeholderKey, $namedPlaceholders)) {
-                $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not containt this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
+                $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not contain this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
             }
         }
 
