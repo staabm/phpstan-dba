@@ -137,7 +137,7 @@ composer require --dev staabm/phpstan-dba
 
 ## Caveats
 
-- running `RecordingQueryReflector` requires in PHPStan-non-debug mode (currently we see concurrency issues while building the cache).
+- running `RecordingQueryReflector` requires runnung PHPStan with `--debug` (otherwise we see concurrency issues while building the cache).
 
 ## Todos
 
