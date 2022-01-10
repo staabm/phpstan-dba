@@ -107,7 +107,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     }
 
     /**
-     * @param array<string|int, string> $parameters
+     * @param array<string|int, scalar|null> $parameters
      */
     private function replaceParameters(string $queryString, array $parameters): string
     {
@@ -121,6 +121,15 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         };
 
         foreach ($parameters as $placeholderKey => $value) {
+            if (\is_string($value)) {
+                // XXX escaping
+                $value = "'".$value."'";
+            } elseif (null === $value) {
+                $value = 'NULL';
+            } else {
+                $value = (string) $value;
+            }
+
             if (\is_int($placeholderKey)) {
                 $queryString = $replaceFirst($queryString, '?', $value);
             } else {
@@ -132,7 +141,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     }
 
     /**
-     * @return array<string|int, string>
+     * @return array<string|int, scalar|null>
      */
     private function resolveParameters(Type $parameterTypes): array
     {
@@ -151,11 +160,11 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
                     }
 
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$placeholderName] = (string) ($valueTypes[$i]->getValue());
+                        $parameters[$placeholderName] = $valueTypes[$i]->getValue();
                     }
                 } elseif ($keyType instanceof ConstantIntegerType) {
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$keyType->getValue()] = (string) ($valueTypes[$i]->getValue());
+                        $parameters[$keyType->getValue()] = $valueTypes[$i]->getValue();
                     }
                 }
             }
