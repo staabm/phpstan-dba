@@ -63,54 +63,55 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             return $defaultReturn;
         }
 
-		$resultType = $this->inferResultType($args[1]->value, $scope);
-		if ($resultType !== null) {
-			return $resultType;
-		}
-
-		return $defaultReturn;
-	}
-
-	public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
-	{
-		$args = $methodCall->args;
-		$defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
-		if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
-			$defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-		}
-
-		if (\count($args) < 1) {
-			return $defaultReturn;
-		}
-
-		$resultType = $this->inferResultType($args[0]->value, $scope);
-		if ($resultType !== null) {
-			return $resultType;
-		}
+        $resultType = $this->inferResultType($args[1]->value, $scope);
+        if (null !== $resultType) {
+            return $resultType;
+        }
 
         return $defaultReturn;
     }
 
-	private function inferResultType(Expr $queryExpr, Scope $scope): ?Type {
-		$queryReflection = new QueryReflection();
-		$queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-		if (null === $queryString) {
-			return null;
-		}
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    {
+        $args = $methodCall->args;
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-		$resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
-		if ($resultType) {
-			if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
-				return new GenericObjectType(mysqli_result::class, [$resultType]);
-			}
+        if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
+            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
+        }
 
-			return TypeCombinator::union(
-				new GenericObjectType(mysqli_result::class, [$resultType]),
-				new ConstantBooleanType(false),
-			);
-		}
+        if (\count($args) < 1) {
+            return $defaultReturn;
+        }
 
-		return null;
-	}
+        $resultType = $this->inferResultType($args[0]->value, $scope);
+        if (null !== $resultType) {
+            return $resultType;
+        }
+
+        return $defaultReturn;
+    }
+
+    private function inferResultType(Expr $queryExpr, Scope $scope): ?Type
+    {
+        $queryReflection = new QueryReflection();
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+        if (null === $queryString) {
+            return null;
+        }
+
+        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+        if ($resultType) {
+            if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
+                return new GenericObjectType(mysqli_result::class, [$resultType]);
+            }
+
+            return TypeCombinator::union(
+                new GenericObjectType(mysqli_result::class, [$resultType]),
+                new ConstantBooleanType(false),
+            );
+        }
+
+        return null;
+    }
 }
