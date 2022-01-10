@@ -8,6 +8,9 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\BooleanType;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
@@ -18,6 +21,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use function staabm\PHPStanDba\Extensions\;
 
 final class QueryReflection
 {
@@ -77,6 +81,17 @@ final class QueryReflection
         return $queryString;
     }
 
+	public function resolvePreparedQuerystring(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string {
+		$queryString = $this->resolveQueryString($queryExpr, $scope);
+
+		if ($queryString === null) {
+			return null;
+		}
+
+		$parameters = $this->resolveParameters($parameterTypes);
+		return $this->replaceParameters($queryString, $parameters);
+	}
+
     public function resolveQueryString(Expr $expr, Scope $scope): ?string
     {
         if ($expr instanceof Concat) {
@@ -134,6 +149,73 @@ final class QueryReflection
 
         return null;
     }
+
+	/**
+	 * @return array<string|int, scalar|null>
+	 */
+	private function resolveParameters(Type $parameterTypes): array
+	{
+		$parameters = [];
+
+		if ($parameterTypes instanceof ConstantArrayType) {
+			$keyTypes = $parameterTypes->getKeyTypes();
+			$valueTypes = $parameterTypes->getValueTypes();
+
+			foreach ($keyTypes as $i => $keyType) {
+				if ($keyType instanceof ConstantStringType) {
+					$placeholderName = $keyType->getValue();
+
+					if (!str_starts_with($placeholderName, ':')) {
+						$placeholderName = ':'.$placeholderName;
+					}
+
+					if ($valueTypes[$i] instanceof ConstantScalarType) {
+						$parameters[$placeholderName] = $valueTypes[$i]->getValue();
+					}
+				} elseif ($keyType instanceof ConstantIntegerType) {
+					if ($valueTypes[$i] instanceof ConstantScalarType) {
+						$parameters[$keyType->getValue()] = $valueTypes[$i]->getValue();
+					}
+				}
+			}
+		}
+
+		return $parameters;
+	}
+
+	/**
+	 * @param array<string|int, scalar|null> $parameters
+	 */
+	private function replaceParameters(string $queryString, array $parameters): string
+	{
+		$replaceFirst = function (string $haystack, string $needle, string $replace) {
+			$pos = strpos($haystack, $needle);
+			if (false !== $pos) {
+				return substr_replace($haystack, $replace, $pos, \strlen($needle));
+			}
+
+			return $haystack;
+		};
+
+		foreach ($parameters as $placeholderKey => $value) {
+			if (\is_string($value)) {
+				// XXX escaping
+				$value = "'".$value."'";
+			} elseif (null === $value) {
+				$value = 'NULL';
+			} else {
+				$value = (string) $value;
+			}
+
+			if (\is_int($placeholderKey)) {
+				$queryString = $replaceFirst($queryString, '?', $value);
+			} else {
+				$queryString = str_replace($placeholderKey, $value, $queryString);
+			}
+		}
+
+		return $queryString;
+	}
 
     private static function reflector(): QueryReflector
     {
