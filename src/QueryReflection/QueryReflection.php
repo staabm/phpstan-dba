@@ -89,6 +89,9 @@ final class QueryReflection
         }
 
         $parameters = $this->resolveParameters($parameterTypes);
+        if (null === $parameters) {
+            return null;
+        }
 
         return $this->replaceParameters($queryString, $parameters);
     }
@@ -154,7 +157,7 @@ final class QueryReflection
     /**
      * @return array<string|int, scalar|null>
      */
-    private function resolveParameters(Type $parameterTypes): array
+    public function resolveParameters(Type $parameterTypes): ?array
     {
         $parameters = [];
 
@@ -179,9 +182,11 @@ final class QueryReflection
                     }
                 }
             }
+
+            return $parameters;
         }
 
-        return $parameters;
+        return null;
     }
 
     /**

@@ -10,7 +10,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use SyntaxErrorInQueryMethodRuleTest\Foo;
 
 /**
  * @implements Rule<MethodCall>

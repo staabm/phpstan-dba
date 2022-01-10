@@ -8,7 +8,7 @@ use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
+ * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteErrorMethodRule>
  */
 class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -19,81 +19,37 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
 
     public function testSyntaxErrorInQueryRule(): void
     {
-		require_once __DIR__ . '/data/pdo-stmt-execute-error.php';
+        require_once __DIR__.'/data/pdo-stmt-execute-error.php';
 
-		$this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
-			[
+        $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
+            [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                11,
+                12,
             ],
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                16,
+                15,
             ],
             [
                 "Query error: Unknown column 'doesNotExist' in 'field list' (1054).",
-                21,
+                18,
             ],
             [
                 "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).",
-                26,
-            ],
-            [
-                "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).",
-                31,
-            ],
-            [
-                "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).",
-                36,
-            ],
-            [
-                "Query error: Table 'phpstan_dba.unknownTable' doesn't exist (1146).",
-                41,
-            ],
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                75,
-            ],
-        ]);
-    }
-
-    public function testSyntaxErrorInPrepareQueryRule(): void
-    {
-        require_once __DIR__ . '/data/pdo-stmt-execute-error.php';
-
-        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                11,
-            ],
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                16,
-            ],
-            [
-                "Query error: Unknown column 'doesNotExist' in 'field list' (1054).",
                 21,
             ],
             [
-                "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).",
-                26,
-            ],
-            [
                 "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).",
-                31,
+                24,
             ],
             [
                 "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).",
-                36,
+                27,
             ],
             [
                 "Query error: Table 'phpstan_dba.unknownTable' doesn't exist (1146).",
-                41,
-            ],
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                75,
-            ],
+                30,
+            ]
         ]);
     }
 }
