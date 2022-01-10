@@ -44,7 +44,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         $methodCall = $node;
         $stmtType = $scope->getType($methodCall->var);
 
-        $inferedType = $this->inferStatementType($methodCall, $scope);
+        $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         if (null !== $inferedType) {
             return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
         }
@@ -52,7 +52,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
     }
 
-    private function inferStatementType(MethodCall $methodCall, Scope $scope): ?Type
+    private function inferStatementType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
 
@@ -61,7 +61,7 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         }
 
         $stmtReflection = new PdoStatementReflection();
-        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
+        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodReflection, $methodCall);
         if (null === $queryExpr) {
             return null;
         }
