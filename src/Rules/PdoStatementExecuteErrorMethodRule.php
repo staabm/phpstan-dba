@@ -76,8 +76,13 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
                 return [];
             }
 
+            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
+            if ($placeholderCount > 1) {
+                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
+            }
+
             return [
-                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but no values are given to execute().', $placeholderCount))->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message(sprintf($placeholderExpectation.', but no values are given to execute().', $placeholderCount))->line($methodCall->getLine())->build(),
             ];
         }
 
@@ -100,14 +105,18 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
         $parameterCount = \count($parameters);
 
         if ($parameterCount !== $placeholderCount) {
-            if (1 === $parameterCount) {
-                return [
-                    RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but %s value is given to execute().', $placeholderCount, $parameterCount))->line($methodCall->getLine())->build(),
-                ];
+            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
+            if ($placeholderCount > 1) {
+                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
+            }
+
+            $parameterActual = sprintf('but %s value is given to execute()', $parameterCount);
+            if ($parameterCount > 1) {
+                $parameterActual = sprintf('but %s values are given to execute()', $parameterCount);
             }
 
             return [
-                RuleErrorBuilder::message(sprintf('Query expects %s placeholders, but %s values are given to execute().', $placeholderCount, $parameterCount))->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($placeholderExpectation.', '.$parameterActual.'.')->line($methodCall->getLine())->build(),
             ];
         }
 

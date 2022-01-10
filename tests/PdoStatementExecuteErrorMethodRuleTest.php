@@ -16,7 +16,7 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
         return $this->getRuleFromConfig(PdoStatementExecuteErrorMethodRule::class, __DIR__.'/../config/dba.neon');
     }
 
-    public function testSyntaxErrorInQueryRule(): void
+    public function testParameterErrors(): void
     {
         require_once __DIR__.'/data/pdo-stmt-execute-error.php';
 
@@ -48,7 +48,7 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
             ],
             */
             [
-                'Query expects 1 placeholders, but no values are given to execute().',
+                'Query expects 1 placeholder, but no values are given to execute().',
                 21,
             ],
             [
