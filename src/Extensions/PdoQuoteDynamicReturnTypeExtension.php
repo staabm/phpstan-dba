@@ -90,7 +90,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $stringType;
         }
 
-        return TypeCombinator::union($stringType, new ConstantBooleanType(false));;
+        return TypeCombinator::union($stringType, new ConstantBooleanType(false));
     }
 
     private function inferStringType(Type $argType): Type
