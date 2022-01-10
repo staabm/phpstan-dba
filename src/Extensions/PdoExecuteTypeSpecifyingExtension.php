@@ -18,10 +18,6 @@ use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
@@ -87,10 +83,10 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
             $queryExpr = $args[0]->value;
         }
 
-		$parameterTypes = $scope->getType($args[0]->value);
+        $parameterTypes = $scope->getType($args[0]->value);
 
         $queryReflection = new QueryReflection();
-		$queryString = $queryReflection->resolvePreparedQuerystring($queryExpr, $parameterTypes, $scope);
+        $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
         if (null === $queryString) {
             return null;
         }
