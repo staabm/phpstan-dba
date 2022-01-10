@@ -93,11 +93,11 @@ final class QueryReflection
         return $this->replaceParameters($queryString, $parameters);
     }
 
-    public function resolveQueryString(Expr $expr, Scope $scope): ?string
+    public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
-        if ($expr instanceof Concat) {
-            $left = $expr->left;
-            $right = $expr->right;
+        if ($queryExpr instanceof Concat) {
+            $left = $queryExpr->left;
+            $right = $queryExpr->right;
 
             $leftString = $this->resolveQueryString($left, $scope);
             $rightString = $this->resolveQueryString($right, $scope);
@@ -109,7 +109,7 @@ final class QueryReflection
             return $leftString.$rightString;
         }
 
-        $type = $scope->getType($expr);
+        $type = $scope->getType($queryExpr);
         if ($type instanceof ConstantScalarType) {
             return (string) $type->getValue();
         }
