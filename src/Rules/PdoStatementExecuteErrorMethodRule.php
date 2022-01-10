@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Rules;
 
 use PDOStatement;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -13,8 +14,13 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\Type;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 /**
  * @implements Rule<MethodCall>
@@ -81,13 +87,13 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             ];
         }
 
-        return $this->checkParameterValues($methodCall, $scope, $queryString, $placeholderCount);
+        return $this->checkParameterValues($methodCall, $scope, $queryExpr, $queryString, $placeholderCount);
     }
 
     /**
      * @return RuleError[]
      */
-    private function checkParameterValues(MethodCall $methodCall, Scope $scope, string $queryString, int $placeholderCount): array
+    private function checkParameterValues(MethodCall $methodCall, Scope $scope, Expr $queryExpr, string $queryString, int $placeholderCount): array
     {
         $queryReflection = new QueryReflection();
         $args = $methodCall->getArgs();
@@ -97,8 +103,11 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
         if (null === $parameters) {
             return [];
         }
-        $parameterCount = \count($parameters);
+		if (!$parameterTypes instanceof ConstantArrayType) {
+			throw new ShouldNotHappenException();
+		}
 
+        $parameterCount = \count($parameters);
         if ($parameterCount !== $placeholderCount) {
             if (1 === $parameterCount) {
                 return [
@@ -125,8 +134,71 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             }
         }
 
-        return $errors;
+		if ($errors != []) {
+			return $errors;
+		}
+
+		return $this->checkParameterTypes($methodCall, $queryExpr, $parameterTypes, $scope);
     }
+
+	/**
+	 * @return RuleError[]
+	 */
+	private function checkParameterTypes(MethodCall $methodCall, Expr $queryExpr, ConstantArrayType $parameterTypes, Scope $scope): array
+	{
+		$queryReflection = new QueryReflection();
+		$queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
+		if (null === $queryString) {
+			return [];
+		}
+
+		$resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+		if (!$resultType instanceof ConstantArrayType) {
+			return [];
+		}
+
+		var_dump($queryString);
+		foreach ($resultType->getKeyTypes() as $keyType) {
+			var_dump($keyType->describe(VerbosityLevel::value()));
+		}
+
+		$errors = [];
+		$keyTypes = $parameterTypes->getKeyTypes();
+		$valueTypes = $parameterTypes->getValueTypes();
+
+		foreach ($keyTypes as $i => $keyType) {
+			if (!$keyType instanceof ConstantStringType) {
+				continue;
+			}
+
+			$columnName = $keyType->getValue();
+			ltrim($columnName, ':');
+
+			var_dump($keyType->describe(VerbosityLevel::precise()));
+			var_dump($resultType->hasOffsetValueType($keyType)->describe());
+			if (!$resultType->hasOffsetValueType($keyType)->yes()) {
+				// we only know types of columns which are selected.
+				continue;
+			}
+
+			var_dump($resultType->getOffsetValueType($keyType)->describe(VerbosityLevel::precise()));
+			var_dump($valueTypes[$i]->describe(VerbosityLevel::precise()));
+			if ($resultType->getOffsetValueType($keyType)->isSuperTypeOf($valueTypes[$i])->yes()) {
+				continue;
+			}
+
+			$errors[] = RuleErrorBuilder::message(
+					sprintf(
+						'Value %s with type %s is given to execute(), but the query expects %s.',
+						$placeholderName,
+						$resultType->getOffsetValueType($keyType)->describe(VerbosityLevel::precise()),
+						$valueTypes[$i]->describe(VerbosityLevel::precise())
+					)
+				)->line($methodCall->getLine())->build();
+		}
+
+		return $errors;
+	}
 
     /**
      * @return 0|positive-int
