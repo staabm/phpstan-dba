@@ -63,6 +63,18 @@ class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTes
                 'Query expects 2 placeholders, but 1 value is given to execute().',
                 30,
             ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given to execute().',
+                36,
+            ],
+            [
+                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
+                36,
+            ],
+            [
+                'Query expects 1 placeholder, but 2 values are given to execute().',
+                38,
+            ],
         ]);
     }
 }
