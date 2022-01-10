@@ -81,6 +81,17 @@ final class PdoStatementExecuteErrorMethodRule implements Rule
             ];
         }
 
+        return $this->checkParameterValues($methodCall, $scope, $queryString, $placeholderCount);
+    }
+
+    /**
+     * @return RuleError[]
+     */
+    private function checkParameterValues(MethodCall $methodCall, Scope $scope, string $queryString, int $placeholderCount): array
+    {
+        $queryReflection = new QueryReflection();
+        $args = $methodCall->getArgs();
+
         $parameterTypes = $scope->getType($args[0]->value);
         $parameters = $queryReflection->resolveParameters($parameterTypes);
         if (null === $parameters) {
