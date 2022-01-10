@@ -18,6 +18,10 @@ This extension provides following features:
 
 __Its really early days... and this libs has a few rough edges.__
 
+## DEMO
+
+see the ['Files Changed' tab of the DEMO-PR](https://github.com/staabm/phpstan-dba/pull/61/files#diff-98a3c43049f6a0c859c0303037d9773534396533d7890bad187d465d390d634e) for a quick glance.
+
 ## Usage
 
 To get the extension running you need to configure the `phpstan-dba`.
