@@ -29,4 +29,12 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email');
         $stmt->execute([':email' => 'email@example.org']); // wrong number of parameters
     }
+
+    public function multi_execute(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        $stmt->execute(['wrongParamName' => 1]); // wrong param name
+        $stmt->execute(['adaid' => 1]); // everything correct
+        $stmt->execute([':email' => 'email@example.org', 'adaid' => 1]); // wrong number of parameters
+    }
 }
