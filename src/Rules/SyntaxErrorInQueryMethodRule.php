@@ -13,6 +13,8 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
  * @implements Rule<MethodCall>
+ *
+ * @see SyntaxErrorInQueryMethodRuleTest
  */
 final class SyntaxErrorInQueryMethodRule implements Rule
 {

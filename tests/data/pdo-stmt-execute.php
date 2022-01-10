@@ -56,10 +56,5 @@ class Foo
         assertType('PDOStatement', $stmt);
         $stmt->execute(); // missing parameter
         assertType('PDOStatement', $stmt);
-
-        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
-        assertType('PDOStatement', $stmt);
-        $stmt->execute([]); // missing parameter
-        assertType('PDOStatement', $stmt);
     }
 }
