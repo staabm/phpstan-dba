@@ -65,18 +65,26 @@ final class MysqliQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-        try {
-            $simulatedQuery = QuerySimulation::simulate($queryString);
-            if (null === $simulatedQuery) {
-                return null;
-            }
+        $simulatedQuery = QuerySimulation::simulate($queryString);
+        if (null === $simulatedQuery) {
+            return null;
+        }
 
+        try {
             $this->db->query($simulatedQuery);
 
             return null;
         } catch (mysqli_sql_exception $e) {
             if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
-                return new Error($e->getMessage(), $e->getCode());
+
+                $message = $e->getMessage();
+
+                // to ease debugging, print the error we simulated
+                if ($e->getCode() === self::MYSQL_SYNTAX_ERROR_CODE) {
+                    $message = $message ."\n\nAnalysed query: ". $simulatedQuery;
+                }
+
+                return new Error($message, $e->getCode());
             }
 
             return null;
@@ -88,11 +96,12 @@ final class MysqliQueryReflector implements QueryReflector
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
+        $simulatedQuery = QuerySimulation::simulate($queryString);
+        if (null === $simulatedQuery) {
+            return null;
+        }
+
         try {
-            $simulatedQuery = QuerySimulation::simulate($queryString);
-            if (null === $simulatedQuery) {
-                return null;
-            }
             $result = $this->db->query($simulatedQuery);
 
             if (!$result instanceof mysqli_result) {
