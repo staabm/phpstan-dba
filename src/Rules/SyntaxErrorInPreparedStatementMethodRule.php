@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Rules;
 
-use PDOStatement;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\ShouldNotHappenException;
-use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
@@ -76,7 +72,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     {
         $args = $methodCall->getArgs();
 
-        if (count($args) < 2) {
+        if (\count($args) < 2) {
             return [];
         }
 
@@ -92,7 +88,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $error = $queryReflection->validateQueryString($queryString);
         if (null !== $error) {
             return [
-                RuleErrorBuilder::message('Query error: ' . $error->getMessage() . ' (' . $error->getCode() . ').')->line($methodCall->getLine())->build()
+                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($methodCall->getLine())->build(),
             ];
         }
 
