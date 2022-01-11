@@ -19,9 +19,9 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 /**
  * @implements Rule<MethodCall>
  *
- * @see PreparedStatementMethodRuleTest
+ * @see SyntaxErrorInPreparedStatementMethodRuleTest
  */
-final class PreparedStatementMethodRule implements Rule
+final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 {
     /**
      * @var list<string>
@@ -53,9 +53,8 @@ final class PreparedStatementMethodRule implements Rule
         }
 
         $unsupportedMethod = true;
-        $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
+            sscanf($classMethod, '%[^::]::%s', $className, $methodName);
 
             if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
                 $unsupportedMethod = false;
@@ -67,13 +66,13 @@ final class PreparedStatementMethodRule implements Rule
             return [];
         }
 
-        return $this->checkErrors($methodReflection, $methodCall, $scope);
+        return $this->checkErrors($methodCall, $scope);
     }
 
     /**
      * @return RuleError[]
      */
-    private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
+    private function checkErrors(MethodCall $methodCall, Scope $scope): array
     {
         $args = $methodCall->getArgs();
 
@@ -92,9 +91,11 @@ final class PreparedStatementMethodRule implements Rule
 
         $error = $queryReflection->validateQueryString($queryString);
         if (null !== $error) {
-            $errors[] = RuleErrorBuilder::message('Query error: ' . $error->getMessage() . ' (' . $error->getCode() . ').')->line($node->getLine())->build();
+            return [
+                RuleErrorBuilder::message('Query error: ' . $error->getMessage() . ' (' . $error->getCode() . ').')->line($methodCall->getLine())->build()
+            ];
         }
 
-        return $errors;
+        return [];
     }
 }
