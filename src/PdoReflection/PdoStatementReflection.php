@@ -13,10 +13,24 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
-use Symplify\Astral\ValueObject\AttributeKey;
 
 final class PdoStatementReflection
 {
+    /**
+     * Do not change, part of internal PHPStan naming
+     *
+     * @var string
+     */
+    private const PREVIOUS = 'previous';
+
+    /**
+     * Convention key name in php-parser and PHPStan for parent node
+     *
+     * @var string
+     */
+    private const PARENT = 'parent';
+
+
     private NodeFinder $nodeFinder;
 
     public function __construct()
@@ -77,7 +91,7 @@ final class PdoStatementReflection
     private function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
     {
         // move to previous expression
-        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
+        $previousStatement = $node->getAttribute(self::PREVIOUS);
         if (null !== $previousStatement) {
             if (!$previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
@@ -91,7 +105,7 @@ final class PdoStatementReflection
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT);
+        $parent = $node->getAttribute(self::PARENT);
         if ($parent instanceof FunctionLike) {
             return null;
         }
