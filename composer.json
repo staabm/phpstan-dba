@@ -23,7 +23,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"staabm\\PHPStanDba\\tests\\": "tests/"
+			"staabm\\PHPStanDba\\Tests\\Fixture\\": "tests/Fixture/",
+			"staabm\\PHPStanDba\\Tests\\": "tests/"
 		}
 	},
 	"scripts": {

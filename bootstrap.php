@@ -19,8 +19,8 @@ try {
 	}
 
 	$reflector = new MysqliQueryReflector($mysqli);
-	// record only while phpstan is running - since this file might also be used as phpunit bootscript
-	if (defined('__PHPSTAN_RUNNING__')) {
+	// record only while phpunit is running - since this file might also be used as phpstan bootscript
+	if (!defined('__PHPSTAN_RUNNING__')) {
 		$reflector = new RecordingQueryReflector(
 			ReflectionCache::create(
 				$cacheFile
