@@ -8,6 +8,10 @@ services:
 		tags: [phpstan.rules.rule]
 
 	-
+		class: staabm\PHPStanDba\Rules\PreparedStatementMethodRule
+		tags: [phpstan.rules.rule]
+
+	-
 		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
 		tags: [phpstan.rules.rule]
 		arguments:
