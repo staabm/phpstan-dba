@@ -4,7 +4,7 @@ includes:
 
 services:
 	-
-		class: staabm\PHPStanDba\Rules\PdoStatementExecuteErrorMethodRule
+		class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
 		tags: [phpstan.rules.rule]
 
 	-
