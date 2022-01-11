@@ -9,25 +9,28 @@ use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$cacheFile = __DIR__.'/.phpstan-dba.cache';
+// we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
+// in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
+// phpstan-dba itself is a special case, since we are testing phpstan-dba with phpstan-dba.
+$cacheFile = __DIR__.'/.phpunit-phpstan-dba.cache';
+if (defined('__PHPSTAN_RUNNING__')) {
+    $cacheFile = __DIR__.'/.phpstan-dba.cache';
+}
 
 try {
 	if (false !== getenv('GITHUB_ACTION')) {
 		$mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
 	} else {
-		$mysqli = @new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
+		$mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
 	}
 
 	$reflector = new MysqliQueryReflector($mysqli);
-	// record only while phpunit is running - since this file might also be used as phpstan bootscript
-	if (!defined('__PHPSTAN_RUNNING__')) {
-		$reflector = new RecordingQueryReflector(
-			ReflectionCache::create(
-				$cacheFile
-			),
-			$reflector
-		);
-	}
+    $reflector = new RecordingQueryReflector(
+        ReflectionCache::create(
+            $cacheFile
+        ),
+        $reflector
+    );
 
 } catch (mysqli_sql_exception $e) {
 	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
