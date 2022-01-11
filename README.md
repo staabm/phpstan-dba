@@ -43,6 +43,7 @@ To get the extension running you need to configure the `phpstan-dba`.
 ```php
 <?php // bootstrap.php
 
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
@@ -74,6 +75,7 @@ With this cache file you can utilize [`ReplayQueryReflector`](https://github.com
 ```php
 <?php // bootstrap.php
 
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
