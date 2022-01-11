@@ -21,7 +21,7 @@ try {
 	if (false !== getenv('GITHUB_ACTION')) {
 		$mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
 	} else {
-		$mysqli = @new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
+		$mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
 	}
 
 	$reflector = new MysqliQueryReflector($mysqli);
