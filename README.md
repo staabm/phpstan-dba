@@ -26,7 +26,17 @@ see the ['Files Changed' tab of the DEMO-PR](https://github.com/staabm/phpstan-d
 
 To get the extension running you need to configure the `phpstan-dba`.
 
-1. [Include](https://phpstan.org/config-reference#multiple-files) the [`dba.neon`](https://github.com/staabm/phpstan-dba/blob/main/config/dba.neon) from within your PHPStan configuration.
+1. If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) proceed with step 2.
+<details>
+  <summary>Manual installation</summary>
+
+  If you don't want to use `phpstan/extension-installer`, include extension.neon in your project's PHPStan config:
+
+    ```
+    includes:
+        - vendor/staabm/phpstan-dba/config/dba.neon
+    ```
+</details>
 
 2. Additionally your `bootstrap` file needs to be [configured within your phpstan configuration](https://phpstan.org/config-reference#bootstrap), so it will be automatically included by PHPStan:
 
