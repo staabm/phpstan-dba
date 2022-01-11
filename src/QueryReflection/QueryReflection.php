@@ -24,8 +24,6 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
-    private const NAMED_PLACEHOLDER_REGEX = '/(:[a-z])+/i';
-
     /**
      * @var QueryReflector|null
      */
@@ -69,11 +67,6 @@ final class QueryReflection
     private function builtSimulatedQuery(string $queryString): ?string
     {
         if ('SELECT' !== $this->getQueryType($queryString)) {
-            return null;
-        }
-
-        // skip queries which contain placeholders for now
-        if (str_contains($queryString, '?') || preg_match(self::NAMED_PLACEHOLDER_REGEX, $queryString) > 0) {
             return null;
         }
 
