@@ -4,8 +4,7 @@
 	"require": {
 		"php": "^8.0",
 		"ext-mysqli": "*",
-		"phpstan/phpstan": "^1.2",
-		"rector/rector": "^0.12.11"
+		"phpstan/phpstan": "^1.2"
 	},
 	"require-dev": {
 		"ext-pdo": "*",
