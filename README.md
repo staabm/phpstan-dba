@@ -113,7 +113,7 @@ services:
 				- 'My\Connection::preparedQuery'
 ```
 
-__the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument. __
+__the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument.__
 
 ### use `SyntaxErrorInQueryMethodRule` for your custom classes
 
