@@ -9,6 +9,7 @@ This extension provides following features:
 * the array shape of results can be inferred for `PDOStatement` and `mysqli_result`
   * .. when the query string can be resolved at analysis time. This is even possible for queries containing php-variables, as long as their typ is known in most cases.
   * builtin we support `mysqli_query`, `mysqli->query`, `PDOStatement->fetch`, `PDOStatement->fetchAll`, `PDOStatement->execute`, `PDO->query` and `PDO->prepare`
+* `SyntaxErrorInPreparedStatementMethodRule` can inspect prepared sql queries and detect syntax errors
 * `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors - `SyntaxErrorInQueryFunctionRule` can do the same for functions
   * builtin is query syntax error detection for `mysqli_query`, `mysqli->query`, `PDO->query` and `PDO->prepare`
 * `mysqli_real_escape_string` and `mysqli->real_escape_string` dynamic return type extensions
