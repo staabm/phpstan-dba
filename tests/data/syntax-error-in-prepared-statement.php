@@ -14,7 +14,7 @@ class Foo
     public function preparedParams(Connection $connection)
     {
         $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = ?', [1]);
-        
+
         $connection->preparedQuery('
             SELECT email, adaid
             FROM ada
