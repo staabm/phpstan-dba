@@ -9,8 +9,9 @@ use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-
-// use a separate cache file for each, phpstan and phpunit since both trigger different queries
+// we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
+// in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
+// phpstan-dba itself is a special case, since we are testing phpstan-dba with phpstan-dba.
 $cacheFile = __DIR__.'/.phpunit-phpstan-dba.cache';
 if (defined('__PHPSTAN_RUNNING__')) {
     $cacheFile = __DIR__.'/.phpstan-dba.cache';
