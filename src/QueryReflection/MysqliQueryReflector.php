@@ -126,7 +126,7 @@ final class MysqliQueryReflector implements QueryReflector
      */
     public function simulateQuery(string $queryString)
     {
-        if (count($this->cache) > self::MAX_CACHE_SIZE) {
+        if (\count($this->cache) > self::MAX_CACHE_SIZE) {
             // make room for the next element
             array_shift($this->cache);
         }
