@@ -26,10 +26,17 @@ final class MysqliQueryReflector implements QueryReflector
 
     public const MYSQL_HOST_NOT_FOUND = 2002;
 
+    private const MAX_CACHE_SIZE = 50;
+
     /**
      * @var mysqli
      */
     private $db;
+
+    /**
+     * @var array<string, mysqli_sql_exception|mysqli_result|null>
+     */
+    private $cache;
 
     /**
      * @var array<int, string>
@@ -48,6 +55,7 @@ final class MysqliQueryReflector implements QueryReflector
         // enable exception throwing on php <8.1
         mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
 
+        $this->cache = [];
         $this->nativeTypes = [];
         $this->nativeFlags = [];
 
@@ -65,22 +73,16 @@ final class MysqliQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-        try {
-            $simulatedQuery = QuerySimulation::simulate($queryString);
-            if (null === $simulatedQuery) {
-                return null;
-            }
-
-            $this->db->query($simulatedQuery);
-
-            return null;
-        } catch (mysqli_sql_exception $e) {
-            if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
-                return new Error($e->getMessage(), $e->getCode());
-            }
-
+        $result = $this->simulateQuery($queryString);
+        if (null === $result || $result instanceof mysqli_result) {
             return null;
         }
+
+        if (\in_array($result->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+            return new Error($result->getMessage(), $result->getCode());
+        }
+
+        return null;
     }
 
     /**
@@ -88,17 +90,8 @@ final class MysqliQueryReflector implements QueryReflector
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        try {
-            $simulatedQuery = QuerySimulation::simulate($queryString);
-            if (null === $simulatedQuery) {
-                return null;
-            }
-            $result = $this->db->query($simulatedQuery);
-
-            if (!$result instanceof mysqli_result) {
-                return null;
-            }
-        } catch (mysqli_sql_exception $e) {
+        $result = $this->simulateQuery($queryString);
+        if (null === $result || $result instanceof mysqli_sql_exception) {
             return null;
         }
 
@@ -126,6 +119,38 @@ final class MysqliQueryReflector implements QueryReflector
         $result->free();
 
         return $arrayBuilder->getArray();
+    }
+
+    /**
+     * @return mysqli_sql_exception|mysqli_result|null
+     */
+    public function simulateQuery(string $queryString)
+    {
+        if (count($this->cache) > self::MAX_CACHE_SIZE) {
+            // make room for the next element
+            array_shift($this->cache);
+        }
+
+        if (\array_key_exists($queryString, $this->cache)) {
+            return $this->cache[$queryString];
+        }
+
+        $simulatedQuery = QuerySimulation::simulate($queryString);
+        if (null === $simulatedQuery) {
+            return $this->cache[$queryString] = null;
+        }
+
+        try {
+            $result = $this->db->query($simulatedQuery);
+
+            if (!$result instanceof mysqli_result) {
+                return $this->cache[$queryString] = null;
+            }
+
+            return $this->cache[$queryString] = $result;
+        } catch (mysqli_sql_exception $e) {
+            return $this->cache[$queryString] = $e;
+        }
     }
 
     private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
