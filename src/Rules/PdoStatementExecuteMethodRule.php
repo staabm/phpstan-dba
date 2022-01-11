@@ -21,7 +21,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  *
  * @see PdoStatementExecuteErrorMethodRuleTest
  */
-final class PdoStatementExecuteErrorMethodRule implements Rule
+final class PdoStatementExecuteMethodRule implements Rule
 {
     public function getNodeType(): string
     {

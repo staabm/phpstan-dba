@@ -3,17 +3,17 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\PdoStatementExecuteErrorMethodRule;
+use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteErrorMethodRule>
+ * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
  */
-class PdoStatementExecuteErrorMethodRuleTest extends AbstractServiceAwareRuleTestCase
+class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(PdoStatementExecuteErrorMethodRule::class, __DIR__.'/../config/dba.neon');
+        return $this->getRuleFromConfig(PdoStatementExecuteMethodRule::class, __DIR__.'/../config/dba.neon');
     }
 
     public function testParameterErrors(): void
