@@ -63,19 +63,21 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         }
 
         $args = $node->getArgs();
-        $errors = [];
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
         if (null === $queryString) {
-            return $errors;
+            return [];
         }
 
         $error = $queryReflection->validateQueryString($queryString);
         if (null !== $error) {
-            $errors[] = RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build();
+            return [
+                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build();
+            ];
+
         }
 
-        return $errors;
+        return [];
     }
 }
