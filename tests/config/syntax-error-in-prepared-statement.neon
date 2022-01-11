@@ -8,4 +8,4 @@ services:
 		tags: [phpstan.rules.rule]
 		arguments:
 			classMethods:
-				- 'My\Connection::preparedQuery'
+				- 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
