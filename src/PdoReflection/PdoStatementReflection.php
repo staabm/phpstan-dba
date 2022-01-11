@@ -17,19 +17,18 @@ use PHPStan\ShouldNotHappenException;
 final class PdoStatementReflection
 {
     /**
-     * Do not change, part of internal PHPStan naming
+     * Do not change, part of internal PHPStan naming.
      *
      * @var string
      */
     private const PREVIOUS = 'previous';
 
     /**
-     * Convention key name in php-parser and PHPStan for parent node
+     * Convention key name in php-parser and PHPStan for parent node.
      *
      * @var string
      */
     private const PARENT = 'parent';
-
 
     private NodeFinder $nodeFinder;
 

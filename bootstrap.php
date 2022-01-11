@@ -1,13 +1,13 @@
 <?php
 
-use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
-use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
+use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 // we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
 // in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
@@ -18,36 +18,35 @@ if (defined('__PHPSTAN_RUNNING__')) {
 }
 
 try {
-	if (false !== getenv('GITHUB_ACTION')) {
-		$mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
-	} else {
-		$mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
-	}
+    if (false !== getenv('GITHUB_ACTION')) {
+        $mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
+    } else {
+        $mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
+    }
 
-	$reflector = new MysqliQueryReflector($mysqli);
+    $reflector = new MysqliQueryReflector($mysqli);
     $reflector = new RecordingQueryReflector(
         ReflectionCache::create(
             $cacheFile
         ),
         $reflector
     );
-
 } catch (mysqli_sql_exception $e) {
-	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
-		throw $e;
-	}
+    if (MysqliQueryReflector::MYSQL_HOST_NOT_FOUND !== $e->getCode()) {
+        throw $e;
+    }
 
-	echo "\nWARN: Could not connect to MySQL.\nUsing cached reflection.\n";
+    echo "\nWARN: Could not connect to MySQL.\nUsing cached reflection.\n";
 
-	// when we can't connect to the database, we rely on replaying pre-recorded db-reflection information
-	$reflector = new ReplayQueryReflector(
-		ReflectionCache::load(
-			$cacheFile
-		)
-	);
+    // when we can't connect to the database, we rely on replaying pre-recorded db-reflection information
+    $reflector = new ReplayQueryReflector(
+        ReflectionCache::load(
+            $cacheFile
+        )
+    );
 }
 
 QueryReflection::setupReflector(
-	$reflector,
-	RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
+    $reflector,
+    RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
 );
