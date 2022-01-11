@@ -73,7 +73,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         $error = $queryReflection->validateQueryString($queryString);
         if (null !== $error) {
             return [
-                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build();
+                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build()
             ];
 
         }
