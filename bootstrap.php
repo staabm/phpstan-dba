@@ -9,7 +9,12 @@ use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$cacheFile = __DIR__.'/.phpstan-dba.cache';
+
+// use a separate cache file for each, phpstan and phpunit since both trigger different queries
+$cacheFile = __DIR__.'/.phpunit-phpstan-dba.cache';
+if (defined('__PHPSTAN_RUNNING__')) {
+    $cacheFile = __DIR__.'/.phpstan-dba.cache';
+}
 
 try {
 	if (false !== getenv('GITHUB_ACTION')) {
@@ -19,15 +24,12 @@ try {
 	}
 
 	$reflector = new MysqliQueryReflector($mysqli);
-	// record only while phpunit is running - since this file might also be used as phpstan bootscript
-	if (defined('__PHPSTAN_RUNNING__')) {
-		$reflector = new RecordingQueryReflector(
-			ReflectionCache::create(
-				$cacheFile
-			),
-			$reflector
-		);
-	}
+    $reflector = new RecordingQueryReflector(
+        ReflectionCache::create(
+            $cacheFile
+        ),
+        $reflector
+    );
 
 } catch (mysqli_sql_exception $e) {
 	if ($e->getCode() !== MysqliQueryReflector::MYSQL_HOST_NOT_FOUND) {
