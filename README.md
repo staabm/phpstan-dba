@@ -101,6 +101,22 @@ The GitHubActions setup of `phpstan-dba` is [using this technique to replay the 
 
 ### use `SyntaxErrorInQueryMethodRule` for your custom classes
 
+Reuse the `SyntaxErrorInPreparedStatementMethodRule` within your PHPStan configuration to detect syntax errors in prepared queries, by registering a service:
+
+```
+services:
+	-
+		class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+		tags: [phpstan.rules.rule]
+		arguments:
+			classMethods:
+				- 'My\Connection::preparedQuery'
+```
+
+__the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument. __
+
+### use `SyntaxErrorInQueryMethodRule` for your custom classes
+
 Reuse the `SyntaxErrorInQueryMethodRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
 
 ```
