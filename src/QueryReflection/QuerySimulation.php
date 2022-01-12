@@ -66,6 +66,6 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
-        return preg_replace('/\s*LIMIT\s+\d+\s*(,\s*\d*)?$/i', '', $queryString);
+        return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?$/i', '', $queryString);
     }
 }
