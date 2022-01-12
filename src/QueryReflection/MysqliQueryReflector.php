@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use mysqli;
 use mysqli_result;
 use mysqli_sql_exception;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -103,7 +104,7 @@ final class MysqliQueryReflector implements QueryReflector
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         $result = $this->simulateQuery($queryString);
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             return null;
         }
 
@@ -111,6 +112,10 @@ final class MysqliQueryReflector implements QueryReflector
 
         $i = 0;
         foreach ($result as $val) {
+            if (!property_exists($val, 'name') || !property_exists($val, 'type') || !property_exists($val, 'flags') || !property_exists($val, 'length')) {
+                throw new ShouldNotHappenException();
+            }
+
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val->name),
@@ -132,8 +137,9 @@ final class MysqliQueryReflector implements QueryReflector
     /**
      * @return mysqli_sql_exception|list<object>|null
      */
-    private function simulateQuery(string $queryString) {
-        if (array_key_exists($queryString, $this->cache)) {
+    private function simulateQuery(string $queryString)
+    {
+        if (\array_key_exists($queryString, $this->cache)) {
             return $this->cache[$queryString];
         }
 
@@ -148,7 +154,6 @@ final class MysqliQueryReflector implements QueryReflector
         }
 
         try {
-            $this->counter++;
             $result = $this->db->query($simulatedQuery);
 
             if (!$result instanceof mysqli_result) {
