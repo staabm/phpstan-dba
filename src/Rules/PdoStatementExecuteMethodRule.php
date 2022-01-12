@@ -28,13 +28,13 @@ final class PdoStatementExecuteMethodRule implements Rule
         return MethodCall::class;
     }
 
-    public function processNode(Node $callLike, Scope $scope): array
+    public function processNode(Node $methodCall, Scope $scope): array
     {
-        if (!$callLike->name instanceof Node\Identifier) {
+        if (!$methodCall->name instanceof Node\Identifier) {
             return [];
         }
 
-        $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        $methodReflection = $scope->getMethodReflection($scope->getType($methodCall->var), $methodCall->name->toString());
         if (null === $methodReflection) {
             return [];
         }
@@ -47,7 +47,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        return $this->checkErrors($methodReflection, $callLike, $scope);
+        return $this->checkErrors($methodReflection, $methodCall, $scope);
     }
 
     /**
