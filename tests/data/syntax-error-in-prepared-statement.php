@@ -44,6 +44,26 @@ class Foo
         ', [1, $unknownType]);
     }
 
+    public function noErrorOnPlaceholderInLimit(Connection $connection, int $limit)
+    {
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            LIMIT        ?
+        ', [1, $limit]);
+    }
+
+    public function noErrorOnPlaceholderInOffsetAndLimit(Connection $connection, int $offset, int $limit)
+    {
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            LIMIT        ?,  ?
+        ', [1, $offset, $limit]);
+    }
+
     public function preparedParams(Connection $connection)
     {
         $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = ?', [1]);
