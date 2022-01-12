@@ -168,10 +168,14 @@ final class QueryReflection
 
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
                         $parameters[$placeholderName] = $valueTypes[$i]->getValue();
+                    } else {
+                        return null;
                     }
                 } elseif ($keyType instanceof ConstantIntegerType) {
                     if ($valueTypes[$i] instanceof ConstantScalarType) {
                         $parameters[$keyType->getValue()] = $valueTypes[$i]->getValue();
+                    } else {
+                        return null;
                     }
                 }
             }
