@@ -32,6 +32,7 @@
 			"php-cs-fixer fix"
 		],
 		"phpstan-dba-baseline": [
+			"phpunit",
 			"phpstan analyse -c phpstan.neon.dist --debug"
 		],
 		"phpstan": [

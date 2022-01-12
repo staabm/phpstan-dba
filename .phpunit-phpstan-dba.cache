@@ -2,6 +2,15 @@
   'schemaVersion' => 'v3-rename-props',
   'records' => 
   array (
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = 1 AND email LIKE \'%@example%\'
+            LIMIT        1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
       'error' => 
@@ -187,7 +196,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
@@ -598,7 +607,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \':adaid LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaid LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
@@ -610,7 +619,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'? LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
@@ -622,7 +631,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'? and email = ? LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? and email = ? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
@@ -703,7 +712,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \':email LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
@@ -901,7 +910,7 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \':email LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
       'result' => 
