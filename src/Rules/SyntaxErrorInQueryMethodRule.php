@@ -64,6 +64,12 @@ final class SyntaxErrorInQueryMethodRule implements Rule
 
         $args = $node->getArgs();
 
+        if (!array_key_exists($queryArgPosition, $args)) {
+            return [
+                RuleErrorBuilder::message('Missing query-argument in query-method.')->line($node->getLine())->build(),
+            ];
+        }
+
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
         if (null === $queryString) {

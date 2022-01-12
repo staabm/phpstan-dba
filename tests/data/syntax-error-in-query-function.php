@@ -25,4 +25,9 @@ class Foo
     {
         mysqli_query($mysqli, 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
     }
+
+    public function missingQueryArgument()
+    {
+        \Deployer\runMysqlQuery();
+    }
 }

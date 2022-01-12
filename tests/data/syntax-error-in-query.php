@@ -66,4 +66,9 @@ class Foo
     {
         $pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
     }
+
+    public function missingQueryArgument(PDO $pdo)
+    {
+        $pdo->prepare();
+    }
 }
