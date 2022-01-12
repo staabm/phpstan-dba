@@ -20,7 +20,8 @@ use staabm\PHPStanDba\DbaException;
  */
 final class QuerySimulation
 {
-    public static function simulateParamValueType(Type $paramType): ?string {
+    public static function simulateParamValueType(Type $paramType): ?string
+    {
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
         }
