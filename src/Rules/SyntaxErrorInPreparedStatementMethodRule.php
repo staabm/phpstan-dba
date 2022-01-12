@@ -8,14 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
-use Prophecy\Call\Call;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
@@ -83,6 +81,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
     /**
      * @param MethodCall|New_ $callLike
+     *
      * @return RuleError[]
      */
     private function checkErrors(CallLike $callLike, Scope $scope): array

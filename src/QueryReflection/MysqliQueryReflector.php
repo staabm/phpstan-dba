@@ -76,7 +76,6 @@ final class MysqliQueryReflector implements QueryReflector
             return null;
         } catch (mysqli_sql_exception $e) {
             if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
-
                 $message = $e->getMessage();
 
                 // make error string consistent across mysql/mariadb
@@ -84,8 +83,8 @@ final class MysqliQueryReflector implements QueryReflector
                 $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
                 // to ease debugging, print the error we simulated
-                if ($e->getCode() === self::MYSQL_SYNTAX_ERROR_CODE && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                    $message = $message ."\n\nSimulated query: ". $simulatedQuery;
+                if (self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode() && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                    $message = $message."\n\nSimulated query: ".$simulatedQuery;
                 }
 
                 return new Error($message, $e->getCode());
