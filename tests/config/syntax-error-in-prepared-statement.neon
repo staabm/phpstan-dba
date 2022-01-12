@@ -9,3 +9,4 @@ services:
 		arguments:
 			classMethods:
 				- 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
+				- 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct'

@@ -3,12 +3,18 @@
 namespace SyntaxErrorInPreparedStatementMethodRuleTest;
 
 use staabm\PHPStanDba\Tests\Fixture\Connection;
+use staabm\PHPStanDba\Tests\Fixture\PreparedStatement;
 
 class Foo
 {
     public function syntaxError(Connection $connection)
     {
         $connection->preparedQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
+    }
+
+    public function syntaxErrorInConstruct()
+    {
+        $stmt = new PreparedStatement('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
     }
 
     public function preparedParams(Connection $connection)
