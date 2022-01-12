@@ -84,4 +84,7 @@ jobs:
         with:
           composer-options: "--prefer-dist --no-progress --no-suggest"
 
+      - name: Stop mysql
+        run: service mysql stop
+
       - run: vendor/bin/phpstan
