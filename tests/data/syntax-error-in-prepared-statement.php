@@ -52,6 +52,13 @@ class Foo
             WHERE gesperrt = ?
             LIMIT        ?
         ', [1, $limit]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = :gesperrt
+            LIMIT        :limit
+        ', [':gesperrt' => 1, ':limit' => $limit]);
     }
 
     public function noErrorOnPlaceholderInOffsetAndLimit(Connection $connection, int $offset, int $limit)
@@ -62,6 +69,13 @@ class Foo
             WHERE gesperrt = ?
             LIMIT        ?,  ?
         ', [1, $offset, $limit]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = :gesperrt
+            LIMIT   :offset,     :limit
+        ', [':gesperrt' => 1, ':offset' => $offset, ':limit' => $limit]);
     }
 
     public function preparedParams(Connection $connection)
