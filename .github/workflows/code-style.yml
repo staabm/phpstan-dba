@@ -1,0 +1,33 @@
+name: Code Style
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.1
+            coverage: none # disable xdebug, pcov
+            tools: cs2pr
+
+      -   name: Composer install
+          uses: ramsey/composer-install@v2
+          with:
+            composer-options: --ansi --prefer-dist
+
+      -   name: Check code style
+          run: vendor/bin/php-cs-fixer fix --ansi --diff --dry-run --format=checkstyle | cs2pr # check whether there are still errors left
