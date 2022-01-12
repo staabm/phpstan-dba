@@ -3,9 +3,31 @@
   'records' => 
   array (
     '
+            SELECT email adaid
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
+            FROM ada
+            LIMIT        1
+        ' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
+         'code' => 1064,
+      )),
+    ),
+    '
             SELECT email, adaid
             FROM ada
-            WHERE gesperrt = 1 AND email LIKE \'%@example%\'
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
+            LIMIT        1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\' AND email LIKE NULL
             LIMIT        1
         ' => 
     array (
@@ -417,7 +439,7 @@
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE adaid = 1' => 
+    'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
       'error' => NULL,
       'result' => 
@@ -510,7 +532,7 @@
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE adaid = 1 and email = \'email@example.org\'' => 
+    'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
     array (
       'error' => NULL,
       'result' => 
@@ -708,19 +730,7 @@
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE email <=> :email' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE email <=> NULL' => 
+    'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
       'error' => NULL,
       'result' => 
@@ -811,6 +821,18 @@
           array (
           ),
         )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email <=> :email' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        3 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
@@ -918,7 +940,7 @@
         3 => NULL,
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE gesperrt = 1' => 
+    'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
       'error' => NULL,
     ),

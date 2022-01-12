@@ -106,34 +106,38 @@ final class QueryReflection
         }
 
         $type = $scope->getType($queryExpr);
-        if ($type instanceof ConstantScalarType) {
-            return (string) $type->getValue();
+        return $this->resolveParamValueType($type);
+    }
+
+    private function resolveParamValueType(Type $paramType): ?string {
+        if ($paramType instanceof ConstantScalarType) {
+            return (string) $paramType->getValue();
         }
 
         $integerType = new IntegerType();
-        if ($integerType->isSuperTypeOf($type)->yes()) {
+        if ($integerType->isSuperTypeOf($paramType)->yes()) {
             return '1';
         }
 
         $booleanType = new BooleanType();
-        if ($booleanType->isSuperTypeOf($type)->yes()) {
+        if ($booleanType->isSuperTypeOf($paramType)->yes()) {
             return '1';
         }
 
-        if ($type->isNumericString()->yes()) {
+        if ($paramType->isNumericString()->yes()) {
             return '1';
         }
 
         $floatType = new FloatType();
-        if ($floatType->isSuperTypeOf($type)->yes()) {
+        if ($floatType->isSuperTypeOf($paramType)->yes()) {
             return '1.0';
         }
 
-        if ($type instanceof MixedType || $type instanceof StringType || $type instanceof IntersectionType || $type instanceof UnionType) {
+        if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType || $paramType instanceof UnionType) {
             return null;
         }
 
-        throw new DbaException(sprintf('Unexpected expression type %s', \get_class($type)));
+        throw new DbaException(sprintf('Unexpected expression type %s', \get_class($paramType)));
     }
 
     private function getQueryType(string $query): ?string
@@ -166,17 +170,9 @@ final class QueryReflection
                         $placeholderName = ':'.$placeholderName;
                     }
 
-                    if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$placeholderName] = $valueTypes[$i]->getValue();
-                    } else {
-                        return null;
-                    }
+                    $parameters[$placeholderName] = $this->resolveParamValueType($valueTypes[$i]);
                 } elseif ($keyType instanceof ConstantIntegerType) {
-                    if ($valueTypes[$i] instanceof ConstantScalarType) {
-                        $parameters[$keyType->getValue()] = $valueTypes[$i]->getValue();
-                    } else {
-                        return null;
-                    }
+                    $parameters[$keyType->getValue()] = $this->resolveParamValueType($valueTypes[$i]);
                 }
             }
 
