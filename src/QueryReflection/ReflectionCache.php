@@ -23,9 +23,19 @@ final class ReflectionCache
      */
     private $records = [];
 
+    /**
+     * @var bool
+     */
+    private $changed = false;
+
     private function __construct(string $cacheFile)
     {
         $this->cacheFile = $cacheFile;
+
+        if (!is_file($cacheFile)) {
+            // enforce file creation
+            $this->changed = true;
+        }
     }
 
     public static function create(string $cacheFile): self
@@ -51,6 +61,10 @@ final class ReflectionCache
 
     public function persist(): void
     {
+        if (!$this->changed) {
+            return;
+        }
+
         $records = $this->records;
 
         // sort records to prevent unnecessary cache invalidation caused by different order of queries
@@ -99,6 +113,7 @@ final class ReflectionCache
 
         $cacheEntry = &$this->records[$queryString];
         $cacheEntry['error'] = $error;
+        $this->changed = true;
     }
 
     /**
@@ -154,5 +169,6 @@ final class ReflectionCache
         }
 
         $cacheEntry['result'][$fetchType] = $resultType;
+        $this->changed = true;
     }
 }

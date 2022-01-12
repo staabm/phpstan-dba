@@ -165,10 +165,6 @@ If not configured otherwise, the following defaults are used:
 composer require --dev staabm/phpstan-dba
 ```
 
-## Caveats
-
-- running `RecordingQueryReflector` requires running PHPStan with `--debug` (otherwise we see concurrency issues while building the cache).
-
 ## Todos
 
 - support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
