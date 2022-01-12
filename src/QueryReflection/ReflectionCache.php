@@ -49,7 +49,7 @@ final class ReflectionCache
             throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
         }
 
-        $cache = include $cacheFile;
+        $cache = require $cacheFile;
 
         $reflectionCache = new self($cacheFile);
         if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
@@ -109,11 +109,14 @@ final class ReflectionCache
     {
         if (!\array_key_exists($queryString, $this->records)) {
             $this->records[$queryString] = [];
+            $this->changed = true;
         }
 
         $cacheEntry = &$this->records[$queryString];
-        $cacheEntry['error'] = $error;
-        $this->changed = true;
+        if (!\array_key_exists('error', $cacheEntry) || $cacheEntry['error'] !== $error) {
+            $cacheEntry['error'] = $error;
+            $this->changed = true;
+        }
     }
 
     /**
@@ -161,14 +164,18 @@ final class ReflectionCache
     {
         if (!\array_key_exists($queryString, $this->records)) {
             $this->records[$queryString] = [];
+            $this->changed = true;
         }
 
         $cacheEntry = &$this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
             $cacheEntry['result'] = [];
+            $this->changed = true;
         }
 
-        $cacheEntry['result'][$fetchType] = $resultType;
-        $this->changed = true;
+        if (!\array_key_exists($fetchType, $cacheEntry['result']) || $cacheEntry['result'][$fetchType] !== $resultType) {
+            $cacheEntry['result'][$fetchType] = $resultType;
+            $this->changed = true;
+        }
     }
 }
