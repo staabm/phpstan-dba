@@ -26,10 +26,17 @@ final class MysqliQueryReflector implements QueryReflector
 
     public const MYSQL_HOST_NOT_FOUND = 2002;
 
+    private const MAX_CACHE_SIZE = 50;
+
     /**
      * @var mysqli
      */
     private $db;
+
+    /**
+     * @var array<string, mysqli_sql_exception|list<object>|null>
+     */
+    private $cache = [];
 
     /**
      * @var array<int, string>
@@ -65,33 +72,29 @@ final class MysqliQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-        $simulatedQuery = QuerySimulation::simulate($queryString);
-        if (null === $simulatedQuery) {
+        $result = $this->simulateQuery($queryString);
+        if (!$result instanceof mysqli_sql_exception) {
             return null;
         }
+        $e = $result;
 
-        try {
-            $this->db->query($simulatedQuery);
+        if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+            $message = $e->getMessage();
 
-            return null;
-        } catch (mysqli_sql_exception $e) {
-            if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
-                $message = $e->getMessage();
+            // make error string consistent across mysql/mariadb
+            $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
+            $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
-                // make error string consistent across mysql/mariadb
-                $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
-                $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
-
-                // to ease debugging, print the error we simulated
-                if (self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode() && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                    $message = $message."\n\nSimulated query: ".$simulatedQuery;
-                }
-
-                return new Error($message, $e->getCode());
+            // to ease debugging, print the error we simulated
+            if (self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode() && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                $simulatedQuery = QuerySimulation::simulate($queryString);
+                $message = $message."\n\nSimulated query: ".$simulatedQuery;
             }
 
-            return null;
+            return new Error($message, $e->getCode());
         }
+
+        return null;
     }
 
     /**
@@ -99,28 +102,15 @@ final class MysqliQueryReflector implements QueryReflector
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        $simulatedQuery = QuerySimulation::simulate($queryString);
-        if (null === $simulatedQuery) {
-            return null;
-        }
-
-        try {
-            $result = $this->db->query($simulatedQuery);
-
-            if (!$result instanceof mysqli_result) {
-                return null;
-            }
-        } catch (mysqli_sql_exception $e) {
+        $result = $this->simulateQuery($queryString);
+        if (!is_array($result)) {
             return null;
         }
 
         $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
 
-        /* Get field information for all result-columns */
-        $finfo = $result->fetch_fields();
-
         $i = 0;
-        foreach ($finfo as $val) {
+        foreach ($result as $val) {
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val->name),
@@ -135,9 +125,43 @@ final class MysqliQueryReflector implements QueryReflector
             }
             ++$i;
         }
-        $result->free();
 
         return $arrayBuilder->getArray();
+    }
+
+    /**
+     * @return mysqli_sql_exception|list<object>|null
+     */
+    private function simulateQuery(string $queryString) {
+        if (array_key_exists($queryString, $this->cache)) {
+            return $this->cache[$queryString];
+        }
+
+        if (\count($this->cache) > self::MAX_CACHE_SIZE) {
+            // make room for the next element by randomly removing a existing one
+            array_shift($this->cache);
+        }
+
+        $simulatedQuery = QuerySimulation::simulate($queryString);
+        if (null === $simulatedQuery) {
+            return $this->cache[$queryString] = null;
+        }
+
+        try {
+            $this->counter++;
+            $result = $this->db->query($simulatedQuery);
+
+            if (!$result instanceof mysqli_result) {
+                return $this->cache[$queryString] = null;
+            }
+
+            $resultInfo = $result->fetch_fields();
+            $result->free();
+
+            return $this->cache[$queryString] = $resultInfo;
+        } catch (mysqli_sql_exception $e) {
+            return $this->cache[$queryString] = $e;
+        }
     }
 
     private function mapMysqlToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
