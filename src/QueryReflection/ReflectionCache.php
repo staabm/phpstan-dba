@@ -105,7 +105,7 @@ final class ReflectionCache
             throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
         }
 
-        // frees the lock implictly
+        // will free the lock implictly
         fclose($handle);
     }
 
