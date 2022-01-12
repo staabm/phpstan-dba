@@ -49,7 +49,7 @@ final class ReflectionCache
             throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
         }
 
-        $cache = include $cacheFile;
+        $cache = require $cacheFile;
 
         $reflectionCache = new self($cacheFile);
         if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
