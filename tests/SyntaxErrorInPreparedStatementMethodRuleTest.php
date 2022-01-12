@@ -23,7 +23,11 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends AbstractServiceAwareR
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                11,
+                12,
+            ],
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                17,
             ],
         ]);
     }

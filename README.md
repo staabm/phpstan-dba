@@ -112,6 +112,7 @@ services:
 		arguments:
 			classMethods:
 				- 'My\Connection::preparedQuery'
+				- 'My\PreparedStatement::__construct'
 ```
 
 __the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument.__
