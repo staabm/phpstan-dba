@@ -44,10 +44,9 @@ final class ReflectionCache
             throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
         }
 
-
         $reflectionCache = new self($cacheFile);
         $cachedRecords = $reflectionCache->readCache();
-        if ($cachedRecords !== null) {
+        if (null !== $cachedRecords) {
             $reflectionCache->records = $cachedRecords;
         }
 
@@ -57,7 +56,8 @@ final class ReflectionCache
     /**
      * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
      */
-    private function readCache(): ?array {
+    private function readCache(): ?array
+    {
         clearstatcache(true, $this->cacheFile);
         $cache = require $this->cacheFile;
 
@@ -70,7 +70,7 @@ final class ReflectionCache
 
     public function persist(): void
     {
-        if (count($this->changes) === 0) {
+        if (0 === \count($this->changes)) {
             return;
         }
 
@@ -79,13 +79,13 @@ final class ReflectionCache
 
         // actually we should lock even earlier, but we could no longer read the cache-file with require()
         $handle = fopen($this->cacheFile, 'w+');
-        if ($handle === false) {
+        if (false === $handle) {
             throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
         }
         flock($handle, LOCK_EX);
 
         // re-apply all changes to the current cache-state
-        if ($cachedRecords === null) {
+        if (null === $cachedRecords) {
             $newRecords = $this->changes;
         } else {
             $newRecords = array_merge($cachedRecords, $this->changes);
