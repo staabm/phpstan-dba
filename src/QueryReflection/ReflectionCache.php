@@ -196,6 +196,7 @@ final class ReflectionCache
             $this->changes[$queryString]['result'] = $this->records[$queryString]['result'] = [];
         }
 
+        // @phpstan-ignore-next-line
         if (!\array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
         }
