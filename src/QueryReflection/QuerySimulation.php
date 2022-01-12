@@ -66,7 +66,8 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
-        // XXX someday we will use a proper SQL parser
+        // XXX someday we will use a proper SQL parser,
+        // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
     }
 }
