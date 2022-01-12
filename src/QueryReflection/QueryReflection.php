@@ -106,38 +106,7 @@ final class QueryReflection
         }
 
         $type = $scope->getType($queryExpr);
-        return $this->resolveParamValueType($type);
-    }
-
-    private function resolveParamValueType(Type $paramType): ?string {
-        if ($paramType instanceof ConstantScalarType) {
-            return (string) $paramType->getValue();
-        }
-
-        $integerType = new IntegerType();
-        if ($integerType->isSuperTypeOf($paramType)->yes()) {
-            return '1';
-        }
-
-        $booleanType = new BooleanType();
-        if ($booleanType->isSuperTypeOf($paramType)->yes()) {
-            return '1';
-        }
-
-        if ($paramType->isNumericString()->yes()) {
-            return '1';
-        }
-
-        $floatType = new FloatType();
-        if ($floatType->isSuperTypeOf($paramType)->yes()) {
-            return '1.0';
-        }
-
-        if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType || $paramType instanceof UnionType) {
-            return null;
-        }
-
-        throw new DbaException(sprintf('Unexpected expression type %s', \get_class($paramType)));
+        return QuerySimulation::simulateParamValueType($type);
     }
 
     private function getQueryType(string $query): ?string
@@ -170,9 +139,9 @@ final class QueryReflection
                         $placeholderName = ':'.$placeholderName;
                     }
 
-                    $parameters[$placeholderName] = $this->resolveParamValueType($valueTypes[$i]);
+                    $parameters[$placeholderName] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
                 } elseif ($keyType instanceof ConstantIntegerType) {
-                    $parameters[$keyType->getValue()] = $this->resolveParamValueType($valueTypes[$i]);
+                    $parameters[$keyType->getValue()] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
                 }
             }
 
