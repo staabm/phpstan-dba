@@ -77,6 +77,7 @@ final class ReflectionCache
         // freshly read the cache as it might have changed in the meantime
         $cachedRecords = $this->readCache();
 
+        // actually we should lock even earlier, but we could no longer read the cache-file with require()
         $handle = fopen($this->cacheFile, 'w+');
         if ($handle === false) {
             throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
