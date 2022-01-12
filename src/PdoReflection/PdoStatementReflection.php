@@ -32,8 +32,7 @@ final class PdoStatementReflection
 
     private NodeFinder $nodeFinder;
 
-    public function __construct()
-    {
+    public function __construct()    {
         $this->nodeFinder = new NodeFinder();
     }
 
