@@ -33,9 +33,7 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        $queryString = $this->builtSimulatedQuery($queryString);
-
-        if (null === $queryString) {
+        if ('SELECT' !== $this->getQueryType($queryString)) {
             return null;
         }
 
@@ -47,22 +45,11 @@ final class QueryReflection
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        $queryString = $this->builtSimulatedQuery($queryString);
-
-        if (null === $queryString) {
-            return null;
-        }
-
-        return self::reflector()->getResultType($queryString, $fetchType);
-    }
-
-    private function builtSimulatedQuery(string $queryString): ?string
-    {
         if ('SELECT' !== $this->getQueryType($queryString)) {
             return null;
         }
 
-        return $queryString;
+        return self::reflector()->getResultType($queryString, $fetchType);
     }
 
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
