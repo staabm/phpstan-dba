@@ -20,6 +20,9 @@ parameters:
             message: '#.*has no return type specified.#'
             path: tests/*
         -
+            message: '#.*with no type specified.#'
+            path: tests/*
+        -
             message: '#.*return type has no value type specified in iterable type iterable.#'
             path: tests/*
 

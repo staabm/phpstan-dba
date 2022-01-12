@@ -42,7 +42,8 @@ final class RuntimeConfiguration
         return $this;
     }
 
-    public function isDebugEnabled():bool {
+    public function isDebugEnabled(): bool
+    {
         return $this->debugMode;
     }
 
