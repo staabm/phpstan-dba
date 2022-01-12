@@ -17,6 +17,16 @@ class Foo
         $stmt = new PreparedStatement('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
     }
 
+    public function noErrorOnMixedParams(Connection $connection, $unknownType)
+    {
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ? AND email LIKE ?
+            LIMIT        1
+        ', [1, $unknownType]);
+    }
+
     public function preparedParams(Connection $connection)
     {
         $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = ?', [1]);
