@@ -76,11 +76,10 @@ final class MysqliQueryReflector implements QueryReflector
             return null;
         } catch (mysqli_sql_exception $e) {
             if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
-
                 // make error string consistent across mysql/mariadb
                 $message = $e->getMessage();
-                $message = str_replace( ' MySQL server', ' MySQL/MariaDB server', $message);
-                $message = str_replace( ' MariaDB server', ' MySQL/MariaDB server', $message);
+                $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
+                $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
                 return new Error($message, $e->getCode());
             }
