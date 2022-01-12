@@ -24,18 +24,13 @@ final class ReflectionCache
     private $records = [];
 
     /**
-     * @var bool
+     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
-    private $changed = false;
+    private $changes = [];
 
     private function __construct(string $cacheFile)
     {
         $this->cacheFile = $cacheFile;
-
-        if (!is_file($cacheFile)) {
-            // enforce file creation
-            $this->changed = true;
-        }
     }
 
     public static function create(string $cacheFile): self
@@ -49,35 +44,69 @@ final class ReflectionCache
             throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
         }
 
-        $cache = require $cacheFile;
-
         $reflectionCache = new self($cacheFile);
-        if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
-            $reflectionCache->records = $cache['records'];
+        $cachedRecords = $reflectionCache->readCache();
+        if (null !== $cachedRecords) {
+            $reflectionCache->records = $cachedRecords;
         }
 
         return $reflectionCache;
     }
 
+    /**
+     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
+     */
+    private function readCache(): ?array
+    {
+        clearstatcache(true, $this->cacheFile);
+        $cache = require $this->cacheFile;
+
+        if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
+            return $cache['records'];
+        }
+
+        return null;
+    }
+
     public function persist(): void
     {
-        if (!$this->changed) {
+        if (0 === \count($this->changes)) {
             return;
         }
 
-        $records = $this->records;
+        // freshly read the cache as it might have changed in the meantime
+        $cachedRecords = $this->readCache();
+
+        // actually we should lock even earlier, but we could no longer read the cache-file with require()
+        $handle = fopen($this->cacheFile, 'w+');
+        if (false === $handle) {
+            throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
+        }
+        flock($handle, LOCK_EX);
+
+        // re-apply all changes to the current cache-state
+        if (null === $cachedRecords) {
+            $newRecords = $this->changes;
+        } else {
+            $newRecords = array_merge($cachedRecords, $this->changes);
+        }
 
         // sort records to prevent unnecessary cache invalidation caused by different order of queries
-        uksort($records, function ($queryA, $queryB) {
+        uksort($newRecords, function ($queryA, $queryB) {
             return $queryA <=> $queryB;
         });
 
-        if (false === file_put_contents($this->cacheFile, '<?php return '.var_export([
-            'schemaVersion' => self::SCHEMA_VERSION,
-            'records' => $records,
-        ], true).';', LOCK_EX)) {
+        $cacheContent = '<?php return '.var_export([
+                'schemaVersion' => self::SCHEMA_VERSION,
+                'records' => $newRecords,
+            ], true).';';
+
+        if (false === fwrite($handle, $cacheContent)) {
             throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
         }
+
+        // frees the lock implictly
+        fclose($handle);
     }
 
     public function hasValidationError(string $queryString): bool
@@ -108,14 +137,11 @@ final class ReflectionCache
     public function putValidationError(string $queryString, ?Error $error): void
     {
         if (!\array_key_exists($queryString, $this->records)) {
-            $this->records[$queryString] = [];
-            $this->changed = true;
+            $this->changes[$queryString] = $this->records[$queryString] = [];
         }
 
-        $cacheEntry = &$this->records[$queryString];
-        if (!\array_key_exists('error', $cacheEntry) || $cacheEntry['error'] !== $error) {
-            $cacheEntry['error'] = $error;
-            $this->changed = true;
+        if (!\array_key_exists('error', $this->records[$queryString]) || $this->records[$queryString]['error'] !== $error) {
+            $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
         }
     }
 
@@ -163,19 +189,16 @@ final class ReflectionCache
     public function putResultType(string $queryString, int $fetchType, ?Type $resultType): void
     {
         if (!\array_key_exists($queryString, $this->records)) {
-            $this->records[$queryString] = [];
-            $this->changed = true;
+            $this->changes[$queryString] = $this->records[$queryString] = [];
         }
 
-        $cacheEntry = &$this->records[$queryString];
-        if (!\array_key_exists('result', $cacheEntry)) {
-            $cacheEntry['result'] = [];
-            $this->changed = true;
+        if (!\array_key_exists('result', $this->records[$queryString])) {
+            $this->changes[$queryString]['result'] = $this->records[$queryString]['result'] = [];
         }
 
-        if (!\array_key_exists($fetchType, $cacheEntry['result']) || $cacheEntry['result'][$fetchType] !== $resultType) {
-            $cacheEntry['result'][$fetchType] = $resultType;
-            $this->changed = true;
+        // @phpstan-ignore-next-line
+        if (!\array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
+            $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
         }
     }
 }
