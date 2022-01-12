@@ -2,6 +2,15 @@
   'schemaVersion' => 'v3-rename-props',
   'records' => 
   array (
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = 1 AND email LIKE \'%@example%\'
+            LIMIT        1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
       'error' => 
