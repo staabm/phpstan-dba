@@ -51,18 +51,16 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
-            if (null === $methodReflection) {
-                return [];
-            }
         } elseif ($callLike instanceof New_) {
             if (!$callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
-            if (null === $methodReflection) {
-                return [];
-            }
         } else {
+            return [];
+        }
+
+        if (null === $methodReflection) {
             return [];
         }
 
