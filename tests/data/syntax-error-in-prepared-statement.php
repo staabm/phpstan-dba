@@ -44,7 +44,8 @@ class Foo
         ', [1, $unknownType]);
     }
 
-    public function noErrorOnPlaceholderInLimit(Connection $connection, int $limit) {
+    public function noErrorOnPlaceholderInLimit(Connection $connection, int $limit)
+    {
         $connection->preparedQuery('
             SELECT email, adaid
             FROM ada
@@ -53,7 +54,8 @@ class Foo
         ', [1, $limit]);
     }
 
-    public function noErrorOnPlaceholderInOffsetAndLimit(Connection $connection, int $offset, int $limit) {
+    public function noErrorOnPlaceholderInOffsetAndLimit(Connection $connection, int $offset, int $limit)
+    {
         $connection->preparedQuery('
             SELECT email, adaid
             FROM ada
