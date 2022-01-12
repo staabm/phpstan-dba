@@ -54,6 +54,9 @@ final class ReflectionCache
         return $reflectionCache;
     }
 
+    /**
+     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
+     */
     private function readCache(): ?array {
         clearstatcache(true, $this->cacheFile);
         $cache = require $this->cacheFile;
