@@ -15,6 +15,10 @@ final class RuntimeConfiguration
      * @var self::ERROR_MODE*
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
+    /**
+     * @var bool
+     */
+    private $debugMode = false;
 
     public static function create(): self
     {
@@ -24,11 +28,22 @@ final class RuntimeConfiguration
     /**
      * @param self::ERROR_MODE* $mode
      */
-    public function errorMode($mode): self
+    public function errorMode(string $mode): self
     {
         $this->errorMode = $mode;
 
         return $this;
+    }
+
+    public function debugMode(bool $mode): self
+    {
+        $this->debugMode = $mode;
+
+        return $this;
+    }
+
+    public function isDebugEnabled():bool {
+        return $this->debugMode;
     }
 
     public function throwsPdoExceptions(PhpVersion $phpVersion): bool
