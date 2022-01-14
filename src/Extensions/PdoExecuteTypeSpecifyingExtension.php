@@ -42,14 +42,13 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
     {
         // keep original param name because named-parameters
         $methodCall = $node;
-        $stmtType = $scope->getType($methodCall->var);
 
         $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         if (null !== $inferedType) {
             return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
         }
 
-        return $this->typeSpecifier->create($methodCall->var, $stmtType, TypeSpecifierContext::createTruthy());
+        return new SpecifiedTypes();
     }
 
     private function inferStatementType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
