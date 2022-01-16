@@ -1,3 +1,4 @@
+
 # database handling class reflection extension for PHPStan
 
 phpstan-dba makes your phpstan static code analysis jobs aware of datatypes within your database.
