@@ -122,15 +122,17 @@ final class PdoStatementExecuteMethodRule implements Rule
 
         $errors = [];
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
-        foreach ($namedPlaceholders as $namedPlaceholder) {
-            if (!\array_key_exists($namedPlaceholder, $parameters)) {
-                $errors[] = RuleErrorBuilder::message(sprintf('Query expects placeholder %s, but it is missing from values given to execute().', $namedPlaceholder))->line($methodCall->getLine())->build();
+        if (\count($namedPlaceholders) > 0) {
+            foreach ($namedPlaceholders as $namedPlaceholder) {
+                if (!\array_key_exists($namedPlaceholder, $parameters)) {
+                    $errors[] = RuleErrorBuilder::message(sprintf('Query expects placeholder %s, but it is missing from values given to execute().', $namedPlaceholder))->line($methodCall->getLine())->build();
+                }
             }
-        }
 
-        foreach ($parameters as $placeholderKey => $value) {
-            if (!\in_array($placeholderKey, $namedPlaceholders)) {
-                $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not contain this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
+            foreach ($parameters as $placeholderKey => $value) {
+                if (!\in_array($placeholderKey, $namedPlaceholders)) {
+                    $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not contain this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
+                }
             }
         }
 
