@@ -1,7 +1,7 @@
 # database handling class reflection extension for PHPStan
 
-phpstan-dba makes your phpstan static code analysis jobs aware of datatypes within your database.
-With this information at hand phpstan-dba is able to detect type inconsistencies between your domain model and database-schema.
+`phpstan-dba` makes your phpstan static code analysis jobs aware of datatypes within your database.
+With this information at hand `phpstan-dba` is able to detect type inconsistencies between your domain model and database-schema.
 Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides following features:
@@ -23,26 +23,18 @@ __Its really early days... and this libs has a few rough edges.__
 
 see the ['Files Changed' tab of the DEMO-PR](https://github.com/staabm/phpstan-dba/pull/61/files#diff-98a3c43049f6a0c859c0303037d9773534396533d7890bad187d465d390d634e) for a quick glance.
 
-## Usage
+## Installation
 
-To get the extension running you need to configure the `phpstan-dba`.
+**First**, use composer to install:
 
-1. If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) proceed with step 2.
-<details>
-  <summary>Manual installation</summary>
+```shell
+composer require --dev staabm/phpstan-dba
+```
 
-  If you don't want to use `phpstan/extension-installer`, include extension.neon in your project's PHPStan config:
-
-    ```
-    includes:
-        - vendor/staabm/phpstan-dba/config/dba.neon
-    ```
-</details>
-
-2. Additionally your `bootstrap` file needs to be [configured within your phpstan configuration](https://phpstan.org/config-reference#bootstrap), so it will be automatically included by PHPStan:
+**Second**, create a `phpstan-dba-bootstrap.php` file, which allows to you to configure `phpstan-dba` (this optionally includes database connection details, to introspect the database; if you would rather not do this see [Record and Replay](#record-and-replay) below):
 
 ```php
-<?php // bootstrap.php
+<?php // phpstan-dba-bootstrap.php
 
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -55,18 +47,53 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
+$config = new RuntimeConfiguration();
+// $config->debugMode(true);
+
 QueryReflection::setupReflector(
     new RecordingQueryReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // XXX put your database credentials here
-        new MysqliQueryReflector(new mysqli('mysql57.ab', 'testuser', 'test', 'phpstan-dba'))
-    )
+        // TODO: Put your database credentials here
+        new MysqliQueryReflector(new mysqli('hostname', 'username', 'password', 'database'))
+    ),
+    $config
 );
 ```
 
-As you can see, `phpstan-dba` requires a `mysqli` connection to introspect the database.
+**Third**, create or update your `phpstan.neon` file so [bootstrapFiles](https://phpstan.org/config-reference#bootstrap) includes `phpstan-dba-bootstrap.php`.
+
+If you are **not** using [phpstan/extension-installer](https://github.com/phpstan/extension-installer), you will also need to include `dba.neon`.
+
+Your `phpstan.neon` might look something like:
+
+```neon
+parameters:
+  level: 9
+  paths:
+    - public
+  bootstrapFiles:
+    - phpstan-dba-bootstrap.php
+
+includes:
+  - ./vendor/staabm/phpstan-dba/config/dba.neon
+```
+
+**Finally**, run `phpstan`, e.g.
+
+```shell
+./vendor/bin/phpstan analyse -c phpstan.neon
+```
+
+## Runtime configuration
+
+Within your `phpstan-dba-bootstrap.php` file you can configure `phpstan-dba` so it knows about global runtime configuration state, which cannot be detect automatically.
+Use the [`RuntimeConfiguration`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) builder-object and pass it as a second argument to `QueryReflection::setupReflector()`.
+
+If not configured otherwise, the following defaults are used:
+- when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
+- when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 
 ### Record and Replay
 
@@ -74,7 +101,7 @@ In case you don't want to depend on a database at PHPStan analysis time, you can
 With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
 
 ```php
-<?php // bootstrap.php
+<?php // phpstan-dba-bootstrap.php
 
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -87,12 +114,16 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
+$config = new RuntimeConfiguration();
+// $config->debugMode(true);
+
 QueryReflection::setupReflector(
     new ReplayQueryReflector(
         ReflectionCache::load(
             $cacheFile
         )
-    )
+    ),
+    $config
 );
 ```
 
@@ -149,21 +180,6 @@ services:
 ```
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
-
-## Runtime configuration
-
-Within your phpstan-bootstrap file you can configure phpstan-dba so it knows about global runtime configuration state, which cannot be detect automatically.
-Use the [`RuntimeConfiguration`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) builder-object and pass it as a second argument to `QueryReflection::setupReflector()`.
-
-If not configured otherwise, the following defaults are used:
-- when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
-- when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
-
-## Installation
-
-```shell
-composer require --dev staabm/phpstan-dba
-```
 
 ## Todos
 
