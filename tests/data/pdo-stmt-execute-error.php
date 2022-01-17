@@ -37,4 +37,9 @@ class Foo
         $stmt->execute(['adaid' => 1]); // everything correct
         $stmt->execute([':email' => 'email@example.org', 'adaid' => 1]); // wrong number of parameters
     }
+
+    public function camelCase(PDO $pdo) {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE email = :eMail');
+        $stmt->execute([':eMail' => 'email@example.org']);
+    }
 }
