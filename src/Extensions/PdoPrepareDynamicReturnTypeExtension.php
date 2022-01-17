@@ -57,6 +57,7 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
 
         $resultType = $this->inferType($args[0]->value, $scope);
         if (null !== $resultType) {
+            var_dump(get_class($resultType));
             return $resultType;
         }
 
