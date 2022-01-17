@@ -148,7 +148,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return $numPlaceholders;
         }
 
-        $numPlaceholders = preg_match_all('{:[a-z]+}', $queryString);
+        $numPlaceholders = preg_match_all('{:[a-zA-Z0-9_]+}', $queryString);
         if (false === $numPlaceholders || $numPlaceholders < 0) {
             throw new ShouldNotHappenException();
         }
@@ -168,7 +168,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if (preg_match_all('{:[a-z]+}', $queryString, $matches) > 0) {
+        if (preg_match_all('{:[a-zA-Z0-9_]+}', $queryString, $matches) > 0) {
             return $matches[0];
         }
 
