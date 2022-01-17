@@ -23,8 +23,6 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  */
 final class PdoStatementExecuteMethodRule implements Rule
 {
-    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
-
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -71,7 +69,7 @@ final class PdoStatementExecuteMethodRule implements Rule
         }
 
         $args = $methodCall->getArgs();
-        $placeholderCount = $this->countPlaceholders($queryString);
+        $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
         if (0 === \count($args)) {
             if (0 === $placeholderCount) {
@@ -123,7 +121,7 @@ final class PdoStatementExecuteMethodRule implements Rule
         }
 
         $errors = [];
-        $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
+        $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
         if (\count($namedPlaceholders) > 0) {
             foreach ($namedPlaceholders as $namedPlaceholder) {
                 if (!\array_key_exists($namedPlaceholder, $parameters)) {
@@ -139,43 +137,5 @@ final class PdoStatementExecuteMethodRule implements Rule
         }
 
         return $errors;
-    }
-
-    /**
-     * @return 0|positive-int
-     */
-    private function countPlaceholders(string $queryString): int
-    {
-        $numPlaceholders = substr_count($queryString, '?');
-
-        if (0 !== $numPlaceholders) {
-            return $numPlaceholders;
-        }
-
-        $numPlaceholders = preg_match_all(self::REGEX_PLACEHOLDER, $queryString);
-        if (false === $numPlaceholders || $numPlaceholders < 0) {
-            throw new ShouldNotHappenException();
-        }
-
-        return $numPlaceholders;
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function extractNamedPlaceholders(string $queryString): array
-    {
-        // pdo does not support mixing of named and '?' placeholders
-        $numPlaceholders = substr_count($queryString, '?');
-
-        if (0 !== $numPlaceholders) {
-            return [];
-        }
-
-        if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
-            return $matches[0];
-        }
-
-        return [];
     }
 }
