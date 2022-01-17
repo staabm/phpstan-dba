@@ -9,12 +9,14 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -27,7 +29,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchnumeric', 'fetchassociative'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['fetchnumeric', 'fetchassociative', 'fetchallnumeric', 'fetchallassociative'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -48,9 +50,11 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
         switch (strtolower($methodReflection->getName())) {
             case 'fetchnumeric':
+            case 'fetchallnumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
                 break;
             case 'fetchassociative':
+            case 'fetchallassociative':
                 $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
                 break;
             default:
@@ -71,6 +75,10 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
                 } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
+            }
+
+            if (\in_array(strtolower($methodReflection->getName()), ['fetchallnumeric', 'fetchallassociative'], true)) {
+                return new ArrayType(new IntegerType(), $builder->getArray());
             }
 
             return $builder->getArray();
