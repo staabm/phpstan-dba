@@ -14,6 +14,7 @@ This extension provides following features:
     * `Doctrine\DBAL\Result->fetchAssociative()`
     * `Doctrine\DBAL\Result->fetchAllNumeric()`
     * `Doctrine\DBAL\Result->fetchAllAssociative()`
+    * `Doctrine\DBAL\Result->columnCount()`
     * `mysqli->query`
     * `PDOStatement->fetch`
     * `PDOStatement->fetchAll`
