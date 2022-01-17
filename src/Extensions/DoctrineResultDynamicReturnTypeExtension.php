@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
@@ -29,7 +30,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchnumeric', 'fetchassociative', 'fetchallnumeric', 'fetchallassociative'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchnumeric', 'fetchassociative', 'fetchallnumeric', 'fetchallassociative'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -48,7 +49,21 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             return $defaultReturn;
         }
 
+        $resultRowType = $genericTypes[0];
+
         switch (strtolower($methodReflection->getName())) {
+            case 'columncount':
+                if ($resultRowType instanceof ConstantArrayType) {
+                    $columnCount = \count($resultRowType->getKeyTypes()) / 2;
+                    if (!\is_int($columnCount)) {
+                        throw new ShouldNotHappenException();
+                    }
+
+                    return new ConstantIntegerType($columnCount);
+                }
+
+                return $defaultReturn;
+
             case 'fetchnumeric':
             case 'fetchallnumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
@@ -61,13 +76,11 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         }
 
-        $resultType = $genericTypes[0];
-
-        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
+        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) && $resultRowType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
-            $keyTypes = $resultType->getKeyTypes();
-            $valueTypes = $resultType->getValueTypes();
+            $keyTypes = $resultRowType->getKeyTypes();
+            $valueTypes = $resultRowType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
                 if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
@@ -84,6 +97,6 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             return $builder->getArray();
         }
 
-        return $resultType;
+        return $defaultReturn;
     }
 }

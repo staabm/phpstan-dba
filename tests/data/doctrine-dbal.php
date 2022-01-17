@@ -23,5 +23,8 @@ class Foo
 
         $fetch = $result->fetchAllAssociative();
         assertType('array<int, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetch);
+
+        $columnCount = $result->columnCount();
+        assertType('4', $columnCount);
     }
 }
