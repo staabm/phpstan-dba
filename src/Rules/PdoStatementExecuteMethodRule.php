@@ -23,7 +23,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  */
 final class PdoStatementExecuteMethodRule implements Rule
 {
-    const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
+    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
 
     public function getNodeType(): string
     {
