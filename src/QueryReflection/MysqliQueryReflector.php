@@ -231,7 +231,6 @@ final class MysqliQueryReflector implements QueryReflector
                     break;
                 case 'DATE': // ???
                 case 'DATETIME': // ???
-
                 default:
                     $phpstanType = new MixedType();
             }
