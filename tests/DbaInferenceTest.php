@@ -8,10 +8,8 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        require_once __DIR__.'/data/pdo-prepare.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-prepare.php');
+        yield from $this->gatherAssertTypes(__DIR__.'/data/doctrine-dbal.php');
 
-        return;
         // make sure class constants can be resolved
         require_once __DIR__.'/data/pdo.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo.php');
