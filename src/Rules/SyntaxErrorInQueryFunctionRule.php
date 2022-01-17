@@ -72,7 +72,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
         $args = $node->getArgs();
 
-        if (!array_key_exists($queryArgPosition, $args)) {
+        if (!\array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 
