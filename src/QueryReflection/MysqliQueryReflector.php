@@ -61,16 +61,16 @@ final class MysqliQueryReflector implements QueryReflector
 
         $constants = get_defined_constants(true);
         foreach ($constants['mysqli'] as $c => $n) {
-            if (!is_int($n)) {
+            if (!\is_int($n)) {
                 throw new ShouldNotHappenException();
             }
             if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
-                if (!is_string($m[1])) {
+                if (!\is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }
                 $this->nativeTypes[$n] = $m[1];
             } elseif (preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
-                if (!is_string($m[1])) {
+                if (!\is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }
                 if (!\array_key_exists($n, $this->nativeFlags)) {
