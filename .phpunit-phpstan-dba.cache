@@ -1206,6 +1206,14 @@
         )),
       ),
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email=\'foo\'' => 
     array (
       'error' => NULL,

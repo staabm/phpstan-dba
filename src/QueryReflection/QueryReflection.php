@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -16,6 +17,8 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
+    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
+
     /**
      * @var QueryReflector|null
      */
@@ -34,6 +37,11 @@ final class QueryReflection
     public function validateQueryString(string $queryString): ?Error
     {
         if ('SELECT' !== $this->getQueryType($queryString)) {
+            return null;
+        }
+
+        // this method cannot validate queries which contain placeholders.
+        if (0 !== $this->countPlaceholders($queryString)) {
             return null;
         }
 
@@ -181,5 +189,43 @@ final class QueryReflection
         }
 
         return self::$runtimeConfiguration;
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function countPlaceholders(string $queryString): int
+    {
+        $numPlaceholders = substr_count($queryString, '?');
+
+        if (0 !== $numPlaceholders) {
+            return $numPlaceholders;
+        }
+
+        $numPlaceholders = preg_match_all(self::REGEX_PLACEHOLDER, $queryString);
+        if (false === $numPlaceholders || $numPlaceholders < 0) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $numPlaceholders;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function extractNamedPlaceholders(string $queryString): array
+    {
+        // pdo does not support mixing of named and '?' placeholders
+        $numPlaceholders = substr_count($queryString, '?');
+
+        if (0 !== $numPlaceholders) {
+            return [];
+        }
+
+        if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
+            return $matches[0];
+        }
+
+        return [];
     }
 }

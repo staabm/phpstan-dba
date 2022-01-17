@@ -72,6 +72,10 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
         $args = $node->getArgs();
 
+        if (!\array_key_exists($queryArgPosition, $args)) {
+            return [];
+        }
+
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
         if (null === $queryString) {
