@@ -6,9 +6,20 @@ Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides following features:
 
-* the array shape of results can be inferred for `PDOStatement` and `mysqli_result`
+* the array shape of results can be inferred for `Doctrine\DBAL\Result`, `PDOStatement` and `mysqli_result`
   * .. when the query string can be resolved at analysis time. This is even possible for queries containing php-variables, as long as their typ is known in most cases.
-  * builtin we support `mysqli_query`, `mysqli->query`, `PDOStatement->fetch`, `PDOStatement->fetchAll`, `PDOStatement->execute`, `PDO->query` and `PDO->prepare`
+  * builtin we support
+    * `Doctrine\DBAL\Connection->query()`
+    * `Doctrine\DBAL\Result->fetchNumeric()`
+    * `Doctrine\DBAL\Result->fetchAssociative()`
+    * `Doctrine\DBAL\Result->fetchAllNumeric()`
+    * `Doctrine\DBAL\Result->fetchAllAssociative()`
+    * `mysqli->query`
+    * `PDOStatement->fetch`
+    * `PDOStatement->fetchAll`
+    * `PDOStatement->execute`
+    * `PDO->query`
+    * `PDO->prepare`
 * `SyntaxErrorInPreparedStatementMethodRule` can inspect prepared sql queries and detect syntax errors
 * `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors - `SyntaxErrorInQueryFunctionRule` can do the same for functions
   * builtin is query syntax error detection for `mysqli_query`, `mysqli->query`, `PDO->query` and `PDO->prepare`
