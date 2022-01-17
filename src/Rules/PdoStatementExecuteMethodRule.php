@@ -23,6 +23,8 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  */
 final class PdoStatementExecuteMethodRule implements Rule
 {
+    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
+
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -150,7 +152,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return $numPlaceholders;
         }
 
-        $numPlaceholders = preg_match_all('{:[a-z]+}', $queryString);
+        $numPlaceholders = preg_match_all(self::REGEX_PLACEHOLDER, $queryString);
         if (false === $numPlaceholders || $numPlaceholders < 0) {
             throw new ShouldNotHappenException();
         }
@@ -170,7 +172,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if (preg_match_all('{:[a-z]+}', $queryString, $matches) > 0) {
+        if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
             return $matches[0];
         }
 
