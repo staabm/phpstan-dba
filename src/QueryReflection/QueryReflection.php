@@ -40,6 +40,11 @@ final class QueryReflection
             return null;
         }
 
+        // this method cannot validate queries which contain placeholders.
+        if (0 !== $this->countPlaceholders($queryString)) {
+            return null;
+        }
+
         return self::reflector()->validateQueryString($queryString);
     }
 
