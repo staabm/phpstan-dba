@@ -216,28 +216,31 @@ final class MysqliQueryReflector implements QueryReflector
             $phpstanType = $mysqlIntegerRanges->unsignedInt();
         }
 
-        if ($phpstanType) {
-            if (false === $notNull) {
-                $phpstanType = TypeCombinator::addNull($phpstanType);
+        if (null === $phpstanType) {
+            switch ($this->type2txt($mysqlType)) {
+                case 'LONGLONG':
+                case 'LONG':
+                case 'SHORT':
+                    $phpstanType = new IntegerType();
+                    break;
+                case 'CHAR':
+                case 'STRING':
+                case 'VAR_STRING':
+                case 'JSON':
+                    $phpstanType = new StringType();
+                    break;
+                case 'DATE': // ???
+                case 'DATETIME': // ???
+                default:
+                    $phpstanType = new MixedType();
             }
-
-            return $phpstanType;
         }
 
-        switch ($this->type2txt($mysqlType)) {
-            case 'LONGLONG':
-            case 'LONG':
-            case 'SHORT':
-                return new IntegerType();
-            case 'CHAR':
-            case 'STRING':
-            case 'VAR_STRING':
-                return new StringType();
-            case 'DATE': // ???
-            case 'DATETIME': // ???
+        if (false === $notNull) {
+            $phpstanType = TypeCombinator::addNull($phpstanType);
         }
 
-        return new MixedType();
+        return $phpstanType;
     }
 
     private function type2txt(int $typeId): ?string
