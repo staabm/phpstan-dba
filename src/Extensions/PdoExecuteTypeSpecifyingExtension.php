@@ -11,30 +11,16 @@ use PHPStan\Analyser\SpecifiedTypes;
 use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
-use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-    /**
-     * @var PhpVersion
-     */
-    private $phpVersion;
-
-    public function __construct(PhpVersion $phpVersion)
-    {
-        $this->phpVersion = $phpVersion;
-    }
-
     private TypeSpecifier $typeSpecifier;
 
     public function getClass(): string
@@ -57,12 +43,6 @@ final class PdoExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExt
         // keep original param name because named-parameters
         $methodCall = $node;
         $stmtType = $scope->getType($methodCall->var);
-
-        // since phpstan 1.4.0 default statement type is `PDOStatement|false`.
-        // at this point we know we are working on a object.. lets make it more precise.
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
-            //$stmtType = TypeCombinator::remove($stmtType, new ConstantBooleanType(false));
-        }
 
         $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         if (null !== $inferedType) {

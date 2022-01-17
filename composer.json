@@ -35,9 +35,10 @@
 		"csfix": [
 			"php-cs-fixer fix"
 		],
-		"phpstan-dba-baseline": [
-			"phpunit",
-			"phpstan analyse -c phpstan.neon.dist"
+		"test": [
+			"@phpunit",
+			"@phpstan",
+			"@csfix"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist"
