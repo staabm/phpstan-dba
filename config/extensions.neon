@@ -1,5 +1,15 @@
 services:
     -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineResultDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\PdoQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
