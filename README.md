@@ -149,13 +149,13 @@ Reuse the `SyntaxErrorInPreparedStatementMethodRule` within your PHPStan configu
 
 ```
 services:
-	-
-		class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
-		tags: [phpstan.rules.rule]
-		arguments:
-			classMethods:
-				- 'My\Connection::preparedQuery'
-				- 'My\PreparedStatement::__construct'
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'My\Connection::preparedQuery'
+                - 'My\PreparedStatement::__construct'
 ```
 
 __the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument.__
@@ -166,13 +166,13 @@ Reuse the `SyntaxErrorInQueryMethodRule` within your PHPStan configuration to de
 
 ```
 services:
-	-
-		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
-		tags: [phpstan.rules.rule]
-		arguments:
-			classMethods:
-				- 'myClass::query#0'
-				- 'anotherClass::takesAQuery#2'
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'myClass::query#0'
+                - 'anotherClass::takesAQuery#2'
 ```
 
 __the callable format is `class::method#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
@@ -183,12 +183,12 @@ Reuse the `SyntaxErrorInQueryFunctionRule` within your PHPStan configuration to 
 
 ```
 services:
-	-
-		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
-		tags: [phpstan.rules.rule]
-		arguments:
-			functionNames:
-				- 'Deployer\runMysqlQuery#0'
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            functionNames:
+                - 'Deployer\runMysqlQuery#0'
 ```
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__

@@ -1,26 +1,37 @@
 includes:
-	- stubFiles.neon
-	- extensions.neon
+    - stubFiles.neon
+    - extensions.neon
 
 services:
-	-
-		class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
-		tags: [phpstan.rules.rule]
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'Doctrine\DBAL\Connection::executeQuery'
+                - 'Doctrine\DBAL\Connection::executeCacheQuery'
+                - 'Doctrine\DBAL\Connection::executeStatement'
+                - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
 
-	-
-		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
-		tags: [phpstan.rules.rule]
-		arguments:
-			classMethods:
-				- 'PDO::query#0'
-				- 'PDO::prepare#0'
-				- 'mysqli::query#0'
-				- 'Doctrine\DBAL\Connection::query#0'
+    -
+        class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
+        tags: [phpstan.rules.rule]
 
-	-
-		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
-		tags: [phpstan.rules.rule]
-		arguments:
-			functionNames:
-				- 'Deployer\runMysqlQuery#0'
-				- 'mysqli_query#1'
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'PDO::query#0'
+                - 'PDO::prepare#0'
+                - 'mysqli::query#0'
+                - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
+                - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            functionNames:
+                - 'Deployer\runMysqlQuery#0'
+                - 'mysqli_query#1'
