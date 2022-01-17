@@ -78,4 +78,9 @@ class Foo
         // errors in this scenario are reported by SyntaxErrorInPreparedStatementMethodRule only
         $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
+    
+    public function validPrepare(PDO $pdo)
+    {
+        $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
+    }
 }
