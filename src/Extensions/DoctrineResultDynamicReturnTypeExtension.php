@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Result;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
@@ -32,7 +27,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return in_array(strtolower($methodReflection->getName()), ['fetchnumeric'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['fetchnumeric', 'fetchassociative'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -51,9 +46,12 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             return $defaultReturn;
         }
 
-        switch(strtolower($methodReflection->getName())) {
+        switch (strtolower($methodReflection->getName())) {
             case 'fetchnumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
+                break;
+            case 'fetchassociative':
+                $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
                 break;
             default:
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
@@ -75,7 +73,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
                 }
             }
 
-            return new ArrayType(new IntegerType(), $builder->getArray());
+            return $builder->getArray();
         }
 
         return $resultType;
