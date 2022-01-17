@@ -17,6 +17,10 @@ if (defined('__PHPSTAN_RUNNING__')) {
     $cacheFile = __DIR__.'/.phpstan-dba.cache';
 }
 
+$config = RuntimeConfiguration::create();
+$config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
+// $config->debugMode(true);
+
 try {
     if (false !== getenv('GITHUB_ACTION')) {
         $mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
@@ -48,5 +52,5 @@ try {
 
 QueryReflection::setupReflector(
     $reflector,
-    RuntimeConfiguration::create()->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION)
+    $config
 );
