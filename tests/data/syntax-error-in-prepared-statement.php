@@ -94,4 +94,9 @@ class Foo
     {
         $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = :gesperrt', ['gesperrt' => 1]);
     }
+
+    public function camelCase(Connection $connection)
+    {
+        $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = :myGesperrt', ['myGesperrt' => 1]);
+    }
 }
