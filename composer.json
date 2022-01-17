@@ -5,7 +5,7 @@
 	"require": {
 		"php": "^8.0",
 		"ext-mysqli": "*",
-		"phpstan/phpstan": "1.3.*"
+		"phpstan/phpstan": "^1.2"
 	},
 	"require-dev": {
 		"ext-pdo": "*",
@@ -16,6 +16,9 @@
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^9",
 		"symplify/phpstan-extensions": "^10.0"
+	},
+	"conflicts": {
+		"phpstan/phpstan": "1.4.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -32,9 +35,10 @@
 		"csfix": [
 			"php-cs-fixer fix"
 		],
-		"phpstan-dba-baseline": [
-			"phpunit",
-			"phpstan analyse -c phpstan.neon.dist"
+		"test": [
+			"@phpunit",
+			"@phpstan",
+			"@csfix"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist"
