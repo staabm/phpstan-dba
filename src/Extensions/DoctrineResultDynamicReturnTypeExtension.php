@@ -17,7 +17,7 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -91,7 +91,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             }
 
             if (\in_array(strtolower($methodReflection->getName()), ['fetchallnumeric', 'fetchallassociative'], true)) {
-                return new ArrayType(new IntegerType(), $builder->getArray());
+                return new ArrayType(IntegerRangeType::fromInterval(0, null), $builder->getArray());
             }
 
             return $builder->getArray();
