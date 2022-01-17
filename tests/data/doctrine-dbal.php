@@ -12,16 +12,16 @@ class Foo
         $result = $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
 
-        $numericFetch = $result->fetchNumeric();
-        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $numericFetch);
+        $fetch = $result->fetchNumeric();
+        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $fetch);
 
-        $numericFetch = $result->fetchAssociative();
-        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $numericFetch);
+        $fetch = $result->fetchAssociative();
+        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $fetch);
 
-        $numericFetch = $result->fetchAllNumeric();
-        assertType('array<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $numericFetch);
+        $fetch = $result->fetchAllNumeric();
+        assertType('array<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetch);
 
-        $numericFetch = $result->fetchAllAssociative();
-        assertType('array<int, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $numericFetch);
+        $fetch = $result->fetchAllAssociative();
+        assertType('array<int, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetch);
     }
 }
