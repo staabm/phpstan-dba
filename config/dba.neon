@@ -15,6 +15,7 @@ services:
 				- 'PDO::query#0'
 				- 'PDO::prepare#0'
 				- 'mysqli::query#0'
+				- 'Doctrine\DBAL\Connection::query#0'
 
 	-
 		class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule

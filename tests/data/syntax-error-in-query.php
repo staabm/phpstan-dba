@@ -66,4 +66,10 @@ class Foo
     {
         $pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
     }
+
+    public function syntaxErrorDoctrineDbal(\Doctrine\DBAL\Connection $conn)
+    {
+        $sql = 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada';
+        $stmt = $conn->query($sql);
+    }
 }
