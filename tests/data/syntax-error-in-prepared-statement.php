@@ -100,7 +100,8 @@ class Foo
         $connection->preparedQuery('SELECT email, adaid FROM ada WHERE gesperrt = :myGesperrt', ['myGesperrt' => 1]);
     }
 
-    public function syntaxErrorInDoctrineDbal(\Doctrine\DBAL\Connection $conn, $types, \Doctrine\DBAL\Cache\QueryCacheProfile $qcp) {
+    public function syntaxErrorInDoctrineDbal(\Doctrine\DBAL\Connection $conn, $types, \Doctrine\DBAL\Cache\QueryCacheProfile $qcp)
+    {
         $conn->executeQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
         $conn->executeCacheQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', [], $types, $qcp);
         $conn->executeStatement('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
