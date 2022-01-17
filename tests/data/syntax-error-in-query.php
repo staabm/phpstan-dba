@@ -3,8 +3,6 @@
 namespace SyntaxErrorInQueryMethodRuleTest;
 
 use PDO;
-use mysqli;
-use Doctrine\DBAL\Connection;
 
 class Foo
 {
@@ -13,7 +11,7 @@ class Foo
         $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
 
-    public function syntaxErrorMysqli(mysqli $mysqli)
+    public function syntaxErrorMysqli(\mysqli $mysqli)
     {
         $mysqli->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
@@ -68,10 +66,10 @@ class Foo
     {
         $pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
     }
-	
-	public function syntaxErrorDoctrineDbal(Connection $conn)
+
+    public function syntaxErrorDoctrineDbal(\Doctrine\DBAL\Connection $conn)
     {
-		$sql = "SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada";
+        $sql = 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada';
         $stmt = $conn->query($sql);
     }
 }
