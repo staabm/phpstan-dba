@@ -629,6 +629,20 @@
         )),
       ),
     ),
+    'SELECT email, adaid FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' LIMIT 1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'WHERE email=\'my_other_table\' LIMIT 0\' at line 1
+
+Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
       'error' => NULL,
@@ -1239,6 +1253,14 @@
     array (
       'error' => NULL,
     ),
+    'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada  WHERE email=\'my_other_table\' LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
       'error' => NULL,
@@ -1480,11 +1502,17 @@
         )),
       ),
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'WHERE email=\'my_other_table\' LIMIT 0\' at line 1',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'WHERE email=\'my_other_table\' LIMIT 0\' at line 1
+
+Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE email=\'my_other_table\' LIMIT 0',
          'code' => 1064,
       )),
     ),
