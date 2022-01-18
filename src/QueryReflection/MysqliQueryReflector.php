@@ -11,6 +11,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
@@ -205,19 +206,57 @@ final class MysqliQueryReflector implements QueryReflector
 
                 // ???
                 case 'PRI_KEY':
+                case 'PART_KEY':
                 case 'MULTIPLE_KEY':
                 case 'NO_DEFAULT_VALUE':
             }
         }
 
-        $mysqlIntegerRanges = new MysqlIntegerRanges();
         $phpstanType = null;
+        $mysqlIntegerRanges = new MysqlIntegerRanges();
+
         if ($numeric) {
-            if (1 == $length) {
-                $phpstanType = $mysqlIntegerRanges->signedTinyInt();
-            }
-            if (11 == $length) {
-                $phpstanType = $mysqlIntegerRanges->signedInt();
+            if ($unsigned) {
+                if (3 === $length) { // bool aka tinyint(1
+                    $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
+                }
+                if (4 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
+                }
+                if (5 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->unsignedSmallInt();
+                }
+                if (8 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->unsignedMediumInt();
+                }
+                if (10 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->unsignedInt();
+                }
+                if (20 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->unsignedBigInt();
+                }
+            } else {
+                if (1 == $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedTinyInt();
+                }
+                if (4 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedTinyInt();
+                }
+                if (6 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedSmallInt();
+                }
+                if (9 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedMediumInt();
+                }
+                if (11 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedInt();
+                }
+                if (20 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedBigInt();
+                }
+                if (22 === $length) {
+                    $phpstanType = $mysqlIntegerRanges->signedBigInt();
+                }
             }
         }
 
@@ -227,19 +266,28 @@ final class MysqliQueryReflector implements QueryReflector
 
         if (null === $phpstanType) {
             switch ($this->type2txt($mysqlType)) {
+                case 'DOUBLE':
+                    $phpstanType = new FloatType();
+                    break;
                 case 'LONGLONG':
                 case 'LONG':
                 case 'SHORT':
+                case 'YEAR':
+                case 'BIT':
+                case 'INT24':
                     $phpstanType = new IntegerType();
                     break;
+                case 'BLOB':
                 case 'CHAR':
                 case 'STRING':
                 case 'VAR_STRING':
                 case 'JSON':
+                case 'DATE':
+                case 'TIME':
+                case 'DATETIME':
+                case 'TIMESTAMP':
                     $phpstanType = new StringType();
                     break;
-                case 'DATE': // ???
-                case 'DATETIME': // ???
                 default:
                     $phpstanType = new MixedType();
             }
