@@ -60,6 +60,6 @@ final class MysqlIntegerRanges
     public function unsignedBigInt(): Type
     {
         // the range is so big, we just assume its int
-        return new IntegerType();
+        return IntegerRangeType::fromInterval(0, null);
     }
 }

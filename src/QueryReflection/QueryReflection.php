@@ -12,6 +12,8 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeUtils;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
@@ -60,6 +62,32 @@ final class QueryReflection
         return self::reflector()->getResultType($queryString, $fetchType);
     }
 
+    /**
+     * @return iterable<string>
+     */
+    public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
+    {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof UnionType) {
+            $parameters = $this->resolveParameters($parameterTypes);
+            if (null === $parameters) {
+                return null;
+            }
+
+            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+                $queryString = $constantString->getValue();
+                $queryString = $this->replaceParameters($queryString, $parameters);
+                yield $queryString;
+            }
+        }
+
+        $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
+        if (null !== $queryString) {
+            yield $queryString;
+        }
+    }
+
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryString($queryExpr, $scope);
@@ -74,6 +102,25 @@ final class QueryReflection
         }
 
         return $this->replaceParameters($queryString, $parameters);
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
+    {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof UnionType) {
+            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+                yield $constantString->getValue();
+            }
+        }
+
+        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        if (null !== $queryString) {
+            yield $queryString;
+        }
     }
 
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
