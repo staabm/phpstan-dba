@@ -217,7 +217,7 @@ final class MysqliQueryReflector implements QueryReflector
 
         if ($numeric) {
             if ($unsigned) {
-                if (3 === $length) { // bool aka tinyint(1
+                if (3 === $length) { // bool aka tinyint(1)
                     $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
                 }
                 if (4 === $length) {
