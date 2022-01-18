@@ -12,6 +12,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 
@@ -45,7 +46,26 @@ final class QuerySimulation
             return '1.0';
         }
 
-        if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType || $paramType instanceof UnionType) {
+        if ($paramType instanceof UnionType) {
+            $innerType = null;
+            foreach (TypeUtils::getConstantScalars($paramType) as $type) {
+                $innerType = $type;
+
+                if (null === self::simulateParamValueType($type)) {
+                    // when one of the union value-types is no supported -> we can't simulate the value
+                    return null;
+                }
+            }
+            // pick one representative value out of the union
+            if (null !== $innerType) {
+                return self::simulateParamValueType($innerType);
+            }
+
+            return null;
+        }
+
+        // all types which we can't simulate and render a query unresolvable at analysis time
+        if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType) {
             return null;
         }
 
