@@ -3013,5 +3013,9 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
     array (
       'error' => NULL,
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
+    array (
+      'error' => NULL,
+    ),
   ),
 );
