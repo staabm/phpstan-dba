@@ -1072,7 +1072,6 @@
       'result' => 
       array (
         1 => NULL,
-        2 => NULL,
         3 => NULL,
       ),
     ),
@@ -2508,148 +2507,6 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 2,
-              )),
-              3 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 3,
-              )),
-              4 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-              )),
-              5 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-              )),
-              6 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'freigabe1u1',
-                 'isClassString' => false,
-              )),
-              7 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'gesperrt',
-                 'isClassString' => false,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            2 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-            3 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-            4 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'gesperrt',
-               'isClassString' => false,
-            )),
-            5 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 2,
-            )),
-            6 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'freigabe1u1',
-               'isClassString' => false,
-            )),
-            7 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 3,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            2 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            3 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            4 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            5 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            6 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            7 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-          ),
-           'nextAutoIndex' => 4,
-           'optionalKeys' => 
-          array (
-          ),
-        )),
         1 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'keyType' => 
@@ -2738,90 +2595,6 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
             )),
           ),
            'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-        )),
-        2 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 2,
-              )),
-              3 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 3,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-            2 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 2,
-            )),
-            3 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 3,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            2 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            3 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-          ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -3831,6 +3604,167 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
           array (
           ),
         )),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              5 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+              6 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
+              7 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 4294967295,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'gesperrt',
+               'isClassString' => false,
+            )),
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'freigabe1u1',
+               'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+          ),
+           'nextAutoIndex' => 4,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=?' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        3 => NULL,
       ),
     ),
   ),
