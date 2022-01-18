@@ -6,9 +6,10 @@ Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides the following features:
 
-* inspect prepared sql queries, detect syntax errors and placeholder/bound value mismatches
+* inspect sql queries, detect syntax errors and placeholder/bound value mismatches
 * type-inferrence for `Doctrine\DBAL\Result`, `PDOStatement` and `mysqli_result`
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
+* API to built the same features for your custom sql based database access layer
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
