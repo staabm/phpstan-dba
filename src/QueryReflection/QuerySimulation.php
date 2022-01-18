@@ -49,13 +49,14 @@ final class QuerySimulation
         if ($paramType instanceof UnionType) {
             $innerType = null;
             foreach (TypeUtils::getConstantScalars($paramType) as $type) {
-                if (null !== self::simulateParamValueType($type)) {
-                    $innerType = $type;
-                } else {
+                $innerType = $type;
+
+                if (null === self::simulateParamValueType($type)) {
                     // when one of the union value-types is no supported -> we can't simulate the value
                     return null;
                 }
             }
+            // pick one representative value out of the union
             if (null !== $innerType) {
                 return self::simulateParamValueType($innerType);
             }
