@@ -121,4 +121,19 @@ class Foo
 
         $connection->preparedQuery($query, [1]);
     }
+
+    public function placeholderValidation(Connection $connection)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
+
+        if (rand(0, 1)) {
+            // valid condition
+            $query .= ' WHERE gesperrt=?';
+        } else {
+            // unknown column
+            $query .= ' WHERE asdsa=?';
+        }
+
+        $connection->preparedQuery($query, [':gesperrt' => 1]);
+    }
 }

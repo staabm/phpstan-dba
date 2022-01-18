@@ -22,65 +22,65 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
         $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
             [
-                'Query expects placeholder :adaid, but it is missing from values given to execute().',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 12,
             ],
             [
-                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
                 12,
             ],
             [
-                'Query expects placeholder :adaid, but it is missing from values given to execute().',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 15,
             ],
             [
-                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
                 15,
             ],
             /*
             [
-                'Query expects placeholder :adaid, but it is missing from values given to execute().',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 18,
             ],
             [
-                'Value :wrongParamValue is given to execute(), but the query does not contain this placeholder.',
+                'Value :wrongParamValue is given, but the query does not contain this placeholder.',
                 18,
             ],
             */
             [
-                'Query expects 1 placeholder, but no values are given to execute().',
+                'Query expects 1 placeholder, but no values are given.',
                 21,
             ],
             [
-                'Query expects 2 placeholders, but 1 value is given to execute().',
+                'Query expects 2 placeholders, but 1 value is given.',
                 24,
             ],
             [
-                'Query expects 2 placeholders, but 1 value is given to execute().',
+                'Query expects 2 placeholders, but 1 value is given.',
                 27,
             ],
             [
-                'Query expects 2 placeholders, but 1 value is given to execute().',
+                'Query expects 2 placeholders, but 1 value is given.',
                 30,
             ],
             [
-                'Query expects placeholder :adaid, but it is missing from values given to execute().',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 36,
             ],
             [
-                'Value :wrongParamName is given to execute(), but the query does not contain this placeholder.',
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
                 36,
             ],
             [
-                'Query expects 1 placeholder, but 2 values are given to execute().',
+                'Query expects 1 placeholder, but 2 values are given.',
                 38,
             ],
             [
-                'Query expects placeholder :asdsa, but it is missing from values given to execute().',
+                'Query expects placeholder :asdsa, but it is missing from values given.',
                 54,
             ],
             [
-                'Value :adaid is given to execute(), but the query does not contain this placeholder.',
+                'Value :adaid is given, but the query does not contain this placeholder.',
                 54,
             ],
         ]);

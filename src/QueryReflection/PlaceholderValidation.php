@@ -26,7 +26,7 @@ final class PlaceholderValidation
                 $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
             }
 
-            yield sprintf($placeholderExpectation.', but no values are given to execute().', $placeholderCount);
+            yield sprintf($placeholderExpectation.', but no values are given.', $placeholderCount);
 
             return;
         }
@@ -51,9 +51,9 @@ final class PlaceholderValidation
                 $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
             }
 
-            $parameterActual = sprintf('but %s value is given to execute()', $parameterCount);
+            $parameterActual = sprintf('but %s value is given', $parameterCount);
             if ($parameterCount > 1) {
-                $parameterActual = sprintf('but %s values are given to execute()', $parameterCount);
+                $parameterActual = sprintf('but %s values are given', $parameterCount);
             }
 
             yield $placeholderExpectation.', '.$parameterActual.'.';
@@ -62,17 +62,18 @@ final class PlaceholderValidation
         }
 
         $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
-        if (\count($namedPlaceholders) > 0) {
-            foreach ($namedPlaceholders as $namedPlaceholder) {
-                if (!\array_key_exists($namedPlaceholder, $parameters)) {
-                    yield sprintf('Query expects placeholder %s, but it is missing from values given to execute().', $namedPlaceholder);
-                }
+        foreach ($namedPlaceholders as $namedPlaceholder) {
+            if (!\array_key_exists($namedPlaceholder, $parameters)) {
+                yield sprintf('Query expects placeholder %s, but it is missing from values given.', $namedPlaceholder);
             }
+        }
 
-            foreach ($parameters as $placeholderKey => $value) {
-                if (!\in_array($placeholderKey, $namedPlaceholders)) {
-                    yield sprintf('Value %s is given to execute(), but the query does not contain this placeholder.', $placeholderKey);
-                }
+        foreach ($parameters as $placeholderKey => $value) {
+            if (\is_int($placeholderKey)) {
+                continue;
+            }
+            if (!\in_array($placeholderKey, $namedPlaceholders)) {
+                yield sprintf('Value %s is given, but the query does not contain this placeholder.', $placeholderKey);
             }
         }
     }

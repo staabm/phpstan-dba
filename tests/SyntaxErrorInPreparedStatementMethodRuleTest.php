@@ -53,6 +53,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends AbstractServiceAwareR
                 "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
                 122,
             ],
+            [
+                'Value :gesperrt is given, but the query does not contain this placeholder.',
+                137,
+            ],
         ]);
     }
 }
