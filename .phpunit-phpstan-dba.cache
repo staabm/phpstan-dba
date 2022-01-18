@@ -2349,6 +2349,11 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
         )),
       ),
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
+            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
       'error' => NULL,
@@ -2787,6 +2792,14 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
          'code' => 1054,
       )),
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=?' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'webmaster@example.org\'' => 
     array (
       'error' => NULL,
@@ -3016,6 +3029,14 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
     array (
       'error' => NULL,
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=?' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
     ),
   ),
 );
