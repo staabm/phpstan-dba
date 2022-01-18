@@ -64,11 +64,11 @@ final class PdoStatementExecuteMethodRule implements Rule
         }
 
         $args = $methodCall->getArgs();
-        if (\count($args) < 1) {
+        if (count($args) < 1) {
             $parameters = [];
         } else {
             $parameterTypes = $scope->getType($args[0]->value);
-            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            $parameters = $queryReflection->resolveParameters($parameterTypes);
         }
 
         $errors = [];
@@ -84,7 +84,6 @@ final class PdoStatementExecuteMethodRule implements Rule
         foreach ($errors as $error) {
             $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
         }
-
         return $ruleErrors;
     }
 }
