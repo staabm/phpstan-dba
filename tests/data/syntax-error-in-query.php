@@ -88,7 +88,7 @@ class Foo
         $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
 
-    public function conditionalSyntaxErrors(PDO $pdo)
+    public function conditionalSyntaxError(PDO $pdo)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
 

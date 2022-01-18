@@ -96,16 +96,14 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $parameterTypes = $scope->getType($args[1]->value);
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-        if (null === $queryString) {
-            return [];
-        }
+        foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
+            $error = $queryReflection->validateQueryString($queryString);
 
-        $error = $queryReflection->validateQueryString($queryString);
-        if (null !== $error) {
-            return [
-                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($callLike->getLine())->build(),
-            ];
+            if (null !== $error) {
+                return [
+                    RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($callLike->getLine())->build(),
+                ];
+            }
         }
 
         return [];

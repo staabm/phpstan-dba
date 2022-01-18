@@ -106,4 +106,19 @@ class Foo
         $conn->executeCacheQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', [], $types, $qcp);
         $conn->executeStatement('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
     }
+
+    public function conditionalSyntaxError(Connection $connection)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
+
+        if (rand(0, 1)) {
+            // valid condition
+            $query .= ' WHERE gesperrt=?';
+        } else {
+            // unknown column
+            $query .= ' WHERE asdsa=?';
+        }
+
+        $connection->preparedQuery($query, [1]);
+    }
 }
