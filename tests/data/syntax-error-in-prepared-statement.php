@@ -143,4 +143,10 @@ class Foo
             WHERE (gesperrt=:gesperrt AND freigabe1u1=1) OR (gesperrt=:gesperrt AND freigabe1u1=0)';
         $connection->preparedQuery($query, [':gesperrt' => 1]);
     }
+
+    public function noErrorOnTraillingSemicolon(Connection $connection)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;';
+        $connection->preparedQuery($query, []);
+    }
 }
