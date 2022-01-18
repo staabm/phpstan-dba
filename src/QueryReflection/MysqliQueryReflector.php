@@ -267,6 +267,7 @@ final class MysqliQueryReflector implements QueryReflector
         if (null === $phpstanType) {
             switch ($this->type2txt($mysqlType)) {
                 case 'DOUBLE':
+                case 'NEWDECIMAL':
                     $phpstanType = new FloatType();
                     break;
                 case 'LONGLONG':
