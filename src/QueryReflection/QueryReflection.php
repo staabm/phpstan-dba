@@ -62,6 +62,32 @@ final class QueryReflection
         return self::reflector()->getResultType($queryString, $fetchType);
     }
 
+    /**
+     * @return iterable<string>
+     */
+    public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
+    {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof UnionType) {
+            $parameters = $this->resolveParameters($parameterTypes);
+            if (null === $parameters) {
+                return null;
+            }
+
+            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+                $queryString = $constantString->getValue();
+                $queryString = $this->replaceParameters($queryString, $parameters);
+                yield $queryString;
+            }
+        }
+
+        $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
+        if (null !== $queryString) {
+            yield $queryString;
+        }
+    }
+
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryString($queryExpr, $scope);
