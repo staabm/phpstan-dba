@@ -111,4 +111,11 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement', $stmt);
     }
+
+    public function leftJoinQuery(PDO $pdo)
+    {
+        $query = 'SELECT a.email, b.adaid, b.gesperrt FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>|null, gesperrt: int<-128, 127>|null}>', $stmt);
+    }
 }
