@@ -12,6 +12,8 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeUtils;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
@@ -74,6 +76,25 @@ final class QueryReflection
         }
 
         return $this->replaceParameters($queryString, $parameters);
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
+    {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof UnionType) {
+            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+                yield $constantString->getValue();
+            }
+        }
+
+        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        if (null !== $queryString) {
+            yield $queryString;
+        }
     }
 
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string

@@ -88,6 +88,21 @@ class Foo
         $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
 
+    public function conditionalSyntaxErrors(PDO $pdo)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
+
+        if (rand(0, 1)) {
+            // valid condition
+            $query .= ' WHERE gesperrt=1';
+        } else {
+            // unknown column
+            $query .= ' WHERE asdsa=1';
+        }
+
+        $pdo->query($query);
+    }
+
     public function validPrepare(PDO $pdo)
     {
         $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');

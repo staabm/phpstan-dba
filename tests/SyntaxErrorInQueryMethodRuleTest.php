@@ -61,6 +61,10 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 82,
             ],
+            [
+                "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                103,
+            ],
         ]);
     }
 }
