@@ -68,7 +68,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             $parameters = [];
         } else {
             $parameterTypes = $scope->getType($args[0]->value);
-            $parameters = $queryReflection->resolveParameters($parameterTypes);
+            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         }
 
         $errors = [];
