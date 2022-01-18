@@ -34,4 +34,16 @@ class Foo
         $stmt->execute([$email]);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
+
+    public function queryBranches(PDO $pdo, bool $bool)
+    {
+        if ($bool) {
+            $query = 'SELECT email, adaid FROM ada WHERE adaid=1';
+        } else {
+            $query = "SELECT email, adaid FROM ada WHERE email='test@example.org'";
+        }
+
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
+    }
 }
