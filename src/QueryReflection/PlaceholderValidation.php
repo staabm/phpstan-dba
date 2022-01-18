@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 
 final class PlaceholderValidation
 {
     /**
+     * @param array<string|int, scalar|null>|null $parameters
+     *
      * @return iterable<string>
      */
-    public function checkErrors(string $queryString, MethodCall $methodCall, Scope $scope): iterable
+    public function checkErrors(string $queryString, ?array $parameters ): iterable
     {
         $queryReflection = new QueryReflection();
-        $args = $methodCall->getArgs();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
-        if (0 === \count($args)) {
+        if (0 === \count($parameters)) {
             if (0 === $placeholderCount) {
                 return;
             }
@@ -33,22 +35,18 @@ final class PlaceholderValidation
             return;
         }
 
-        yield from $this->checkParameterValues($methodCall, $scope, $queryString, $placeholderCount);
+        yield from $this->checkParameterValues($queryString, $parameters, $placeholderCount);
     }
 
     /**
+     * @param array<string|int, scalar|null>|null $parameters
+     *
      * @return iterable<string>
      */
-    private function checkParameterValues(MethodCall $methodCall, Scope $scope, string $queryString, int $placeholderCount): iterable
+    private function checkParameterValues(string $queryString, array $parameters, int $placeholderCount): iterable
     {
         $queryReflection = new QueryReflection();
-        $args = $methodCall->getArgs();
 
-        $parameterTypes = $scope->getType($args[0]->value);
-        $parameters = $queryReflection->resolveParameters($parameterTypes);
-        if (null === $parameters) {
-            return;
-        }
         $parameterCount = \count($parameters);
 
         if ($parameterCount !== $placeholderCount) {

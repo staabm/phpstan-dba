@@ -55,6 +55,7 @@ final class PdoStatementExecuteMethodRule implements Rule
      */
     private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
     {
+        $queryReflection = new QueryReflection();
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodReflection, $methodCall);
 
@@ -62,11 +63,18 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
+        $args = $methodCall->getArgs();
+        if (count($args) < 1) {
+            $parameters = [];
+        } else {
+            $parameterTypes = $scope->getType($args[0]->value);
+            $parameters = $queryReflection->resolveParameters($parameterTypes);
+        }
+
         $errors = [];
-        $queryReflection = new QueryReflection();
         $placeholderReflection = new PlaceholderValidation();
         foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-            foreach ($placeholderReflection->checkErrors($queryString, $methodCall, $scope) as $error) {
+            foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
                 // make error messages unique
                 $errors[$error] = $error;
             }
@@ -76,7 +84,6 @@ final class PdoStatementExecuteMethodRule implements Rule
         foreach ($errors as $error) {
             $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
         }
-
         return $ruleErrors;
     }
 }

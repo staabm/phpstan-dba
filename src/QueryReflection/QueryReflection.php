@@ -156,7 +156,7 @@ final class QueryReflection
     }
 
     /**
-     * @return array<string|int, scalar|null>
+     * @return array<string|int, scalar|null>|null
      */
     public function resolveParameters(Type $parameterTypes): ?array
     {
