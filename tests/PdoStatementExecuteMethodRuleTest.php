@@ -75,6 +75,14 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 'Query expects 1 placeholder, but 2 values are given to execute().',
                 38,
             ],
+            [
+                'Query expects placeholder :asdsa, but it is missing from values given to execute().',
+                54,
+            ],
+            [
+                'Value :adaid is given to execute(), but the query does not contain this placeholder.',
+                54,
+            ],
         ]);
     }
 }
