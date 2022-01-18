@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\Scope;
-
 final class PlaceholderValidation
 {
     /**
