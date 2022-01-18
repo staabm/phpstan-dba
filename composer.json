@@ -1,5 +1,6 @@
 {
 	"name": "staabm/phpstan-dba",
+	"type": "phpstan-extension",
 	"license": "MIT",
 	"require": {
 		"php": "^8.0",
@@ -8,12 +9,16 @@
 	},
 	"require-dev": {
 		"ext-pdo": "*",
+		"doctrine/dbal": "^3.2",
 		"friendsofphp/php-cs-fixer": "3.4.0",
-		"phpunit/phpunit": "^9",
-		"phpstan/phpstan-php-parser": "^1.0",
-		"phpstan/phpstan-strict-rules": "^1.1",
+		"phpstan/phpstan-php-parser": "^1.1",
 		"phpstan/phpstan-phpunit": "^1.0",
+		"phpstan/phpstan-strict-rules": "^1.1",
+		"phpunit/phpunit": "^9",
 		"symplify/phpstan-extensions": "^10.0"
+	},
+	"conflicts": {
+		"phpstan/phpstan": "1.4.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -22,15 +27,18 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"staabm\\PHPStanDba\\tests\\": "tests/"
+			"staabm\\PHPStanDba\\Tests\\Fixture\\": "tests/Fixture/",
+			"staabm\\PHPStanDba\\Tests\\": "tests/"
 		}
 	},
 	"scripts": {
 		"csfix": [
 			"php-cs-fixer fix"
 		],
-		"phpstan-dba-baseline": [
-			"phpstan analyse -c phpstan.neon.dist --debug"
+		"test": [
+			"@phpunit",
+			"@phpstan",
+			"@csfix"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist"
@@ -40,6 +48,16 @@
 		]
 	},
 	"config": {
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"composer/package-versions-deprecated": true
+		}
+	},
+	"extra": {
+		"phpstan": {
+			"includes": [
+				"config/dba.neon"
+			]
+		}
 	}
 }

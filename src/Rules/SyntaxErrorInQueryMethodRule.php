@@ -13,6 +13,8 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
  * @implements Rule<MethodCall>
+ *
+ * @see SyntaxErrorInQueryMethodRuleTest
  */
 final class SyntaxErrorInQueryMethodRule implements Rule
 {
@@ -61,14 +63,24 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         }
 
         $args = $node->getArgs();
-        $errors = [];
 
-        $queryReflection = new QueryReflection();
-        $error = $queryReflection->validateQueryString($args[$queryArgPosition]->value, $scope);
-        if (null !== $error) {
-            $errors[] = RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build();
+        if (!\array_key_exists($queryArgPosition, $args)) {
+            return [];
         }
 
-        return $errors;
+        $queryReflection = new QueryReflection();
+        $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
+        if (null === $queryString) {
+            return [];
+        }
+
+        $error = $queryReflection->validateQueryString($queryString);
+        if (null !== $error) {
+            return [
+                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build(),
+            ];
+        }
+
+        return [];
     }
 }

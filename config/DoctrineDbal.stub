@@ -1,0 +1,10 @@
+<?php
+
+namespace Doctrine\DBAL;
+
+/**
+ * @template TValue
+ */
+class Result
+{
+}

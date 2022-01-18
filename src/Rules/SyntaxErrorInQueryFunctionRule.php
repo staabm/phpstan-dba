@@ -11,9 +11,12 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\Tests\SyntaxErrorInQueryFunctionRuleTest;
 
 /**
  * @implements Rule<FuncCall>
+ *
+ * @see SyntaxErrorInQueryFunctionRuleTest
  */
 final class SyntaxErrorInQueryFunctionRule implements Rule
 {
@@ -68,14 +71,24 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         }
 
         $args = $node->getArgs();
-        $errors = [];
 
-        $queryReflection = new QueryReflection();
-        $error = $queryReflection->validateQueryString($args[$queryArgPosition]->value, $scope);
-        if (null !== $error) {
-            $errors[] = RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build();
+        if (!\array_key_exists($queryArgPosition, $args)) {
+            return [];
         }
 
-        return $errors;
+        $queryReflection = new QueryReflection();
+        $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
+        if (null === $queryString) {
+            return [];
+        }
+
+        $error = $queryReflection->validateQueryString($queryString);
+        if (null !== $error) {
+            return [
+                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build(),
+            ];
+        }
+
+        return [];
     }
 }

@@ -13,7 +13,6 @@ use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
@@ -21,7 +20,7 @@ use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     /**
      * @var PhpVersion
@@ -40,17 +39,13 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return 'query' === $methodReflection->getName();
+        return 'prepare' === $methodReflection->getName();
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
-            $scope,
-            $methodCall->getArgs(),
-            $methodReflection->getVariants(),
-        )->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -60,7 +55,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+        $resultType = $this->inferType($args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -68,34 +63,15 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         return $defaultReturn;
     }
 
-    private function inferType(MethodCall $methodCall, Expr $queryExpr, Scope $scope): ?Type
+    private function inferType(Expr $queryExpr, Scope $scope): ?Type
     {
-        $args = $methodCall->getArgs();
-
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-        if (\count($args) >= 2) {
-            $fetchModeType = $scope->getType($args[1]->value);
-            if (!$fetchModeType instanceof ConstantIntegerType) {
-                return null;
-            }
-
-            if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
-            } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
-            } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-            } else {
-                return null;
-            }
-        }
-
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
         if (null === $queryString) {
             return null;
         }
 
+        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
         $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
         if ($resultType) {
             return new GenericObjectType(PDOStatement::class, [$resultType]);

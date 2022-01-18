@@ -2,6 +2,6 @@
 
 namespace staabm\PHPStanDba;
 
-final class DbaException extends \Exception
+final class DbaException extends \RuntimeException
 {
 }

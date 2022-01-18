@@ -1,0 +1,15 @@
+includes:
+    - ../../config/stubFiles.neon
+    - ../../config/extensions.neon
+
+services:
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
+                - 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct'
+                - 'Doctrine\DBAL\Connection::executeQuery'
+                - 'Doctrine\DBAL\Connection::executeCacheQuery'
+                - 'Doctrine\DBAL\Connection::executeStatement'

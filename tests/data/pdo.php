@@ -42,7 +42,7 @@ class Foo
     public function syntaxError(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     /**
@@ -73,36 +73,36 @@ class Foo
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.$bool, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
 
-        // ---- too queries, for which we cannot infer the return type
+        // ---- queries, for which we cannot infer the return type
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function dynamicQuery(PDO $pdo, string $query)
     {
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     public function insertQuery(PDO $pdo)
     {
         $query = "INSERT INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
-    public function updateQuery(PDO $pdo)
+    public function replaceQuery(PDO $pdo)
     {
-        $query = "UPDATE ada SET email='test@complex-it.de' where adaid=-5";
+        $query = "REPLACE INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array>|false', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
 	public function queryBranches(PDO $pdo, bool $bool, int $adaid)
@@ -119,27 +119,17 @@ class Foo
 		assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
 	}
 
-    public function supportedFetchTypes(PDO $pdo)
+    public function updateQuery(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_NUM);
-        assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
-
-        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
-
-        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_BOTH);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
+        $query = "UPDATE ada SET email='test@complex-it.de' where adaid=-5";
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement', $stmt);
     }
 
-    public function unsupportedFetchTypes(PDO $pdo)
+    public function leftJoinQuery(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array>|false', $stmt);
-
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_COLUMN);
-        assertType('PDOStatement<array>|false', $stmt);
-
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_OBJ);
-        assertType('PDOStatement<array>|false', $stmt);
+        $query = 'SELECT a.email, b.adaid, b.gesperrt FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>|null, gesperrt: int<-128, 127>|null}>', $stmt);
     }
 }

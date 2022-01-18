@@ -6,7 +6,7 @@ use PDO;
 
 class Foo
 {
-    public function syntaxErrorPdo(PDO $pdo)
+    public function syntaxErrorPdoQuery(PDO $pdo)
     {
         $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
@@ -62,11 +62,25 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
     }
 
-    public function queryWithPlaceholder(PDO $pdo)
+    public function syntaxErrorPdoPrepare(PDO $pdo)
     {
-        // atm we just make sure, this is not detected as a syntax error.
-        // a proper return type check should be added in the future.
-        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?', PDO::FETCH_ASSOC);
-        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=:adaid', PDO::FETCH_ASSOC);
+        $pdo->prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+    }
+
+    public function syntaxErrorDoctrineDbal(\Doctrine\DBAL\Connection $conn)
+    {
+        $sql = 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada';
+        $conn->query($sql);
+    }
+
+    public function noErrorOnQueriesContainingPlaceholders(\Doctrine\DBAL\Connection $conn)
+    {
+        // errors in this scenario are reported by SyntaxErrorInPreparedStatementMethodRule only
+        $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
+    }
+
+    public function validPrepare(PDO $pdo)
+    {
+        $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
 }

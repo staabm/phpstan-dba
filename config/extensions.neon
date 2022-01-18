@@ -1,6 +1,36 @@
 services:
     -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineResultDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\PdoQueryDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoPrepareDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoExecuteTypeSpecifyingExtension
+        tags:
+        	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoStatementFetchDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoStatementColumnCountDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
@@ -14,3 +44,14 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\MysqliEscapeStringDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+        	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\PdoQuoteDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension

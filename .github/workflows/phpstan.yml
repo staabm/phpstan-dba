@@ -20,6 +20,8 @@ jobs:
             db-image: 'mysql:8.0'
           - php-version: "8.1"
             db-image: 'mysql:8.0'
+          - php-version: '8.1'
+            db-image: 'mariadb:latest'
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
@@ -52,5 +54,34 @@ jobs:
         run: |
           mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan_dba;'
           mysql -uroot -h127.0.0.1 -proot phpstan_dba < tests/schema.sql
+
+      - run: vendor/bin/phpstan
+
+  replay:
+    name: PHPStan (reflection replay)
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: "8.1"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      - name: Setup PHP
+        id: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: none
+
+      - uses: "ramsey/composer-install@v2"
+        with:
+          composer-options: "--prefer-dist --no-progress --no-suggest"
 
       - run: vendor/bin/phpstan
