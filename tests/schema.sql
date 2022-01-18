@@ -69,10 +69,10 @@ ALTER TABLE `typemix`
     MODIFY `pid` int NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE `cmsdomain` (
-                             `id` int(11) NOT NULL,
-                             `cmsdomainid` int(11) NOT NULL,
-                             `url` varchar(255) COLLATE latin1_german1_ci NOT NULL,
-                             `standard` tinyint(1) NOT NULL
+    `id` int(11) NOT NULL,
+    `cmsdomainid` int(11) NOT NULL,
+    `url` varchar(255) COLLATE latin1_german1_ci NOT NULL,
+    `standard` tinyint(1) NOT NULL
 ) ENGINE=MyISAM;
 
 ALTER TABLE `cmsdomain`
