@@ -136,4 +136,11 @@ class Foo
 
         $connection->preparedQuery($query, [':gesperrt' => 1]);
     }
+
+    public function samePlaceholderMultipleTimes(Connection $connection)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
+            WHERE (gesperrt=:gesperrt AND freigabe1u1=1) OR (gesperrt=:gesperrt AND freigabe1u1=0)';
+        $connection->preparedQuery($query, [':gesperrt' => 1]);
+    }
 }

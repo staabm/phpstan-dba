@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -249,12 +248,7 @@ final class QueryReflection
             return $numPlaceholders;
         }
 
-        $numPlaceholders = preg_match_all(self::REGEX_PLACEHOLDER, $queryString);
-        if (false === $numPlaceholders || $numPlaceholders < 0) {
-            throw new ShouldNotHappenException();
-        }
-
-        return $numPlaceholders;
+        return \count($this->extractNamedPlaceholders($queryString));
     }
 
     /**
@@ -270,7 +264,7 @@ final class QueryReflection
         }
 
         if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
-            return $matches[0];
+            return array_unique($matches[0]);
         }
 
         return [];
