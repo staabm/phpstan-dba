@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\New_;
 use PHPStan\Analyser\Scope;
 
 final class PlaceholderValidation
@@ -15,7 +14,7 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    public function checkErrors(string $queryString, array $parameters ): iterable
+    public function checkErrors(string $queryString, array $parameters): iterable
     {
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
