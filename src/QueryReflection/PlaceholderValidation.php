@@ -15,7 +15,7 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    public function checkErrors(string $queryString, ?array $parameters ): iterable
+    public function checkErrors(string $queryString, array $parameters ): iterable
     {
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
