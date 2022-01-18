@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 final class PlaceholderValidation
 {
     /**
-     * @param array<string|int, scalar|null>|null $parameters
+     * @param array<string|int, scalar|null> $parameters
      *
      * @return iterable<string>
      */
@@ -39,7 +39,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param array<string|int, scalar|null>|null $parameters
+     * @param array<string|int, scalar|null> $parameters
      *
      * @return iterable<string>
      */
