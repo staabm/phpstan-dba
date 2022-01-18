@@ -759,7 +759,9 @@
                'max' => 16777215,
             )),
             34 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => NULL,
             )),
           ),
            'nextAutoIndex' => 0,
