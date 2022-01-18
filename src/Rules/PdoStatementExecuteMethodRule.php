@@ -62,18 +62,21 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
-            return [];
-        }
-
-        $placeholderReflection = new PlaceholderValidation();
         $errors = [];
-        foreach ($placeholderReflection->checkErrors($queryString, $methodCall, $scope) as $error) {
-            $errors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
+        $queryReflection = new QueryReflection();
+        $placeholderReflection = new PlaceholderValidation();
+        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+            foreach ($placeholderReflection->checkErrors($queryString, $methodCall, $scope) as $error) {
+                // make error messages unique
+                $errors[$error] = $error;
+            }
         }
 
-        return $errors;
+        $ruleErrors = [];
+        foreach ($errors as $error) {
+            $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
+        }
+
+        return $ruleErrors;
     }
 }
