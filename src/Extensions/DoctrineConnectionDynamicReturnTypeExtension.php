@@ -25,7 +25,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
      */
     private $resultMap = array(
         'query' => Result::class,
-        'prepare' => Statement::class,
+        //'prepare' => Statement::class,
     );
 
     public function getClass(): string
@@ -35,7 +35,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return in_array(strtolower($methodReflection->getName()), ['query', 'prepare'], true);
+        return in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -50,8 +50,6 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         if (\count($args) < 1) {
             return $defaultReturn;
         }
-
-
 
         $resultType = $this->inferType($methodReflection, $args[0]->value, $scope);
         if (null !== $resultType) {
