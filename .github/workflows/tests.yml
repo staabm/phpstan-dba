@@ -47,7 +47,7 @@ jobs:
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress --no-suggest"
+        composer-options: "--prefer-dist --no-progress"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -83,7 +83,7 @@ jobs:
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress --no-suggest"
+        composer-options: "--prefer-dist --no-progress"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
