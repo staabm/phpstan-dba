@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use Doctrine\DBAL\Driver\Result;
+use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;

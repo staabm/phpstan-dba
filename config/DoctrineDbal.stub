@@ -1,10 +1,17 @@
 <?php
 
-namespace Doctrine\DBAL\Driver;
+namespace Doctrine\DBAL;
 
 /**
  * @template TValue
  */
-interface Result
+class Result
+{
+}
+
+/**
+ * @template TValue
+ */
+class Statement
 {
 }
