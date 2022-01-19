@@ -152,7 +152,7 @@ final class QueryReflection
         return QuerySimulation::simulateParamValueType($type);
     }
 
-    static public function getQueryType(string $query): ?string
+    public static function getQueryType(string $query): ?string
     {
         $query = ltrim($query);
 

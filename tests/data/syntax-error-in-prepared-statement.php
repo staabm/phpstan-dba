@@ -174,7 +174,8 @@ class Foo
         $connection->preparedQuery($query, ['adaids' => [1, 2, 3]]);
     }
 
-    public function noErrorInBug94(Connection $connection) {
+    public function noErrorInBug94(Connection $connection)
+    {
         // XXX with proper sql parsing, we should better detect the placeholders and therefore could validate this query
         $sql = "
             INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img`, `link`, `changed`) VALUES (:supplierId, 'TestSupplier', '', '', '2019-12-09 10:42:10');
