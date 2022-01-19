@@ -247,8 +247,10 @@ final class QueryReflection
      */
     public function countPlaceholders(string $queryString): int
     {
+        // match named placeholders first, as the regex involved is more specific/less error prone
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
+        // pdo does not support mixing of named and '?' placeholders
         if ([] !== $namedPlaceholders) {
             return \count($namedPlaceholders);
         }
