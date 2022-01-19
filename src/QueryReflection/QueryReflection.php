@@ -18,7 +18,7 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
-    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|(:[a-zA-Z0-9_]+)}';
 
     /**
      * @var QueryReflector|null
@@ -263,8 +263,16 @@ final class QueryReflection
             return [];
         }
 
-        if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
-            return array_unique($matches[0]);
+        if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
+            $candidates = $matches[0];
+
+            // filter placeholders within quotes strings
+            $candidates = array_filter($candidates, function ($candidate) {
+                return $candidate[0] !== '"' && $candidate[0] !== "'";
+            });
+
+            // filter placeholders which occur several times
+            return array_unique($candidates);
         }
 
         return [];
