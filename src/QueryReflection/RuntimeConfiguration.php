@@ -8,7 +8,17 @@ use PHPStan\Php\PhpVersion;
 
 final class RuntimeConfiguration
 {
+    /**
+     * methods should return `false` on error
+     */
+    public const ERROR_MODE_BOOL = 'bool';
+    /**
+     * methods will throw exceptions on errors, therefore will never return `false`
+     */
     public const ERROR_MODE_EXCEPTION = 'exception';
+    /**
+     * use whatever the current php-src version uses per default
+     */
     public const ERROR_MODE_DEFAULT = 'default';
 
     /**
@@ -52,6 +62,9 @@ final class RuntimeConfiguration
         if (self::ERROR_MODE_EXCEPTION === $this->errorMode) {
             return true;
         }
+        if (self::ERROR_MODE_BOOL === $this->errorMode) {
+            return false;
+        }
 
         // since php8 the pdo php-src default error mode changed to exception
         return $phpVersion->getVersionId() >= 80000;
@@ -61,6 +74,9 @@ final class RuntimeConfiguration
     {
         if (self::ERROR_MODE_EXCEPTION === $this->errorMode) {
             return true;
+        }
+        if (self::ERROR_MODE_BOOL === $this->errorMode) {
+            return false;
         }
 
         // since php8.1 the mysqli php-src default error mode changed to exception
