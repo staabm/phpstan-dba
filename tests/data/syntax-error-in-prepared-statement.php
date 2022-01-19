@@ -167,4 +167,10 @@ class Foo
         $query = "SELECT adaid FROM ada WHERE email LIKE 'some strange string - :gesperrt it is'";
         $connection->preparedQuery($query, []);
     }
+
+    public function arrayParam(Connection $connection)
+    {
+        $query = 'SELECT email FROM ada WHERE adaid IN (:adaids)';
+        $connection->preparedQuery($query, ['adaids' => [1, 2, 3]]);
+    }
 }

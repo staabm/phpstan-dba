@@ -73,4 +73,12 @@ class Foo
         $stmt->execute();
         assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
+
+    public function arrayParam(PDO $pdo)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:adaids)';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['adaids' => [1, 2, 3]]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
 }
