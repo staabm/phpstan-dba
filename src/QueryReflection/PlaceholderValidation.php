@@ -13,6 +13,10 @@ final class PlaceholderValidation
      */
     public function checkErrors(string $queryString, array $parameters): iterable
     {
+        if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
+            return;
+        }
+
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
