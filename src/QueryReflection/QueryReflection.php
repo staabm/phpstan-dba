@@ -84,6 +84,8 @@ final class QueryReflection
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $queryString;
             }
+
+            return;
         }
 
         $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
@@ -119,6 +121,8 @@ final class QueryReflection
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
                 yield $constantString->getValue();
             }
+
+            return;
         }
 
         $queryString = $this->resolveQueryString($queryExpr, $scope);
