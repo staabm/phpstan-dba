@@ -23,10 +23,10 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
     /**
      * @var array<string, class-string> return types of Connection methods in doctrine 3.x
      */
-    private $resultMap = array(
+    private $resultMap = [
         'query' => Result::class,
         //'prepare' => Statement::class,
-    );
+    ];
 
     public function getClass(): string
     {
@@ -35,7 +35,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
+        return \in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
