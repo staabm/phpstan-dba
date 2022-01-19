@@ -1426,6 +1426,10 @@
         )),
       ),
     ),
+    'SELECT adaid FROM ada WHERE email LIKE \'some strange string - :gesperrt it is\'' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
       'error' => NULL,
