@@ -9,15 +9,15 @@ use PHPStan\Php\PhpVersion;
 final class RuntimeConfiguration
 {
     /**
-     * methods should return `false` on error
+     * methods should return `false` on error.
      */
     public const ERROR_MODE_BOOL = 'bool';
     /**
-     * methods will throw exceptions on errors, therefore will never return `false`
+     * methods will throw exceptions on errors, therefore will never return `false`.
      */
     public const ERROR_MODE_EXCEPTION = 'exception';
     /**
-     * use whatever the current php-src version uses per default
+     * use whatever the current php-src version uses per default.
      */
     public const ERROR_MODE_DEFAULT = 'default';
 
