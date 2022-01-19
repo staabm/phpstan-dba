@@ -44,13 +44,12 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
-
         // make sure we don't report wrong types in doctrine 2.x
         if (InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '2.*')) {
             return $defaultReturn;
         }
 
+        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
