@@ -149,4 +149,22 @@ class Foo
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;';
         $connection->preparedQuery($query, []);
     }
+
+    public function noErrorOnPlaceholderInData(Connection $connection)
+    {
+        $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
+        $connection->preparedQuery($query, []);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
+        $connection->preparedQuery($query, []);
+
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $connection->preparedQuery($query, []);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
+        $connection->preparedQuery($query, []);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE 'some strange string - :gesperrt it is'";
+        $connection->preparedQuery($query, []);
+    }
 }
