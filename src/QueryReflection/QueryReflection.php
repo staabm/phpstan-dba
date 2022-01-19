@@ -84,6 +84,8 @@ final class QueryReflection
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $queryString;
             }
+
+            return;
         }
 
         $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
@@ -119,6 +121,8 @@ final class QueryReflection
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
                 yield $constantString->getValue();
             }
+
+            return;
         }
 
         $queryString = $this->resolveQueryString($queryExpr, $scope);
@@ -258,7 +262,7 @@ final class QueryReflection
         if (preg_match_all(self::REGEX_UNNAMED_PLACEHOLDER, $queryString, $matches) > 0) {
             $candidates = $matches[0];
 
-            // filter placeholders within quotes strings
+            // filter placeholders within quoted strings
             $candidates = array_filter($candidates, function ($candidate) {
                 return '"' !== $candidate[0] && "'" !== $candidate[0];
             });
@@ -277,7 +281,7 @@ final class QueryReflection
         if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
             $candidates = $matches[0];
 
-            // filter placeholders within quotes strings
+            // filter placeholders within quoted strings
             $candidates = array_filter($candidates, function ($candidate) {
                 return '"' !== $candidate[0] && "'" !== $candidate[0];
             });
