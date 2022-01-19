@@ -176,7 +176,7 @@ class Foo
     
     public function noErrorInBug156(Connection $connection, array $idsToUpdate, string $time)
     {
-        $query = 'UPDATE package SET indexedAt=:indexed WHERE id IN (:ids) AND (indexedAt IS NULL OR indexedAt <= crawledAt)',
+        $query = 'UPDATE package SET indexedAt=:indexed WHERE id IN (:ids) AND (indexedAt IS NULL OR indexedAt <= crawledAt)';
         $connection->preparedQuery($query,                     [
                         'ids' => $idsToUpdate,
                         'indexed' => $time,
