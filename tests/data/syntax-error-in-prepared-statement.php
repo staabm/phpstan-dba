@@ -167,5 +167,4 @@ class Foo
         $query = "SELECT adaid FROM ada WHERE email LIKE 'some strange string - :gesperrt it is'";
         $connection->preparedQuery($query, []);
     }
-
 }

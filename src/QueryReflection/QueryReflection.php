@@ -18,7 +18,12 @@ use staabm\PHPStanDba\Error;
 
 final class QueryReflection
 {
-    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|(:[a-zA-Z0-9_]+)}';
+    private const UNNAMED_PATTERN = '\?';
+    // see https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/pdo/pdo_sql_parser.re#L48
+    private const NAMED_PATTERN = ':[a-zA-Z0-9_]+';
+
+    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|('.self::UNNAMED_PATTERN.')}';
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|('.self::NAMED_PATTERN.')}';
 
     /**
      * @var QueryReflector|null
@@ -242,13 +247,24 @@ final class QueryReflection
      */
     public function countPlaceholders(string $queryString): int
     {
-        $numPlaceholders = substr_count($queryString, '?');
+        $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
-        if (0 !== $numPlaceholders) {
-            return $numPlaceholders;
+        if ([] !== $namedPlaceholders) {
+            return \count($namedPlaceholders);
         }
 
-        return \count($this->extractNamedPlaceholders($queryString));
+        if (preg_match_all(self::REGEX_UNNAMED_PLACEHOLDER, $queryString, $matches) > 0) {
+            $candidates = $matches[0];
+
+            // filter placeholders within quotes strings
+            $candidates = array_filter($candidates, function ($candidate) {
+                return '"' !== $candidate[0] && "'" !== $candidate[0];
+            });
+
+            return \count($candidates);
+        }
+
+        return 0;
     }
 
     /**
@@ -256,19 +272,12 @@ final class QueryReflection
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
-        // pdo does not support mixing of named and '?' placeholders
-        $numPlaceholders = substr_count($queryString, '?');
-
-        if (0 !== $numPlaceholders) {
-            return [];
-        }
-
         if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
             $candidates = $matches[0];
 
             // filter placeholders within quotes strings
             $candidates = array_filter($candidates, function ($candidate) {
-                return $candidate[0] !== '"' && $candidate[0] !== "'";
+                return '"' !== $candidate[0] && "'" !== $candidate[0];
             });
 
             // filter placeholders which occur several times
