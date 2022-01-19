@@ -17,7 +17,9 @@ final class RuntimeConfiguration
      */
     public const ERROR_MODE_EXCEPTION = 'exception';
     /**
-     * use whatever the current php-src version uses per default.
+     * use whatever the configured php-src version uses per default.
+     *
+     * @see https://phpstan.org/config-reference#phpversion
      */
     public const ERROR_MODE_DEFAULT = 'default';
 
