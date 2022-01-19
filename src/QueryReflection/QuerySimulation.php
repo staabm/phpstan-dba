@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\BooleanType;
+use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
@@ -25,6 +26,12 @@ final class QuerySimulation
     {
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
+        }
+
+        if ($paramType instanceof ConstantArrayType) {
+            $valueTypes = $paramType->getValueTypes();
+
+            return self::simulateParamValueType($valueTypes[0]);
         }
 
         $integerType = new IntegerType();
