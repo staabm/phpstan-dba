@@ -8,3 +8,10 @@ namespace Doctrine\DBAL;
 class Result
 {
 }
+
+/**
+ * @template TValue
+ */
+class Statement
+{
+}
