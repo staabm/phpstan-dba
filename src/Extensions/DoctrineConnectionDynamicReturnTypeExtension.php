@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use Doctrine\DBAL\Driver\Connection;
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
@@ -43,6 +45,12 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         }
 
         $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+
+        // make sure we don't report wrong types in doctrine 2.x
+        if (InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '2.*')) {
+            return $defaultReturn;
+        }
+
         if (null !== $resultType) {
             return $resultType;
         }
@@ -52,8 +60,6 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
 
     private function inferType(MethodCall $methodCall, Expr $queryExpr, Scope $scope): ?Type
     {
-        $args = $methodCall->getArgs();
-
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
         if (null === $queryString) {

@@ -5,6 +5,7 @@
 	"require": {
 		"php": "^8.0",
 		"ext-mysqli": "*",
+		"composer-runtime-api": "^2.2",
 		"phpstan/phpstan": "^1.2"
 	},
 	"require-dev": {
