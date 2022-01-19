@@ -74,6 +74,13 @@ final class ReflectionCache
             return;
         }
 
+        $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
+        $lockHandle = fopen($lockFile, 'w+');
+        if (false === $lockHandle) {
+            throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
+        }
+        flock($lockHandle, LOCK_EX);
+
         // freshly read the cache as it might have changed in the meantime
         $cachedRecords = $this->readCache();
 
@@ -82,7 +89,6 @@ final class ReflectionCache
         if (false === $handle) {
             throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
         }
-        flock($handle, LOCK_EX);
 
         // re-apply all changes to the current cache-state
         if (null === $cachedRecords) {
@@ -105,8 +111,9 @@ final class ReflectionCache
             throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
         }
 
-        // will free the lock implictly
         fclose($handle);
+        // will free the lock implictly
+        fclose($lockHandle);
     }
 
     public function hasValidationError(string $queryString): bool
