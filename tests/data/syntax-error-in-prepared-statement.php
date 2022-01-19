@@ -150,12 +150,18 @@ class Foo
         $connection->preparedQuery($query, []);
     }
 
-    public function noErrorOnQuestionMarkInData(Connection $connection)
+    public function noErrorOnPlaceholderInData(Connection $connection)
     {
         $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
         $connection->preparedQuery($query, []);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
+        $connection->preparedQuery($query, []);
+
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $connection->preparedQuery($query, []);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $connection->preparedQuery($query, []);
     }
 

@@ -145,13 +145,21 @@ class Foo
         assertType('PDOStatement<array{MAX(adaid): int<-2147483648, 2147483647>|null, MIN(adaid): int<-2147483648, 2147483647>|null, COUNT(adaid): int, AVG(adaid): float|null}>', $stmt);
     }
 
-    public function questionMarkInData(PDO $pdo)
+    public function placeholderInData(PDO $pdo)
     {
         $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
     }
