@@ -13,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -95,9 +96,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $queryExpr = $args[0]->value;
-        $parameterTypes = $scope->getType($args[1]->value);
+
+        if ($scope->getType($queryExpr) instanceof MixedType) {
+            return [];
+        }
 
         $queryReflection = new QueryReflection();
+        $parameterTypes = $scope->getType($args[1]->value);
         try {
             $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         } catch (UnresolvableQueryException $exception) {
@@ -108,25 +113,31 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
         $errors = [];
         $placeholderReflection = new PlaceholderValidation();
-        foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
-            $queryError = $queryReflection->validateQueryString($queryString);
-            if (null !== $queryError) {
-                $error = $queryError->asRuleMessage();
-                $errors[$error] = $error;
+        try {
+            foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
+                $queryError = $queryReflection->validateQueryString($queryString);
+                if (null !== $queryError) {
+                    $error = $queryError->asRuleMessage();
+                    $errors[$error] = $error;
+                }
             }
-        }
 
-        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-            foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
-                $errors[$error] = $error;
+            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+                foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
+                    $errors[$error] = $error;
+                }
             }
-        }
 
-        $ruleErrors = [];
-        foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
-        }
+            $ruleErrors = [];
+            foreach ($errors as $error) {
+                $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
+            }
 
-        return $ruleErrors;
+            return $ruleErrors;
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+            ];
+        }
     }
 }

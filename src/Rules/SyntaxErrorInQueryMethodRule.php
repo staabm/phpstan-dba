@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
@@ -66,6 +67,10 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         $args = $node->getArgs();
 
         if (!\array_key_exists($queryArgPosition, $args)) {
+            return [];
+        }
+
+        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
             return [];
         }
 
