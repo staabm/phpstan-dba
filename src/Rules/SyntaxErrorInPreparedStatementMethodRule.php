@@ -97,10 +97,6 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
         $queryExpr = $args[0]->value;
 
-        if ($scope->getType($queryExpr) instanceof MixedType) {
-            return [];
-        }
-
         $queryReflection = new QueryReflection();
         $parameterTypes = $scope->getType($args[1]->value);
         try {

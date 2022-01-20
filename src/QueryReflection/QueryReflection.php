@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
@@ -76,6 +77,10 @@ final class QueryReflection
     {
         $type = $scope->getType($queryExpr);
 
+        if ($type instanceof MixedType) {
+            return;
+        }
+
         if ($type instanceof UnionType) {
             $parameters = $this->resolveParameters($parameterTypes);
             if (null === $parameters) {
@@ -102,6 +107,12 @@ final class QueryReflection
      */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof MixedType) {
+            return null;
+        }
+
         $queryString = $this->resolveQueryString($queryExpr, $scope);
 
         if (null === $queryString) {
@@ -125,6 +136,10 @@ final class QueryReflection
     {
         $type = $scope->getType($queryExpr);
 
+        if ($type instanceof MixedType) {
+            return null;
+        }
+
         if ($type instanceof UnionType) {
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
                 yield $constantString->getValue();
@@ -144,6 +159,12 @@ final class QueryReflection
      */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
+        $type = $scope->getType($queryExpr);
+
+        if ($type instanceof MixedType) {
+            return null;
+        }
+
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
