@@ -23,4 +23,9 @@ class Foo
         // which don't know anything about the actual query
         \Deployer\runMysqlQuery($mixed, $dbCredentials);
     }
+
+    public function noErrorOnStringQuery(DbCredentials $dbCredentials, string $query)
+    {
+        \Deployer\runMysqlQuery($query, $dbCredentials);
+    }
 }

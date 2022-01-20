@@ -23,4 +23,9 @@ class Foo
         // which don't know anything about the actual query
         $pdo->query($mixed);
     }
+
+    public function noErrorOnStringQuery(PDO $pdo, string $query)
+    {
+        $pdo->query($query);
+    }
 }
