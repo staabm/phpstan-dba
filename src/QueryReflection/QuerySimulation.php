@@ -15,13 +15,18 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\UnresolvableParameterException;
 
 /**
  * @internal
  */
 final class QuerySimulation
 {
+    /**
+     * @throws UnresolvableParameterException
+     */
     public static function simulateParamValueType(Type $paramType): ?string
     {
         if ($paramType instanceof ConstantScalarType) {
@@ -71,6 +76,10 @@ final class QuerySimulation
 
         // all types which we can't simulate and render a query unresolvable at analysis time
         if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType) {
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                throw new UnresolvableParameterException('Cannot simulate parameter value for type: ' . $paramType->describe(VerbosityLevel::precise()));
+            }
+
             return null;
         }
 
