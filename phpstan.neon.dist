@@ -25,6 +25,9 @@ parameters:
         -
             message: '#.*return type has no value type specified in iterable type iterable.#'
             path: tests/*
+        -
+            message: '#.*return type has no value type specified in iterable type array.#'
+            path: tests/*
 
     excludePaths:
         analyseAndScan:
