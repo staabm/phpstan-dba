@@ -16,6 +16,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<CallLike>
@@ -97,7 +98,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $parameterTypes = $scope->getType($args[1]->value);
 
         $queryReflection = new QueryReflection();
-        $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+        try {
+            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+            ];
+        }
 
         $errors = [];
         $placeholderReflection = new PlaceholderValidation();

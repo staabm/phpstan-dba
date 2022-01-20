@@ -12,6 +12,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\SyntaxErrorInQueryFunctionRuleTest;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<FuncCall>
@@ -77,13 +78,19 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         }
 
         $queryReflection = new QueryReflection();
-        foreach ($queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope) as $queryString) {
-            $queryError = $queryReflection->validateQueryString($queryString);
-            if (null !== $queryError) {
-                return [
-                    RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
-                ];
+        try {
+            foreach ($queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope) as $queryString) {
+                $queryError = $queryReflection->validateQueryString($queryString);
+                if (null !== $queryError) {
+                    return [
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                    ];
+                }
             }
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
+            ];
         }
 
         return [];

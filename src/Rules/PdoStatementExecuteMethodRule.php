@@ -15,6 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<MethodCall>
@@ -43,7 +44,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if ('execute' !== $methodReflection->getName()) {
+        if ('execute' !== strtolower($methodReflection->getName())) {
             return [];
         }
 
@@ -68,7 +69,13 @@ final class PdoStatementExecuteMethodRule implements Rule
             $parameters = [];
         } else {
             $parameterTypes = $scope->getType($args[0]->value);
-            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            try {
+                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            } catch (UnresolvableQueryException $exception) {
+                return [
+                    RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                ];
+            }
         }
 
         $errors = [];

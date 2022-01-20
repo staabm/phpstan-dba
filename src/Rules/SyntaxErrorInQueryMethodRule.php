@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<MethodCall>
@@ -68,15 +69,21 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        $queryReflection = new QueryReflection();
-        $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);
-        foreach ($queryStrings as $queryString) {
-            $queryError = $queryReflection->validateQueryString($queryString);
-            if (null !== $queryError) {
-                return [
-                    RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
-                ];
+        try {
+            $queryReflection = new QueryReflection();
+            $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);
+            foreach ($queryStrings as $queryString) {
+                $queryError = $queryReflection->validateQueryString($queryString);
+                if (null !== $queryError) {
+                    return [
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                    ];
+                }
             }
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
+            ];
         }
 
         return [];
