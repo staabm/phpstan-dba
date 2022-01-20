@@ -28,9 +28,26 @@ final class ReflectionCache
      */
     private $changes = [];
 
+    /**
+     * @var resource
+     */
+    private static $lockHandle;
+
     private function __construct(string $cacheFile)
     {
         $this->cacheFile = $cacheFile;
+
+        if (null === self::$lockHandle) {
+            // prevent parallel phpstan-worker-process from writing into the cache file at the same time
+            // XXX we use a single system-wide lock file, which might get problematic if multiple users run phpstan on the same machine at the same time
+            $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
+            $lockHandle = fopen($lockFile, 'r+');
+            if (false === $lockHandle) {
+                throw new DbaException(sprintf('Could not open lock file "%s".', $this->cacheFile));
+            }
+
+            self::$lockHandle = $lockHandle;
+        }
     }
 
     public static function create(string $cacheFile): self
@@ -59,8 +76,13 @@ final class ReflectionCache
                 throw new DbaException(sprintf('Cache file "%s" is not readable and creating a new one did not succeed.', $this->cacheFile));
             }
         }
-        clearstatcache(true, $this->cacheFile);
-        $cache = require $this->cacheFile;
+
+        try {
+            flock(self::$lockHandle, \LOCK_SH);
+            $cache = require $this->cacheFile;
+        } finally {
+            flock(self::$lockHandle, \LOCK_UN);
+        }
 
         if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
             return $cache['records'];
@@ -75,22 +97,8 @@ final class ReflectionCache
             return;
         }
 
-        // prevent parallel phpstan-worker-process from writing into the cache file at the same time
-        // XXX we use a single system-wide lock file, which might get problematic if multiple users run phpstan on the same machine at the same time
-        $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
-        $lockHandle = fopen($lockFile, 'w+');
-        if (false === $lockHandle) {
-            throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
-        }
-        flock($lockHandle, LOCK_EX);
-
         // freshly read the cache as it might have changed in the meantime
         $cachedRecords = $this->readCache();
-
-        $handle = fopen($this->cacheFile, 'w+');
-        if (false === $handle) {
-            throw new DbaException(sprintf('Could not open cache file "%s" for writing', $this->cacheFile));
-        }
 
         // re-apply all changes to the current cache-state
         if (null === $cachedRecords) {
@@ -109,13 +117,20 @@ final class ReflectionCache
                 'records' => $newRecords,
             ], true).';';
 
-        if (false === fwrite($handle, $cacheContent)) {
-            throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
-        }
+        try {
+            flock(self::$lockHandle, LOCK_EX);
 
-        fclose($handle);
-        // will free the lock implictly
-        fclose($lockHandle);
+            if (false === file_put_contents($this->cacheFile, $cacheContent)) {
+                throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
+            }
+
+            clearstatcache(true, $this->cacheFile);
+            if (\function_exists('opcache_invalidate')) {
+                opcache_invalidate($this->cacheFile, true);
+            }
+        } finally {
+            flock(self::$lockHandle, \LOCK_UN);
+        }
     }
 
     public function hasValidationError(string $queryString): bool
