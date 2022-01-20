@@ -19,7 +19,6 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
-use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -70,12 +69,8 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
     private function inferType(MethodReflection $methodReflection, Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
-        try {
-            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-            if (null === $queryString) {
-                return null;
-            }
-        } catch (UnresolvableQueryException $e) {
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+        if (null === $queryString) {
             return null;
         }
 

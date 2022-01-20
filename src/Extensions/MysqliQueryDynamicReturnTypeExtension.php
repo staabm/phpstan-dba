@@ -22,7 +22,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
-use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
@@ -96,12 +95,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
     private function inferResultType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
-        try {
-            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-            if (null === $queryString) {
-                return null;
-            }
-        } catch (UnresolvableQueryException $e) {
+        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+        if (null === $queryString) {
             return null;
         }
 
