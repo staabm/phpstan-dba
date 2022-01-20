@@ -12,6 +12,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -63,6 +64,9 @@ final class PdoStatementExecuteMethodRule implements Rule
         if (null === $queryExpr) {
             return [];
         }
+        if ($scope->getType($queryExpr) instanceof MixedType) {
+            return [];
+        }
 
         $args = $methodCall->getArgs();
         if (\count($args) < 1) {
@@ -78,13 +82,19 @@ final class PdoStatementExecuteMethodRule implements Rule
             }
         }
 
-        $errors = [];
-        $placeholderReflection = new PlaceholderValidation();
-        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-            foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
-                // make error messages unique
-                $errors[$error] = $error;
+        try {
+            $errors = [];
+            $placeholderReflection = new PlaceholderValidation();
+            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+                foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
+                    // make error messages unique
+                    $errors[$error] = $error;
+                }
             }
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+            ];
         }
 
         $ruleErrors = [];

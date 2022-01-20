@@ -16,4 +16,11 @@ class Foo
         $query = 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada gesperrt='.$mixed;
         \Deployer\runMysqlQuery($query, $dbCredentials);
     }
+
+    public function noErrorOnMixedQuery(DbCredentials $dbCredentials, $mixed)
+    {
+        // we should not report a error here, as this is like a call somewhere in between software layers
+        // which don't know anything about the actual query
+        \Deployer\runMysqlQuery($mixed, $dbCredentials);
+    }
 }
