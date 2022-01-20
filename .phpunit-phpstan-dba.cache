@@ -1069,6 +1069,66 @@
         )),
       ),
     ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1\'' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => 0,
+             'max' => 4294967295,
+          )),
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE NULL' => 
     array (
       'error' => NULL,
@@ -1151,6 +1211,66 @@
       'result' => 
       array (
         3 => NULL,
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1\'' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => 0,
+             'max' => 4294967295,
+          )),
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
       ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE NULL' => 
