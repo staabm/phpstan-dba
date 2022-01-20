@@ -104,7 +104,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
             $queryError = $queryReflection->validateQueryString($queryString);
             if (null !== $queryError) {
-                $error = 'Query error: '.$queryError->getMessage().' ('.$queryError->getCode().').';
+                $error = $queryError->asRuleMessage();
                 $errors[$error] = $error;
             }
         }
