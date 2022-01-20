@@ -100,25 +100,25 @@ final class ReflectionCache
         // freshly read the cache as it might have changed in the meantime
         $cachedRecords = $this->readCache();
 
-        // re-apply all changes to the current cache-state
-        if (null === $cachedRecords) {
-            $newRecords = $this->changes;
-        } else {
-            $newRecords = array_merge($cachedRecords, $this->changes);
-        }
-
-        // sort records to prevent unnecessary cache invalidation caused by different order of queries
-        uksort($newRecords, function ($queryA, $queryB) {
-            return $queryA <=> $queryB;
-        });
-
-        $cacheContent = '<?php return '.var_export([
-                'schemaVersion' => self::SCHEMA_VERSION,
-                'records' => $newRecords,
-            ], true).';';
-
         try {
             flock(self::$lockHandle, LOCK_EX);
+
+            // re-apply all changes to the current cache-state
+            if (null === $cachedRecords) {
+                $newRecords = $this->changes;
+            } else {
+                $newRecords = array_merge($cachedRecords, $this->changes);
+            }
+
+            // sort records to prevent unnecessary cache invalidation caused by different order of queries
+            uksort($newRecords, function ($queryA, $queryB) {
+                return $queryA <=> $queryB;
+            });
+
+            $cacheContent = '<?php return '.var_export([
+                    'schemaVersion' => self::SCHEMA_VERSION,
+                    'records' => $newRecords,
+                ], true).';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent)) {
                 throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
