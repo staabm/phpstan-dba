@@ -58,7 +58,7 @@ final class ReflectionCache
     public static function load(string $cacheFile): self
     {
         $reflectionCache = new self($cacheFile);
-        $cachedRecords = $reflectionCache->readCache();
+        $cachedRecords = $reflectionCache->readCache(true);
         if (null !== $cachedRecords) {
             $reflectionCache->records = $cachedRecords;
         }
@@ -69,7 +69,7 @@ final class ReflectionCache
     /**
      * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
      */
-    private function readCache(): ?array
+    private function readCache(bool $useReadLock): ?array
     {
         if (!is_file($this->cacheFile)) {
             if (false === file_put_contents($this->cacheFile, '')) {
@@ -78,10 +78,14 @@ final class ReflectionCache
         }
 
         try {
-            flock(self::$lockHandle, \LOCK_SH);
+            if ($useReadLock) {
+                flock(self::$lockHandle, \LOCK_SH);
+            }
             $cache = require $this->cacheFile;
         } finally {
-            flock(self::$lockHandle, \LOCK_UN);
+            if ($useReadLock) {
+                flock(self::$lockHandle, \LOCK_UN);
+            }
         }
 
         if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
@@ -97,11 +101,11 @@ final class ReflectionCache
             return;
         }
 
-        // freshly read the cache as it might have changed in the meantime
-        $cachedRecords = $this->readCache();
-
         try {
             flock(self::$lockHandle, LOCK_EX);
+
+            // freshly read the cache as it might have changed in the meantime
+            $cachedRecords = $this->readCache(false);
 
             // re-apply all changes to the current cache-state
             if (null === $cachedRecords) {
