@@ -152,12 +152,29 @@ final class QueryReflection
      */
     private function resolveQueryExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
     {
+        if ($queryExpr instanceof Expr\Variable) {
+            $finder = new ExpressionFinder();
+            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+
+            if (null !== $queryStringExpr) {
+                return $this->resolveQueryStringExpr($queryStringExpr, $scope, $preparedContext);
+            }
+        }
+
+        return $this->resolveQueryStringExpr($queryExpr, $scope, $preparedContext);
+    }
+
+    /**
+     * @throws UnresolvableQueryException
+     */
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
+    {
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
 
-            $leftString = $this->resolveQueryExpr($left, $scope, $preparedContext);
-            $rightString = $this->resolveQueryExpr($right, $scope, $preparedContext);
+            $leftString = $this->resolveQueryStringExpr($left, $scope, $preparedContext);
+            $rightString = $this->resolveQueryStringExpr($right, $scope, $preparedContext);
 
             if (null === $leftString || null === $rightString) {
                 return null;

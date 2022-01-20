@@ -77,7 +77,7 @@ final class QuerySimulation
         $stringType = new StringType();
         if ($stringType->isSuperTypeOf($paramType)->yes()) {
             // in a prepared context, regular strings are fine
-            if ($preparedParam === true) {
+            if (true === $preparedParam) {
                 return '1';
             }
 

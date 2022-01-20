@@ -37,6 +37,6 @@ class Foo
     {
         $query = 'SELECT adaid FROM ada WHERE email=:email';
         $stmt = $pdo->prepare($query);
-        $stmt->execute([':email' => '%|' .$string .'|%']);
+        $stmt->execute([':email' => '%|'.$string.'|%']);
     }
 }
