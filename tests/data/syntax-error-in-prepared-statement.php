@@ -178,9 +178,9 @@ class Foo
     {
         $query = 'UPDATE package SET indexedAt=:indexed WHERE id IN (:ids) AND (indexedAt IS NULL OR indexedAt <= crawledAt)';
         $connection->preparedQuery($query, [
-                        'ids' => $idsToUpdate,
-                        'indexed' => $time,
-                    ]);
+            'ids' => $idsToUpdate,
+            'indexed' => $time,
+        ]);
     }
 
     public function noErrorInBug94(Connection $connection)
