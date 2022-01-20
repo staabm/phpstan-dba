@@ -18,6 +18,7 @@ use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -83,6 +84,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         if (\count($args) < 1) {
             return $defaultReturn;
         }
+
+        if ($scope->getType($args[0]->value) instanceof MixedType) {
+            return $defaultReturn;
+        }
+
 
         $resultType = $this->inferResultType($args[0]->value, $scope);
         if (null !== $resultType) {

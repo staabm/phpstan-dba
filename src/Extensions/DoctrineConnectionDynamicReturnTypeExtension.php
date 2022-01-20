@@ -16,6 +16,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
@@ -50,6 +51,10 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         )->getReturnType();
 
         if (\count($args) < 1) {
+            return $defaultReturn;
+        }
+
+        if ($scope->getType($args[0]->value) instanceof MixedType) {
             return $defaultReturn;
         }
 
