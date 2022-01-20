@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
@@ -48,6 +50,11 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         )->getReturnType();
 
         if (\count($args) < 1) {
+            return $defaultReturn;
+        }
+
+        // make sure we don't report wrong types in doctrine 2.x
+        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
             return $defaultReturn;
         }
 
