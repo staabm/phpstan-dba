@@ -13,6 +13,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -32,6 +33,10 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
         if (\count($args) < 2) {
+            return $defaultReturn;
+        }
+
+        if ($scope->getType($args[0]->value) instanceof MixedType) {
             return $defaultReturn;
         }
 

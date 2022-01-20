@@ -2,7 +2,7 @@
 
 namespace DoctrineDbalTest;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Connection;
 use function PHPStan\Testing\assertType;
 
 class Foo

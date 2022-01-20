@@ -12,8 +12,11 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
+use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<MethodCall>
@@ -42,7 +45,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if ('execute' !== $methodReflection->getName()) {
+        if ('execute' !== strtolower($methodReflection->getName())) {
             return [];
         }
 
@@ -54,87 +57,51 @@ final class PdoStatementExecuteMethodRule implements Rule
      */
     private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
     {
+        $queryReflection = new QueryReflection();
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodReflection, $methodCall);
 
         if (null === $queryExpr) {
             return [];
         }
-
-        $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
+        if ($scope->getType($queryExpr) instanceof MixedType) {
             return [];
         }
 
         $args = $methodCall->getArgs();
-        $placeholderCount = $queryReflection->countPlaceholders($queryString);
-
-        if (0 === \count($args)) {
-            if (0 === $placeholderCount) {
-                return [];
+        if (\count($args) < 1) {
+            $parameters = [];
+        } else {
+            $parameterTypes = $scope->getType($args[0]->value);
+            try {
+                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            } catch (UnresolvableQueryException $exception) {
+                return [
+                    RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                ];
             }
+        }
 
-            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
-            if ($placeholderCount > 1) {
-                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
+        try {
+            $errors = [];
+            $placeholderReflection = new PlaceholderValidation();
+            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+                foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
+                    // make error messages unique
+                    $errors[$error] = $error;
+                }
             }
-
+        } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message(sprintf($placeholderExpectation.', but no values are given to execute().', $placeholderCount))->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
             ];
         }
 
-        return $this->checkParameterValues($methodCall, $scope, $queryString, $placeholderCount);
-    }
-
-    /**
-     * @return RuleError[]
-     */
-    private function checkParameterValues(MethodCall $methodCall, Scope $scope, string $queryString, int $placeholderCount): array
-    {
-        $queryReflection = new QueryReflection();
-        $args = $methodCall->getArgs();
-
-        $parameterTypes = $scope->getType($args[0]->value);
-        $parameters = $queryReflection->resolveParameters($parameterTypes);
-        if (null === $parameters) {
-            return [];
-        }
-        $parameterCount = \count($parameters);
-
-        if ($parameterCount !== $placeholderCount) {
-            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
-            if ($placeholderCount > 1) {
-                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
-            }
-
-            $parameterActual = sprintf('but %s value is given to execute()', $parameterCount);
-            if ($parameterCount > 1) {
-                $parameterActual = sprintf('but %s values are given to execute()', $parameterCount);
-            }
-
-            return [
-                RuleErrorBuilder::message($placeholderExpectation.', '.$parameterActual.'.')->line($methodCall->getLine())->build(),
-            ];
+        $ruleErrors = [];
+        foreach ($errors as $error) {
+            $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
         }
 
-        $errors = [];
-        $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
-        if (\count($namedPlaceholders) > 0) {
-            foreach ($namedPlaceholders as $namedPlaceholder) {
-                if (!\array_key_exists($namedPlaceholder, $parameters)) {
-                    $errors[] = RuleErrorBuilder::message(sprintf('Query expects placeholder %s, but it is missing from values given to execute().', $namedPlaceholder))->line($methodCall->getLine())->build();
-                }
-            }
-
-            foreach ($parameters as $placeholderKey => $value) {
-                if (!\in_array($placeholderKey, $namedPlaceholders)) {
-                    $errors[] = RuleErrorBuilder::message(sprintf('Value %s is given to execute(), but the query does not contain this placeholder.', $placeholderKey))->line($methodCall->getLine())->build();
-                }
-            }
-        }
-
-        return $errors;
+        return $ruleErrors;
     }
 }

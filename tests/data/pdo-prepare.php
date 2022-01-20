@@ -46,4 +46,64 @@ class Foo
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
+
+    public function placeholderInData(PDO $pdo)
+    {
+        $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+        $stmt->execute();
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+        $stmt->execute();
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+        $stmt->execute();
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+
+        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+        $stmt->execute();
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
+
+    public function arrayParam(PDO $pdo)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:adaids)';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['adaids' => [1, 2, 3]]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
+
+    public function unspecifiedArray(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
+
+    /**
+     * @param int[] $idsToUpdate
+     */
+    public function specifiedArray(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
 }

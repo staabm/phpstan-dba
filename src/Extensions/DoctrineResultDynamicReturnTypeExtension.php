@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -37,8 +39,12 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
     {
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        $resultType = $scope->getType($methodCall->var);
+        // make sure we don't report wrong types in doctrine 2.x
+        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+            return $defaultReturn;
+        }
 
+        $resultType = $scope->getType($methodCall->var);
         if (!$resultType instanceof GenericObjectType) {
             return $defaultReturn;
         }

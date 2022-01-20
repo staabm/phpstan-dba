@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
@@ -14,17 +15,26 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @internal
  */
 final class QuerySimulation
 {
+    /**
+     * @throws UnresolvableQueryException
+     */
     public static function simulateParamValueType(Type $paramType): ?string
     {
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
+        }
+
+        if ($paramType instanceof ArrayType) {
+            return self::simulateParamValueType($paramType->getItemType());
         }
 
         $integerType = new IntegerType();
@@ -64,8 +74,17 @@ final class QuerySimulation
             return null;
         }
 
+        // plain string types can contain anything.. we cannot reason about it
+        if ($paramType instanceof StringType) {
+            return null;
+        }
+
         // all types which we can't simulate and render a query unresolvable at analysis time
-        if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType) {
+        if ($paramType instanceof MixedType || $paramType instanceof IntersectionType) {
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                throw new UnresolvableQueryException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
+            }
+
             return null;
         }
 
@@ -86,6 +105,8 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
+        $queryString = rtrim($queryString, ';');
+
         // XXX someday we will use a proper SQL parser,
         // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);

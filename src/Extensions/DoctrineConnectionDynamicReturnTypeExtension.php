@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use Doctrine\DBAL\Driver\Connection;
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Statement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -13,12 +16,21 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var array<string, class-string> return types of Connection methods in doctrine 3.x
+     */
+    private $resultMap = [
+        'query' => Result::class,
+        //'prepare' => Statement::class,
+    ];
+
     public function getClass(): string
     {
         return Connection::class;
@@ -26,7 +38,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return 'query' === $methodReflection->getName();
+        return \in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -42,7 +54,16 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+        if ($scope->getType($args[0]->value) instanceof MixedType) {
+            return $defaultReturn;
+        }
+
+        // make sure we don't report wrong types in doctrine 2.x
+        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+            return $defaultReturn;
+        }
+
+        $resultType = $this->inferType($methodReflection, $args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -50,19 +71,18 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         return $defaultReturn;
     }
 
-    private function inferType(MethodCall $methodCall, Expr $queryExpr, Scope $scope): ?Type
+    private function inferType(MethodReflection $methodReflection, Expr $queryExpr, Scope $scope): ?Type
     {
-        $args = $methodCall->getArgs();
-
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
         if (null === $queryString) {
             return null;
         }
 
+        $genericMainType = $this->resultMap[strtolower($methodReflection->getName())];
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
         if ($resultType) {
-            return new GenericObjectType(Result::class, [$resultType]);
+            return new GenericObjectType($genericMainType, [$resultType]);
         }
 
         return null;

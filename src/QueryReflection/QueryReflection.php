@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -16,10 +15,16 @@ use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
 {
-    public const REGEX_PLACEHOLDER = '{:[a-zA-Z0-9_]+}';
+    private const UNNAMED_PATTERN = '\?';
+    // see https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/pdo/pdo_sql_parser.re#L48
+    private const NAMED_PATTERN = ':[a-zA-Z0-9_]+';
+
+    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|('.self::UNNAMED_PATTERN.')}';
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']+\1)|('.self::NAMED_PATTERN.')}';
 
     /**
      * @var QueryReflector|null
@@ -63,6 +68,8 @@ final class QueryReflection
     }
 
     /**
+     * @throws UnresolvableQueryException
+     *
      * @return iterable<string>
      */
     public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
@@ -80,6 +87,8 @@ final class QueryReflection
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $queryString;
             }
+
+            return;
         }
 
         $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
@@ -88,6 +97,9 @@ final class QueryReflection
         }
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryString($queryExpr, $scope);
@@ -105,6 +117,8 @@ final class QueryReflection
     }
 
     /**
+     * @throws UnresolvableQueryException
+     *
      * @return iterable<string>
      */
     public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
@@ -115,6 +129,8 @@ final class QueryReflection
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
                 yield $constantString->getValue();
             }
+
+            return;
         }
 
         $queryString = $this->resolveQueryString($queryExpr, $scope);
@@ -123,6 +139,9 @@ final class QueryReflection
         }
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
         if ($queryExpr instanceof Concat) {
@@ -144,7 +163,7 @@ final class QueryReflection
         return QuerySimulation::simulateParamValueType($type);
     }
 
-    private function getQueryType(string $query): ?string
+    public static function getQueryType(string $query): ?string
     {
         $query = ltrim($query);
 
@@ -156,7 +175,9 @@ final class QueryReflection
     }
 
     /**
-     * @return array<string|int, scalar|null>
+     * @throws UnresolvableQueryException
+     *
+     * @return array<string|int, scalar|null>|null
      */
     public function resolveParameters(Type $parameterTypes): ?array
     {
@@ -243,18 +264,26 @@ final class QueryReflection
      */
     public function countPlaceholders(string $queryString): int
     {
-        $numPlaceholders = substr_count($queryString, '?');
+        // match named placeholders first, as the regex involved is more specific/less error prone
+        $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
-        if (0 !== $numPlaceholders) {
-            return $numPlaceholders;
+        // pdo does not support mixing of named and '?' placeholders
+        if ([] !== $namedPlaceholders) {
+            return \count($namedPlaceholders);
         }
 
-        $numPlaceholders = preg_match_all(self::REGEX_PLACEHOLDER, $queryString);
-        if (false === $numPlaceholders || $numPlaceholders < 0) {
-            throw new ShouldNotHappenException();
+        if (preg_match_all(self::REGEX_UNNAMED_PLACEHOLDER, $queryString, $matches) > 0) {
+            $candidates = $matches[0];
+
+            // filter placeholders within quoted strings
+            $candidates = array_filter($candidates, function ($candidate) {
+                return '"' !== $candidate[0] && "'" !== $candidate[0];
+            });
+
+            return \count($candidates);
         }
 
-        return $numPlaceholders;
+        return 0;
     }
 
     /**
@@ -262,15 +291,16 @@ final class QueryReflection
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
-        // pdo does not support mixing of named and '?' placeholders
-        $numPlaceholders = substr_count($queryString, '?');
+        if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
+            $candidates = $matches[0];
 
-        if (0 !== $numPlaceholders) {
-            return [];
-        }
+            // filter placeholders within quoted strings
+            $candidates = array_filter($candidates, function ($candidate) {
+                return '"' !== $candidate[0] && "'" !== $candidate[0];
+            });
 
-        if (preg_match_all(self::REGEX_PLACEHOLDER, $queryString, $matches) > 0) {
-            return $matches[0];
+            // filter placeholders which occur several times
+            return array_unique($candidates);
         }
 
         return [];
