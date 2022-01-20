@@ -7,7 +7,8 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\ShouldNotHappenException;
@@ -35,13 +36,17 @@ final class ExpressionFinder
         $this->nodeFinder = new NodeFinder();
     }
 
+    /**
+     * @param Variable|MethodCall $expr
+     */
     public function findQueryStringExpression(Expr $expr): ?Expr
     {
-        if ($expr instanceof Concat) {
-            return $expr;
-        }
-
         // todo: use astral simpleNameResolver
+        /**
+         * @param Assign|Variable|MethodCall $node
+         *
+         * @return string|null
+         */
         $nameResolver = function ($node) {
             if (\is_string($node->name)) {
                 return $node->name;
@@ -49,11 +54,9 @@ final class ExpressionFinder
             if ($node->name instanceof Node\Identifier) {
                 return $node->name->toString();
             }
-        };
 
-        if (!$expr instanceof Expr\Variable) {
-            throw new ShouldNotHappenException('Unexpected expression type '.\get_class($expr));
-        }
+            return null;
+        };
 
         $current = $expr;
         while (null !== $current) {
@@ -62,8 +65,13 @@ final class ExpressionFinder
                 return $node instanceof Assign;
             });
 
-            if (null !== $assign && $nameResolver($assign->var) === $nameResolver($expr)) {
-                return $assign->expr;
+            if (null !== $assign) {
+                if ($expr instanceof Variable && $nameResolver($assign->var) === $nameResolver($expr)) {
+                    return $assign->expr;
+                }
+                if ($expr instanceof MethodCall && $nameResolver($assign->var) === $nameResolver($expr->var)) {
+                    return $assign->expr;
+                }
             }
 
             $current = $assign;
