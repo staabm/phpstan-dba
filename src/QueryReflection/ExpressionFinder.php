@@ -41,23 +41,6 @@ final class ExpressionFinder
      */
     public function findQueryStringExpression(Expr $expr): ?Expr
     {
-        // todo: use astral simpleNameResolver
-        /**
-         * @param Assign|Variable|MethodCall $node
-         *
-         * @return string|null
-         */
-        $nameResolver = function ($node) {
-            if (\is_string($node->name)) {
-                return $node->name;
-            }
-            if ($node->name instanceof Node\Identifier) {
-                return $node->name->toString();
-            }
-
-            return null;
-        };
-
         $current = $expr;
         while (null !== $current) {
             /** @var Assign|null $assign */
@@ -66,15 +49,37 @@ final class ExpressionFinder
             });
 
             if (null !== $assign) {
-                if ($expr instanceof Variable && $nameResolver($assign->var) === $nameResolver($expr)) {
+                if ($expr instanceof Variable && $this->resolveName($assign->var) === $this->resolveName($expr)) {
                     return $assign->expr;
                 }
-                if ($expr instanceof MethodCall && $nameResolver($assign->var) === $nameResolver($expr->var)) {
+                if ($expr instanceof MethodCall && $this->resolveName($assign->var) === $this->resolveName($expr->var)) {
                     return $assign->expr;
                 }
             }
 
             $current = $assign;
+        }
+
+        return null;
+    }
+
+    /**
+     * XXX use astral simpleNameResolver instead.
+     *
+     * @param Expr|Variable|MethodCall $node
+     *
+     * @return string|null
+     */
+    private function resolveName($node)
+    {
+        if (property_exists($node, 'name')) {
+            if (\is_string($node->name)) {
+                return $node->name;
+            }
+
+            if ($node->name instanceof Node\Identifier) {
+                return $node->name->toString();
+            }
         }
 
         return null;
