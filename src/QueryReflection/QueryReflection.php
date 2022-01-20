@@ -102,7 +102,7 @@ final class QueryReflection
      */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
-        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope, true);
 
         if (null === $queryString) {
             return null;
@@ -133,7 +133,7 @@ final class QueryReflection
             return;
         }
 
-        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope, false);
         if (null !== $queryString) {
             yield $queryString;
         }
@@ -144,12 +144,37 @@ final class QueryReflection
      */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
+        return $this->resolveQueryExpr($queryExpr, $scope, false);
+    }
+
+    /**
+     * @throws UnresolvableQueryException
+     */
+    private function resolveQueryExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
+    {
+        if ($queryExpr instanceof Expr\Variable) {
+            $finder = new ExpressionFinder();
+            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+
+            if (null !== $queryStringExpr) {
+                return $this->resolveQueryStringExpr($queryStringExpr, $scope, $preparedContext);
+            }
+        }
+
+        return $this->resolveQueryStringExpr($queryExpr, $scope, $preparedContext);
+    }
+
+    /**
+     * @throws UnresolvableQueryException
+     */
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
+    {
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
 
-            $leftString = $this->resolveQueryString($left, $scope);
-            $rightString = $this->resolveQueryString($right, $scope);
+            $leftString = $this->resolveQueryStringExpr($left, $scope, $preparedContext);
+            $rightString = $this->resolveQueryStringExpr($right, $scope, $preparedContext);
 
             if (null === $leftString || null === $rightString) {
                 return null;
@@ -160,7 +185,7 @@ final class QueryReflection
 
         $type = $scope->getType($queryExpr);
 
-        return QuerySimulation::simulateParamValueType($type);
+        return QuerySimulation::simulateParamValueType($type, $preparedContext);
     }
 
     public static function getQueryType(string $query): ?string
@@ -175,6 +200,8 @@ final class QueryReflection
     }
 
     /**
+     * Resolves prepared statement parameter types.
+     *
      * @throws UnresolvableQueryException
      *
      * @return array<string|int, scalar|null>|null
@@ -195,9 +222,9 @@ final class QueryReflection
                         $placeholderName = ':'.$placeholderName;
                     }
 
-                    $parameters[$placeholderName] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
+                    $parameters[$placeholderName] = QuerySimulation::simulateParamValueType($valueTypes[$i], true);
                 } elseif ($keyType instanceof ConstantIntegerType) {
-                    $parameters[$keyType->getValue()] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
+                    $parameters[$keyType->getValue()] = QuerySimulation::simulateParamValueType($valueTypes[$i], true);
                 }
             }
 

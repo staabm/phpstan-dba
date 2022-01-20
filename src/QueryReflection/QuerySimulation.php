@@ -27,14 +27,14 @@ final class QuerySimulation
     /**
      * @throws UnresolvableQueryException
      */
-    public static function simulateParamValueType(Type $paramType): ?string
+    public static function simulateParamValueType(Type $paramType, bool $preparedParam): ?string
     {
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
         }
 
         if ($paramType instanceof ArrayType) {
-            return self::simulateParamValueType($paramType->getItemType());
+            return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
         }
 
         $integerType = new IntegerType();
@@ -61,21 +61,27 @@ final class QuerySimulation
             foreach (TypeUtils::getConstantScalars($paramType) as $type) {
                 $innerType = $type;
 
-                if (null === self::simulateParamValueType($type)) {
+                if (null === self::simulateParamValueType($type, $preparedParam)) {
                     // when one of the union value-types is no supported -> we can't simulate the value
                     return null;
                 }
             }
             // pick one representative value out of the union
             if (null !== $innerType) {
-                return self::simulateParamValueType($innerType);
+                return self::simulateParamValueType($innerType, $preparedParam);
             }
 
             return null;
         }
 
-        // plain string types can contain anything.. we cannot reason about it
-        if ($paramType instanceof StringType) {
+        $stringType = new StringType();
+        if ($stringType->isSuperTypeOf($paramType)->yes()) {
+            // in a prepared context, regular strings are fine
+            if (true === $preparedParam) {
+                return '1';
+            }
+
+            // plain string types can contain anything.. we cannot reason about it
             return null;
         }
 
