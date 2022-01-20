@@ -20,7 +20,7 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
-        class: staabm\PHPStanDba\Extensions\PdoExecuteTypeSpecifyingExtension
+        class: staabm\PHPStanDba\Extensions\PdoStatementExecuteTypeSpecifyingExtension
         tags:
         	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
 
