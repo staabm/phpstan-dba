@@ -81,4 +81,29 @@ class Foo
         $stmt->execute(['adaids' => [1, 2, 3]]);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
+
+    public function unspecifiedArray(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
+
+    /**
+     * @param int[] $idsToUpdate
+     */
+    public function specifiedArray(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
 }
