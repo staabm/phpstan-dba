@@ -40,10 +40,6 @@ final class ReflectionCache
 
     public static function load(string $cacheFile): self
     {
-        if (!is_readable($cacheFile)) {
-            throw new DbaException(sprintf('Cache file "%s" is not readable', $cacheFile));
-        }
-
         $reflectionCache = new self($cacheFile);
         $cachedRecords = $reflectionCache->readCache();
         if (null !== $cachedRecords) {
@@ -58,6 +54,11 @@ final class ReflectionCache
      */
     private function readCache(): ?array
     {
+        if (!is_file($this->cacheFile)) {
+            if (false === file_put_contents($this->cacheFile, '')) {
+                throw new DbaException(sprintf('Cache file "%s" is not readable and creating a new one did not succeed.', $this->cacheFile));
+            }
+        }
         clearstatcache(true, $this->cacheFile);
         $cache = require $this->cacheFile;
 
