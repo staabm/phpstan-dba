@@ -89,7 +89,6 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             return $defaultReturn;
         }
 
-
         $resultType = $this->inferResultType($args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
