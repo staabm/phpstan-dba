@@ -19,4 +19,9 @@ class Foo
         // which don't know anything about the actual query
         $connection->preparedQuery($mixed, []);
     }
+
+    public function noErrorOnStringQuery(Connection $connection, string $string)
+    {
+        $connection->preparedQuery($string, []);
+    }
 }

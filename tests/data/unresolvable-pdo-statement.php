@@ -20,4 +20,16 @@ class Foo
         $stmt = $pdo->prepare($mixed);
         $stmt->execute([]);
     }
+
+    public function noErrorOnStringQuery(PDO $pdo, string $query)
+    {
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([]);
+    }
+
+    public function noErrorOnStringAndParamsQuery(PDO $pdo, string $query, array $params)
+    {
+        $stmt = $pdo->prepare($query);
+        $stmt->execute($params);
+    }
 }
