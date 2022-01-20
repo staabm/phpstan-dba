@@ -41,7 +41,7 @@ final class ReflectionCache
             // prevent parallel phpstan-worker-process from writing into the cache file at the same time
             // XXX we use a single system-wide lock file, which might get problematic if multiple users run phpstan on the same machine at the same time
             $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
-            $lockHandle = fopen($lockFile, 'r+');
+            $lockHandle = fopen($lockFile, 'w+');
             if (false === $lockHandle) {
                 throw new DbaException(sprintf('Could not open lock file "%s".', $this->cacheFile));
             }
