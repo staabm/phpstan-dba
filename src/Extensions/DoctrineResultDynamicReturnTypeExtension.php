@@ -40,7 +40,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         // make sure we don't report wrong types in doctrine 2.x
-        if (InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '2.*')) {
+        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
             return $defaultReturn;
         }
 
