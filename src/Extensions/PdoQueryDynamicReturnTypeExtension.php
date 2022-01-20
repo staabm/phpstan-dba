@@ -20,6 +20,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -91,8 +92,12 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         }
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
+        try {
+            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+            if (null === $queryString) {
+                return null;
+            }
+        } catch (UnresolvableQueryException $e) {
             return null;
         }
 

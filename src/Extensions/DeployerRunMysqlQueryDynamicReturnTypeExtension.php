@@ -18,6 +18,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
@@ -36,8 +37,13 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         }
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
-        if (null === $queryString) {
+
+        try {
+            $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
+            if (null === $queryString) {
+                return $defaultReturn;
+            }
+        } catch (UnresolvableQueryException $e) {
             return $defaultReturn;
         }
 
