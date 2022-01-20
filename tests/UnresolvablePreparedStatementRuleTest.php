@@ -5,12 +5,13 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
+use staabm\PHPStanDba\UnresolvableQueryException;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class UnresolvableQueryRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvablePreparedStatementRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function setUp(): void
     {
@@ -33,8 +34,9 @@ class UnresolvableQueryRuleTest extends AbstractServiceAwareRuleTestCase
 
         $this->analyse([__DIR__.'/data/unresolvable-statement.php'], [
             [
-                "Unresolvable Query: Cannot simulate parameter value for type: mixed.",
-                12,
+                'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
+                11,
+                UnresolvableQueryException::RULE_TIP,
             ],
         ]);
     }

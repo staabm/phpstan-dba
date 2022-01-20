@@ -15,6 +15,7 @@ use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
 {
@@ -67,6 +68,8 @@ final class QueryReflection
     }
 
     /**
+     * @throws UnresolvableQueryException
+     *
      * @return iterable<string>
      */
     public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
@@ -94,6 +97,9 @@ final class QueryReflection
         }
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryString($queryExpr, $scope);
@@ -111,6 +117,8 @@ final class QueryReflection
     }
 
     /**
+     * @throws UnresolvableQueryException
+     *
      * @return iterable<string>
      */
     public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
@@ -131,6 +139,9 @@ final class QueryReflection
         }
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
         if ($queryExpr instanceof Concat) {
@@ -164,6 +175,8 @@ final class QueryReflection
     }
 
     /**
+     * @throws UnresolvableQueryException
+     *
      * @return array<string|int, scalar|null>|null
      */
     public function resolveParameters(Type $parameterTypes): ?array

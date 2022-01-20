@@ -77,7 +77,7 @@ final class QuerySimulation
         // all types which we can't simulate and render a query unresolvable at analysis time
         if ($paramType instanceof MixedType || $paramType instanceof StringType || $paramType instanceof IntersectionType) {
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                throw new UnresolvableQueryException('Cannot simulate parameter value for type: ' . $paramType->describe(VerbosityLevel::precise()));
+                throw new UnresolvableQueryException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
             }
 
             return null;

@@ -2120,6 +2120,84 @@
         3 => NULL,
       ),
     ),
+    'SELECT email FROM ada WHERE gesperrt=' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        3 => NULL,
+      ),
+    ),
+    'SELECT email FROM ada WHERE gesperrt=:gesperrt' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':gesperrt LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        3 => NULL,
+      ),
+    ),
+    'SELECT email FROM ada WHERE gesperrt=NULL' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
       'error' => 
@@ -2132,6 +2210,18 @@
         1 => NULL,
         2 => NULL,
         3 => NULL,
+      ),
+    ),
+    'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada gesperrt=' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada gesperrt= LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        2 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada' => 
