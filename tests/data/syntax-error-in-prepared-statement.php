@@ -173,11 +173,11 @@ class Foo
         $query = 'SELECT email FROM ada WHERE adaid IN (:adaids)';
         $connection->preparedQuery($query, ['adaids' => [1, 2, 3]]);
     }
-    
+
     public function noErrorInBug156(Connection $connection, array $idsToUpdate, string $time)
     {
         $query = 'UPDATE package SET indexedAt=:indexed WHERE id IN (:ids) AND (indexedAt IS NULL OR indexedAt <= crawledAt)';
-        $connection->preparedQuery($query,                     [
+        $connection->preparedQuery($query, [
                         'ids' => $idsToUpdate,
                         'indexed' => $time,
                     ]);
