@@ -70,6 +70,10 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
+        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
+            return [];
+        }
+
         try {
             $queryReflection = new QueryReflection();
             $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);

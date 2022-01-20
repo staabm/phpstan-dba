@@ -64,6 +64,9 @@ final class PdoStatementExecuteMethodRule implements Rule
         if (null === $queryExpr) {
             return [];
         }
+        if ($scope->getType($queryExpr) instanceof MixedType) {
+            return [];
+        }
 
         $args = $methodCall->getArgs();
         if (\count($args) < 1) {
