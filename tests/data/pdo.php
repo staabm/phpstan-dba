@@ -163,4 +163,11 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
     }
+    
+    public function nullableIsNotNull(PDO $pdo)
+    {
+        $query = 'SELECT eladaid FROM ak WHERE eladaid IS NOT NULL';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{eladaid: int}>', $stmt);
+    }
 }
