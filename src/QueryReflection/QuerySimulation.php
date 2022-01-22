@@ -112,17 +112,23 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
+        // XXX someday we will use a proper SQL parser,
         $queryString = rtrim($queryString, ';');
+
+        // strip trailling FOR UPDATE/FOR SHARE
+        $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*$/i', '$1', $queryString);
+
+        if (null === $queryString) {
+            throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');
+        }
 
         // strip trailling OFFSET
         $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
 
         if (null === $queryString) {
-            throw new ShouldNotHappenException('Could not strip trailing offset from query');
+            throw new ShouldNotHappenException('Could not strip trailing OFFSET from query');
         }
 
-        // XXX someday we will use a proper SQL parser,
-        // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
     }
 }
