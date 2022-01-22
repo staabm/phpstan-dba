@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
@@ -112,6 +113,13 @@ final class QuerySimulation
     private static function stripTraillingLimit(string $queryString): ?string
     {
         $queryString = rtrim($queryString, ';');
+
+        // strip trailling OFFSET
+        $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
+
+        if (null === $queryString) {
+            throw new ShouldNotHappenException('Could not strip trailing offset from query');
+        }
 
         // XXX someday we will use a proper SQL parser,
         // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE

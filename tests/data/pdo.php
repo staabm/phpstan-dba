@@ -163,4 +163,11 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
     }
+
+    public function offsetAfterLimit(PDO $pdo, int $limit, int $offset)
+    {
+        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' OFFSET '.$offset;
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+    }
 }

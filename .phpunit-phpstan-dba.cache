@@ -28,6 +28,26 @@
             SELECT email, adaid
             FROM ada
             WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET 1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
             LIMIT        \'1\',  \'1\'
         ' => 
     array (
@@ -1000,6 +1020,47 @@
                 PHPStan\Type\NullType::__set_state(array(
                 )),
               ),
+            )),
+          ),
+           'nextAutoIndex' => 0,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        1 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+             'value' => 'adaid',
+             'isClassString' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => 0,
+             'max' => 4294967295,
+          )),
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
             )),
           ),
            'nextAutoIndex' => 0,
