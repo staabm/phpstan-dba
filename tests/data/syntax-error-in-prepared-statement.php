@@ -290,10 +290,6 @@ class Foo
             $sql .= ' AND gesperrt = :gesperrt';
             $args['gesperrt'] = $gesperrt;
         }
-        if (null !== $adaid) {
-            $sql .= ' AND adaid = :adaid';
-            $args['adaid'] = $adaid;
-        }
 
         $connection->preparedQuery($sql, $args);
     }
