@@ -246,4 +246,40 @@ class Foo
             OFFSET :offset
         ', [':gesperrt' => 1, ':limit' => $limit, ':offset' => $offset]);
     }
+
+    public function noErrorOnLockedRead(Connection $connection, int $limit, int $offset)
+    {
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            FOR UPDATE
+        ', [1]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            LIMIT        ?
+            FOR UPDATE
+        ', [1, $limit]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            LIMIT        ?
+            OFFSET ?
+            FOR UPDATE
+        ', [1, $limit, $offset]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = :gesperrt
+            LIMIT        :limit
+            OFFSET :offset
+            FOR SHARE
+        ', [':gesperrt' => 1, ':limit' => $limit, ':offset' => $offset]);
+    }
 }
