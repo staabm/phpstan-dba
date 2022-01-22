@@ -113,6 +113,9 @@ final class QuerySimulation
     {
         $queryString = rtrim($queryString, ';');
 
+        // strip trailling OFFSET
+        $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
+
         // XXX someday we will use a proper SQL parser,
         // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);

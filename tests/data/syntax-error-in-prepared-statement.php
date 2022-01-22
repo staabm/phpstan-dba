@@ -208,4 +208,24 @@ class Foo
         $orderId = 15315351;
         $connection->preparedQuery($sql, ['orderId' => $orderId, 'productId' => $productId, 'supplierId' => $supplierId]);
     }
+
+    public function noErrorOnOffsetAfterLimit(Connection $connection, int $limit, int $offset)
+    {
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = ?
+            LIMIT        ?
+            OFFSET ?
+        ', [1, $limit, $offset]);
+
+        $connection->preparedQuery('
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = :gesperrt
+            LIMIT        :limit
+            OFFSET :offset
+        ', [':gesperrt' => 1, ':limit' => $limit, ':offset' => $offset]);
+    }
+
 }
