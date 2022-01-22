@@ -38,6 +38,16 @@
             SELECT email, adaid
             FROM ada
             WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET 1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
             LIMIT        \'1\',  \'1\'
         ' => 
     array (
