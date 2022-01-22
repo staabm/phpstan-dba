@@ -283,12 +283,16 @@ class Foo
         ', [':gesperrt' => 1, ':limit' => $limit, ':offset' => $offset]);
     }
 
-    public function noErrorInBug174(Connection $connection, string $name, ?int $gesperrt = null) {
+    public function noErrorInBug174(Connection $connection, string $name, ?int $gesperrt = null, ?int $adaid = null) {
         $sql = 'SELECT adaid FROM ada WHERE email = :name';
         $args = ['name' => $name];
         if (null !== $gesperrt) {
             $sql .= ' AND gesperrt = :gesperrt';
             $args['gesperrt'] = $gesperrt;
+        }
+        if (null !== $adaid) {
+            $sql .= ' AND adaid = :adaid';
+            $args['adaid'] = $adaid;
         }
 
         $connection->preparedQuery($sql, $args);
