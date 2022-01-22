@@ -2,6 +2,14 @@ includes:
     - stubFiles.neon
     - extensions.neon
 
+parameters:
+    featureToggles:
+        skipCheckGenericClasses:
+            - PDOStatement
+            - mysqli_result
+            - Doctrine\DBAL\Result
+            - Doctrine\DBAL\Statement
+
 services:
     -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
