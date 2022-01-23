@@ -21,7 +21,7 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class DoctrineConnectionQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     /**
      * @var array<string, class-string> return types of Connection methods in doctrine 3.x

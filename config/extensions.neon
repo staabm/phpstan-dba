@@ -1,6 +1,6 @@
 services:
     -
-        class: staabm\PHPStanDba\Extensions\DoctrineConnectionDynamicReturnTypeExtension
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
