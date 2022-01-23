@@ -184,7 +184,7 @@ class Foo
 
     /**
      * @param int|numeric-string $adaid
-     * @param string|int $gesperrt
+     * @param string|int         $gesperrt
      */
     public function mixInUnionParam(PDO $pdo, $adaid, $gesperrt)
     {
