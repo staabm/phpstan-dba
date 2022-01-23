@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PhpParser\Node\Expr;
+use PHPStan\Analyser\Scope;
+
 final class PlaceholderValidation
 {
     /**
@@ -11,7 +14,23 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    public function checkErrors(string $queryString, array $parameters): iterable
+    public function checkQuery(Expr $queryExpr, Scope $scope, array $parameters): iterable
+    {
+        $queryReflection = new QueryReflection();
+
+        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+            foreach ($this->checkErrors($queryString, $parameters) as $error) {
+                yield $error;
+            }
+        }
+    }
+
+    /**
+     * @param array<string|int, Parameter> $parameters
+     *
+     * @return iterable<string>
+     */
+    private function checkErrors(string $queryString, array $parameters): iterable
     {
         if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
             return;

@@ -121,84 +121,6 @@
     array (
       'error' => NULL,
     ),
-    '
-            SELECT email adaid
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
-            FROM ada
-            LIMIT        1
-        ' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
-         'code' => 1064,
-      )),
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET 1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\',  \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT   \'1\',     \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
-            LIMIT        1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE NULL
-            LIMIT        1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
       'error' => 
@@ -3417,11 +3339,6 @@ Simulated query: SELECT email, adaid GROUP BY xy FROM ada LIMIT 0',
           ),
         )),
       ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
-            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
             WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
