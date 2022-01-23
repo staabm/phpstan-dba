@@ -8,7 +8,6 @@ use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
-use Doctrine\DBAL\Statement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
