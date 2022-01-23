@@ -69,9 +69,9 @@ final class QueryReflection
     }
 
     /**
-     * @throws UnresolvableQueryException
-     *
      * @return iterable<string>
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
     {
@@ -118,9 +118,9 @@ final class QueryReflection
     }
 
     /**
-     * @throws UnresolvableQueryException
-     *
      * @return iterable<string>
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
     {
@@ -203,53 +203,76 @@ final class QueryReflection
     /**
      * Resolves prepared statement parameter types.
      *
-     * @throws UnresolvableQueryException
-     *
      * @return array<string|int, Parameter>|null
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolveParameters(Type $parameterTypes): ?array
     {
         $parameters = [];
 
-        if ($parameterTypes instanceof ConstantArrayType) {
-            $keyTypes = $parameterTypes->getKeyTypes();
-            $valueTypes = $parameterTypes->getValueTypes();
-            $optionalKeys = $parameterTypes->getOptionalKeys();
-
-            foreach ($keyTypes as $i => $keyType) {
-                $isOptional = \in_array($i, $optionalKeys, true);
-
-                if ($keyType instanceof ConstantStringType) {
-                    $placeholderName = $keyType->getValue();
-
-                    if ('' === $placeholderName) {
-                        throw new ShouldNotHappenException('Empty placeholder name');
-                    }
-
-                    $param = new Parameter(
-                        $placeholderName,
-                        $valueTypes[$i],
-                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
-                        $isOptional
-                    );
-
-                    $parameters[$param->name] = $param;
-                } elseif ($keyType instanceof ConstantIntegerType) {
-                    $param = new Parameter(
-                        null,
-                        $valueTypes[$i],
-                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
-                        $isOptional
-                    );
-
-                    $parameters[$keyType->getValue()] = $param;
-                }
+        if ($parameterTypes instanceof UnionType) {
+            foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
+                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
             }
 
             return $parameters;
         }
 
+        if ($parameterTypes instanceof ConstantArrayType) {
+            return $this->resolveConstantArray($parameterTypes, false);
+        }
+
         return null;
+    }
+
+    /**
+     * @return array<string|int, Parameter>|null
+     *
+     * @throws UnresolvableQueryException
+     */
+    private function resolveConstantArray(ConstantArrayType $parameterTypes, bool $forceOptional): array
+    {
+        $parameters = [];
+
+        $keyTypes = $parameterTypes->getKeyTypes();
+        $valueTypes = $parameterTypes->getValueTypes();
+        $optionalKeys = $parameterTypes->getOptionalKeys();
+
+        foreach ($keyTypes as $i => $keyType) {
+            $isOptional = \in_array($i, $optionalKeys, true);
+            if ($forceOptional) {
+                $isOptional = true;
+            }
+
+            if ($keyType instanceof ConstantStringType) {
+                $placeholderName = $keyType->getValue();
+
+                if ('' === $placeholderName) {
+                    throw new ShouldNotHappenException('Empty placeholder name');
+                }
+
+                $param = new Parameter(
+                    $placeholderName,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$param->name] = $param;
+            } elseif ($keyType instanceof ConstantIntegerType) {
+                $param = new Parameter(
+                    null,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$keyType->getValue()] = $param;
+            }
+        }
+
+        return $parameters;
     }
 
     /**

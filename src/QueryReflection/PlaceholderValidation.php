@@ -39,7 +39,16 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
-        if (0 === \count($parameters)) {
+        $parameterCount = \count($parameters);
+        $minParameterCount = 0;
+        foreach ($parameters as $parameter) {
+            if ($parameter->isOptional) {
+                continue;
+            }
+            ++$minParameterCount;
+        }
+
+        if (0 === $parameterCount && 0 === $minParameterCount) {
             if (0 === $placeholderCount) {
                 return;
             }
@@ -58,7 +67,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param non-empty-array<string|int, Parameter> $parameters
+     * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */

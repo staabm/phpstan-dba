@@ -283,9 +283,22 @@ class Foo
         ', [':gesperrt' => 1, ':limit' => $limit, ':offset' => $offset]);
     }
 
-    public function noErrorInBug174(Connection $connection, string $name, ?int $gesperrt = null, ?int $adaid = null) {
+    public function noErrorInBug174(Connection $connection, string $name, ?int $gesperrt = null, ?int $adaid = null)
+    {
         $sql = 'SELECT adaid FROM ada WHERE email = :name';
         $args = ['name' => $name];
+        if (null !== $gesperrt) {
+            $sql .= ' AND gesperrt = :gesperrt';
+            $args['gesperrt'] = $gesperrt;
+        }
+
+        $connection->preparedQuery($sql, $args);
+    }
+
+    public function conditionalNumberOfPlaceholders(Connection $connection, string $name, ?int $gesperrt = null, ?int $adaid = null)
+    {
+        $sql = 'SELECT adaid FROM ada WHERE email = :name';
+        $args = [];
         if (null !== $gesperrt) {
             $sql .= ' AND gesperrt = :gesperrt';
             $args['gesperrt'] = $gesperrt;
