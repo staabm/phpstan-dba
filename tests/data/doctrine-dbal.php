@@ -56,14 +56,14 @@ class Foo
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchAssociative($query, [1]);
-        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $fetchResult);
+        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $fetchResult);
     }
 
     public function fetchNumeric(Connection $conn)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchNumeric($query, [1]);
-        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $fetchResult);
+        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}|false', $fetchResult);
     }
 
     public function iterateAssociative(Connection $conn)
