@@ -107,7 +107,7 @@ class Foo
     {
         $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
-    
+
     public function conditionalSyntaxErrorInQueryUnion(PDO $pdo)
     {
         $add = "WHERE email='my_other_table'";
@@ -117,5 +117,4 @@ class Foo
 
         $pdo->query('SELECT email, adaid FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
     }
-
 }

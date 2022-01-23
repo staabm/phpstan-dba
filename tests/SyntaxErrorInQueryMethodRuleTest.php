@@ -65,6 +65,10 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
                 103,
             ],
+            [
+                "Query error: Unknown column 'xy' in 'group statement' (1054).",
+                118,
+            ],
         ]);
     }
 }

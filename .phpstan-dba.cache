@@ -3148,6 +3148,18 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
         1 => NULL,
       ),
     ),
+    'SELECT email, adaid FROM ada GROUP BY xy LIMIT 1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'xy\' in \'group statement\'',
+         'code' => 1054,
+      )),
+      'result' => 
+      array (
+        1 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
       'error' => NULL,
