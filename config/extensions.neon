@@ -25,6 +25,11 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionFetchDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\PdoQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension

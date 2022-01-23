@@ -51,4 +51,18 @@ class Foo
         $result = $stmt->executeQuery([$adaid]);
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
     }
+
+    public function fetchAssociative(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchAssociative($query, [1]);
+        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $fetchResult);
+    }
+
+    public function fetchNumeric(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchNumeric($query, [1]);
+        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $fetchResult);
+    }
 }
