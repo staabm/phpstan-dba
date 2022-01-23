@@ -103,7 +103,7 @@ final class QueryReflection
      */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
-        $queryString = $this->resolveQueryExpr($queryExpr, $scope, true);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope);
 
         if (null === $queryString) {
             return null;
@@ -134,7 +134,7 @@ final class QueryReflection
             return;
         }
 
-        $queryString = $this->resolveQueryExpr($queryExpr, $scope, false);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
             yield $queryString;
         }
@@ -145,37 +145,37 @@ final class QueryReflection
      */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
-        return $this->resolveQueryExpr($queryExpr, $scope, false);
+        return $this->resolveQueryExpr($queryExpr, $scope);
     }
 
     /**
      * @throws UnresolvableQueryException
      */
-    private function resolveQueryExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
+    private function resolveQueryExpr(Expr $queryExpr, Scope $scope): ?string
     {
         if ($queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
             $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
 
             if (null !== $queryStringExpr) {
-                return $this->resolveQueryStringExpr($queryStringExpr, $scope, $preparedContext);
+                return $this->resolveQueryStringExpr($queryStringExpr, $scope);
             }
         }
 
-        return $this->resolveQueryStringExpr($queryExpr, $scope, $preparedContext);
+        return $this->resolveQueryStringExpr($queryExpr, $scope);
     }
 
     /**
      * @throws UnresolvableQueryException
      */
-    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $preparedContext): ?string
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
     {
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
 
-            $leftString = $this->resolveQueryStringExpr($left, $scope, $preparedContext);
-            $rightString = $this->resolveQueryStringExpr($right, $scope, $preparedContext);
+            $leftString = $this->resolveQueryStringExpr($left, $scope);
+            $rightString = $this->resolveQueryStringExpr($right, $scope);
 
             if (null === $leftString || null === $rightString) {
                 return null;
@@ -186,7 +186,7 @@ final class QueryReflection
 
         $type = $scope->getType($queryExpr);
 
-        return QuerySimulation::simulateParamValueType($type, $preparedContext);
+        return QuerySimulation::simulateParamValueType($type, false);
     }
 
     public static function getQueryType(string $query): ?string
