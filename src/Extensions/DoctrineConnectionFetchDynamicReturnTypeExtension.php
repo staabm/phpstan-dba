@@ -13,10 +13,13 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use Traversable;
 
 final class DoctrineConnectionFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -27,7 +30,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchassociative', 'fetchnumeric'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['fetchassociative', 'fetchnumeric', 'iterateassociative', 'iteratenumeric'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -71,17 +74,25 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         }
 
         $fetchType = QueryReflector::FETCH_TYPE_BOTH;
-        switch (strtolower($methodReflection->getName())) {
+        $usedMethod = strtolower($methodReflection->getName());
+        switch ($usedMethod) {
             case 'fetchassociative':
+            case 'iterateassociative':
                 $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
                 break;
             case 'fetchnumeric':
+            case 'iteratenumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
                 break;
         }
 
         $resultType = $queryReflection->getResultType($queryString, $fetchType);
+
         if ($resultType) {
+            if (\in_array($usedMethod, ['iterateassociative', 'iteratenumeric'], true)) {
+                return new GenericObjectType(Traversable::class, [new IntegerType(), $resultType]);
+            }
+
             return $resultType;
         }
 
