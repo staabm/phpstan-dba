@@ -20,7 +20,7 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-final class DoctrineConnectionPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function getClass(): string
     {
