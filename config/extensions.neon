@@ -10,6 +10,11 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionPrepareDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\DoctrineResultDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
