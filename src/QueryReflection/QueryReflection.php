@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -204,7 +205,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      *
-     * @return array<string|int, scalar|null>|null
+     * @return array<string|int, Parameter>|null
      */
     public function resolveParameters(Type $parameterTypes): ?array
     {
@@ -213,18 +214,35 @@ final class QueryReflection
         if ($parameterTypes instanceof ConstantArrayType) {
             $keyTypes = $parameterTypes->getKeyTypes();
             $valueTypes = $parameterTypes->getValueTypes();
+            $optionalKeys = $parameterTypes->getOptionalKeys();
 
             foreach ($keyTypes as $i => $keyType) {
+                $isOptional = \in_array($i, $optionalKeys, true);
+
                 if ($keyType instanceof ConstantStringType) {
                     $placeholderName = $keyType->getValue();
 
-                    if (!str_starts_with($placeholderName, ':')) {
-                        $placeholderName = ':'.$placeholderName;
+                    if ('' === $placeholderName) {
+                        throw new ShouldNotHappenException('Empty placeholder name');
                     }
 
-                    $parameters[$placeholderName] = QuerySimulation::simulateParamValueType($valueTypes[$i], true);
+                    $param = new Parameter(
+                        $placeholderName,
+                        $valueTypes[$i],
+                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                        $isOptional
+                    );
+
+                    $parameters[$param->name] = $param;
                 } elseif ($keyType instanceof ConstantIntegerType) {
-                    $parameters[$keyType->getValue()] = QuerySimulation::simulateParamValueType($valueTypes[$i], true);
+                    $param = new Parameter(
+                        null,
+                        $valueTypes[$i],
+                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                        $isOptional
+                    );
+
+                    $parameters[$keyType->getValue()] = $param;
                 }
             }
 
@@ -235,7 +253,7 @@ final class QueryReflection
     }
 
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @param array<string|int, Parameter> $parameters
      */
     private function replaceParameters(string $queryString, array $parameters): string
     {
@@ -248,7 +266,9 @@ final class QueryReflection
             return $haystack;
         };
 
-        foreach ($parameters as $placeholderKey => $value) {
+        foreach ($parameters as $placeholderKey => $parameter) {
+            $value = $parameter->simulatedValue;
+
             if (\is_string($value)) {
                 // XXX escaping
                 $value = "'".$value."'";
@@ -258,10 +278,10 @@ final class QueryReflection
                 $value = (string) $value;
             }
 
-            if (\is_int($placeholderKey)) {
-                $queryString = $replaceFirst($queryString, '?', $value);
-            } else {
+            if (\is_string($placeholderKey)) {
                 $queryString = str_replace($placeholderKey, $value, $queryString);
+            } else {
+                $queryString = $replaceFirst($queryString, '?', $value);
             }
         }
 
