@@ -96,7 +96,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
             }
 
             // false is returned if no rows are found.
-            $resultType = TypeCombinator::addNull($resultType);
+            $resultType = TypeCombinator::union($resultType, new ConstantBooleanType(false));
 
             return $resultType;
         }
