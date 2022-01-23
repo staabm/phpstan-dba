@@ -39,7 +39,7 @@ class UnresolvableQueryFunctionRuleTest extends AbstractServiceAwareRuleTestCase
                 UnresolvableQueryException::RULE_TIP,
             ],
             [
-                'Unresolvable Query: Cannot simulate parameter value for type: non-empty-string.',
+                'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 17,
                 UnresolvableQueryException::RULE_TIP,
             ],

@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -68,9 +69,9 @@ final class QueryReflection
     }
 
     /**
-     * @throws UnresolvableQueryException
-     *
      * @return iterable<string>
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
     {
@@ -102,7 +103,7 @@ final class QueryReflection
      */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
     {
-        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope);
 
         if (null === $queryString) {
             return null;
@@ -117,9 +118,9 @@ final class QueryReflection
     }
 
     /**
-     * @throws UnresolvableQueryException
-     *
      * @return iterable<string>
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
     {
@@ -133,7 +134,7 @@ final class QueryReflection
             return;
         }
 
-        $queryString = $this->resolveQueryString($queryExpr, $scope);
+        $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
             yield $queryString;
         }
@@ -144,12 +145,37 @@ final class QueryReflection
      */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
     {
+        return $this->resolveQueryExpr($queryExpr, $scope);
+    }
+
+    /**
+     * @throws UnresolvableQueryException
+     */
+    private function resolveQueryExpr(Expr $queryExpr, Scope $scope): ?string
+    {
+        if ($queryExpr instanceof Expr\Variable) {
+            $finder = new ExpressionFinder();
+            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+
+            if (null !== $queryStringExpr) {
+                return $this->resolveQueryStringExpr($queryStringExpr, $scope);
+            }
+        }
+
+        return $this->resolveQueryStringExpr($queryExpr, $scope);
+    }
+
+    /**
+     * @throws UnresolvableQueryException
+     */
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
+    {
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
 
-            $leftString = $this->resolveQueryString($left, $scope);
-            $rightString = $this->resolveQueryString($right, $scope);
+            $leftString = $this->resolveQueryStringExpr($left, $scope);
+            $rightString = $this->resolveQueryStringExpr($right, $scope);
 
             if (null === $leftString || null === $rightString) {
                 return null;
@@ -160,7 +186,7 @@ final class QueryReflection
 
         $type = $scope->getType($queryExpr);
 
-        return QuerySimulation::simulateParamValueType($type);
+        return QuerySimulation::simulateParamValueType($type, false);
     }
 
     public static function getQueryType(string $query): ?string
@@ -175,40 +201,82 @@ final class QueryReflection
     }
 
     /**
-     * @throws UnresolvableQueryException
+     * Resolves prepared statement parameter types.
      *
-     * @return array<string|int, scalar|null>|null
+     * @return array<string|int, Parameter>|null
+     *
+     * @throws UnresolvableQueryException
      */
     public function resolveParameters(Type $parameterTypes): ?array
     {
         $parameters = [];
 
-        if ($parameterTypes instanceof ConstantArrayType) {
-            $keyTypes = $parameterTypes->getKeyTypes();
-            $valueTypes = $parameterTypes->getValueTypes();
-
-            foreach ($keyTypes as $i => $keyType) {
-                if ($keyType instanceof ConstantStringType) {
-                    $placeholderName = $keyType->getValue();
-
-                    if (!str_starts_with($placeholderName, ':')) {
-                        $placeholderName = ':'.$placeholderName;
-                    }
-
-                    $parameters[$placeholderName] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
-                } elseif ($keyType instanceof ConstantIntegerType) {
-                    $parameters[$keyType->getValue()] = QuerySimulation::simulateParamValueType($valueTypes[$i]);
-                }
+        if ($parameterTypes instanceof UnionType) {
+            foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
+                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
             }
 
             return $parameters;
+        }
+
+        if ($parameterTypes instanceof ConstantArrayType) {
+            return $this->resolveConstantArray($parameterTypes, false);
         }
 
         return null;
     }
 
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @return array<string|int, Parameter>
+     *
+     * @throws UnresolvableQueryException
+     */
+    private function resolveConstantArray(ConstantArrayType $parameterTypes, bool $forceOptional): array
+    {
+        $parameters = [];
+
+        $keyTypes = $parameterTypes->getKeyTypes();
+        $valueTypes = $parameterTypes->getValueTypes();
+        $optionalKeys = $parameterTypes->getOptionalKeys();
+
+        foreach ($keyTypes as $i => $keyType) {
+            $isOptional = \in_array($i, $optionalKeys, true);
+            if ($forceOptional) {
+                $isOptional = true;
+            }
+
+            if ($keyType instanceof ConstantStringType) {
+                $placeholderName = $keyType->getValue();
+
+                if ('' === $placeholderName) {
+                    throw new ShouldNotHappenException('Empty placeholder name');
+                }
+
+                $param = new Parameter(
+                    $placeholderName,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$param->name] = $param;
+            } elseif ($keyType instanceof ConstantIntegerType) {
+                $param = new Parameter(
+                    null,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$keyType->getValue()] = $param;
+            }
+        }
+
+        return $parameters;
+    }
+
+    /**
+     * @param array<string|int, Parameter> $parameters
      */
     private function replaceParameters(string $queryString, array $parameters): string
     {
@@ -221,7 +289,9 @@ final class QueryReflection
             return $haystack;
         };
 
-        foreach ($parameters as $placeholderKey => $value) {
+        foreach ($parameters as $placeholderKey => $parameter) {
+            $value = $parameter->simulatedValue;
+
             if (\is_string($value)) {
                 // XXX escaping
                 $value = "'".$value."'";
@@ -231,10 +301,10 @@ final class QueryReflection
                 $value = (string) $value;
             }
 
-            if (\is_int($placeholderKey)) {
-                $queryString = $replaceFirst($queryString, '?', $value);
-            } else {
+            if (\is_string($placeholderKey)) {
                 $queryString = str_replace($placeholderKey, $value, $queryString);
+            } else {
+                $queryString = $replaceFirst($queryString, '?', $value);
             }
         }
 

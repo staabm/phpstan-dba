@@ -18,9 +18,9 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        require_once __DIR__.'/data/syntax-error-in-query.php';
+        require_once __DIR__.'/data/syntax-error-in-query-method.php';
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-query.php'], [
+        $this->analyse([__DIR__.'/data/syntax-error-in-query-method.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 11,
@@ -50,7 +50,7 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 41,
             ],
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada  WHERE email='my_other_table' LIMIT 0' at line 1 (1064).",
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (1064).",
                 56,
             ],
             [
@@ -64,6 +64,10 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
             [
                 "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
                 103,
+            ],
+            [
+                "Query error: Unknown column 'xy' in 'group statement' (1054).",
+                118,
             ],
         ]);
     }

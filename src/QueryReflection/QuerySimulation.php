@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
@@ -13,7 +14,6 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
@@ -27,14 +27,14 @@ final class QuerySimulation
     /**
      * @throws UnresolvableQueryException
      */
-    public static function simulateParamValueType(Type $paramType): ?string
+    public static function simulateParamValueType(Type $paramType, bool $preparedParam): ?string
     {
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
         }
 
         if ($paramType instanceof ArrayType) {
-            return self::simulateParamValueType($paramType->getItemType());
+            return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
         }
 
         $integerType = new IntegerType();
@@ -57,25 +57,25 @@ final class QuerySimulation
         }
 
         if ($paramType instanceof UnionType) {
-            $innerType = null;
-            foreach (TypeUtils::getConstantScalars($paramType) as $type) {
-                $innerType = $type;
-
-                if (null === self::simulateParamValueType($type)) {
-                    // when one of the union value-types is no supported -> we can't simulate the value
-                    return null;
+            foreach ($paramType->getTypes() as $type) {
+                // pick one representative value out of the union
+                $simulated = self::simulateParamValueType($type, $preparedParam);
+                if (null !== $simulated) {
+                    return $simulated;
                 }
-            }
-            // pick one representative value out of the union
-            if (null !== $innerType) {
-                return self::simulateParamValueType($innerType);
             }
 
             return null;
         }
 
-        // plain string types can contain anything.. we cannot reason about it
-        if ($paramType instanceof StringType) {
+        $stringType = new StringType();
+        if ($stringType->isSuperTypeOf($paramType)->yes()) {
+            // in a prepared context, regular strings are fine
+            if (true === $preparedParam) {
+                return '1';
+            }
+
+            // plain string types can contain anything.. we cannot reason about it
             return null;
         }
 
@@ -105,10 +105,23 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
+        // XXX someday we will use a proper SQL parser,
         $queryString = rtrim($queryString, ';');
 
-        // XXX someday we will use a proper SQL parser,
-        // which would also allow us to support even more complex expressions like SELECT .. LIMIT X, Y FOR UPDATE
+        // strip trailling FOR UPDATE/FOR SHARE
+        $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*$/i', '$1', $queryString);
+
+        if (null === $queryString) {
+            throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');
+        }
+
+        // strip trailling OFFSET
+        $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
+
+        if (null === $queryString) {
+            throw new ShouldNotHappenException('Could not strip trailing OFFSET from query');
+        }
+
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
     }
 }

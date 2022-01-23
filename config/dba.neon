@@ -2,6 +2,14 @@ includes:
     - stubFiles.neon
     - extensions.neon
 
+parameters:
+    featureToggles:
+        skipCheckGenericClasses:
+            - PDOStatement
+            - mysqli_result
+            - Doctrine\DBAL\Result
+            - Doctrine\DBAL\Statement
+
 services:
     -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
@@ -11,6 +19,19 @@ services:
                 - 'Doctrine\DBAL\Connection::executeQuery'
                 - 'Doctrine\DBAL\Connection::executeCacheQuery'
                 - 'Doctrine\DBAL\Connection::executeStatement'
+                - 'Doctrine\DBAL\Connection::fetchAssociative'
+                - 'Doctrine\DBAL\Connection::fetchNumeric'
+                - 'Doctrine\DBAL\Connection::fetchOne'
+                - 'Doctrine\DBAL\Connection::fetchAllNumeric'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociative'
+                - 'Doctrine\DBAL\Connection::fetchAllKeyValue'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociativeIndexed'
+                - 'Doctrine\DBAL\Connection::fetchFirstColumn'
+                - 'Doctrine\DBAL\Connection::iterateNumeric'
+                - 'Doctrine\DBAL\Connection::iterateAssociative'
+                - 'Doctrine\DBAL\Connection::iterateKeyValue'
+                - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed'
+                - 'Doctrine\DBAL\Connection::iterateColumn'
                 - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
 
     -

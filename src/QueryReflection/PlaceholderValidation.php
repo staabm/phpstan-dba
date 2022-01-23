@@ -4,14 +4,33 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PhpParser\Node\Expr;
+use PHPStan\Analyser\Scope;
+
 final class PlaceholderValidation
 {
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
-    public function checkErrors(string $queryString, array $parameters): iterable
+    public function checkQuery(Expr $queryExpr, Scope $scope, array $parameters): iterable
+    {
+        $queryReflection = new QueryReflection();
+
+        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+            foreach ($this->checkErrors($queryString, $parameters) as $error) {
+                yield $error;
+            }
+        }
+    }
+
+    /**
+     * @param array<string|int, Parameter> $parameters
+     *
+     * @return iterable<string>
+     */
+    private function checkErrors(string $queryString, array $parameters): iterable
     {
         if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
             return;
@@ -20,7 +39,16 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
-        if (0 === \count($parameters)) {
+        $parameterCount = \count($parameters);
+        $minParameterCount = 0;
+        foreach ($parameters as $parameter) {
+            if ($parameter->isOptional) {
+                continue;
+            }
+            ++$minParameterCount;
+        }
+
+        if (0 === $parameterCount && 0 === $minParameterCount) {
             if (0 === $placeholderCount) {
                 return;
             }
@@ -39,7 +67,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
@@ -48,16 +76,27 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
 
         $parameterCount = \count($parameters);
+        $minParameterCount = 0;
+        foreach ($parameters as $parameter) {
+            if ($parameter->isOptional) {
+                continue;
+            }
+            ++$minParameterCount;
+        }
 
-        if ($parameterCount !== $placeholderCount) {
+        if ($parameterCount !== $placeholderCount && $placeholderCount !== $minParameterCount) {
             $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
             if ($placeholderCount > 1) {
                 $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
             }
 
-            $parameterActual = sprintf('but %s value is given', $parameterCount);
-            if ($parameterCount > 1) {
-                $parameterActual = sprintf('but %s values are given', $parameterCount);
+            if ($minParameterCount !== $parameterCount) {
+                $parameterActual = sprintf('but %s values are given', $minParameterCount.'-'.$parameterCount);
+            } else {
+                $parameterActual = sprintf('but %s value is given', $parameterCount);
+                if ($parameterCount > 1) {
+                    $parameterActual = sprintf('but %s values are given', $parameterCount);
+                }
             }
 
             yield $placeholderExpectation.', '.$parameterActual.'.';
@@ -72,8 +111,11 @@ final class PlaceholderValidation
             }
         }
 
-        foreach ($parameters as $placeholderKey => $value) {
+        foreach ($parameters as $placeholderKey => $parameter) {
             if (\is_int($placeholderKey)) {
+                continue;
+            }
+            if ($parameter->isOptional) {
                 continue;
             }
             if (!\in_array($placeholderKey, $namedPlaceholders)) {

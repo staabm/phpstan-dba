@@ -8,7 +8,6 @@ use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Result;
-use Doctrine\DBAL\Statement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -21,16 +20,8 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class DoctrineConnectionQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var array<string, class-string> return types of Connection methods in doctrine 3.x
-     */
-    private $resultMap = [
-        'query' => Result::class,
-        //'prepare' => Statement::class,
-    ];
-
     public function getClass(): string
     {
         return Connection::class;
@@ -38,7 +29,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
+        return \in_array(strtolower($methodReflection->getName()), ['query'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -63,7 +54,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodReflection, $args[0]->value, $scope);
+        $resultType = $this->inferType($args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -71,7 +62,7 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
         return $defaultReturn;
     }
 
-    private function inferType(MethodReflection $methodReflection, Expr $queryExpr, Scope $scope): ?Type
+    private function inferType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
@@ -79,10 +70,9 @@ final class DoctrineConnectionDynamicReturnTypeExtension implements DynamicMetho
             return null;
         }
 
-        $genericMainType = $this->resultMap[strtolower($methodReflection->getName())];
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
         if ($resultType) {
-            return new GenericObjectType($genericMainType, [$resultType]);
+            return new GenericObjectType(Result::class, [$resultType]);
         }
 
         return null;

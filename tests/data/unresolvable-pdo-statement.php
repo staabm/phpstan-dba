@@ -32,4 +32,11 @@ class Foo
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
     }
+
+    public function noErrorOnStringValue(PDO $pdo, string $string)
+    {
+        $query = 'SELECT adaid FROM ada WHERE email=:email';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([':email' => '%|'.$string.'|%']);
+    }
 }

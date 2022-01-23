@@ -177,4 +177,37 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
     }
+
+    public function offsetAfterLimit(PDO $pdo, int $limit, int $offset)
+    {
+        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' OFFSET '.$offset;
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+    }
+
+    public function readlocks(PDO $pdo, int $limit, int $offset)
+    {
+        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' OFFSET '.$offset.' FOR UPDATE';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+
+        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' FOR SHARE';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
+    }
+
+    /**
+     * @param int|numeric-string $adaid
+     * @param string|int         $gesperrt
+     */
+    public function mixInUnionParam(PDO $pdo, $adaid, $gesperrt)
+    {
+        // union of simulatable and simulatable is simulatable
+        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+
+        // union of simulatable and non-simulatable is simulatable
+        $stmt = $pdo->query("SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt = '".$gesperrt."'", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+    }
 }
