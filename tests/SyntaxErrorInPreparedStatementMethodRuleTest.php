@@ -49,6 +49,22 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends AbstractServiceAwareR
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 107,
             ],
+            [
+                "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                122,
+            ],
+            [
+                'Value :gesperrt is given, but the query does not contain this placeholder.',
+                137,
+            ],
+            [
+                'Query expects placeholder :name, but it is missing from values given.',
+                307,
+            ],
+            [
+                'Query expects 2 placeholders, but 0-1 values are given.',
+                307,
+            ],
         ]);
     }
 }

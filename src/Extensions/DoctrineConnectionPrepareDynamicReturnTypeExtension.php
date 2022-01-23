@@ -4,59 +4,53 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PDO;
-use PDOStatement;
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Statement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class DoctrineConnectionPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var PhpVersion
-     */
-    private $phpVersion;
-
-    public function __construct(PhpVersion $phpVersion)
-    {
-        $this->phpVersion = $phpVersion;
-    }
-
     public function getClass(): string
     {
-        return PDO::class;
+        return Connection::class;
     }
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return 'prepare' === $methodReflection->getName();
+        return \in_array(strtolower($methodReflection->getName()), ['prepare'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
-            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-        }
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $methodCall->getArgs(),
+            $methodReflection->getVariants(),
+        )->getReturnType();
 
         if (\count($args) < 1) {
             return $defaultReturn;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
+            return $defaultReturn;
+        }
+
+        // make sure we don't report wrong types in doctrine 2.x
+        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
             return $defaultReturn;
         }
 
@@ -76,10 +70,9 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             return null;
         }
 
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
+        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
         if ($resultType) {
-            return new GenericObjectType(PDOStatement::class, [$resultType]);
+            return new GenericObjectType(Statement::class, [$resultType]);
         }
 
         return null;

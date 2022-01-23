@@ -38,6 +38,11 @@ final class Error
         return $this->code;
     }
 
+    public function asRuleMessage(): string
+    {
+        return 'Query error: '.$this->getMessage().' ('.$this->getCode().').';
+    }
+
     /**
      * @param array{message: string, code: MysqliQueryReflector::MYSQL_*} $array
      */

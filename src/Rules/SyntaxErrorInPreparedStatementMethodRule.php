@@ -13,8 +13,11 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<CallLike>
@@ -93,21 +96,47 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $queryExpr = $args[0]->value;
-        $parameterTypes = $scope->getType($args[1]->value);
 
-        $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-        if (null === $queryString) {
+        if ($scope->getType($queryExpr) instanceof MixedType) {
             return [];
         }
 
-        $error = $queryReflection->validateQueryString($queryString);
-        if (null !== $error) {
+        $queryReflection = new QueryReflection();
+        $parameterTypes = $scope->getType($args[1]->value);
+        try {
+            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+        } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
             ];
         }
 
-        return [];
+        $errors = [];
+        $placeholderValidation = new PlaceholderValidation();
+        try {
+            foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
+                $queryError = $queryReflection->validateQueryString($queryString);
+                if (null !== $queryError) {
+                    $error = $queryError->asRuleMessage();
+                    $errors[$error] = $error;
+                }
+            }
+
+            foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
+                // make error messages unique
+                $errors[$error] = $error;
+            }
+
+            $ruleErrors = [];
+            foreach ($errors as $error) {
+                $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
+            }
+
+            return $ruleErrors;
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+            ];
+        }
     }
 }

@@ -48,7 +48,7 @@ jobs:
 
       - uses: "ramsey/composer-install@v2"
         with:
-          composer-options: "--prefer-dist --no-progress --no-suggest"
+          composer-options: "--prefer-dist --no-progress"
 
       - name: Setup mysql
         run: |
@@ -82,6 +82,6 @@ jobs:
 
       - uses: "ramsey/composer-install@v2"
         with:
-          composer-options: "--prefer-dist --no-progress --no-suggest"
+          composer-options: "--prefer-dist --no-progress"
 
       - run: vendor/bin/phpstan

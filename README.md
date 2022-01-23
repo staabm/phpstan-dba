@@ -4,28 +4,12 @@
 With this information at hand `phpstan-dba` is able to detect type inconsistencies between your domain model and database-schema.
 Additionally errors in code handling the results of sql queries can be detected.
 
-This extension provides following features:
+This extension provides the following features:
 
-* the array shape of results can be inferred for `Doctrine\DBAL\Result`, `PDOStatement` and `mysqli_result`
-  * .. when the query string can be resolved at analysis time. This is even possible for queries containing php-variables, as long as their typ is known in most cases.
-  * builtin we support
-    * `Doctrine\DBAL\Connection->query()`
-    * `Doctrine\DBAL\Result->fetchNumeric()`
-    * `Doctrine\DBAL\Result->fetchAssociative()`
-    * `Doctrine\DBAL\Result->fetchAllNumeric()`
-    * `Doctrine\DBAL\Result->fetchAllAssociative()`
-    * `Doctrine\DBAL\Result->columnCount()`
-    * `mysqli->query`
-    * `PDOStatement->fetch`
-    * `PDOStatement->fetchAll`
-    * `PDOStatement->execute`
-    * `PDO->query`
-    * `PDO->prepare`
-* `SyntaxErrorInPreparedStatementMethodRule` can inspect prepared sql queries and detect syntax errors
-* `SyntaxErrorInQueryMethodRule` can inspect sql queries and detect syntax errors - `SyntaxErrorInQueryFunctionRule` can do the same for functions
-  * builtin is query syntax error detection for `mysqli_query`, `mysqli->query`, `PDO->query` and `PDO->prepare`
-* `mysqli_real_escape_string` and `mysqli->real_escape_string` dynamic return type extensions
-* `pdo->quote` dynamic return type extension
+* inspect sql queries, detect syntax errors and placeholder/bound value mismatches
+* type-inferrence for `Doctrine\DBAL\Result`, `PDOStatement` and `mysqli_result`
+* builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
+* API to built the same features for your custom sql based database access layer
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
@@ -142,6 +126,10 @@ QueryReflection::setupReflector(
 This might be usefull if your CI pipeline cannot connect to your development database server for whatever reason.
 
 The GitHubActions setup of `phpstan-dba` is [using this technique to replay the reflection information](https://github.com/staabm/phpstan-dba/blob/main/bootstrap.php).
+
+**Note**: In case you commit the generated cache files into your repository, consider [marking them as generated files](https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github), so they don't show up in Pull Requests.
+
+## Advanced Usage
 
 ### use `SyntaxErrorInPreparedStatementMethodRule` for your custom classes
 

@@ -1,11 +1,31 @@
 services:
     -
-        class: staabm\PHPStanDba\Extensions\DoctrineConnectionDynamicReturnTypeExtension
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionQueryDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionExecuteQueryDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionPrepareDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
         class: staabm\PHPStanDba\Extensions\DoctrineResultDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineStatementExecuteDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\Extensions\DoctrineConnectionFetchDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
@@ -20,7 +40,7 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
-        class: staabm\PHPStanDba\Extensions\PdoExecuteTypeSpecifyingExtension
+        class: staabm\PHPStanDba\Extensions\PdoStatementExecuteTypeSpecifyingExtension
         tags:
         	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
 

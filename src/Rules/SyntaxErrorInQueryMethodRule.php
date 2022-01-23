@@ -9,7 +9,9 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<MethodCall>
@@ -68,16 +70,24 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($args[$queryArgPosition]->value, $scope);
-        if (null === $queryString) {
+        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
             return [];
         }
 
-        $error = $queryReflection->validateQueryString($queryString);
-        if (null !== $error) {
+        try {
+            $queryReflection = new QueryReflection();
+            $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);
+            foreach ($queryStrings as $queryString) {
+                $queryError = $queryReflection->validateQueryString($queryString);
+                if (null !== $queryError) {
+                    return [
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                    ];
+                }
+            }
+        } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message('Query error: '.$error->getMessage().' ('.$error->getCode().').')->line($node->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
             ];
         }
 

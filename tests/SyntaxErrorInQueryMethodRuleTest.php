@@ -18,9 +18,9 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        require_once __DIR__.'/data/syntax-error-in-query.php';
+        require_once __DIR__.'/data/syntax-error-in-query-method.php';
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-query.php'], [
+        $this->analyse([__DIR__.'/data/syntax-error-in-query-method.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 11,
@@ -50,12 +50,20 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 41,
             ],
             [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                67,
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (1064).",
+                56,
             ],
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                73,
+                76,
+            ],
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                82,
+            ],
+            [
+                "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                103,
             ],
         ]);
     }

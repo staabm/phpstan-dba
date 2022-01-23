@@ -37,4 +37,20 @@ class Foo
         $stmt->execute(['adaid' => 1]); // everything correct
         $stmt->execute([':email' => 'email@example.org', 'adaid' => 1]); // wrong number of parameters
     }
+
+    public function conditionalSyntaxError(PDO $pdo)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
+
+        if (rand(0, 1)) {
+            // valid condition
+            $query .= ' WHERE adaid = :adaid';
+        } else {
+            // wrong param name
+            $query .= ' WHERE adaid = :asdsa';
+        }
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(['adaid' => 1]);
+    }
 }

@@ -46,15 +46,24 @@ class Foo
         $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM '.$tableName.' LIMIT 1', PDO::FETCH_ASSOC);
     }
 
-    public function incompleteQueryUnion(PDO $pdo)
+    public function syntaxErrorInQueryUnion(PDO $pdo)
     {
         $add = '';
         if (rand(0, 1)) {
-            $add .= 'my_other_table';
+            $add .= " WHERE email='my_other_table'";
         }
 
-        // XXX we might get smarter in query parsing and resolve this query at analysis time
-        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada .'.$add.' LIMIT 1', PDO::FETCH_ASSOC);
+        $pdo->query('SELECT email, adaid GROUP BY xy FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
+    public function queryUnion(PDO $pdo)
+    {
+        $add = '';
+        if (rand(0, 1)) {
+            $add .= " WHERE email='my_other_table'";
+        }
+
+        $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
     }
 
     public function conditionalSyntaxErrorInQueryUnion(PDO $pdo)
@@ -87,6 +96,21 @@ class Foo
     {
         // errors in this scenario are reported by SyntaxErrorInPreparedStatementMethodRule only
         $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
+    }
+
+    public function conditionalSyntaxError(PDO $pdo)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada';
+
+        if (rand(0, 1)) {
+            // valid condition
+            $query .= ' WHERE gesperrt=1';
+        } else {
+            // unknown column
+            $query .= ' WHERE asdsa=1';
+        }
+
+        $pdo->query($query);
     }
 
     public function validPrepare(PDO $pdo)

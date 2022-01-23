@@ -2,7 +2,8 @@
 
 namespace DoctrineDbalTest;
 
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Cache\QueryCacheProfile;
+use Doctrine\DBAL\Connection;
 use function PHPStan\Testing\assertType;
 
 class Foo
@@ -26,5 +27,56 @@ class Foo
 
         $columnCount = $result->columnCount();
         assertType('4', $columnCount);
+    }
+
+    public function executeQuery(Connection $conn, array $types, QueryCacheProfile $qcp)
+    {
+        $stmt = $conn->executeQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?', [1]);
+        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $stmt);
+
+        $stmt = $conn->executeCacheQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?', [1], $types, $qcp);
+        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $stmt);
+    }
+
+    public function executeStatement(Connection $conn, int $adaid)
+    {
+        $stmt = $conn->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
+        assertType('Doctrine\DBAL\Statement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $stmt);
+
+        $stmt = $conn->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?');
+        $result = $stmt->execute([$adaid]);
+        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
+
+        $stmt = $conn->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?');
+        $result = $stmt->executeQuery([$adaid]);
+        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
+    }
+
+    public function fetchAssociative(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchAssociative($query, [1]);
+        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $fetchResult);
+    }
+
+    public function fetchNumeric(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchNumeric($query, [1]);
+        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $fetchResult);
+    }
+
+    public function iterateAssociative(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->iterateAssociative($query, [1]);
+        assertType('Traversable<int, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetchResult);
+    }
+
+    public function iterateNumeric(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->iterateNumeric($query, [1]);
+        assertType('Traversable<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetchResult);
     }
 }
