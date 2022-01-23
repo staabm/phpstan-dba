@@ -122,5 +122,4 @@ class Foo
         // make sure we don't infer a wrong type.
         assertType('PDOStatement', $stmt);
     }
-
 }
