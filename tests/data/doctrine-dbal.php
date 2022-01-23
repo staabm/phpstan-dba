@@ -32,5 +32,8 @@ class Foo
     {
         $stmt = $conn->executeQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?', [1]);
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $stmt);
+
+        $stmt = $conn->executeCacheQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?', [1]);
+        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $stmt);
     }
 }

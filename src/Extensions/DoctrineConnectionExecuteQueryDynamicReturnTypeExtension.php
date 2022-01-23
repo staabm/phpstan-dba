@@ -29,7 +29,7 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['executequery'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['executequery', 'executecachequery'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
