@@ -67,7 +67,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param array<string|int, Parameter> $parameters
+     * @param non-empty-array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
