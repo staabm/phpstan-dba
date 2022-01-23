@@ -181,4 +181,17 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>}>', $stmt);
     }
+
+    /**
+     * @param int|numeric-string $adaid
+     * @param string|numeric-string $email
+     */
+    public function mixInUnionParam(PDO $pdo, $adaid, $email)
+    {
+        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = '.$email, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+    }
 }
