@@ -39,7 +39,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param array<string|int, Parameter> $parameters
+     * @param non-empty-array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
@@ -48,16 +48,27 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
 
         $parameterCount = \count($parameters);
+        $minParameterCount = 0;
+        foreach ($parameters as $parameter) {
+            if ($parameter->isOptional) {
+                continue;
+            }
+            ++$minParameterCount;
+        }
 
-        if ($parameterCount !== $placeholderCount) {
+        if ($parameterCount !== $placeholderCount && $placeholderCount !== $minParameterCount) {
             $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
             if ($placeholderCount > 1) {
                 $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
             }
 
-            $parameterActual = sprintf('but %s value is given', $parameterCount);
-            if ($parameterCount > 1) {
-                $parameterActual = sprintf('but %s values are given', $parameterCount);
+            if ($minParameterCount !== $parameterCount) {
+                $parameterActual = sprintf('but %s values are given', $minParameterCount.'-'.$parameterCount);
+            } else {
+                $parameterActual = sprintf('but %s value is given', $parameterCount);
+                if ($parameterCount > 1) {
+                    $parameterActual = sprintf('but %s values are given', $parameterCount);
+                }
             }
 
             yield $placeholderExpectation.', '.$parameterActual.'.';
@@ -72,8 +83,11 @@ final class PlaceholderValidation
             }
         }
 
-        foreach ($parameters as $placeholderKey => $value) {
+        foreach ($parameters as $placeholderKey => $parameter) {
             if (\is_int($placeholderKey)) {
+                continue;
+            }
+            if ($parameter->isOptional) {
                 continue;
             }
             if (!\in_array($placeholderKey, $namedPlaceholders)) {

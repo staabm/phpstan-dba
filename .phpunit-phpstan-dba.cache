@@ -138,6 +138,15 @@
             SELECT email, adaid
             FROM ada
             WHERE gesperrt = \'1\'
+            FOR UPDATE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
             LIMIT        \'1\'
         ' => 
     array (
@@ -148,7 +157,39 @@
             FROM ada
             WHERE gesperrt = \'1\'
             LIMIT        \'1\'
+            FOR UPDATE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
             OFFSET \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR SHARE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR UPDATE
         ' => 
     array (
       'error' => NULL,
@@ -1536,6 +1577,14 @@
           ),
         )),
       ),
+    ),
+    'SELECT adaid FROM ada WHERE email = \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT adaid FROM ada WHERE email = \'1\' AND gesperrt = \'1\'' => 
+    array (
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
     array (
