@@ -227,7 +227,7 @@ final class QueryReflection
     }
 
     /**
-     * @return array<string|int, Parameter>|null
+     * @return array<string|int, Parameter>
      *
      * @throws UnresolvableQueryException
      */
