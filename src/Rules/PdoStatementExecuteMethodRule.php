@@ -84,8 +84,8 @@ final class PdoStatementExecuteMethodRule implements Rule
 
         try {
             $errors = [];
-            $placeholderReflection = new PlaceholderValidation();
-            foreach ($placeholderReflection->checkQuery($queryExpr, $scope, $parameters) as $error) {
+            $placeholderValidation = new PlaceholderValidation();
+            foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
                 // make error messages unique
                 $errors[$error] = $error;
             }

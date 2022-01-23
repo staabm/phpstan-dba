@@ -112,7 +112,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $errors = [];
-        $placeholderReflection = new PlaceholderValidation();
+        $placeholderValidation = new PlaceholderValidation();
         try {
             foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
@@ -122,7 +122,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 }
             }
 
-            foreach ($placeholderReflection->checkQuery($queryExpr, $scope, $parameters) as $error) {
+            foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
                 // make error messages unique
                 $errors[$error] = $error;
             }
