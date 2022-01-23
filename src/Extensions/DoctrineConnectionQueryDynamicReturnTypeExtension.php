@@ -55,7 +55,7 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodReflection, $args[0]->value, $scope);
+        $resultType = $this->inferType($args[0]->value, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -63,7 +63,7 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
         return $defaultReturn;
     }
 
-    private function inferType(MethodReflection $methodReflection, Expr $queryExpr, Scope $scope): ?Type
+    private function inferType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
