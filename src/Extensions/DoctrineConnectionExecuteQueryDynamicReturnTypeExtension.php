@@ -69,8 +69,6 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
         if (null === $queryString) {
-            var_dump(__LINE__);
-
             return null;
         }
 
@@ -78,7 +76,6 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         if ($resultType) {
             return new GenericObjectType(Result::class, [$resultType]);
         }
-        var_dump(__LINE__);
 
         return null;
     }
