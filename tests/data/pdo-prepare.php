@@ -106,4 +106,21 @@ class Foo
         ]);
         assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
+
+    public function noInferenceOnBug196(PDO $pdo, array $minorPhpVersions, \DateTimeImmutable $updateDate)
+    {
+        $sumQueries = [];
+        $dataPointDate = $updateDate->format('Ymd');
+        foreach ($minorPhpVersions as $index => $version) {
+            $sumQueries[] = 'SUM(DATA->\'$."'.$version.'"."'.$dataPointDate.'"\')';
+        }
+        $stmt = $pdo->prepare(
+            'SELECT '.implode(', ', $sumQueries).' FROM ada WHERE adaid = :package'
+        );
+        $stmt->execute(['package' => 'abc']);
+        // this query is too dynamic for beeing analyzed.
+        // make sure we don't infer a wrong type.
+        assertType('PDOStatement', $stmt);
+    }
+
 }
