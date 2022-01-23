@@ -122,10 +122,9 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 }
             }
 
-            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-                foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
-                    $errors[$error] = $error;
-                }
+            foreach ($placeholderReflection->checkQuery($queryExpr, $scope, $parameters) as $error) {
+                // make error messages unique
+                $errors[$error] = $error;
             }
 
             $ruleErrors = [];

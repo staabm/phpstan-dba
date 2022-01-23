@@ -85,11 +85,9 @@ final class PdoStatementExecuteMethodRule implements Rule
         try {
             $errors = [];
             $placeholderReflection = new PlaceholderValidation();
-            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-                foreach ($placeholderReflection->checkErrors($queryString, $parameters) as $error) {
-                    // make error messages unique
-                    $errors[$error] = $error;
-                }
+            foreach ($placeholderReflection->checkQuery($queryExpr, $scope, $parameters) as $error) {
+                // make error messages unique
+                $errors[$error] = $error;
             }
         } catch (UnresolvableQueryException $exception) {
             return [
