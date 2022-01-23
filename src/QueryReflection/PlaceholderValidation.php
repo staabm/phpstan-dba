@@ -7,7 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 final class PlaceholderValidation
 {
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
@@ -39,7 +39,7 @@ final class PlaceholderValidation
     }
 
     /**
-     * @param array<string|int, scalar|null> $parameters
+     * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
