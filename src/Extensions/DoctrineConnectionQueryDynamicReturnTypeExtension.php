@@ -23,14 +23,6 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DoctrineConnectionQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var array<string, class-string> return types of Connection methods in doctrine 3.x
-     */
-    private $resultMap = [
-        'query' => Result::class,
-        //'prepare' => Statement::class,
-    ];
-
     public function getClass(): string
     {
         return Connection::class;
@@ -38,7 +30,7 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['query'/*, 'prepare'*/], true);
+        return \in_array(strtolower($methodReflection->getName()), ['query'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -79,10 +71,9 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
             return null;
         }
 
-        $genericMainType = $this->resultMap[strtolower($methodReflection->getName())];
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
         if ($resultType) {
-            return new GenericObjectType($genericMainType, [$resultType]);
+            return new GenericObjectType(Result::class, [$resultType]);
         }
 
         return null;
