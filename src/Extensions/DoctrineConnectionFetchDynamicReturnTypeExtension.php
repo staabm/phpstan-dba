@@ -12,11 +12,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use Traversable;
@@ -92,6 +94,9 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
             if (\in_array($usedMethod, ['iterateassociative', 'iteratenumeric'], true)) {
                 return new GenericObjectType(Traversable::class, [new IntegerType(), $resultType]);
             }
+
+            // false is returned if no rows are found.
+            $resultType = TypeCombinator::addNull($resultType);
 
             return $resultType;
         }
