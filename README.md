@@ -12,7 +12,7 @@ This extension provides the following features:
 * API to built the same features for your custom sql based database access layer
 
 **Note:**
-At the moment only mysql/mariadb databases are supported. Technically its not a big problem to support other databases though.
+At the moment only mysql/mariadb databases are supported. Technically it's not a big problem to support other databases though.
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
