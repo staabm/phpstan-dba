@@ -29,7 +29,6 @@ final class DoctrineReflection
             case 'fetchnumeric':
             case 'fetchallnumeric':
             case 'iteratenumeric':
-            case 'iterateallnumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
                 break;
             case 'fetchassociative':
