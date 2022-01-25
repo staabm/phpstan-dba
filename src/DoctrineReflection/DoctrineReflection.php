@@ -30,6 +30,7 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_ONE;
                 break;
             case 'fetchfirstcolumn':
+            case 'iteratecolumn':
                 $fetchType = QueryReflector::FETCH_TYPE_FIRST_COL;
                 break;
             case 'fetchnumeric':
@@ -57,6 +58,10 @@ final class DoctrineReflection
                     return $valueTypes[$i];
                 }
                 if (QueryReflector::FETCH_TYPE_FIRST_COL === $fetchType) {
+                    if (\in_array($usedMethod, ['iteratecolumn'], true)) {
+                        return new GenericObjectType(Traversable::class, [new IntegerType(), $valueTypes[$i]]);
+                    }
+
                     return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
                 }
 
