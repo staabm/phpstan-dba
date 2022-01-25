@@ -28,7 +28,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchassociative', 'fetchallassociative', 'fetchnumeric', 'fetchallnumeric', 'iterateassociative', 'iteratenumeric', 'iterateallnumeric'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['fetchone', 'fetchassociative', 'fetchallassociative', 'fetchnumeric', 'fetchallnumeric', 'iterateassociative', 'iteratenumeric', 'iterateallnumeric'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type

@@ -80,6 +80,13 @@ class Foo
         assertType('Traversable<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetchResult);
     }
 
+    public function fetchOne(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchOne($query, [1]);
+        assertType('string', $fetchResult);
+    }
+
     public function fetchAllNumeric(Connection $conn)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
