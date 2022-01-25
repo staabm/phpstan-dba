@@ -14,10 +14,10 @@ class Foo
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
 
         $fetch = $result->fetchNumeric();
-        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}', $fetch);
+        assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}|false', $fetch);
 
         $fetch = $result->fetchAssociative();
-        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}', $fetch);
+        assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $fetch);
 
         $fetch = $result->fetchAllNumeric();
         assertType('array<int<0, max>, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetch);
@@ -78,5 +78,19 @@ class Foo
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->iterateNumeric($query, [1]);
         assertType('Traversable<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetchResult);
+    }
+
+    public function fetchAllNumeric(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchAllNumeric($query, [1]);
+        assertType('array<int<0, max>, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetchResult);
+    }
+
+    public function fetchAllAssociative(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchAllAssociative($query, [1]);
+        assertType('array<int<0, max>, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetchResult);
     }
 }

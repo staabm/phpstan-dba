@@ -12,17 +12,12 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -33,7 +28,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchnumeric', 'fetchassociative', 'fetchallnumeric', 'fetchallassociative'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchnumeric', 'fetchallnumeric', 'fetchassociative', 'fetchallassociative'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -58,7 +53,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
         $resultRowType = $genericTypes[0];
 
-        if (strtolower($methodReflection->getName()) === 'columncount') {
+        if ('columncount' === strtolower($methodReflection->getName())) {
             if ($resultRowType instanceof ConstantArrayType) {
                 $columnCount = \count($resultRowType->getKeyTypes()) / 2;
                 if (!\is_int($columnCount)) {
@@ -73,7 +68,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
         $doctrineReflection = new DoctrineReflection();
         $fetchResultType = $doctrineReflection->fetchResultType($methodReflection, $resultRowType);
-        if ($fetchResultType !== null) {
+        if (null !== $fetchResultType) {
             return $fetchResultType;
         }
 

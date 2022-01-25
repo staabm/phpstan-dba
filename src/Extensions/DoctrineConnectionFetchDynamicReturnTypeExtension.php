@@ -12,16 +12,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
-use Traversable;
 
 final class DoctrineConnectionFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -32,7 +28,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchassociative', 'fetchnumeric', 'iterateassociative', 'iteratenumeric'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['fetchassociative', 'fetchallassociative', 'fetchnumeric', 'fetchallnumeric', 'iterateassociative', 'iteratenumeric', 'iterateallnumeric'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
@@ -75,30 +71,15 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
             return null;
         }
 
-        $fetchType = QueryReflector::FETCH_TYPE_BOTH;
-        $usedMethod = strtolower($methodReflection->getName());
-        switch ($usedMethod) {
-            case 'fetchassociative':
-            case 'iterateassociative':
-                $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
-                break;
-            case 'fetchnumeric':
-            case 'iteratenumeric':
-                $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
-                break;
-        }
-
-        $resultType = $queryReflection->getResultType($queryString, $fetchType);
+        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
         if ($resultType) {
-            if (\in_array($usedMethod, ['iterateassociative', 'iteratenumeric'], true)) {
-                return new GenericObjectType(Traversable::class, [new IntegerType(), $resultType]);
+            $doctrineReflection = new DoctrineReflection();
+            $fetchResultType = $doctrineReflection->fetchResultType($methodReflection, $resultType);
+
+            if (null !== $fetchResultType) {
+                return $fetchResultType;
             }
-
-            // false is returned if no rows are found.
-            $resultType = TypeCombinator::union($resultType, new ConstantBooleanType(false));
-
-            return $resultType;
         }
 
         return null;

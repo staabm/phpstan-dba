@@ -6,27 +6,35 @@ namespace staabm\PHPStanDba\DoctrineReflection;
 
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Type;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use Traversable;
 
-final class DoctrineReflection {
-    /**
-     * @param QueryReflector::FETCH_* $fetchType
-     */
+final class DoctrineReflection
+{
     public function fetchResultType(MethodReflection $methodReflection, Type $resultRowType): ?Type
     {
-        switch (strtolower($methodReflection->getName())) {
+        $usedMethod = strtolower($methodReflection->getName());
+
+        switch ($usedMethod) {
             case 'fetchnumeric':
             case 'fetchallnumeric':
+            case 'iteratenumeric':
+            case 'iterateallnumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
                 break;
             case 'fetchassociative':
             case 'fetchallassociative':
+            case 'iterateassociative':
                 $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
                 break;
             default:
@@ -47,11 +55,20 @@ final class DoctrineReflection {
                 }
             }
 
-            if (\in_array(strtolower($methodReflection->getName()), ['fetchallnumeric', 'fetchallassociative'], true)) {
-                return new ArrayType(IntegerRangeType::fromInterval(0, null), $builder->getArray());
+            $resultType = $builder->getArray();
+
+            if (\in_array($usedMethod, ['iterateassociative', 'iteratenumeric'], true)) {
+                return new GenericObjectType(Traversable::class, [new IntegerType(), $resultType]);
             }
 
-            return $builder->getArray();
+            if (\in_array($usedMethod, ['fetchallnumeric', 'fetchallassociative'], true)) {
+                return new ArrayType(IntegerRangeType::fromInterval(0, null), $resultType);
+            }
+
+            // false is returned if no rows are found.
+            $resultType = TypeCombinator::union($resultType, new ConstantBooleanType(false));
+
+            return $resultType;
         }
 
         return null;
