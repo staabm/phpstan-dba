@@ -26,6 +26,9 @@ final class DoctrineReflection
         $usedMethod = strtolower($methodReflection->getName());
 
         switch ($usedMethod) {
+            case 'fetchone':
+                $fetchType = QueryReflector::FETCH_TYPE_ONE;
+                break;
             case 'fetchnumeric':
             case 'fetchallnumeric':
             case 'iteratenumeric':
@@ -40,13 +43,17 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         }
 
-        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) && $resultRowType instanceof ConstantArrayType) {
+        if ((\in_array($fetchType, [QueryReflector::FETCH_TYPE_NUMERIC, QueryReflector::FETCH_TYPE_ASSOC, QueryReflector::FETCH_TYPE_ONE])) && $resultRowType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultRowType->getKeyTypes();
             $valueTypes = $resultRowType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
+                if (QueryReflector::FETCH_TYPE_ONE === $fetchType) {
+                    return $valueTypes[$i];
+                }
+
                 if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {

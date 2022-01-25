@@ -11,7 +11,7 @@
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
@@ -23,7 +23,7 @@
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT * FROM ada WHERE doesNotExist=1' => 
@@ -35,7 +35,7 @@
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT * FROM typemix' => 
@@ -43,7 +43,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -676,7 +676,7 @@
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT 1 FROM ada WHERE adaid = \'abc\'' => 
@@ -736,7 +736,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -861,7 +861,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -966,7 +966,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1048,7 +1048,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1130,7 +1130,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1212,7 +1212,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1272,7 +1272,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1396,7 +1396,7 @@
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time' => 
@@ -1408,7 +1408,7 @@
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1\'' => 
@@ -1416,7 +1416,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1589,7 +1589,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1642,7 +1642,7 @@
              'max' => 4294967295,
           )),
         )),
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1765,7 +1765,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1818,7 +1818,7 @@
              'max' => 4294967295,
           )),
         )),
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1919,7 +1919,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1972,7 +1972,7 @@
              'max' => 4294967295,
           )),
         )),
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2013,7 +2013,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2066,7 +2066,7 @@
              'max' => 4294967295,
           )),
         )),
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2283,7 +2283,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2347,7 +2347,7 @@
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT adaid FROM ada WHERE email=:gesperrt' => 
@@ -2427,7 +2427,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2468,7 +2468,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2513,7 +2513,7 @@
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT eladaid FROM ak' => 
@@ -2521,7 +2521,7 @@
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2728,7 +2728,7 @@
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email FROM ada WHERE gesperrt=NULL' => 
@@ -2736,7 +2736,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2794,9 +2794,9 @@
       )),
       'result' => 
       array (
-        1 => NULL,
-        3 => NULL,
         2 => NULL,
+        4 => NULL,
+        3 => NULL,
       ),
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada gesperrt=' => 
@@ -2816,7 +2816,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2902,7 +2902,7 @@
             ),
           )),
         )),
-        2 => 
+        3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -2960,7 +2960,7 @@
             ),
           )),
         )),
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3209,7 +3209,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
@@ -3217,7 +3217,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3310,7 +3310,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3407,7 +3407,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = ?' => 
@@ -3419,7 +3419,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid' => 
@@ -3431,7 +3431,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = \'email@example.org\'' => 
@@ -3443,7 +3443,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email' => 
@@ -3455,7 +3455,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ?' => 
@@ -3467,7 +3467,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
@@ -3479,7 +3479,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
@@ -3487,69 +3487,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        1 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-        )),
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3614,6 +3552,68 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
                  'isClassString' => false,
               )),
               3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => 0,
+                 'max' => 4294967295,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+        )),
+        2 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+          ),
+           'nextAutoIndex' => 0,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
@@ -3828,7 +3828,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3925,7 +3925,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
@@ -3933,7 +3933,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4026,7 +4026,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4216,7 +4216,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
@@ -4228,7 +4228,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
@@ -4426,7 +4426,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       )),
       'result' => 
       array (
-        1 => NULL,
+        2 => NULL,
       ),
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
@@ -4446,7 +4446,99 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        2 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'gesperrt',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'freigabe1u1',
+               'isClassString' => false,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+          ),
+           'nextAutoIndex' => 0,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 4294967295,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+        )),
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4588,99 +4680,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
             ),
           )),
         )),
-        1 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-            2 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'gesperrt',
-               'isClassString' => false,
-            )),
-            3 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'freigabe1u1',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            2 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            3 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'freigabe1u1',
-                 'isClassString' => false,
-              )),
-              3 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'gesperrt',
-                 'isClassString' => false,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-        )),
-        2 => 
+        3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4920,7 +4920,7 @@ Simulated query: SELECT email, adaid FROM ada . WHERE email=\'my_other_table\' L
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5160,7 +5160,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5259,7 +5259,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5469,7 +5469,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        4 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5618,7 +5618,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5745,7 +5745,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?1' => 
@@ -5765,7 +5765,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -5868,7 +5868,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       )),
       'result' => 
       array (
-        3 => NULL,
+        4 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\'' => 
@@ -5900,7 +5900,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -6221,7 +6221,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -6320,7 +6320,7 @@ Simulated query: SELECT email, adaid, gesperrt, freigabe1u1 FROM ada . WHERE ema
       'error' => NULL,
       'result' => 
       array (
-        1 => 
+        2 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
