@@ -87,6 +87,13 @@ class Foo
         assertType('string', $fetchResult);
     }
 
+    public function fetchFirstColumn(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchFirstColumn($query, [1]);
+        assertType('array<int<0, max>, string>', $fetchResult);
+    }
+
     public function fetchAllNumeric(Connection $conn)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';

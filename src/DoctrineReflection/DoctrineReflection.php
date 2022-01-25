@@ -29,6 +29,9 @@ final class DoctrineReflection
             case 'fetchone':
                 $fetchType = QueryReflector::FETCH_TYPE_ONE;
                 break;
+            case 'fetchfirstcolumn':
+                $fetchType = QueryReflector::FETCH_TYPE_FIRST_COL;
+                break;
             case 'fetchnumeric':
             case 'fetchallnumeric':
             case 'iteratenumeric':
@@ -52,6 +55,9 @@ final class DoctrineReflection
             foreach ($keyTypes as $i => $keyType) {
                 if (QueryReflector::FETCH_TYPE_ONE === $fetchType) {
                     return $valueTypes[$i];
+                }
+                if (QueryReflector::FETCH_TYPE_FIRST_COL === $fetchType) {
+                    return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
                 }
 
                 if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
