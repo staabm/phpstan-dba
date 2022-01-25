@@ -46,7 +46,7 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         }
 
-        if ((\in_array($fetchType, [QueryReflector::FETCH_TYPE_NUMERIC, QueryReflector::FETCH_TYPE_ASSOC, QueryReflector::FETCH_TYPE_ONE])) && $resultRowType instanceof ConstantArrayType) {
+        if ((\in_array($fetchType, [QueryReflector::FETCH_TYPE_ONE, QueryReflector::FETCH_TYPE_FIRST_COL, QueryReflector::FETCH_TYPE_NUMERIC, QueryReflector::FETCH_TYPE_ASSOC])) && $resultRowType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultRowType->getKeyTypes();

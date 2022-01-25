@@ -16,6 +16,9 @@ class Foo
         $fetch = $result->fetchNumeric();
         assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}|false', $fetch);
 
+        $fetch = $result->fetchFirstColumn();
+        assertType('array<int<0, max>, string>', $fetch);
+
         $fetch = $result->fetchAssociative();
         assertType('array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $fetch);
 

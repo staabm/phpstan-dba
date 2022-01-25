@@ -28,7 +28,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchnumeric', 'fetchallnumeric', 'fetchassociative', 'fetchallassociative'], true);
+        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchfirstcolumn', 'fetchnumeric', 'fetchallnumeric', 'fetchassociative', 'fetchallassociative'], true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
