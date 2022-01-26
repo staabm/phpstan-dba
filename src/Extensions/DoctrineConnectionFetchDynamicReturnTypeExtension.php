@@ -28,9 +28,11 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         'fetchallassociative',
         'fetchnumeric',
         'fetchallnumeric',
+        'fetchallkeyvalue',
         'iteratecolumn',
         'iterateassociative',
         'iteratenumeric',
+        'iteratekeyvalue',
     ];
 
     public function getClass(): string
