@@ -21,6 +21,16 @@ use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    public const METHODS = [
+        'fetchone',
+        'columncount',
+        'fetchfirstcolumn',
+        'fetchnumeric',
+        'fetchallnumeric',
+        'fetchassociative',
+        'fetchallassociative',
+    ];
+
     public function getClass(): string
     {
         return Result::class;
@@ -28,7 +38,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['columncount', 'fetchfirstcolumn', 'fetchnumeric', 'fetchallnumeric', 'fetchassociative', 'fetchallassociative'], true);
+        return \in_array(strtolower($methodReflection->getName()), self::METHODS, true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
