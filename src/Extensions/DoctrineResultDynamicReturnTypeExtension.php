@@ -22,13 +22,14 @@ use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public const METHODS = [
-        'fetchone',
         'columncount',
+        'fetchone',
         'fetchfirstcolumn',
         'fetchnumeric',
         'fetchallnumeric',
         'fetchassociative',
         'fetchallassociative',
+        'iteratenumeric',
     ];
 
     public function getClass(): string
