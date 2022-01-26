@@ -13,6 +13,9 @@ class Foo
         $result = $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
 
+        $columnCount = $result->columnCount();
+        assertType('4', $columnCount);
+
         $fetch = $result->fetchOne();
         assertType('string', $fetch);
 
@@ -31,8 +34,8 @@ class Foo
         $fetch = $result->fetchAllAssociative();
         assertType('array<int<0, max>, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetch);
 
-        $columnCount = $result->columnCount();
-        assertType('4', $columnCount);
+        $fetch = $result->iterateNumeric();
+        assertType('Traversable<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetch);
     }
 
     public function executeQuery(Connection $conn, array $types, QueryCacheProfile $qcp)
