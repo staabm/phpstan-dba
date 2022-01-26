@@ -30,6 +30,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         'fetchassociative',
         'fetchallassociative',
         'iteratenumeric',
+        'iterateassociative',
     ];
 
     public function getClass(): string

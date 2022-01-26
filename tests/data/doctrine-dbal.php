@@ -36,6 +36,9 @@ class Foo
 
         $fetch = $result->iterateNumeric();
         assertType('Traversable<int, array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}>', $fetch);
+
+        $fetch = $result->iterateAssociative();
+        assertType('Traversable<int, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetch);
     }
 
     public function executeQuery(Connection $conn, array $types, QueryCacheProfile $qcp)
