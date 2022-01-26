@@ -108,6 +108,13 @@ class Foo
         assertType('Traversable<int, string>', $fetchResult);
     }
 
+    public function iterateKeyValue(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->iterateKeyValue($query, [1]);
+        assertType('Traversable<string, int<0, 4294967295>>', $fetchResult);
+    }
+
     public function fetchOne(Connection $conn)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
@@ -134,5 +141,12 @@ class Foo
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchAllAssociative($query, [1]);
         assertType('array<int<0, max>, array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $fetchResult);
+    }
+
+    public function fetchAllKeyValue(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
+        $fetchResult = $conn->fetchAllKeyValue($query, [1]);
+        assertType('array<string, int<0, 4294967295>>', $fetchResult);
     }
 }
