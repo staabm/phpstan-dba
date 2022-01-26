@@ -21,7 +21,7 @@ use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    public const METHODS = [
+    private const METHODS = [
         'columncount',
         'fetchone',
         'fetchfirstcolumn',
