@@ -13,6 +13,9 @@ class Foo
         $result = $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
         assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-128, 127>, 3: int<-128, 127>}>', $result);
 
+        $fetch = $result->fetchOne();
+        assertType('string', $fetch);
+
         $fetch = $result->fetchNumeric();
         assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}|false', $fetch);
 
