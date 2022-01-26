@@ -59,7 +59,7 @@ final class DoctrineReflection
 
             if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType) {
                 // $valueType contain 'BOTH' fetched values
-                if (\count($valueTypes) < 2) {
+                if (\count($valueTypes) < 4) {
                     return null;
                 }
 
