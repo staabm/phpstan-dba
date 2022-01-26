@@ -29,9 +29,11 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         'fetchallnumeric',
         'fetchassociative',
         'fetchallassociative',
+        'fetchallkeyvalue',
         'iteratenumeric',
         'iterateassociative',
         'iteratecolumn',
+        'iteratekeyvalue',
     ];
 
     public function getClass(): string

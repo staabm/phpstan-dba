@@ -21,6 +21,18 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class DoctrineConnectionFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    private const METHODS = [
+        'fetchone',
+        'fetchfirstcolumn',
+        'fetchassociative',
+        'fetchallassociative',
+        'fetchnumeric',
+        'fetchallnumeric',
+        'iteratecolumn',
+        'iterateassociative',
+        'iteratenumeric',
+    ];
+
     public function getClass(): string
     {
         return Connection::class;
@@ -28,7 +40,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetchone', 'fetchfirstcolumn', 'fetchassociative', 'fetchallassociative', 'fetchnumeric', 'fetchallnumeric', 'iteratecolumn', 'iterateassociative', 'iteratenumeric'], true);
+        return \in_array(strtolower($methodReflection->getName()), self::METHODS, true);
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type

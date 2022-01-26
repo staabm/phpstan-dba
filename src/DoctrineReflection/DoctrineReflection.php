@@ -26,6 +26,10 @@ final class DoctrineReflection
         $usedMethod = strtolower($methodReflection->getName());
 
         switch ($usedMethod) {
+            case 'fetchallkeyvalue':
+            case 'iteratekeyvalue':
+                $fetchType = QueryReflector::FETCH_TYPE_KEY_VALUE;
+                break;
             case 'fetchone':
                 $fetchType = QueryReflector::FETCH_TYPE_ONE;
                 break;
@@ -47,11 +51,24 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         }
 
-        if ((\in_array($fetchType, [QueryReflector::FETCH_TYPE_ONE, QueryReflector::FETCH_TYPE_FIRST_COL, QueryReflector::FETCH_TYPE_NUMERIC, QueryReflector::FETCH_TYPE_ASSOC])) && $resultRowType instanceof ConstantArrayType) {
+        if (QueryReflector::FETCH_TYPE_BOTH !== $fetchType && $resultRowType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultRowType->getKeyTypes();
             $valueTypes = $resultRowType->getValueTypes();
+
+            if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType) {
+                // $valueType contain 'BOTH' fetched values
+                if (\count($valueTypes) < 4) {
+                    return null;
+                }
+
+                if (\in_array($usedMethod, ['fetchallkeyvalue'], true)) {
+                    return new ArrayType($valueTypes[0], $valueTypes[2]);
+                }
+
+                return new GenericObjectType(Traversable::class, [$valueTypes[0], $valueTypes[2]]);
+            }
 
             foreach ($keyTypes as $i => $keyType) {
                 if (QueryReflector::FETCH_TYPE_ONE === $fetchType) {
