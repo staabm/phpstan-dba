@@ -11,6 +11,8 @@ This extension provides the following features:
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
 * API to built the same features for your custom sql based database access layer
 
+In case you are using Doctrine ORM, you might use phpstan-dba in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
+
 **Note:**
 At the moment only mysql/mariadb databases are supported. Technically it's not a big problem to support other databases though.
 
