@@ -18,7 +18,6 @@ At the moment only mysql/mariadb databases are supported. Technically it's not a
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
 
-__Its really early days... and this libs has a few rough edges.__
 
 ## DEMO
 
@@ -188,8 +187,6 @@ __the callable format is `funtionName#parameterIndex`, while the parameter-index
 
 ## Todos
 
-- support [more mysql to PHPStan type mappings](https://github.com/staabm/phpstan-dba/blob/b868f40c80afcecd3de408df3801b5a24e220dd8/src/QueryReflection/MysqliQueryReflector.php#L111)
-- cover more real world examples and fine tune the [QueryReflection classes](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection)
 - support a PDO based `QueryReflector`
 - security rule: detect possible sql injections
 - performance rule: detect queries not using indexes
