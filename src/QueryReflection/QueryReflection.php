@@ -357,6 +357,26 @@ final class QueryReflection
     }
 
     /**
+     * @param array<string|int, Parameter> $parameters
+     */
+    public function containsNamedPlaceholders(string $queryString, array $parameters): bool
+    {
+        $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
+
+        if ([] !== $namedPlaceholders) {
+            return true;
+        }
+
+        foreach ($parameters as $parameter) {
+            if (null !== $parameter->name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return list<string>
      */
     public function extractNamedPlaceholders(string $queryString): array

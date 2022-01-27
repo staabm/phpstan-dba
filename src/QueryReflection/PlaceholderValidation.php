@@ -37,9 +37,14 @@ final class PlaceholderValidation
         }
 
         $queryReflection = new QueryReflection();
-        $placeholderCount = $queryReflection->countPlaceholders($queryString);
+        if ($queryReflection->containsNamedPlaceholders($queryString, $parameters)) {
+            yield from $this->validateNamedPlaceholders($queryString, $parameters);
 
-        yield from $this->checkParameterValues($queryString, $parameters, $placeholderCount);
+            return;
+        }
+
+        $placeholderCount = $queryReflection->countPlaceholders($queryString);
+        yield from $this->validateUnnamedPlaceholders($parameters, $placeholderCount);
     }
 
     /**
@@ -47,10 +52,8 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    private function checkParameterValues(string $queryString, array $parameters, int $placeholderCount): iterable
+    private function validateUnnamedPlaceholders(array $parameters, int $placeholderCount): iterable
     {
-        $queryReflection = new QueryReflection();
-
         $parameterCount = \count($parameters);
         $minParameterCount = 0;
         foreach ($parameters as $parameter) {
@@ -82,11 +85,19 @@ final class PlaceholderValidation
             }
 
             yield $placeholderExpectation.', '.$parameterActual.'.';
-
-            return;
         }
+    }
 
+    /**
+     * @param array<string|int, Parameter> $parameters
+     *
+     * @return iterable<string>
+     */
+    private function validateNamedPlaceholders(string $queryString, array $parameters): iterable
+    {
+        $queryReflection = new QueryReflection();
         $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
+
         foreach ($namedPlaceholders as $namedPlaceholder) {
             if (!\array_key_exists($namedPlaceholder, $parameters)) {
                 yield sprintf('Query expects placeholder %s, but it is missing from values given.', $namedPlaceholder);
