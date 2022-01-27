@@ -39,30 +39,6 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
         $placeholderCount = $queryReflection->countPlaceholders($queryString);
 
-        $parameterCount = \count($parameters);
-        $minParameterCount = 0;
-        foreach ($parameters as $parameter) {
-            if ($parameter->isOptional) {
-                continue;
-            }
-            ++$minParameterCount;
-        }
-
-        if (0 === $parameterCount && 0 === $minParameterCount) {
-            if (0 === $placeholderCount) {
-                return;
-            }
-
-            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
-            if ($placeholderCount > 1) {
-                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
-            }
-
-            yield sprintf($placeholderExpectation.', but no values are given.', $placeholderCount);
-
-            return;
-        }
-
         yield from $this->checkParameterValues($queryString, $parameters, $placeholderCount);
     }
 
@@ -84,13 +60,19 @@ final class PlaceholderValidation
             ++$minParameterCount;
         }
 
+        if (0 === $parameterCount && 0 === $minParameterCount && 0 === $placeholderCount) {
+            return;
+        }
+
         if ($parameterCount !== $placeholderCount && $placeholderCount !== $minParameterCount) {
             $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
             if ($placeholderCount > 1) {
                 $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
             }
 
-            if ($minParameterCount !== $parameterCount) {
+            if (0 === $parameterCount) {
+                $parameterActual = 'but no values are given';
+            } elseif ($minParameterCount !== $parameterCount) {
                 $parameterActual = sprintf('but %s values are given', $minParameterCount.'-'.$parameterCount);
             } else {
                 $parameterActual = sprintf('but %s value is given', $parameterCount);
