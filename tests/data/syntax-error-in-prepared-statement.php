@@ -306,4 +306,10 @@ class Foo
 
         $connection->preparedQuery($sql, $args);
     }
+
+    public function noErrorOnTraillingSemicolonAndWhitespace(Connection $connection)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;  ';
+        $connection->preparedQuery($query, []);
+    }
 }

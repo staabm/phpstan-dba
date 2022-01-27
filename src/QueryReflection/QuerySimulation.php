@@ -105,7 +105,10 @@ final class QuerySimulation
 
     private static function stripTraillingLimit(string $queryString): ?string
     {
-        // XXX someday we will use a proper SQL parser,
+        // XXX someday we will use a proper SQL parser
+        $queryString = rtrim($queryString);
+
+        // strip trailling delimiting semicolon
         $queryString = rtrim($queryString, ';');
 
         // strip trailling FOR UPDATE/FOR SHARE
