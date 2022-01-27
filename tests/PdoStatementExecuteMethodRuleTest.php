@@ -48,7 +48,7 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
             ],
             */
             [
-                'Query expects 1 placeholder, but no values are given.',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 21,
             ],
             [
@@ -56,11 +56,11 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 24,
             ],
             [
-                'Query expects 2 placeholders, but 1 value is given.',
+                'Query expects placeholder :email, but it is missing from values given.',
                 27,
             ],
             [
-                'Query expects 2 placeholders, but 1 value is given.',
+                'Query expects placeholder :adaid, but it is missing from values given.',
                 30,
             ],
             [
@@ -72,7 +72,7 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 36,
             ],
             [
-                'Query expects 1 placeholder, but 2 values are given.',
+                'Value :email is given, but the query does not contain this placeholder.',
                 38,
             ],
             [

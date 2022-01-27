@@ -61,10 +61,6 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends AbstractServiceAwareR
                 'Query expects placeholder :name, but it is missing from values given.',
                 307,
             ],
-            [
-                'Query expects 2 placeholders, but 0-1 values are given.',
-                307,
-            ],
         ]);
     }
 }
