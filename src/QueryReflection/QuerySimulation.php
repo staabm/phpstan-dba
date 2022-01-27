@@ -107,7 +107,7 @@ final class QuerySimulation
     {
         // XXX someday we will use a proper SQL parser
         $queryString = rtrim($queryString);
-        
+
         // strip trailling delimiting semicolon
         $queryString = rtrim($queryString, ';');
 
