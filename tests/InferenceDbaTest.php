@@ -4,7 +4,7 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Testing\TypeInferenceTestCase;
 
-class DbaInferenceTest extends TypeInferenceTestCase
+class InferenceDbaTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {

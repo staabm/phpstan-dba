@@ -11,7 +11,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v3-rename-props';
+    public const SCHEMA_VERSION = 'v4-config';
 
     /**
      * @var string
@@ -88,11 +88,15 @@ final class ReflectionCache
             }
         }
 
-        if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
-            return $cache['records'];
+        if (!\is_array($cache) || !\array_key_exists('schemaVersion', $cache) || self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+            return null;
         }
 
-        return null;
+        if ($cache['runtimeConfig'] !== QueryReflection::getRuntimeConfiguration()->toArray()) {
+            return null;
+        }
+
+        return $cache['records'];
     }
 
     public function persist(): void
@@ -122,6 +126,7 @@ final class ReflectionCache
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
                     'records' => $newRecords,
+                    'runtimeConfig' => [QueryReflection::getRuntimeConfiguration()->toArray()],
                 ], true).';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent)) {
