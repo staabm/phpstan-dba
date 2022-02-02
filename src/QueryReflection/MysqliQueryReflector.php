@@ -295,8 +295,8 @@ final class MysqliQueryReflector implements QueryReflector
         }
 
         if ($phpstanType instanceof MixedType) {
-            var_dump($this->type2txt($mysqlType));
-            var_dump($this->flags2txt($mysqlFlags));
+            PHPStan\dumpType($this->type2txt($mysqlType));
+            PHPStan\dumpType($this->flags2txt($mysqlFlags));
         }
 
         if (false === $notNull) {
