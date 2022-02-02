@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Accessory\AccessoryType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
@@ -77,6 +78,19 @@ final class QuerySimulation
 
             // plain string types can contain anything.. we cannot reason about it
             return null;
+        }
+
+        if ($paramType instanceof IntersectionType) {
+            foreach ($paramType->getTypes() as $type) {
+                if ($type instanceof AccessoryType) {
+                    continue;
+                }
+
+                $simulated = self::simulateParamValueType($type, $preparedParam);
+                if (null !== $simulated) {
+                    return $simulated;
+                }
+            }
         }
 
         // all types which we can't simulate and render a query unresolvable at analysis time
