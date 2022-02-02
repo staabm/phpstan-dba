@@ -6,7 +6,6 @@ use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
-use PHPStan\Type\VerbosityLevel;
 use PHPUnit\Framework\TestCase;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
