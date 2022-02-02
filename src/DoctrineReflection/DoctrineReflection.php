@@ -75,6 +75,7 @@ final class DoctrineReflection
                     return $valueTypes[$i];
                 }
                 if (QueryReflector::FETCH_TYPE_FIRST_COL === $fetchType) {
+                    var_dump($valueTypes);
                     if (\in_array($usedMethod, ['iteratecolumn'], true)) {
                         return new GenericObjectType(Traversable::class, [new IntegerType(), $valueTypes[$i]]);
                     }
