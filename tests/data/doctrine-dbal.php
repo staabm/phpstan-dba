@@ -4,6 +4,7 @@ namespace DoctrineDbalTest;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
+use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 use function PHPStan\Testing\assertType;
 
 class Foo
@@ -147,6 +148,13 @@ class Foo
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchAllKeyValue($query, [1]);
+        assertType('array<string, int<0, 4294967295>>', $fetchResult);
+    }
+
+    public function fetchStringable(Connection $conn)
+    {
+        $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = ?';
+        $fetchResult = $conn->fetchAllKeyValue($query, [new StringableObject()]);
         assertType('array<string, int<0, 4294967295>>', $fetchResult);
     }
 }
