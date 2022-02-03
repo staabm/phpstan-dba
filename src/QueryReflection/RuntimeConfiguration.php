@@ -31,6 +31,10 @@ final class RuntimeConfiguration
      * @var bool
      */
     private $debugMode = false;
+    /**
+     * @var bool
+     */
+    private $stringifyTypes = false;
 
     public static function create(): self
     {
@@ -38,6 +42,8 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Defines whether the database access returns `false` on error or throws exceptions.
+     *
      * @param self::ERROR_MODE* $mode
      */
     public function errorMode(string $mode): self
@@ -54,9 +60,25 @@ final class RuntimeConfiguration
         return $this;
     }
 
+    /**
+     * Infer string-types instead of more precise types.
+     * This might be necessary in case your are using `\PDO::ATTR_EMULATE_PREPARES` or `\PDO::ATTR_STRINGIFY_FETCHES`.
+     */
+    public function stringifyTypes(bool $stringify): self
+    {
+        $this->stringifyTypes = $stringify;
+
+        return $this;
+    }
+
     public function isDebugEnabled(): bool
     {
         return $this->debugMode;
+    }
+
+    public function isStringifyTypes(): bool
+    {
+        return $this->stringifyTypes;
     }
 
     public function throwsPdoExceptions(PhpVersion $phpVersion): bool
@@ -83,5 +105,17 @@ final class RuntimeConfiguration
 
         // since php8.1 the mysqli php-src default error mode changed to exception
         return $phpVersion->getVersionId() >= 80100;
+    }
+
+    /**
+     * @return array<string, scalar>
+     */
+    public function toArray(): array
+    {
+        return [
+            'errorMode' => $this->errorMode,
+            'debugMode' => $this->debugMode,
+            'stringifyTypes' => $this->stringifyTypes,
+        ];
     }
 }
