@@ -122,7 +122,7 @@ $config = new RuntimeConfiguration();
 
 QueryReflection::setupReflector(
     new ReplayQueryReflector(
-        ReflectionCache::load(
+        ReflectionCache::create(
             $cacheFile
         )
     ),
