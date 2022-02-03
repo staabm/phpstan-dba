@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use Stringable;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
@@ -20,6 +19,7 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use Stringable;
 
 /**
  * @internal

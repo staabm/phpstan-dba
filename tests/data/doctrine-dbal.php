@@ -4,8 +4,8 @@ namespace DoctrineDbalTest;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
-use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 use function PHPStan\Testing\assertType;
+use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 
 class Foo
 {
