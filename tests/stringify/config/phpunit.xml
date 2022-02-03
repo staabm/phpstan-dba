@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="../../vendor/phpunit/phpunit/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="../../../vendor/phpunit/phpunit/phpunit.xsd"
          cacheResult="false"
          colors="true"
          failOnRisky="true"
@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="PHPStanDba">
-            <directory suffix="Test.php">.</directory>
+            <directory suffix="Test.php">../</directory>
         </testsuite>
     </testsuites>
 

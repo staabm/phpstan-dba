@@ -7,7 +7,7 @@ use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 // we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
 // in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.

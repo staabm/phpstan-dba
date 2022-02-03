@@ -1,0 +1,23 @@
+includes:
+    - ../../../config/stubFiles.neon
+    - ../../../config/extensions.neon
+
+parameters:
+    level: max
+
+    paths:
+        - ../
+
+    bootstrapFiles:
+        - bootstrap.php
+
+    ignoreErrors:
+        - '#Function Deployer\\runMysqlQuery\(\) should return array<int, array<int, string>>\|null but return statement is missing.#'
+        - '#.*has no return type specified.#'
+        - '#.*with no type specified.#'
+        - '#.*return type has no value type specified in iterable type iterable.#'
+        - '#.*with no value type specified in iterable type array.#'
+
+    excludePaths:
+        analyseAndScan:
+            - *Fixture/**
