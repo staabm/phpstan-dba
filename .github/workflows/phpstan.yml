@@ -84,4 +84,4 @@ jobs:
         with:
           composer-options: "--prefer-dist --no-progress"
 
-      - run: composer phpstan
+      - run: composer phpstan -- --debug
