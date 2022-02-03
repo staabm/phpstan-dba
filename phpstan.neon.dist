@@ -15,7 +15,7 @@ parameters:
     ignoreErrors:
         -
             message: '#Function Deployer\\runMysqlQuery\(\) should return array<int, array<int, string>>\|null but return statement is missing.#'
-            path: tests/data/runMysqlQuery.php
+            path: tests/default/data/runMysqlQuery.php
         -
             message: '#.*has no return type specified.#'
             path: tests/*

@@ -13,7 +13,7 @@ class SyntaxErrorInQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/../config/dba.neon');
+        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/../../config/dba.neon');
     }
 
     public function testSyntaxErrorInQueryRule(): void
