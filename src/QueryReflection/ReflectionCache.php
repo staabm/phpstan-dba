@@ -79,7 +79,7 @@ final class ReflectionCache
         }
 
         $cache = $this->readCache(true);
-        if (null !== $cache && $cache['runtimeConfig'] === QueryReflection::getRuntimeConfiguration()->toArray()) {
+        if (null !== $cache) {
             $this->records = $cache['records'];
         } else {
             $this->records = [];
@@ -158,7 +158,7 @@ final class ReflectionCache
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
                     'records' => $newRecords,
-                    'runtimeConfig' => [QueryReflection::getRuntimeConfiguration()->toArray()],
+                    'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
                 ], true).';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent)) {
