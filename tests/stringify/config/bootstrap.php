@@ -44,7 +44,7 @@ try {
 
     // when we can't connect to the database, we rely on replaying pre-recorded db-reflection information
     $reflector = new ReplayQueryReflector(
-        ReflectionCache::load(
+        ReflectionCache::create(
             $cacheFile
         )
     );
