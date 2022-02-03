@@ -43,10 +43,12 @@
 			"@csfix"
 		],
 		"phpstan": [
-			"phpstan analyse -c phpstan.neon.dist"
+			"phpstan analyse -c phpstan.neon.dist",
+			"phpstan analyse -c tests/stringify/phpstan.neon.dist"
 		],
 		"phpunit": [
-			"phpunit"
+			"phpunit -c tests/default/phpunit.xml",
+			"phpunit -c tests/stringify/phpunit.xml"
 		]
 	},
 	"config": {

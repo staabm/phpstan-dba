@@ -1,0 +1,27 @@
+includes:
+    - ../../config/stubFiles.neon
+    - ../../config/extensions.neon
+
+parameters:
+    level: max
+
+    paths:
+        - .
+
+    bootstrapFiles:
+        - bootstrap.php
+
+    ignoreErrors:
+        -
+            message: '#.*has no return type specified.#'
+            path: ./*
+        -
+            message: '#.*return type has no value type specified in iterable type iterable.#'
+            path: ./*
+        -
+            message: '#.*with no value type specified in iterable type array.#'
+            path: ./*
+
+    excludePaths:
+        analyseAndScan:
+            - *Fixture/**

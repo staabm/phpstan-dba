@@ -1,0 +1,124 @@
+<?php return array (
+  'schemaVersion' => 'v4-config',
+  'records' => 
+  array (
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'gesperrt',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'freigabe1u1',
+               'isClassString' => false,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+            2 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+            3 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+          ),
+           'nextAutoIndex' => 0,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+        )),
+      ),
+    ),
+  ),
+  'runtimeConfig' => 
+  array (
+    0 => 
+    array (
+      'errorMode' => 'exception',
+      'debugMode' => false,
+      'stringifyTypes' => true,
+    ),
+  ),
+);

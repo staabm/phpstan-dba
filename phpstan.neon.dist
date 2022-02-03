@@ -7,7 +7,7 @@ parameters:
 
     paths:
         - src/
-        - tests/
+        - tests/default/
 
     bootstrapFiles:
         - bootstrap.php
