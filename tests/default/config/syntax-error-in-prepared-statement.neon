@@ -1,6 +1,6 @@
 includes:
-    - ../../config/stubFiles.neon
-    - ../../config/extensions.neon
+    - ../../../config/stubFiles.neon
+    - ../../../config/extensions.neon
 
 services:
     -
