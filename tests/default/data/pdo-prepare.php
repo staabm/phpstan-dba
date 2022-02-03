@@ -94,6 +94,19 @@ class Foo
     }
 
     /**
+     * @param number $idsToUpdate
+     */
+    public function numberType(PDO $pdo, $idsToUpdate)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids)';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+        ]);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
+    }
+
+    /**
      * @param int[] $idsToUpdate
      */
     public function specifiedArray(PDO $pdo, array $idsToUpdate, string $time)
