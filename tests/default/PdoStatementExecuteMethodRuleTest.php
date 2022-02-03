@@ -13,7 +13,7 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(PdoStatementExecuteMethodRule::class, __DIR__.'/../config/dba.neon');
+        return $this->getRuleFromConfig(PdoStatementExecuteMethodRule::class, __DIR__.'/../../config/dba.neon');
     }
 
     public function testParameterErrors(): void
