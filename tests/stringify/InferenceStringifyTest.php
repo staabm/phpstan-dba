@@ -3,13 +3,12 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Testing\TypeInferenceTestCase;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 class InferenceStringifyTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        yield from $this->gatherAssertTypes(__DIR__ . '/data/stringify.php');
+        yield from $this->gatherAssertTypes(__DIR__.'/data/stringify.php');
     }
 
     /**
@@ -22,15 +21,14 @@ class InferenceStringifyTest extends TypeInferenceTestCase
         string $file,
                ...$args,
     ): void {
-
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
 
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__ . '/../../config/stubFiles.neon',
-            __DIR__ . '/../../config/extensions.neon',
+            __DIR__.'/../../config/stubFiles.neon',
+            __DIR__.'/../../config/extensions.neon',
         ];
     }
 }
