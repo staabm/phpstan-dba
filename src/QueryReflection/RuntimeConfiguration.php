@@ -64,9 +64,9 @@ final class RuntimeConfiguration
      * Infer string-types instead of more precise types.
      * This might be necessary in case your are using `\PDO::ATTR_EMULATE_PREPARES` or `\PDO::ATTR_STRINGIFY_FETCHES`.
      */
-    public function stringifyTypes(bool $stringfy): self
+    public function stringifyTypes(bool $stringify): self
     {
-        $this->stringifyTypes = $stringfy;
+        $this->stringifyTypes = $stringify;
 
         return $this;
     }
