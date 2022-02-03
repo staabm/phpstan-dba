@@ -10,7 +10,7 @@ class Foo
     public function stringifyTypes(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: numeric-string, gesperrt: numeric-string, freigabe1u1: numeric-string}>', $stmt);
 
         foreach ($stmt as $row) {
             assertType('numeric-string', $row['adaid']);
