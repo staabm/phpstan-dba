@@ -63,7 +63,8 @@ final class MysqliQueryReflector implements QueryReflector
         $constants = get_defined_constants(true);
         foreach ($constants['mysqli'] as $c => $n) {
             if (!\is_int($n)) {
-                throw new ShouldNotHappenException();
+                // skip bool constants like MYSQLI_IS_MARIADB
+                continue;
             }
             if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
                 if (!\is_string($m[1])) {
