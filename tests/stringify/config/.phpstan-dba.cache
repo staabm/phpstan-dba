@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v4-config',
+  'schemaVersion' => 'v4-runtime-config',
   'records' => 
   array (
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
