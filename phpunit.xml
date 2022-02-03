@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="PHPStanDba">
-            <directory suffix="Test.php">tests/</directory>
+            <directory suffix="Test.php">tests/default/</directory>
         </testsuite>
     </testsuites>
 

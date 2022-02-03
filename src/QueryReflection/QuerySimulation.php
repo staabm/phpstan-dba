@@ -104,7 +104,7 @@ final class QuerySimulation
             return null;
         }
 
-        throw new DbaException(sprintf('Unexpected expression type %s', \get_class($paramType)));
+        throw new DbaException(sprintf('Unexpected expression type %s of class %s', $paramType->describe(VerbosityLevel::precise()), \get_class($paramType)));
     }
 
     public static function simulate(string $queryString): ?string
