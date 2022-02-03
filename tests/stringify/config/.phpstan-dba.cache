@@ -114,11 +114,8 @@
   ),
   'runtimeConfig' => 
   array (
-    0 => 
-    array (
-      'errorMode' => 'exception',
-      'debugMode' => false,
-      'stringifyTypes' => true,
-    ),
+    'errorMode' => 'exception',
+    'debugMode' => false,
+    'stringifyTypes' => true,
   ),
 );
