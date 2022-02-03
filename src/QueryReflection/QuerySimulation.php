@@ -13,12 +13,14 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use Stringable;
 
 /**
  * @internal
@@ -70,7 +72,7 @@ final class QuerySimulation
         }
 
         $stringType = new StringType();
-        if ($stringType->isSuperTypeOf($paramType)->yes()) {
+        if ($stringType->isSuperTypeOf($paramType)->yes() || $paramType instanceof ObjectType && $paramType->isInstanceOf(Stringable::class)->yes()) {
             // in a prepared context, regular strings are fine
             if (true === $preparedParam) {
                 return '1';
