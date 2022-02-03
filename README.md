@@ -16,7 +16,7 @@ In case you are using Doctrine ORM, you might use phpstan-dba in tandem with [ph
 **Note:**
 At the moment only mysql/mariadb databases are supported. Technically it's not a big problem to support other databases though.
 
-[see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/data) to get a feeling about the current featureset.
+[see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/default/data) to get a feeling about the current featureset.
 
 
 ## DEMO
@@ -49,6 +49,7 @@ $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
+// $config->stringifyTypes(true);
 
 QueryReflection::setupReflector(
     new RecordingQueryReflector(
@@ -92,6 +93,7 @@ Within your `phpstan-dba-bootstrap.php` file you can configure `phpstan-dba` so 
 Use the [`RuntimeConfiguration`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) builder-object and pass it as a second argument to `QueryReflection::setupReflector()`.
 
 If not configured otherwise, the following defaults are used:
+- type-inference works as precise as possible. In case your database access layer returns strings instead of integers and floats, use the [`stringifyTypes`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
 - when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
 - when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 
@@ -116,6 +118,7 @@ $cacheFile = __DIR__.'/.phpstan-dba.cache';
 
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
+// $config->stringifyTypes(true);
 
 QueryReflection::setupReflector(
     new ReplayQueryReflector(

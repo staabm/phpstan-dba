@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use const LOCK_EX;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v3-rename-props';
+    public const SCHEMA_VERSION = 'v4-runtime-config';
 
     /**
      * @var string
@@ -27,6 +28,11 @@ final class ReflectionCache
      * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $changes = [];
+
+    /**
+     * @var bool
+     */
+    private $initialized = false;
 
     /**
      * @var resource
@@ -55,19 +61,40 @@ final class ReflectionCache
         return new self($cacheFile);
     }
 
+    /**
+     * @deprecated use create() instead
+     */
     public static function load(string $cacheFile): self
     {
-        $reflectionCache = new self($cacheFile);
-        $cachedRecords = $reflectionCache->readCache(true);
-        if (null !== $cachedRecords) {
-            $reflectionCache->records = $cachedRecords;
-        }
-
-        return $reflectionCache;
+        return new self($cacheFile);
     }
 
     /**
-     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
+     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     */
+    private function lazyReadRecords()
+    {
+        if ($this->initialized) {
+            return $this->records;
+        }
+
+        $cache = $this->readCache(true);
+        if (null !== $cache) {
+            $this->records = $cache['records'];
+        } else {
+            $this->records = [];
+        }
+        $this->initialized = true;
+
+        return $this->records;
+    }
+
+    /**
+     * @return array{
+     *     records: array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>,
+     *     runtimeConfig: array<string, scalar>,
+     *     schemaVersion: string
+     * }|null
      */
     private function readCache(bool $useReadLock): ?array
     {
@@ -88,11 +115,20 @@ final class ReflectionCache
             }
         }
 
-        if (\is_array($cache) && \array_key_exists('schemaVersion', $cache) && self::SCHEMA_VERSION === $cache['schemaVersion']) {
-            return $cache['records'];
+        if (!\is_array($cache) || !\array_key_exists('schemaVersion', $cache) || self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+            return null;
         }
 
-        return null;
+        if ($cache['runtimeConfig'] !== QueryReflection::getRuntimeConfiguration()->toArray()) {
+            return null;
+        }
+
+        if (!\is_array($cache['records'])) {
+            throw new ShouldNotHappenException();
+        }
+
+        // @phpstan-ignore-next-line
+        return $cache;
     }
 
     public function persist(): void
@@ -122,6 +158,7 @@ final class ReflectionCache
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
                     'records' => $newRecords,
+                    'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
                 ], true).';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent)) {
@@ -139,7 +176,9 @@ final class ReflectionCache
 
     public function hasValidationError(string $queryString): bool
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             return false;
         }
 
@@ -150,7 +189,9 @@ final class ReflectionCache
 
     public function getValidationError(string $queryString): ?Error
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
@@ -164,7 +205,9 @@ final class ReflectionCache
 
     public function putValidationError(string $queryString, ?Error $error): void
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
         }
 
@@ -178,7 +221,9 @@ final class ReflectionCache
      */
     public function hasResultType(string $queryString, int $fetchType): bool
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             return false;
         }
 
@@ -195,7 +240,9 @@ final class ReflectionCache
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
@@ -216,7 +263,9 @@ final class ReflectionCache
      */
     public function putResultType(string $queryString, int $fetchType, ?Type $resultType): void
     {
-        if (!\array_key_exists($queryString, $this->records)) {
+        $records = $this->lazyReadRecords();
+
+        if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
         }
 

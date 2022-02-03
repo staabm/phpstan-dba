@@ -8,15 +8,18 @@ use mysqli;
 use mysqli_result;
 use mysqli_sql_exception;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
@@ -292,6 +295,18 @@ final class MysqliQueryReflector implements QueryReflector
                     break;
                 default:
                     $phpstanType = new MixedType();
+            }
+        }
+
+        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
+            $numberType = new UnionType([new IntegerType(), new FloatType()]);
+            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
+
+            if ($isNumber) {
+                $phpstanType = new IntersectionType([
+                    new StringType(),
+                    new AccessoryNumericStringType(),
+                ]);
             }
         }
 
