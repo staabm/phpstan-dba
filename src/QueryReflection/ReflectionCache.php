@@ -49,7 +49,7 @@ final class ReflectionCache
             $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
             $lockHandle = fopen($lockFile, 'w+');
             if (false === $lockHandle) {
-                throw new DbaException(sprintf('Could not open lock file "%s".', $this->cacheFile));
+                throw new DbaException(sprintf('Could not open lock file "%s".', $lockFile));
             }
 
             self::$lockHandle = $lockHandle;
