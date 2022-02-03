@@ -54,7 +54,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
 
-            if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
+            if ($methodName === $methodReflection->getName() && is_a($className, $methodReflection->getDeclaringClass()->getName(), true)) {
                 $unsupportedMethod = false;
                 break;
             }
