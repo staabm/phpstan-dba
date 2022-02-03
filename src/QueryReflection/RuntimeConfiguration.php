@@ -110,7 +110,8 @@ final class RuntimeConfiguration
     /**
      * @return array<string, scalar>
      */
-    public function toArray():array {
+    public function toArray(): array
+    {
         return [
             'errorMode' => $this->errorMode,
             'debugMode' => $this->debugMode,

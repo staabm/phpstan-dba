@@ -18,9 +18,6 @@ parameters:
         -
             message: '#.*return type has no value type specified in iterable type iterable.#'
             path: ./*
-        -
-            message: '#.*with no value type specified in iterable type array.#'
-            path: ./*
 
     excludePaths:
         analyseAndScan:
