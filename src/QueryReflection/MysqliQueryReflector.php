@@ -61,7 +61,9 @@ final class MysqliQueryReflector implements QueryReflector
         $this->nativeFlags = [];
 
         $constants = get_defined_constants(true);
+        var_dump($constants['mysqli']);
         foreach ($constants['mysqli'] as $c => $n) {
+            var_dump($n);
             if (!\is_int($n)) {
                 throw new ShouldNotHappenException();
             }
