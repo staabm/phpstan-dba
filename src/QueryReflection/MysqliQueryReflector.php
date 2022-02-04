@@ -22,6 +22,7 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class MysqliQueryReflector implements QueryReflector
 {
@@ -121,6 +122,10 @@ final class MysqliQueryReflector implements QueryReflector
     {
         $result = $this->simulateQuery($queryString);
         if (!\is_array($result)) {
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled() && $result instanceof mysqli_sql_exception) {
+                throw new UnresolvableQueryException(sprintf("Cannot simulate query\n %s \nbecause of a sql error: %s", $queryString, $result->getMessage()));
+            }
+
             return null;
         }
 
