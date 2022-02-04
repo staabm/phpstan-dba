@@ -2,9 +2,24 @@
   'schemaVersion' => 'v5-runtime-config-bugfix',
   'records' => 
   array (
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
+    'SELECT count(*) FROM typemix WHERE c_date = \'1\'' => 
     array (
       'error' => NULL,
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT count(*) FROM typemix WHERE c_datetime = \'1\'' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
+    array (
       'result' => 
       array (
         5 => 
@@ -153,7 +168,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -307,14 +321,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
