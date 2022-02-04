@@ -115,7 +115,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             }
         }
 
-        if ($parameters === null) {
+        if (null === $parameters) {
             $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
             $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
@@ -131,7 +131,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 }
             }
 
-            if($parameters !== null) {
+            if (null !== $parameters) {
                 $placeholderValidation = new PlaceholderValidation();
                 foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
                     // make error messages unique
