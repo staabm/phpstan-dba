@@ -18,7 +18,7 @@ class Foo
         assertType('4', $columnCount);
 
         $fetch = $result->fetchOne();
-        assertType('string', $fetch);
+        assertType('string|false', $fetch);
 
         $fetch = $result->fetchNumeric();
         assertType('array{string, int<0, 4294967295>, int<-128, 127>, int<-128, 127>}|false', $fetch);
@@ -120,7 +120,7 @@ class Foo
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchOne($query, [1]);
-        assertType('string', $fetchResult);
+        assertType('string|false', $fetchResult);
     }
 
     public function fetchFirstColumn(Connection $conn)

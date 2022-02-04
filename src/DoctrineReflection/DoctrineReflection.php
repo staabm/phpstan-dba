@@ -72,7 +72,7 @@ final class DoctrineReflection
 
             foreach ($keyTypes as $i => $keyType) {
                 if (QueryReflector::FETCH_TYPE_ONE === $fetchType) {
-                    return $valueTypes[$i];
+                    return TypeCombinator::union($valueTypes[$i], new ConstantBooleanType(false));
                 }
                 if (QueryReflector::FETCH_TYPE_FIRST_COL === $fetchType) {
                     if (\in_array($usedMethod, ['iteratecolumn'], true)) {
