@@ -2,6 +2,6 @@
 
 namespace staabm\PHPStanDba;
 
-final class UnresolvableQueryException extends DbaException
+final class QuerySimulationException extends DbaException
 {
 }
