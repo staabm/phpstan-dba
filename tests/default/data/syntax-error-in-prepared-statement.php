@@ -312,4 +312,10 @@ class Foo
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;  ';
         $connection->preparedQuery($query, []);
     }
+
+    public function errorOnQueryWithoutArgs(\Doctrine\DBAL\Connection $connection)
+    {
+        $query = 'SELECT email adaid gesperrt freigabe1u1 FROM ada';
+        $connection->executeQuery($query);
+    }
 }

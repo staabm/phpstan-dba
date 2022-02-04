@@ -91,7 +91,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     {
         $args = $callLike->getArgs();
 
-        if (\count($args) < 2) {
+        if (\count($args) < 1) {
             return [];
         }
 
@@ -102,19 +102,28 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $queryReflection = new QueryReflection();
-        $parameterTypes = $scope->getType($args[1]->value);
-        try {
-            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
-        } catch (UnresolvableQueryException $exception) {
-            return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
-            ];
+
+        $parameters = null;
+        if (\count($args) > 1) {
+            $parameterTypes = $scope->getType($args[1]->value);
+            try {
+                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            } catch (UnresolvableQueryException $exception) {
+                return [
+                    RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+                ];
+            }
+        }
+
+        if (null === $parameters) {
+            $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
+        } else {
+            $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 
         $errors = [];
-        $placeholderValidation = new PlaceholderValidation();
         try {
-            foreach ($queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope) as $queryString) {
+            foreach ($queryStrings as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
                 if (null !== $queryError) {
                     $error = $queryError->asRuleMessage();
@@ -122,9 +131,12 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 }
             }
 
-            foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
-                // make error messages unique
-                $errors[$error] = $error;
+            if (null !== $parameters) {
+                $placeholderValidation = new PlaceholderValidation();
+                foreach ($placeholderValidation->checkQuery($queryExpr, $scope, $parameters) as $error) {
+                    // make error messages unique
+                    $errors[$error] = $error;
+                }
             }
 
             $ruleErrors = [];
