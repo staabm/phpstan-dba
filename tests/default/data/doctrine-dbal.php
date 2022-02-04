@@ -157,4 +157,18 @@ class Foo
         $fetchResult = $conn->fetchAllKeyValue($query, [new StringableObject()]);
         assertType('array<string, int<0, 4294967295>>', $fetchResult);
     }
+
+    public function datetimeParameter(Connection $conn)
+    {
+        $query = 'SELECT count(*) FROM typemix WHERE c_datetime = ?';
+        $fetchResult = $conn->fetchOne($query, [date('Y-m-d H:i:s', strtotime('-3hour'))]);
+        assertType('int|false', $fetchResult);
+    }
+
+    public function dateParameter(Connection $conn)
+    {
+        $query = 'SELECT count(*) FROM typemix WHERE c_date = ?';
+        $fetchResult = $conn->fetchOne($query, [date('Y-m-d', strtotime('-3hour'))]);
+        assertType('int|false', $fetchResult);
+    }
 }
