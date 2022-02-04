@@ -41,7 +41,7 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
             $methodReflection->getVariants(),
         )->getReturnType();
 
-        if (\count($args) < 2) {
+        if (\count($args) < 1) {
             return $defaultReturn;
         }
 
@@ -54,7 +54,12 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($args[0]->value, $args[1]->value, $scope);
+        $params = null;
+        if (\count($args) > 1) {
+            $params = $args[1]->value;
+        }
+
+        $resultType = $this->inferType($args[0]->value, $params, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -62,14 +67,22 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         return $defaultReturn;
     }
 
-    private function inferType(Expr $queryExpr, Expr $paramsExpr, Scope $scope): ?Type
+    private function inferType(Expr $queryExpr, ?Expr $paramsExpr, Scope $scope): ?Type
     {
-        $parameterTypes = $scope->getType($paramsExpr);
+        if (null === $paramsExpr) {
+            $queryReflection = new QueryReflection();
+            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
+            if (null === $queryString) {
+                return null;
+            }
+        } else {
+            $parameterTypes = $scope->getType($paramsExpr);
 
-        $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-        if (null === $queryString) {
-            return null;
+            $queryReflection = new QueryReflection();
+            $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
+            if (null === $queryString) {
+                return null;
+            }
         }
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
