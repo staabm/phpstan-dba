@@ -12,7 +12,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v4-runtime-config';
+    public const SCHEMA_VERSION = 'v5-runtime-config-bugfix';
 
     /**
      * @var string
@@ -78,9 +78,9 @@ final class ReflectionCache
             return $this->records;
         }
 
-        $cache = $this->readCache(true);
-        if (null !== $cache) {
-            $this->records = $cache['records'];
+        $cachedRecords = $this->readCachedRecords(true);
+        if (null !== $cachedRecords) {
+            $this->records = $cachedRecords;
         } else {
             $this->records = [];
         }
@@ -90,13 +90,9 @@ final class ReflectionCache
     }
 
     /**
-     * @return array{
-     *     records: array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>,
-     *     runtimeConfig: array<string, scalar>,
-     *     schemaVersion: string
-     * }|null
+     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>|null
      */
-    private function readCache(bool $useReadLock): ?array
+    private function readCachedRecords(bool $useReadLock): ?array
     {
         if (!is_file($this->cacheFile)) {
             if (false === file_put_contents($this->cacheFile, '')) {
@@ -141,7 +137,7 @@ final class ReflectionCache
             flock(self::$lockHandle, LOCK_EX);
 
             // freshly read the cache as it might have changed in the meantime
-            $cachedRecords = $this->readCache(false);
+            $cachedRecords = $this->readCachedRecords(false);
 
             // re-apply all changes to the current cache-state
             if (null === $cachedRecords) {
