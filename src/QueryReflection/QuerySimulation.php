@@ -75,10 +75,7 @@ final class QuerySimulation
         if ($stringType->isSuperTypeOf($paramType)->yes() || $paramType instanceof ObjectType && $paramType->isInstanceOf(Stringable::class)->yes()) {
             // in a prepared context, regular strings are fine
             if (true === $preparedParam) {
-                // returns a string in date-format, so in case the simulated value is used against a date/datetime column
-                // we won't run into a sql error.
-                // XX in case we would have a proper sql parser, we could feed schema-type-dependent default values in case of strings.
-                return date(MysqliQueryReflector::DATE_FORMAT);
+                return '';
             }
 
             // plain string types can contain anything.. we cannot reason about it
