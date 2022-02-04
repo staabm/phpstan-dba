@@ -123,8 +123,7 @@ final class ReflectionCache
             throw new ShouldNotHappenException();
         }
 
-        // @phpstan-ignore-next-line
-        return $cache;
+        return $cache['records'];
     }
 
     public function persist(): void
