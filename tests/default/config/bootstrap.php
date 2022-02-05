@@ -19,7 +19,7 @@ if (defined('__PHPSTAN_RUNNING__')) {
 
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
-// $config->debugMode(true);
+$config->debugMode(true);
 
 try {
     if (false !== getenv('GITHUB_ACTION')) {
