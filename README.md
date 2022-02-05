@@ -1,4 +1,4 @@
-# database handling class reflection extension for PHPStan
+# PHPStan static analysis and type inference for the database access layer
 
 `phpstan-dba` makes your phpstan static code analysis jobs aware of datatypes within your database.
 With this information at hand `phpstan-dba` is able to detect type inconsistencies between your domain model and database-schema.
@@ -6,8 +6,8 @@ Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides the following features:
 
-* inspect sql queries, detect syntax errors and placeholder/bound value mismatches
-* type-inferrence for `Doctrine\DBAL\Result`, `PDOStatement` and `mysqli_result`
+* inspect sql queries, detect errors and placeholder/bound value mismatches
+* result set type-inferrence
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
 * API to built the same features for your custom sql based database access layer
 
