@@ -147,7 +147,6 @@
     ),
     'SELECT * FROM typemix' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -784,7 +783,6 @@
     ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -909,7 +907,6 @@
     ),
     'SELECT a.email, b.adaid, b.gesperrt FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1014,7 +1011,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1055,7 +1051,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1096,7 +1091,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1137,7 +1131,6 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1197,6 +1190,66 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1\'' => 
     array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => 0,
+             'max' => 4294967295,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1316,7 +1369,6 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1.0\')' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1381,10 +1433,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaids) LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids)' => 
     array (
@@ -1393,10 +1441,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':ids) LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time' => 
     array (
@@ -1405,13 +1449,69 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':ids) AND email LIKE :time LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1\'' => 
     array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => 0,
+             'max' => 4294967295,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1537,6 +1637,14 @@
     array (
       'error' => NULL,
     ),
+    'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT adaid FROM ada WHERE email = \'1970-01-01\' AND gesperrt = \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT adaid FROM ada WHERE email = \'2022-02-04\'' => 
     array (
       'error' => NULL,
@@ -1547,7 +1655,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1641,7 +1748,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE "hello?%"' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1735,7 +1841,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1829,7 +1934,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1927,7 +2031,6 @@
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1968,7 +2071,6 @@
     ),
     'SELECT akid FROM ak WHERE eadavk>1.1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -2013,6 +2115,60 @@
       'result' => 
       array (
         5 => NULL,
+      ),
+    ),
+    'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'count(*)',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'count(*)',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerType::__set_state(array(
+          )),
+        )),
       ),
     ),
     'SELECT count(*) FROM typemix WHERE c_date = \'2022-02-04\'' => 
@@ -2075,6 +2231,60 @@
       'result' => 
       array (
         5 => NULL,
+      ),
+    ),
+    'SELECT count(*) FROM typemix WHERE c_datetime = \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'count(*)',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+          ),
+           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'count(*)',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerType::__set_state(array(
+          )),
+        )),
       ),
     ),
     'SELECT count(*) FROM typemix WHERE c_datetime = \'2022-02-04\'' => 
@@ -2141,7 +2351,6 @@
     ),
     'SELECT eladaid FROM ak' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -2209,10 +2418,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -2224,7 +2429,6 @@
     ),
     'SELECT email, adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         4 => 
@@ -2445,7 +2649,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2538,7 +2741,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2636,10 +2838,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaid LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ?' => 
     array (
@@ -2648,10 +2846,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
     array (
@@ -2660,14 +2854,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? and email = ? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -2822,7 +3011,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2920,14 +3108,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3020,7 +3203,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3118,10 +3300,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
     array (
@@ -3130,10 +3308,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
@@ -3149,7 +3323,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3399,7 +3572,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -3498,7 +3670,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1, 10' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -3597,7 +3768,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3746,7 +3916,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -3850,14 +4019,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -3972,6 +4136,155 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'1\'' => 
     array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'gesperrt',
+               'isClassString' => false,
+            )),
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'freigabe1u1',
+               'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+          ),
+           'nextAutoIndex' => 4,
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              5 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+              6 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
+              7 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 4294967295,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+        )),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'1970-01-01\'' => 
+    array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4269,7 +4582,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -4368,7 +4680,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email=\'foo\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -4467,7 +4778,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
