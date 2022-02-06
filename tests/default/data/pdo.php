@@ -245,7 +245,8 @@ class Foo
         assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}'.$bothType.'>', $stmt);
     }
 
-    public function setFetchModeNum(PDO $pdo) {
+    public function setFetchModeNum(PDO $pdo)
+    {
         $query = 'SELECT email, adaid FROM ada';
         $stmt = $pdo->query($query);
 
@@ -253,7 +254,8 @@ class Foo
         assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
     }
 
-    public function setFetchModeAssoc(PDO $pdo) {
+    public function setFetchModeAssoc(PDO $pdo)
+    {
         $query = 'SELECT email, adaid FROM ada';
         $stmt = $pdo->query($query);
 

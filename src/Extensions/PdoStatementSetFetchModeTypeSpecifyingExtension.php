@@ -13,15 +13,11 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
-use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
@@ -49,7 +45,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $statementType = $scope->getType($methodCall->var);
 
         $reducedType = $this->reduceType($methodCall, $statementType, $scope);
-        if ($reducedType !== null) {
+        if (null !== $reducedType) {
             $statementType = new GenericObjectType(PDOStatement::class, [$reducedType]);
 
             return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy(), true);
@@ -58,7 +54,8 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy());
     }
 
-    private function reduceType(MethodCall $methodCall, Type $statementType, Scope $scope): ?Type {
+    private function reduceType(MethodCall $methodCall, Type $statementType, Scope $scope): ?Type
+    {
         $args = $methodCall->getArgs();
 
         if (\count($args) < 1) {
@@ -76,7 +73,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         }
 
         $pdoStatementReflection = new PdoStatementReflection();
+
         return $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
     }
-
 }
