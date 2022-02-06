@@ -49,7 +49,8 @@
 		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
-			"phpunit -c tests/stringify/config/phpunit.xml"
+			"phpunit -c tests/stringify/config/phpunit.xml",
+			"phpunit -c tests/fetchMode/config/phpunit.xml"
 		]
 	},
 	"config": {

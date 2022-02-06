@@ -28,6 +28,10 @@ final class RuntimeConfiguration
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
     /**
+     * @var QueryReflector::FETCH_TYPE*
+     */
+    private $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
+    /**
      * @var bool
      */
     private $debugMode = false;
@@ -49,6 +53,18 @@ final class RuntimeConfiguration
     public function errorMode(string $mode): self
     {
         $this->errorMode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * Defines default fetch mode.
+     *
+     * @param QueryReflector::FETCH_TYPE* $mode
+     */
+    public function defaultFetchMode(int $mode): self
+    {
+        $this->defaultFetchMode = $mode;
 
         return $this;
     }
@@ -79,6 +95,14 @@ final class RuntimeConfiguration
     public function isStringifyTypes(): bool
     {
         return $this->stringifyTypes;
+    }
+
+    /**
+     * @return QueryReflector::FETCH_TYPE*
+     */
+    public function getDefaultFetchMode(): int
+    {
+        return $this->defaultFetchMode;
     }
 
     public function throwsPdoExceptions(PhpVersion $phpVersion): bool

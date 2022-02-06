@@ -22,6 +22,7 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -66,21 +67,26 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         $args = $methodCall->getArgs();
         $statementType = $scope->getType($methodCall->var);
 
-        $fetchType = PDO::FETCH_BOTH;
+        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) > 0) {
             $fetchModeType = $scope->getType($args[0]->value);
             if (!$fetchModeType instanceof ConstantIntegerType) {
                 return null;
             }
-            $fetchType = $fetchModeType->getValue();
 
-            if (!\in_array($fetchType, [PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_BOTH], true)) {
+            if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
+            } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
+            } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+                $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+            } else {
                 return null;
             }
         }
 
         $pdoStatementReflection = new PdoStatementReflection();
-        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
+        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $reflectionFetchType);
         if (null === $resultType) {
             return null;
         }

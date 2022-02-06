@@ -77,7 +77,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     {
         $args = $methodCall->getArgs();
 
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) >= 2) {
             $fetchModeType = $scope->getType($args[1]->value);
             if (!$fetchModeType instanceof ConstantIntegerType) {

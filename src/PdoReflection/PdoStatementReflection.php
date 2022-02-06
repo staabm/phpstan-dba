@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
-use PDO;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Reflection\MethodReflection;
@@ -15,6 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
 {
@@ -34,7 +34,7 @@ final class PdoStatementReflection
     }
 
     /**
-     * @param PDO::FETCH* $fetchType
+     * @param QueryReflector::FETCH_TYPE* $fetchType
      *
      * @return Type|null
      */
@@ -50,16 +50,16 @@ final class PdoStatementReflection
         }
 
         $resultType = $genericTypes[0];
-        if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
+        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultType->getKeyTypes();
             $valueTypes = $resultType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
-                if (PDO::FETCH_NUM === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (PDO::FETCH_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }
