@@ -24,6 +24,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
@@ -69,16 +70,6 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         $args = $methodCall->getArgs();
         $statementType = $scope->getType($methodCall->var);
 
-        if (!$statementType instanceof GenericObjectType) {
-            return null;
-        }
-
-        $genericTypes = $statementType->getTypes();
-
-        if (1 !== \count($genericTypes)) {
-            return null;
-        }
-
         $fetchType = PDO::FETCH_BOTH;
         if (\count($args) > 0) {
             $fetchModeType = $scope->getType($args[0]->value);
@@ -92,23 +83,10 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
         }
 
-        $resultType = $genericTypes[0];
-
-        if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
-            $builder = ConstantArrayTypeBuilder::createEmpty();
-
-            $keyTypes = $resultType->getKeyTypes();
-            $valueTypes = $resultType->getValueTypes();
-
-            foreach ($keyTypes as $i => $keyType) {
-                if (PDO::FETCH_NUM === $fetchType && $keyType instanceof ConstantIntegerType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (PDO::FETCH_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                }
-            }
-
-            $resultType = $builder->getArray();
+        $pdoStatementReflection = new PdoStatementReflection();
+        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
+        if ($resultType === null) {
+            return null;
         }
 
         if ('fetchAll' === $methodReflection->getName()) {
