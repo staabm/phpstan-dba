@@ -12,13 +12,9 @@ use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -85,7 +81,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
         $pdoStatementReflection = new PdoStatementReflection();
         $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
-        if ($resultType === null) {
+        if (null === $resultType) {
             return null;
         }
 
