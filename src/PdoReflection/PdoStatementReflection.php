@@ -15,8 +15,6 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
 {
@@ -36,11 +34,14 @@ final class PdoStatementReflection
     }
 
     /**
-     * // the following param doesnt work, see phpstan bug https://github.com/phpstan/phpstan/issues/6577
+     * // the following param doesnt work, see phpstan bug https://github.com/phpstan/phpstan/issues/6577.
+     *
      * @xx-param PDO::FETCH* $fetchType
+     *
      * @return Type|null
      */
-    public function getStatementResultType(Type $statementType, int $fetchType) {
+    public function getStatementResultType(Type $statementType, int $fetchType)
+    {
         if (!$statementType instanceof GenericObjectType) {
             return null;
         }
