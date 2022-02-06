@@ -16,6 +16,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        'strict_param' => true,
         'array_syntax' => ['syntax' => 'short'],
         'fopen_flags' => false,
         'ordered_imports' => true,

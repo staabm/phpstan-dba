@@ -111,7 +111,7 @@ final class PlaceholderValidation
             if ($parameter->isOptional) {
                 continue;
             }
-            if (!\in_array($placeholderKey, $namedPlaceholders)) {
+            if (!\in_array($placeholderKey, $namedPlaceholders, true)) {
                 yield sprintf('Value %s is given, but the query does not contain this placeholder.', $placeholderKey);
             }
         }

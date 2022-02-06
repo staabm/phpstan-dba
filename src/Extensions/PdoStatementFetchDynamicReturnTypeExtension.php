@@ -74,7 +74,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
             $fetchType = $fetchModeType->getValue();
 
-            if (!\in_array($fetchType, [PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_BOTH])) {
+            if (!\in_array($fetchType, [PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_BOTH], true)) {
                 return null;
             }
         }

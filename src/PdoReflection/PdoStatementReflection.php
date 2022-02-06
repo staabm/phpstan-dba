@@ -34,9 +34,7 @@ final class PdoStatementReflection
     }
 
     /**
-     * // the following param doesnt work, see phpstan bug https://github.com/phpstan/phpstan/issues/6577.
-     *
-     * @xx-param PDO::FETCH* $fetchType
+     * @param PDO::FETCH* $fetchType
      *
      * @return Type|null
      */
