@@ -3399,7 +3399,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3497,10 +3496,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaid LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ?' => 
     array (
@@ -3521,10 +3516,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? and email = ? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
@@ -3683,7 +3674,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3781,14 +3771,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3979,10 +3964,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
     array (
