@@ -30,7 +30,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
 
     public function isMethodSupported(MethodReflection $methodReflection, MethodCall $node, TypeSpecifierContext $context): bool
     {
-        return 'execute' === $methodReflection->getName();
+        return 'execute' === strtolower($methodReflection->getName());
     }
 
     public function setTypeSpecifier(TypeSpecifier $typeSpecifier): void
