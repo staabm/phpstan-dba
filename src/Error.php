@@ -3,6 +3,7 @@
 namespace staabm\PHPStanDba;
 
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PDOQueryReflector;
 
 final class Error
 {
@@ -12,14 +13,14 @@ final class Error
     private $message;
 
     /**
-     * @var MysqliQueryReflector::MYSQL_*
+     * @var MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*
      */
     private $code;
 
     /**
-     * @param MysqliQueryReflector::MYSQL_* $code
+     * @param MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_* $code
      */
-    public function __construct(string $message, int $code)
+    public function __construct(string $message, int|string $code)
     {
         $this->message = $message;
         $this->code = $code;
@@ -31,9 +32,9 @@ final class Error
     }
 
     /**
-     * @return MysqliQueryReflector::MYSQL_*
+     * @return MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*
      */
-    public function getCode(): int
+    public function getCode(): int|string
     {
         return $this->code;
     }
@@ -44,7 +45,7 @@ final class Error
     }
 
     /**
-     * @param array{message: string, code: MysqliQueryReflector::MYSQL_*} $array
+     * @param array{message: string, code: MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*} $array
      */
     public static function __set_state(array $array)
     {

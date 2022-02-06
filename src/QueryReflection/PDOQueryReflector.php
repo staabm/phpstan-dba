@@ -4,68 +4,57 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use mysqli;
-use mysqli_result;
-use mysqli_sql_exception;
+use PDO;
+use PDOException;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\MysqliTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
-final class MysqliQueryReflector implements QueryReflector
+final class PDOQueryReflector implements QueryReflector
 {
-    public const MYSQL_SYNTAX_ERROR_CODE = 1064;
-    public const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
-    public const MYSQL_UNKNOWN_TABLE = 1146;
+    private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
+    private const PSQL_UNDEFINED_COLUMN = '42703';
+    private const PSQL_UNDEFINED_TABLE = '42P01';
 
-    public const MYSQL_HOST_NOT_FOUND = 2002;
+    private const SUPPORTED_PDO_CODES = [
+        self::PSQL_INVALID_TEXT_REPRESENTATION,
+        self::PSQL_UNDEFINED_COLUMN,
+        self::PSQL_UNDEFINED_TABLE,
+    ];
 
     private const MAX_CACHE_SIZE = 50;
 
-    private mysqli $db;
-
-    /** @var array<string, mysqli_sql_exception|list<object>|null> */
+    /**
+     * @var array<string, PDOException|array|false>
+     */
     private array $cache = [];
 
-    private TypeMapper $typeMapper;
-
-    public function __construct(mysqli $mysqli)
+    public function __construct(private PDO $pdo, private TypeMapper $typeMapper)
     {
-        $this->db = $mysqli;
-        // set a sane default.. atm this should not have any impact
-        $this->db->set_charset('utf8');
-        // enable exception throwing on php <8.1
-        mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
-
-        $this->typeMapper = new MysqliTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error
     {
         $result = $this->simulateQuery($queryString);
-        if (!$result instanceof mysqli_sql_exception) {
+
+        if (!$result instanceof PDOException) {
             return null;
         }
-        $e = $result;
 
-        if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+        $e = $result;
+        if (\in_array($e->getCode(), self::SUPPORTED_PDO_CODES, true)) {
             $message = $e->getMessage();
 
-            // make error string consistent across mysql/mariadb
-            $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
-            $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
-
-            // to ease debugging, print the error we simulated
             if (
-                self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode()
+                self::PSQL_INVALID_TEXT_REPRESENTATION === $e->getCode()
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
             ) {
                 $simulatedQuery = QuerySimulation::simulate($queryString);
-                $message = $message."\n\nSimulated query: ".$simulatedQuery;
+                $message = $message."\n\nSimulated query: '".$simulatedQuery."' Failed.";
             }
 
             return new Error($message, $e->getCode());
@@ -74,12 +63,10 @@ final class MysqliQueryReflector implements QueryReflector
         return null;
     }
 
-    /**
-     * @param self::FETCH_TYPE* $fetchType
-     */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         $result = $this->simulateQuery($queryString);
+
         if (!\is_array($result)) {
             return null;
         }
@@ -115,9 +102,7 @@ final class MysqliQueryReflector implements QueryReflector
         return $arrayBuilder->getArray();
     }
 
-    /**
-     * @return mysqli_sql_exception|list<object>|null
-     */
+    /** @return PDOException|array<int|string, mixed>|false|null */
     private function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
@@ -135,18 +120,17 @@ final class MysqliQueryReflector implements QueryReflector
         }
 
         try {
-            $result = $this->db->query($simulatedQuery);
-
-            if (!$result instanceof mysqli_result) {
-                return $this->cache[$queryString] = null;
-            }
-
-            $resultInfo = $result->fetch_fields();
-            $result->free();
-
-            return $this->cache[$queryString] = $resultInfo;
-        } catch (mysqli_sql_exception $e) {
+            $result = $this->pdo->query($simulatedQuery);
+        } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
         }
+
+        if (false === $result) {
+            return $this->cache[$queryString] = false;
+        }
+
+        $this->cache[$queryString] = $result->fetchAll();
+
+        return $this->cache[$queryString];
     }
 }
