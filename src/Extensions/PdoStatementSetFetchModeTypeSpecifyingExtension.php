@@ -51,6 +51,8 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $reducedType = $this->reduceType($methodCall, $statementType, $scope);
         if ($reducedType !== null) {
             $statementType = new GenericObjectType(PDOStatement::class, [$reducedType]);
+
+            return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy(), true);
         }
 
         return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy());
