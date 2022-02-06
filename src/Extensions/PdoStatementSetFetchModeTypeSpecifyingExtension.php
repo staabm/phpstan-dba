@@ -51,7 +51,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
             return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy(), true);
         }
 
-        return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy());
+        return new SpecifiedTypes();
     }
 
     private function reduceType(MethodCall $methodCall, Type $statementType, Scope $scope): ?Type
