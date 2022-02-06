@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `phpstan_dba`;
 
+USE `phpstan_dba`;
+
 CREATE TABLE `ada` (
     `adaid` int(11) NOT NULL,
     `gesperrt` tinyint(1) NOT NULL DEFAULT '0',

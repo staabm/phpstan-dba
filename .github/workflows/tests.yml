@@ -54,8 +54,7 @@ jobs:
 
     - name: Setup mysql
       run: |
-        mysql -uroot -h127.0.0.1 -proot -e 'create database phpstan_dba;'
-        mysql -uroot -h127.0.0.1 -proot phpstan_dba < tests/schema.sql
+        mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
 
     - run: composer phpunit
 
