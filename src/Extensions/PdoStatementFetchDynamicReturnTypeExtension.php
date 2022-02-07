@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -13,7 +12,6 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -22,6 +20,7 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -64,22 +63,20 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
+        $pdoStatementReflection = new PdoStatementReflection();
+
         $statementType = $scope->getType($methodCall->var);
 
-        $fetchType = PDO::FETCH_BOTH;
+        $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         if (\count($args) > 0) {
             $fetchModeType = $scope->getType($args[0]->value);
-            if (!$fetchModeType instanceof ConstantIntegerType) {
-                return null;
-            }
-            $fetchType = $fetchModeType->getValue();
+            $fetchType = $pdoStatementReflection->getFetchType($fetchModeType);
 
-            if (!\in_array($fetchType, [PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_BOTH], true)) {
+            if (null === $fetchType) {
                 return null;
             }
         }
 
-        $pdoStatementReflection = new PdoStatementReflection();
         $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
         if (null === $resultType) {
             return null;
