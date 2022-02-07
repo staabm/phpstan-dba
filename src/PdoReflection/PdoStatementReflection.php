@@ -88,7 +88,8 @@ final class PdoStatementReflection
         }
 
         // turn a BOTH typed statement into either NUMERIC or ASSOC
-        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
+        if (QueryReflector::FETCH_TYPE_BOTH === $defaultFetchType &&
+            (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
             $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
@@ -105,7 +106,6 @@ final class PdoStatementReflection
 
             return $builder->getArray();
         }
-
 
         return $resultType;
     }
