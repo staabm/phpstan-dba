@@ -58,7 +58,7 @@ final class RuntimeConfiguration
     }
 
     /**
-     * Defines default fetch mode.
+     * Defines the PDO default fetch mode.
      * This might be necessary in case you are using `\PDO::ATTR_DEFAULT_FETCH_MODE`.
      *
      * @param QueryReflector::FETCH_TYPE* $mode
