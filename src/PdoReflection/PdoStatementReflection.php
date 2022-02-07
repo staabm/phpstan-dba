@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
+use PDO;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -27,6 +28,26 @@ final class PdoStatementReflection
             $queryArgs = $queryExpr->getArgs();
 
             return $queryArgs[0]->value;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return QueryReflector::FETCH_TYPE*|null
+     */
+    public function getFetchType(Type $fetchModeType): ?int
+    {
+        if (!$fetchModeType instanceof ConstantIntegerType) {
+            return null;
+        }
+
+        if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_ASSOC;
+        } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_NUMERIC;
+        } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_BOTH;
         }
 
         return null;
