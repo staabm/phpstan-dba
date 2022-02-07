@@ -88,9 +88,8 @@ final class PdoStatementReflection
         }
 
         $defaultFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
-        if ($defaultFetchType === QueryReflector::FETCH_TYPE_ASSOC && $fetchType === QueryReflector::FETCH_TYPE_NUMERIC &&
+        if (QueryReflector::FETCH_TYPE_ASSOC === $defaultFetchType && QueryReflector::FETCH_TYPE_NUMERIC === $fetchType &&
             $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
-
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $valueTypes = $resultType->getValueTypes();
@@ -98,7 +97,7 @@ final class PdoStatementReflection
             $i = 0;
             foreach ($valueTypes as $i => $valueType) {
                 $builder->setOffsetValueType(new ConstantIntegerType($i), $valueType);
-                $i++;
+                ++$i;
             }
 
             return $builder->getArray();

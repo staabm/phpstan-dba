@@ -20,7 +20,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {

@@ -19,7 +19,6 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
