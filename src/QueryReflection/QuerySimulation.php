@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use DateTimeInterface;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryType;
 use PHPStan\Type\ArrayType;
@@ -77,19 +76,16 @@ final class QuerySimulation
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
             && $paramType->isInstanceOf(Stringable::class)->yes();
-        $isDateTimeType = $paramType instanceof ObjectType
-            && $paramType->isInstanceOf(DateTimeInterface::class)->yes();
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType
-            || $isDateTimeType
         ) {
             // in a prepared context, regular strings are fine
             if (true === $preparedParam) {
                 // returns a string in date-format, so in case the simulated value is used against a date/datetime column
                 // we won't run into a sql error.
                 // XX in case we would have a proper sql parser, we could feed schema-type-dependent default values in case of strings.
-                return $isDateTimeType ? date(self::DATE_FORMAT, 0) : '1';
+                return date(self::DATE_FORMAT, 0);
             }
 
             // plain string types can contain anything.. we cannot reason about it
