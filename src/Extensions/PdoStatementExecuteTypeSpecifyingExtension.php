@@ -73,7 +73,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
             return null;
         }
 
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
 
         if ($resultType) {
