@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
 {
@@ -33,7 +34,26 @@ final class PdoStatementReflection
     }
 
     /**
-     * @param PDO::FETCH* $fetchType
+     * @return QueryReflector::FETCH_TYPE*|null
+     */
+    public function getFetchMode(Type $fetchModeType): ?int {
+        if (!$fetchModeType instanceof ConstantIntegerType) {
+            return null;
+        }
+
+        if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_ASSOC;
+        } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_NUMERIC;
+        } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_BOTH;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
      */
     public function getStatementResultType(Type $statementType, int $fetchType): ?Type
     {
@@ -47,7 +67,7 @@ final class PdoStatementReflection
         }
 
         $resultType = $genericTypes[0];
-        if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) &&
+        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
             $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
@@ -55,9 +75,9 @@ final class PdoStatementReflection
             $valueTypes = $resultType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
-                if (PDO::FETCH_NUM === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (PDO::FETCH_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }
