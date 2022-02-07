@@ -95,7 +95,7 @@ final class PdoStatementReflection
             $valueTypes = $resultType->getValueTypes();
 
             $i = 0;
-            foreach ($valueTypes as $i => $valueType) {
+            foreach ($valueTypes as $valueType) {
                 $builder->setOffsetValueType(new ConstantIntegerType($i), $valueType);
                 ++$i;
             }
