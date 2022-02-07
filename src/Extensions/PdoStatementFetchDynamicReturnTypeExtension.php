@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -13,7 +12,6 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -65,28 +63,21 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
+        $pdoStatementReflection = new PdoStatementReflection();
+
         $statementType = $scope->getType($methodCall->var);
 
-        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
+        $fetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) > 0) {
             $fetchModeType = $scope->getType($args[0]->value);
-            if (!$fetchModeType instanceof ConstantIntegerType) {
-                return null;
-            }
+            $fetchType = $pdoStatementReflection->getFetchType($fetchModeType);
 
-            if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_ASSOC;
-            } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_NUMERIC;
-            } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
-                $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
-            } else {
+            if (null === $fetchType) {
                 return null;
             }
         }
 
-        $pdoStatementReflection = new PdoStatementReflection();
-        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $reflectionFetchType);
+        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
         if (null === $resultType) {
             return null;
         }
