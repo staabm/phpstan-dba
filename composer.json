@@ -45,7 +45,8 @@
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",
 			"phpstan analyse -c tests/default/config/phpstan.neon.dist",
-			"phpstan analyse -c tests/stringify/config/phpstan.neon.dist"
+			"phpstan analyse -c tests/stringify/config/phpstan.neon.dist",
+			"phpstan analyse -c tests/fetchMode/config/phpstan.neon.dist"
 		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
