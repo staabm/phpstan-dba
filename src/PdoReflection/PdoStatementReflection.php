@@ -18,7 +18,7 @@ use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
 
 final class PdoStatementReflection
 {
-    public function findPrepareQueryStringExpression(MethodReflection $methodReflection, MethodCall $methodCall): ?Expr
+    public function findPrepareQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         $exprFinder = new ExpressionFinder();
         $queryExpr = $exprFinder->findQueryStringExpression($methodCall);
@@ -35,10 +35,8 @@ final class PdoStatementReflection
 
     /**
      * @param PDO::FETCH* $fetchType
-     *
-     * @return Type|null
      */
-    public function getStatementResultType(Type $statementType, int $fetchType)
+    public function getStatementResultType(Type $statementType, int $fetchType): ?Type
     {
         if (!$statementType instanceof GenericObjectType) {
             return null;
@@ -50,7 +48,8 @@ final class PdoStatementReflection
         }
 
         $resultType = $genericTypes[0];
-        if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
+        if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) &&
+            $resultType instanceof ConstantArrayType && count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultType->getKeyTypes();

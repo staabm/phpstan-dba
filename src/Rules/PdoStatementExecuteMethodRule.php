@@ -59,7 +59,7 @@ final class PdoStatementExecuteMethodRule implements Rule
     {
         $queryReflection = new QueryReflection();
         $stmtReflection = new PdoStatementReflection();
-        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodReflection, $methodCall);
+        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
 
         if (null === $queryExpr) {
             return [];
