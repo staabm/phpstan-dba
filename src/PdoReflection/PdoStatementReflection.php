@@ -36,7 +36,8 @@ final class PdoStatementReflection
     /**
      * @return QueryReflector::FETCH_TYPE*|null
      */
-    public function getFetchMode(Type $fetchModeType): ?int {
+    public function getFetchMode(Type $fetchModeType): ?int
+    {
         if (!$fetchModeType instanceof ConstantIntegerType) {
             return null;
         }

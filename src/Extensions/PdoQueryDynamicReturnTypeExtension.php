@@ -13,7 +13,6 @@ use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
@@ -84,7 +83,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             $fetchModeType = $scope->getType($args[1]->value);
 
             $reflectionFetchType = $pdoStatementReflection->getFetchMode($fetchModeType);
-            if ($reflectionFetchType === null) {
+            if (null === $reflectionFetchType) {
                 return null;
             }
         }
