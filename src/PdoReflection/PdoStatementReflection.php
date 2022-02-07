@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\PdoReflection;
 use PDO;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -49,7 +48,7 @@ final class PdoStatementReflection
 
         $resultType = $genericTypes[0];
         if ((PDO::FETCH_NUM === $fetchType || PDO::FETCH_ASSOC === $fetchType) &&
-            $resultType instanceof ConstantArrayType && count($resultType->getValueTypes()) > 0) {
+            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultType->getKeyTypes();
