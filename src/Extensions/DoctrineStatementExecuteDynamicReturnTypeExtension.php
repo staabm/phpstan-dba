@@ -63,7 +63,7 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
         $parameterTypes = $scope->getType($paramsExpr);
 
         $stmtReflection = new PdoStatementReflection();
-        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodReflection, $methodCall);
+        $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
         if (null === $queryExpr) {
             return null;
         }

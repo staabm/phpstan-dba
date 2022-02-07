@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\PdoReflection;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -18,7 +17,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
 {
-    public function findPrepareQueryStringExpression(MethodReflection $methodReflection, MethodCall $methodCall): ?Expr
+    public function findPrepareQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         $exprFinder = new ExpressionFinder();
         $queryExpr = $exprFinder->findQueryStringExpression($methodCall);
@@ -35,10 +34,8 @@ final class PdoStatementReflection
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
-     *
-     * @return Type|null
      */
-    public function getStatementResultType(Type $statementType, int $fetchType)
+    public function getStatementResultType(Type $statementType, int $fetchType): ?Type
     {
         if (!$statementType instanceof GenericObjectType) {
             return null;
@@ -50,7 +47,8 @@ final class PdoStatementReflection
         }
 
         $resultType = $genericTypes[0];
-        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) && $resultType instanceof ConstantArrayType) {
+        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
+            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultType->getKeyTypes();
