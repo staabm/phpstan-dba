@@ -13,7 +13,7 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\MySQLTypeMapper;
+use staabm\PHPStanDba\TypeMapping\MysqliTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 final class MysqliQueryReflector implements QueryReflector
@@ -43,7 +43,7 @@ final class MysqliQueryReflector implements QueryReflector
         // enable exception throwing on php <8.1
         mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
 
-        $this->typeMapper = new MySQLTypeMapper();
+        $this->typeMapper = new MysqliTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error

@@ -17,7 +17,7 @@ use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
-final class MySQLTypeMapper implements TypeMapper
+final class MysqliTypeMapper implements TypeMapper
 {
     /** @var array<int, string> */
     private array $nativeTypes = [];
