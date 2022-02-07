@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
@@ -81,6 +82,23 @@ final class PdoStatementReflection
                 } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
+            }
+
+            return $builder->getArray();
+        }
+
+        $defaultFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
+        if ($defaultFetchType === QueryReflector::FETCH_TYPE_ASSOC && $fetchType === QueryReflector::FETCH_TYPE_NUMERIC &&
+            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
+
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+
+            $valueTypes = $resultType->getValueTypes();
+
+            $i = 0;
+            foreach ($valueTypes as $i => $valueType) {
+                $builder->setOffsetValueType(new ConstantIntegerType($i), $valueType);
+                $i++;
             }
 
             return $builder->getArray();
