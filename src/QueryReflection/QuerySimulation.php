@@ -27,6 +27,8 @@ use Stringable;
  */
 final class QuerySimulation
 {
+    public const DATE_FORMAT = 'Y-m-d';
+    
     /**
      * @throws UnresolvableQueryException
      */
@@ -72,8 +74,12 @@ final class QuerySimulation
         }
 
         $stringType = new StringType();
-        if ($stringType->isSuperTypeOf($paramType)->yes() || $paramType instanceof ObjectType && $paramType->isInstanceOf(Stringable::class)->yes()) {
-            // in a prepared context, regular strings are fine
+        $isStringableObjectType = $paramType instanceof ObjectType
+            && $paramType->isInstanceOf(Stringable::class)->yes();
+        if (
+            $stringType->isSuperTypeOf($paramType)->yes()
+            || $isStringableObjectType
+        ) {   // in a prepared context, regular strings are fine
             if (true === $preparedParam) {
                 // returns a string in date-format, so in case the simulated value is used against a date/datetime column
                 // we won't run into a sql error.
