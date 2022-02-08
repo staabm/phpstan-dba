@@ -28,7 +28,7 @@ use Stringable;
 final class QuerySimulation
 {
     public const DATE_FORMAT = 'Y-m-d';
-    
+
     /**
      * @throws UnresolvableQueryException
      */
