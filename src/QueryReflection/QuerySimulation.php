@@ -84,7 +84,7 @@ final class QuerySimulation
                 // returns a string in date-format, so in case the simulated value is used against a date/datetime column
                 // we won't run into a sql error.
                 // XX in case we would have a proper sql parser, we could feed schema-type-dependent default values in case of strings.
-                return date(MysqliQueryReflector::DATE_FORMAT, 0);
+                return date(self::DATE_FORMAT, 0);
             }
 
             // plain string types can contain anything.. we cannot reason about it
