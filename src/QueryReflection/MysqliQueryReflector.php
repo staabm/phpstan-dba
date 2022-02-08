@@ -24,8 +24,6 @@ final class MysqliQueryReflector implements QueryReflector
 
     public const MYSQL_HOST_NOT_FOUND = 2002;
 
-    public const DATE_FORMAT = 'Y-m-d';
-
     private const MAX_CACHE_SIZE = 50;
 
     private mysqli $db;
