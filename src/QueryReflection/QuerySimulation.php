@@ -79,7 +79,8 @@ final class QuerySimulation
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType
-        ) {   // in a prepared context, regular strings are fine
+        ) {
+            // in a prepared context, regular strings are fine
             if (true === $preparedParam) {
                 // returns a string in date-format, so in case the simulated value is used against a date/datetime column
                 // we won't run into a sql error.
