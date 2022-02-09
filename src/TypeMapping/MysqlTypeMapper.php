@@ -16,7 +16,7 @@ use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
-final class TypeMapper
+final class MysqlTypeMapper
 {
     /**
      * @param list<string> $mysqlFlags

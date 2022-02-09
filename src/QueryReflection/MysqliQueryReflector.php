@@ -14,7 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqliTypeMapper;
-use staabm\PHPStanDba\TypeMapping\TypeMapper;
+use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 
 final class MysqliQueryReflector implements QueryReflector
 {
@@ -31,7 +31,7 @@ final class MysqliQueryReflector implements QueryReflector
     /** @var array<string, mysqli_sql_exception|list<object>|null> */
     private array $cache = [];
 
-    private TypeMapper $typeMapper;
+    private MysqlTypeMapper $typeMapper;
 
     public function __construct(mysqli $mysqli)
     {

@@ -15,7 +15,7 @@ final class MysqliTypeMapper
     /** @var array<int, string> */
     private array $nativeFlags = [];
 
-    private TypeMapper $typeMapper;
+    private MysqlTypeMapper $typeMapper;
 
     public function __construct()
     {
@@ -40,7 +40,7 @@ final class MysqliTypeMapper
             }
         }
 
-        $this->typeMapper = new TypeMapper();
+        $this->typeMapper = new MysqlTypeMapper();
     }
 
     public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
