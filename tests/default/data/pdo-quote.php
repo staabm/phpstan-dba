@@ -58,17 +58,19 @@ class Foo
      */
     public function quotedArguments(PDO $pdo, int $i, float $f, $n, string $s, $nonE, string $numericString)
     {
+        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
+
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote((string) $i), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}'.$bothType.'>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote((string) $f), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}'.$bothType.'>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote((string) $n), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}'.$bothType.'>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($numericString), PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}'.$bothType.'>', $stmt);
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($s), PDO::FETCH_ASSOC);

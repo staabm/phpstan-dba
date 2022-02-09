@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Extensions;
 
 use PDO;
-use PDOStatement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -14,13 +13,11 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -78,7 +75,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
         $pdoStatementReflection = new PdoStatementReflection();
 
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) >= 2) {
             $fetchModeType = $scope->getType($args[1]->value);
 
@@ -94,11 +91,8 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return null;
         }
 
-        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
-        if ($resultType) {
-            return new GenericObjectType(PDOStatement::class, [$resultType]);
-        }
+        $pdoStatementReflection = new PdoStatementReflection();
 
-        return null;
+        return $pdoStatementReflection->createGenericStatement($queryString, $reflectionFetchType);
     }
 }
