@@ -84,7 +84,7 @@ final class MysqlTypeMapper
         }
 
         if (null === $phpstanType) {
-            $phpstanType = match ($mysqlType) {
+            $phpstanType = match (strtoupper($mysqlType ?? '')) {
                 'DOUBLE', 'NEWDECIMAL' => new FloatType(),
                 'LONGLONG',
                 'LONG',
