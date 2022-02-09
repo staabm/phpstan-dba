@@ -18,6 +18,9 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 use function array_key_exists;
 
+/**
+ * @phpstan-type ColumnMeta array{name: ?string, native_type: string, len: int, flags: list<string>}
+ */
 final class PdoQueryReflector implements QueryReflector
 {
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
@@ -33,7 +36,7 @@ final class PdoQueryReflector implements QueryReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<array<'name'|'native_type'|'flags'|'len', mixed>>|null>
+     * @var array<string, PDOException|list<ColumnMeta>|null>
      */
     private array $cache = [];
 
@@ -92,7 +95,6 @@ final class PdoQueryReflector implements QueryReflector
             ) {
                 throw new ShouldNotHappenException();
             }
-            var_dump($val);
 
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
@@ -112,7 +114,7 @@ final class PdoQueryReflector implements QueryReflector
         return $arrayBuilder->getArray();
     }
 
-    /** @return PDOException|list<array<'name'|'native_type'|'flags'|'len', mixed>>|null */
+    /** @return PDOException|list<ColumnMeta>|null */
     private function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
@@ -143,7 +145,14 @@ final class PdoQueryReflector implements QueryReflector
         $columnCount = $result->columnCount();
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
-            $this->cache[$queryString][$columnIndex] = $result->getColumnMeta($columnIndex);
+            $columnMeta = $result->getColumnMeta($columnIndex);
+
+            if ($columnMeta === false) {
+                throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
+            }
+
+            // @phpstan-ignore-next-line
+            $this->cache[$queryString][$columnIndex] = $columnMeta;
             $columnIndex++;
         }
 
