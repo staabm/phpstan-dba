@@ -24,13 +24,18 @@ final class MysqlTypeMapper
     public function mapToPHPStanType(?string $mysqlType, array $mysqlFlags, int $length): Type
     {
         $mysqlType = $mysqlType ?? '';
-
+        
+        $numeric = false;
         $notNull = false;
         $unsigned = false;
         $autoIncrement = false;
 
         foreach ($mysqlFlags as $flag) {
             switch (strtoupper($flag)) {
+                case 'NUM':
+                    $numeric = true;
+                    break;
+
                 case 'NOT_NULL':
                     $notNull = true;
                     break;
@@ -51,23 +56,10 @@ final class MysqlTypeMapper
             }
         }
 
-        $integer = match (strtoupper($mysqlType)) {
-            'TINY',
-            'SHORT',
-            'LONG',
-            'LONGLONG',
-            'YEAR',
-            'BIT',
-            'INT24' => true,
-            default =>  false,
-        };
-
         $phpstanType = null;
         $mysqlIntegerRanges = new MysqlIntegerRanges();
 
-        if ($integer) {
-            $phpstanType = new IntegerType();
-            
+        if ($numeric) {
             if ($unsigned) {
                 $phpstanType = match ($length) {
                     3,4 => $mysqlIntegerRanges->unsignedTinyInt(),
@@ -96,6 +88,12 @@ final class MysqlTypeMapper
         if (null === $phpstanType) {
             $phpstanType = match (strtoupper($mysqlType)) {
                 'DOUBLE', 'NEWDECIMAL' => new FloatType(),
+                'LONGLONG',
+                'LONG',
+                'SHORT',
+                'YEAR',
+                'BIT',
+                'INT24' => new IntegerType(),
                 'BLOB',
                 'CHAR',
                 'STRING',
