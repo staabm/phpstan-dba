@@ -124,10 +124,6 @@ final class PdoQueryReflector implements QueryReflector
             return $this->cache[$queryString] = $e;
         }
 
-        if (false === $result) {
-            return $this->cache[$queryString] = null;
-        }
-
         $this->cache[$queryString] = [];
         $columnCount = $result->columnCount();
         $columnIndex = 0;
@@ -138,11 +134,21 @@ final class PdoQueryReflector implements QueryReflector
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
+            if (
+                !array_key_exists('name', $columnMeta)
+                || !array_key_exists('native_type', $columnMeta)
+                || !array_key_exists('flags', $columnMeta)
+                || !array_key_exists('len', $columnMeta)
+            ) {
+                throw new ShouldNotHappenException();
+            }
+
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
             ++$columnIndex;
         }
 
+        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 }
