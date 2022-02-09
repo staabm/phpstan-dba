@@ -5,7 +5,7 @@ namespace staabm\PHPStanDba\Tests;
 use mysqli;
 use PDO;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
-use staabm\PHPStanDba\QueryReflection\PDOQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
@@ -35,7 +35,7 @@ final class ReflectorFactory
                 $reflector = new MysqliQueryReflector($mysqli);
             } elseif ('pdo' === $reflector) {
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
-                $reflector = new PDOQueryReflector($pdo);
+                $reflector = new PdoQueryReflector($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: '.$reflector);
             }

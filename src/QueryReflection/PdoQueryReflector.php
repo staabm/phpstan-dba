@@ -12,12 +12,13 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\PDOTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 use function array_key_exists;
 
-final class PDOQueryReflector implements QueryReflector
+final class PdoQueryReflector implements QueryReflector
 {
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
     private const PSQL_UNDEFINED_COLUMN = '42703';
@@ -36,13 +37,13 @@ final class PDOQueryReflector implements QueryReflector
      */
     private array $cache = [];
 
-    private TypeMapper $typeMapper;
+    private MysqlTypeMapper $typeMapper;
 
     public function __construct(private PDO $pdo)
     {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $this->typeMapper = new PDOTypeMapper();
+        $this->typeMapper = new MysqlTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error

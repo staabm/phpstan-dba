@@ -29,7 +29,7 @@ final class MysqlTypeMapper
         $autoIncrement = false;
 
         foreach ($mysqlFlags as $flag) {
-            switch ($flag) {
+            switch (strtoupper($flag)) {
                 case 'NUM':
                     $numeric = true;
                     break;

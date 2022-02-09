@@ -3,7 +3,7 @@
 namespace staabm\PHPStanDba;
 
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
-use staabm\PHPStanDba\QueryReflection\PDOQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 
 final class Error
 {
