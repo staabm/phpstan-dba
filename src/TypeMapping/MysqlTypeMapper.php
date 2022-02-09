@@ -66,6 +66,8 @@ final class MysqlTypeMapper
         $mysqlIntegerRanges = new MysqlIntegerRanges();
 
         if ($integer) {
+            $phpstanType = new IntegerType();
+            
             if ($unsigned) {
                 $phpstanType = match ($length) {
                     3,4 => $mysqlIntegerRanges->unsignedTinyInt(),
