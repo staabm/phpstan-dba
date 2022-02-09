@@ -33,7 +33,7 @@ final class PdoQueryReflector implements QueryReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|array|false>
+     * @var array<string, PDOException|list<array<'name'|'native_type'|'flags'|'len', mixed>>|null>
      */
     private array $cache = [];
 
@@ -92,6 +92,7 @@ final class PdoQueryReflector implements QueryReflector
             ) {
                 throw new ShouldNotHappenException();
             }
+            var_dump($val);
 
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
@@ -111,7 +112,7 @@ final class PdoQueryReflector implements QueryReflector
         return $arrayBuilder->getArray();
     }
 
-    /** @return PDOException|array<int|string, mixed>|false|null */
+    /** @return PDOException|list<array<'name'|'native_type'|'flags'|'len', mixed>>|null */
     private function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
@@ -135,7 +136,7 @@ final class PdoQueryReflector implements QueryReflector
         }
 
         if (false === $result) {
-            return $this->cache[$queryString] = false;
+            return $this->cache[$queryString] = null;
         }
 
         $this->cache[$queryString] = [];
