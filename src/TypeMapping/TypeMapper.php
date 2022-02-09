@@ -8,5 +8,5 @@ use PHPStan\Type\Type;
 
 interface TypeMapper
 {
-    public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type;
+    public function mapToPHPStanType(int|string $mysqlType, int|array $mysqlFlags, int $length): Type;
 }

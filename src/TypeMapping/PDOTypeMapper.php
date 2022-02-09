@@ -17,38 +17,8 @@ use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
-final class MysqliTypeMapper implements TypeMapper
+final class PDOTypeMapper implements TypeMapper
 {
-    /** @var array<int, string> */
-    private array $nativeTypes = [];
-
-    /** @var array<int, string> */
-    private array $nativeFlags = [];
-
-    public function __construct()
-    {
-        $constants = get_defined_constants(true);
-        foreach ($constants['mysqli'] as $c => $n) {
-            if (!\is_int($n)) {
-                // skip bool constants like MYSQLI_IS_MARIADB
-                continue;
-            }
-            if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
-                if (!\is_string($m[1])) {
-                    throw new ShouldNotHappenException();
-                }
-                $this->nativeTypes[$n] = $m[1];
-            } elseif (preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
-                if (!\is_string($m[1])) {
-                    throw new ShouldNotHappenException();
-                }
-                if (!\array_key_exists($n, $this->nativeFlags)) {
-                    $this->nativeFlags[$n] = $m[1];
-                }
-            }
-        }
-    }
-
     public function mapToPHPStanType(int|string $mysqlType, int|array $mysqlFlags, int $length): Type
     {
         $numeric = false;
@@ -56,8 +26,8 @@ final class MysqliTypeMapper implements TypeMapper
         $unsigned = false;
         $autoIncrement = false;
 
-        foreach ($this->flags2txt($mysqlFlags) as $flag) {
-            switch ($flag) {
+        foreach ($mysqlFlags as $flag) {
+            switch (strtoupper($flag)) {
                 case 'NUM':
                     $numeric = true;
                     break;
@@ -112,7 +82,7 @@ final class MysqliTypeMapper implements TypeMapper
         }
 
         if (null === $phpstanType) {
-            $phpstanType = match ($this->type2txt($mysqlType)) {
+            $phpstanType = match ($mysqlType) {
                 'DOUBLE', 'NEWDECIMAL' => new FloatType(),
                 'LONGLONG',
                 'LONG',
@@ -150,23 +120,5 @@ final class MysqliTypeMapper implements TypeMapper
         }
 
         return $phpstanType;
-    }
-
-    private function type2txt(int $typeId): ?string
-    {
-        return \array_key_exists($typeId, $this->nativeTypes) ? $this->nativeTypes[$typeId] : null;
-    }
-
-    /** @return list<string> */
-    private function flags2txt(int $flagId): array
-    {
-        $result = [];
-        foreach ($this->nativeFlags as $n => $t) {
-            if ($flagId & $n) {
-                $result[] = $t;
-            }
-        }
-
-        return $result;
     }
 }

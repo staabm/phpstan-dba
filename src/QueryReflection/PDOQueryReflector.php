@@ -12,8 +12,10 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\PostgresTypeMapper;
+use staabm\PHPStanDba\TypeMapping\PDOTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
+
+use function array_key_exists;
 
 final class PDOQueryReflector implements QueryReflector
 {
@@ -40,7 +42,7 @@ final class PDOQueryReflector implements QueryReflector
     {
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $this->typeMapper = new PostgresTypeMapper();
+        $this->typeMapper = new PDOTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error
@@ -82,24 +84,24 @@ final class PDOQueryReflector implements QueryReflector
         $i = 0;
         foreach ($result as $val) {
             if (
-                !property_exists($val, 'name')
-                || !property_exists($val, 'type')
-                || !property_exists($val, 'flags')
-                || !property_exists($val, 'length')
+                !array_key_exists('name', $val)
+                || !array_key_exists('native_type', $val)
+                || !array_key_exists('flags', $val)
+                || !array_key_exists('len', $val)
             ) {
                 throw new ShouldNotHappenException();
             }
 
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
-                    new ConstantStringType($val->name),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    new ConstantStringType($val['name']),
+                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
                 );
             }
             if (self::FETCH_TYPE_NUMERIC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantIntegerType($i),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
                 );
             }
             ++$i;
@@ -135,7 +137,13 @@ final class PDOQueryReflector implements QueryReflector
             return $this->cache[$queryString] = false;
         }
 
-        $this->cache[$queryString] = $result->fetchAll();
+        $this->cache[$queryString] = [];
+        $columnCount = $result->columnCount();
+        $columnIndex = 0;
+        while ($columnIndex < $columnCount) {
+            $this->cache[$queryString][$columnIndex] = $result->getColumnMeta($columnIndex);
+            $columnIndex++;
+        }
 
         return $this->cache[$queryString];
     }
