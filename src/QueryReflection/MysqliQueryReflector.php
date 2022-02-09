@@ -41,7 +41,7 @@ final class MysqliQueryReflector implements QueryReflector
         // enable exception throwing on php <8.1
         mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
 
-        $this->typeMapper = new MysqliTypeMapper();
+        $this->typeMapper = new MysqlTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error
