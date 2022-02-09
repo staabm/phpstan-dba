@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\TypeMapping;
 
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
