@@ -81,6 +81,9 @@ jobs:
           - php-version: "8.1"
             reflector: "mysqli"
 
+    env:
+       DBA_REFLECTOR: ${{ matrix.reflector }}
+
     steps:
     - uses: actions/checkout@v2
       with:
