@@ -13,13 +13,9 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
-use staabm\PHPStanDba\TypeMapping\PDOTypeMapper;
-use staabm\PHPStanDba\TypeMapping\TypeMapper;
-
-use function array_key_exists;
 
 /**
- * @phpstan-type ColumnMeta array{name: ?string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type ColumnMeta array{name: string, native_type: string, len: int, flags: list<string>}
  */
 final class PdoQueryReflector implements QueryReflector
 {
@@ -87,15 +83,6 @@ final class PdoQueryReflector implements QueryReflector
 
         $i = 0;
         foreach ($result as $val) {
-            if (
-                !array_key_exists('name', $val)
-                || !array_key_exists('native_type', $val)
-                || !array_key_exists('flags', $val)
-                || !array_key_exists('len', $val)
-            ) {
-                throw new ShouldNotHappenException();
-            }
-
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val['name']),
@@ -147,13 +134,13 @@ final class PdoQueryReflector implements QueryReflector
         while ($columnIndex < $columnCount) {
             $columnMeta = $result->getColumnMeta($columnIndex);
 
-            if ($columnMeta === false) {
+            if (false === $columnMeta) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
-            $columnIndex++;
+            ++$columnIndex;
         }
 
         return $this->cache[$queryString];
