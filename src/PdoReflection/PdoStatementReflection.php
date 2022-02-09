@@ -93,7 +93,7 @@ final class PdoStatementReflection
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    private function reduceStatementResultType(Type $bothType, int $fetchType): ?Type
+    private function reduceStatementResultType(Type $bothType, int $fetchType): Type
     {
         // turn a BOTH typed statement into either NUMERIC or ASSOC
         if (
