@@ -18,10 +18,16 @@ jobs:
         include:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
+            reflector: "pdo"
+          - php-version: "8.0"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
           - php-version: "8.1"
             db-image: 'mysql:8.0'
+            reflector: "mysqli"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
+            reflector: "mysqli"
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
@@ -66,6 +72,9 @@ jobs:
       matrix:
         include:
           - php-version: "8.1"
+            reflector: "mysqli"
+          - php-version: "8.1"
+            reflector: "pdo"
 
     steps:
       - uses: actions/checkout@v2
