@@ -20,7 +20,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -78,7 +77,7 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
         $pdoStatementReflection = new PdoStatementReflection();
 
-        $reflectionFetchType = QueryReflector::FETCH_TYPE_BOTH;
+        $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) >= 2) {
             $fetchModeType = $scope->getType($args[1]->value);
 

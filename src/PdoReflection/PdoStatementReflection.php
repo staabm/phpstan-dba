@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementReflection
@@ -68,7 +69,27 @@ final class PdoStatementReflection
         }
 
         $resultType = $genericTypes[0];
-        if ((QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
+
+        // turn ASSOC typed statement into a NUMERIC one
+        $defaultFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
+        if (QueryReflector::FETCH_TYPE_ASSOC === $defaultFetchType && QueryReflector::FETCH_TYPE_NUMERIC === $fetchType &&
+            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+
+            $valueTypes = $resultType->getValueTypes();
+
+            $i = 0;
+            foreach ($valueTypes as $valueType) {
+                $builder->setOffsetValueType(new ConstantIntegerType($i), $valueType);
+                ++$i;
+            }
+
+            return $builder->getArray();
+        }
+
+        // turn a BOTH typed statement into either NUMERIC or ASSOC
+        if (QueryReflector::FETCH_TYPE_BOTH === $defaultFetchType &&
+            (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
             $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 

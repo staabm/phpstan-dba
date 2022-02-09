@@ -1,4 +1,6 @@
-CREATE DATABASE IF NOT EXISTS `phpstan-dba`;
+CREATE DATABASE IF NOT EXISTS `phpstan_dba`;
+
+USE `phpstan_dba`;
 
 CREATE TABLE `ada` (
     `adaid` int(11) NOT NULL,
