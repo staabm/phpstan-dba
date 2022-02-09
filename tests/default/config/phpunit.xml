@@ -9,7 +9,7 @@
          beStrictAboutCoversAnnotation="true"
          beStrictAboutOutputDuringTests="true"
          beStrictAboutTodoAnnotatedTests="true"
-         bootstrap="bootstrap_pdo.php"
+         bootstrap="bootstrap.php"
          verbose="false">
 
     <testsuites>
