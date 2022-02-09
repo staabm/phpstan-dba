@@ -31,7 +31,7 @@ final class MysqliQueryReflector implements QueryReflector
     /** @var array<string, mysqli_sql_exception|list<object>|null> */
     private array $cache = [];
 
-    private MysqlTypeMapper $typeMapper;
+    private MysqliTypeMapper $typeMapper;
 
     public function __construct(mysqli $mysqli)
     {
@@ -41,7 +41,7 @@ final class MysqliQueryReflector implements QueryReflector
         // enable exception throwing on php <8.1
         mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
 
-        $this->typeMapper = new MysqlTypeMapper();
+        $this->typeMapper = new MysqliTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error
