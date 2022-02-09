@@ -31,10 +31,17 @@ final class SchemaHasherMysql
             return $this->hash;
         }
 
-        // for a schema with 3.000 columns we need roughly
-        // 70.000 group concat max length
-        $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
-        $this->connection->query($maxConcatQuery);
+        $driver = null;
+        if ($this->connection instanceof PDO) {
+            $driver = $this->connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+        }
+
+        if (null === $driver || 'mysql' === $driver) {
+            // for a schema with 3.000 columns we need roughly
+            // 70.000 group concat max length
+            $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
+            $this->connection->query($maxConcatQuery);
+        }
 
         $query = '
             SELECT

@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Unit Tests MySQL
 
 on:
   push:
@@ -20,6 +20,7 @@ jobs:
             db-image: 'mysql:8.0'
             reflector: "pdo"
             mode: "recording"
+            dsn: "mysql"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
@@ -38,10 +39,12 @@ jobs:
             db-image: 'mysql:8.0'
             reflector: "pdo"
             mode: "replay-and-recording"
+            dsn: "mysql"
 
     env:
       DBA_REFLECTOR: ${{ matrix.reflector }}
       DBA_MODE: ${{ matrix.mode }}
+      DBA_DSN: ${{ matrix.dsn }}
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
@@ -89,6 +92,7 @@ jobs:
           - php-version: "8.1"
             reflector: "pdo"
             mode: "replay"
+            dsn: "mysql"
           - php-version: "8.1"
             reflector: "mysqli"
             mode: "replay"
@@ -96,6 +100,7 @@ jobs:
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
        DBA_MODE: ${{ matrix.mode }}
+       DBA_DSN: ${{ matrix.dsn }}
 
     steps:
     - uses: actions/checkout@v2
