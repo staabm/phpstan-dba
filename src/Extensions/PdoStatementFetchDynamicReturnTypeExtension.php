@@ -13,6 +13,7 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -65,6 +66,9 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         $pdoStatementReflection = new PdoStatementReflection();
 
         $statementType = $scope->getType($methodCall->var);
+        if (!$statementType instanceof GenericObjectType) {
+            return null;
+        }
 
         $fetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
         if (\count($args) > 0) {
@@ -76,19 +80,19 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
         }
 
-        $resultType = $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
-        if (null === $resultType) {
+        $rowType = $pdoStatementReflection->getRowType($statementType, $fetchType);
+        if (null === $rowType) {
             return null;
         }
 
         if ('fetchAll' === $methodReflection->getName()) {
-            return new ArrayType(new IntegerType(), $resultType);
+            return new ArrayType(new IntegerType(), $rowType);
         }
 
         if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
-            return $resultType;
+            return $rowType;
         }
 
-        return new UnionType([$resultType, new ConstantBooleanType(false)]);
+        return new UnionType([$rowType, new ConstantBooleanType(false)]);
     }
 }

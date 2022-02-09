@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\PdoReflection;
 
 use PDO;
+use PDOStatement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -35,6 +36,8 @@ final class PdoStatementReflection
     }
 
     /**
+     * Turns a PDO::FETCH_* parameter-type into a QueryReflector::FETCH_TYPE* constant.
+     *
      * @return QueryReflector::FETCH_TYPE*|null
      */
     public function getFetchType(Type $fetchModeType): ?int
@@ -55,46 +58,52 @@ final class PdoStatementReflection
     }
 
     /**
+     * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
+     */
+    public function createGenericStatement(string $queryString, int $reflectionFetchType): ?GenericObjectType
+    {
+        $queryReflection = new QueryReflection();
+        $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+
+        if ($bothType) {
+            $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);
+
+            return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
+        }
+
+        return null;
+    }
+
+    /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getStatementResultType(Type $statementType, int $fetchType): ?Type
+    public function getRowType(GenericObjectType $statementType, int $fetchType): ?Type
     {
-        if (!$statementType instanceof GenericObjectType) {
-            return null;
-        }
-
         $genericTypes = $statementType->getTypes();
-        if (1 !== \count($genericTypes)) {
+
+        if (2 !== \count($genericTypes)) {
             return null;
         }
 
-        $resultType = $genericTypes[0];
+        $bothType = $genericTypes[1];
 
-        // turn ASSOC typed statement into a NUMERIC one
-        $defaultFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
-        if (QueryReflector::FETCH_TYPE_ASSOC === $defaultFetchType && QueryReflector::FETCH_TYPE_NUMERIC === $fetchType &&
-            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
-            $builder = ConstantArrayTypeBuilder::createEmpty();
+        return $this->reduceStatementResultType($bothType, $fetchType);
+    }
 
-            $valueTypes = $resultType->getValueTypes();
-
-            $i = 0;
-            foreach ($valueTypes as $valueType) {
-                $builder->setOffsetValueType(new ConstantIntegerType($i), $valueType);
-                ++$i;
-            }
-
-            return $builder->getArray();
-        }
-
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
+     */
+    private function reduceStatementResultType(Type $bothType, int $fetchType): ?Type
+    {
         // turn a BOTH typed statement into either NUMERIC or ASSOC
-        if (QueryReflector::FETCH_TYPE_BOTH === $defaultFetchType &&
+        if (
             (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
-            $resultType instanceof ConstantArrayType && \count($resultType->getValueTypes()) > 0) {
+            $bothType instanceof ConstantArrayType && \count($bothType->getValueTypes()) > 0
+        ) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
-            $keyTypes = $resultType->getKeyTypes();
-            $valueTypes = $resultType->getValueTypes();
+            $keyTypes = $bothType->getKeyTypes();
+            $valueTypes = $bothType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
                 if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
@@ -107,6 +116,7 @@ final class PdoStatementReflection
             return $builder->getArray();
         }
 
-        return $resultType;
+        // not yet supported fetch type
+        return $bothType;
     }
 }
