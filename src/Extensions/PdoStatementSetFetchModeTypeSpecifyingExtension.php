@@ -44,17 +44,18 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $methodCall = $node;
         $statementType = $scope->getType($methodCall->var);
 
-        $reducedType = $this->reduceType($methodCall, $statementType, $scope);
-        if (null !== $reducedType) {
-            $statementType = new GenericObjectType(PDOStatement::class, [$reducedType]);
+        if ($statementType instanceof GenericObjectType) {
+            $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
-            return $this->typeSpecifier->create($methodCall->var, $statementType, TypeSpecifierContext::createTruthy(), true);
+            if (null !== $reducedType) {
+                return $this->typeSpecifier->create($methodCall->var, $reducedType, TypeSpecifierContext::createTruthy(), true);
+            }
         }
 
         return new SpecifiedTypes();
     }
 
-    private function reduceType(MethodCall $methodCall, Type $statementType, Scope $scope): ?Type
+    private function reduceType(MethodCall $methodCall, GenericObjectType $statementType, Scope $scope): ?GenericObjectType
     {
         $args = $methodCall->getArgs();
 
@@ -62,18 +63,14 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
             return null;
         }
 
-        $fetchModeType = $scope->getType($args[0]->value);
-        if (!$fetchModeType instanceof ConstantIntegerType) {
-            return null;
-        }
-        $fetchType = $fetchModeType->getValue();
-
-        if (!\in_array($fetchType, [PDO::FETCH_ASSOC, PDO::FETCH_NUM, PDO::FETCH_BOTH])) {
-            return null;
-        }
-
         $pdoStatementReflection = new PdoStatementReflection();
 
-        return $pdoStatementReflection->getStatementResultType($statementType, $fetchType);
+        $fetchModeType = $scope->getType($args[0]->value);
+        $fetchType = $pdoStatementReflection->getFetchType($fetchModeType);
+        if ($fetchType === null) {
+            return null;
+        }
+
+        return $pdoStatementReflection->modifyGenericStatement($statementType, $fetchType);
     }
 }

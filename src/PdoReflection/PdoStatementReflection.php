@@ -58,20 +58,37 @@ final class PdoStatementReflection
     }
 
     /**
-     * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
+     * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function createGenericStatement(string $queryString, int $reflectionFetchType): ?GenericObjectType
+    public function createGenericStatement(string $queryString, int $fetchType): ?GenericObjectType
     {
         $queryReflection = new QueryReflection();
         $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
         if ($bothType) {
-            $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);
+            $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $fetchType);
 
             return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
         }
 
         return null;
+    }
+
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
+     */
+    public function modifyGenericStatement(GenericObjectType $statementType, int $fetchType): ?GenericObjectType
+    {
+        $genericTypes = $statementType->getTypes();
+
+        if (2 !== \count($genericTypes)) {
+            return null;
+        }
+
+        $bothType = $genericTypes[1];
+        $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $fetchType);
+
+        return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
     }
 
     /**

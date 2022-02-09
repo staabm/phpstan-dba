@@ -247,19 +247,23 @@ class Foo
 
     public function setFetchModeNum(PDO $pdo)
     {
+        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
+
         $query = 'SELECT email, adaid FROM ada';
         $stmt = $pdo->query($query);
 
         $stmt->setFetchMode(PDO::FETCH_NUM);
-        assertType('PDOStatement<array{string, int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{string, int<0, 4294967295>}'. $bothType .'>', $stmt);
     }
 
     public function setFetchModeAssoc(PDO $pdo)
     {
+        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
+
         $query = 'SELECT email, adaid FROM ada';
         $stmt = $pdo->query($query);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}>', $stmt);
+        assertType('PDOStatement<array{email: string, adaid: int<0, 4294967295>}'. $bothType .'>', $stmt);
     }
 }
