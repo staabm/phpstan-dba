@@ -14,6 +14,8 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementColumnCountDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -29,21 +31,15 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
+        $pdoStatementReflection = new PdoStatementReflection();
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof GenericObjectType) {
-            $genericTypes = $statementType->getTypes();
-
-            if (1 !== \count($genericTypes)) {
-                return $defaultReturn;
-            }
-
-            $resultType = $genericTypes[0];
-
-            if ($resultType instanceof ConstantArrayType) {
-                return new ConstantIntegerType(\count($resultType->getKeyTypes()));
+            $rowType = $pdoStatementReflection->getRowType($statementType, QueryReflector::FETCH_TYPE_NUMERIC);
+            if ($rowType instanceof ConstantArrayType) {
+                return new ConstantIntegerType(\count($rowType->getKeyTypes()));
             }
         }
 

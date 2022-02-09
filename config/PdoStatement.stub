@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @template TValue
- * @implements Traversable<int, TValue>
- * @implements IteratorAggregate<int, TValue>
+ * @template TRowTypeInFetchMode
+ * @template TRowTypeBoth
+ * @implements Traversable<int, TRowTypeInFetchMode>
+ * @implements IteratorAggregate<int, TRowTypeInFetchMode>
  * @link https://php.net/manual/en/class.pdostatement.php
  */
 class PDOStatement implements Traversable, IteratorAggregate

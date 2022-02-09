@@ -12,7 +12,6 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
@@ -73,12 +72,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         }
 
         $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
-        $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
 
-        if ($resultType) {
-            return new GenericObjectType(PDOStatement::class, [$resultType]);
-        }
-
-        return null;
+        return $stmtReflection->createGenericStatement($queryString, $reflectionFetchType);
     }
 }

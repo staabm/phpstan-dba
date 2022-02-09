@@ -9,10 +9,6 @@
          'message' => 'Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => 1054,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
     array (
@@ -21,10 +17,6 @@
          'message' => 'Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => 1054,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT * FROM ada WHERE doesNotExist=1' => 
     array (
@@ -33,17 +25,13 @@
          'message' => 'Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => 1054,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT * FROM typemix' => 
     array (
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -54,174 +42,314 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_char5',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_varchar255',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_varchar25',
                'isClassString' => false,
             )),
-            4 => 
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
+            )),
+            8 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_varbinary255',
                'isClassString' => false,
             )),
-            5 => 
+            9 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 4,
+            )),
+            10 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_varbinary25',
                'isClassString' => false,
             )),
-            6 => 
+            11 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 5,
+            )),
+            12 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_date',
                'isClassString' => false,
             )),
-            7 => 
+            13 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 6,
+            )),
+            14 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_time',
                'isClassString' => false,
             )),
-            8 => 
+            15 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 7,
+            )),
+            16 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_datetime',
                'isClassString' => false,
             )),
-            9 => 
+            17 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 8,
+            )),
+            18 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_timestamp',
                'isClassString' => false,
             )),
-            10 => 
+            19 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 9,
+            )),
+            20 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_year',
                'isClassString' => false,
             )),
-            11 => 
+            21 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 10,
+            )),
+            22 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_tiny_text',
                'isClassString' => false,
             )),
-            12 => 
+            23 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 11,
+            )),
+            24 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_medium_text',
                'isClassString' => false,
             )),
-            13 => 
+            25 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 12,
+            )),
+            26 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_text',
                'isClassString' => false,
             )),
-            14 => 
+            27 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 13,
+            )),
+            28 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_long_text',
                'isClassString' => false,
             )),
-            15 => 
+            29 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 14,
+            )),
+            30 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_enum',
                'isClassString' => false,
             )),
-            16 => 
+            31 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 15,
+            )),
+            32 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_set',
                'isClassString' => false,
             )),
-            17 => 
+            33 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 16,
+            )),
+            34 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_bit',
                'isClassString' => false,
             )),
-            18 => 
+            35 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 17,
+            )),
+            36 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_int',
                'isClassString' => false,
             )),
-            19 => 
+            37 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 18,
+            )),
+            38 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_tinyint',
                'isClassString' => false,
             )),
-            20 => 
+            39 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 19,
+            )),
+            40 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_smallint',
                'isClassString' => false,
             )),
-            21 => 
+            41 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 20,
+            )),
+            42 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_mediumint',
                'isClassString' => false,
             )),
-            22 => 
+            43 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 21,
+            )),
+            44 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_bigint',
                'isClassString' => false,
             )),
-            23 => 
+            45 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 22,
+            )),
+            46 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_double',
                'isClassString' => false,
             )),
-            24 => 
+            47 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 23,
+            )),
+            48 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_real',
                'isClassString' => false,
             )),
-            25 => 
+            49 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 24,
+            )),
+            50 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_boolean',
                'isClassString' => false,
             )),
-            26 => 
+            51 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 25,
+            )),
+            52 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_blob',
                'isClassString' => false,
             )),
-            27 => 
+            53 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 26,
+            )),
+            54 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_tinyblob',
                'isClassString' => false,
             )),
-            28 => 
+            55 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 27,
+            )),
+            56 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_mediumblog',
                'isClassString' => false,
             )),
-            29 => 
+            57 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 28,
+            )),
+            58 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_longblob',
                'isClassString' => false,
             )),
-            30 => 
+            59 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 29,
+            )),
+            60 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_unsigned_tinyint',
                'isClassString' => false,
             )),
-            31 => 
+            61 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 30,
+            )),
+            62 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_unsigned_int',
                'isClassString' => false,
             )),
-            32 => 
+            63 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 31,
+            )),
+            64 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_unsigned_smallint',
                'isClassString' => false,
             )),
-            33 => 
+            65 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 32,
+            )),
+            66 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_unsigned_mediumint',
                'isClassString' => false,
             )),
-            34 => 
+            67 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 33,
+            )),
+            68 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'c_unsigned_bigint',
                'isClassString' => false,
+            )),
+            69 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 34,
             )),
           ),
            'valueTypes' => 
@@ -232,37 +360,21 @@
                'max' => 4294967295,
             )),
             1 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
             )),
             2 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
             3 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
+            PHPStan\Type\StringType::__set_state(array(
             )),
             4 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
             5 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
+            PHPStan\Type\StringType::__set_state(array(
             )),
             6 => 
             PHPStan\Type\UnionType::__set_state(array(
@@ -289,18 +401,12 @@
               ),
             )),
             8 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
+            PHPStan\Type\StringType::__set_state(array(
             )),
             9 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            10 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -312,7 +418,115 @@
                 )),
               ),
             )),
-            10 => 
+            11 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            12 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            13 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            14 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            15 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            16 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            17 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            18 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            19 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            20 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -326,7 +540,21 @@
                 )),
               ),
             )),
-            11 => 
+            21 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => 0,
+                   'max' => 255,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            22 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -338,7 +566,7 @@
                 )),
               ),
             )),
-            12 => 
+            23 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -350,7 +578,7 @@
                 )),
               ),
             )),
-            13 => 
+            24 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -362,7 +590,7 @@
                 )),
               ),
             )),
-            14 => 
+            25 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -374,13 +602,67 @@
                 )),
               ),
             )),
-            15 => 
+            26 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            27 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            28 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            29 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            30 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            16 => 
+            31 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            17 => 
+            32 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            33 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            34 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -392,79 +674,162 @@
                 )),
               ),
             )),
-            18 => 
+            35 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            36 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -2147483648,
                'max' => 2147483647,
             )),
-            19 => 
+            37 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
+            )),
+            38 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            20 => 
+            39 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            40 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -32768,
                'max' => 32767,
             )),
-            21 => 
+            41 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            42 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -8388608,
                'max' => 8388607,
             )),
-            22 => 
+            43 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -8388608,
+               'max' => 8388607,
+            )),
+            44 => 
             PHPStan\Type\IntegerType::__set_state(array(
             )),
-            23 => 
+            45 => 
             PHPStan\Type\IntegerType::__set_state(array(
             )),
-            24 => 
+            46 => 
             PHPStan\Type\IntegerType::__set_state(array(
             )),
-            25 => 
+            47 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            48 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            49 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            50 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            26 => 
+            51 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            52 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            27 => 
+            53 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            28 => 
+            54 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            29 => 
+            55 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            30 => 
+            56 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            57 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            58 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            59 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            60 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 255,
             )),
-            31 => 
+            61 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 255,
+            )),
+            62 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            32 => 
+            63 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            64 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 65535,
             )),
-            33 => 
+            65 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 65535,
+            )),
+            66 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 16777215,
             )),
-            34 => 
+            67 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 16777215,
+            )),
+            68 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => NULL,
+            )),
+            69 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => NULL,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 35,
            'optionalKeys' => 
           array (
           ),
@@ -473,176 +838,316 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 4,
+              )),
+              5 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 5,
+              )),
+              6 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 6,
+              )),
+              7 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 7,
+              )),
+              8 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 8,
+              )),
+              9 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 9,
+              )),
+              10 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 10,
+              )),
+              11 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 11,
+              )),
+              12 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 12,
+              )),
+              13 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 13,
+              )),
+              14 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 14,
+              )),
+              15 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 15,
+              )),
+              16 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 16,
+              )),
+              17 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 17,
+              )),
+              18 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 18,
+              )),
+              19 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 19,
+              )),
+              20 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 20,
+              )),
+              21 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 21,
+              )),
+              22 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 22,
+              )),
+              23 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 23,
+              )),
+              24 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 24,
+              )),
+              25 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 25,
+              )),
+              26 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 26,
+              )),
+              27 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 27,
+              )),
+              28 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 28,
+              )),
+              29 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 29,
+              )),
+              30 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 30,
+              )),
+              31 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 31,
+              )),
+              32 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 32,
+              )),
+              33 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 33,
+              )),
+              34 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 34,
+              )),
+              35 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_bigint',
                  'isClassString' => false,
               )),
-              1 => 
+              36 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_bit',
                  'isClassString' => false,
               )),
-              2 => 
+              37 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_blob',
                  'isClassString' => false,
               )),
-              3 => 
+              38 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_boolean',
                  'isClassString' => false,
               )),
-              4 => 
+              39 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_char5',
                  'isClassString' => false,
               )),
-              5 => 
+              40 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_date',
                  'isClassString' => false,
               )),
-              6 => 
+              41 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_datetime',
                  'isClassString' => false,
               )),
-              7 => 
+              42 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_double',
                  'isClassString' => false,
               )),
-              8 => 
+              43 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_enum',
                  'isClassString' => false,
               )),
-              9 => 
+              44 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_int',
                  'isClassString' => false,
               )),
-              10 => 
+              45 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_long_text',
                  'isClassString' => false,
               )),
-              11 => 
+              46 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_longblob',
                  'isClassString' => false,
               )),
-              12 => 
+              47 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_medium_text',
                  'isClassString' => false,
               )),
-              13 => 
+              48 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_mediumblog',
                  'isClassString' => false,
               )),
-              14 => 
+              49 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_mediumint',
                  'isClassString' => false,
               )),
-              15 => 
+              50 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_real',
                  'isClassString' => false,
               )),
-              16 => 
+              51 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_set',
                  'isClassString' => false,
               )),
-              17 => 
+              52 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_smallint',
                  'isClassString' => false,
               )),
-              18 => 
+              53 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_text',
                  'isClassString' => false,
               )),
-              19 => 
+              54 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_time',
                  'isClassString' => false,
               )),
-              20 => 
+              55 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_timestamp',
                  'isClassString' => false,
               )),
-              21 => 
+              56 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_tiny_text',
                  'isClassString' => false,
               )),
-              22 => 
+              57 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_tinyblob',
                  'isClassString' => false,
               )),
-              23 => 
+              58 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_tinyint',
                  'isClassString' => false,
               )),
-              24 => 
+              59 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_unsigned_bigint',
                  'isClassString' => false,
               )),
-              25 => 
+              60 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_unsigned_int',
                  'isClassString' => false,
               )),
-              26 => 
+              61 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_unsigned_mediumint',
                  'isClassString' => false,
               )),
-              27 => 
+              62 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_unsigned_smallint',
                  'isClassString' => false,
               )),
-              28 => 
+              63 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_unsigned_tinyint',
                  'isClassString' => false,
               )),
-              29 => 
+              64 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_varbinary25',
                  'isClassString' => false,
               )),
-              30 => 
+              65 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_varbinary255',
                  'isClassString' => false,
               )),
-              31 => 
+              66 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_varchar25',
                  'isClassString' => false,
               )),
-              32 => 
+              67 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_varchar255',
                  'isClassString' => false,
               )),
-              33 => 
+              68 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'c_year',
                  'isClassString' => false,
               )),
-              34 => 
+              69 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'pid',
                  'isClassString' => false,
@@ -674,17 +1179,13 @@
          'message' => 'Table \'phpstan_dba.unknownTable\' doesn\'t exist',
          'code' => 1146,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -695,19 +1196,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'MIN(adaid)',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'COUNT(adaid)',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'AVG(adaid)',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -741,9 +1258,52 @@
               ),
             )),
             2 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -2147483648,
+                   'max' => 2147483647,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
             )),
             3 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -2147483648,
+                   'max' => 2147483647,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            4 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            5 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            6 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\FloatType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            7 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -756,7 +1316,7 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -765,21 +1325,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'AVG(adaid)',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'COUNT(adaid)',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'MAX(adaid)',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'MIN(adaid)',
                  'isClassString' => false,
@@ -809,7 +1385,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -820,14 +1396,26 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
+            )),
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
             )),
           ),
            'valueTypes' => 
@@ -836,6 +1424,9 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -849,7 +1440,35 @@
                 )),
               ),
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => 0,
+                   'max' => 4294967295,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            4 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            5 => 
             PHPStan\Type\UnionType::__set_state(array(
                'types' => 
               array (
@@ -864,7 +1483,7 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 3,
            'optionalKeys' => 
           array (
           ),
@@ -873,16 +1492,28 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -914,7 +1545,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -924,6 +1555,10 @@
                'value' => 'adaid',
                'isClassString' => false,
             )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
           ),
            'valueTypes' => 
           array (
@@ -932,15 +1567,30 @@
                'min' => 0,
                'max' => 4294967295,
             )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -955,7 +1605,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -965,6 +1615,10 @@
                'value' => 'adaid',
                'isClassString' => false,
             )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
           ),
            'valueTypes' => 
           array (
@@ -973,15 +1627,30 @@
                'min' => 0,
                'max' => 4294967295,
             )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -996,7 +1665,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1006,6 +1675,10 @@
                'value' => 'adaid',
                'isClassString' => false,
             )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
           ),
            'valueTypes' => 
           array (
@@ -1014,15 +1687,30 @@
                'min' => 0,
                'max' => 4294967295,
             )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1366,40 +2054,6 @@
              'max' => 4294967295,
           )),
         )),
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
-          )),
-           'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
-          )),
-        )),
       ),
     ),
     'SELECT adaid FROM ada WHERE email LIKE "hello?%"' => 
@@ -1453,40 +2107,6 @@
                  'isClassString' => false,
               )),
             ),
-          )),
-           'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
-          )),
-        )),
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1554,40 +2174,6 @@
              'max' => 4294967295,
           )),
         )),
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
-          )),
-           'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
-          )),
-        )),
       ),
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
@@ -1641,40 +2227,6 @@
                  'isClassString' => false,
               )),
             ),
-          )),
-           'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
-          )),
-        )),
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'adaid',
-             'isClassString' => false,
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1761,7 +2313,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1771,6 +2323,10 @@
                'value' => 'akid',
                'isClassString' => false,
             )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
           ),
            'valueTypes' => 
           array (
@@ -1779,15 +2335,30 @@
                'min' => -2147483648,
                'max' => 2147483647,
             )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'akid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'akid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1802,7 +2373,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1812,6 +2383,10 @@
                'value' => 'akid',
                'isClassString' => false,
             )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
           ),
            'valueTypes' => 
           array (
@@ -1820,15 +2395,30 @@
                'min' => -2147483648,
                'max' => 2147483647,
             )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'akid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'akid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1953,17 +2543,13 @@
          'message' => 'Unknown column \'doesNotExist\' in \'field list\'',
          'code' => 1054,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT eladaid FROM ak' => 
     array (
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -1972,6 +2558,10 @@
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'eladaid',
                'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
             )),
           ),
            'valueTypes' => 
@@ -1990,15 +2580,39 @@
                 )),
               ),
             )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -2147483648,
+                   'max' => 2147483647,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
            'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'value' => 'eladaid',
-             'isClassString' => false,
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'eladaid',
+                 'isClassString' => false,
+              )),
+            ),
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
@@ -2092,9 +2706,9 @@
       )),
       'result' => 
       array (
-        3 => NULL,
         5 => NULL,
         4 => NULL,
+        3 => NULL,
       ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
@@ -2200,126 +2814,6 @@
             ),
           )),
         )),
-        4 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 2,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-        )),
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'allArrays' => NULL,
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-          ),
-           'nextAutoIndex' => 0,
-           'optionalKeys' => 
-          array (
-          ),
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-              )),
-            ),
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-            ),
-          )),
-        )),
       ),
     ),
     'SELECT email, adaid FROM ada GROUP BY xy LIMIT 1' => 
@@ -2329,10 +2823,6 @@
          'message' => 'Unknown column \'xy\' in \'group statement\'',
          'code' => 1054,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
@@ -3081,10 +3571,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
@@ -3416,7 +3902,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3427,19 +3913,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -3448,22 +3950,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -3472,21 +3992,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -3515,7 +4051,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3526,19 +4062,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -3547,22 +4099,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -3571,21 +4141,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -3614,7 +4200,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3625,19 +4211,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -3646,22 +4248,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -3670,21 +4290,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -3862,7 +4498,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3873,19 +4509,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -3894,22 +4546,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -3918,21 +4588,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -3973,7 +4659,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -3984,19 +4670,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -4005,22 +4707,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4029,21 +4749,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -4072,7 +4808,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4083,19 +4819,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -4104,22 +4856,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4128,21 +4898,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -4332,7 +5118,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4343,19 +5129,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -4364,22 +5166,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4388,21 +5208,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -4431,7 +5267,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4442,19 +5278,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -4463,22 +5315,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4487,21 +5357,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
@@ -4530,7 +5416,7 @@
       'error' => NULL,
       'result' => 
       array (
-        3 => 
+        5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
            'keyTypes' => 
@@ -4541,19 +5427,35 @@
                'isClassString' => false,
             )),
             1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+            6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'freigabe1u1',
                'isClassString' => false,
+            )),
+            7 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 3,
             )),
           ),
            'valueTypes' => 
@@ -4562,22 +5464,40 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
                'max' => 4294967295,
             )),
-            2 => 
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 4294967295,
+            )),
+            4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
-            3 => 
+            5 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            6 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
+            )),
+            7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 0,
+           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4586,21 +5506,37 @@
              'types' => 
             array (
               0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 3,
+              )),
+              4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
-              1 => 
+              5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
               )),
-              2 => 
+              6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
-              3 => 
+              7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
