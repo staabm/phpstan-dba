@@ -77,11 +77,14 @@ jobs:
         include:
           - php-version: "8.1"
             reflector: "pdo"
+            mode: "replay"
           - php-version: "8.1"
             reflector: "mysqli"
+            mode: "replay"
 
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
+       DBA_MODE: ${{ matrix.mode }}
 
     steps:
     - uses: actions/checkout@v2
