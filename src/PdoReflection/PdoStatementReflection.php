@@ -116,7 +116,7 @@ final class PdoStatementReflection
             return $builder->getArray();
         }
 
-        // not yet supported fetch type
+        // not yet supported fetch type - or $fetchType == BOTH
         return $bothType;
     }
 }
