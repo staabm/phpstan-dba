@@ -4656,7 +4656,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid IN(1,3)' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 

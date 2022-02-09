@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -13,10 +12,9 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
-use PHPStan\Type\Type;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
@@ -48,6 +46,8 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {
+                var_dump($reducedType->describe(VerbosityLevel::precise()));
+
                 return $this->typeSpecifier->create($methodCall->var, $reducedType, TypeSpecifierContext::createTruthy(), true);
             }
         }
@@ -67,7 +67,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
 
         $fetchModeType = $scope->getType($args[0]->value);
         $fetchType = $pdoStatementReflection->getFetchType($fetchModeType);
-        if ($fetchType === null) {
+        if (null === $fetchType) {
             return null;
         }
 
