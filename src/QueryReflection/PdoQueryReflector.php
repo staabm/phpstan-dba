@@ -128,6 +128,7 @@ final class PdoQueryReflector implements QueryReflector
         $columnCount = $result->columnCount();
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
+            // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
             $columnMeta = $result->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
@@ -141,6 +142,12 @@ final class PdoQueryReflector implements QueryReflector
                 || !array_key_exists('len', $columnMeta)
             ) {
                 throw new ShouldNotHappenException();
+            }
+            var_dump($columnMeta);
+
+            // add flags MysqlTypeMapper expects for numerics
+            if (in_array($columnMeta['native_type'], ['INTEGER'], true)) {
+                $columnMeta['flags'][] = 'NUM';
             }
 
             // @phpstan-ignore-next-line
