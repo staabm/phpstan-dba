@@ -49,7 +49,7 @@ final class MysqliTypeMapper implements TypeMapper
         }
     }
 
-    public function mapToPHPStanType(int|string $mysqlType, int|array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
     {
         $numeric = false;
         $notNull = false;
