@@ -18,10 +18,19 @@ jobs:
         include:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
+            reflector: "pdo"
+          - php-version: "8.0"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
           - php-version: "8.1"
             db-image: 'mysql:8.0'
+            reflector: "mysqli"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
+            reflector: "mysqli"
+
+    env:
+      DBA_REFLECTOR: ${{ matrix.reflector }}
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
