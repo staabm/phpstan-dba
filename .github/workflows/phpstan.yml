@@ -29,6 +29,9 @@ jobs:
             db-image: 'mariadb:latest'
             reflector: "mysqli"
 
+    env:
+       DBA_REFLECTOR: ${{ matrix.reflector }}
+
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
       mysql:
@@ -75,6 +78,9 @@ jobs:
             reflector: "mysqli"
           - php-version: "8.1"
             reflector: "pdo"
+
+    env:
+       DBA_REFLECTOR: ${{ matrix.reflector }}
 
     steps:
       - uses: actions/checkout@v2
