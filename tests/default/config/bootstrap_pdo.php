@@ -20,18 +20,17 @@ $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 // $config->debugMode(true);
 
-if (false !== getenv('GITHUB_ACTION')) {
+if (getenv("DBA_REFLECTOR") === "pdo") {
+    $pdo = new PDO('mysql:dbname=phpstan_dba;host=127.0.0.1', 'root', 'root');
+    $reflector = new PDOQueryReflector($pdo);
+} elseif (false !== getenv('GITHUB_ACTION')) {
     $mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
+    $reflector = new MysqliQueryReflector($mysqli);
 } else {
     $mysqli = new mysqli('localhost', 'root', 'test22', 'phpstan_dba');
-    $pdo = new PDO(
-        'mysql:dbname=phpstan_dba;host=localhost',
-        'root',
-        'test22'
-    );
+    $reflector = new MysqliQueryReflector($mysqli);
 }
 
-$reflector = new PDOQueryReflector($pdo);
 $reflector = new RecordingQueryReflector(
     ReflectionCache::create(
         $cacheFile
