@@ -5,7 +5,7 @@ namespace DefaultFetchModeTest;
 use PDO;
 use function PHPStan\Testing\assertType;
 
-// default fetch-type is globally changed to assoc for this test-suite
+// default fetch-type is globally changed to ASSOC for this test-suite
 class Foo
 {
     public function assocModeQuery(PDO $pdo)
