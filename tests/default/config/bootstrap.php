@@ -1,7 +1,5 @@
 <?php
 
-use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
-use staabm\PHPStanDba\QueryReflection\PDOQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\Tests\ReflectorFactory;
