@@ -12,6 +12,7 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\TypeMapping\PostgresTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 final class PDOQueryReflector implements QueryReflector
@@ -33,8 +34,13 @@ final class PDOQueryReflector implements QueryReflector
      */
     private array $cache = [];
 
-    public function __construct(private PDO $pdo, private TypeMapper $typeMapper)
+    private TypeMapper $typeMapper;
+
+    public function __construct(private PDO $pdo)
     {
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $this->typeMapper = new PostgresTypeMapper();
     }
 
     public function validateQueryString(string $queryString): ?Error
