@@ -52,9 +52,10 @@ final class MysqlTypeMapper
         }
 
         $integer = match (strtoupper($mysqlType)) {
-            'LONGLONG',
-            'LONG',
+            'TINY',
             'SHORT',
+            'LONG',
+            'LONGLONG',
             'YEAR',
             'BIT',
             'INT24' => true,
@@ -93,12 +94,6 @@ final class MysqlTypeMapper
         if (null === $phpstanType) {
             $phpstanType = match (strtoupper($mysqlType)) {
                 'DOUBLE', 'NEWDECIMAL' => new FloatType(),
-                'LONGLONG',
-                'LONG',
-                'SHORT',
-                'YEAR',
-                'BIT',
-                'INT24' => new IntegerType(),
                 'BLOB',
                 'CHAR',
                 'STRING',
