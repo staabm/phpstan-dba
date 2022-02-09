@@ -145,11 +145,6 @@ final class PdoQueryReflector implements QueryReflector
             }
             var_dump($columnMeta);
 
-            // add flags MysqlTypeMapper expects for numerics
-            if (in_array($columnMeta['native_type'], ['INTEGER'], true)) {
-                $columnMeta['flags'][] = 'NUM';
-            }
-
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
             ++$columnIndex;
