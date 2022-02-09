@@ -21,7 +21,7 @@ final class MysqlTypeMapper
     /**
      * @param list<string> $mysqlFlags
      */
-    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(?string $mysqlType, array $mysqlFlags, int $length): Type
     {
         $numeric = false;
         $notNull = false;
