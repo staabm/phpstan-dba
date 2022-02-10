@@ -189,7 +189,7 @@ final class PdoQueryReflector implements QueryReflector
             }
         }
 
-        return false;
+        return array_key_exists($columnName, $this->autoIncrementColumns[$tableName]);
     }
 
     private function isNumericCol(string $mysqlType):bool {
