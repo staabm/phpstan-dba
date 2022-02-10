@@ -42,6 +42,16 @@ class Foo
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
     }
 
+    public function executeWithBindCalls(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE email = :test1 AND email = :test2');
+        $test = 1337;
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':test1', $test);
+        $stmt->bindValue(':test2', 1001);
+        $stmt->execute();
+    }
+
     public function errors(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
@@ -57,6 +67,17 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
         assertType('PDOStatement', $stmt);
         $stmt->execute(); // missing parameter
+        assertType('PDOStatement', $stmt);
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        assertType('PDOStatement', $stmt);
+        $stmt->bindValue(':wrongParamName', 1);
+        assertType('PDOStatement', $stmt);
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        assertType('PDOStatement', $stmt);
+        $stmt->bindValue(':wrongParamValue', 'hello world');
+        $stmt->execute();
         assertType('PDOStatement', $stmt);
     }
 }
