@@ -39,6 +39,7 @@ final class PdoQueryReflector implements QueryReflector
 
     private MysqlTypeMapper $typeMapper;
 
+    // @phpstan-ignore-next-line
     private ?PDOStatement $stmt = null;
     /**
      * @var array<string, array<string, bool>>
