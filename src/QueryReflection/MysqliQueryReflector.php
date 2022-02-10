@@ -23,12 +23,18 @@ final class MysqliQueryReflector implements QueryReflector
 
     public const MYSQL_HOST_NOT_FOUND = 2002;
 
-    private const MAX_CACHE_SIZE = 50;
+    private const MYSQL_ERROR_CODES = [
+        self::MYSQL_SYNTAX_ERROR_CODE,
+        self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
+        self::MYSQL_UNKNOWN_TABLE
+    ];
 
-    private mysqli $db;
+    private const MAX_CACHE_SIZE = 50;
 
     /** @var array<string, mysqli_sql_exception|list<object>|null> */
     private array $cache = [];
+
+    private mysqli $db;
 
     private MysqliTypeMapper $typeMapper;
 
@@ -51,7 +57,7 @@ final class MysqliQueryReflector implements QueryReflector
         }
         $e = $result;
 
-        if (\in_array($e->getCode(), [self::MYSQL_SYNTAX_ERROR_CODE, self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST, self::MYSQL_UNKNOWN_TABLE], true)) {
+        if (\in_array($e->getCode(), self::MYSQL_ERROR_CODES, true)) {
             $message = $e->getMessage();
 
             // make error string consistent across mysql/mariadb

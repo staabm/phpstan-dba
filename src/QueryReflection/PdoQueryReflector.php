@@ -62,6 +62,7 @@ final class PdoQueryReflector implements QueryReflector
         }
 
         $e = $result;
+        var_dump($e->getCode());
         if (\in_array($e->getCode(), self::PDO_ERROR_CODES, true)) {
             $message = $e->getMessage();
 
