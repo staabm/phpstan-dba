@@ -24,10 +24,22 @@ final class PdoQueryReflector implements QueryReflector
     private const PSQL_UNDEFINED_COLUMN = '42703';
     private const PSQL_UNDEFINED_TABLE = '42P01';
 
+    private const MYSQL_SYNTAX_ERROR_CODE = '42000';
+    private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = '42S22';
+    private const MYSQL_UNKNOWN_TABLE = '42S02';
+
+    private const PDO_SYNTAX_ERROR_CODES = [
+        self::MYSQL_SYNTAX_ERROR_CODE,
+        self::PSQL_INVALID_TEXT_REPRESENTATION
+    ];
+
     private const PDO_ERROR_CODES = [
         self::PSQL_INVALID_TEXT_REPRESENTATION,
         self::PSQL_UNDEFINED_COLUMN,
         self::PSQL_UNDEFINED_TABLE,
+        self::MYSQL_SYNTAX_ERROR_CODE,
+        self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
+        self::MYSQL_UNKNOWN_TABLE
     ];
 
     private const MAX_CACHE_SIZE = 50;
@@ -62,12 +74,15 @@ final class PdoQueryReflector implements QueryReflector
         }
 
         $e = $result;
-        var_dump($e->getCode());
         if (\in_array($e->getCode(), self::PDO_ERROR_CODES, true)) {
             $message = $e->getMessage();
 
+            // make error string consistent across mysql/mariadb
+            $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
+            $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
+
             if (
-                self::PSQL_INVALID_TEXT_REPRESENTATION === $e->getCode()
+                in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
             ) {
                 $simulatedQuery = QuerySimulation::simulate($queryString);
