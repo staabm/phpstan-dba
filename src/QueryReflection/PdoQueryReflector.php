@@ -180,7 +180,7 @@ final class PdoQueryReflector implements QueryReflector
 
         $this->autoIncrementColumns[$tableName] = [];
         foreach($result as $row) {
-            $extra = $row['EXTRA'];
+            $extra = $row['EXTRA'] ?? '';
             if (str_contains($extra, 'auto_increment')) {
                 $this->autoIncrementColumns[$tableName][$columnName] = true;
                 return true;
