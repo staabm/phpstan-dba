@@ -172,7 +172,7 @@ final class PdoQueryReflector implements QueryReflector
 
         if ($this->stmt === null) {
             $this->stmt = $this->pdo->prepare(
-                'SELECT extra FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
+                'SELECT EXTRA FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
             );
         }
         $this->stmt->execute([$tableName]);
@@ -180,7 +180,7 @@ final class PdoQueryReflector implements QueryReflector
 
         $this->autoIncrementColumns[$tableName] = [];
         foreach($result as $row) {
-            $extra = $row['extra'];
+            $extra = $row['EXTRA'];
             if (str_contains($extra, 'auto_increment')) {
                 $this->autoIncrementColumns[$tableName][$columnName] = true;
                 return true;
