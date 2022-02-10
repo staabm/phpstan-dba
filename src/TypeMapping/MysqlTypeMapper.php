@@ -91,6 +91,7 @@ final class MysqlTypeMapper
                 'LONGLONG',
                 'LONG',
                 'SHORT',
+                'TINY',
                 'YEAR',
                 'BIT',
                 'INT24' => new IntegerType(),
