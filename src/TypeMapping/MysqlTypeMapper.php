@@ -19,13 +19,13 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 final class MysqlTypeMapper
 {
     const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
+    const FLAG_NUMERIC = 'NUM';
+
     /**
      * @param list<string> $mysqlFlags
      */
-    public function mapToPHPStanType(?string $mysqlType, array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
     {
-        $mysqlType = $mysqlType ?? '';
-
         $numeric = false;
         $notNull = false;
         $unsigned = false;
@@ -33,7 +33,7 @@ final class MysqlTypeMapper
 
         foreach ($mysqlFlags as $flag) {
             switch (strtoupper($flag)) {
-                case 'NUM':
+                case self::FLAG_NUMERIC:
                     $numeric = true;
                     break;
 
@@ -55,20 +55,6 @@ final class MysqlTypeMapper
                 case 'MULTIPLE_KEY':
                 case 'NO_DEFAULT_VALUE':
             }
-        }
-
-        // PDO does not pass a NUM flag
-        if (!$numeric) {
-            $numeric = match (strtoupper($mysqlType)) {
-                'LONGLONG',
-                'LONG',
-                'SHORT',
-                'TINY',
-                'YEAR',
-                'BIT',
-                'INT24' => true,
-                default => false,
-            };
         }
 
         $phpstanType = null;

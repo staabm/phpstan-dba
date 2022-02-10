@@ -155,6 +155,9 @@ final class PdoQueryReflector implements QueryReflector
             if ($this->isAutoIncrementCol($columnMeta['table'], $columnMeta['name'])) {
                 $columnMeta['flags'][] = MysqlTypeMapper::FLAG_AUTO_INCREMENT;
             }
+            if ($this->isNumericCol($columnMeta['native_type'])) {
+                $columnMeta['flags'][] = MysqlTypeMapper::FLAG_NUMERIC;
+            }
 
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
@@ -183,10 +186,22 @@ final class PdoQueryReflector implements QueryReflector
             $extra = $row['EXTRA'] ?? '';
             if (str_contains($extra, 'auto_increment')) {
                 $this->autoIncrementColumns[$tableName][$columnName] = true;
-                return true;
             }
         }
 
         return false;
+    }
+
+    private function isNumericCol(string $mysqlType):bool {
+        return match (strtoupper($mysqlType)) {
+                'LONGLONG',
+                'LONG',
+                'SHORT',
+                'TINY',
+                'YEAR',
+                'BIT',
+                'INT24' => true,
+                default => false,
+    };
     }
 }
