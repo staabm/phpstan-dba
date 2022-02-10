@@ -56,6 +56,19 @@ final class MysqlTypeMapper
             }
         }
 
+        // PDO does not pass a NUM flag
+        if (!$numeric) {
+            $numeric = match (strtoupper($mysqlType)) {
+                'LONGLONG',
+                'LONG',
+                'SHORT',
+                'TINY',
+                'YEAR',
+                'BIT',
+                'INT24' => true,
+            };
+        }
+
         $phpstanType = null;
         $mysqlIntegerRanges = new MysqlIntegerRanges();
 
