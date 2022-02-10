@@ -66,6 +66,7 @@ final class MysqlTypeMapper
                 'YEAR',
                 'BIT',
                 'INT24' => true,
+                default => false,
             };
         }
 

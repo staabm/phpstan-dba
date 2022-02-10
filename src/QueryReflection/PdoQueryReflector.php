@@ -143,7 +143,6 @@ final class PdoQueryReflector implements QueryReflector
             ) {
                 throw new ShouldNotHappenException();
             }
-            var_dump($columnMeta);
 
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
