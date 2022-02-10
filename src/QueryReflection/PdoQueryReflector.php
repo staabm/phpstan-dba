@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -37,6 +38,12 @@ final class PdoQueryReflector implements QueryReflector
     private array $cache = [];
 
     private MysqlTypeMapper $typeMapper;
+
+    private ?PDOStatement $stmt;
+    /**
+     * @var array<string, array<string, bool>>
+     */
+    private array $autoIncrementColumns = array();
 
     public function __construct(private PDO $pdo)
     {
@@ -137,11 +144,16 @@ final class PdoQueryReflector implements QueryReflector
 
             if (
                 !array_key_exists('name', $columnMeta)
+                || !array_key_exists('table', $columnMeta)
                 || !array_key_exists('native_type', $columnMeta)
                 || !array_key_exists('flags', $columnMeta)
                 || !array_key_exists('len', $columnMeta)
             ) {
                 throw new ShouldNotHappenException();
+            }
+
+            if ($this->isAutoIncrementCol($columnMeta['table'], $columnMeta['name'])) {
+                $columnMeta['flags'][] = MysqlTypeMapper::FLAG_AUTO_INCREMENT;
             }
 
             // @phpstan-ignore-next-line
@@ -151,5 +163,30 @@ final class PdoQueryReflector implements QueryReflector
 
         // @phpstan-ignore-next-line
         return $this->cache[$queryString];
+    }
+
+    private function isAutoIncrementCol(string $tableName, string $columnName):bool {
+        if (array_key_exists($tableName, $this->autoIncrementColumns)) {
+            return array_key_exists($columnName, $this->autoIncrementColumns[$tableName]);
+        }
+
+        if ($this->stmt === null) {
+            $this->stmt = $this->pdo->prepare(
+                'SELECT extra FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
+            );
+        }
+        $this->stmt->execute([$tableName]);
+        $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->autoIncrementColumns[$tableName] = [];
+        foreach($result as $row) {
+            $extra = $row['extra'];
+            if (str_contains($extra, 'auto_increment')) {
+                $this->autoIncrementColumns[$tableName][$columnName] = true;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

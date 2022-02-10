@@ -18,6 +18,7 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper
 {
+    const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
     /**
      * @param list<string> $mysqlFlags
      */
@@ -40,7 +41,7 @@ final class MysqlTypeMapper
                     $notNull = true;
                     break;
 
-                case 'AUTO_INCREMENT':
+                case self::FLAG_AUTO_INCREMENT:
                     $autoIncrement = true;
                     break;
 
