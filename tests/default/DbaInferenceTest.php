@@ -51,6 +51,9 @@ class DbaInferenceTest extends TypeInferenceTestCase
         string $file,
                ...$args,
     ): void {
+        if (getenv("DBA_REFLECTOR") === "pdo") {
+            $this->markTestSkipped("PdoReflector does not support UNSIGNED, NUM flags");
+        }
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
 
