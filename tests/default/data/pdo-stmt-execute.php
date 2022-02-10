@@ -71,12 +71,12 @@ class Foo
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
         assertType('PDOStatement', $stmt);
-        $stmt->bindParam(':wrongParamName', 1);
+        $stmt->bindValue(':wrongParamName', 1);
         assertType('PDOStatement', $stmt);
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
         assertType('PDOStatement', $stmt);
-        $stmt->bindParam(':wrongParamValue', 'hello world');
+        $stmt->bindValue(':wrongParamValue', 'hello world');
         $stmt->execute();
         assertType('PDOStatement', $stmt);
     }

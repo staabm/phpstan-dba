@@ -35,7 +35,7 @@ class UnresolvablePdoStatementRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([__DIR__.'/data/unresolvable-pdo-statement.php'], [
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
-                13,
+                17,
                 UnresolvableQueryException::RULE_TIP,
             ],
         ]);
