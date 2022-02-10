@@ -12,6 +12,9 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
@@ -70,16 +73,33 @@ final class PdoStatementExecuteMethodRule implements Rule
 
         $args = $methodCall->getArgs();
         if (\count($args) < 1) {
-            $parameters = [];
+            $parameterKeys = [];
+            $parameterValues = [];
+
+            $calls = $stmtReflection->findPrepareBindCalls($methodCall);
+
+            foreach ($calls as $bindCall) {
+                $args = $bindCall->getArgs();
+                if (\count($args) >= 2) {
+                    $keyType = $scope->getType($args[0]->value);
+                    if ($keyType instanceof ConstantIntegerType || $keyType instanceof ConstantStringType) {
+                        $parameterKeys[] = $keyType;
+                        $parameterValues[] = $scope->getType($args[1]->value);
+                    }
+                }
+            }
+
+            $parameterTypes = new ConstantArrayType($parameterKeys, $parameterValues);
         } else {
             $parameterTypes = $scope->getType($args[0]->value);
-            try {
-                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
-            } catch (UnresolvableQueryException $exception) {
-                return [
-                    RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
-                ];
-            }
+        }
+
+        try {
+            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+            ];
         }
 
         try {

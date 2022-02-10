@@ -11,6 +11,10 @@ class Foo
         $query = 'SELECT email FROM ada WHERE gesperrt=:gesperrt';
         $stmt = $pdo->prepare($query);
         $stmt->execute([':gesperrt' => $mixed]);
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':gesperrt', $mixed);
+        $stmt->execute();
     }
 
     public function noErrorOnMixedQuery(PDO $pdo, $mixed)
@@ -38,5 +42,9 @@ class Foo
         $query = 'SELECT adaid FROM ada WHERE email=:email';
         $stmt = $pdo->prepare($query);
         $stmt->execute([':email' => '%|'.$string.'|%']);
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindValue(':email', '%|'.$string.'|%');
+        $stmt->execute();
     }
 }

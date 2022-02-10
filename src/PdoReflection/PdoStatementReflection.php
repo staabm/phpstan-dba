@@ -36,6 +36,16 @@ final class PdoStatementReflection
     }
 
     /**
+     * @return MethodCall[]
+     */
+    public function findPrepareBindCalls(MethodCall $methodCall): array
+    {
+        $exprFinder = new ExpressionFinder();
+
+        return $exprFinder->findBindCalls($methodCall);
+    }
+
+    /**
      * Turns a PDO::FETCH_* parameter-type into a QueryReflector::FETCH_TYPE* constant.
      *
      * @return QueryReflector::FETCH_TYPE*|null
