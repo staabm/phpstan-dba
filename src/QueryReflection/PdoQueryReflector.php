@@ -95,7 +95,7 @@ final class PdoQueryReflector implements QueryReflector
 
         return null;
     }
-    
+
     /**
      * @param self::FETCH_TYPE* $fetchType
      */

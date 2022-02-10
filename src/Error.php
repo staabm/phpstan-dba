@@ -5,6 +5,9 @@ namespace staabm\PHPStanDba;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 
+/**
+ * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<PDOQueryReflector::PDO_ERROR_CODES>
+ */
 final class Error
 {
     /**
@@ -13,12 +16,12 @@ final class Error
     private $message;
 
     /**
-     * @var MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*
+     * @var ErrorCodes
      */
     private $code;
 
     /**
-     * @param MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_* $code
+     * @param ErrorCodes $code
      */
     public function __construct(string $message, int|string $code)
     {
@@ -32,7 +35,7 @@ final class Error
     }
 
     /**
-     * @return MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*
+     * @return ErrorCodes
      */
     public function getCode(): int|string
     {
@@ -45,7 +48,7 @@ final class Error
     }
 
     /**
-     * @param array{message: string, code: MysqliQueryReflector::MYSQL_*|PDOQueryReflector::PSQL_*} $array
+     * @param array{message: string, code: ErrorCodes} $array
      */
     public static function __set_state(array $array)
     {
