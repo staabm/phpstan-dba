@@ -172,7 +172,7 @@ final class PdoQueryReflector implements QueryReflector
 
         if ($this->stmt === null) {
             $this->stmt = $this->pdo->prepare(
-                'SELECT EXTRA FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
+                'SELECT extra FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
             );
         }
         $this->stmt->execute([$tableName]);
