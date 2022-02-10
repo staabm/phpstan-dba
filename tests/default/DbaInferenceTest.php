@@ -8,6 +8,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
+        var_dump(getenv());
         if (getenv("DBA_REFLECTOR") === "pdo") {
             // PdoReflector does not support UNSIGNED, NUM flags
             return;
