@@ -53,4 +53,23 @@ class Foo
         $stmt = $pdo->prepare($query);
         $stmt->execute(['adaid' => 1]);
     }
+
+    public function errorsBind(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        $stmt->bindValue('wrongParamName', 1);
+        $stmt->execute();
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
+        $stmt->bindValue(':wrongParamName', 1);
+        $stmt->execute();
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email');
+        $stmt->bindValue(':adaid', 1);
+        $stmt->execute(); // wrong number of parameters
+
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email');
+        $stmt->bindValue(':email', 'email@example.org');
+        $stmt->execute(); // wrong number of parameters
+    }
 }

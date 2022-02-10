@@ -83,6 +83,30 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
                 'Value :adaid is given, but the query does not contain this placeholder.',
                 54,
             ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                61,
+            ],
+            [
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
+                61,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                65,
+            ],
+            [
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
+                65,
+            ],
+            [
+                'Query expects placeholder :email, but it is missing from values given.',
+                69,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                73,
+            ],
         ]);
     }
 }

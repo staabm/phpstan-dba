@@ -64,6 +64,39 @@ final class ExpressionFinder
     }
 
     /**
+     * @param MethodCall $expr
+     *
+     * @return MethodCall[]
+     */
+    public function findBindCalls(Expr $expr): array
+    {
+        $result = [];
+        $current = $expr;
+        while (null !== $current) {
+            /** @var Assign|MethodCall|null $call */
+            $call = $this->findFirstPreviousOfNode($current, function ($node) {
+                return $node instanceof MethodCall || $node instanceof Assign;
+            });
+
+            if (null !== $call && $this->resolveName($call->var) === $this->resolveName($expr->var)) {
+                if ($call instanceof Assign) { // found the prepare call
+                    return $result;
+                }
+
+                $name = $this->resolveName($call);
+
+                if (null !== $name && \in_array(strtolower($name), ['bindparam', 'bindvalue'], true)) {
+                    $result[] = $call;
+                }
+            }
+
+            $current = $call;
+        }
+
+        return $result;
+    }
+
+    /**
      * XXX use astral simpleNameResolver instead.
      *
      * @param Expr|Variable|MethodCall $node
