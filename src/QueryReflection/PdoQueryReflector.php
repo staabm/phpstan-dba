@@ -81,6 +81,7 @@ final class PdoQueryReflector implements QueryReflector
             $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
             $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
+            // to ease debugging, print the error we simulated
             if (
                 in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
@@ -94,7 +95,10 @@ final class PdoQueryReflector implements QueryReflector
 
         return null;
     }
-
+    
+    /**
+     * @param self::FETCH_TYPE* $fetchType
+     */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         $result = $this->simulateQuery($queryString);
