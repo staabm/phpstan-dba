@@ -12,7 +12,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use PHPStan\Reflection\ReflectionProvider;
 
 /**
  * @implements Rule<MethodCall>

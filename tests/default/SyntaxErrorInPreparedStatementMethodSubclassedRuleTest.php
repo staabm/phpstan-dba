@@ -4,11 +4,10 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
+ * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
 class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -33,7 +32,7 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends AbstractSer
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 3 (1064).",
                 20,
-            ]
+            ],
         ]);
     }
 }

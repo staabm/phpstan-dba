@@ -18,7 +18,6 @@ use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use PHPStan\Reflection\ReflectionProvider;
 
 /**
  * @implements Rule<CallLike>
