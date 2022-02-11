@@ -14,15 +14,15 @@ final class ReflectorFactory
     public static function create(string $cacheFile): QueryReflector
     {
         if (false !== getenv('GITHUB_ACTION')) {
-            $host = '127.0.0.1';
-            $user = 'root';
-            $password = 'root';
-            $dbname = 'phpstan_dba';
+            $host = getenv('DBA_HOST') ?: '127.0.0.1';
+            $user = getenv('DBA_USER') ?: 'root';
+            $password = getenv('DBA_PASSWORD') ?: 'root';
+            $dbname = getenv('DBA_DATABASE') ?: 'phpstan_dba';
         } else {
-            $host = 'mysql80.ab';
-            $user = 'testuser';
-            $password = 'test';
-            $dbname = 'phpstan_dba';
+            $host = getenv('DBA_HOST') ?: 'mysql80.ab';
+            $user = getenv('DBA_USER') ?: 'testuser';
+            $password = getenv('DBA_PASSWORD') ?: 'test';
+            $dbname = getenv('DBA_DATABASE') ?: 'phpstan_dba';
         }
 
         $mode = getenv('DBA_MODE') ?: 'recording';
