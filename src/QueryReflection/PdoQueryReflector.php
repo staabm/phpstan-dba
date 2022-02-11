@@ -230,9 +230,9 @@ final class PdoQueryReflector implements QueryReflector
     {
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
-                // EXTRA seems to be nullable in mariadb
+                // EXTRA,COLUMN_NAME seems to be nullable in mariadb
                 'SELECT
-                        COLUMN_NAME,
+                        coalesce(COLUMN_NAME, "") as COLUMN_NAME
                         coalesce(EXTRA, "") as EXTRA,
                         COLUMN_TYPE
                       FROM information_schema.columns
