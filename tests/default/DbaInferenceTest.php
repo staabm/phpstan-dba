@@ -8,7 +8,6 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-
         yield from $this->gatherAssertTypes(__DIR__.'/data/doctrine-dbal.php');
 
         // make sure class constants can be resolved
@@ -42,7 +41,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__.'/data/runMysqlQuery.php');
 
         // XXX cases which are not yet supported by the PdoQueryReflector
-        if (getenv("DBA_REFLECTOR") !== "pdo") {
+        if ('pdo' !== getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__.'/data/query-alias.php');
         }
     }

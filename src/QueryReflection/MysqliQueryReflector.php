@@ -26,7 +26,7 @@ final class MysqliQueryReflector implements QueryReflector
     private const MYSQL_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
-        self::MYSQL_UNKNOWN_TABLE
+        self::MYSQL_UNKNOWN_TABLE,
     ];
 
     private const MAX_CACHE_SIZE = 50;

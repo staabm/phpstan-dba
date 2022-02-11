@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -18,9 +19,9 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper
 {
-    const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
-    const FLAG_NUMERIC = 'NUM';
-    const FLAG_UNSIGNED = 'UNSIGNED';
+    public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
+    public const FLAG_NUMERIC = 'NUM';
+    public const FLAG_UNSIGNED = 'UNSIGNED';
 
     /**
      * @param list<string> $mysqlFlags
@@ -87,14 +88,23 @@ final class MysqlTypeMapper
             $phpstanType = $mysqlIntegerRanges->unsignedInt();
         }
 
+        // mysqli/pdo support different integer-length for year, hardcode its type for cross driver consistency
+        if ('YEAR' === strtoupper($mysqlType)) {
+            // see https://dev.mysql.com/doc/refman/8.0/en/year.html
+            $phpstanType = IntegerRangeType::fromInterval(0, 2155);
+        }
+        // floats are detected as numerics in mysqli
+        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'NEWDECIMAL', 'REAL'], true)) {
+            $phpstanType = new FloatType();
+        }
+
+        // fallbacks
         if (null === $phpstanType) {
             $phpstanType = match (strtoupper($mysqlType)) {
-                'DOUBLE', 'NEWDECIMAL' => new FloatType(),
                 'LONGLONG',
                 'LONG',
                 'SHORT',
                 'TINY',
-                'YEAR',
                 'BIT',
                 'INT24' => new IntegerType(),
                 'BLOB',

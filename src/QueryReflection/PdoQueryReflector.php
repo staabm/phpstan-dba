@@ -31,7 +31,7 @@ final class PdoQueryReflector implements QueryReflector
 
     private const PDO_SYNTAX_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
-        self::PSQL_INVALID_TEXT_REPRESENTATION
+        self::PSQL_INVALID_TEXT_REPRESENTATION,
     ];
 
     private const PDO_ERROR_CODES = [
@@ -40,7 +40,7 @@ final class PdoQueryReflector implements QueryReflector
         self::PSQL_UNDEFINED_TABLE,
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
-        self::MYSQL_UNKNOWN_TABLE
+        self::MYSQL_UNKNOWN_TABLE,
     ];
 
     private const MAX_CACHE_SIZE = 50;
@@ -57,7 +57,7 @@ final class PdoQueryReflector implements QueryReflector
     /**
      * @var array<string, array<string, list<string>>>
      */
-    private array $emulatedFlags = array();
+    private array $emulatedFlags = [];
 
     public function __construct(private PDO $pdo)
     {
@@ -83,11 +83,11 @@ final class PdoQueryReflector implements QueryReflector
             $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
             // make error string consistent across pdo/mysqli driver
-            $message = str_replace('SQLSTATE['. $e->getCode() .']: ', '', $message);
+            $message = str_replace('SQLSTATE['.$e->getCode().']: ', '', $message);
 
             // to ease debugging, print the error we simulated
             if (
-                in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
+                \in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
             ) {
                 $simulatedQuery = QuerySimulation::simulate($queryString);
@@ -168,17 +168,17 @@ final class PdoQueryReflector implements QueryReflector
             }
 
             if (
-                !array_key_exists('name', $columnMeta)
-                || !array_key_exists('table', $columnMeta)
-                || !array_key_exists('native_type', $columnMeta)
-                || !array_key_exists('flags', $columnMeta)
-                || !array_key_exists('len', $columnMeta)
+                !\array_key_exists('name', $columnMeta)
+                || !\array_key_exists('table', $columnMeta)
+                || !\array_key_exists('native_type', $columnMeta)
+                || !\array_key_exists('flags', $columnMeta)
+                || !\array_key_exists('len', $columnMeta)
             ) {
                 throw new ShouldNotHappenException();
             }
 
             $flags = $this->emulateMysqlFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
-            foreach($flags as $flag) {
+            foreach ($flags as $flag) {
                 $columnMeta['flags'][] = $flag;
             }
 
@@ -194,10 +194,11 @@ final class PdoQueryReflector implements QueryReflector
     /**
      * @return list<string>
      */
-    private function emulateMysqlFlags(string $mysqlType, string $tableName, string $columnName):array {
-        if (array_key_exists($tableName, $this->emulatedFlags)) {
+    private function emulateMysqlFlags(string $mysqlType, string $tableName, string $columnName): array
+    {
+        if (\array_key_exists($tableName, $this->emulatedFlags)) {
             $emulatedFlags = [];
-            if (array_key_exists($columnName, $this->emulatedFlags[$tableName])) {
+            if (\array_key_exists($columnName, $this->emulatedFlags[$tableName])) {
                 $emulatedFlags = $this->emulatedFlags[$tableName][$columnName];
             }
 
@@ -212,23 +213,22 @@ final class PdoQueryReflector implements QueryReflector
 
         // determine flags of all columns of the given table once
         $schemaFlags = $this->checkInformationSchema($tableName);
-        foreach($schemaFlags as $schemaColumnName => $flag) {
-            if (!array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
+        foreach ($schemaFlags as $schemaColumnName => $flag) {
+            if (!\array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
                 $this->emulatedFlags[$tableName][$schemaColumnName] = [];
             }
             $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
         }
 
         return $this->emulateMysqlFlags($mysqlType, $tableName, $columnName);
-
     }
 
     /**
      * @return Iterator<string, MysqlTypeMapper::FLAG_*>
      */
-    private function checkInformationSchema(string $tableName): Iterator {
-
-        if ($this->stmt === null) {
+    private function checkInformationSchema(string $tableName): Iterator
+    {
+        if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
                 // EXTRA seems to be nullable in mariadb
                 'SELECT
@@ -242,7 +242,7 @@ final class PdoQueryReflector implements QueryReflector
         $this->stmt->execute([$tableName]);
         $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $extra = $row['EXTRA'];
             $columnType = $row['COLUMN_TYPE'];
             $columnName = $row['COLUMN_NAME'];
@@ -256,9 +256,10 @@ final class PdoQueryReflector implements QueryReflector
         }
     }
 
-    private function isNumericCol(string $mysqlType):bool {
+    private function isNumericCol(string $mysqlType): bool
+    {
         return match (strtoupper($mysqlType)) {
-                'LONGLONG',
+            'LONGLONG',
                 'LONG',
                 'SHORT',
                 'TINY',
@@ -266,6 +267,6 @@ final class PdoQueryReflector implements QueryReflector
                 'BIT',
                 'INT24' => true,
                 default => false,
-    };
+        };
     }
 }

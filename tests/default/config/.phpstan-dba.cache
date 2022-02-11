@@ -533,7 +533,7 @@
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
                    'min' => 0,
-                   'max' => 255,
+                   'max' => 2155,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -547,7 +547,7 @@
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
                    'min' => 0,
-                   'max' => 255,
+                   'max' => 2155,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -733,16 +733,16 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
             46 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\FloatType::__set_state(array(
             )),
             47 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\FloatType::__set_state(array(
             )),
             48 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\FloatType::__set_state(array(
             )),
             49 => 
-            PHPStan\Type\IntegerType::__set_state(array(
+            PHPStan\Type\FloatType::__set_state(array(
             )),
             50 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1159,12 +1159,15 @@
              'types' => 
             array (
               0 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\FloatType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               2 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              3 => 
               PHPStan\Type\NullType::__set_state(array(
               )),
             ),
@@ -3551,6 +3554,14 @@
       array (
         5 => NULL,
       ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = :test1 AND email = :test2' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':test1 AND email = :test2 LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
     array (
