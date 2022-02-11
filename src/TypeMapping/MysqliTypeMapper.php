@@ -5,25 +5,17 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Accessory\AccessoryNumericStringType;
-use PHPStan\Type\FloatType;
-use PHPStan\Type\IntegerType;
-use PHPStan\Type\IntersectionType;
-use PHPStan\Type\MixedType;
-use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
-final class MysqliTypeMapper implements TypeMapper
+final class MysqliTypeMapper
 {
     /** @var array<int, string> */
     private array $nativeTypes = [];
 
     /** @var array<int, string> */
     private array $nativeFlags = [];
+
+    private MysqlTypeMapper $typeMapper;
 
     public function __construct()
     {
@@ -47,109 +39,13 @@ final class MysqliTypeMapper implements TypeMapper
                 }
             }
         }
+
+        $this->typeMapper = new MysqlTypeMapper();
     }
 
     public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
     {
-        $numeric = false;
-        $notNull = false;
-        $unsigned = false;
-        $autoIncrement = false;
-
-        foreach ($this->flags2txt($mysqlFlags) as $flag) {
-            switch ($flag) {
-                case 'NUM':
-                    $numeric = true;
-                    break;
-
-                case 'NOT_NULL':
-                    $notNull = true;
-                    break;
-
-                case 'AUTO_INCREMENT':
-                    $autoIncrement = true;
-                    break;
-
-                case 'UNSIGNED':
-                    $unsigned = true;
-                    break;
-
-                // ???
-                case 'PRI_KEY':
-                case 'PART_KEY':
-                case 'MULTIPLE_KEY':
-                case 'NO_DEFAULT_VALUE':
-            }
-        }
-
-        $phpstanType = null;
-        $mysqlIntegerRanges = new MysqlIntegerRanges();
-
-        if ($numeric) {
-            if ($unsigned) {
-                $phpstanType = match ($length) {
-                    3,4 => $mysqlIntegerRanges->unsignedTinyInt(),
-                    5 => $mysqlIntegerRanges->unsignedSmallInt(),
-                    8 => $mysqlIntegerRanges->unsignedMediumInt(),
-                    10 => $mysqlIntegerRanges->unsignedInt(),
-                    20 => $mysqlIntegerRanges->unsignedBigInt(),
-                    default => null,
-                };
-            } else {
-                $phpstanType = match ($length) {
-                    1, 4 => $mysqlIntegerRanges->signedTinyInt(),
-                    6 => $mysqlIntegerRanges->signedSmallInt(),
-                    9 => $mysqlIntegerRanges->signedMediumInt(),
-                    11 => $mysqlIntegerRanges->signedInt(),
-                    20, 22 => $mysqlIntegerRanges->signedBigInt(),
-                    default => null,
-                };
-            }
-        }
-
-        if ($autoIncrement) {
-            $phpstanType = $mysqlIntegerRanges->unsignedInt();
-        }
-
-        if (null === $phpstanType) {
-            $phpstanType = match ($this->type2txt($mysqlType)) {
-                'DOUBLE', 'NEWDECIMAL' => new FloatType(),
-                'LONGLONG',
-                'LONG',
-                'SHORT',
-                'YEAR',
-                'BIT',
-                'INT24' => new IntegerType(),
-                'BLOB',
-                'CHAR',
-                'STRING',
-                'VAR_STRING',
-                'JSON',
-                'DATE',
-                'TIME',
-                'DATETIME',
-                'TIMESTAMP' => new StringType(),
-                default => new MixedType(),
-            };
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
-            $numberType = new UnionType([new IntegerType(), new FloatType()]);
-            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
-
-            if ($isNumber) {
-                $phpstanType = new IntersectionType([
-                    new StringType(),
-                    new AccessoryNumericStringType(),
-                ]);
-            }
-        }
-
-        if (false === $notNull) {
-            $phpstanType = TypeCombinator::addNull($phpstanType);
-        }
-
-        return $phpstanType;
+        return $this->typeMapper->mapToPHPStanType($this->type2txt($mysqlType), $this->flags2txt($mysqlFlags), $length);
     }
 
     private function type2txt(int $typeId): ?string
