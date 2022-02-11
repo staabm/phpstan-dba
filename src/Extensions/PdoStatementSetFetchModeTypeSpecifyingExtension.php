@@ -14,7 +14,6 @@ use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
-use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
@@ -46,8 +45,6 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {
-                var_dump($reducedType->describe(VerbosityLevel::precise()));
-
                 return $this->typeSpecifier->create($methodCall->var, $reducedType, TypeSpecifierContext::createTruthy(), true);
             }
         }

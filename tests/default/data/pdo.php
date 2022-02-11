@@ -246,7 +246,7 @@ class Foo
     }
 
     /**
-     * requires phpstan > 1.4.6
+     * requires phpstan > 1.4.6.
      */
     public function setFetchModeNum(PDO $pdo)
     {
@@ -264,7 +264,7 @@ class Foo
     }
 
     /**
-     * requires phpstan > 1.4.6
+     * requires phpstan > 1.4.6.
      */
     public function setFetchModeAssoc(PDO $pdo)
     {
@@ -282,7 +282,7 @@ class Foo
     }
 
     /**
-     * requires phpstan > 1.4.6
+     * requires phpstan > 1.4.6.
      */
     public function setFetchModeOnQuery(PDO $pdo)
     {
