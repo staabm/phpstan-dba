@@ -266,7 +266,6 @@
     ),
     'SELECT * FROM typemix' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1423,7 +1422,6 @@
     ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1623,7 +1621,6 @@
     ),
     'SELECT a.email, b.adaid, b.gesperrt FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1783,7 +1780,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1843,7 +1839,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1903,7 +1898,6 @@
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1963,7 +1957,6 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2082,6 +2075,7 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2201,7 +2195,6 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1.0\')' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2266,10 +2259,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaids) LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids)' => 
     array (
@@ -2278,10 +2267,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':ids) LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time' => 
     array (
@@ -2290,10 +2275,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':ids) AND email LIKE :time LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1\'' => 
     array (
@@ -2356,6 +2337,7 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2499,7 +2481,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2559,7 +2540,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE "hello?%"' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2619,7 +2599,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2679,7 +2658,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2743,7 +2721,6 @@
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2803,7 +2780,6 @@
     ),
     'SELECT akid FROM ak WHERE eadavk>1.1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2871,6 +2847,7 @@
     ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2986,6 +2963,7 @@
     ),
     'SELECT count(*) FROM typemix WHERE c_datetime = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3101,7 +3079,6 @@
     ),
     'SELECT eladaid FROM ak' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3197,10 +3174,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -3212,7 +3185,6 @@
     ),
     'SELECT email, adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3313,7 +3285,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3406,7 +3377,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3504,10 +3474,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':adaid LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ?' => 
     array (
@@ -3516,10 +3482,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
     array (
@@ -3528,14 +3490,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? and email = ? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3690,7 +3647,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3788,14 +3744,9 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3888,7 +3839,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3986,10 +3936,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':email LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = :test1 AND email = :test2' => 
     array (
@@ -3998,6 +3944,10 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \':test1 AND email = :test2 LIMIT 0\' at line 1',
          'code' => 1064,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
     array (
@@ -4006,10 +3956,6 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
@@ -4025,6 +3971,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4279,7 +4226,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4428,7 +4374,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1, 10' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4577,7 +4522,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4726,7 +4670,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4880,13 +4823,10 @@
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'? LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid IN(1,3)' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5035,7 +4975,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5348,6 +5287,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5645,7 +5585,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5794,7 +5733,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email=\'foo\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5943,7 +5881,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
