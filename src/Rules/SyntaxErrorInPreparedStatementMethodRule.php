@@ -69,7 +69,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
 
-            if ($methodName === $methodReflection->getName() && $className === $methodReflection->getDeclaringClass()->getName()) {
+            if ($methodName === $methodReflection->getName() && $methodReflection->getDeclaringClass()->isSubclassOf($className)) {
                 $unsupportedMethod = false;
                 break;
             }
