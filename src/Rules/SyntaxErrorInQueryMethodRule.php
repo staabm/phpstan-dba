@@ -12,6 +12,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use PHPStan\Reflection\ReflectionProvider;
 
 /**
  * @implements Rule<MethodCall>
@@ -26,11 +27,17 @@ final class SyntaxErrorInQueryMethodRule implements Rule
     private $classMethods;
 
     /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
@@ -54,7 +61,12 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
 
-            if ($methodName === $methodReflection->getName() && $methodReflection->getDeclaringClass()->isSubclassOf($className)) {
+            if (!$this->reflectionProvider->hasClass($className)) {
+                continue;
+            }
+            $class = $this->reflectionProvider->getClass($className);
+
+            if ($methodName === $methodReflection->getName() && $class->isSubclassOf($methodReflection->getDeclaringClass()->getName())) {
                 $unsupportedMethod = false;
                 break;
             }
