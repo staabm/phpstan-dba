@@ -48,10 +48,6 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     {
         $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion) && !$defaultReturn instanceof MixedType) {
-            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-        }
-
         $resultType = $this->inferType($methodReflection, $methodCall, $scope);
         if (null !== $resultType) {
             return $resultType;
