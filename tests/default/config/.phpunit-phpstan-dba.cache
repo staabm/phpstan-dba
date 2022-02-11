@@ -16,6 +16,112 @@
       )),
     ),
     '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            FOR UPDATE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            FOR UPDATE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR SHARE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR UPDATE
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET 1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\',  \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT   \'1\',     \'1\'
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
+            LIMIT        1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
+            SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\' AND email LIKE NULL
+            LIMIT        1
+        ' => 
+    array (
+      'error' => NULL,
+    ),
+    '
             SELECT email adaid
             WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
             FROM ada
@@ -2438,6 +2544,7 @@
           )),
         )),
       ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email LIKE "hello?%"' => 
     array (
@@ -2497,6 +2604,7 @@
           )),
         )),
       ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
@@ -2556,6 +2664,7 @@
           )),
         )),
       ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
     array (
@@ -2615,6 +2724,7 @@
           )),
         )),
       ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'some strange string - :gesperrt it is\'' => 
     array (
@@ -3068,10 +3178,6 @@
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
@@ -4130,6 +4236,12 @@
           )),
         )),
       ),
+      'error' => NULL,
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
+            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
+    array (
+      'error' => NULL,
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
             WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
