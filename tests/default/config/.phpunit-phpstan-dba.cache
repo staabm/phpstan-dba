@@ -6069,6 +6069,14 @@
     array (
       'error' => NULL,
     ),
+    'SELECT with syntax error GROUPY by x' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'with syntax error GROUPY by x LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
     'records' => 
     array (
       '
