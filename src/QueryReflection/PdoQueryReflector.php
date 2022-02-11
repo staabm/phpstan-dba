@@ -199,7 +199,8 @@ final class PdoQueryReflector implements QueryReflector
 
         if ($this->stmt === null) {
             $this->stmt = $this->pdo->prepare(
-                'SELECT EXTRA FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
+                // EXTRA seems to be nullable in mariadb
+                'SELECT coalesce(EXTRA, "") as EXTRA FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
             );
         }
         $this->stmt->execute([$tableName]);
@@ -207,7 +208,8 @@ final class PdoQueryReflector implements QueryReflector
 
         $this->autoIncrementColumns[$tableName] = [];
         foreach($result as $row) {
-            $extra = $row['EXTRA'] ?? '';
+            $extra = $row['EXTRA'];
+
             if (str_contains($extra, 'auto_increment')) {
                 $this->autoIncrementColumns[$tableName][$columnName] = true;
             }
