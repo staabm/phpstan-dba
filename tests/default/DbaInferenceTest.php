@@ -40,6 +40,11 @@ class DbaInferenceTest extends TypeInferenceTestCase
         // make sure class definitions within the test files are known to reflection
         require_once __DIR__.'/data/runMysqlQuery.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/runMysqlQuery.php');
+
+        // XXX cases which are not yet supported by the PdoQueryReflector
+        if (getenv("DBA_REFLECTOR") !== "pdo") {
+            yield from $this->gatherAssertTypes(__DIR__.'/data/query-alias.php');
+        }
     }
 
     /**
@@ -52,10 +57,6 @@ class DbaInferenceTest extends TypeInferenceTestCase
         string $file,
                ...$args,
     ): void {
-        if (getenv("DBA_REFLECTOR") === "pdo") {
-           // $this->markTestSkipped("PdoReflector does not support UNSIGNED, NUM flags");
-        }
-
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
 
