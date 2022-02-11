@@ -33,16 +33,10 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     private $classMethods;
 
     /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
+    public function __construct(array $classMethods)
     {
-        $this->reflectionProvider = $reflectionProvider;
         $this->classMethods = $classMethods;
     }
 
@@ -76,12 +70,8 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
 
-            if (!$this->reflectionProvider->hasClass($className)) {
-                continue;
-            }
-            $class = $this->reflectionProvider->getClass($className);
-
-            if ($methodName === $methodReflection->getName() && $class->isSubclassOf($methodReflection->getDeclaringClass()->getName())) {
+            if ($methodName === $methodReflection->getName() &&
+                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
                 $unsupportedMethod = false;
                 break;
             }
