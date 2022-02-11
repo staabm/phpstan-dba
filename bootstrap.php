@@ -1,11 +1,8 @@
 <?php
 
-use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
-use staabm\PHPStanDba\QueryReflection\ReflectionCache;
-use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
+use staabm\PHPStanDba\Tests\ReflectorFactory;
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -21,34 +18,7 @@ $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 // $config->debugMode(true);
 
-try {
-    if (false !== getenv('GITHUB_ACTION')) {
-        $mysqli = @new mysqli('127.0.0.1', 'root', 'root', 'phpstan_dba');
-    } else {
-        $mysqli = new mysqli('mysql80.ab', 'testuser', 'test', 'phpstan_dba');
-    }
-
-    $reflector = new MysqliQueryReflector($mysqli);
-    $reflector = new RecordingQueryReflector(
-        ReflectionCache::create(
-            $cacheFile
-        ),
-        $reflector
-    );
-} catch (mysqli_sql_exception $e) {
-    if (MysqliQueryReflector::MYSQL_HOST_NOT_FOUND !== $e->getCode()) {
-        throw $e;
-    }
-
-    echo "\nWARN: Could not connect to MySQL.\nUsing cached reflection.\n";
-
-    // when we can't connect to the database, we rely on replaying pre-recorded db-reflection information
-    $reflector = new ReplayQueryReflector(
-        ReflectionCache::create(
-            $cacheFile
-        )
-    );
-}
+$reflector = ReflectorFactory::create($cacheFile);
 
 QueryReflection::setupReflector(
     $reflector,
