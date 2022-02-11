@@ -9,6 +9,3 @@ class BaseQueryClass {
     }
 }
 
-class MySubClass extends BaseQueryClass {
-
-}
