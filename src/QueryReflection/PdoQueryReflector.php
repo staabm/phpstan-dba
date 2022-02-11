@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Iterator;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -54,9 +55,9 @@ final class PdoQueryReflector implements QueryReflector
     // @phpstan-ignore-next-line
     private ?PDOStatement $stmt = null;
     /**
-     * @var array<string, array<string, bool>>
+     * @var array<string, array<string, list<string>>>
      */
-    private array $autoIncrementColumns = array();
+    private array $emulatedFlags = array();
 
     public function __construct(private PDO $pdo)
     {
@@ -176,11 +177,9 @@ final class PdoQueryReflector implements QueryReflector
                 throw new ShouldNotHappenException();
             }
 
-            if ($this->isAutoIncrementCol($columnMeta['table'], $columnMeta['name'])) {
-                $columnMeta['flags'][] = MysqlTypeMapper::FLAG_AUTO_INCREMENT;
-            }
-            if ($this->isNumericCol($columnMeta['native_type'])) {
-                $columnMeta['flags'][] = MysqlTypeMapper::FLAG_NUMERIC;
+            $flags = $this->emulateMysqlFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
+            foreach($flags as $flag) {
+                $columnMeta['flags'][] = $flag;
             }
 
             // @phpstan-ignore-next-line
@@ -192,30 +191,69 @@ final class PdoQueryReflector implements QueryReflector
         return $this->cache[$queryString];
     }
 
-    private function isAutoIncrementCol(string $tableName, string $columnName):bool {
-        if (array_key_exists($tableName, $this->autoIncrementColumns)) {
-            return array_key_exists($columnName, $this->autoIncrementColumns[$tableName]);
+    /**
+     * @return list<string>
+     */
+    private function emulateMysqlFlags(string $mysqlType, string $tableName, string $columnName):array {
+        if (array_key_exists($tableName, $this->emulatedFlags)) {
+            $emulatedFlags = [];
+            if (array_key_exists($columnName, $this->emulatedFlags[$tableName])) {
+                $emulatedFlags = $this->emulatedFlags[$tableName][$columnName];
+            }
+
+            if ($this->isNumericCol($mysqlType)) {
+                $emulatedFlags[] = MysqlTypeMapper::FLAG_NUMERIC;
+            }
+
+            return $emulatedFlags;
         }
+
+        $this->emulatedFlags[$tableName] = [];
+
+        // determine flags of all columns of the given table once
+        $schemaFlags = $this->checkInformationSchema($tableName);
+        foreach($schemaFlags as $schemaColumnName => $flag) {
+            if (!array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
+                $this->emulatedFlags[$tableName][$schemaColumnName] = [];
+            }
+            $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
+        }
+
+        return $this->emulateMysqlFlags($mysqlType, $tableName, $columnName);
+
+    }
+
+    /**
+     * @return Iterator<string, MysqlTypeMapper::FLAG_*>
+     */
+    private function checkInformationSchema(string $tableName): Iterator {
 
         if ($this->stmt === null) {
             $this->stmt = $this->pdo->prepare(
                 // EXTRA seems to be nullable in mariadb
-                'SELECT coalesce(EXTRA, "") as EXTRA FROM information_schema.columns WHERE table_name = ? AND table_schema = DATABASE()'
+                'SELECT
+                        COLUMN_NAME,
+                        coalesce(EXTRA, "") as EXTRA,
+                        COLUMN_TYPE
+                      FROM information_schema.columns
+                      WHERE table_name = ? AND table_schema = DATABASE()'
             );
         }
         $this->stmt->execute([$tableName]);
         $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->autoIncrementColumns[$tableName] = [];
         foreach($result as $row) {
             $extra = $row['EXTRA'];
+            $columnType = $row['COLUMN_TYPE'];
+            $columnName = $row['COLUMN_NAME'];
 
             if (str_contains($extra, 'auto_increment')) {
-                $this->autoIncrementColumns[$tableName][$columnName] = true;
+                yield $columnName => MysqlTypeMapper::FLAG_AUTO_INCREMENT;
+            }
+            if (str_contains($columnType, 'unsigned')) {
+                yield $columnName => MysqlTypeMapper::FLAG_UNSIGNED;
             }
         }
-
-        return array_key_exists($columnName, $this->autoIncrementColumns[$tableName]);
     }
 
     private function isNumericCol(string $mysqlType):bool {

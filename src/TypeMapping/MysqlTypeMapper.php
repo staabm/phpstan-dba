@@ -20,6 +20,7 @@ final class MysqlTypeMapper
 {
     const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
     const FLAG_NUMERIC = 'NUM';
+    const FLAG_UNSIGNED = 'UNSIGNED';
 
     /**
      * @param list<string> $mysqlFlags
@@ -45,7 +46,7 @@ final class MysqlTypeMapper
                     $autoIncrement = true;
                     break;
 
-                case 'UNSIGNED':
+                case self::FLAG_UNSIGNED:
                     $unsigned = true;
                     break;
 
