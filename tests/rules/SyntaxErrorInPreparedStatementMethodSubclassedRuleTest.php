@@ -18,6 +18,10 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends AbstractSer
 
     public function testSyntaxErrorInQueryRule(): void
     {
+        if ('mysqli' !== getenv('DBA_REFLECTOR')) {
+            $this->markTestSkipped('Only works with MysqliReflector');
+        }
+
         require_once __DIR__.'/data/syntax-error-in-method-subclassed.php';
 
         $this->analyse([__DIR__.'/data/syntax-error-in-method-subclassed.php'], [

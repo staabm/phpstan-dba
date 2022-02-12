@@ -18,6 +18,10 @@ class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function testParameterErrors(): void
     {
+        if ('mysqli' !== getenv('DBA_REFLECTOR')) {
+            $this->markTestSkipped('Only works with MysqliReflector');
+        }
+
         require_once __DIR__.'/data/pdo-stmt-execute-error.php';
 
         $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
