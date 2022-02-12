@@ -148,17 +148,17 @@ final class PdoQueryReflector implements QueryReflector
         }
 
         try {
-            $result = $this->pdo->query($simulatedQuery);
+            $stmt = $this->pdo->query($simulatedQuery);
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
         }
 
         $this->cache[$queryString] = [];
-        $columnCount = $result->columnCount();
+        $columnCount = $stmt->columnCount();
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
             // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
-            $columnMeta = $result->getColumnMeta($columnIndex);
+            $columnMeta = $stmt->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
@@ -227,13 +227,13 @@ final class PdoQueryReflector implements QueryReflector
     {
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
-                // EXTRA,COLUMN_NAME seems to be nullable in mariadb
+                // EXTRA, COLUMN_NAME seems to be nullable in mariadb
                 'SELECT
-                        coalesce(COLUMN_NAME, "") as COLUMN_NAME,
-                        coalesce(EXTRA, "") as EXTRA,
-                        COLUMN_TYPE
-                      FROM information_schema.columns
-                      WHERE table_name = ? AND table_schema = DATABASE()'
+                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
+                    coalesce(EXTRA, "") as EXTRA,
+                    COLUMN_TYPE
+                 FROM information_schema.columns
+                 WHERE table_name = ? AND table_schema = DATABASE()'
             );
         }
 
