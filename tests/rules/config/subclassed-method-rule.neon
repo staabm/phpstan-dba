@@ -1,0 +1,18 @@
+includes:
+    - ../../../config/stubFiles.neon
+    - ../../../config/extensions.neon
+
+services:
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery'
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery#0'
