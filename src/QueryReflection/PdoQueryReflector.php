@@ -82,9 +82,6 @@ final class PdoQueryReflector implements QueryReflector
             $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
             $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
-            // make error string consistent across pdo/mysqli driver
-            $message = str_replace('SQLSTATE['.$e->getCode().']: ', '', $message);
-
             // to ease debugging, print the error we simulated
             if (
                 \in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
