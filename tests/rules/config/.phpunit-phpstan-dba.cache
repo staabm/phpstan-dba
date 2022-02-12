@@ -5164,8 +5164,8 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'asdsa\' in \'where clause\'',
-         'code' => 1054,
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'where clause\'',
+         'code' => '42S22',
       )),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = \'1\'' => 
