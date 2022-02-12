@@ -1,2 +1,4 @@
-.phpstan-dba.cache linguist-generated=true
-.phpunit-phpstan-dba.cache linguist-generated=true
+.phpstan-dba-mysqli.cache linguist-generated=true
+.phpstan-dba-pdo.cache linguist-generated=true
+.phpunit-phpstan-dba-mysqli.cache linguist-generated=true
+.phpunit-phpstan-dba-pdo.cache linguist-generated=true
