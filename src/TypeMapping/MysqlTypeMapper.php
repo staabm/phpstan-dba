@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -18,10 +19,14 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper
 {
+    public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
+    public const FLAG_NUMERIC = 'NUM';
+    public const FLAG_UNSIGNED = 'UNSIGNED';
+
     /**
      * @param list<string> $mysqlFlags
      */
-    public function mapToPHPStanType(?string $mysqlType, array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
     {
         $numeric = false;
         $notNull = false;
@@ -29,8 +34,8 @@ final class MysqlTypeMapper
         $autoIncrement = false;
 
         foreach ($mysqlFlags as $flag) {
-            switch ($flag) {
-                case 'NUM':
+            switch (strtoupper($flag)) {
+                case self::FLAG_NUMERIC:
                     $numeric = true;
                     break;
 
@@ -38,11 +43,11 @@ final class MysqlTypeMapper
                     $notNull = true;
                     break;
 
-                case 'AUTO_INCREMENT':
+                case self::FLAG_AUTO_INCREMENT:
                     $autoIncrement = true;
                     break;
 
-                case 'UNSIGNED':
+                case self::FLAG_UNSIGNED:
                     $unsigned = true;
                     break;
 
@@ -83,13 +88,23 @@ final class MysqlTypeMapper
             $phpstanType = $mysqlIntegerRanges->unsignedInt();
         }
 
+        // mysqli/pdo support different integer-length for year, hardcode its type for cross driver consistency
+        if ('YEAR' === strtoupper($mysqlType)) {
+            // see https://dev.mysql.com/doc/refman/8.0/en/year.html
+            $phpstanType = IntegerRangeType::fromInterval(0, 2155);
+        }
+        // floats are detected as numerics in mysqli
+        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'NEWDECIMAL', 'REAL'], true)) {
+            $phpstanType = new FloatType();
+        }
+
+        // fallbacks
         if (null === $phpstanType) {
-            $phpstanType = match ($mysqlType) {
-                'DOUBLE', 'NEWDECIMAL' => new FloatType(),
+            $phpstanType = match (strtoupper($mysqlType)) {
                 'LONGLONG',
                 'LONG',
                 'SHORT',
-                'YEAR',
+                'TINY',
                 'BIT',
                 'INT24' => new IntegerType(),
                 'BLOB',

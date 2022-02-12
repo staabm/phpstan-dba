@@ -48,9 +48,9 @@ final class MysqliTypeMapper
         return $this->typeMapper->mapToPHPStanType($this->type2txt($mysqlType), $this->flags2txt($mysqlFlags), $length);
     }
 
-    private function type2txt(int $typeId): ?string
+    private function type2txt(int $typeId): string
     {
-        return \array_key_exists($typeId, $this->nativeTypes) ? $this->nativeTypes[$typeId] : null;
+        return \array_key_exists($typeId, $this->nativeTypes) ? $this->nativeTypes[$typeId] : '';
     }
 
     /** @return list<string> */

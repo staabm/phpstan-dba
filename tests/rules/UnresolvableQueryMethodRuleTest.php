@@ -4,14 +4,14 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule;
+use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryFunctionRule>
+ * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
  */
-class UnresolvableQueryFunctionRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
+class UnresolvableQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function setUp(): void
     {
@@ -25,18 +25,14 @@ class UnresolvableQueryFunctionRuleMysqliReflectorTest extends AbstractServiceAw
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryFunctionRule::class, __DIR__.'/../../config/dba.neon');
+        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/../../config/dba.neon');
     }
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if ('mysqli' !== getenv('DBA_REFLECTOR')) {
-            $this->markTestSkipped('Only works with MysqliReflector');
-        }
+        require_once __DIR__.'/data/unresolvable-query-in-method.php';
 
-        require_once __DIR__.'/data/unresolvable-query-in-function.php';
-
-        $this->analyse([__DIR__.'/data/unresolvable-query-in-function.php'], [
+        $this->analyse([__DIR__.'/data/unresolvable-query-in-method.php'], [
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 11,
