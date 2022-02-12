@@ -15,6 +15,7 @@ final class ReflectorFactory
 {
     public static function create(string $cacheFile): QueryReflector
     {
+        // handle defaults
         if (false !== getenv('GITHUB_ACTION')) {
             $host = getenv('DBA_HOST') ?: '127.0.0.1';
             $user = getenv('DBA_USER') ?: 'root';
@@ -29,6 +30,10 @@ final class ReflectorFactory
 
         $mode = getenv('DBA_MODE') ?: 'recording';
         $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
+
+        // make env vars available to tests, in case non are defined yet
+        putenv('DBA_REFLECTOR='.$reflector);
+
         if ('recording' === $mode) {
             if ('mysqli' === $reflector) {
                 $mysqli = new mysqli($host, $user, $password, $dbname);
