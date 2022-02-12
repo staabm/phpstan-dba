@@ -37,9 +37,9 @@ final class ReflectorFactory
         // we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
         // in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
         // phpstan-dba itself is a special case, since we are testing phpstan-dba with phpstan-dba.
-        $cacheFile = $cacheDir.'/.phpunit-phpstan-dba-'. $reflector .'.cache';
-        if (defined('__PHPSTAN_RUNNING__')) {
-            $cacheFile = $cacheDir.'/.phpstan-dba-'. $reflector .'.cache';
+        $cacheFile = $cacheDir.'/.phpunit-phpstan-dba-'.$reflector.'.cache';
+        if (\defined('__PHPSTAN_RUNNING__')) {
+            $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
         }
 
         if ('recording' === $mode) {
