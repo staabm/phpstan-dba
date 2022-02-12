@@ -9,7 +9,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 /**
  * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
  */
-class PdoStatementExecuteMethodRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
+class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
@@ -18,10 +18,6 @@ class PdoStatementExecuteMethodRuleMysqliReflectorTest extends AbstractServiceAw
 
     public function testParameterErrors(): void
     {
-        if ('mysqli' !== getenv('DBA_REFLECTOR')) {
-            $this->markTestSkipped('Only works with MysqliReflector');
-        }
-
         require_once __DIR__.'/data/pdo-stmt-execute-error.php';
 
         $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [

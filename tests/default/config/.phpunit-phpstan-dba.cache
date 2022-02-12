@@ -1805,7 +1805,6 @@
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1.0\')' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2063,7 +2062,6 @@
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2591,7 +2589,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2797,7 +2794,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4687,7 +4683,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email=\'foo\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
