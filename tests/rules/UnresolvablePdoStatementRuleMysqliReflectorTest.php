@@ -11,7 +11,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 /**
  * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
  */
-class UnresolvablePdoStatementRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvablePdoStatementRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
 {
     protected function setUp(): void
     {

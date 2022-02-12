@@ -9,7 +9,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 /**
  * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
  */
-class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
+class PdoStatementExecuteMethodRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {

@@ -9,7 +9,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 /**
  * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class SyntaxErrorInPreparedStatementMethodRuleTest extends AbstractServiceAwareRuleTestCase
+class SyntaxErrorInPreparedStatementMethodRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
 {
     protected function getRule(): Rule
     {
