@@ -31,7 +31,10 @@
 		"psr-4": {
 			"staabm\\PHPStanDba\\Tests\\Fixture\\": "tests/default/Fixture/",
 			"staabm\\PHPStanDba\\Tests\\": "tests/"
-		}
+		},
+		"classmap": [
+			"tests/default/data/runMysqlQuery.php"
+		]
 	},
 	"scripts": {
 		"csfix": [
@@ -42,15 +45,26 @@
 			"@phpstan",
 			"@csfix"
 		],
+		"record": [
+			"@putenv DBA_REFLECTOR=mysqli",
+			"@phpunit",
+			"@phpstan",
+			"@putenv DBA_REFLECTOR=pdo",
+			"@phpunit",
+			"@phpstan",
+			"@csfix"
+		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",
 			"phpstan analyse -c tests/default/config/phpstan.neon.dist",
+			"phpstan analyse -c tests/rules/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/stringify/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/defaultFetchAssoc/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/defaultFetchNumeric/config/phpstan.neon.dist"
 		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
+			"phpunit -c tests/rules/config/phpunit.xml",
 			"phpunit -c tests/stringify/config/phpunit.xml",
 			"phpunit -c tests/defaultFetchAssoc/config/phpunit.xml",
 			"phpunit -c tests/defaultFetchNumeric/config/phpunit.xml"
