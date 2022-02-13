@@ -1,3 +1,4 @@
+# mark cache files as generated files, so they don't show up in Pull Requests diffs
 .phpstan-dba-mysqli.cache linguist-generated=true
 .phpstan-dba-pdo.cache linguist-generated=true
 .phpunit-phpstan-dba-mysqli.cache linguist-generated=true
@@ -5,3 +6,5 @@
 
 # Exclude non-essential files from dist
 /tests export-ignore
+.phpunit-phpstan-dba-mysqli.cache
+.phpunit-phpstan-dba-pdo.cache
