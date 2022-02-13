@@ -46,18 +46,19 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion) && !$defaultReturn instanceof MixedType) {
-            $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
-        }
+        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         $resultType = $this->inferType($methodReflection, $methodCall, $scope);
         if (null !== $resultType) {
-            return $resultType;
+            $returnType = $resultType;
         }
 
-        return $defaultReturn;
+        // fetchAll() can return false prior to php8
+        if (null !== $returnType && !$returnType instanceof MixedType && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
+            $returnType = TypeCombinator::remove($returnType, new ConstantBooleanType(false));
+        }
+
+        return $returnType;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
@@ -87,10 +88,6 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
         if ('fetchAll' === $methodReflection->getName()) {
             return new ArrayType(new IntegerType(), $rowType);
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
-            return $rowType;
         }
 
         return new UnionType([$rowType, new ConstantBooleanType(false)]);

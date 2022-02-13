@@ -18,6 +18,9 @@ jobs:
         include:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
+            reflector: "pdo"
+          - php-version: "8.0"
+            db-image: 'mysql:8.0'
             reflector: "mysqli"
           - php-version: "8.1"
             db-image: 'mysql:8.0'
@@ -73,12 +76,15 @@ jobs:
       matrix:
         include:
           - php-version: "8.1"
+            reflector: "pdo"
+            mode: "replay"
+          - php-version: "8.1"
             reflector: "mysqli"
             mode: "replay"
 
     env:
-      DBA_REFLECTOR: ${{ matrix.reflector }}
-      DBA_MODE: ${{ matrix.mode }}
+       DBA_REFLECTOR: ${{ matrix.reflector }}
+       DBA_MODE: ${{ matrix.mode }}
 
     steps:
     - uses: actions/checkout@v2
@@ -99,4 +105,4 @@ jobs:
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-    - run: composer phpunit -- --debug
+    - run: composer phpunit

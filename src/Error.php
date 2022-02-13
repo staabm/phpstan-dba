@@ -3,7 +3,12 @@
 namespace staabm\PHPStanDba;
 
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
+use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
+/**
+ * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<PDOQueryReflector::PDO_ERROR_CODES>
+ */
 final class Error
 {
     /**
@@ -12,14 +17,14 @@ final class Error
     private $message;
 
     /**
-     * @var MysqliQueryReflector::MYSQL_*
+     * @var ErrorCodes
      */
     private $code;
 
     /**
-     * @param MysqliQueryReflector::MYSQL_* $code
+     * @param ErrorCodes $code
      */
-    public function __construct(string $message, int $code)
+    public function __construct(string $message, int|string $code)
     {
         $this->message = $message;
         $this->code = $code;
@@ -31,9 +36,9 @@ final class Error
     }
 
     /**
-     * @return MysqliQueryReflector::MYSQL_*
+     * @return ErrorCodes
      */
-    public function getCode(): int
+    public function getCode(): int|string
     {
         return $this->code;
     }
@@ -44,7 +49,39 @@ final class Error
     }
 
     /**
-     * @param array{message: string, code: MysqliQueryReflector::MYSQL_*} $array
+     * @param ErrorCodes $code
+     */
+    public static function forSyntaxError(\Throwable $exception, $code, string $queryString): self
+    {
+        $message = $exception->getMessage();
+
+        // make error string consistent across mysql/mariadb
+        $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
+        $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
+
+        // to ease debugging, print the error we simulated
+        $simulatedQuery = QuerySimulation::simulate($queryString);
+        $message = $message."\n\nSimulated query: ".$simulatedQuery;
+
+        return new self($message, $code);
+    }
+
+    /**
+     * @param ErrorCodes $code
+     */
+    public static function forException(\Throwable $exception, $code): self
+    {
+        $message = $exception->getMessage();
+
+        // make error string consistent across mysql/mariadb
+        $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
+        $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
+
+        return new self($message, $code);
+    }
+
+    /**
+     * @param array{message: string, code: ErrorCodes} $array
      */
     public static function __set_state(array $array)
     {

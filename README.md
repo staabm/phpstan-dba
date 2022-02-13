@@ -131,9 +131,7 @@ QueryReflection::setupReflector(
 );
 ```
 
-This might be usefull if your CI pipeline cannot connect to your development database server for whatever reason.
-
-The GitHubActions setup of `phpstan-dba` is [using this technique to replay the reflection information](https://github.com/staabm/phpstan-dba/blob/main/bootstrap.php).
+This might be usefull if your CI pipeline can't/shouldn't connect to your development database server for whatever reason.
 
 **Note**: In case you commit the generated cache files into your repository, consider [marking them as generated files](https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github), so they don't show up in Pull Requests.
 
