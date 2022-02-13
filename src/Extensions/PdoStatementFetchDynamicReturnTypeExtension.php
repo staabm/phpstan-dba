@@ -24,6 +24,15 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    /**
+     * @var PhpVersion
+     */
+    private $phpVersion;
+
+    public function __construct(PhpVersion $phpVersion)
+    {
+        $this->phpVersion = $phpVersion;
+    }
 
     public function getClass(): string
     {
@@ -74,6 +83,10 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
         if ('fetchAll' === $methodReflection->getName()) {
             return new ArrayType(new IntegerType(), $rowType);
+        }
+
+        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
+            return $rowType;
         }
 
         return new UnionType([$rowType, new ConstantBooleanType(false)]);
