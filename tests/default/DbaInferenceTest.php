@@ -44,6 +44,8 @@ class DbaInferenceTest extends TypeInferenceTestCase
         if ('pdo' !== getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__.'/data/query-alias.php');
         }
+
+        yield from $this->gatherAssertTypes(__DIR__.'/data/bug254.php');
     }
 
     /**

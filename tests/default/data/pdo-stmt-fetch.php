@@ -43,16 +43,16 @@ class Foo
 
         // default fetch-mode is BOTH
         $all = $stmt->fetch();
-        assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}', $all);
+        assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_BOTH);
-        assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}', $all);
+        assertType('array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_NUM);
-        assertType('array{string, int<0, 4294967295>}', $all);
+        assertType('array{string, int<0, 4294967295>}|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_ASSOC);
-        assertType('array{email: string, adaid: int<0, 4294967295>}', $all);
+        assertType('array{email: string, adaid: int<0, 4294967295>}|false', $all);
 
         // not yet supported fetch types
         $all = $stmt->fetch(PDO::FETCH_OBJ);
