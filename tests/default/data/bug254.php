@@ -2,12 +2,14 @@
 
 namespace Bug254;
 
+use function PHPStan\Testing\assertType;
+
 class Foo {
     public function noRows(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
         while ($row = $stmt->fetch()) {
-            $email = $row['email'];
+            assertType('string', $row['email']);
         }
     }
 
