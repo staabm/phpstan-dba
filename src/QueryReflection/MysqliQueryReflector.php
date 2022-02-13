@@ -58,22 +58,14 @@ final class MysqliQueryReflector implements QueryReflector
         $e = $result;
 
         if (\in_array($e->getCode(), self::MYSQL_ERROR_CODES, true)) {
-            $message = $e->getMessage();
-
-            // make error string consistent across mysql/mariadb
-            $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
-            $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
-
-            // to ease debugging, print the error we simulated
             if (
                 self::MYSQL_SYNTAX_ERROR_CODE === $e->getCode()
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
             ) {
-                $simulatedQuery = QuerySimulation::simulate($queryString);
-                $message = $message."\n\nSimulated query: ".$simulatedQuery;
+                return Error::forSyntaxError($e, $e->getCode(), $queryString);
             }
 
-            return new Error($message, $e->getCode());
+            return Error::forException($e, $e->getCode());
         }
 
         return null;

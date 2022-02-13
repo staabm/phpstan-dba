@@ -76,22 +76,14 @@ final class PdoQueryReflector implements QueryReflector
 
         $e = $result;
         if (\in_array($e->getCode(), self::PDO_ERROR_CODES, true)) {
-            $message = $e->getMessage();
-
-            // make error string consistent across mysql/mariadb
-            $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
-            $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
-
-            // to ease debugging, print the error we simulated
             if (
                 \in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
                 && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
             ) {
-                $simulatedQuery = QuerySimulation::simulate($queryString);
-                $message = $message."\n\nSimulated query: '".$simulatedQuery."' Failed.";
+                return Error::forSyntaxError($e, $e->getCode(), $queryString);
             }
 
-            return new Error($message, $e->getCode());
+            return Error::forException($e, $e->getCode());
         }
 
         return null;
