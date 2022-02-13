@@ -46,14 +46,19 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         $resultType = $this->inferType($methodReflection, $methodCall, $scope);
         if (null !== $resultType) {
-            return $resultType;
+            $returnType = $resultType;
         }
 
-        return $defaultReturn;
+        // fetchAll() can return false prior to php8
+        if ($resultType !== null && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
+            $returnType = TypeCombinator::remove($resultType, new ConstantBooleanType(false));
+        }
+
+        return $returnType;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
