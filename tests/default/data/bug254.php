@@ -4,7 +4,8 @@ namespace Bug254;
 
 use function PHPStan\Testing\assertType;
 
-class Foo {
+class Foo
+{
     public function noRows(\PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
@@ -12,5 +13,4 @@ class Foo {
             assertType('string', $row['email']);
         }
     }
-
 }
