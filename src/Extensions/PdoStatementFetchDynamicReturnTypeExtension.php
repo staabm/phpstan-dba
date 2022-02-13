@@ -19,6 +19,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
@@ -54,7 +55,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         }
 
         // fetchAll() can return false prior to php8
-        if ($resultType !== null && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
+        if ($resultType !== null && !$returnType instanceof MixedType && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
             $returnType = TypeCombinator::remove($resultType, new ConstantBooleanType(false));
         }
 
@@ -88,10 +89,6 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
         if ('fetchAll' === $methodReflection->getName()) {
             return new ArrayType(new IntegerType(), $rowType);
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
-            return $rowType;
         }
 
         return new UnionType([$rowType, new ConstantBooleanType(false)]);
