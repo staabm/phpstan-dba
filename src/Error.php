@@ -2,7 +2,6 @@
 
 namespace staabm\PHPStanDba;
 
-use PHPStan\Type\ErrorType;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
@@ -52,7 +51,7 @@ final class Error
     /**
      * @param ErrorCodes $code
      */
-    static public function forSyntaxError(\Throwable $exception, $code, string $queryString): self
+    public static function forSyntaxError(\Throwable $exception, $code, string $queryString): self
     {
         $message = $exception->getMessage();
 
@@ -70,7 +69,7 @@ final class Error
     /**
      * @param ErrorCodes $code
      */
-    static public function forException(\Throwable $exception, $code): self
+    public static function forException(\Throwable $exception, $code): self
     {
         $message = $exception->getMessage();
 
