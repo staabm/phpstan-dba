@@ -24,7 +24,7 @@ use Traversable;
 
 final class DoctrineReflection
 {
-    public function fetchResultType(MethodReflection $methodReflection, Type $resultRowType): ?Type
+    public function reduceResultType(MethodReflection $methodReflection, Type $resultRowType): ?Type
     {
         $usedMethod = strtolower($methodReflection->getName());
 
@@ -122,7 +122,7 @@ final class DoctrineReflection
         foreach ($queryStrings as $queryString) {
             $queryReflection = new QueryReflection();
 
-            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+            $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
             if (null === $resultType) {
                 return null;
             }
@@ -151,7 +151,7 @@ final class DoctrineReflection
         foreach ($queryStrings as $queryString) {
             $queryReflection = new QueryReflection();
 
-            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+            $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
             if (null === $resultType) {
                 return null;
             }
@@ -164,6 +164,39 @@ final class DoctrineReflection
         }
         if (1 === \count($genericObjects)) {
             return $genericObjects[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param iterable<string> $queryStrings
+     */
+    public function createFetchType(iterable $queryStrings, MethodReflection $methodReflection): ?Type
+    {
+        $queryReflection = new QueryReflection();
+
+        $fetchTypes = [];
+        foreach ($queryStrings as $queryString) {
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+
+            if ($resultType === null) {
+                return null;
+            }
+
+            $fetchResultType = $this->reduceResultType($methodReflection, $resultType);
+            if (null === $fetchResultType) {
+                return null;
+            }
+
+            $fetchTypes[] = $fetchResultType;
+        }
+
+        if (\count($fetchTypes) > 1) {
+            return TypeCombinator::union(...$fetchTypes);
+        }
+        if (1 === \count($fetchTypes)) {
+            return $fetchTypes[0];
         }
 
         return null;

@@ -82,33 +82,16 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     private function inferType(MethodReflection $methodReflection, Expr $queryExpr, ?Expr $paramsExpr, Scope $scope): ?Type
     {
+        $queryReflection = new QueryReflection();
+        $doctrineReflection = new DoctrineReflection();
+
         if (null === $paramsExpr) {
-            $queryReflection = new QueryReflection();
-            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-            if (null === $queryString) {
-                return null;
-            }
+            $queryString = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
             $parameterTypes = $scope->getType($paramsExpr);
-
-            $queryReflection = new QueryReflection();
-            $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-            if (null === $queryString) {
-                return null;
-            }
+            $queryString = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
-
-        if ($resultType) {
-            $doctrineReflection = new DoctrineReflection();
-            $fetchResultType = $doctrineReflection->fetchResultType($methodReflection, $resultType);
-
-            if (null !== $fetchResultType) {
-                return $fetchResultType;
-            }
-        }
-
-        return null;
+        return $doctrineReflection->createFetchType($queryString, $methodReflection);
     }
 }
