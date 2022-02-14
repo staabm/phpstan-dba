@@ -14,6 +14,8 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
@@ -68,17 +70,29 @@ final class PdoStatementReflection
     }
 
     /**
+     * @param iterable<string>            $queryStrings
      * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
      */
-    public function createGenericStatement(string $queryString, int $reflectionFetchType): ?GenericObjectType
+    public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
     {
-        $queryReflection = new QueryReflection();
-        $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+        $genericObjects = [];
 
-        if ($bothType) {
-            $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);
+        foreach ($queryStrings as $queryString) {
+            $queryReflection = new QueryReflection();
+            $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
-            return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
+            if ($bothType) {
+                $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);
+
+                $genericObjects[] = new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
+            }
+        }
+
+        if (\count($genericObjects) > 1) {
+            return TypeCombinator::union(...$genericObjects);
+        }
+        if (1 === \count($genericObjects)) {
+            return $genericObjects[0];
         }
 
         return null;
@@ -87,17 +101,35 @@ final class PdoStatementReflection
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getRowType(GenericObjectType $statementType, int $fetchType): ?Type
+    public function getRowType(Type $statementType, int $fetchType): ?Type
     {
-        $genericTypes = $statementType->getTypes();
+        if ($statementType instanceof UnionType) {
+            $rowTypes = [];
 
-        if (2 !== \count($genericTypes)) {
-            return null;
+            foreach ($statementType->getTypes() as $type) {
+                $rowType = $this->getRowType($type, $fetchType);
+                if (null === $rowType) {
+                    return null;
+                }
+                $rowTypes[] = $rowType;
+            }
+
+            return TypeCombinator::union(...$rowTypes);
         }
 
-        $bothType = $genericTypes[1];
+        if ($statementType instanceof GenericObjectType) {
+            $genericTypes = $statementType->getTypes();
 
-        return $this->reduceStatementResultType($bothType, $fetchType);
+            if (2 !== \count($genericTypes)) {
+                return null;
+            }
+
+            $bothType = $genericTypes[1];
+
+            return $this->reduceStatementResultType($bothType, $fetchType);
+        }
+
+        return null;
     }
 
     /**
