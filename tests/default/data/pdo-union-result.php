@@ -25,8 +25,8 @@ class Foo
 
         foreach ($queries as $query) {
             $stmt = $pdo->query($query);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            assertType('array{adaid: int<0, 4294967295>}|array{email: string}|false', $result);
+            $result = $stmt->fetch(PDO::FETCH_NUM);
+            assertType('array{int<0, 4294967295>|string}|false', $result);
         }
     }
 }
