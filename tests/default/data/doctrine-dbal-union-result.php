@@ -21,9 +21,11 @@ class Foo
             $result = $stmt->execute([]);
             assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
 
-            // XXX todo
-            // $fetch = $result->fetchOne();
-            // assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
+            $fetch = $result->fetchOne();
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
+
+            $fetch = $result->fetchAssociative();
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
         }
     }
 
