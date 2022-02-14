@@ -103,17 +103,17 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
         $genericObjects = [];
-        foreach($queryStrings as $queryString) {
+        foreach ($queryStrings as $queryString) {
             $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
 
-            if ($resultType === null) {
+            if (null === $resultType) {
                 return null;
             }
 
             $genericObjects[] = new GenericObjectType(mysqli_result::class, [$resultType]);
         }
 
-        if (count($genericObjects) === 0) {
+        if (0 === \count($genericObjects)) {
             return null;
         }
 
