@@ -100,23 +100,32 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
     private function inferResultType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
+        $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
+
+        $genericObjects = [];
+        foreach ($queryStrings as $queryString) {
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+
+            if (null === $resultType) {
+                return null;
+            }
+
+            $genericObjects[] = new GenericObjectType(mysqli_result::class, [$resultType]);
+        }
+
+        if (0 === \count($genericObjects)) {
             return null;
         }
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
-        if ($resultType) {
-            if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
-                return new GenericObjectType(mysqli_result::class, [$resultType]);
-            }
+        $resultType = TypeCombinator::union(...$genericObjects);
 
+        if (!QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             return TypeCombinator::union(
-                new GenericObjectType(mysqli_result::class, [$resultType]),
+                $resultType,
                 new ConstantBooleanType(false),
             );
         }
 
-        return null;
+        return $resultType;
     }
 }
