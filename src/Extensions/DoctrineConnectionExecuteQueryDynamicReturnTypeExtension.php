@@ -17,6 +17,7 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -71,25 +72,15 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
     {
         if (null === $paramsExpr) {
             $queryReflection = new QueryReflection();
-            $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-            if (null === $queryString) {
-                return null;
-            }
+            $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
             $parameterTypes = $scope->getType($paramsExpr);
 
             $queryReflection = new QueryReflection();
-            $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-            if (null === $queryString) {
-                return null;
-            }
+            $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
-        if ($resultType) {
-            return new GenericObjectType(Result::class, [$resultType]);
-        }
-
-        return null;
+        $doctrineReflection = new DoctrineReflection();
+        return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }

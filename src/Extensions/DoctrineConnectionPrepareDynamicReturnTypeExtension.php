@@ -17,6 +17,7 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -65,16 +66,9 @@ final class DoctrineConnectionPrepareDynamicReturnTypeExtension implements Dynam
     private function inferType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
-            return null;
-        }
+        $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
-        if ($resultType) {
-            return new GenericObjectType(Statement::class, [$resultType]);
-        }
-
-        return null;
+        $doctrineReflection = new DoctrineReflection();
+        return $doctrineReflection->createGenericStatement($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }

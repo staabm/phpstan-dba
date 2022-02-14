@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\DoctrineReflection;
 
 use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Statement;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -115,6 +116,35 @@ final class DoctrineReflection
      * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
      */
     public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
+    {
+        $genericObjects = [];
+
+        foreach ($queryStrings as $queryString) {
+            $queryReflection = new QueryReflection();
+
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+            if (null === $resultType) {
+                return null;
+            }
+
+            $genericObjects[] = new GenericObjectType(Statement::class, [$resultType]);
+        }
+
+        if (\count($genericObjects) > 1) {
+            return TypeCombinator::union(...$genericObjects);
+        }
+        if (1 === \count($genericObjects)) {
+            return $genericObjects[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param iterable<string> $queryStrings
+     * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
+     */
+    public function createGenericResult(iterable $queryStrings, int $reflectionFetchType): ?Type
     {
         $genericObjects = [];
 

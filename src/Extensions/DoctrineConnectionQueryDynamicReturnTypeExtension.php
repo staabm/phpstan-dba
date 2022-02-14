@@ -70,6 +70,6 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
         $doctrineReflection = new DoctrineReflection();
-        return $doctrineReflection->createGenericStatement($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
+        return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }
