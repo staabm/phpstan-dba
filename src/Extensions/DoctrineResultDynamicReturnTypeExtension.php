@@ -56,33 +56,30 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         }
 
         $resultType = $scope->getType($methodCall->var);
-        if (!$resultType instanceof GenericObjectType) {
-            return $defaultReturn;
-        }
-
-        $genericTypes = $resultType->getTypes();
-
-        if (1 !== \count($genericTypes)) {
-            return $defaultReturn;
-        }
-
-        $resultRowType = $genericTypes[0];
-
         if ('columncount' === strtolower($methodReflection->getName())) {
-            if ($resultRowType instanceof ConstantArrayType) {
-                $columnCount = \count($resultRowType->getKeyTypes()) / 2;
-                if (!\is_int($columnCount)) {
-                    throw new ShouldNotHappenException();
+            if ($resultType instanceof GenericObjectType) {
+                $genericTypes = $resultType->getTypes();
+                if (1 !== \count($genericTypes)) {
+                    return $defaultReturn;
                 }
+                $resultRowType = $genericTypes[0];
 
-                return new ConstantIntegerType($columnCount);
+                if ($resultRowType instanceof ConstantArrayType) {
+                    $columnCount = \count($resultRowType->getKeyTypes()) / 2;
+                    if (!\is_int($columnCount)) {
+                        throw new ShouldNotHappenException();
+                    }
+
+                    return new ConstantIntegerType($columnCount);
+                }
             }
 
             return $defaultReturn;
         }
 
         $doctrineReflection = new DoctrineReflection();
-        $fetchResultType = $doctrineReflection->reduceResultType($methodReflection, $resultRowType);
+        $fetchResultType = $doctrineReflection->reduceResultType($methodReflection, $resultType);
+
         if (null !== $fetchResultType) {
             return $fetchResultType;
         }

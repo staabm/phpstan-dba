@@ -18,14 +18,42 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use Traversable;
 
 final class DoctrineReflection
 {
-    public function reduceResultType(MethodReflection $methodReflection, Type $resultRowType): ?Type
+    public function reduceResultType(MethodReflection $methodReflection, Type $resultType): ?Type
     {
+        if ($resultType instanceof UnionType) {
+            $resultTypes = [];
+
+            foreach ($resultType->getTypes() as $type) {
+                $rowType = $this->reduceResultType($methodReflection, $type);
+                if (null === $rowType) {
+                    return null;
+                }
+                $resultTypes[] = $rowType;
+            }
+
+            return TypeCombinator::union(...$resultTypes);
+        }
+
+        if ($resultType instanceof GenericObjectType) {
+            $genericTypes = $resultType->getTypes();
+
+            if (1 !== \count($genericTypes)) {
+                return null;
+            }
+
+            $resultRowType = $genericTypes[0];
+
+            return $this->reduceResultType($methodReflection, $resultRowType);
+        }
+
+        $resultRowType = $resultType;
         $usedMethod = strtolower($methodReflection->getName());
 
         switch ($usedMethod) {
