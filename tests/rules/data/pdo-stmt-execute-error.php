@@ -72,4 +72,14 @@ class Foo
         $stmt->bindValue(':email', 'email@example.org');
         $stmt->execute(); // wrong number of parameters
     }
+
+    public function bug276(PDO $pdo)
+    {
+        $queries = ['SELECT 1', 'SELECT 1'];
+
+        foreach ($queries as $test) {
+            $test = $pdo->prepare($test); // reusing variable
+            $test->execute();
+        }
+    }
 }

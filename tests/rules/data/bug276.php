@@ -3,7 +3,6 @@
 namespace Bug276;
 
 use PDO;
-use function PHPStan\Testing\assertType;
 
 class Foo
 {
@@ -13,7 +12,7 @@ class Foo
 
         foreach ($queries as $test) {
             $test = $pdo->prepare($test); // reusing variable
-            assertType('bool', $test->execute());
+            $test->execute();
         }
     }
 }

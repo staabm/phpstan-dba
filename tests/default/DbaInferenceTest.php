@@ -46,7 +46,6 @@ class DbaInferenceTest extends TypeInferenceTestCase
         }
 
         yield from $this->gatherAssertTypes(__DIR__.'/data/bug254.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/bug276.php');
     }
 
     /**
