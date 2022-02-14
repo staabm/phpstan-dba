@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\Extensions;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
-use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
@@ -14,8 +13,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
@@ -60,6 +59,8 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Expr $paramsExpr, Scope $scope): ?Type
     {
+        $doctrineReflection = new DoctrineReflection();
+
         $parameterTypes = $scope->getType($paramsExpr);
 
         $stmtReflection = new PdoStatementReflection();
@@ -69,16 +70,8 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
         }
 
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
-        if (null === $queryString) {
-            return null;
-        }
+        $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
-        if ($resultType) {
-            return new GenericObjectType(Result::class, [$resultType]);
-        }
-
-        return null;
+        return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }

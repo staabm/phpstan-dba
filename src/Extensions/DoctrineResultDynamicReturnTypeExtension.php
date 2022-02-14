@@ -82,7 +82,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         }
 
         $doctrineReflection = new DoctrineReflection();
-        $fetchResultType = $doctrineReflection->fetchResultType($methodReflection, $resultRowType);
+        $fetchResultType = $doctrineReflection->reduceResultType($methodReflection, $resultRowType);
         if (null !== $fetchResultType) {
             return $fetchResultType;
         }

@@ -7,16 +7,15 @@ namespace staabm\PHPStanDba\Extensions;
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -65,16 +64,10 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
     private function inferType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();
-        $queryString = $queryReflection->resolveQueryString($queryExpr, $scope);
-        if (null === $queryString) {
-            return null;
-        }
+        $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
-        if ($resultType) {
-            return new GenericObjectType(Result::class, [$resultType]);
-        }
+        $doctrineReflection = new DoctrineReflection();
 
-        return null;
+        return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }
