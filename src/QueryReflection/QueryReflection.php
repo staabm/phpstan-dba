@@ -99,6 +99,8 @@ final class QueryReflection
     }
 
     /**
+     * @deprecated use resolvePreparedQueryStrings() instead
+     *
      * @throws UnresolvableQueryException
      */
     public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
@@ -141,6 +143,8 @@ final class QueryReflection
     }
 
     /**
+     * @deprecated use resolveQueryStrings() instead
+     *
      * @throws UnresolvableQueryException
      */
     public function resolveQueryString(Expr $queryExpr, Scope $scope): ?string
