@@ -16,12 +16,14 @@ class Foo
             assertType('Doctrine\DBAL\Statement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Statement<array{email: string, 0: string}>', $stmt);
 
             $result = $stmt->executeQuery([]);
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $result);
-            $result = $stmt->execute([]);
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
 
-            $fetch = $result->fetchOne();
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
+            $result = $stmt->execute([]);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
+
+            // XXX todo
+            // $fetch = $result->fetchOne();
+            // assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
         }
     }
 
