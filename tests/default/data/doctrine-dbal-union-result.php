@@ -22,7 +22,7 @@ class Foo
             assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
 
             $fetch = $result->fetchOne();
-            assertType('array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}|array{email: string, 0: string}|false', $fetch);
+            assertType('int<0, 4294967295>|string|false', $fetch);
 
             $fetch = $result->fetchAssociative();
             assertType('array{adaid: int<0, 4294967295>}|array{email: string}|false', $fetch);
