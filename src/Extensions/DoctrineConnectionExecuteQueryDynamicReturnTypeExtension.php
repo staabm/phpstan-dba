@@ -7,14 +7,12 @@ namespace staabm\PHPStanDba\Extensions;
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
@@ -81,6 +79,7 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         }
 
         $doctrineReflection = new DoctrineReflection();
+
         return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }
 }

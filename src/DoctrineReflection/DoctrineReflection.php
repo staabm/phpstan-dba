@@ -112,7 +112,7 @@ final class DoctrineReflection
     }
 
     /**
-     * @param iterable<string> $queryStrings
+     * @param iterable<string>            $queryStrings
      * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
      */
     public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
@@ -141,7 +141,7 @@ final class DoctrineReflection
     }
 
     /**
-     * @param iterable<string> $queryStrings
+     * @param iterable<string>            $queryStrings
      * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
      */
     public function createGenericResult(iterable $queryStrings, int $reflectionFetchType): ?Type
@@ -180,7 +180,7 @@ final class DoctrineReflection
         foreach ($queryStrings as $queryString) {
             $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
-            if ($resultType === null) {
+            if (null === $resultType) {
                 return null;
             }
 

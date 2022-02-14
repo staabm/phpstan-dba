@@ -13,12 +13,15 @@ class Foo
 
         foreach ($queries as $query) {
             $stmt = $conn->prepare($query);
-            assertType('Doctrine\DBAL\Result<array{email: string, 0: string, int<-128, 127>, 3: int<-128, 127>}>', $stmt);
+            assertType('Doctrine\DBAL\Statement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Statement<array{email: string, 0: string}>', $stmt);
 
             $result = $stmt->executeQuery([]);
-            assertType('Doctrine\DBAL\Result<array{email: string, 0: string, int<-128, 127>, 3: int<-128, 127>}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $result);
             $result = $stmt->execute([]);
-            assertType('Doctrine\DBAL\Result<array{email: string, 0: string, int<-128, 127>, 3: int<-128, 127>}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $result);
+
+            $fetch = $result->fetchOne();
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $fetch);
         }
     }
 
@@ -28,7 +31,7 @@ class Foo
 
         foreach ($queries as $query) {
             $result = $conn->query($query);
-            assertType('Doctrine\DBAL\Result<array{email: string, 0: string, int<-128, 127>, 3: int<-128, 127>}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
         }
     }
 }
