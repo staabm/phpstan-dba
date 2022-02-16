@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\DoctrineReflection;
 
+use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Statement;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -16,13 +18,42 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use Traversable;
 
 final class DoctrineReflection
 {
-    public function fetchResultType(MethodReflection $methodReflection, Type $resultRowType): ?Type
+    public function reduceResultType(MethodReflection $methodReflection, Type $resultType): ?Type
     {
+        if ($resultType instanceof UnionType) {
+            $resultTypes = [];
+
+            foreach ($resultType->getTypes() as $type) {
+                $rowType = $this->reduceResultType($methodReflection, $type);
+                if (null === $rowType) {
+                    return null;
+                }
+                $resultTypes[] = $rowType;
+            }
+
+            return TypeCombinator::union(...$resultTypes);
+        }
+
+        if ($resultType instanceof GenericObjectType) {
+            $genericTypes = $resultType->getTypes();
+
+            if (1 !== \count($genericTypes)) {
+                return null;
+            }
+
+            $resultRowType = $genericTypes[0];
+
+            return $this->reduceResultType($methodReflection, $resultRowType);
+        }
+
+        $resultRowType = $resultType;
         $usedMethod = strtolower($methodReflection->getName());
 
         switch ($usedMethod) {
@@ -103,6 +134,97 @@ final class DoctrineReflection
             $resultType = TypeCombinator::union($resultType, new ConstantBooleanType(false));
 
             return $resultType;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param iterable<string>            $queryStrings
+     * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
+     */
+    public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
+    {
+        $genericObjects = [];
+
+        foreach ($queryStrings as $queryString) {
+            $queryReflection = new QueryReflection();
+
+            $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
+            if (null === $resultType) {
+                return null;
+            }
+
+            $genericObjects[] = new GenericObjectType(Statement::class, [$resultType]);
+        }
+
+        if (\count($genericObjects) > 1) {
+            return TypeCombinator::union(...$genericObjects);
+        }
+        if (1 === \count($genericObjects)) {
+            return $genericObjects[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param iterable<string>            $queryStrings
+     * @param QueryReflector::FETCH_TYPE* $reflectionFetchType
+     */
+    public function createGenericResult(iterable $queryStrings, int $reflectionFetchType): ?Type
+    {
+        $genericObjects = [];
+
+        foreach ($queryStrings as $queryString) {
+            $queryReflection = new QueryReflection();
+
+            $resultType = $queryReflection->getResultType($queryString, $reflectionFetchType);
+            if (null === $resultType) {
+                return null;
+            }
+
+            $genericObjects[] = new GenericObjectType(Result::class, [$resultType]);
+        }
+
+        if (\count($genericObjects) > 1) {
+            return TypeCombinator::union(...$genericObjects);
+        }
+        if (1 === \count($genericObjects)) {
+            return $genericObjects[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param iterable<string> $queryStrings
+     */
+    public function createFetchType(iterable $queryStrings, MethodReflection $methodReflection): ?Type
+    {
+        $queryReflection = new QueryReflection();
+
+        $fetchTypes = [];
+        foreach ($queryStrings as $queryString) {
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+
+            if (null === $resultType) {
+                return null;
+            }
+
+            $fetchResultType = $this->reduceResultType($methodReflection, $resultType);
+            if (null === $fetchResultType) {
+                return null;
+            }
+
+            $fetchTypes[] = $fetchResultType;
+        }
+
+        if (\count($fetchTypes) > 1) {
+            return TypeCombinator::union(...$fetchTypes);
+        }
+        if (1 === \count($fetchTypes)) {
+            return $fetchTypes[0];
         }
 
         return null;
