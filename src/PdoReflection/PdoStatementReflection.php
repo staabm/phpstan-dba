@@ -75,11 +75,11 @@ final class PdoStatementReflection
      */
     public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
     {
-       $queryReflection = new QueryReflection();
-       $genericObjects = [];
+        $queryReflection = new QueryReflection();
+        $genericObjects = [];
 
-       foreach ($queryStrings as $queryString) {
-           $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+        foreach ($queryStrings as $queryString) {
+            $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
             if ($bothType) {
                 $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);

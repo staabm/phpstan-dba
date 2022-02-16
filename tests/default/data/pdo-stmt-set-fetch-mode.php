@@ -5,7 +5,8 @@ namespace PdoStmtFetchModeTest;
 use PDO;
 use function PHPStan\Testing\assertType;
 
-class Foo {
+class Foo
+{
     public function setFetchModeNum(PDO $pdo)
     {
         $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
