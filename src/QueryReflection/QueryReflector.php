@@ -14,6 +14,8 @@ interface QueryReflector
     public const FETCH_TYPE_BOTH = 5;
     public const FETCH_TYPE_KEY_VALUE = 6;
 
+    public const FETCH_TYPE_COLUMN = 50;
+
     public function validateQueryString(string $queryString): ?Error;
 
     /**
