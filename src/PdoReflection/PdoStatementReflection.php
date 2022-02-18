@@ -64,6 +64,8 @@ final class PdoStatementReflection
             return QueryReflector::FETCH_TYPE_NUMERIC;
         } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_BOTH;
+        } elseif (PDO::FETCH_COLUMN === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_COLUMN;
         }
 
         return null;
@@ -127,6 +129,20 @@ final class PdoStatementReflection
             $bothType = $genericTypes[1];
 
             return $this->reduceStatementResultType($bothType, $fetchType);
+        }
+
+        return null;
+    }
+
+    public function getColumnRowType(Type $statementType, int $columnIndex): ?Type
+    {
+        $statementType = $this->getRowType($statementType, QueryReflector::FETCH_TYPE_NUMERIC);
+
+        if ($statementType instanceof ConstantArrayType) {
+            $valueTypes = $statementType->getValueTypes();
+            if (\array_key_exists($columnIndex, $valueTypes)) {
+                return $valueTypes[$columnIndex];
+            }
         }
 
         return null;

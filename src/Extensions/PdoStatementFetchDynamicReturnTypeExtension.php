@@ -12,6 +12,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -19,6 +20,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -76,7 +78,23 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
         }
 
-        $rowType = $pdoStatementReflection->getRowType($statementType, $fetchType);
+        if ('fetchAll' === $methodReflection->getName() && QueryReflector::FETCH_TYPE_COLUMN === $fetchType) {
+            $columnIndex = 0;
+
+            if (\count($args) > 1) {
+                $columnIndexType = $scope->getType($args[1]->value);
+                if ($columnIndexType instanceof ConstantIntegerType) {
+                    $columnIndex = $columnIndexType->getValue();
+                } else {
+                    return null;
+                }
+            }
+
+            $rowType = $pdoStatementReflection->getColumnRowType($statementType, $columnIndex);
+        } else {
+            $rowType = $pdoStatementReflection->getRowType($statementType, $fetchType);
+        }
+
         if (null === $rowType) {
             return null;
         }

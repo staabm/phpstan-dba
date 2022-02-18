@@ -28,6 +28,15 @@ class Foo
         $all = $stmt->fetchAll(PDO::FETCH_ASSOC);
         assertType('array<int, array{email: string, adaid: int<0, 4294967295>}>', $all);
 
+        $all = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        assertType('array<int, string>', $all);
+
+        $all = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        assertType('array<int, string>', $all);
+
+        $all = $stmt->fetchAll(PDO::FETCH_COLUMN, 1);
+        assertType('array<int, int<0, 4294967295>>', $all);
+
         // not yet supported fetch types
         $all = $stmt->fetchAll(PDO::FETCH_OBJ);
         assertType('array', $all); // XXX since php8 this cannot return false
