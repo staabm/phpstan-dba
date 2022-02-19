@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
@@ -62,7 +63,9 @@ final class PdoStatementReflection
             return null;
         }
 
-        if (PDO::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
+        if (PDO::FETCH_CLASS === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_CLASS;
+        } elseif (PDO::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_KEY_VALUE;
         } elseif (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_ASSOC;
@@ -152,6 +155,14 @@ final class PdoStatementReflection
         }
 
         return null;
+    }
+
+    /**
+     * @param class-string $className
+     */
+    public function getClassRowType(Type $statementType, string $className): ?Type
+    {
+        return new ObjectType($className);
     }
 
     /**

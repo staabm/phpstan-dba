@@ -4,6 +4,7 @@ namespace PdoStmtFetchTest;
 
 use PDO;
 use function PHPStan\Testing\assertType;
+use staabm\PHPStanDba\Tests\Fixture\MyRowClass;
 
 class Foo
 {
@@ -39,6 +40,12 @@ class Foo
 
         $all = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
         assertType('array<int, array<string, int<0, 4294967295>>>', $all);
+
+        $all = $stmt->fetchAll(PDO::FETCH_CLASS, MyRowClass::class);
+        assertType('array<int, staabm\PHPStanDba\Tests\Fixture\MyRowClass>', $all);
+
+        $all = $stmt->fetchAll(PDO::FETCH_CLASS);
+        assertType('array<int, stdClass>', $all);
 
         // not yet supported fetch types
         $all = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -77,6 +84,12 @@ class Foo
 
         $all = $stmt->fetch(PDO::FETCH_KEY_PAIR);
         assertType('array<string, int<0, 4294967295>>|false', $all);
+
+        $all = $stmt->fetchObject(MyRowClass::class);
+        assertType('staabm\PHPStanDba\Tests\Fixture\MyRowClass|false', $all);
+
+        $all = $stmt->fetchObject();
+        assertType('stdClass|false', $all);
 
         // not yet supported fetch types
         $all = $stmt->fetch(PDO::FETCH_OBJ);
