@@ -127,6 +127,9 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         }
 
         if ('fetchAll' === $methodReflection->getName()) {
+            if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType) {
+                return $rowType;
+            }
             return new ArrayType(new IntegerType(), $rowType);
         }
 
