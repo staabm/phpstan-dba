@@ -39,7 +39,7 @@ class Foo
         assertType('array<int, int<0, 4294967295>>', $all);
 
         $all = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-        assertType('array<int, array<string, int<0, 4294967295>>>', $all);
+        assertType('array<string, int<0, 4294967295>>', $all);
 
         $all = $stmt->fetchAll(PDO::FETCH_CLASS, MyRowClass::class);
         assertType('array<int, staabm\PHPStanDba\Tests\Fixture\MyRowClass>', $all);
