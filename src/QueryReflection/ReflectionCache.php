@@ -146,9 +146,11 @@ final class ReflectionCache
             }
 
             // sort records to prevent unnecessary cache invalidation caused by different order of queries
-            uksort($newRecords, function ($queryA, $queryB) {
-                return $queryA <=> $queryB;
-            });
+            ksort($newRecords);
+
+            foreach ($newRecords as $newRecord) {
+                ksort($newRecord);
+            }
 
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
