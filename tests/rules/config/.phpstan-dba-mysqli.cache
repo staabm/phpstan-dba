@@ -972,7 +972,7 @@
     array (
       'result' => 
       array (
-        5 => NULL,
+        3 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 

@@ -70,8 +70,7 @@ class Foo
         assertType('string|false', $all);
 
         $all = $stmt->fetch(PDO::FETCH_COLUMN, 1);
-        assertType( 'int<0, 4294967295>|false', $all);
-
+        assertType('int<0, 4294967295>|false', $all);
 
         // not yet supported fetch types
         $all = $stmt->fetch(PDO::FETCH_OBJ);
