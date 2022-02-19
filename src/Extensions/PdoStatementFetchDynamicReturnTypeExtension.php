@@ -78,7 +78,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
         }
 
-        if ('fetchAll' === $methodReflection->getName() && QueryReflector::FETCH_TYPE_COLUMN === $fetchType) {
+        if (QueryReflector::FETCH_TYPE_COLUMN === $fetchType) {
             $columnIndex = 0;
 
             if (\count($args) > 1) {
