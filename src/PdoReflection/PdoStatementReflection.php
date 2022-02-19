@@ -8,6 +8,7 @@ use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -20,8 +21,10 @@ use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
+// XXX move into a "Reflection" package on next major version
 final class PdoStatementReflection
 {
+    // XXX move into separate class on next major version
     public function findPrepareQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         $exprFinder = new ExpressionFinder();
@@ -37,6 +40,7 @@ final class PdoStatementReflection
         return null;
     }
 
+    // XXX move into separate class on next major version
     /**
      * @return MethodCall[]
      */
@@ -58,7 +62,9 @@ final class PdoStatementReflection
             return null;
         }
 
-        if (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+        if (PDO::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
+            return QueryReflector::FETCH_TYPE_KEY_VALUE;
+        } elseif (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_ASSOC;
         } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_NUMERIC;
@@ -153,10 +159,17 @@ final class PdoStatementReflection
      */
     private function reduceStatementResultType(Type $bothType, int $fetchType): Type
     {
+        if (!$bothType instanceof ConstantArrayType) {
+            return $bothType;
+        }
+
+        if (\count($bothType->getValueTypes()) <= 0) {
+            return $bothType;
+        }
+
         // turn a BOTH typed statement into either NUMERIC or ASSOC
         if (
-            (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType) &&
-            $bothType instanceof ConstantArrayType && \count($bothType->getValueTypes()) > 0
+            QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType
         ) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
@@ -172,6 +185,13 @@ final class PdoStatementReflection
             }
 
             return $builder->getArray();
+        }
+
+        // both types contains numeric and string keys, therefore the count is doubled
+        if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType && \count($bothType->getValueTypes()) >= 4) {
+            $valueTypes = $bothType->getValueTypes();
+
+            return new ArrayType($valueTypes[0], $valueTypes[2]);
         }
 
         // not yet supported fetch type - or $fetchType == BOTH

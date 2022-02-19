@@ -37,6 +37,9 @@ class Foo
         $all = $stmt->fetchAll(PDO::FETCH_COLUMN, 1);
         assertType('array<int, int<0, 4294967295>>', $all);
 
+        $all = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+        assertType('array<int, array<string, int<0, 4294967295>>>', $all);
+
         // not yet supported fetch types
         $all = $stmt->fetchAll(PDO::FETCH_OBJ);
         assertType('array', $all); // XXX since php8 this cannot return false
@@ -71,6 +74,9 @@ class Foo
 
         $all = $stmt->fetch(PDO::FETCH_COLUMN, 1);
         assertType('int<0, 4294967295>|false', $all);
+
+        $all = $stmt->fetch(PDO::FETCH_KEY_PAIR);
+        assertType('array<string, int<0, 4294967295>>|false', $all);
 
         // not yet supported fetch types
         $all = $stmt->fetch(PDO::FETCH_OBJ);
