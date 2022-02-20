@@ -48,6 +48,7 @@ final class SchemaHasherMysql {
             GROUP BY
                 grouper';
 
+        $hash = '';
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query($query);
             foreach($stmt as $row) {
