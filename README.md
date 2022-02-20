@@ -39,7 +39,7 @@ composer require --dev staabm/phpstan-dba
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
+use staabm\PHPStanDba\QueryReflection\ReplayAndRecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
@@ -51,13 +51,17 @@ $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
 
+// TODO: Put your database credentials here
+$mysqli = new mysqli('hostname', 'username', 'password', 'database');
+
 QueryReflection::setupReflector(
-    new RecordingQueryReflector(
+    new ReplayAndRecordingQueryReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // TODO: Put your database credentials here
-        new MysqliQueryReflector(new mysqli('hostname', 'username', 'password', 'database'))
+        new MysqliQueryReflector($mysqli),
+        new SchemaHasherMysql($mysqli)
+        
     ),
     $config
 );
