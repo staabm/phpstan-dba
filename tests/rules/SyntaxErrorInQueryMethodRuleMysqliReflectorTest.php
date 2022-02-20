@@ -50,7 +50,7 @@ class SyntaxErrorInQueryMethodRuleMysqliReflectorTest extends AbstractServiceAwa
                 36,
             ],
             [
-                "Query error: Table 'phpstan_dba.unknownTable' doesn't exist (1146).",
+                "Query error: Table 'phpstan_dba.unknown_table' doesn't exist (1146).",
                 41,
             ],
             [
