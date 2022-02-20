@@ -6,13 +6,13 @@ namespace staabm\PHPStanDba\DbSchema;
 
 use mysqli;
 use PDO;
-use PHPStan\ShouldNotHappenException;
 
 final class SchemaHasherMysql {
     /**
      * @var PDO|mysqli $connection
      */
     private $connection;
+
     /**
      * @param PDO|mysqli $connection
      */
@@ -20,7 +20,7 @@ final class SchemaHasherMysql {
         $this->connection = $connection;
     }
 
-    public function hash(string $databaseName): string {
+    public function hash(): string {
         $query = '
             SELECT
                 MD5(
@@ -37,24 +37,16 @@ final class SchemaHasherMysql {
             FROM
                 information_schema.columns
             WHERE
-                table_schema = ?
+                table_schema = DATABASE()
             GROUP BY
                 grouper';
 
         if ($this->connection instanceof PDO) {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute([$databaseName]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $this->connection->query($query);
+
             return isset($result[0]) ? $result[0]['dbsignature'] : '';
         } else {
-            $stmt = $this->connection->prepare($query);
-            if ($stmt === false) {
-                throw new ShouldNotHappenException('unable to prepare query');
-            }
-
-            $stmt->bind_param('s', $databaseName);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $result = $this->connection->query($query);
             $row = $result->fetch_assoc();
 
             return $row['dbsignature'] ?? '';
