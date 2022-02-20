@@ -60,7 +60,7 @@ QueryReflection::setupReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // XXX alternatively you might use PdoQueryReflector instead
+        // XXX alternatively you can use PdoQueryReflector instead
         new MysqliQueryReflector($mysqli),
         new SchemaHasherMysql($mysqli)
         
@@ -77,9 +77,9 @@ Your `phpstan.neon` might look something like:
 
 ```neon
 parameters:
-  level: 9
+  level: 8
   paths:
-    - public
+    - src/
   bootstrapFiles:
     - phpstan-dba-bootstrap.php
 
@@ -106,7 +106,8 @@ If not configured otherwise, the following defaults are used:
 
 ### Record and Replay
 
-In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector` classes to record the reflection information.
+In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector`-classes to record the reflection information.
+
 With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
 
 ```php
