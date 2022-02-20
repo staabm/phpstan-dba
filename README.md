@@ -146,7 +146,8 @@ This might be usefull if your CI pipeline can't/shouldn't connect to your develo
 
 ### Backend Connecting Reflector
 
-These reflectors connect to a real database, infers types based on result-set metadata and are able to detect errors within a given sql query.
+These reflectors connect to a real database, infer types based on result-set/schema metadata and are able to detect errors within a given sql query.
+It is **not** mandatory to use the same database driver for phpstan-dba, as you use within your application code.
 
 | Reflector            | Key Features                                                                                                                                                 |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
