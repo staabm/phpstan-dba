@@ -10,7 +10,7 @@ $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 // $config->debugMode(true);
 
-if (false === getenv('GITHUB_ACTION')) {
+if (false === getenv('GITHUB_ACTION') && false === getenv('DBA_MODE')) {
     putenv('DBA_MODE=replay-and-recording');
 }
 
