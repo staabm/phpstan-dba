@@ -23,7 +23,7 @@ final class SchemaHasherMysql {
         $this->connection = $connection;
     }
 
-    public function hash(): string {
+    public function hashDb(): string {
         if ($this->hash !== null) {
             return $this->hash;
         }
