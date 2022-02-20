@@ -13,6 +13,8 @@ final class SchemaHasherMysql {
      */
     private $connection;
 
+    private ?string $hash;
+
     /**
      * @param PDO|mysqli $connection
      */
@@ -21,6 +23,10 @@ final class SchemaHasherMysql {
     }
 
     public function hash(): string {
+        if ($this->hash !== null) {
+            return $this->hash;
+        }
+
         $query = '
             SELECT
                 MD5(
@@ -44,12 +50,14 @@ final class SchemaHasherMysql {
         if ($this->connection instanceof PDO) {
             $result = $this->connection->query($query);
 
-            return isset($result[0]) ? $result[0]['dbsignature'] : '';
+            $hash = isset($result[0]) ? $result[0]['dbsignature'] : '';
         } else {
             $result = $this->connection->query($query);
             $row = $result->fetch_assoc();
 
-            return $row['dbsignature'] ?? '';
+            $hash = $row['dbsignature'] ?? '';
         }
+
+        return $this->hash = $hash;
     }
 }
