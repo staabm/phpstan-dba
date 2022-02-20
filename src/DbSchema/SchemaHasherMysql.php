@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\DbSchema;
 
 use mysqli;
 use PDO;
+use PHPStan\ShouldNotHappenException;
 
 final class SchemaHasherMysql {
     /**
@@ -48,14 +49,19 @@ final class SchemaHasherMysql {
                 grouper';
 
         if ($this->connection instanceof PDO) {
-            $result = $this->connection->query($query);
-
-            $hash = isset($result[0]) ? $result[0]['dbsignature'] : '';
+            $stmt = $this->connection->query($query);
+            foreach($stmt as $row) {
+                $hash = $row['dbsignature'] ?? '';
+            }
         } else {
             $result = $this->connection->query($query);
             $row = $result->fetch_assoc();
 
             $hash = $row['dbsignature'] ?? '';
+        }
+
+        if ($hash === '') {
+            throw new ShouldNotHappenException();
         }
 
         return $this->hash = $hash;
