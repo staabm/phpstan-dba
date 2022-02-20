@@ -186,9 +186,3 @@ services:
 ```
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
-
-## Todos
-
-- support a PDO based `QueryReflector`
-- security rule: detect possible sql injections
-- performance rule: detect queries not using indexes
