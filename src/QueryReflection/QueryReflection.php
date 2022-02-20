@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use PhpMyAdmin\SqlParser\Parser;
+use PhpMyAdmin\SqlParser\Statement;
+use PhpMyAdmin\SqlParser\Utils\Query;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PHPStan\Analyser\Scope;
@@ -193,12 +196,25 @@ final class QueryReflection
         return QuerySimulation::simulateParamValueType($type, false);
     }
 
+    public static function parseQuery(string $query): Statement
+    {
+        $parser = new Parser($query, false);
+
+        if (1 !== \count($parser->statements)) {
+            throw new ShouldNotHappenException('query contains zero or more than one statements');
+        }
+
+        return $parser->statements[0];
+    }
+
     public static function getQueryType(string $query): ?string
     {
-        $query = ltrim($query);
+        $statement = self::parseQuery($query);
 
-        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
-            return strtoupper($matches[1]);
+        $flags = Query::getFlags($statement);
+
+        if ($flags['querytype']) {
+            return $flags['querytype'];
         }
 
         return null;

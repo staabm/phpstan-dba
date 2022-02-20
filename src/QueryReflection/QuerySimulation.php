@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use PHPStan\ShouldNotHappenException;
+use PhpMyAdmin\SqlParser\Components\Limit;
+use PhpMyAdmin\SqlParser\Statements\SelectStatement;
 use PHPStan\Type\Accessory\AccessoryType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
@@ -119,38 +120,22 @@ final class QuerySimulation
 
     public static function simulate(string $queryString): ?string
     {
-        $queryString = self::stripTraillingLimit($queryString);
+        $statement = QueryReflection::parseQuery($queryString);
 
-        if (null === $queryString) {
+        if (!($statement instanceof SelectStatement)) {
             return null;
         }
-        $queryString .= ' LIMIT 0';
 
-        return $queryString;
-    }
+        /* @var SelectStatement $statement */
 
-    private static function stripTraillingLimit(string $queryString): ?string
-    {
-        // XXX someday we will use a proper SQL parser
-        $queryString = rtrim($queryString);
+        // strip FOR UPDATE
+        $statement->end_options = null;
 
-        // strip trailling delimiting semicolon
-        $queryString = rtrim($queryString, ';');
+        // strip INTO
+        $statement->into = null;
 
-        // strip trailling FOR UPDATE/FOR SHARE
-        $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*$/i', '$1', $queryString);
+        $statement->limit = new Limit(0, 0);
 
-        if (null === $queryString) {
-            throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');
-        }
-
-        // strip trailling OFFSET
-        $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
-
-        if (null === $queryString) {
-            throw new ShouldNotHappenException('Could not strip trailing OFFSET from query');
-        }
-
-        return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
+        return $statement->build();
     }
 }
