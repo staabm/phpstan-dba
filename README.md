@@ -36,6 +36,7 @@ composer require --dev staabm/phpstan-dba
 ```php
 <?php // phpstan-dba-bootstrap.php
 
+use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -59,6 +60,7 @@ QueryReflection::setupReflector(
         ReflectionCache::create(
             $cacheFile
         ),
+        // XXX alternatively you might use PdoQueryReflector instead
         new MysqliQueryReflector($mysqli),
         new SchemaHasherMysql($mysqli)
         
@@ -104,7 +106,7 @@ If not configured otherwise, the following defaults are used:
 
 ### Record and Replay
 
-In case you don't want to depend on a database at PHPStan analysis time, you can use the [`RecordingQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/RecordingQueryReflector.php) to record the reflection information.
+In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector` classes to record the reflection information.
 With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
 
 ```php
