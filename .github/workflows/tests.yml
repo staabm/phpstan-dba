@@ -22,6 +22,7 @@ jobs:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
+
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
@@ -29,8 +30,14 @@ jobs:
             db-image: 'mariadb:latest'
             reflector: "mysqli"
 
+          - php-version: "8.1"
+            db-image: 'mysql:8.0'
+            reflector: "pdo"
+            mode: "replay-and-recording"
+
     env:
       DBA_REFLECTOR: ${{ matrix.reflector }}
+      DBA_MODE: ${{ matrix.mode }}
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
@@ -75,9 +82,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: "8.1"
-            reflector: "pdo"
-            mode: "replay-and-recording"
           - php-version: "8.1"
             reflector: "pdo"
             mode: "replay"
