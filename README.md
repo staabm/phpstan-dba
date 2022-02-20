@@ -63,7 +63,7 @@ QueryReflection::setupReflector(
         // XXX alternatively you can use PdoQueryReflector instead
         new MysqliQueryReflector($mysqli),
         new SchemaHasherMysql($mysqli)
-        
+
     ),
     $config
 );
@@ -141,6 +141,42 @@ QueryReflection::setupReflector(
 This might be usefull if your CI pipeline can't/shouldn't connect to your development database server for whatever reason.
 
 **Note**: In case you commit the generated cache files into your repository, consider [marking them as generated files](https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github), so they don't show up in Pull Requests.
+
+## Reflector Overview
+
+### Backend Connecting Reflector
+
+These reflectors connect to a real database, infers types based on result-set metadata and are able to detect errors within a given sql query.
+
+| Reflector            | Key Features                                           |
+|----------------------|--------------------------------------------------------|
+| MysqliQueryReflector | - limited to mysql/mariadb databases                   |
+|                      | - requires a active database connection                |
+|                      | - most feature complete reflector                      |
+|----------------------| ----------------------------------------               |
+| PdoQueryReflector    | - connects to a mysql/mariadb database                 |
+|                      | - requires a active database connection |
+|                      | - can be used as a foundation for other database types in the future |
+
+### Utility Reflectors
+
+Utility reflectors will be used in combination with backend connecting reflectors to provide additional features.
+
+| Reflector                        | Key Features                                                                                                            |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| ChainedReflector                 | - chain several backend connecting reflectors, so applications which use multiple database connections can be analyzed  |
+| ------------------               | ------------------------------------------------------------------------------------------------------------------------ |
+| RecordingQueryReflector          | - wraps a backend connecting reflector and caches the reflected information into a local file                           |
+| ------------------               | ------------------------------------------------------------------------------------------------------------------------ |
+| ReplayQueryReflector             | - utilizes the cached information of a *RecordingQueryReflector                                                         |
+|                                  | - will **not** validate the cached information, therefore might return stale results                                    |
+|                                  | - does **not** require a active database connection                                                                     |
+| ------------------               | ------------------------------------------------------------------------------------------------------------------------ |
+| ReplayAndRecordingQueryReflector | - utilizes the cached information of a *RecordingQueryReflector                                                         |
+|                                  | - will validate the cached information                                                                                  |
+|                                  | - will update local cache file information, even on external changes                                                    |
+|                                  | - will reduce database interactions to a minimum, but still requires a active database connection                       |
+| ------------------               | ------------------------------------------------------------------------------------------------------------------------ |
 
 ## Advanced Usage
 
