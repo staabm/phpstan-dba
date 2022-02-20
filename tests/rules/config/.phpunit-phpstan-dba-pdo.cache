@@ -272,6 +272,14 @@
          'code' => '42S02',
       )),
     ),
+    'SELECT * FROM unknown_table' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.unknown_table\' doesn\'t exist',
+         'code' => '42S02',
+      )),
+    ),
     'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
       'error' => NULL,

@@ -30,6 +30,13 @@
         5 => NULL,
       ),
     ),
+    'SELECT * FROM unknown_table' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT adaid FROM ada WHERE email=\'1970-01-01\'' => 
     array (
       'result' => 
@@ -972,7 +979,7 @@
     array (
       'result' => 
       array (
-        5 => NULL,
+        3 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
