@@ -1,5 +1,6 @@
 <?php return array (
-  'schemaVersion' => 'v5-runtime-config-bugfix',
+  'schemaVersion' => 'v6-schema-hash',
+  'schemaHash' => NULL,
   'records' => 
   array (
     'SELECT * FROM ada GROUP BY doesNotExist' => 
@@ -17,13 +18,6 @@
       ),
     ),
     'SELECT * FROM ada WHERE doesNotExist=1' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT * FROM unknownTable' => 
     array (
       'result' => 
       array (
@@ -979,6 +973,7 @@
     array (
       'result' => 
       array (
+        3 => NULL,
         5 => NULL,
       ),
     ),

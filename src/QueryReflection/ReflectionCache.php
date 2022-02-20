@@ -12,7 +12,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v5-runtime-config-bugfix';
+    public const SCHEMA_VERSION = 'v6-schema-hash';
 
     /**
      * @var string
@@ -28,6 +28,11 @@ final class ReflectionCache
      * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $changes = [];
+
+    /**
+     * @var string|null
+     */
+    private $schemaHash;
 
     /**
      * @var bool
@@ -67,6 +72,26 @@ final class ReflectionCache
     public static function load(string $cacheFile): self
     {
         return new self($cacheFile);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSchemaHash()
+    {
+        if (null === $this->schemaHash) {
+            $this->lazyReadRecords();
+        }
+
+        return $this->schemaHash;
+    }
+
+    /**
+     * @return void
+     */
+    public function setSchemaHash(string $hash)
+    {
+        $this->schemaHash = $hash;
     }
 
     /**
@@ -111,12 +136,19 @@ final class ReflectionCache
             }
         }
 
-        if (!\is_array($cache) || !\array_key_exists('schemaVersion', $cache) || self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+        if (!\is_array($cache) ||
+            !\array_key_exists('schemaVersion', $cache) ||
+            !\array_key_exists('schemaHash', $cache) ||
+            self::SCHEMA_VERSION !== $cache['schemaVersion']) {
             return null;
         }
 
         if ($cache['runtimeConfig'] !== QueryReflection::getRuntimeConfiguration()->toArray()) {
             return null;
+        }
+
+        if (null === $this->schemaHash) {
+            $this->schemaHash = $cache['schemaHash'];
         }
 
         if (!\is_array($cache['records'])) {
@@ -156,6 +188,7 @@ final class ReflectionCache
 
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
+                    'schemaHash' => $this->schemaHash,
                     'records' => $newRecords,
                     'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
                 ], true).';';

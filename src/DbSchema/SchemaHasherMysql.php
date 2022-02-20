@@ -8,9 +8,10 @@ use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
 
-final class SchemaHasherMysql {
+final class SchemaHasherMysql
+{
     /**
-     * @var PDO|mysqli $connection
+     * @var PDO|mysqli
      */
     private $connection;
 
@@ -19,12 +20,14 @@ final class SchemaHasherMysql {
     /**
      * @param PDO|mysqli $connection
      */
-    public function __construct($connection) {
+    public function __construct($connection)
+    {
         $this->connection = $connection;
     }
 
-    public function hashDb(): string {
-        if ($this->hash !== null) {
+    public function hashDb(): string
+    {
+        if (null !== $this->hash) {
             return $this->hash;
         }
 
@@ -51,7 +54,7 @@ final class SchemaHasherMysql {
         $hash = '';
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query($query);
-            foreach($stmt as $row) {
+            foreach ($stmt as $row) {
                 $hash = $row['dbsignature'] ?? '';
             }
         } else {
@@ -61,7 +64,7 @@ final class SchemaHasherMysql {
             $hash = $row['dbsignature'] ?? '';
         }
 
-        if ($hash === '') {
+        if ('' === $hash) {
             throw new ShouldNotHappenException();
         }
 

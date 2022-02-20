@@ -4,11 +4,13 @@ namespace staabm\PHPStanDba\Tests;
 
 use mysqli;
 use PDO;
+use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
+use staabm\PHPStanDba\QueryReflection\ReplayAndRecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 
 final class ReflectorFactory
@@ -42,28 +44,38 @@ final class ReflectorFactory
             $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
         }
 
-        if ('recording' === $mode) {
+        $reflectionCache = ReflectionCache::create(
+            $cacheFile
+        );
+
+        if ('recording' === $mode || 'replay-and-recording' === $mode) {
             if ('mysqli' === $reflector) {
                 $mysqli = new mysqli($host, $user, $password, $dbname);
                 $reflector = new MysqliQueryReflector($mysqli);
+                $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo' === $reflector) {
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoQueryReflector($pdo);
+                $schemaHasher = new SchemaHasherMysql($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: '.$reflector);
             }
 
-            $reflector = new RecordingQueryReflector(
-                ReflectionCache::create(
-                    $cacheFile
-                ),
-                $reflector
-            );
+            if ('replay-and-recording' === $mode) {
+                $reflector = new ReplayAndRecordingQueryReflector(
+                    $reflectionCache,
+                    $reflector,
+                    $schemaHasher
+                );
+            } else {
+                $reflector = new RecordingQueryReflector(
+                    $reflectionCache,
+                    $reflector
+                );
+            }
         } elseif ('replay' === $mode) {
             $reflector = new ReplayQueryReflector(
-                ReflectionCache::create(
-                    $cacheFile
-                )
+                $reflectionCache
             );
         } else {
             throw new \RuntimeException('Unknown mode: '.$mode);
