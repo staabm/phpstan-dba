@@ -131,6 +131,8 @@ final class MysqliQueryReflector implements QueryReflector
             return $this->cache[$queryString] = null;
         }
 
+        $this->db->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
+
         try {
             $result = $this->db->query($simulatedQuery);
 
@@ -144,6 +146,8 @@ final class MysqliQueryReflector implements QueryReflector
             return $this->cache[$queryString] = $resultInfo;
         } catch (mysqli_sql_exception $e) {
             return $this->cache[$queryString] = $e;
+        } finally {
+            $this->db->rollback();
         }
     }
 }
