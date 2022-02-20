@@ -43,9 +43,9 @@ final class MysqliTypeMapper
         $this->typeMapper = new MysqlTypeMapper();
     }
 
-    public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(int $mysqlType, int $mysqlFlags, int $length, ?string $function = null): Type
     {
-        return $this->typeMapper->mapToPHPStanType($this->type2txt($mysqlType), $this->flags2txt($mysqlFlags), $length);
+        return $this->typeMapper->mapToPHPStanType($this->type2txt($mysqlType), $this->flags2txt($mysqlFlags), $length, $function);
     }
 
     private function type2txt(int $typeId): string

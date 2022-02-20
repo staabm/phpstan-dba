@@ -26,7 +26,7 @@ final class MysqlTypeMapper
     /**
      * @param list<string> $mysqlFlags
      */
-    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length, ?string $function = null): Type
     {
         $numeric = false;
         $notNull = false;
@@ -81,6 +81,10 @@ final class MysqlTypeMapper
                     20, 22 => $mysqlIntegerRanges->signedBigInt(),
                     default => null,
                 };
+            }
+
+            if ('COUNT' === $function) {
+                $phpstanType = $mysqlIntegerRanges->unsignedBigInt();
             }
         }
 

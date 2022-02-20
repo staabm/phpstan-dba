@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use mysqli;
 use mysqli_result;
 use mysqli_sql_exception;
+use PhpMyAdmin\SqlParser\Parser;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -76,6 +77,11 @@ final class MysqliQueryReflector implements QueryReflector
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
+        $parser = new Parser($queryString, false);
+
+        /** @var ?\PhpMyAdmin\SqlParser\Statements\SelectStatement $statement */
+        $statement = $parser->statements[0] ?? null;
+
         $result = $this->simulateQuery($queryString);
         if (!\is_array($result)) {
             return null;
@@ -94,16 +100,26 @@ final class MysqliQueryReflector implements QueryReflector
                 throw new ShouldNotHappenException();
             }
 
+            $function = null;
+
+            if (null !== $statement) {
+                $parsedExpression = $statement->expr[$i];
+
+                if (!empty($parsedExpression->function)) {
+                    $function = strtoupper($parsedExpression->function);
+                }
+            }
+
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val->name),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length, $function)
                 );
             }
             if (self::FETCH_TYPE_NUMERIC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantIntegerType($i),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length, $function)
                 );
             }
             ++$i;
