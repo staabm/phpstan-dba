@@ -228,6 +228,9 @@ final class ReflectionCache
         return \array_key_exists('error', $cacheEntry);
     }
 
+    /**
+     * @throws CacheNotPopulatedException
+     */
     public function getValidationError(string $queryString): ?Error
     {
         $records = $this->lazyReadRecords();
@@ -280,6 +283,8 @@ final class ReflectionCache
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
+     *
+     * @throws CacheNotPopulatedException
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
