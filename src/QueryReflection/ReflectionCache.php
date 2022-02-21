@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use staabm\PHPStanDba\CacheNotPopulatedException;
 use const LOCK_EX;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
@@ -155,6 +156,8 @@ final class ReflectionCache
 
         if (null === $this->schemaHash) {
             $this->schemaHash = $cache['schemaHash'];
+        } elseif ($this->schemaHash !== $cache['schemaHash']) {
+            return null;
         }
 
         if (!\is_array($cache['records'])) {
@@ -230,12 +233,12 @@ final class ReflectionCache
         $records = $this->lazyReadRecords();
 
         if (!\array_key_exists($queryString, $records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('error', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         return $cacheEntry['error'];
@@ -283,16 +286,16 @@ final class ReflectionCache
         $records = $this->lazyReadRecords();
 
         if (!\array_key_exists($queryString, $records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         if (!\array_key_exists($fetchType, $cacheEntry['result'])) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         return $cacheEntry['result'][$fetchType];
