@@ -46,12 +46,16 @@
 			"@csfix"
 		],
 		"record": [
+			"@putenv DBA_MODE=recording",
+
 			"@putenv DBA_REFLECTOR=mysqli",
 			"@phpunit",
 			"@phpstan",
+
 			"@putenv DBA_REFLECTOR=pdo",
 			"@phpunit",
 			"@phpstan",
+
 			"@csfix"
 		],
 		"phpstan": [

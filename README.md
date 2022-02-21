@@ -36,10 +36,11 @@ composer require --dev staabm/phpstan-dba
 ```php
 <?php // phpstan-dba-bootstrap.php
 
+use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
+use staabm\PHPStanDba\QueryReflection\ReplayAndRecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
@@ -51,13 +52,18 @@ $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
 
+// TODO: Put your database credentials here
+$mysqli = new mysqli('hostname', 'username', 'password', 'database');
+
 QueryReflection::setupReflector(
-    new RecordingQueryReflector(
+    new ReplayAndRecordingQueryReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // TODO: Put your database credentials here
-        new MysqliQueryReflector(new mysqli('hostname', 'username', 'password', 'database'))
+        // XXX alternatively you can use PdoQueryReflector instead
+        new MysqliQueryReflector($mysqli),
+        new SchemaHasherMysql($mysqli)
+
     ),
     $config
 );
@@ -71,9 +77,9 @@ Your `phpstan.neon` might look something like:
 
 ```neon
 parameters:
-  level: 9
+  level: 8
   paths:
-    - public
+    - src/
   bootstrapFiles:
     - phpstan-dba-bootstrap.php
 
@@ -100,7 +106,8 @@ If not configured otherwise, the following defaults are used:
 
 ### Record and Replay
 
-In case you don't want to depend on a database at PHPStan analysis time, you can use the [`RecordingQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/RecordingQueryReflector.php) to record the reflection information.
+In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector`-classes to record the reflection information.
+
 With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
 
 ```php
@@ -134,6 +141,34 @@ QueryReflection::setupReflector(
 This might be usefull if your CI pipeline can't/shouldn't connect to your development database server for whatever reason.
 
 **Note**: In case you commit the generated cache files into your repository, consider [marking them as generated files](https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github), so they don't show up in Pull Requests.
+
+## Reflector Overview
+
+### Backend Connecting Reflector
+
+These reflectors connect to a real database, infer types based on result-set/schema metadata and are able to detect errors within a given sql query.
+It is **not** mandatory to use the same database driver for phpstan-dba, as you use within your application code.
+
+| Reflector            | Key Features                                                                                                                                                 |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MysqliQueryReflector | - limited to mysql/mariadb databases<br/>- requires a active database connection<br/>- most feature complete reflector                                       |
+| PdoQueryReflector    | - connects to a mysql/mariadb database<br/>- requires a active database connection<br/>- can be used as a foundation for other database types in the future  |
+
+### Utility Reflectors
+
+Utility reflectors will be used in combination with backend connecting reflectors to provide additional features.
+
+| Reflector                        | Key Features                                                                                                                                                                                                                                                                                                                                                |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ReplayAndRecordingQueryReflector | - wraps a backend connecting reflector, caches the reflected information into a local file and utilizes the cached information<br/>- will re-validate the cached information<br/>- will update local cache file information, even on external changes<br/>- will reduce database interactions to a minimum, but still requires a active database connection |
+| ReplayQueryReflector             | - utilizes the cached information of a `*RecordingQueryReflector`<br/>- will **not** validate the cached information, therefore might return stale results<br/> - does **not** require a active database connection                                                                                                                                         |
+| ChainedReflector                 | - chain several backend connecting reflectors, so applications which use multiple database connections can be analyzed                                                                                                                                                                                                                                      |
+
+Legacy utility reflectors
+
+| Reflector                        | Key Features                                                                                         |
+|----------------------------------|------------------------------------------------------------------------------------------------------|
+| RecordingQueryReflector          | - wraps a backend connecting reflector and caches the reflected information into a local file<br/>-requires a active database connection  |
 
 ## Advanced Usage
 

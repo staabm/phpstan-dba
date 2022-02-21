@@ -1,5 +1,6 @@
 <?php return array (
-  'schemaVersion' => 'v5-runtime-config-bugfix',
+  'schemaVersion' => 'v6-schema-hash',
+  'schemaHash' => NULL,
   'records' => 
   array (
     '
@@ -262,14 +263,6 @@
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => 1054,
-      )),
-    ),
-    'SELECT * FROM unknownTable' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Table \'phpstan_dba.unknownTable\' doesn\'t exist',
-         'code' => 1146,
       )),
     ),
     'SELECT * FROM unknown_table' => 

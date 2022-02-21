@@ -1,126 +1,8 @@
 <?php return array (
-  'schemaVersion' => 'v5-runtime-config-bugfix',
+  'schemaVersion' => 'v6-schema-hash',
+  'schemaHash' => NULL,
   'records' => 
   array (
-    '
-            SELECT email adaid
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
-            FROM ada
-            LIMIT        1
-        ' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
-         'code' => '42000',
-      )),
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            FOR UPDATE
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            FOR UPDATE
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-            FOR SHARE
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-            FOR UPDATE
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET 1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\',  \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT   \'1\',     \'1\'
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
-            LIMIT        1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
-    '
-            SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE NULL
-            LIMIT        1
-        ' => 
-    array (
-      'error' => NULL,
-    ),
     '
             SELECT email adaid
             WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
@@ -264,14 +146,6 @@
          'code' => '42S22',
       )),
     ),
-    'SELECT * FROM unknownTable' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.unknownTable\' doesn\'t exist',
-         'code' => '42S02',
-      )),
-    ),
     'SELECT * FROM unknown_table' => 
     array (
       'error' => 
@@ -357,11 +231,6 @@
       )),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
-            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
     array (
       'error' => NULL,
     ),
