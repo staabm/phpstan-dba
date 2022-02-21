@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
+use Doctrine\DBAL\Query;
 use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr;
@@ -14,6 +15,7 @@ use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -63,7 +65,7 @@ final class PdoStatementReflection
             return null;
         }
 
-        if (PDO::FETCH_CLASS === $fetchModeType->getValue()) {
+        if (PDO::FETCH_CLASS === $fetchModeType->getValue() || PDO::FETCH_OBJ === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_CLASS;
         } elseif (PDO::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_KEY_VALUE;
@@ -196,6 +198,10 @@ final class PdoStatementReflection
             }
 
             return $builder->getArray();
+        }
+
+        if (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
+            return new ArrayType(new IntegerType(), new ObjectType('stdClass'));
         }
 
         // both types contains numeric and string keys, therefore the count is doubled
