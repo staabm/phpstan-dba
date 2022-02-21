@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
-use Doctrine\DBAL\Query;
 use PDO;
 use PDOStatement;
 use PhpParser\Node\Expr;
