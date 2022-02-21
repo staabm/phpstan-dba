@@ -47,9 +47,8 @@ class Foo
         $all = $stmt->fetchAll(PDO::FETCH_CLASS);
         assertType('array<int, stdClass>', $all);
 
-        // not yet supported fetch types
         $all = $stmt->fetchAll(PDO::FETCH_OBJ);
-        assertType('array', $all); // XXX since php8 this cannot return false
+        assertType('array<int, stdClass>', $all);
     }
 
     public function fetch(PDO $pdo)
@@ -91,8 +90,7 @@ class Foo
         $all = $stmt->fetchObject();
         assertType('stdClass|false', $all);
 
-        // not yet supported fetch types
         $all = $stmt->fetch(PDO::FETCH_OBJ);
-        assertType('mixed', $all);
+        assertType('stdClass|false', $all);
     }
 }
