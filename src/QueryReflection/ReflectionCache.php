@@ -37,6 +37,11 @@ final class ReflectionCache
     /**
      * @var bool
      */
+    private $cacheIsDirty = false;
+
+    /**
+     * @var bool
+     */
     private $initialized = false;
 
     /**
@@ -91,6 +96,7 @@ final class ReflectionCache
      */
     public function setSchemaHash(string $hash)
     {
+        $this->cacheIsDirty = true;
         $this->schemaHash = $hash;
     }
 
@@ -160,7 +166,7 @@ final class ReflectionCache
 
     public function persist(): void
     {
-        if (0 === \count($this->changes)) {
+        if ($this->cacheIsDirty === false) {
             return;
         }
 
@@ -241,10 +247,12 @@ final class ReflectionCache
 
         if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
         }
 
         if (!\array_key_exists('error', $this->records[$queryString]) || $this->records[$queryString]['error'] !== $error) {
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
+            $this->cacheIsDirty = true;
         }
     }
 
@@ -299,15 +307,18 @@ final class ReflectionCache
 
         if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
         }
 
         if (!\array_key_exists('result', $this->records[$queryString])) {
             $this->changes[$queryString]['result'] = $this->records[$queryString]['result'] = [];
+            $this->cacheIsDirty = true;
         }
 
         // @phpstan-ignore-next-line
         if (!\array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
+            $this->cacheIsDirty = true;
         }
     }
 }
