@@ -31,6 +31,11 @@ final class SchemaHasherMysql
             return $this->hash;
         }
 
+        // for a schema with 3.000 columns we need roughly
+        // 70.000 group concat max length
+        $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
+        $this->connection->query($maxConcatQuery);
+
         $query = '
             SELECT
                 MD5(
