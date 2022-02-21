@@ -27,16 +27,18 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
         $this->reflectionCache = $reflectionCache;
     }
 
-    private function getRecordingReflector(bool $forceCreate = false): ?RecordingQueryReflector
+    private function dbSchemaChanged(): bool
     {
-        if (null === $this->recordingReflector)
-        {
-            if ($forceCreate === true ||
-                $this->reflectionCache->getSchemaHash() !== $this->schemaHasher->hashDb())
-            {
-                $this->reflectionCache->setSchemaHash($this->schemaHasher->hashDb());
-                $this->recordingReflector = new RecordingQueryReflector($this->reflectionCache, $this->queryReflector);
-            }
+        $schemaHash = $this->schemaHasher->hashDb();
+        $cachedSchemaHash = $this->reflectionCache->getSchemaHash();
+
+        return $schemaHash !== $cachedSchemaHash;
+    }
+
+    private function createRecordingReflector(): RecordingQueryReflector {
+        if (null === $this->recordingReflector) {
+            $this->reflectionCache->setSchemaHash($this->schemaHasher->hashDb());
+            $this->recordingReflector = new RecordingQueryReflector($this->reflectionCache, $this->queryReflector);
         }
 
         return $this->recordingReflector;
@@ -44,29 +46,27 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-        $recordingReflector = $this->getRecordingReflector();
-        if (null !== $recordingReflector) {
-            return $recordingReflector->validateQueryString($queryString);
+        if ($this->dbSchemaChanged()) {
+            return $this->createRecordingReflector()->validateQueryString($queryString);
         }
 
         try {
             return $this->replayReflector->validateQueryString($queryString);
         } catch(CacheNotPopulatedException $e) {
-            return $this->getRecordingReflector(true)->validateQueryString($queryString);
+            return $this->createRecordingReflector()->validateQueryString($queryString);
         }
     }
 
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        $recordingReflector = $this->getRecordingReflector();
-        if (null !== $recordingReflector) {
-            return $recordingReflector->getResultType($queryString, $fetchType);
+        if ($this->dbSchemaChanged()) {
+            return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
         }
 
         try {
             return $this->replayReflector->getResultType($queryString, $fetchType);
         } catch (CacheNotPopulatedException $e) {
-            return $this->getRecordingReflector(true)->getResultType($queryString, $fetchType);
+            return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
         }
     }
 }
