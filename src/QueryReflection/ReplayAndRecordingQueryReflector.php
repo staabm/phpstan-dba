@@ -29,10 +29,14 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
 
     private function getRecordingReflector(bool $forceCreate = false): ?RecordingQueryReflector
     {
-        if ($forceCreate === true || null === $this->recordingReflector && $this->reflectionCache->getSchemaHash() !== $this->schemaHasher->hashDb()) {
-            $this->reflectionCache->setSchemaHash($this->schemaHasher->hashDb());
-
-            $this->recordingReflector = new RecordingQueryReflector($this->reflectionCache, $this->queryReflector);
+        if (null === $this->recordingReflector)
+        {
+            if ($forceCreate === true ||
+                $this->reflectionCache->getSchemaHash() !== $this->schemaHasher->hashDb())
+            {
+                $this->reflectionCache->setSchemaHash($this->schemaHasher->hashDb());
+                $this->recordingReflector = new RecordingQueryReflector($this->reflectionCache, $this->queryReflector);
+            }
         }
 
         return $this->recordingReflector;
