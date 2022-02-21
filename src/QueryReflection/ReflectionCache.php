@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use staabm\PHPStanDba\CacheNotPopulatedException;
 use const LOCK_EX;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
@@ -169,7 +169,7 @@ final class ReflectionCache
 
     public function persist(): void
     {
-        if ($this->cacheIsDirty === false) {
+        if (false === $this->cacheIsDirty) {
             return;
         }
 

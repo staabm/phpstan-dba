@@ -35,7 +35,8 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
         return $schemaHash !== $cachedSchemaHash;
     }
 
-    private function createRecordingReflector(): RecordingQueryReflector {
+    private function createRecordingReflector(): RecordingQueryReflector
+    {
         if (null === $this->recordingReflector) {
             $this->reflectionCache->setSchemaHash($this->schemaHasher->hashDb());
             $this->recordingReflector = new RecordingQueryReflector($this->reflectionCache, $this->queryReflector);
@@ -52,7 +53,7 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
 
         try {
             return $this->replayReflector->validateQueryString($queryString);
-        } catch(CacheNotPopulatedException $e) {
+        } catch (CacheNotPopulatedException $e) {
             return $this->createRecordingReflector()->validateQueryString($queryString);
         }
     }
