@@ -20,11 +20,6 @@ jobs:
                       reflector: "pdo"
                       mode: "recording"
                       dsn: "pgsql"
-                    - php-version: "8.1"
-                      db-image: 'postgres:14'
-                      reflector: "pdo"
-                      mode: "replay-and-recording"
-                      dsn: "pgsql"
 
         env:
             DBA_REFLECTOR: ${{ matrix.reflector }}
@@ -69,7 +64,7 @@ jobs:
                 sudo apt-get install --yes postgresql-client
 
             - name: Setup PSQL
-              run: psql -h localhost -U postgres < tests/psql-schema.sql
+              run: psql -h localhost -U postgres < tests/pgsql-schema.sql
               env:
                 PGPASSWORD: postgres
 
