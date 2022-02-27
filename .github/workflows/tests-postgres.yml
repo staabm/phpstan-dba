@@ -17,9 +17,8 @@ jobs:
                 include:
                     - php-version: "8.0"
                       db-image: 'postgres:14'
-                      reflector: "pdo"
+                      reflector: "pdo-pgsql"
                       mode: "recording"
-                      dsn: "pgsql"
 
         env:
             DBA_REFLECTOR: ${{ matrix.reflector }}
@@ -79,7 +78,7 @@ jobs:
             matrix:
                 include:
                     - php-version: "8.1"
-                      reflector: "pdo"
+                      reflector: "pdo-pgsql"
                       mode: "replay"
                       dsn: "pgsql"
 

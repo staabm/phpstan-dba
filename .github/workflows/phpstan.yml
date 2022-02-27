@@ -20,7 +20,6 @@ jobs:
             db-image: 'mysql:8.0'
             reflector: "pdo"
             mode: "recording"
-            dsn: "mysql"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
@@ -92,7 +91,6 @@ jobs:
           - php-version: "8.1"
             reflector: "pdo"
             mode: "replay"
-            dsn: "mysql"
 
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
