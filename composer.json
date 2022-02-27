@@ -7,8 +7,7 @@
 		"ext-mysqli": "*",
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
-		"phpstan/phpstan": "^1.2",
-		"vlucas/phpdotenv": "^5.4"
+		"phpstan/phpstan": "^1.2"
 	},
 	"require-dev": {
 		"ext-pdo": "*",
@@ -18,7 +17,8 @@
 		"phpstan/phpstan-phpunit": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^9",
-		"symplify/phpstan-extensions": "^10.0"
+		"symplify/phpstan-extensions": "^10.0",
+		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflicts": {
 		"phpstan/phpstan": "1.4.0"
