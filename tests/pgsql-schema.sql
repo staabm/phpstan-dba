@@ -24,8 +24,8 @@ CREATE TABLE typemix (
     c_char5 char(5) NOT NULL,
     c_varchar255 varchar(255) NOT NULL,
     c_varchar25 varchar(25) DEFAULT NULL,
-    c_varbinary255 bit(255) NOT NULL,
-    c_varbinary25 bit(25) DEFAULT NULL,
+    c_bit255 bit(255) NOT NULL,
+    c_bit25 bit(25) DEFAULT NULL,
     c_date date DEFAULT NULL,
     c_time time DEFAULT NULL,
     c_timestamp timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -44,11 +44,10 @@ CREATE TABLE typemix (
 ALTER TABLE typemix
     ADD PRIMARY KEY (pid);
 
--- CREATE COLLATION german FROM "de_DE";
 CREATE TABLE cmsdomain (
     id SERIAL,
     cmsdomainid int NOT NULL,
---     url varchar(255) COLLATE german NOT NULL,
+    url varchar(255) NOT NULL,
     standard integer NOT NULL
 );
 
@@ -56,4 +55,4 @@ ALTER TABLE cmsdomain
     ADD PRIMARY KEY (id);
 
 CREATE INDEX ON cmsdomain(cmsdomainid);
--- CREATE INDEX ON cmsdomain(url);
+CREATE INDEX ON cmsdomain(url);
