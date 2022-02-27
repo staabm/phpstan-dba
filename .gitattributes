@@ -2,9 +2,11 @@
 .phpstan-dba-mysqli.cache linguist-generated=true
 .phpstan-dba-pdo.cache linguist-generated=true
 .phpunit-phpstan-dba-mysqli.cache linguist-generated=true
-.phpunit-phpstan-dba-pdo.cache linguist-generated=true
+.phpunit-phpstan-dba-mysql.cache linguist-generated=true
+.phpunit-phpstan-dba-pgsql.cache linguist-generated=true
 
 # Exclude non-essential files from dist
 /tests export-ignore
 .phpunit-phpstan-dba-mysqli.cache
-.phpunit-phpstan-dba-pdo.cache
+.phpunit-phpstan-dba-mysql.cache
+.phpunit-phpstan-dba-pgsql.cache
