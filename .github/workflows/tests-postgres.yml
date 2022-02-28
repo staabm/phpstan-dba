@@ -23,7 +23,6 @@ jobs:
         env:
             DBA_REFLECTOR: ${{ matrix.reflector }}
             DBA_MODE: ${{ matrix.mode }}
-            DBA_DSN: ${{ matrix.dsn }}
             DBA_USER: postgres
             DBA_DATABASE: postgres
             DBA_PASSWORD: postgres

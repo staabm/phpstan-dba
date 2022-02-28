@@ -42,7 +42,6 @@ jobs:
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
        DBA_MODE: ${{ matrix.mode }}
-       DBA_DSN: ${{ matrix.dsn }}
 
     # https://docs.github.com/en/free-pro-team@latest/actions/guides/about-service-containers
     services:
@@ -95,7 +94,6 @@ jobs:
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
        DBA_MODE: ${{ matrix.mode }}
-       DBA_DSN: ${{ matrix.dsn }}
 
     steps:
       - uses: actions/checkout@v2
