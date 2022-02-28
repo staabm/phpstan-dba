@@ -26,12 +26,12 @@ final class ReflectorFactory
             $mode = getenv('DBA_MODE') ?: 'recording';
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
         } else {
-            $host = $_ENV['DBA_HOST'] ?: 'mysql80.ab';
-            $user = $_ENV['DBA_USER'] ?: null;
-            $password = $_ENV['DBA_PASSWORD'] ?: null;
-            $dbname = $_ENV['DBA_DATABASE'] ?: 'phpstan_dba';
-            $mode = $_ENV['DBA_MODE'] ?: 'recording';
-            $reflector = $_ENV['DBA_REFLECTOR'] ?: 'mysqli';
+            $host = getenv('DBA_HOST') ?: $_ENV['DBA_HOST'];
+            $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
+            $password = getenv('DBA_PASSWORD') ?: $_ENV['DBA_PASSWORD'];
+            $dbname = getenv('DBA_DATABASE') ?: $_ENV['DBA_DATABASE'];
+            $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
+            $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
         }
 
         // make env vars available to tests, in case non are defined yet
