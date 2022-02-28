@@ -8,7 +8,7 @@ use staabm\PHPStanDba\Tests\ReflectorFactory;
 require_once __DIR__.'/vendor/autoload.php';
 
 if (false === getenv('GITHUB_ACTION')) {
-    $dotenv = Dotenv::createImmutable(__DIR__.'/../../..');
+    $dotenv = Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 }
 
