@@ -2,6 +2,8 @@
 
 namespace staabm\PHPStanDba\Tests;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use PHPStan\Testing\TypeInferenceTestCase;
 
 class DbaInferenceTest extends TypeInferenceTestCase
@@ -46,6 +48,11 @@ class DbaInferenceTest extends TypeInferenceTestCase
         }
 
         yield from $this->gatherAssertTypes(__DIR__.'/data/bug254.php');
+
+        if (InstalledVersions::satisfies(new VersionParser(), 'phpstan/phpstan', '^1.4.7')) {
+            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-stmt-set-fetch-mode.php');
+        }
+
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-union-result.php');
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli-union-result.php');
     }

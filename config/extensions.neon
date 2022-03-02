@@ -50,6 +50,11 @@ services:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
     -
+        class: staabm\PHPStanDba\Extensions\PdoStatementSetFetchModeTypeSpecifyingExtension
+        tags:
+        	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
+
+    -     
         class: staabm\PHPStanDba\Extensions\PdoStatementFetchObjectDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension

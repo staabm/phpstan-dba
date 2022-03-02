@@ -87,10 +87,10 @@ final class PdoStatementReflection
      */
     public function createGenericStatement(iterable $queryStrings, int $reflectionFetchType): ?Type
     {
+        $queryReflection = new QueryReflection();
         $genericObjects = [];
 
         foreach ($queryStrings as $queryString) {
-            $queryReflection = new QueryReflection();
             $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
             if ($bothType) {
@@ -108,6 +108,23 @@ final class PdoStatementReflection
         }
 
         return null;
+    }
+
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
+     */
+    public function modifyGenericStatement(GenericObjectType $statementType, int $fetchType): ?GenericObjectType
+    {
+        $genericTypes = $statementType->getTypes();
+
+        if (2 !== \count($genericTypes)) {
+            return null;
+        }
+
+        $bothType = $genericTypes[1];
+        $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $fetchType);
+
+        return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
     }
 
     /**
