@@ -54,6 +54,11 @@ services:
         tags:
         	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
 
+    -     
+        class: staabm\PHPStanDba\Extensions\PdoStatementFetchObjectDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
     -
         class: staabm\PHPStanDba\Extensions\PdoStatementColumnCountDynamicReturnTypeExtension
         tags:

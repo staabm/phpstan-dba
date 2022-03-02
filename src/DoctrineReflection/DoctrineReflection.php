@@ -23,6 +23,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use Traversable;
 
+// XXX move into a "Reflection" package on next major version
 final class DoctrineReflection
 {
     public function reduceResultType(MethodReflection $methodReflection, Type $resultType): ?Type

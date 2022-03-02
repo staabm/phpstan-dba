@@ -10,8 +10,11 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Php\PhpVersion;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -19,6 +22,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -27,9 +31,15 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
      */
     private $phpVersion;
 
-    public function __construct(PhpVersion $phpVersion)
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
+    public function __construct(PhpVersion $phpVersion, ReflectionProvider $reflectionProvider)
     {
         $this->phpVersion = $phpVersion;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getClass(): string
@@ -76,12 +86,51 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
             }
         }
 
-        $rowType = $pdoStatementReflection->getRowType($statementType, $fetchType);
+        if (QueryReflector::FETCH_TYPE_COLUMN === $fetchType) {
+            $columnIndex = 0;
+
+            if (\count($args) > 1) {
+                $columnIndexType = $scope->getType($args[1]->value);
+                if ($columnIndexType instanceof ConstantIntegerType) {
+                    $columnIndex = $columnIndexType->getValue();
+                } else {
+                    return null;
+                }
+            }
+
+            $rowType = $pdoStatementReflection->getColumnRowType($statementType, $columnIndex);
+        } elseif (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
+            $className = 'stdClass';
+
+            if (\count($args) > 1) {
+                $classStringType = $scope->getType($args[1]->value);
+                if ($classStringType instanceof ConstantStringType) {
+                    $className = $classStringType->getValue();
+                } else {
+                    return null;
+                }
+            }
+
+            if (!$this->reflectionProvider->hasClass($className)) {
+                return null;
+            }
+
+            $classString = $this->reflectionProvider->getClass($className)->getName();
+
+            $rowType = $pdoStatementReflection->getClassRowType($statementType, $classString);
+        } else {
+            $rowType = $pdoStatementReflection->getRowType($statementType, $fetchType);
+        }
+
         if (null === $rowType) {
             return null;
         }
 
         if ('fetchAll' === $methodReflection->getName()) {
+            if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType) {
+                return $rowType;
+            }
+
             return new ArrayType(new IntegerType(), $rowType);
         }
 

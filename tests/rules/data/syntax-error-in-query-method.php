@@ -38,7 +38,7 @@ class Foo
 
     public function unknownTable(PDO $pdo)
     {
-        $pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
+        $pdo->query('SELECT * FROM unknown_table', PDO::FETCH_ASSOC);
     }
 
     public function incompleteQuery(PDO $pdo, string $tableName)

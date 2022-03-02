@@ -140,9 +140,21 @@ final class PdoQueryReflector implements QueryReflector
         }
 
         try {
+            $this->pdo->beginTransaction();
+        } catch (PDOException $e) {
+            // not all drivers may support transactions
+        }
+
+        try {
             $stmt = $this->pdo->query($simulatedQuery);
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
+        } finally {
+            try {
+                $this->pdo->rollBack();
+            } catch (PDOException $e) {
+                // not all drivers may support transactions
+            }
         }
 
         $this->cache[$queryString] = [];

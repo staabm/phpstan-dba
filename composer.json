@@ -17,7 +17,8 @@
 		"phpstan/phpstan-phpunit": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^9",
-		"symplify/phpstan-extensions": "^10.0"
+		"symplify/phpstan-extensions": "^10.0",
+		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflicts": {
 		"phpstan/phpstan": "1.4.0"
@@ -46,12 +47,16 @@
 			"@csfix"
 		],
 		"record": [
+			"@putenv DBA_MODE=recording",
+
 			"@putenv DBA_REFLECTOR=mysqli",
 			"@phpunit",
 			"@phpstan",
+
 			"@putenv DBA_REFLECTOR=pdo",
 			"@phpunit",
 			"@phpstan",
+
 			"@csfix"
 		],
 		"phpstan": [

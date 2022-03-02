@@ -7,12 +7,13 @@ namespace staabm\PHPStanDba\QueryReflection;
 use const LOCK_EX;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v5-runtime-config-bugfix';
+    public const SCHEMA_VERSION = 'v6-schema-hash';
 
     /**
      * @var string
@@ -28,6 +29,16 @@ final class ReflectionCache
      * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private $changes = [];
+
+    /**
+     * @var string|null
+     */
+    private $schemaHash;
+
+    /**
+     * @var bool
+     */
+    private $cacheIsDirty = false;
 
     /**
      * @var bool
@@ -67,6 +78,27 @@ final class ReflectionCache
     public static function load(string $cacheFile): self
     {
         return new self($cacheFile);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSchemaHash()
+    {
+        if (null === $this->schemaHash) {
+            $this->lazyReadRecords();
+        }
+
+        return $this->schemaHash;
+    }
+
+    /**
+     * @return void
+     */
+    public function setSchemaHash(string $hash)
+    {
+        $this->cacheIsDirty = true;
+        $this->schemaHash = $hash;
     }
 
     /**
@@ -111,11 +143,20 @@ final class ReflectionCache
             }
         }
 
-        if (!\is_array($cache) || !\array_key_exists('schemaVersion', $cache) || self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+        if (!\is_array($cache) ||
+            !\array_key_exists('schemaVersion', $cache) ||
+            !\array_key_exists('schemaHash', $cache) ||
+            self::SCHEMA_VERSION !== $cache['schemaVersion']) {
             return null;
         }
 
         if ($cache['runtimeConfig'] !== QueryReflection::getRuntimeConfiguration()->toArray()) {
+            return null;
+        }
+
+        if (null === $this->schemaHash) {
+            $this->schemaHash = $cache['schemaHash'];
+        } elseif ($this->schemaHash !== $cache['schemaHash']) {
             return null;
         }
 
@@ -128,7 +169,7 @@ final class ReflectionCache
 
     public function persist(): void
     {
-        if (0 === \count($this->changes)) {
+        if (false === $this->cacheIsDirty) {
             return;
         }
 
@@ -146,12 +187,17 @@ final class ReflectionCache
             }
 
             // sort records to prevent unnecessary cache invalidation caused by different order of queries
-            uksort($newRecords, function ($queryA, $queryB) {
-                return $queryA <=> $queryB;
-            });
+            ksort($newRecords);
+
+            foreach ($newRecords as &$newRecord) {
+                ksort($newRecord);
+            }
+
+            unset($newRecord);
 
             $cacheContent = '<?php return '.var_export([
                     'schemaVersion' => self::SCHEMA_VERSION,
+                    'schemaHash' => $this->schemaHash,
                     'records' => $newRecords,
                     'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
                 ], true).';';
@@ -182,17 +228,20 @@ final class ReflectionCache
         return \array_key_exists('error', $cacheEntry);
     }
 
+    /**
+     * @throws CacheNotPopulatedException
+     */
     public function getValidationError(string $queryString): ?Error
     {
         $records = $this->lazyReadRecords();
 
         if (!\array_key_exists($queryString, $records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('error', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         return $cacheEntry['error'];
@@ -204,10 +253,12 @@ final class ReflectionCache
 
         if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
         }
 
         if (!\array_key_exists('error', $this->records[$queryString]) || $this->records[$queryString]['error'] !== $error) {
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
+            $this->cacheIsDirty = true;
         }
     }
 
@@ -232,22 +283,24 @@ final class ReflectionCache
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
+     *
+     * @throws CacheNotPopulatedException
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
         $records = $this->lazyReadRecords();
 
         if (!\array_key_exists($queryString, $records)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('result', $cacheEntry)) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         if (!\array_key_exists($fetchType, $cacheEntry['result'])) {
-            throw new DbaException(sprintf('Cache not populated for query "%s"', $queryString));
+            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         return $cacheEntry['result'][$fetchType];
@@ -262,15 +315,18 @@ final class ReflectionCache
 
         if (!\array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
         }
 
         if (!\array_key_exists('result', $this->records[$queryString])) {
             $this->changes[$queryString]['result'] = $this->records[$queryString]['result'] = [];
+            $this->cacheIsDirty = true;
         }
 
         // @phpstan-ignore-next-line
         if (!\array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
+            $this->cacheIsDirty = true;
         }
     }
 }
