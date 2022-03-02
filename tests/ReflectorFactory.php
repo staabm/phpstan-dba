@@ -6,6 +6,7 @@ use mysqli;
 use PDO;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoPgsqlReflector;
 use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
@@ -58,6 +59,9 @@ final class ReflectorFactory
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
+            } elseif ('pdo-pgsql' === $reflector) {
+                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
+                $reflector = new PdoPgsqlReflector($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: '.$reflector);
             }
