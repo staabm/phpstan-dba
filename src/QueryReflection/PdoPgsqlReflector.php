@@ -15,14 +15,13 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
-use function strtoupper;
 
-use function strtoupper;
+use function array_shift;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
+ * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
  */
-final class PdoQueryReflector implements QueryReflector
+final class PdoPgsqlReflector implements QueryReflector
 {
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
     private const PSQL_UNDEFINED_COLUMN = '42703';
@@ -49,15 +48,13 @@ final class PdoQueryReflector implements QueryReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|array<int<0, max>, ColumnMeta>|null>
+     * @var array<string, PDOException|list<ColumnMeta>|null>
      */
     private array $cache = [];
 
     private MysqlTypeMapper $typeMapper;
 
-    /**
-     * @var PDOStatement<array{COLUMN_TYPE: string, COLUMN_NAME: string, EXTRA: string}>|null
-     */
+    // @phpstan-ignore-next-line
     private ?PDOStatement $stmt = null;
     /**
      * @var array<string, array<string, list<string>>>
@@ -166,31 +163,41 @@ final class PdoQueryReflector implements QueryReflector
         $columnCount = $stmt->columnCount();
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
-            // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
-            /** @var ColumnMeta|false */
+            // see https://github.com/php/php-src/blob/master/ext/pdo_pgsql/pgsql_statement.c
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
-            $flags = $this->emulateMysqlFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
-            foreach ($flags as $flag) {
-                $columnMeta['flags'][] = $flag;
+            $table = \array_key_exists('table', $columnMeta) ? $columnMeta['table'] : '';
+            if (
+                !\array_key_exists('name', $columnMeta)
+                || !\array_key_exists('native_type', $columnMeta)
+                || !\array_key_exists('len', $columnMeta)
+            ) {
+                throw new ShouldNotHappenException();
             }
+
+            $columnMeta['flags'] = $this->emulateFlags(
+                $columnMeta['native_type'],
+                $table,
+                $columnMeta['name']
+            );
 
             // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
             ++$columnIndex;
         }
 
+        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 
     /**
      * @return list<string>
      */
-    private function emulateMysqlFlags(string $mysqlType, string $tableName, string $columnName): array
+    private function emulateFlags(string $mysqlType, string $tableName, string $columnName): array
     {
         if (\array_key_exists($tableName, $this->emulatedFlags)) {
             $emulatedFlags = [];
@@ -198,7 +205,7 @@ final class PdoQueryReflector implements QueryReflector
                 $emulatedFlags = $this->emulatedFlags[$tableName][$columnName];
             }
 
-            if ($this->isNumericCol($mysqlType)) {
+            if (MysqlTypeMapper::isNumericCol($mysqlType)) {
                 $emulatedFlags[] = MysqlTypeMapper::FLAG_NUMERIC;
             }
 
@@ -216,7 +223,7 @@ final class PdoQueryReflector implements QueryReflector
             $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
         }
 
-        return $this->emulateMysqlFlags($mysqlType, $tableName, $columnName);
+        return $this->emulateFlags($mysqlType, $tableName, $columnName);
     }
 
     /**
@@ -226,13 +233,11 @@ final class PdoQueryReflector implements QueryReflector
     {
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
-                // EXTRA, COLUMN_NAME seems to be nullable in mariadb
-                'SELECT
-                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
-                    coalesce(EXTRA, "") as EXTRA,
-                    COLUMN_TYPE
-                 FROM information_schema.columns
-                 WHERE table_name = ? AND table_schema = DATABASE()'
+                <<<'PSQL'
+                SELECT column_name, column_default, data_type
+                FROM information_schema.columns
+                WHERE table_name = ?
+                PSQL
             );
         }
 
@@ -240,30 +245,16 @@ final class PdoQueryReflector implements QueryReflector
         $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($result as $row) {
-            $extra = $row['EXTRA'];
-            $columnType = $row['COLUMN_TYPE'];
-            $columnName = $row['COLUMN_NAME'];
+            $default = $row['column_default'] ?? '';
+            $columnType = $row['data_type'];
+            $columnName = $row['column_name'];
 
-            if (str_contains($extra, 'auto_increment')) {
+            if (str_contains($default, 'nextval')) {
                 yield $columnName => MysqlTypeMapper::FLAG_AUTO_INCREMENT;
             }
             if (str_contains($columnType, 'unsigned')) {
                 yield $columnName => MysqlTypeMapper::FLAG_UNSIGNED;
             }
         }
-    }
-
-    private function isNumericCol(string $mysqlType): bool
-    {
-        return match (strtoupper($mysqlType)) {
-            'LONGLONG',
-            'LONG',
-            'SHORT',
-            'TINY',
-            'YEAR',
-            'BIT',
-            'INT24' => true,
-            default => false,
-        };
     }
 }
