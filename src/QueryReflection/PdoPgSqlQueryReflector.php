@@ -21,7 +21,7 @@ use function array_shift;
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
  */
-final class PdoPgsqlReflector implements QueryReflector
+final class PdoPgSqlQueryReflector implements QueryReflector
 {
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
     private const PSQL_UNDEFINED_COLUMN = '42703';
