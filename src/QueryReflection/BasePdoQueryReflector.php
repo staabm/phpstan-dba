@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Iterator;
 use PDO;
 use PDOException;
 use PDOStatement;
@@ -89,7 +90,7 @@ abstract class BasePdoQueryReflector
     }
 
     /**
-     * @param self::FETCH_TYPE* $fetchType
+     * @param QueryReflector::FETCH_TYPE* $fetchType
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
@@ -153,7 +154,9 @@ abstract class BasePdoQueryReflector
         return $this->emulateFlags($nativeType, $tableName, $columnName);
     }
 
+    /** @return PDOException|list<ColumnMeta>|null */
     abstract protected function simulateQuery(string $queryString);
 
+    /** @return Iterator<string, PgsqlTypeMapper::FLAG_*> */
     abstract protected function checkInformationSchema(string $tableName);
 }

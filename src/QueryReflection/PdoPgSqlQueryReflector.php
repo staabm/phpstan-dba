@@ -102,7 +102,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
                 <<<'PSQL'
-                SELECT column_name, column_default, data_type, is_nullable
+                SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = ?
                 PSQL
@@ -112,6 +112,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
         $this->stmt->execute([$tableName]);
         $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        /** @var array{column_default?: string, column_name: string, is_nullable: string} $row */
         foreach ($result as $row) {
             $default = $row['column_default'] ?? '';
             $columnName = $row['column_name'];

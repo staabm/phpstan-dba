@@ -23,7 +23,7 @@ final class PgsqlIntegerRanges
 
     public function bigint(): Type
     {
-        return IntegerRangeType::fromInterval(-9223372036854775808, 9223372036854775807);
+        return IntegerRangeType::fromInterval(-9223372036854775807, 9223372036854775807);
     }
 
     public function serial(): Type
