@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Extensions;
 
 use mysqli;
-use mysqli_result;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -17,10 +16,10 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -110,7 +109,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
                 return null;
             }
 
-            $genericObjects[] = new GenericObjectType(mysqli_result::class, [$resultType]);
+            $genericObjects[] = new MysqliResultObjectType($resultType);
         }
 
         if (0 === \count($genericObjects)) {
