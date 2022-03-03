@@ -12,10 +12,8 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementObjectType;
-use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 final class PdoStatementColumnCountDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
