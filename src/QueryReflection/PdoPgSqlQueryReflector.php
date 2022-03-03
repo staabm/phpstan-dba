@@ -7,131 +7,31 @@ namespace staabm\PHPStanDba\QueryReflection;
 use Iterator;
 use PDO;
 use PDOException;
-use PDOStatement;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\Type;
-use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
+use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 
 use function array_shift;
 
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
  */
-final class PdoPgSqlQueryReflector implements QueryReflector
+final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements QueryReflector
 {
-    private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
-    private const PSQL_UNDEFINED_COLUMN = '42703';
-    private const PSQL_UNDEFINED_TABLE = '42P01';
-
-    private const MYSQL_SYNTAX_ERROR_CODE = '42000';
-    private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = '42S22';
-    private const MYSQL_UNKNOWN_TABLE = '42S02';
-
-    private const PDO_SYNTAX_ERROR_CODES = [
-        self::MYSQL_SYNTAX_ERROR_CODE,
-        self::PSQL_INVALID_TEXT_REPRESENTATION,
-    ];
-
-    private const PDO_ERROR_CODES = [
-        self::PSQL_INVALID_TEXT_REPRESENTATION,
-        self::PSQL_UNDEFINED_COLUMN,
-        self::PSQL_UNDEFINED_TABLE,
-        self::MYSQL_SYNTAX_ERROR_CODE,
-        self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
-        self::MYSQL_UNKNOWN_TABLE,
-    ];
-
-    private const MAX_CACHE_SIZE = 50;
-
-    /**
-     * @var array<string, PDOException|list<ColumnMeta>|null>
-     */
-    private array $cache = [];
-
-    private MysqlTypeMapper $typeMapper;
-
-    // @phpstan-ignore-next-line
-    private ?PDOStatement $stmt = null;
-    /**
-     * @var array<string, array<string, list<string>>>
-     */
-    private array $emulatedFlags = [];
-
-    public function __construct(private PDO $pdo)
+    public function __construct(PDO $pdo)
     {
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $typeMapper = new PgsqlTypeMapper();
 
-        $this->typeMapper = new MysqlTypeMapper();
-    }
-
-    public function validateQueryString(string $queryString): ?Error
-    {
-        $result = $this->simulateQuery($queryString);
-
-        if (!$result instanceof PDOException) {
-            return null;
-        }
-
-        $e = $result;
-        if (\in_array($e->getCode(), self::PDO_ERROR_CODES, true)) {
-            if (
-                \in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
-                && QueryReflection::getRuntimeConfiguration()->isDebugEnabled()
-            ) {
-                return Error::forSyntaxError($e, $e->getCode(), $queryString);
-            }
-
-            return Error::forException($e, $e->getCode());
-        }
-
-        return null;
-    }
-
-    /**
-     * @param self::FETCH_TYPE* $fetchType
-     */
-    public function getResultType(string $queryString, int $fetchType): ?Type
-    {
-        $result = $this->simulateQuery($queryString);
-
-        if (!\is_array($result)) {
-            return null;
-        }
-
-        $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
-
-        $i = 0;
-        foreach ($result as $val) {
-            if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
-                $arrayBuilder->setOffsetValueType(
-                    new ConstantStringType($val['name']),
-                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
-                );
-            }
-            if (self::FETCH_TYPE_NUMERIC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
-                $arrayBuilder->setOffsetValueType(
-                    new ConstantIntegerType($i),
-                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
-                );
-            }
-            ++$i;
-        }
-
-        return $arrayBuilder->getArray();
+        parent::__construct($pdo, $typeMapper);
     }
 
     /** @return PDOException|list<ColumnMeta>|null */
-    private function simulateQuery(string $queryString)
+    protected function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
             return $this->cache[$queryString];
         }
 
-        if (\count($this->cache) > self::MAX_CACHE_SIZE) {
+        if (\count($this->cache) > parent::MAX_CACHE_SIZE) {
             // make room for the next element by randomly removing a existing one
             array_shift($this->cache);
         }
@@ -195,46 +95,14 @@ final class PdoPgSqlQueryReflector implements QueryReflector
     }
 
     /**
-     * @return list<string>
+     * @return Iterator<string, PgsqlTypeMapper::FLAG_*>
      */
-    private function emulateFlags(string $mysqlType, string $tableName, string $columnName): array
-    {
-        if (\array_key_exists($tableName, $this->emulatedFlags)) {
-            $emulatedFlags = [];
-            if (\array_key_exists($columnName, $this->emulatedFlags[$tableName])) {
-                $emulatedFlags = $this->emulatedFlags[$tableName][$columnName];
-            }
-
-            if (MysqlTypeMapper::isNumericCol($mysqlType)) {
-                $emulatedFlags[] = MysqlTypeMapper::FLAG_NUMERIC;
-            }
-
-            return $emulatedFlags;
-        }
-
-        $this->emulatedFlags[$tableName] = [];
-
-        // determine flags of all columns of the given table once
-        $schemaFlags = $this->checkInformationSchema($tableName);
-        foreach ($schemaFlags as $schemaColumnName => $flag) {
-            if (!\array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
-                $this->emulatedFlags[$tableName][$schemaColumnName] = [];
-            }
-            $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
-        }
-
-        return $this->emulateFlags($mysqlType, $tableName, $columnName);
-    }
-
-    /**
-     * @return Iterator<string, MysqlTypeMapper::FLAG_*>
-     */
-    private function checkInformationSchema(string $tableName): Iterator
+    protected function checkInformationSchema(string $tableName): Iterator
     {
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
                 <<<'PSQL'
-                SELECT column_name, column_default, data_type
+                SELECT column_name, column_default, data_type, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = ?
                 PSQL
@@ -246,14 +114,14 @@ final class PdoPgSqlQueryReflector implements QueryReflector
 
         foreach ($result as $row) {
             $default = $row['column_default'] ?? '';
-            $columnType = $row['data_type'];
             $columnName = $row['column_name'];
+            $isNullable = 'YES' === $row['is_nullable'];
 
-            if (str_contains($default, 'nextval')) {
-                yield $columnName => MysqlTypeMapper::FLAG_AUTO_INCREMENT;
+            if (!$isNullable) {
+                yield $columnName => PgsqlTypeMapper::FLAG_NOT_NULL;
             }
-            if (str_contains($columnType, 'unsigned')) {
-                yield $columnName => MysqlTypeMapper::FLAG_UNSIGNED;
+            if (str_contains($default, 'nextval')) {
+                yield $columnName => PgsqlTypeMapper::FLAG_AUTO_INCREMENT;
             }
         }
     }
