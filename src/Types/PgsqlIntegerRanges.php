@@ -3,7 +3,6 @@
 namespace staabm\PHPStanDba\Types;
 
 use PHPStan\Type\IntegerRangeType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\Type;
 
 /**

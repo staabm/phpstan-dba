@@ -16,7 +16,6 @@ use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\PgsqlIntegerRanges;
-
 use function strtoupper;
 
 final class PgsqlTypeMapper implements TypeMapper
