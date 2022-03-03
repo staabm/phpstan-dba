@@ -23,6 +23,7 @@ final class PgsqlIntegerRanges
 
     public function bigint(): Type
     {
+        // min should be -9223372036854775808 but that turns the integer to float in php in runtime
         return IntegerRangeType::fromInterval(-9223372036854775807, 9223372036854775807);
     }
 
