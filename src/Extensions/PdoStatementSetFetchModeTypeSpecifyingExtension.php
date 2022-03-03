@@ -12,8 +12,8 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
+use staabm\PHPStanDba\PdoReflection\PdoStatementObjectType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
@@ -41,7 +41,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $methodCall = $node;
         $statementType = $scope->getType($methodCall->var);
 
-        if ($statementType instanceof GenericObjectType) {
+        if ($statementType instanceof PdoStatementObjectType) {
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {
@@ -52,7 +52,7 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         return new SpecifiedTypes();
     }
 
-    private function reduceType(MethodCall $methodCall, GenericObjectType $statementType, Scope $scope): ?GenericObjectType
+    private function reduceType(MethodCall $methodCall, PdoStatementObjectType $statementType, Scope $scope): ?PdoStatementObjectType
     {
         $args = $methodCall->getArgs();
 
@@ -68,6 +68,6 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
             return null;
         }
 
-        return $pdoStatementReflection->modifyGenericStatement($statementType, $fetchType);
+        return $statementType->newWithFetchType($fetchType);
     }
 }

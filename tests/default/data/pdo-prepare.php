@@ -9,12 +9,10 @@ class Foo
 {
     public function prepareSelected(PDO $pdo)
     {
-        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
-
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
 
         foreach ($stmt as $row) {
             assertType('int<0, 4294967295>', $row['adaid']);
@@ -28,21 +26,17 @@ class Foo
      */
     public function unionParam(PDO $pdo, $adaid, $email)
     {
-        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
-
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $stmt->execute([$adaid]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE email = ?');
         $stmt->execute([$email]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
 
     public function queryBranches(PDO $pdo, bool $bool)
     {
-        $bothType = ', array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}';
-
         if ($bool) {
             $query = 'SELECT email, adaid FROM ada WHERE adaid=1';
         } else {
@@ -50,59 +44,53 @@ class Foo
         }
 
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<0, 4294967295>, 1: int<0, 4294967295>}>', $stmt);
     }
 
     public function placeholderInData(PDO $pdo)
     {
-        $bothType = ', array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}';
-
         $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
 
         $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
 
     public function arrayParam(PDO $pdo)
     {
-        $bothType = ', array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}';
-
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:adaids)';
         $stmt = $pdo->prepare($query);
         $stmt->execute(['adaids' => [1, 2, 3]]);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
 
     public function unspecifiedArray(PDO $pdo, array $idsToUpdate, string $time)
     {
-        $bothType = ', array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}';
-
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             'ids' => $idsToUpdate,
             'time' => $time,
         ]);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
 
     /**
@@ -110,14 +98,12 @@ class Foo
      */
     public function numberType(PDO $pdo, $idsToUpdate)
     {
-        $bothType = ', array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}';
-
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids)';
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             'ids' => $idsToUpdate,
         ]);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
 
     /**
@@ -125,15 +111,13 @@ class Foo
      */
     public function specifiedArray(PDO $pdo, array $idsToUpdate, string $time)
     {
-        $bothType = ', array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}';
-
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
         $stmt = $pdo->prepare($query);
         $stmt->execute([
             'ids' => $idsToUpdate,
             'time' => $time,
         ]);
-        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}'.$bothType.'>', $stmt);
+        assertType('PDOStatement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>', $stmt);
     }
 
     public function noInferenceOnBug196(PDO $pdo, array $minorPhpVersions, \DateTimeImmutable $updateDate)

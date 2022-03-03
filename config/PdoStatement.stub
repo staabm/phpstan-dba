@@ -2,7 +2,7 @@
 
 /**
  * @template TRowTypeInFetchMode
- * @template TRowTypeBoth
+
  * @implements Traversable<int, TRowTypeInFetchMode>
  * @implements IteratorAggregate<int, TRowTypeInFetchMode>
  * @link https://php.net/manual/en/class.pdostatement.php

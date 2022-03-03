@@ -5,16 +5,10 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\PdoReflection;
 
 use PDO;
-use PDOStatement;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -94,9 +88,7 @@ final class PdoStatementReflection
             $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
             if ($bothType) {
-                $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $reflectionFetchType);
-
-                $genericObjects[] = new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
+                $genericObjects[] = new PdoStatementObjectType($bothType, $reflectionFetchType);
             }
         }
 
@@ -108,23 +100,6 @@ final class PdoStatementReflection
         }
 
         return null;
-    }
-
-    /**
-     * @param QueryReflector::FETCH_TYPE* $fetchType
-     */
-    public function modifyGenericStatement(GenericObjectType $statementType, int $fetchType): ?GenericObjectType
-    {
-        $genericTypes = $statementType->getTypes();
-
-        if (2 !== \count($genericTypes)) {
-            return null;
-        }
-
-        $bothType = $genericTypes[1];
-        $rowTypeInFetchMode = $this->reduceStatementResultType($bothType, $fetchType);
-
-        return new GenericObjectType(PDOStatement::class, [$rowTypeInFetchMode, $bothType]);
     }
 
     /**
@@ -146,16 +121,8 @@ final class PdoStatementReflection
             return TypeCombinator::union(...$rowTypes);
         }
 
-        if ($statementType instanceof GenericObjectType) {
-            $genericTypes = $statementType->getTypes();
-
-            if (2 !== \count($genericTypes)) {
-                return null;
-            }
-
-            $bothType = $genericTypes[1];
-
-            return $this->reduceStatementResultType($bothType, $fetchType);
+        if ($statementType instanceof PdoStatementObjectType) {
+            return $statementType->newWithFetchType($fetchType)->getRowType();
         }
 
         return null;
@@ -181,53 +148,5 @@ final class PdoStatementReflection
     public function getClassRowType(Type $statementType, string $className): ?Type
     {
         return new ObjectType($className);
-    }
-
-    /**
-     * @param QueryReflector::FETCH_TYPE* $fetchType
-     */
-    private function reduceStatementResultType(Type $bothType, int $fetchType): Type
-    {
-        if (!$bothType instanceof ConstantArrayType) {
-            return $bothType;
-        }
-
-        if (\count($bothType->getValueTypes()) <= 0) {
-            return $bothType;
-        }
-
-        // turn a BOTH typed statement into either NUMERIC or ASSOC
-        if (
-            QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_ASSOC === $fetchType
-        ) {
-            $builder = ConstantArrayTypeBuilder::createEmpty();
-
-            $keyTypes = $bothType->getKeyTypes();
-            $valueTypes = $bothType->getValueTypes();
-
-            foreach ($keyTypes as $i => $keyType) {
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                }
-            }
-
-            return $builder->getArray();
-        }
-
-        if (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
-            return new ArrayType(new IntegerType(), new ObjectType('stdClass'));
-        }
-
-        // both types contains numeric and string keys, therefore the count is doubled
-        if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType && \count($bothType->getValueTypes()) >= 4) {
-            $valueTypes = $bothType->getValueTypes();
-
-            return new ArrayType($valueTypes[0], $valueTypes[2]);
-        }
-
-        // not yet supported fetch type - or $fetchType == BOTH
-        return $bothType;
     }
 }
