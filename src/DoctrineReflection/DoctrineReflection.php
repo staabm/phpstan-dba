@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\DoctrineReflection;
 
-use Doctrine\DBAL\Result;
-use Doctrine\DBAL\Statement;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -42,16 +40,8 @@ final class DoctrineReflection
             return TypeCombinator::union(...$resultTypes);
         }
 
-        if ($resultType instanceof GenericObjectType) {
-            $genericTypes = $resultType->getTypes();
-
-            if (1 !== \count($genericTypes)) {
-                return null;
-            }
-
-            $resultRowType = $genericTypes[0];
-
-            return $this->reduceResultType($methodReflection, $resultRowType);
+        if ($resultType instanceof DoctrineResultObjectType) {
+            return $this->reduceResultType($methodReflection, $resultType->getRowType());
         }
 
         $resultRowType = $resultType;
@@ -156,7 +146,7 @@ final class DoctrineReflection
                 return null;
             }
 
-            $genericObjects[] = new GenericObjectType(Statement::class, [$resultType]);
+            $genericObjects[] = new DoctrineStatementObjectType($resultType);
         }
 
         if (\count($genericObjects) > 1) {
@@ -185,7 +175,7 @@ final class DoctrineReflection
                 return null;
             }
 
-            $genericObjects[] = new GenericObjectType(Result::class, [$resultType]);
+            $genericObjects[] = new DoctrineResultObjectType($resultType);
         }
 
         if (\count($genericObjects) > 1) {

@@ -15,9 +15,9 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
+use staabm\PHPStanDba\DoctrineReflection\DoctrineResultObjectType;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -57,12 +57,8 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
 
         $resultType = $scope->getType($methodCall->var);
         if ('columncount' === strtolower($methodReflection->getName())) {
-            if ($resultType instanceof GenericObjectType) {
-                $genericTypes = $resultType->getTypes();
-                if (1 !== \count($genericTypes)) {
-                    return $defaultReturn;
-                }
-                $resultRowType = $genericTypes[0];
+            if ($resultType instanceof DoctrineResultObjectType) {
+                $resultRowType = $resultType->getRowType();
 
                 if ($resultRowType instanceof ConstantArrayType) {
                     $columnCount = \count($resultRowType->getKeyTypes()) / 2;
