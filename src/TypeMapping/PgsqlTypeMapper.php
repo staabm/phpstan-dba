@@ -23,7 +23,6 @@ final class PgsqlTypeMapper implements TypeMapper
 {
     public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
     public const FLAG_NOT_NULL = 'NOT_NULL';
-    public const FLAG_NUMERIC = 'NUM';
 
     /**
      * @param list<string> $flags

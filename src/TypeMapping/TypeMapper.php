@@ -8,6 +8,8 @@ use PHPStan\Type\Type;
 
 interface TypeMapper
 {
+    public const FLAG_NUMERIC = 'NUM';
+
     /**
      * @param list<string> $flags
      */

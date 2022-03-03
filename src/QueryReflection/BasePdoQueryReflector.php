@@ -134,7 +134,7 @@ abstract class BasePdoQueryReflector
             }
 
             if ($this->typeMapper->isNumericCol($nativeType)) {
-                $emulatedFlags[] = PgsqlTypeMapper::FLAG_NUMERIC;
+                $emulatedFlags[] = TypeMapper::FLAG_NUMERIC;
             }
 
             return $emulatedFlags;
