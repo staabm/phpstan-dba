@@ -9,7 +9,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -101,18 +100,6 @@ final class PdoStatementReflection
         }
 
         return null;
-    }
-
-    /**
-     * @param QueryReflector::FETCH_TYPE* $fetchType
-     */
-    public function modifyGenericStatement(GenericObjectType $statementType, int $fetchType): ?GenericObjectType
-    {
-        if (!$statementType instanceof PdoStatementObjectType) {
-            return null;
-        }
-
-        return $statementType->newWithFetchType($fetchType);
     }
 
     /**

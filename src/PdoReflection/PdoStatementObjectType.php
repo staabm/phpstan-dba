@@ -32,7 +32,8 @@ class PdoStatementObjectType extends GenericObjectType
         parent::__construct(PDOStatement::class, [$rowTypeInFetchMode]);
     }
 
-    public function getRowType():Type {
+    public function getRowType(): Type
+    {
         $genericTypes = $this->getTypes();
 
         return $genericTypes[0];
