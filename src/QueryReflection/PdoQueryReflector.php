@@ -17,8 +17,6 @@ use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use function strtoupper;
 
-use function strtoupper;
-
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
  */

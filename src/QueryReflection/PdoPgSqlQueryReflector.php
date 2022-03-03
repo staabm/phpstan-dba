@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use function array_shift;
 use Iterator;
 use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
-
-use function array_shift;
 
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
