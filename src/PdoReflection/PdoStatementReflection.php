@@ -135,7 +135,7 @@ final class PdoStatementReflection
         }
 
         if ($statementType instanceof PdoStatementObjectType) {
-            return $statementType->newWithFetchType($fetchType);
+            return $statementType->newWithFetchType($fetchType)->getRowType();
         }
 
         return null;
