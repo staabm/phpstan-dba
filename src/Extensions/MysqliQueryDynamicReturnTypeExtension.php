@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Extensions;
 
 use mysqli;
-use mysqli_result;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -17,7 +16,6 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
