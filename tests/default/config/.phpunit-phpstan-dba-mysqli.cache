@@ -1205,8 +1205,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1219,8 +1219,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1233,8 +1233,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1247,8 +1247,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1401,8 +1401,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => 0,
-                   'max' => 4294967295,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1415,8 +1415,8 @@
               array (
                 0 => 
                 PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => 0,
-                   'max' => 4294967295,
+                   'min' => -32768,
+                   'max' => 32767,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -1495,8 +1495,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -1532,13 +1532,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1562,8 +1562,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
         3 => 
@@ -1581,8 +1581,8 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 0,
@@ -1596,8 +1596,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1625,13 +1625,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1655,8 +1655,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1684,13 +1684,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1714,8 +1714,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1743,13 +1743,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1773,8 +1773,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1802,13 +1802,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1832,8 +1832,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1861,13 +1861,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1891,8 +1891,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -1920,13 +1920,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -1950,8 +1950,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2000,13 +2000,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -2030,8 +2030,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2059,13 +2059,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -2089,8 +2089,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2118,13 +2118,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -2148,8 +2148,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2177,13 +2177,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -2207,8 +2207,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2236,13 +2236,13 @@
           array (
             0 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 1,
@@ -2266,8 +2266,8 @@
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => 0,
-             'max' => 4294967295,
+             'min' => -32768,
+             'max' => 32767,
           )),
         )),
       ),
@@ -2710,13 +2710,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -2753,8 +2753,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -2802,13 +2802,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -2845,8 +2845,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -2894,13 +2894,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -2937,8 +2937,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3007,13 +3007,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -3050,8 +3050,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3082,8 +3082,8 @@
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 0,
@@ -3112,8 +3112,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3161,13 +3161,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -3204,8 +3204,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3260,13 +3260,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -3303,8 +3303,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3352,13 +3352,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -3395,8 +3395,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3465,13 +3465,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'nextAutoIndex' => 2,
@@ -3508,8 +3508,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => 0,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3575,13 +3575,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -3656,8 +3656,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3698,8 +3698,8 @@
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -3748,8 +3748,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3815,13 +3815,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -3896,8 +3896,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -3963,13 +3963,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4044,8 +4044,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4111,13 +4111,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4192,8 +4192,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4259,13 +4259,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4340,8 +4340,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4414,13 +4414,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4495,8 +4495,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4562,13 +4562,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4643,8 +4643,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4710,13 +4710,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4791,8 +4791,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -4858,13 +4858,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -4939,8 +4939,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -5006,13 +5006,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -5087,8 +5087,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -5154,13 +5154,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -5235,8 +5235,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
