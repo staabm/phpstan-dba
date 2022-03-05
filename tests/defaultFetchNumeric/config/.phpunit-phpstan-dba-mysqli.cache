@@ -59,13 +59,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
+               'min' => -32768,
+               'max' => 32767,
             )),
             4 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -140,8 +140,8 @@
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 4294967295,
+                 'min' => -32768,
+                 'max' => 32767,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
