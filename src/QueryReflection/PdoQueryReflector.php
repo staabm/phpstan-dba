@@ -54,7 +54,7 @@ final class PdoQueryReflector implements QueryReflector
     private MysqlTypeMapper $typeMapper;
 
     /**
-     * @var PDOStatement<int>
+     * @var PDOStatement<array{COLUMN_TYPE: string, COLUMN_NAME: string, EXTRA: string}>
      */
     private ?PDOStatement $stmt = null;
     /**
