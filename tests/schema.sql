@@ -13,7 +13,7 @@ ALTER TABLE `ada`
     ADD PRIMARY KEY (`adaid`);
 
 ALTER TABLE `ada`
-    MODIFY `adaid` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `adaid` smallint NOT NULL AUTO_INCREMENT;
 
 
 CREATE TABLE `ak` (
