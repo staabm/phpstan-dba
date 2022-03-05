@@ -13,19 +13,19 @@ class Foo
 
         foreach ($queries as $query) {
             $stmt = $conn->prepare($query);
-            assertType('Doctrine\DBAL\Statement<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Statement<array{email: string, 0: string}>', $stmt);
+            assertType('Doctrine\DBAL\Statement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>|Doctrine\DBAL\Statement<array{email: string, 0: string}>', $stmt);
 
             $result = $stmt->executeQuery([]);
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
 
             $result = $stmt->execute([]);
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
 
             $fetch = $result->fetchOne();
-            assertType('int<0, 4294967295>|string|false', $fetch);
+            assertType('int<-32768, 32767>|string|false', $fetch);
 
             $fetch = $result->fetchAssociative();
-            assertType('array{adaid: int<0, 4294967295>}|array{email: string}|false', $fetch);
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $fetch);
         }
     }
 
@@ -35,7 +35,7 @@ class Foo
 
         foreach ($queries as $query) {
             $result = $conn->query($query);
-            assertType('Doctrine\DBAL\Result<array{adaid: int<0, 4294967295>, 0: int<0, 4294967295>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
+            assertType('Doctrine\DBAL\Result<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>|Doctrine\DBAL\Result<array{email: string, 0: string}>', $result);
         }
     }
 }
