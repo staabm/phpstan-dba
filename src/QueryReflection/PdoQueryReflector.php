@@ -15,6 +15,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
+use function strtoupper;
 
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
@@ -262,13 +263,13 @@ final class PdoQueryReflector implements QueryReflector
     {
         return match (strtoupper($mysqlType)) {
             'LONGLONG',
-                'LONG',
-                'SHORT',
-                'TINY',
-                'YEAR',
-                'BIT',
-                'INT24' => true,
-                default => false,
+            'LONG',
+            'SHORT',
+            'TINY',
+            'YEAR',
+            'BIT',
+            'INT24' => true,
+            default => false,
         };
     }
 }
