@@ -186,12 +186,10 @@ final class PdoQueryReflector implements QueryReflector
                 $columnMeta['flags'][] = $flag;
             }
 
-            // @phpstan-ignore-next-line
             $this->cache[$queryString][$columnIndex] = $columnMeta;
             ++$columnIndex;
         }
 
-        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 
