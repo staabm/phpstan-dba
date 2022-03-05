@@ -1,7 +1,7 @@
 CREATE DATABASE phpstan_dba;
 
 CREATE TABLE ada (
-    adaid SERIAL,
+    adaid smallint NOT NULL,
     gesperrt int NOT NULL DEFAULT 0,
     email varchar(100) NOT NULL DEFAULT '',
     freigabe1u1 smallint NOT NULL
