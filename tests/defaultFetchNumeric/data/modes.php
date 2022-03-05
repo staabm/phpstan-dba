@@ -10,45 +10,45 @@ class Foo
 {
     public function numericModeQuery(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada');
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $result = $stmt->fetch();
-        assertType('array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}|false', $result);
+        assertType('array{string, int<-32768, 32767>}|false', $result);
     }
 
     public function numericModeFetch(PDO $pdo)
     {
-        $stmt = $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $result = $stmt->fetch();
-        assertType('array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}|false', $result);
+        assertType('array{string, int<-32768, 32767>}|false', $result);
     }
 
     public function numericModeFetchOverriden(PDO $pdo)
     {
-        $stmt = $pdo->prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        assertType('array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
 
     public function numericModeQueryFetchOverriden(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>, int<-128, 127>, int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada');
+        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        assertType('array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
 
     public function numericModeQueryOverriden(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        assertType('array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}|false', $result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
 }
