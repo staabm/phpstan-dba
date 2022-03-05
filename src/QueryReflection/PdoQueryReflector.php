@@ -47,7 +47,7 @@ final class PdoQueryReflector implements QueryReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<ColumnMeta>|null>
+     * @var array<string, PDOException|array<int<0, max>, ColumnMeta>|null>
      */
     private array $cache = [];
 
