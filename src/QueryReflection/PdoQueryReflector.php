@@ -171,16 +171,6 @@ final class PdoQueryReflector implements QueryReflector
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
-            if (
-                !\array_key_exists('name', $columnMeta)
-                || !\array_key_exists('table', $columnMeta)
-                || !\array_key_exists('native_type', $columnMeta)
-                || !\array_key_exists('flags', $columnMeta)
-                || !\array_key_exists('len', $columnMeta)
-            ) {
-                throw new ShouldNotHappenException();
-            }
-
             $flags = $this->emulateMysqlFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
             foreach ($flags as $flag) {
                 $columnMeta['flags'][] = $flag;
