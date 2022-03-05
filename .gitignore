@@ -7,3 +7,5 @@ mysqli.php
 pdo.php
 
 .env
+
+.idea/

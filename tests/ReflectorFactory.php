@@ -40,7 +40,11 @@ final class ReflectorFactory
         // we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
         // in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
         // phpstan-dba itself is a special case, since we are testing phpstan-dba with phpstan-dba.
-        $cacheFile = $cacheDir.'/.phpunit-phpstan-dba-'.$reflector.'.cache';
+        $cacheFile = sprintf(
+            '%s/.phpunit-phpstan-dba-%s.cache',
+            $cacheDir,
+            $reflector,
+        );
         if (\defined('__PHPSTAN_RUNNING__')) {
             $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
         }
@@ -58,6 +62,9 @@ final class ReflectorFactory
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
+            } elseif ('pdo-pgsql' === $reflector) {
+                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
+                $reflector = new PdoQueryReflector($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: '.$reflector);
             }
@@ -66,7 +73,7 @@ final class ReflectorFactory
                 $reflector = new ReplayAndRecordingQueryReflector(
                     $reflectionCache,
                     $reflector,
-                    $schemaHasher
+                    $schemaHasher ?? throw new \RuntimeException('Schema hasher required.')
                 );
             } else {
                 $reflector = new RecordingQueryReflector(
