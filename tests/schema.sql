@@ -12,9 +12,6 @@ CREATE TABLE `ada` (
 ALTER TABLE `ada`
     ADD PRIMARY KEY (`adaid`);
 
-ALTER TABLE `ada`
-    MODIFY `adaid` smallint NOT NULL AUTO_INCREMENT;
-
 
 CREATE TABLE `ak` (
     `akid` int(11) NOT NULL DEFAULT '0',
