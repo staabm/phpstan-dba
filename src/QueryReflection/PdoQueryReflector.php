@@ -18,7 +18,7 @@ use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use function strtoupper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
  */
 final class PdoQueryReflector implements QueryReflector
 {
@@ -47,7 +47,7 @@ final class PdoQueryReflector implements QueryReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<ColumnMeta>|null>
+     * @var array<string, PDOException|array<int<0, max>, ColumnMeta>|null>
      */
     private array $cache = [];
 
@@ -165,20 +165,11 @@ final class PdoQueryReflector implements QueryReflector
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
             // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
+            /** @var ColumnMeta|false */
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
-            }
-
-            if (
-                !\array_key_exists('name', $columnMeta)
-                || !\array_key_exists('table', $columnMeta)
-                || !\array_key_exists('native_type', $columnMeta)
-                || !\array_key_exists('flags', $columnMeta)
-                || !\array_key_exists('len', $columnMeta)
-            ) {
-                throw new ShouldNotHappenException();
             }
 
             $flags = $this->emulateMysqlFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
@@ -191,7 +182,6 @@ final class PdoQueryReflector implements QueryReflector
             ++$columnIndex;
         }
 
-        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 
