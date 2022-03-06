@@ -165,7 +165,7 @@ final class PdoQueryReflector implements QueryReflector
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
             // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
-            /** @var ColumnMeta */
+            /** @var ColumnMeta|false */
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
