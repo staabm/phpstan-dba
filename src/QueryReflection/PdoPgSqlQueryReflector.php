@@ -69,14 +69,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
-            $table = \array_key_exists('table', $columnMeta) ? $columnMeta['table'] : '';
-            if (
-                !\array_key_exists('name', $columnMeta)
-                || !\array_key_exists('native_type', $columnMeta)
-                || !\array_key_exists('len', $columnMeta)
-            ) {
-                throw new ShouldNotHappenException();
-            }
+            $table = $columnMeta['table'];
 
             $columnMeta['flags'] = $this->emulateFlags(
                 $columnMeta['native_type'],
@@ -89,7 +82,6 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
             ++$columnIndex;
         }
 
-        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 
