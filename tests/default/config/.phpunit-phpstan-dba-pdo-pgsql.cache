@@ -17,6 +17,13 @@
         5 => NULL,
       ),
     ),
+    'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT a.email, b.adaid, b.gesperrt FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
     array (
       'result' => 
@@ -183,6 +190,20 @@
     array (
       'result' => 
       array (
+        3 => NULL,
+      ),
+    ),
+    'SELECT email, adaid FROM ada LIMIT 1' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT email, adaid FROM ada LIMIT 1, 10' => 
+    array (
+      'result' => 
+      array (
         5 => NULL,
       ),
     ),
@@ -194,6 +215,13 @@
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = 1' => 
     array (
       'result' => 
       array (
@@ -243,6 +271,13 @@
         5 => NULL,
       ),
     ),
+    'SELECT email, adaid FROM ada WHERE email = \'1970-01-01\'' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
       'result' => 
@@ -278,7 +313,21 @@
         5 => NULL,
       ),
     ),
+    'SELECT email, adaid FROM ada WHERE email=\'foo\'' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
       'result' => 
       array (
