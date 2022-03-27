@@ -17,7 +17,7 @@ use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
  */
 abstract class BasePdoQueryReflector
 {
@@ -46,7 +46,7 @@ abstract class BasePdoQueryReflector
     protected const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<ColumnMeta>|null>
+     * @var array<string, PDOException|list<PDOColumnMeta>|null>
      */
     protected array $cache = [];
 
@@ -154,7 +154,7 @@ abstract class BasePdoQueryReflector
         return $this->emulateFlags($nativeType, $tableName, $columnName);
     }
 
-    /** @return PDOException|list<ColumnMeta>|null */
+    /** @return PDOException|list<PDOColumnMeta>|null */
     abstract protected function simulateQuery(string $queryString);
 
     /** @return Iterator<string, PgsqlTypeMapper::FLAG_*> */

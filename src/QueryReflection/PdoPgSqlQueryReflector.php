@@ -12,7 +12,7 @@ use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
  */
 final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements QueryReflector
 {
@@ -23,7 +23,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
         parent::__construct($pdo, $typeMapper);
     }
 
-    /** @return PDOException|list<ColumnMeta>|null */
+    /** @return PDOException|list<PDOColumnMeta>|null */
     protected function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
@@ -69,8 +69,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
-            $table = $columnMeta['table'];
-
+            $table = $columnMeta['table'] ?? '';
             $columnMeta['flags'] = $this->emulateFlags(
                 $columnMeta['native_type'],
                 $table,
