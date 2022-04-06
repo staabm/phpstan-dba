@@ -69,16 +69,21 @@ final class PgsqlTypeMapper implements TypeMapper
         }
 
         // floats are detected as numerics in mysqli
-        if (\in_array(strtoupper($type), ['DECIMAL', 'NUMERIC', 'REAL', 'DOUBLE PRECISION'], true)) {
+        if (\in_array(strtoupper($type), ['DECIMAL', 'NUMERIC', 'REAL', 'DOUBLE PRECISION', 'FLOAT8'], true)) {
             $phpstanType = new FloatType();
         }
 
         // fallbacks
         if (null === $phpstanType) {
             $phpstanType = match (strtoupper($type)) {
+                'BIT',
                 'INT2',
                 'INT4',
                 'INT8' => new IntegerType(),
+                'DATE',
+                'TEXT',
+                'TIME',
+                'TIMESTAMP',
                 'VARCHAR' => new StringType(),
                 default => new MixedType(),
             };
