@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use staabm\PHPStanDba\TypeMapping\TypeMapper;
 use function array_shift;
 use Iterator;
 use PDO;
@@ -77,7 +76,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
                 $columnMeta['name']
             );
 
-            if ($this->typeMapper->isNumericCol($columnMeta['native_type']) && $columnMeta['name'] === 'count') {
+            if ($this->typeMapper->isNumericCol($columnMeta['native_type']) && 'count' === $columnMeta['name']) {
                 $columnMeta['flags'][] = PgsqlTypeMapper::FLAG_NOT_NULL;
             }
 
