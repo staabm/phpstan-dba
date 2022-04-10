@@ -49,7 +49,7 @@ class Foo
 
     public function placeholderInData(PDO $pdo)
     {
-        $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
+        $query = "SELECT adaid FROM ada WHERE email LIKE 'hello?%'";
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
@@ -61,7 +61,7 @@ class Foo
         $stmt->execute();
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
 
-        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
@@ -93,10 +93,7 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
     }
 
-    /**
-     * @param number $idsToUpdate
-     */
-    public function numberType(PDO $pdo, $idsToUpdate)
+    public function numberType(PDO $pdo, int $idsToUpdate)
     {
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids)';
         $stmt = $pdo->prepare($query);

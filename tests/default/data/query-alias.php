@@ -7,6 +7,7 @@ use function PHPStan\Testing\assertType;
 
 class Foo
 {
+    // pgsql: resolves null?
     public function leftJoinQuery(PDO $pdo)
     {
         $query = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';

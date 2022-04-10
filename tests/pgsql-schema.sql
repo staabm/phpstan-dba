@@ -30,7 +30,7 @@ CREATE TABLE typemix (
     c_time time DEFAULT NULL,
     c_datetime timestamp DEFAULT NULL,
     c_timestamp timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    c_year date DEFAULT NULL,
+    c_year smallint DEFAULT NULL,
     c_tiny_text varchar DEFAULT NULL,
     c_medium_text varchar DEFAULT NULL,
     c_text text,
@@ -51,7 +51,6 @@ CREATE TABLE typemix (
     c_bigint bigint NOT NULL,
     c_double float NOT NULL,
     c_real float NOT NULL,
-    c_float float NOT NULL,
     c_boolean boolean NOT NULL,
 
 --     NOT TESTED
