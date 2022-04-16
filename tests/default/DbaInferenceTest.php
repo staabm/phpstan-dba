@@ -4,9 +4,8 @@ namespace staabm\PHPStanDba\Tests;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
-use PHPStan\Testing\TypeInferenceTestCase;
-
 use function getenv;
+use PHPStan\Testing\TypeInferenceTestCase;
 
 class DbaInferenceTest extends TypeInferenceTestCase
 {

@@ -3,7 +3,6 @@
 namespace PdoTest;
 
 use PDO;
-
 use function PHPStan\Testing\assertType;
 
 class Foo
