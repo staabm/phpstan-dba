@@ -349,6 +349,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 35,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1144,7 +1148,6 @@
                'max' => NULL,
             )),
           ),
-           'nextAutoIndex' => 35,
            'optionalKeys' => 
           array (
           ),
@@ -1215,6 +1218,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1343,7 +1350,6 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -1398,6 +1404,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1456,7 +1466,6 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -1520,6 +1529,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 3,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1615,7 +1628,6 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 3,
            'optionalKeys' => 
           array (
           ),
@@ -1649,6 +1661,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1674,7 +1690,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -1692,6 +1707,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1708,7 +1727,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -1742,6 +1760,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1767,7 +1789,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -1801,6 +1822,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1826,7 +1851,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -1860,6 +1884,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1885,7 +1913,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -1919,6 +1946,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -1944,7 +1975,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -1978,6 +2008,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2003,7 +2037,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2037,6 +2070,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2062,7 +2099,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2117,6 +2153,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2142,7 +2182,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2176,6 +2215,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2201,7 +2244,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2235,6 +2277,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2260,7 +2306,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2294,6 +2339,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2319,7 +2368,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2353,6 +2401,10 @@
              'max' => 32767,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2378,7 +2430,68 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 1,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
            'optionalKeys' => 
           array (
           ),
@@ -2412,6 +2525,10 @@
              'max' => 2147483647,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2437,7 +2554,6 @@
                'max' => 2147483647,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2471,6 +2587,10 @@
              'max' => 2147483647,
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2496,7 +2616,6 @@
                'max' => 2147483647,
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2528,6 +2647,10 @@
           PHPStan\Type\IntegerType::__set_state(array(
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2549,7 +2672,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2581,6 +2703,10 @@
           PHPStan\Type\IntegerType::__set_state(array(
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2602,7 +2728,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2645,6 +2770,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2688,7 +2817,6 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2720,6 +2848,10 @@
           PHPStan\Type\StringType::__set_state(array(
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2741,7 +2873,6 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 1,
            'optionalKeys' => 
           array (
           ),
@@ -2757,6 +2888,10 @@
           PHPStan\Type\StringType::__set_state(array(
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2771,7 +2906,6 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -2830,6 +2964,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2870,7 +3008,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -2908,6 +3045,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -2932,7 +3073,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -2984,6 +3124,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3024,7 +3168,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3076,6 +3219,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3116,7 +3263,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3168,6 +3314,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3208,7 +3358,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3260,6 +3409,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3300,7 +3453,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3352,6 +3504,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3392,7 +3548,196 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = 2' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = 3' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
            'optionalKeys' => 
           array (
           ),
@@ -3465,6 +3810,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3505,11 +3854,17 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
         )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid=' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
@@ -3557,6 +3912,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3597,7 +3956,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3635,6 +3993,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3659,7 +4021,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -3711,6 +4072,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3751,7 +4116,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3810,6 +4174,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3850,7 +4218,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3902,6 +4269,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -3942,7 +4313,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -3994,6 +4364,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4034,7 +4408,101 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = \'webmaster@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            3 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
            'optionalKeys' => 
           array (
           ),
@@ -4107,6 +4575,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4147,7 +4619,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -4199,6 +4670,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4239,7 +4714,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -4291,6 +4765,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4331,7 +4809,6 @@
                'max' => 32767,
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -4401,6 +4878,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4479,7 +4960,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4549,6 +5029,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4627,7 +5111,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4697,6 +5180,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4775,7 +5262,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4845,6 +5331,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -4923,7 +5413,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -4993,6 +5482,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5071,7 +5564,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5148,6 +5640,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5226,7 +5722,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5296,6 +5791,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5374,7 +5873,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5444,6 +5942,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5522,7 +6024,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5592,6 +6093,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5670,7 +6175,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5740,6 +6244,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5818,7 +6326,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
@@ -5888,6 +6395,10 @@
             ),
           )),
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -5966,7 +6477,6 @@
                'max' => 127,
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),

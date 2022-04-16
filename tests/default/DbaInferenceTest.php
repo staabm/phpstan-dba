@@ -6,6 +6,8 @@ use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use PHPStan\Testing\TypeInferenceTestCase;
 
+use function getenv;
+
 class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
@@ -15,6 +17,12 @@ class DbaInferenceTest extends TypeInferenceTestCase
         // make sure class constants can be resolved
         require_once __DIR__.'/data/pdo.php';
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo.php');
+
+        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-pgsql.php');
+        } else {
+            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-mysql.php');
+        }
 
         // make sure class constants can be resolved
         require_once __DIR__.'/data/pdo-quote.php';
