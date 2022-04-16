@@ -20,5 +20,6 @@ parameters:
     excludePaths:
         analyseAndScan:
             - *Fixture/**
+            - */tests/default/data/pdo-pgsql.php
             # XXX cases which are not yet supported by the PdoQueryReflector
             - */tests/default/data/query-alias.php
