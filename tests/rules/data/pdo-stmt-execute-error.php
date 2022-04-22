@@ -85,4 +85,17 @@ class Foo
         ');
         $stmt->execute([1]);
     }
+
+    public function bug336Named(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('
+            SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
+        ');
+        $stmt->execute([':akid' => 1]);
+    }
 }
