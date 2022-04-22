@@ -10,6 +10,10 @@
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 4,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -130,7 +134,6 @@
               ),
             )),
           ),
-           'nextAutoIndex' => 4,
            'optionalKeys' => 
           array (
           ),
