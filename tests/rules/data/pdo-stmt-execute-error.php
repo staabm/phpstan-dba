@@ -72,4 +72,17 @@ class Foo
         $stmt->bindValue(':email', 'email@example.org');
         $stmt->execute(); // wrong number of parameters
     }
+
+    public function bug336(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('
+            SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
+        ');
+        $stmt->execute([1]);
+    }
 }
