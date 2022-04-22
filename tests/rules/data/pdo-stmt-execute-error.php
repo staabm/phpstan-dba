@@ -83,7 +83,7 @@ class Foo
                 INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
             WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
         ');
-        $stmt->execute([1]);
+        $stmt->execute([1]); // everything fine
     }
 
     public function bug336Named(PDO $pdo)
@@ -96,6 +96,6 @@ class Foo
                 INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
             WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
         ');
-        $stmt->execute([':akid' => 1]);
+        $stmt->execute([':akid' => 1]); // everything fine
     }
 }
