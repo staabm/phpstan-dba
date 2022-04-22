@@ -367,6 +367,10 @@
     array (
       'error' => NULL,
     ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\'' => 
     array (
       'error' => 
