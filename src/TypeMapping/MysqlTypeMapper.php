@@ -17,12 +17,8 @@ use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
-final class MysqlTypeMapper
+final class MysqlTypeMapper implements TypeMapper
 {
-    public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
-    public const FLAG_NUMERIC = 'NUM';
-    public const FLAG_UNSIGNED = 'UNSIGNED';
-
     /**
      * @param list<string> $mysqlFlags
      */
@@ -137,5 +133,19 @@ final class MysqlTypeMapper
         }
 
         return $phpstanType;
+    }
+
+    public function isNumericCol(string $mysqlType): bool
+    {
+        return match (strtoupper($mysqlType)) {
+            'LONGLONG',
+            'LONG',
+            'SHORT',
+            'TINY',
+            'YEAR',
+            'BIT',
+            'INT24' => true,
+            default => false,
+        };
     }
 }

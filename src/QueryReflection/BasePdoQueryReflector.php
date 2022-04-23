@@ -13,11 +13,10 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
- * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
  */
 abstract class BasePdoQueryReflector
 {
@@ -46,7 +45,7 @@ abstract class BasePdoQueryReflector
     protected const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<PDOColumnMeta>|null>
+     * @var array<string, PDOException|list<ColumnMeta>|null>
      */
     protected array $cache = [];
 
@@ -154,9 +153,9 @@ abstract class BasePdoQueryReflector
         return $this->emulateFlags($nativeType, $tableName, $columnName);
     }
 
-    /** @return PDOException|list<PDOColumnMeta>|null */
+    /** @return PDOException|list<ColumnMeta>|null */
     abstract protected function simulateQuery(string $queryString);
 
-    /** @return Iterator<string, PgsqlTypeMapper::FLAG_*> */
+    /** @return Iterator<string, TypeMapper::FLAG_*> */
     abstract protected function checkInformationSchema(string $tableName);
 }

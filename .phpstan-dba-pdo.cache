@@ -28,6 +28,10 @@
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -82,7 +86,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -129,6 +132,10 @@
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -160,7 +167,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -223,6 +229,10 @@
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -277,7 +287,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 2,
            'optionalKeys' => 
           array (
           ),
@@ -324,6 +333,10 @@
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -355,7 +368,6 @@
             PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 0,
            'optionalKeys' => 
           array (
           ),
@@ -405,6 +417,10 @@
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 3,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -456,7 +472,6 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 3,
            'optionalKeys' => 
           array (
           ),
@@ -523,6 +538,10 @@
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 3,
+          ),
            'keyTypes' => 
           array (
             0 => 
@@ -574,7 +593,6 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
           ),
-           'nextAutoIndex' => 3,
            'optionalKeys' => 
           array (
           ),

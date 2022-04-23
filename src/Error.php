@@ -2,12 +2,12 @@
 
 namespace staabm\PHPStanDba;
 
+use staabm\PHPStanDba\QueryReflection\BasePdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
-use staabm\PHPStanDba\QueryReflection\PdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
 /**
- * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<PDOQueryReflector::PDO_ERROR_CODES>
+ * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<BasePdoQueryReflector::PDO_ERROR_CODES>
  */
 final class Error
 {
