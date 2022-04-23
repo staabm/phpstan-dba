@@ -2,8 +2,8 @@
 
 namespace staabm\PHPStanDba;
 
-use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\BasePdoQueryReflector;
+use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
 /**

@@ -7,16 +7,10 @@ namespace staabm\PHPStanDba\QueryReflection;
 use Iterator;
 use PDO;
 use PDOException;
-use PDOStatement;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
-use function strtoupper;
 
 /**
  * @phpstan-import-type ColumnMeta from BasePdoQueryReflector
