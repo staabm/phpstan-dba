@@ -15,6 +15,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
+use staabm\PHPStanDba\TypeMapping\TypeMapper;
 use function strtoupper;
 
 /**
@@ -90,7 +91,7 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
     }
 
     /**
-     * @return Iterator<string, MysqlTypeMapper::FLAG_*>
+     * @return Iterator<string, TypeMapper::FLAG_*>
      */
     protected function checkInformationSchema(string $tableName): Iterator
     {

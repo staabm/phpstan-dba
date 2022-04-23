@@ -157,6 +157,6 @@ abstract class BasePdoQueryReflector
     /** @return PDOException|list<ColumnMeta>|null */
     abstract protected function simulateQuery(string $queryString);
 
-    /** @return Iterator<string, PgsqlTypeMapper::FLAG_*> */
+    /** @return Iterator<string, TypeMapper::FLAG_*> */
     abstract protected function checkInformationSchema(string $tableName);
 }

@@ -9,6 +9,8 @@ use PHPStan\Type\Type;
 interface TypeMapper
 {
     public const FLAG_NUMERIC = 'NUM';
+    public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
+    public const FLAG_UNSIGNED = 'UNSIGNED';
 
     /**
      * @param list<string> $flags

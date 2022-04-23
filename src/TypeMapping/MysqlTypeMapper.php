@@ -19,9 +19,6 @@ use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper implements TypeMapper
 {
-    public const FLAG_AUTO_INCREMENT = 'AUTO_INCREMENT';
-    public const FLAG_UNSIGNED = 'UNSIGNED';
-
     /**
      * @param list<string> $mysqlFlags
      */
