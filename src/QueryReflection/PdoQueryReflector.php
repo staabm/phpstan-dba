@@ -18,7 +18,7 @@ use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use function strtoupper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
  */
 final class PdoQueryReflector extends BasePdoQueryReflector implements QueryReflector
 {
@@ -69,6 +69,7 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
         $columnIndex = 0;
         while ($columnIndex < $columnCount) {
             // see https://github.com/php/php-src/blob/master/ext/pdo_mysql/mysql_statement.c
+            /** @var ColumnMeta|false */
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
             if (false === $columnMeta) {
@@ -95,7 +96,6 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
             ++$columnIndex;
         }
 
-        // @phpstan-ignore-next-line
         return $this->cache[$queryString];
     }
 

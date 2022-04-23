@@ -13,24 +13,22 @@ class Foo
 
     public function querySelected(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         foreach ($stmt as $row) {
             assertType('int<-32768, 32767>', $row['adaid']);
             assertType('string', $row['email']);
-            assertType('int<-128, 127>', $row['gesperrt']);
-            assertType('int<-128, 127>', $row['freigabe1u1']);
         }
     }
 
     public function queryVariants(PDO $pdo)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada LIMIT 1', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada LIMIT 1, 10', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada LIMIT 1, 10', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 
     public function queryWithNullColumn(PDO $pdo)
@@ -52,24 +50,24 @@ class Foo
      */
     public function concatedQuerySelected(PDO $pdo, int $int, string $string, float $float, bool $bool, $numericString, $nonEmptyString, $mixed)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.$int, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$int, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.self::INT, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.self::INT, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // requires phpstan 1.4.6+
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid IN('.implode(',', [self::INT, 3]).')', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid IN('.implode(',', [self::INT, 3]).')', PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query("SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email='".self::FOO."'", PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email='".self::FOO."'", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.$numericString, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$numericString, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid='.$bool, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$bool, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // ----
 
@@ -81,13 +79,13 @@ class Foo
 
         // ---- queries, for which we cannot infer the return type
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
         assertType('PDOStatement', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
         assertType('PDOStatement', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
         assertType('PDOStatement', $stmt);
     }
 
@@ -138,11 +136,11 @@ class Foo
      */
     public function unionParam(PDO $pdo, $adaid, $email)
     {
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query("SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE email = '".$email."'", PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email = '".$email."'", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 
     public function mysqlTypes(PDO $pdo)
@@ -202,11 +200,11 @@ class Foo
     public function mixInUnionParam(PDO $pdo, $adaid, $gesperrt)
     {
         // union of simulatable and simulatable is simulatable
-        $stmt = $pdo->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // union of simulatable and non-simulatable is simulatable
-        $stmt = $pdo->query("SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt = '".$gesperrt."'", PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE gesperrt = '".$gesperrt."'", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 }
