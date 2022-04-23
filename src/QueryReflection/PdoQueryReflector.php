@@ -19,7 +19,7 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 use function strtoupper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
+ * @phpstan-import-type ColumnMeta from BasePdoQueryReflector
  */
 final class PdoQueryReflector extends BasePdoQueryReflector implements QueryReflector
 {
