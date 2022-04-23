@@ -116,10 +116,10 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
             $columnName = $row['COLUMN_NAME'];
 
             if (str_contains($extra, 'auto_increment')) {
-                yield $columnName => MysqlTypeMapper::FLAG_AUTO_INCREMENT;
+                yield $columnName => TypeMapper::FLAG_AUTO_INCREMENT;
             }
             if (str_contains($columnType, 'unsigned')) {
-                yield $columnName => MysqlTypeMapper::FLAG_UNSIGNED;
+                yield $columnName => TypeMapper::FLAG_UNSIGNED;
             }
         }
     }
