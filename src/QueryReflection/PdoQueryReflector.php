@@ -25,7 +25,7 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
 {
     public function __construct(PDO $pdo)
     {
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         parent::__construct($pdo, new MysqlTypeMapper());
     }
