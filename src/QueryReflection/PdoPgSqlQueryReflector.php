@@ -10,6 +10,7 @@ use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
+use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
  * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
@@ -77,7 +78,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
             );
 
             if ($this->typeMapper->isNumericCol($columnMeta['native_type']) && 'count' === $columnMeta['name']) {
-                $columnMeta['flags'][] = PgsqlTypeMapper::FLAG_NOT_NULL;
+                $columnMeta['flags'][] = TypeMapper::FLAG_NOT_NULL;
             }
 
             // @phpstan-ignore-next-line
