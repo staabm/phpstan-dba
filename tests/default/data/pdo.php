@@ -193,6 +193,28 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
     }
 
+    public function readForUpdateSkipLocked(PDO $pdo)
+    {
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
+
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR SHARE SKIP LOCKED';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
+    }
+
+    public function readForUpdateNowait(PDO $pdo)
+    {
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
+
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR SHARE NOWAIT';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
+    }
+
     /**
      * @param int|numeric-string $adaid
      * @param string|int         $gesperrt
