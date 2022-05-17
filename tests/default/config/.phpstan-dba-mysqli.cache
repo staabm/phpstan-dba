@@ -1594,6 +1594,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1656,6 +1657,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1718,6 +1720,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1780,6 +1783,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
