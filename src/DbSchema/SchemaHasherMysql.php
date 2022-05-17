@@ -60,24 +60,13 @@ final class SchemaHasherMysql
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query($query);
             foreach ($stmt as $row) {
-                // XXX why don't we know the proper type here?
-                if (!is_array($row) || !array_key_exists('dbsignature', $row)) {
-                    throw new ShouldNotHappenException();
-                }
-
-                $hash = $row['dbsignature'];
+                $hash = $row['dbsignature'] ?? '';
             }
         } else {
             $result = $this->connection->query($query);
             if ($result instanceof \mysqli_result) {
                 $row = $result->fetch_assoc();
-
-                // XXX why don't we know the proper type here?
-                if (!is_array($row) || !array_key_exists('dbsignature', $row)) {
-                    throw new ShouldNotHappenException();
-                }
-
-                $hash = $row['dbsignature'];
+                $hash = $row['dbsignature'] ?? '';
             }
         }
 
