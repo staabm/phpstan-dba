@@ -195,7 +195,7 @@ class Foo
 
     public function readForUpdateSkipLocked(PDO $pdo)
     {
-        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED';
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED  ';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
 
@@ -206,7 +206,7 @@ class Foo
 
     public function readForUpdateNowait(PDO $pdo)
     {
-        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT';
+        $query = 'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT  ';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
 
