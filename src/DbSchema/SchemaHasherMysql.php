@@ -36,13 +36,13 @@ final class SchemaHasherMysql
         $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
         $this->connection->query($maxConcatQuery);
 
-        $query = "
+        $query = '
             SELECT
                 MD5(
                     GROUP_CONCAT(
                         CONCAT(
-                            COALESCE(COLUMN_NAME, ''),
-                            COALESCE(EXTRA, ''),
+                            COALESCE(COLUMN_NAME, ""),
+                            COALESCE(EXTRA, ""),
                             COLUMN_TYPE,
                             IS_NULLABLE
                         )
@@ -54,7 +54,7 @@ final class SchemaHasherMysql
             WHERE
                 table_schema = DATABASE()
             GROUP BY
-                grouper";
+                grouper';
 
         $hash = '';
         if ($this->connection instanceof PDO) {
