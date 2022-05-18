@@ -2,6 +2,19 @@
 
 function demo(\PDO $pdo): void
 {
+    // ---------- result-set type inference ----------
+    $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
+    assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+
+    foreach ($stmt as $row) {
+        parse_str($row['adaid'], $x);
+        if ($row['email'] + 25) {
+            $x = $row['doesnotexit'];
+        }
+    }
+
+    // ---------- in-depth query analysis ----------
+
 	$pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
 
 	$pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
