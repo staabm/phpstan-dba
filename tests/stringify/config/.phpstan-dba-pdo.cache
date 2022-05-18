@@ -108,6 +108,7 @@
             )),
             2 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -120,6 +121,7 @@
             )),
             3 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -132,6 +134,7 @@
             )),
             4 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -144,6 +147,7 @@
             )),
             5 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -156,6 +160,7 @@
             )),
             6 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -168,6 +173,7 @@
             )),
             7 => 
             PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 

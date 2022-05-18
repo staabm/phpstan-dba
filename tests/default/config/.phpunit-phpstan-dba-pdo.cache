@@ -358,6 +358,7 @@
             )),
             6 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -370,6 +371,7 @@
             )),
             7 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -388,6 +390,7 @@
             )),
             10 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -400,6 +403,7 @@
             )),
             11 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -412,6 +416,7 @@
             )),
             12 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -424,6 +429,7 @@
             )),
             13 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -436,6 +442,7 @@
             )),
             14 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -448,6 +455,7 @@
             )),
             15 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -460,6 +468,7 @@
             )),
             16 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -472,6 +481,7 @@
             )),
             17 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -484,6 +494,7 @@
             )),
             18 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -496,6 +507,7 @@
             )),
             19 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -508,6 +520,7 @@
             )),
             20 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -522,6 +535,7 @@
             )),
             21 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -536,6 +550,7 @@
             )),
             22 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -548,6 +563,7 @@
             )),
             23 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -560,6 +576,7 @@
             )),
             24 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -572,6 +589,7 @@
             )),
             25 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -584,6 +602,7 @@
             )),
             26 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -596,6 +615,7 @@
             )),
             27 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -608,6 +628,7 @@
             )),
             28 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -620,6 +641,7 @@
             )),
             29 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -644,6 +666,7 @@
             )),
             34 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -656,6 +679,7 @@
             )),
             35 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -814,6 +838,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1135,16 +1160,17 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\FloatType::__set_state(array(
+              PHPStan\Type\StringType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\FloatType::__set_state(array(
               )),
               2 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               3 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -1208,6 +1234,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -1222,6 +1249,7 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -1236,6 +1264,7 @@
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -1250,6 +1279,7 @@
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -1270,6 +1300,7 @@
             )),
             6 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -1282,6 +1313,7 @@
             )),
             7 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -1298,6 +1330,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1340,13 +1373,14 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\FloatType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\FloatType::__set_state(array(
               )),
               2 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -1397,6 +1431,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1496,6 +1531,259 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada LIMIT 1 FOR SHARE NOWAIT' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada LIMIT 1 FOR SHARE SKIP LOCKED' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1558,6 +1846,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1620,6 +1909,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1682,6 +1972,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1744,6 +2035,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1806,6 +2098,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1889,6 +2182,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -1951,6 +2245,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2013,6 +2308,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2075,6 +2371,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2137,6 +2434,70 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2199,6 +2560,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2261,6 +2623,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2280,6 +2643,13 @@
              'max' => 2147483647,
           )),
         )),
+      ),
+    ),
+    'SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
       ),
     ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
@@ -2319,6 +2689,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2375,6 +2746,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2421,6 +2793,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -2435,6 +2808,7 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -2453,6 +2827,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2468,6 +2843,7 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
@@ -2520,6 +2896,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2635,6 +3012,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2659,15 +3037,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -2708,6 +3087,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2724,15 +3104,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -2795,6 +3176,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2819,15 +3201,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -2890,6 +3273,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -2914,15 +3298,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -2985,6 +3370,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3009,15 +3395,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3080,6 +3467,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3104,15 +3492,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3175,6 +3564,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3199,15 +3589,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3270,6 +3661,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3294,15 +3686,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3365,6 +3758,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3389,15 +3783,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3481,6 +3876,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3505,15 +3901,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3583,6 +3980,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3607,15 +4005,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3656,6 +4055,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3672,15 +4072,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3743,6 +4144,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3767,15 +4169,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3845,6 +4248,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3869,15 +4273,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -3940,6 +4345,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -3964,15 +4370,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4035,6 +4442,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4059,15 +4467,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4130,6 +4539,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4154,15 +4564,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4246,6 +4657,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4270,15 +4682,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4341,6 +4754,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4365,15 +4779,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4436,6 +4851,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4460,15 +4876,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4569,6 +4986,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4611,15 +5029,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4720,6 +5139,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4762,15 +5182,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -4871,6 +5292,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -4913,15 +5335,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5022,6 +5445,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5064,15 +5488,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5173,6 +5598,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5215,15 +5641,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5331,6 +5758,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5373,15 +5801,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5482,6 +5911,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5524,15 +5954,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5633,6 +6064,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5675,15 +6107,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5784,6 +6217,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5826,15 +6260,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -5935,6 +6370,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -5977,15 +6413,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
@@ -6086,6 +6523,7 @@
           ),
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -6128,15 +6566,16 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
-              )),
-              1 => 
-              PHPStan\Type\StringType::__set_state(array(
               )),
             ),
           )),
