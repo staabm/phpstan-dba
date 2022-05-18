@@ -216,8 +216,8 @@
                 MD5(
                     GROUP_CONCAT(
                         CONCAT(
-                            COALESCE(COLUMN_NAME, ""),
-                            COALESCE(EXTRA, ""),
+                            COALESCE(COLUMN_NAME, \'\'),
+                            COALESCE(EXTRA, \'\'),
                             COLUMN_TYPE,
                             IS_NULLABLE
                         )
@@ -542,8 +542,8 @@
       ),
     ),
     'SELECT
-                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
-                    coalesce(EXTRA, "") as EXTRA,
+                    coalesce(COLUMN_NAME, \'\') as COLUMN_NAME,
+                    coalesce(EXTRA, \'\') as EXTRA,
                     COLUMN_TYPE
                  FROM information_schema.columns
                  WHERE table_name = \'1970-01-01\' AND table_schema = DATABASE()' => 
@@ -652,8 +652,8 @@
       ),
     ),
     'SELECT
-                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
-                    coalesce(EXTRA, "") as EXTRA,
+                    coalesce(COLUMN_NAME, \'\') as COLUMN_NAME,
+                    coalesce(EXTRA, \'\') as EXTRA,
                     COLUMN_TYPE
                  FROM information_schema.columns
                  WHERE table_name = ? AND table_schema = DATABASE()' => 
