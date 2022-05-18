@@ -27,5 +27,4 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{MAX(adaid): int<-32768, 32767>|null, MIN(adaid): int<-32768, 32767>|null, COUNT(adaid): int, AVG(adaid): float|null}>', $stmt);
     }
-
 }
