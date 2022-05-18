@@ -14,7 +14,7 @@ This extension provides the following features:
 In case you are using Doctrine ORM, you might use phpstan-dba in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
 
 **Note:**
-At the moment only mysql/mariadb databases are supported. Technically it's not a big problem to support other databases though.
+At the moment only mysql/mariadb and pgsql databases are supported. Technically it's not a big problem to support other databases though.
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/default/data) to get a feeling about the current featureset.
 
