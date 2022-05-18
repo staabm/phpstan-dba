@@ -30,12 +30,14 @@ class Foo
 
     public function placeholderInData(PDO $pdo)
     {
+        // double quotes within the query
         $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
 
+        // single quotes within the query
         $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
