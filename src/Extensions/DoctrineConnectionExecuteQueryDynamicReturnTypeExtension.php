@@ -54,11 +54,15 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         }
 
         $params = null;
+        $paramTypes = null;
         if (\count($args) > 1) {
             $params = $args[1]->value;
         }
+        if (\count($args) > 2) {
+            $paramTypes = $args[2]->value;
+        }
 
-        $resultType = $this->inferType($args[0]->value, $params, $scope);
+        $resultType = $this->inferType($args[0]->value, $params, $paramTypes, $scope);
         if (null !== $resultType) {
             return $resultType;
         }
@@ -66,16 +70,17 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         return $defaultReturn;
     }
 
-    private function inferType(Expr $queryExpr, ?Expr $paramsExpr, Scope $scope): ?Type
+    private function inferType(Expr $queryExpr, ?Expr $paramsExpr, ?Expr $paramTypesExpr, Scope $scope): ?Type
     {
         if (null === $paramsExpr) {
             $queryReflection = new QueryReflection();
             $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
             $parameterTypes = $scope->getType($paramsExpr);
+            $boundParameterTypes = $scope->getType($paramsExpr);
 
             $queryReflection = new QueryReflection();
-            $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
+            $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $boundParameterTypes, $scope);
         }
 
         $doctrineReflection = new DoctrineReflection();

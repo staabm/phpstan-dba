@@ -95,7 +95,7 @@ final class PdoStatementExecuteMethodRule implements Rule
         }
 
         try {
-            $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+            $parameters = $queryReflection->resolveParameters($parameterTypes, null) ?? [];
         } catch (UnresolvableQueryException $exception) {
             return [
                 RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),

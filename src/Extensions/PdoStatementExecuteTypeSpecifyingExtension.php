@@ -66,7 +66,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         $parameterTypes = $scope->getType($args[0]->value);
 
         $queryReflection = new QueryReflection();
-        $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
+        $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, null, $scope);
 
         $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
 
