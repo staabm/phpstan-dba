@@ -138,7 +138,7 @@ final class QuerySimulation
         $queryString = rtrim($queryString, ';');
 
         // strip trailling FOR UPDATE/FOR SHARE
-        $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*$/i', '$1', $queryString);
+        $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*(SKIP\s+LOCKED|NOWAIT)?$/i', '$1', $queryString);
 
         if (null === $queryString) {
             throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');

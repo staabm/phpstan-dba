@@ -45,6 +45,48 @@
         5 => NULL,
       ),
     ),
+    '
+            SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
+        ' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    '
+            SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
+        ' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    '
+            SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
+        ' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
       'result' => 
