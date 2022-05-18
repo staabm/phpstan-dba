@@ -49,7 +49,7 @@ class Foo
 
     public function placeholderInData(PDO $pdo)
     {
-        $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
+        $query = "SELECT adaid FROM ada WHERE email LIKE 'hello?%'";
         $stmt = $pdo->prepare($query);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
