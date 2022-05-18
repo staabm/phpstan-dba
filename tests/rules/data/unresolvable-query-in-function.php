@@ -2,28 +2,30 @@
 
 namespace UnresolvableQueryInFunctionTest;
 
+use Deployer\DbCredentials;
+
 class Foo
 {
-    public function mixedParam(\mysqli $mysqli, $mixed)
+    public function mixedParam(DbCredentials $dbCredentials, $mixed)
     {
-        mysqli_query($mysqli, 'SELECT adaid FROM ada WHERE gesperrt='.$mixed);
+        \Deployer\runMysqlQuery('SELECT adaid FROM ada WHERE gesperrt='.$mixed, $dbCredentials);
     }
 
-    public function mixedParam2(\mysqli $mysqli, $mixed)
+    public function mixedParam2(DbCredentials $dbCredentials, $mixed)
     {
         $query = 'SELECT adaid FROM ada WHERE gesperrt='.$mixed;
-        mysqli_query($mysqli, $query);
+        \Deployer\runMysqlQuery($query, $dbCredentials);
     }
 
-    public function noErrorOnMixedQuery(\mysqli $mysqli, $mixed)
+    public function noErrorOnMixedQuery(DbCredentials $dbCredentials, $mixed)
     {
         // we should not report a error here, as this is like a call somewhere in between software layers
         // which don't know anything about the actual query
-        mysqli_query($mysqli, $mixed);
+        \Deployer\runMysqlQuery($mixed, $dbCredentials);
     }
 
-    public function noErrorOnStringQuery(\mysqli $mysqli, string $query)
+    public function noErrorOnStringQuery(DbCredentials $dbCredentials, string $query)
     {
-        mysqli_query($mysqli, $query);
+        \Deployer\runMysqlQuery($query, $dbCredentials);
     }
 }
