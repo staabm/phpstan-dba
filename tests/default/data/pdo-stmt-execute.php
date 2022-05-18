@@ -24,11 +24,6 @@ class Foo
         $stmt->execute([':email' => 'email@example.org']);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE email <=> :email');
-        assertType('PDOStatement', $stmt);
-        $stmt->execute([':email' => null]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
-
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         assertType('PDOStatement', $stmt);
         $stmt->execute([1]);
