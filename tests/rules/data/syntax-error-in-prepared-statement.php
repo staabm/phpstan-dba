@@ -152,13 +152,13 @@ class Foo
 
     public function noErrorOnPlaceholderInData(Connection $connection)
     {
-        $query = "SELECT adaid FROM ada WHERE email LIKE 'hello?%'";
+        $query = 'SELECT adaid FROM ada WHERE email LIKE "hello?%"';
         $connection->preparedQuery($query, []);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
         $connection->preparedQuery($query, []);
 
-        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
         $connection->preparedQuery($query, []);
 
         $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
