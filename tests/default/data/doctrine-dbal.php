@@ -4,6 +4,7 @@ namespace DoctrineDbalTest;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 use function PHPStan\Testing\assertType;
 use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 
@@ -217,5 +218,50 @@ class Foo
         $query = 'SELECT count(*) FROM typemix WHERE c_date = ?';
         $fetchResult = $conn->fetchOne($query, [date('Y-m-d', strtotime('-3hour'))]);
         assertType('int|false', $fetchResult);
+    }
+
+    public function customTypeParameters(Connection $conn, int $adaid)
+    {
+        $stmt = $conn->prepare('SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt');
+        $result = $stmt->execute(['dt' => new \DateTime()], ['dt' => Types::DATETIME_MUTABLE]);
+        assertType('Doctrine\DBAL\Result', $result);
+
+        $stmt = $conn->prepare('SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt');
+        $result = $stmt->execute(['dt' => new \DateTime()], ['dt' => Types::DATETIME_IMMUTABLE]);
+        // TODO should probably fail as DateTime is passed to a DATETIME_IMMUTABLE type
+        assertType('Doctrine\DBAL\Result', $result);
+    }
+
+    /**
+     * @param array<int>    $ids
+     * @param array<string> $vals
+     */
+    public function boundArrays(Connection $conn, array $ids, array $vals)
+    {
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM ada WHERE adaid IN (?)',
+            [$ids],
+            [\Doctrine\DBAL\Connection::PARAM_INT_ARRAY]
+        );
+        assertType('Doctrine\DBAL\Result<array{c: int, 0: int}>', $result);
+
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM ada WHERE email IN (?)',
+            [$vals],
+            [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+        );
+        assertType('Doctrine\DBAL\Result<array{c: int, 0: int}>', $result);
+
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM ada WHERE adaid IN (?)',
+            [$vals], // TODO should error as $vals is not int array
+            [\Doctrine\DBAL\Connection::PARAM_INT_ARRAY]
+        );
+
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM ada WHERE email IN (?)',
+            [$ids], // TODO should error as $ids is not str array
+            [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]
+        );
     }
 }
