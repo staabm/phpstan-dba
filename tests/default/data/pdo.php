@@ -153,10 +153,6 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
 
-        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
-        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
-
         $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
