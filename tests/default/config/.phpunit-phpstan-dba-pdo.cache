@@ -2582,6 +2582,13 @@
         )),
       ),
     ),
+    'SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
     array (
       'result' => 

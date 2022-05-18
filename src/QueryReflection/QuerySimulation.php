@@ -73,6 +73,11 @@ final class QuerySimulation
             return null;
         }
 
+        // TODO the dateformat should be taken from bound-parameter-types, see https://github.com/staabm/phpstan-dba/pull/342
+        if ($paramType instanceof ObjectType && $paramType->isInstanceOf(\DateTimeInterface::class)->yes()) {
+            return date(self::DATE_FORMAT, 0);
+        }
+
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
             && $paramType->isInstanceOf(Stringable::class)->yes();

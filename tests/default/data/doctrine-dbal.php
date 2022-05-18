@@ -4,6 +4,7 @@ namespace DoctrineDbalTest;
 
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 use function PHPStan\Testing\assertType;
 use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 
@@ -217,5 +218,14 @@ class Foo
         $query = 'SELECT count(*) FROM typemix WHERE c_date = ?';
         $fetchResult = $conn->fetchOne($query, [date('Y-m-d', strtotime('-3hour'))]);
         assertType('int|false', $fetchResult);
+    }
+
+    public function customTypeParameters(Connection $conn)
+    {
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt',
+            ['dt' => new \DateTime()], ['dt' => Types::DATETIME_MUTABLE]
+        );
+        assertType('Doctrine\DBAL\Result', $result);
     }
 }
