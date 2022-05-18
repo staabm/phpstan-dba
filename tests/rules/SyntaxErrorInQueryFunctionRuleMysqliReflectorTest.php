@@ -27,15 +27,15 @@ class SyntaxErrorInQueryFunctionRuleMysqliReflectorTest extends AbstractServiceA
         $this->analyse([__DIR__.'/data/syntax-error-in-query-function.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                9,
+                11,
             ],
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
-                19,
+                21,
             ],
             [
                 "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
-                39,
+                41,
             ],
         ]);
     }
