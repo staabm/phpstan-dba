@@ -70,7 +70,7 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
         }
 
         $queryReflection = new QueryReflection();
-        $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
+        $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, null, $scope);
 
         return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);
     }

@@ -73,6 +73,10 @@ final class QuerySimulation
             return null;
         }
 
+        if ($paramType instanceof ObjectType && $paramType->isInstanceOf(\DateTimeInterface::class)) {
+            return date(self::DATE_FORMAT, 0);
+        }
+
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
             && $paramType->isInstanceOf(Stringable::class)->yes();

@@ -73,12 +73,12 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, Scope $scope): iterable
+    public function resolvePreparedQueryStrings(Expr $queryExpr, Type $parameterTypes, ?Type $boundParameterTypes, Scope $scope): iterable
     {
         $type = $scope->getType($queryExpr);
 
         if ($type instanceof UnionType) {
-            $parameters = $this->resolveParameters($parameterTypes);
+            $parameters = $this->resolveParameters($parameterTypes, $boundParameterTypes);
             if (null === $parameters) {
                 return null;
             }
@@ -103,7 +103,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, Scope $scope): ?string
+    public function resolvePreparedQueryString(Expr $queryExpr, Type $parameterTypes, ?Type, $boundParameterTypes, Scope $scope): ?string
     {
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
 
@@ -111,7 +111,7 @@ final class QueryReflection
             return null;
         }
 
-        $parameters = $this->resolveParameters($parameterTypes);
+        $parameters = $this->resolveParameters($parameterTypes, $boundParameterTypes);
         if (null === $parameters) {
             return null;
         }
@@ -211,20 +211,20 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    public function resolveParameters(Type $parameterTypes): ?array
+    public function resolveParameters(Type $parameterTypes, ?Type $boundParameterTypes): ?array
     {
         $parameters = [];
 
         if ($parameterTypes instanceof UnionType) {
             foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
-                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
+                $parameters = $parameters + $this->resolveConstantArray($constantArray, $boundParameterTypes, true);
             }
 
             return $parameters;
         }
 
         if ($parameterTypes instanceof ConstantArrayType) {
-            return $this->resolveConstantArray($parameterTypes, false);
+            return $this->resolveConstantArray($parameterTypes, $boundParameterTypes, false);
         }
 
         return null;
@@ -235,7 +235,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    private function resolveConstantArray(ConstantArrayType $parameterTypes, bool $forceOptional): array
+    private function resolveConstantArray(ConstantArrayType $parameterTypes, ?Type $boundParameterTypes, bool $forceOptional): array
     {
         $parameters = [];
 
@@ -259,7 +259,7 @@ final class QueryReflection
                 $param = new Parameter(
                     $placeholderName,
                     $valueTypes[$i],
-                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true), // TODO pass $i of $boundParameterTypes here if a resolved constant type is available?
                     $isOptional
                 );
 
@@ -268,7 +268,7 @@ final class QueryReflection
                 $param = new Parameter(
                     null,
                     $valueTypes[$i],
-                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true), // TODO pass $i of $boundParameterTypes here if a resolved constant type is available?
                     $isOptional
                 );
 
