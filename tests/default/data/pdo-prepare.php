@@ -60,18 +60,6 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
-
-        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
-        $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
-        $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
-
-        $query = "SELECT adaid FROM ada WHERE email LIKE ':gesperrt%'";
-        $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
-        $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
     }
 
     public function arrayParam(PDO $pdo)
