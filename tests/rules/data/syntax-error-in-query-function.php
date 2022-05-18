@@ -2,16 +2,18 @@
 
 namespace SyntaxErrorInQueryFunctionRuleTest;
 
+use Deployer\DbCredentials;
+
 class Foo
 {
-    public function syntaxError(\mysqli $mysqli)
+    public function syntaxError(DbCredentials $dbCredentials)
     {
-        mysqli_query($mysqli, 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+        \Deployer\runMysqlQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', $dbCredentials);
     }
 
-    public function validQuery(\mysqli $mysqli)
+    public function validQuery(DbCredentials $dbCredentials)
     {
-        mysqli_query($mysqli, 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada');
+        \Deployer\runMysqlQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada', $dbCredentials);
     }
 
     public function mysqliSyntaxError(\mysqli $mysqli)
