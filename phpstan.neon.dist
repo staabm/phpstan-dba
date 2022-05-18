@@ -4,8 +4,6 @@ includes:
 
 parameters:
     level: max
-    # make phpstan results consisten across php versions
-    phpVersion: 80019 # PHP 8.019
 
     paths:
         - src/
