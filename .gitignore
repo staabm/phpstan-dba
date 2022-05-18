@@ -5,6 +5,7 @@ composer.lock
 
 mysqli.php
 pdo.php
+*cache.pgsql
 
 .env
 
