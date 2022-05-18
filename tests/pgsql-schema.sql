@@ -21,24 +21,23 @@ ALTER TABLE ak
 CREATE TYPE some_enum AS ENUM ('small','medium','large');
 CREATE TABLE typemix (
     pid SERIAL,
-    c_char5 char(5) NOT NULL,
-    c_varchar255 varchar(255) NOT NULL,
+    c_varchar5 varchar(5) NOT NULL,
     c_varchar25 varchar(25) DEFAULT NULL,
-    c_bit255 bit(255) NOT NULL,
-    c_bit25 bit(25) DEFAULT NULL,
+    c_varchar255 varchar NOT NULL,
     c_date date DEFAULT NULL,
     c_time time DEFAULT NULL,
+    c_datetime timestamp DEFAULT NULL,
     c_timestamp timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-    c_year date DEFAULT NULL,
     c_text text,
     c_enum some_enum NOT NULL,
+    c_bit255 bit(255) NOT NULL,
+    c_bit25 bit(25) DEFAULT NULL,
     c_bit bit(7) DEFAULT NULL,
     c_int int NOT NULL,
     c_smallint smallint NOT NULL,
     c_bigint bigint NOT NULL,
     c_float float NOT NULL,
-    c_boolean boolean NOT NULL,
-    c_bytea bytea NOT NULL
+    c_boolean boolean NOT NULL
 );
 
 ALTER TABLE typemix
