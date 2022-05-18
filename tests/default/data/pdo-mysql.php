@@ -28,7 +28,7 @@ class Foo
         assertType('PDOStatement<array{MAX(adaid): int<-32768, 32767>|null, MIN(adaid): int<-32768, 32767>|null, COUNT(adaid): int, AVG(adaid): float|null}>', $stmt);
     }
 
-    public function placeholderInData(PDO $pdo)
+    public function placeholderInDataPrepared(PDO $pdo)
     {
         // double quotes within the query
         $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
@@ -43,5 +43,13 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+    }
+
+    public function placeholderInDataQuery(PDO $pdo)
+    {
+        // double quotes within the query
+        $query = 'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"';
+        $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
     }
 }
