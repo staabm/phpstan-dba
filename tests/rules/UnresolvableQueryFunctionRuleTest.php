@@ -35,12 +35,12 @@ class UnresolvableQueryFunctionRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([__DIR__.'/data/unresolvable-query-in-function.php'], [
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
-                11,
+                9,
                 UnresolvableQueryException::RULE_TIP,
             ],
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
-                17,
+                15,
                 UnresolvableQueryException::RULE_TIP,
             ],
         ]);
