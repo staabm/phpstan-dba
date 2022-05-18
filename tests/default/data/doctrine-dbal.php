@@ -222,8 +222,10 @@ class Foo
 
     public function customTypeParameters(Connection $conn)
     {
-        $stmt = $conn->prepare('SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt');
-        $result = $stmt->execute(['dt' => new \DateTime()], ['dt' => Types::DATETIME_MUTABLE]); // XXX use bound parameter types instead
+        $result = $conn->executeQuery(
+            'SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt',
+            ['dt' => new \DateTime()], ['dt' => Types::DATETIME_MUTABLE]
+        );
         assertType('Doctrine\DBAL\Result', $result);
     }
 }
