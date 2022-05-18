@@ -218,4 +218,11 @@ class Foo
         $fetchResult = $conn->fetchOne($query, [date('Y-m-d', strtotime('-3hour'))]);
         assertType('int|false', $fetchResult);
     }
+
+    public function customTypeParameters(Connection $conn)
+    {
+        $stmt = $conn->prepare('SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt');
+        $result = $stmt->execute(['dt' => new \DateTime()] /*, ['dt' => Types::DATETIME_MUTABLE]*/); // XXX use bound parameter types instead
+        assertType('Doctrine\DBAL\Result', $result);
+    }
 }
