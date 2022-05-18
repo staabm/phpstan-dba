@@ -4,7 +4,6 @@ function demo(\PDO $pdo): void
 {
     // ---------- result-set type inference ----------
     $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
-    assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
     foreach ($stmt as $row) {
         parse_str($row['adaid'], $x);
