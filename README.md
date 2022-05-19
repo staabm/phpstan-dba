@@ -6,15 +6,15 @@ Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides the following features:
 
-* inspect sql queries, detect errors and placeholder/bound value mismatches
 * result set type-inferrence
+* inspect sql queries, detect errors and placeholder/bound value mismatches
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
-* API to built the same features for your custom sql based database access layer
+* API to configure the same features for your custom sql based database access layer
 
-In case you are using Doctrine ORM, you might use phpstan-dba in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
+In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
 
 **Note:**
-At the moment only mysql/mariadb and pgsql databases are supported. Technically it's not a big problem to support other databases though.
+At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
 
 [see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/default/data) to get a feeling about the current featureset.
 
@@ -98,7 +98,8 @@ includes:
 ## Read more
 
 - [Runtime configuration](https://github.com/staabm/phpstan-dba/blob/main/docs/configuration.md)
-- [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
-- [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
 - [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md)
 - [Custom Query APIs Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
+- [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
+- [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
+- [Reflector Overview]([url](https://github.com/staabm/phpstan-dba/blob/main/docs/reflectors.md))
