@@ -16,8 +16,6 @@ In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [
 **Note:**
 At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
 
-[see the unit-testsuite](https://github.com/staabm/phpstan-dba/tree/main/tests/default/data) to get a feeling about the current featureset.
-
 
 ## DEMO
 
