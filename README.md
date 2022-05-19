@@ -69,6 +69,8 @@ QueryReflection::setupReflector(
 );
 ```
 
+*Note*: [Configuration for PGSQL is pretty similar](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
+
 **Third**, create or update your `phpstan.neon` file so [bootstrapFiles](https://phpstan.org/config-reference#bootstrap) includes `phpstan-dba-bootstrap.php`.
 
 If you are **not** using [phpstan/extension-installer](https://github.com/phpstan/extension-installer), you will also need to include `dba.neon`.
@@ -93,54 +95,13 @@ includes:
 ./vendor/bin/phpstan analyse -c phpstan.neon
 ```
 
-## Runtime configuration
+## Read more
 
-Within your `phpstan-dba-bootstrap.php` file you can configure `phpstan-dba` so it knows about global runtime configuration state, which cannot be detect automatically.
-Use the [`RuntimeConfiguration`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) builder-object and pass it as a second argument to `QueryReflection::setupReflector()`.
-
-If not configured otherwise, the following defaults are used:
-- type-inference works as precise as possible. In case your database access layer returns strings instead of integers and floats, use the [`stringifyTypes`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
-- when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
-- when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
-- the fetch mode defaults to `QueryReflector::FETCH_TYPE_BOTH`, but can be configured using the [`defaultFetchMode`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
-
-### Record and Replay
-
-In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector`-classes to record the reflection information.
-
-With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
-
-```php
-<?php // phpstan-dba-bootstrap.php
-
-use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
-use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\RecordingQueryReflector;
-use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
-use staabm\PHPStanDba\QueryReflection\ReflectionCache;
-
-require_once __DIR__ . '/vendor/autoload.php';
-
-$cacheFile = __DIR__.'/.phpstan-dba.cache';
-
-$config = new RuntimeConfiguration();
-// $config->debugMode(true);
-// $config->stringifyTypes(true);
-
-QueryReflection::setupReflector(
-    new ReplayQueryReflector(
-        ReflectionCache::create(
-            $cacheFile
-        )
-    ),
-    $config
-);
-```
-
-This might be usefull if your CI pipeline can't/shouldn't connect to your development database server for whatever reason.
-
-**Note**: In case you commit the generated cache files into your repository, consider [marking them as generated files](https://docs.github.com/en/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github), so they don't show up in Pull Requests.
+- [Runtime configuration](https://github.com/staabm/phpstan-dba/blob/main/docs/configuration.md)
+- [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
+- [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
+- [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md)
+- [Custom Query APIs Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
 
 ## Reflector Overview
 
@@ -170,54 +131,3 @@ Legacy utility reflectors
 |----------------------------------|------------------------------------------------------------------------------------------------------|
 | RecordingQueryReflector          | - wraps a backend connecting reflector and caches the reflected information into a local file<br/>-requires a active database connection  |
 
-## Advanced Usage
-
-### use `SyntaxErrorInPreparedStatementMethodRule` for your custom classes
-
-Reuse the `SyntaxErrorInPreparedStatementMethodRule` within your PHPStan configuration to detect syntax errors in prepared queries, by registering a service:
-
-```
-services:
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classMethods:
-                - 'My\Connection::preparedQuery'
-                - 'My\PreparedStatement::__construct'
-```
-
-__the callable format is `class::method`. phpstan-dba assumes the method takes a query-string as a 1st and the parameter-values as a 2nd argument.__
-
-### use `SyntaxErrorInQueryMethodRule` for your custom classes
-
-Reuse the `SyntaxErrorInQueryMethodRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
-
-```
-services:
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classMethods:
-                - 'myClass::query#0'
-                - 'anotherClass::takesAQuery#2'
-```
-
-__the callable format is `class::method#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
-
-### use `SyntaxErrorInQueryFunctionRule` for your custom functions
-
-Reuse the `SyntaxErrorInQueryFunctionRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
-
-```
-services:
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            functionNames:
-                - 'Deployer\runMysqlQuery#0'
-```
-
-__the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
