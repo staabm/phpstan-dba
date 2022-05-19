@@ -6,7 +6,7 @@ At analysis time you can pick either `MysqliQueryReflector` or `PdoQueryReflecto
 
 ## Configuration
 
-```
+```php
 <?php // phpstan-dba-bootstrap.php
 
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
