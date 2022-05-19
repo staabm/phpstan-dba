@@ -31,7 +31,7 @@ see the ['Files Changed' tab of the DEMO-PR](https://github.com/staabm/phpstan-d
 composer require --dev staabm/phpstan-dba
 ```
 
-**Second**, create a `phpstan-dba-bootstrap.php` file, which allows to you to configure `phpstan-dba` (this optionally includes database connection details, to introspect the database; if you would rather not do this see [Record and Replay](#record-and-replay) below):
+**Second**, create a `phpstan-dba-bootstrap.php` file, which allows to you to configure `phpstan-dba` (this optionally includes database connection details, to introspect the database; if you would rather not do this see [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md):
 
 ```php
 <?php // phpstan-dba-bootstrap.php
