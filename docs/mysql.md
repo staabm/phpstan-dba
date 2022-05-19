@@ -44,4 +44,4 @@ QueryReflection::setupReflector(
 
 ## Advanced Usage
 
-For custom/non-standard MySQL query APIs the PHPStan rules shipped with `phpstandba` can be configured.
+For custom/non-standard MySQL query APIs the [PHPStan rules shipped with `phpstandba` can be configured](https://github.com/staabm/phpstan-dba/blob/staabm-patch-3/docs/rules.md).
