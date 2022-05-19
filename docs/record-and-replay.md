@@ -1,8 +1,10 @@
 # Record and Replay
 
-In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector`-classes to record the reflection information.
+In case you don't want to depend on a database at PHPStan analysis time, you can use one of the `*RecordingQueryReflector`-classes to record the reflection information. To ease configuration a `ReplayAndRecordingQueryReflector` is supported.
 
 With this cache file you can utilize [`ReplayQueryReflector`](https://github.com/staabm/phpstan-dba/blob/main/src/QueryReflection/ReplayQueryReflector.php) to replay the reflection information, without the need for a active database connection.
+
+**Note:** ["Record and Replay" is not yet supported on the PGSQL driver](https://github.com/staabm/phpstan-dba/issues/353)
 
 ```php
 <?php // phpstan-dba-bootstrap.php
