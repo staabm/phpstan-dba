@@ -17,19 +17,6 @@
       )),
     ),
     '
-            SELECT email adaid
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
-            FROM ada
-            LIMIT        1
-        ' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
-         'code' => 1064,
-      )),
-    ),
-    '
             SELECT email, adaid
             FROM ada
             WHERE gesperrt = \'1\'
