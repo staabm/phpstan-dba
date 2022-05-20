@@ -71,4 +71,10 @@ class SyntaxErrorInPreparedStatementMethodRuleMysqliReflectorTest extends Abstra
             ],
         ]);
     }
+
+    public function testBug189(): void
+    {
+        $this->analyse([__DIR__ . '/data/bug189.php'], []);
+    }
+
 }
