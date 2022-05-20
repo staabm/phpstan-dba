@@ -72,7 +72,7 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
             }
 
             /*
-             * Native type may not bo set, for example in case of JSON column.
+             * Native type may not be set, for example in case of JSON column.
              * @phpstan-ignore-next-line
              */
             if (!isset($columnMeta['native_type'])) {
