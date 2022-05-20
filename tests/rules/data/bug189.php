@@ -4,7 +4,8 @@ namespace Bug189;
 
 use Doctrine\DBAL\Connection;
 
-class Foo {
+class Foo
+{
     /**
      * @param string[] $packageNames
      */
@@ -12,8 +13,8 @@ class Foo {
     {
         $sql = 'SELECT s.packagistAdvisoryId as advisoryId, s.packageName, s.remoteId, s.title, s.link, s.cve, s.affectedVersions, s.source, s.reportedAt, s.composerRepository
             FROM security_advisory s
-            WHERE s.updatedAt >= :updatedSince ' .
-            (count($packageNames) > 0 ? ' AND s.packageName IN (:packageNames)' : '')
+            WHERE s.updatedAt >= :updatedSince '.
+            (\count($packageNames) > 0 ? ' AND s.packageName IN (:packageNames)' : '')
             .' ORDER BY s.id DESC';
 
         return $conn
