@@ -306,7 +306,7 @@ final class QueryReflection
             }
 
             if (\is_string($placeholderKey)) {
-                $queryString = str_replace($placeholderKey, $value, $queryString);
+                $queryString = (string) preg_replace('/'.$placeholderKey.'\\b/', $value, $queryString);
             } else {
                 $queryString = $replaceFirst($queryString, '?', $value);
             }
