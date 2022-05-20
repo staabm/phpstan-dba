@@ -14,4 +14,4 @@ parameters:
     ignoreErrors:
         - '#.*has no return type specified.#'
         - '#.*with no type specified.#'
-        - '#.*with no value type specified in iterable type array.#'
+        - '#.*no value type specified in iterable type array.#'
