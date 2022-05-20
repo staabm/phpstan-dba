@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
@@ -73,10 +74,13 @@ final class PgsqlTypeMapper implements TypeMapper
         // fallbacks
         if (null === $phpstanType) {
             $phpstanType = match (strtoupper($type)) {
+                'BOOL' => new BooleanType(),
                 'BIT',
                 'INT2',
                 'INT4',
                 'INT8' => new IntegerType(),
+                'JSON',
+                'JSONB',
                 'DATE',
                 'TEXT',
                 'TIME',
