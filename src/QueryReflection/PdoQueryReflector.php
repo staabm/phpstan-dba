@@ -71,6 +71,14 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
+            /*
+             * Native type may not be set, for example in case of JSON column.
+             * @phpstan-ignore-next-line
+             */
+            if (!isset($columnMeta['native_type'])) {
+                $columnMeta['native_type'] = \PDO::PARAM_INT === $columnMeta['pdo_type'] ? 'INT' : 'STRING';
+            }
+
             $flags = $this->emulateFlags($columnMeta['native_type'], $columnMeta['table'], $columnMeta['name']);
             foreach ($flags as $flag) {
                 $columnMeta['flags'][] = $flag;

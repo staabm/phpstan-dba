@@ -37,7 +37,11 @@ CREATE TABLE typemix (
     c_smallint smallint NOT NULL,
     c_bigint bigint NOT NULL,
     c_float float NOT NULL,
-    c_boolean boolean NOT NULL
+    c_boolean boolean NOT NULL,
+    c_json json NOT NULL,
+    c_json_nullable json,
+    c_jsonb jsonb NOT NULL,
+    c_jsonb_nullable jsonb
 );
 
 ALTER TABLE typemix
