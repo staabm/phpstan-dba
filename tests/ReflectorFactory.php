@@ -71,10 +71,14 @@ final class ReflectorFactory
             }
 
             if ('replay-and-recording' === $mode) {
+                if ($schemaHasher === null) {
+                    throw new \RuntimeException('Schema hasher required.');
+                }
+
                 $reflector = new ReplayAndRecordingQueryReflector(
                     $reflectionCache,
                     $reflector,
-                    $schemaHasher ?? throw new \RuntimeException('Schema hasher required.')
+                    $schemaHasher
                 );
             } else {
                 $reflector = new RecordingQueryReflector(
