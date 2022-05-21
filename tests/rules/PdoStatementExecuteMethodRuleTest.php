@@ -23,7 +23,7 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
         ];
     }
 
-    public function testParameterErrors(): void
+    public function testParameterErrors()
     {
         require_once __DIR__.'/data/pdo-stmt-execute-error.php';
 

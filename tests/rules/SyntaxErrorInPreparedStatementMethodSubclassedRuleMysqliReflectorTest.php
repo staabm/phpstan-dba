@@ -23,7 +23,7 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleMysqliReflectorTest exte
         ];
     }
 
-    public function testSyntaxErrorInQueryRule(): void
+    public function testSyntaxErrorInQueryRule()
     {
         if ('mysqli' !== getenv('DBA_REFLECTOR')) {
             $this->markTestSkipped('Only works with MysqliReflector');
