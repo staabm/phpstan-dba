@@ -9,8 +9,8 @@ use PHPStan\Type\Accessory\AccessoryType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
-use PHPStan\Type\FloatType;
 use PHPStan\Type\ErrorType;
+use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -21,7 +21,6 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use Stringable;
 
 /**
  * @internal
