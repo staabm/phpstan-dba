@@ -16,6 +16,7 @@ use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
@@ -41,7 +42,12 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         // keep original param name because named-parameters
         $methodCall = $node;
 
-        $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
+        try {
+            $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
+        } catch (UnresolvableQueryException $e) {
+            return new SpecifiedTypes();
+        }
+
         if (null !== $inferedType) {
             return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
         }
@@ -49,6 +55,9 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         return new SpecifiedTypes();
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     private function inferStatementType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();

@@ -19,6 +19,7 @@ use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -63,7 +64,12 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+        try {
+            $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
+        } catch (UnresolvableQueryException $e) {
+            return $defaultReturn;
+        }
+
         if (null !== $resultType) {
             return $resultType;
         }
@@ -71,6 +77,9 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         return $defaultReturn;
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     private function inferType(MethodCall $methodCall, Expr $queryExpr, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();

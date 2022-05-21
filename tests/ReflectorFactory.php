@@ -55,6 +55,8 @@ final class ReflectorFactory
         );
 
         if ('recording' === $mode || 'replay-and-recording' === $mode) {
+            $schemaHasher = null;
+
             if ('mysqli' === $reflector) {
                 $mysqli = new mysqli($host, $user, $password, $dbname);
                 $reflector = new MysqliQueryReflector($mysqli);
@@ -71,10 +73,14 @@ final class ReflectorFactory
             }
 
             if ('replay-and-recording' === $mode) {
+                if (null === $schemaHasher) {
+                    throw new \RuntimeException('Schema hasher required.');
+                }
+
                 $reflector = new ReplayAndRecordingQueryReflector(
                     $reflectionCache,
                     $reflector,
-                    $schemaHasher ?? throw new \RuntimeException('Schema hasher required.')
+                    $schemaHasher
                 );
             } else {
                 $reflector = new RecordingQueryReflector(

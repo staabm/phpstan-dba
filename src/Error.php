@@ -24,7 +24,7 @@ final class Error
     /**
      * @param ErrorCodes $code
      */
-    public function __construct(string $message, int|string $code)
+    public function __construct(string $message, $code)
     {
         $this->message = $message;
         $this->code = $code;
@@ -38,7 +38,7 @@ final class Error
     /**
      * @return ErrorCodes
      */
-    public function getCode(): int|string
+    public function getCode()
     {
         return $this->code;
     }

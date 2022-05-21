@@ -3,17 +3,24 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
+ * @extends RuleTestCase<SyntaxErrorInQueryMethodRule>
  */
-class SyntaxErrorInQueryMethodSubclassedRuleMysqliReflectorTest extends AbstractServiceAwareRuleTestCase
+class SyntaxErrorInQueryMethodSubclassedRuleMysqliReflectorTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/config/subclassed-method-rule.neon');
+        return self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/config/subclassed-method-rule.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void
