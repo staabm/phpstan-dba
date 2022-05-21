@@ -10,6 +10,7 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
+use PHPStan\Type\ErrorType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -80,7 +81,7 @@ final class QuerySimulation
 
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
-            && $paramType->isInstanceOf(Stringable::class)->yes();
+            && !$paramType->toString() instanceof ErrorType;
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType
