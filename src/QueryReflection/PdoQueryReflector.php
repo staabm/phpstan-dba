@@ -65,12 +65,12 @@ final class PdoQueryReflector extends BasePdoQueryReflector implements QueryRefl
         while ($columnIndex < $columnCount) {
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
-            if (false === $columnMeta || !array_key_exists('table', $columnMeta)) {
+            if (false === $columnMeta || !\array_key_exists('table', $columnMeta)) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
             //  Native type may not be set, for example in case of JSON column.
-            if (!array_key_exists('native_type', $columnMeta)) {
+            if (!\array_key_exists('native_type', $columnMeta)) {
                 $columnMeta['native_type'] = \PDO::PARAM_INT === $columnMeta['pdo_type'] ? 'INT' : 'STRING';
             }
 

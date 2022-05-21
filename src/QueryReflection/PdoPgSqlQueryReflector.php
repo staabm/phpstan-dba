@@ -66,7 +66,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector implements Quer
             // see https://github.com/php/php-src/blob/master/ext/pdo_pgsql/pgsql_statement.c
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
-            if (false === $columnMeta || !array_key_exists('native_type', $columnMeta)) {
+            if (false === $columnMeta || !\array_key_exists('native_type', $columnMeta)) {
                 throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
             }
 
