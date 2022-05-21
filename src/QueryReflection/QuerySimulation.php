@@ -80,7 +80,7 @@ final class QuerySimulation
 
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
-            && $paramType->isInstanceOf(Stringable::class)->yes();
+            && $paramType->isInstanceOf(Stringable::class)->yes() || $paramType->hasMethod('__toString')->yes();
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType
