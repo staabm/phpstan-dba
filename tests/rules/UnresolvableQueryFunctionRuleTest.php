@@ -13,12 +13,12 @@ use staabm\PHPStanDba\UnresolvableQueryException;
  */
 class UnresolvableQueryFunctionRuleTest extends RuleTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         QueryReflection::getRuntimeConfiguration()->debugMode(true);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         QueryReflection::getRuntimeConfiguration()->debugMode(false);
     }
@@ -35,7 +35,7 @@ class UnresolvableQueryFunctionRuleTest extends RuleTestCase
         ];
     }
 
-    public function testSyntaxErrorInQueryRule()
+    public function testSyntaxErrorInQueryRule(): void
     {
         require_once __DIR__.'/data/unresolvable-query-in-function.php';
 

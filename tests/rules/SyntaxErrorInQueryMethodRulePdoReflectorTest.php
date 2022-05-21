@@ -23,7 +23,7 @@ class SyntaxErrorInQueryMethodRulePdoReflectorTest extends RuleTestCase
         ];
     }
 
-    public function testSyntaxErrorInQueryRule()
+    public function testSyntaxErrorInQueryRule(): void
     {
         if ('pdo' !== getenv('DBA_REFLECTOR')) {
             $this->markTestSkipped('Only works with MysqliReflector');
