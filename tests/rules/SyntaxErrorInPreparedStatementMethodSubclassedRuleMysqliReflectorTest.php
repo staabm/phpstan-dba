@@ -3,8 +3,8 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>

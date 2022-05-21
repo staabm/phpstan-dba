@@ -3,10 +3,10 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use PHPStan\Testing\RuleTestCase;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>

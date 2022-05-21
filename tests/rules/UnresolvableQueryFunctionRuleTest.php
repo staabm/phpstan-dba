@@ -3,11 +3,10 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use PHPStan\Testing\RuleTestCase;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInQueryFunctionRule>
@@ -35,7 +34,6 @@ class UnresolvableQueryFunctionRuleTest extends RuleTestCase
             __DIR__.'/../../config/dba.neon',
         ];
     }
-
 
     public function testSyntaxErrorInQueryRule(): void
     {

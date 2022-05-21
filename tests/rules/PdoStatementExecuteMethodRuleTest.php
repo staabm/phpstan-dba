@@ -3,9 +3,8 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
 use PHPStan\Testing\RuleTestCase;
-use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
+use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
 
 /**
  * @extends RuleTestCase<PdoStatementExecuteMethodRule>

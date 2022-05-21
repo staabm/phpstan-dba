@@ -3,9 +3,8 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInQueryFunctionRule>

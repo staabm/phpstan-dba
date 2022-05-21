@@ -3,9 +3,8 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInQueryMethodRule>
@@ -20,7 +19,7 @@ class SyntaxErrorInQueryMethodSubclassedRuleMysqliReflectorTest extends RuleTest
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/config/subclassed-method-rule.neon'
+            __DIR__.'/config/subclassed-method-rule.neon',
         ];
     }
 
