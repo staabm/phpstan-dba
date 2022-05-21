@@ -16,7 +16,7 @@ use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
- * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: list<string>, pdo_type: int}
+ * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
  */
 abstract class BasePdoQueryReflector
 {
