@@ -154,7 +154,7 @@ final class ExpressionFinder
      * @param Node|Node[] $nodes
      * @param callable(Node $node):bool $filter
      */
-    private function findFirst(Node|array $nodes, callable $filter): ?Node
+    private function findFirst(/*Node|array*/ $nodes, callable $filter): ?Node
     {
         return $this->nodeFinder->findFirst($nodes, $filter);
     }

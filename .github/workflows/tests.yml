@@ -16,6 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - php-version: "7.4"
+            db-image: 'mysql:8.0'
+            reflector: "pdo"
+            mode: "recording"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "pdo"
@@ -71,6 +75,9 @@ jobs:
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+    - name: Lint
+      run: php vendor/bin/parallel-lint --colors src tests
 
     - name: Setup mysql
       run: |

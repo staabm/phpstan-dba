@@ -60,23 +60,50 @@ final class MysqlTypeMapper implements TypeMapper
 
         if ($numeric) {
             if ($unsigned) {
-                $phpstanType = match ($length) {
-                    3,4 => $mysqlIntegerRanges->unsignedTinyInt(),
-                    5 => $mysqlIntegerRanges->unsignedSmallInt(),
-                    8 => $mysqlIntegerRanges->unsignedMediumInt(),
-                    10 => $mysqlIntegerRanges->unsignedInt(),
-                    20 => $mysqlIntegerRanges->unsignedBigInt(),
-                    default => null,
-                };
+                switch ($length) {
+                    case 3:
+                    case 4:
+                        $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
+                        break;
+                    case 5:
+                        $phpstanType = $mysqlIntegerRanges->unsignedSmallInt();
+                        break;
+                    case 8:
+                        $phpstanType = $mysqlIntegerRanges->unsignedMediumInt();
+                        break;
+                    case 10:
+                        $phpstanType = $mysqlIntegerRanges->unsignedInt();
+                        break;
+                    case 20:
+                        $phpstanType = $mysqlIntegerRanges->unsignedBigInt();
+                        break;
+                    default:
+                        $phpstanType = null;
+                        break;
+                }
             } else {
-                $phpstanType = match ($length) {
-                    1, 4 => $mysqlIntegerRanges->signedTinyInt(),
-                    6 => $mysqlIntegerRanges->signedSmallInt(),
-                    9 => $mysqlIntegerRanges->signedMediumInt(),
-                    11 => $mysqlIntegerRanges->signedInt(),
-                    20, 22 => $mysqlIntegerRanges->signedBigInt(),
-                    default => null,
-                };
+                switch ($length) {
+                    case 1:
+                    case 4:
+                        $phpstanType = $mysqlIntegerRanges->signedTinyInt();
+                        break;
+                    case 6:
+                        $phpstanType = $mysqlIntegerRanges->signedSmallInt();
+                        break;
+                    case 9:
+                        $phpstanType = $mysqlIntegerRanges->signedMediumInt();
+                        break;
+                    case 11:
+                        $phpstanType = $mysqlIntegerRanges->signedInt();
+                        break;
+                    case 20:
+                    case 22:
+                        $phpstanType = $mysqlIntegerRanges->signedBigInt();
+                        break;
+                    default:
+                        $phpstanType = null;
+                        break;
+                }
             }
         }
 
@@ -96,24 +123,30 @@ final class MysqlTypeMapper implements TypeMapper
 
         // fallbacks
         if (null === $phpstanType) {
-            $phpstanType = match (strtoupper($mysqlType)) {
-                'LONGLONG',
-                'LONG',
-                'SHORT',
-                'TINY',
-                'BIT',
-                'INT24' => new IntegerType(),
-                'BLOB',
-                'CHAR',
-                'STRING',
-                'VAR_STRING',
-                'JSON',
-                'DATE',
-                'TIME',
-                'DATETIME',
-                'TIMESTAMP' => new StringType(),
-                default => new MixedType(),
-            };
+            switch (strtoupper($mysqlType)) {
+                case 'LONGLONG':
+                case 'LONG':
+                case 'SHORT':
+                case 'TINY':
+                case 'BIT':
+                case 'INT24':
+                    $phpstanType = new IntegerType();
+                    break;
+                case 'BLOB':
+                case 'CHAR':
+                case 'STRING':
+                case 'VAR_STRING':
+                case 'JSON':
+                case 'DATE':
+                case 'TIME':
+                case 'DATETIME':
+                case 'TIMESTAMP':
+                    $phpstanType = new StringType();
+                    break;
+                default:
+                    $phpstanType = new MixedType();
+                    break;
+            }
         }
 
         if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
@@ -137,15 +170,17 @@ final class MysqlTypeMapper implements TypeMapper
 
     public function isNumericCol(string $mysqlType): bool
     {
-        return match (strtoupper($mysqlType)) {
-            'LONGLONG',
-            'LONG',
-            'SHORT',
-            'TINY',
-            'YEAR',
-            'BIT',
-            'INT24' => true,
-            default => false,
-        };
+        switch (strtoupper($mysqlType)) {
+            case 'LONGLONG':
+            case 'LONG':
+            case 'SHORT':
+            case 'TINY':
+            case 'YEAR':
+            case 'BIT':
+            case 'INT24':
+                return true;
+            default:
+                return false;
+        }
     }
 }
