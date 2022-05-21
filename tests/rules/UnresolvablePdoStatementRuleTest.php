@@ -5,13 +5,14 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
+use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
+ * @extends RuleTestCase<PdoStatementExecuteMethodRule>
  */
-class UnresolvablePdoStatementRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvablePdoStatementRuleTest extends RuleTestCase
 {
     protected function setUp(): void
     {
@@ -25,7 +26,14 @@ class UnresolvablePdoStatementRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(PdoStatementExecuteMethodRule::class, __DIR__.'/../../config/dba.neon');
+        return self::getContainer()->getByType(PdoStatementExecuteMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/../../config/dba.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void

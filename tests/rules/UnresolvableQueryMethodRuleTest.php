@@ -4,14 +4,15 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
+ * @extends RuleTestCase<SyntaxErrorInQueryMethodRule>
  */
-class UnresolvableQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvableQueryMethodRuleTest extends RuleTestCase
 {
     protected function setUp(): void
     {
@@ -25,7 +26,14 @@ class UnresolvableQueryMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/../../config/dba.neon');
+        return self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/../../config/dba.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void

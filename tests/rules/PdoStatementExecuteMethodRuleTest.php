@@ -4,16 +4,24 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PdoStatementExecuteMethodRule>
+ * @extends RuleTestCase<PdoStatementExecuteMethodRule>
  */
-class PdoStatementExecuteMethodRuleTest extends AbstractServiceAwareRuleTestCase
+class PdoStatementExecuteMethodRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(PdoStatementExecuteMethodRule::class, __DIR__.'/../../config/dba.neon');
+        return self::getContainer()->getByType(PdoStatementExecuteMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/../../config/dba.neon',
+        ];
     }
 
     public function testParameterErrors(): void

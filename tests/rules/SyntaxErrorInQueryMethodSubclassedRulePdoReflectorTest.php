@@ -3,17 +3,25 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
+use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryMethodRule>
+ * @extends RuleTestCase<SyntaxErrorInQueryMethodRule>
  */
-class SyntaxErrorInQueryMethodSubclassedRulePdoReflectorTest extends AbstractServiceAwareRuleTestCase
+class SyntaxErrorInQueryMethodSubclassedRulePdoReflectorTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryMethodRule::class, __DIR__.'/config/subclassed-method-rule.neon');
+        return self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/config/subclassed-method-rule.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void

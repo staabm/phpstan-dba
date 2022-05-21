@@ -4,16 +4,23 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
+ * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class SyntaxErrorInPreparedStatementMethodRulePdoReflectorTest extends AbstractServiceAwareRuleTestCase
+class SyntaxErrorInPreparedStatementMethodRulePdoReflectorTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInPreparedStatementMethodRule::class, __DIR__.'/config/syntax-error-in-prepared-statement.neon');
+        return self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/config/syntax-error-in-prepared-statement.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void

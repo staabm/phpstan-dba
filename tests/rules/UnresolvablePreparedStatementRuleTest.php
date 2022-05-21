@@ -6,12 +6,12 @@ use PHPStan\Rules\Rule;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
+ * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class UnresolvablePreparedStatementRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvablePreparedStatementRuleTest extends RuleTestCase
 {
     protected function setUp(): void
     {
@@ -25,7 +25,14 @@ class UnresolvablePreparedStatementRuleTest extends AbstractServiceAwareRuleTest
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInPreparedStatementMethodRule::class, __DIR__.'/config/syntax-error-in-prepared-statement.neon');
+        return self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/config/syntax-error-in-prepared-statement.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void
