@@ -3,7 +3,7 @@
 	"type": "phpstan-extension",
 	"license": "MIT",
 	"require": {
-		"php": "^8.0",
+		"php": "^7.4 || ^8.0",
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
 		"phpstan/phpstan": "^1.2"
@@ -13,11 +13,11 @@
 		"ext-pdo": "*",
 		"doctrine/dbal": "^3.2",
 		"friendsofphp/php-cs-fixer": "3.4.0",
+		"php-parallel-lint/php-parallel-lint": "^1.3",
 		"phpstan/phpstan-php-parser": "^1.1",
 		"phpstan/phpstan-phpunit": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^9",
-		"symplify/phpstan-extensions": "^10.0",
 		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflicts": {

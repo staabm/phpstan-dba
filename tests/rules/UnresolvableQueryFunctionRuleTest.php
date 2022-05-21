@@ -3,15 +3,15 @@
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SyntaxErrorInQueryFunctionRule>
+ * @extends RuleTestCase<SyntaxErrorInQueryFunctionRule>
  */
-class UnresolvableQueryFunctionRuleTest extends AbstractServiceAwareRuleTestCase
+class UnresolvableQueryFunctionRuleTest extends RuleTestCase
 {
     protected function setUp(): void
     {
@@ -25,7 +25,14 @@ class UnresolvableQueryFunctionRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SyntaxErrorInQueryFunctionRule::class, __DIR__.'/../../config/dba.neon');
+        return self::getContainer()->getByType(SyntaxErrorInQueryFunctionRule::class);
+    }
+
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [
+            __DIR__.'/../../config/dba.neon',
+        ];
     }
 
     public function testSyntaxErrorInQueryRule(): void

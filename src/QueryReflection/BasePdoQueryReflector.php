@@ -58,8 +58,11 @@ abstract class BasePdoQueryReflector
      */
     protected array $emulatedFlags = [];
 
-    public function __construct(protected PDO $pdo, TypeMapper $typeMapper)
+    protected PDO $pdo;
+
+    public function __construct(PDO $pdo, TypeMapper $typeMapper)
     {
+        $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $this->typeMapper = $typeMapper;

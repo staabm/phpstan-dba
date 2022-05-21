@@ -318,4 +318,9 @@ class Foo
         $query = 'SELECT email adaid gesperrt freigabe1u1 FROM ada';
         $connection->executeQuery($query);
     }
+
+    public function preparedNamedParamsSubstitution(Connection $connection)
+    {
+        $connection->preparedQuery('SELECT email FROM ada WHERE email = :param OR email = :parameter', ['param' => 'abc', 'parameter' => 'def']);
+    }
 }

@@ -22,6 +22,7 @@ use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
@@ -63,7 +64,12 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             return $defaultReturn;
         }
 
-        $resultType = $this->inferResultType($args[1]->value, $scope);
+        try {
+            $resultType = $this->inferResultType($args[1]->value, $scope);
+        } catch (UnresolvableQueryException $e) {
+            return $defaultReturn;
+        }
+
         if (null !== $resultType) {
             return $resultType;
         }
@@ -88,7 +94,12 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             return $defaultReturn;
         }
 
-        $resultType = $this->inferResultType($args[0]->value, $scope);
+        try {
+            $resultType = $this->inferResultType($args[0]->value, $scope);
+        } catch (UnresolvableQueryException $e) {
+            return $defaultReturn;
+        }
+
         if (null !== $resultType) {
             return $resultType;
         }
@@ -96,6 +107,9 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         return $defaultReturn;
     }
 
+    /**
+     * @throws UnresolvableQueryException
+     */
     private function inferResultType(Expr $queryExpr, Scope $scope): ?Type
     {
         $queryReflection = new QueryReflection();

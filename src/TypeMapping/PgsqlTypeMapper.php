@@ -50,20 +50,33 @@ final class PgsqlTypeMapper implements TypeMapper
         $integerRanges = new PgsqlIntegerRanges();
 
         if ($numeric) {
-            $phpstanType = match ($length) {
-                2 => $integerRanges->smallint(),
-                4 => $integerRanges->integer(),
-                8 => $integerRanges->bigint(),
-                default => null,
-            };
+            switch ($length) {
+                case 2:
+                    $phpstanType = $integerRanges->smallint();
+                    break;
+                case 4:
+                    $phpstanType = $integerRanges->integer();
+                    break;
+                case 8:
+                    $phpstanType = $integerRanges->bigint();
+                    break;
+                default:
+                    $phpstanType = null;
+                    break;
+            }
         }
 
         if ($autoIncrement) {
-            $phpstanType = match ($length) {
-                4 => $integerRanges->serial(),
-                8 => $integerRanges->bigserial(),
-                default => throw new ShouldNotHappenException(),
-            };
+            switch ($length) {
+                case 4:
+                    $phpstanType = $integerRanges->serial();
+                    break;
+                case 8:
+                    $phpstanType = $integerRanges->bigserial();
+                    break;
+                default:
+                    throw new ShouldNotHappenException();
+            }
         }
 
         // floats are detected as numerics in mysqli
@@ -73,21 +86,29 @@ final class PgsqlTypeMapper implements TypeMapper
 
         // fallbacks
         if (null === $phpstanType) {
-            $phpstanType = match (strtoupper($type)) {
-                'BOOL' => new BooleanType(),
-                'BIT',
-                'INT2',
-                'INT4',
-                'INT8' => new IntegerType(),
-                'JSON',
-                'JSONB',
-                'DATE',
-                'TEXT',
-                'TIME',
-                'TIMESTAMP',
-                'VARCHAR' => new StringType(),
-                default => new MixedType(),
-            };
+            switch (strtoupper($type)) {
+                case 'BOOL':
+                    $phpstanType = new BooleanType();
+                    break;
+                case 'BIT':
+                case 'INT2':
+                case 'INT4':
+                case 'INT8':
+                    $phpstanType = new IntegerType();
+                    break;
+                case 'JSON':
+                case 'JSONB':
+                case 'DATE':
+                case 'TEXT':
+                case 'TIME':
+                case 'TIMESTAMP':
+                case 'VARCHAR':
+                    $phpstanType = new StringType();
+                    break;
+                default:
+                    $phpstanType = new MixedType();
+                    break;
+            }
         }
 
         if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
@@ -111,15 +132,17 @@ final class PgsqlTypeMapper implements TypeMapper
 
     public function isNumericCol(string $mysqlType): bool
     {
-        return match (strtoupper($mysqlType)) {
-            'DECIMAL',
-            'NUMERIC',
-            'REAL',
-            'DOUBLE PRECISION',
-            'INT2',
-            'INT4',
-            'INT8' => true,
-            default => false,
-        };
+        switch (strtoupper($mysqlType)) {
+            case 'DECIMAL':
+            case 'NUMERIC':
+            case 'REAL':
+            case 'DOUBLE PRECISION':
+            case 'INT2':
+            case 'INT4':
+            case 'INT8':
+                return true;
+            default:
+                return false;
+        }
     }
 }
