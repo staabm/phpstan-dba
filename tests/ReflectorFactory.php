@@ -55,6 +55,8 @@ final class ReflectorFactory
         );
 
         if ('recording' === $mode || 'replay-and-recording' === $mode) {
+            $schemaHasher = null;
+
             if ('mysqli' === $reflector) {
                 $mysqli = new mysqli($host, $user, $password, $dbname);
                 $reflector = new MysqliQueryReflector($mysqli);
