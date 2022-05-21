@@ -57,7 +57,7 @@ abstract class BasePdoQueryReflector
      * @var array<string, array<string, list<string>>>
      */
     protected array $emulatedFlags = [];
-    
+
     protected PDO $pdo;
 
     public function __construct(PDO $pdo, TypeMapper $typeMapper)

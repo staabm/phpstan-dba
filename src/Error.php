@@ -22,7 +22,6 @@ final class Error
     private $code;
 
     /**
-     * @param string $message
      * @param ErrorCodes $code
      */
     public function __construct(string $message, $code)
