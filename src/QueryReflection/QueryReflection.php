@@ -14,8 +14,11 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
+use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -398,5 +401,19 @@ final class QueryReflection
         }
 
         return [];
+    }
+
+    /**
+     * @return iterable<array-key, QueryPlanResult>
+     */
+    public function analyzeQueryPlan(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable {
+        $reflector = self::reflector();
+
+        $queryResolver = new QueryResolver();
+        $queryPlanAnalyzer = new QueryPlanAnalyzerMysql();
+
+        foreach($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
+            yield $queryPlanAnalyzer->analyze($queryString);
+        }
     }
 }
