@@ -150,4 +150,9 @@ final class MysqliQueryReflector implements QueryReflector
             $this->db->rollback();
         }
     }
+
+    public function getMysqli(): mysqli
+    {
+        return $this->db;
+    }
 }

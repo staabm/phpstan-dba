@@ -156,6 +156,10 @@ abstract class BasePdoQueryReflector
         return $this->emulateFlags($nativeType, $tableName, $columnName);
     }
 
+    public function getPDO():PDO {
+        return $this->pdo;
+    }
+
     /** @return PDOException|list<ColumnMeta>|null */
     abstract protected function simulateQuery(string $queryString);
 

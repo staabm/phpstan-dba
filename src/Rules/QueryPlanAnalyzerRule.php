@@ -66,8 +66,9 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $unsupportedMethod = true;
+        $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%s', $className, $methodName);
+            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
 
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
@@ -77,6 +78,16 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         if ($unsupportedMethod) {
+            return [];
+        }
+
+        $args = $callLike->getArgs();
+
+        if (!\array_key_exists($queryArgPosition, $args)) {
+            return [];
+        }
+
+        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
             return [];
         }
 
