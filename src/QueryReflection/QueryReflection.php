@@ -420,6 +420,10 @@ final class QueryReflection
         if (!$reflector instanceof RecordingReflector) {
             throw new DbaException('Query plan analysis is only supported with a recording reflector');
         }
+        // TODO
+        if ($reflector instanceof PdoPgSqlQueryReflector) {
+            throw new DbaException('Query plan analysis is not yet supported with the pdo-pgsql reflector');
+        }
 
         $ds = $reflector->getDatasource();
         if (null === $ds) {
