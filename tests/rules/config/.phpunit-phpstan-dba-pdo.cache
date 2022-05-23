@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v7-normalized-eol',
+  'schemaVersion' => 'v7-normalized-eol-prepared',
   'schemaHash' => NULL,
   'records' => 
   array (
