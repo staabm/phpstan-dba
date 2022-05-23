@@ -25,6 +25,8 @@ $config = new RuntimeConfiguration();
 $config->analyzeQueryPlans(0);
 ```
 
+**Note:** For a meaningful performance analysis it is vital to utilize a database, which containts data and schema as similar as possible to the production database.
+
 **Note:** "Query Plan Analysis" requires an active database connection.
 
 **Note:** ["Query Plan Analysis" is not yet supported on the PGSQL driver](https://github.com/staabm/phpstan-dba/issues/378)
