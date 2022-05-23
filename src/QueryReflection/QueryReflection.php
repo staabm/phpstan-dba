@@ -147,7 +147,7 @@ final class QueryReflection
      */
     private function normalizeQueryString(string $queryString): string
     {
-        return str_replace("\r\n", "\n", $queryString);
+        return str_replace("\r\n", "\n", trim($queryString));
     }
 
     /**
