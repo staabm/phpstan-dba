@@ -1,21 +1,11 @@
 <?php
 
-namespace Bug372;
+namespace PdoDefaultFetchTypes;
 
 use function PHPStan\Testing\assertType;
 
 class HelloWorld
 {
-    public function doFoo(\PDO $pdo): void {
-        $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement', $stmt);
-
-        foreach ($stmt as $row) {
-            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
-
-        }
-    }
-
     public function defaultFetchType(\PDO $pdo, string $q): void
     {
         $stmt = $pdo->query($q);
