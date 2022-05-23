@@ -171,10 +171,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
     array (
@@ -183,10 +179,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM ada WHERE doesNotExist=1' => 
     array (
@@ -195,10 +187,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM unknown_table' => 
     array (
@@ -207,10 +195,6 @@
          'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.unknown_table\' doesn\'t exist',
          'code' => '42S02',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
@@ -317,10 +301,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'field list\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email FROM ada WHERE adaid IN (\'1\')' => 
     array (
@@ -344,11 +324,6 @@
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-        3 => NULL,
-      ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -357,10 +332,6 @@
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'gesperrt freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada GROUP BY xy LIMIT 1' => 
     array (
@@ -369,10 +340,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'xy\' in \'group statement\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
@@ -515,7 +482,6 @@
     ),
     'SELECT email, adaid FROM ada WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -622,10 +588,6 @@
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
@@ -636,7 +598,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -892,7 +853,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1046,7 +1006,6 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1387,11 +1346,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'where clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        3 => NULL,
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=\'1\'' => 
     array (
