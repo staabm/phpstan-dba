@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Analyzer;
 
 use PDO;
 use mysqli;
+use PHPStan\ShouldNotHappenException;
 
 final class QueryPlanAnalyzerMysql {
     /**
@@ -29,12 +30,13 @@ final class QueryPlanAnalyzerMysql {
 
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query('EXPLAIN '. $query);
-
+            // @phpstan-ignore-next-line we cannot type the iterator
             return $this->buildResult($stmt);
 
         } else {
             $result = $this->connection->query('EXPLAIN '. $query);
             if ($result instanceof \mysqli_result) {
+                // @phpstan-ignore-next-line we cannot type the iterator
                 return $this->buildResult($result);
             }
         }
@@ -50,11 +52,6 @@ final class QueryPlanAnalyzerMysql {
         $result = new QueryPlanResult();
 
         foreach ($it as $row) {
-            // XXX is $row mixed?
-            if (!is_array($row) || !array_key_exists('table', $row) || !array_key_exists('rows', $row) || !array_key_exists('key', $row)) {
-                throw new ShouldNotHappenException();
-            }
-
             if ($row['key'] === null) {
                 $result->addRow($row['table'], QueryPlanResult::NO_INDDEX);
             }elseif ($row['rows'] > 100000) {
