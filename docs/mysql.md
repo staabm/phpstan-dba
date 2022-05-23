@@ -2,7 +2,7 @@
 
 Analyzing MySQL based codebases is supported for Doctrine DBAL, PDO and mysqli.
 
-At analysis time you can pick either `MysqliQueryReflector` or `PdoQueryReflector`.
+At analysis time you can pick either `MysqliQueryReflector` or `PdoMysqlQueryReflector`.
 
 ## Configuration
 
@@ -33,7 +33,7 @@ QueryReflection::setupReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // XXX alternatively you can use PdoQueryReflector instead
+        // XXX alternatively you can use PdoMysqlQueryReflector instead
         new MysqliQueryReflector($mysqli),
         new SchemaHasherMysql($mysqli)
 

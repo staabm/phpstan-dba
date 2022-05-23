@@ -18,11 +18,11 @@ jobs:
         include:
           - php-version: "7.4"
             db-image: 'mysql:8.0'
-            reflector: "pdo"
+            reflector: "pdo-mysql"
             mode: "recording"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
-            reflector: "pdo"
+            reflector: "pdo-mysql"
             mode: "recording"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
@@ -40,7 +40,7 @@ jobs:
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
-            reflector: "pdo"
+            reflector: "pdo-mysql"
             mode: "replay-and-recording"
 
     env:
@@ -94,7 +94,7 @@ jobs:
       matrix:
         include:
           - php-version: "8.1"
-            reflector: "pdo"
+            reflector: "pdo-mysql"
             mode: "replay"
           - php-version: "8.1"
             reflector: "mysqli"

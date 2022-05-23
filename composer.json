@@ -53,7 +53,7 @@
 			"@phpunit",
 			"@phpstan",
 
-			"@putenv DBA_REFLECTOR=pdo",
+			"@putenv DBA_REFLECTOR=pdo-mysql",
 			"@phpunit",
 			"@phpstan",
 
