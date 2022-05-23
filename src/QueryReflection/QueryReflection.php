@@ -130,7 +130,7 @@ final class QueryReflection
 
         if ($type instanceof UnionType) {
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
-                yield $constantString->getValue();
+                yield $this->normalizeQueryString($constantString->getValue());
             }
 
             return;
@@ -138,8 +138,16 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            yield $queryString;
+            yield $this->normalizeQueryString($queryString);
         }
+    }
+
+    /**
+     * Make sure query string work consistently across operating systems.
+     */
+    private function normalizeQueryString(string $queryString): string
+    {
+        return str_replace("\r\n", "\n", $queryString);
     }
 
     /**
