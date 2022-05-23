@@ -15,7 +15,7 @@ class Foo
 
         $stmt = $pdo->query('SELECT adaid '. "\n" .'FROM ada');
         while ($row = $stmt->fetch()) {
-            assertType('string', $row['email']);
+            assertType('int<-32768, 32767>', $row['adaid']);
         }
     }
 }
