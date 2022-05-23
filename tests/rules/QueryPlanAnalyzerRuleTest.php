@@ -12,10 +12,10 @@ use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
  */
 class QueryPlanAnalyzerRuleTest extends RuleTestCase
 {
-    protected function setUp(): void
-    {
-        QueryReflection::getRuntimeConfiguration()->analyzeQueryPlans(true);
-    }
+    /**
+     * @var bool|0|positive-int
+     */
+    private $numberOfAllowedUnindexedReads;
 
     protected function tearDown(): void
     {
@@ -24,6 +24,8 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
+        QueryReflection::getRuntimeConfiguration()->analyzeQueryPlans($this->numberOfAllowedUnindexedReads);
+
         return self::getContainer()->getByType(QueryPlanAnalyzerRule::class);
     }
 
@@ -34,8 +36,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         ];
     }
 
-    public function testParameterErrors(): void
+    public function testNotUsingIndex(): void
     {
+        $this->numberOfAllowedUnindexedReads = true;
+
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
                 'Query plan analyzer: table "ada" is not using an index',

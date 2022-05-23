@@ -128,7 +128,7 @@ final class QueryPlanAnalyzerRule implements Rule
                 }
             } else {
                 foreach ($queryPlanResult->getTablesNotEfficient() as $table) {
-                    $errors[] = sprintf('Query plan analyzer: in efficient index use in table "%s"', $table);
+                    $errors[] = sprintf('Query plan analyzer: inefficient index use in table "%s"', $table);
                 }
             }
         }
