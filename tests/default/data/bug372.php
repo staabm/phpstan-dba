@@ -19,7 +19,7 @@ class HelloWorld
     public function defaultFetchType(\PDO $pdo, string $q): void
     {
         $stmt = $pdo->query($q);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array>', $stmt);
         foreach($stmt as $row) {
             assertType('array', $row);
         }
