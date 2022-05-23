@@ -45,17 +45,22 @@ final class QueryPlanAnalyzerMysql {
     }
 
     /**
-     * @param \Iterator<array-key, array{key: string|null, rows: positive-int, table: string}> $it
+     * @param \IteratorAggregate<array-key, array{key: string|null, rows: positive-int, table: ?string}> $it
      * @return QueryPlanResult
      */
-    private function buildResult(\Iterator $it):QueryPlanResult {
+    private function buildResult(\IteratorAggregate $it):QueryPlanResult {
         $result = new QueryPlanResult();
 
         foreach ($it as $row) {
+            // we cannot analyse tables without rows -> mysql will just return 'no matching row in const table'
+            if ($row['table'] === null) {
+                continue;
+            }
+
             if ($row['key'] === null) {
-                $result->addRow($row['table'], QueryPlanResult::NO_INDDEX);
-            }elseif ($row['rows'] > 100000) {
-                $result->addRow($row['table'], QueryPlanResult::NOT_EFFIECIENT);
+                $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
+            }elseif ($row['rows'] > 100000) { // XXX add RuntimeConfiguration
+                $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
             }
         }
 

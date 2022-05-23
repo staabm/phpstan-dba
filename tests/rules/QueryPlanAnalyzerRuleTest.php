@@ -28,8 +28,8 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
-                'Query expects placeholder :adaid, but it is missing from values given.',
-                12,
+                'Query plan analyzer: table "ada" is not using an index',
+                7,
             ],
         ]);
     }

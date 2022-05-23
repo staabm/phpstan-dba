@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Analyzer;
 
 final class QueryPlanResult {
-    const NO_INDDEX = "no-index";
-    const NOT_EFFIECIENT = "inefficient";
+    const NO_INDEX = "no-index";
+    const NOT_EFFICIENT = "inefficient";
 
     /**
      * @var array<string, self::*>
@@ -28,7 +28,7 @@ final class QueryPlanResult {
     public function getTablesNotUsingIndex():array {
         $tables = [];
         foreach($this->result as $table => $result) {
-            if ($result === self::NO_INDDEX) {
+            if ($result === self::NO_INDEX) {
                 $tables[] = $table;
             }
         }
@@ -41,7 +41,7 @@ final class QueryPlanResult {
     public function getTablesNotEfficient():array {
         $tables = [];
         foreach($this->result as $table => $result) {
-            if ($result === self::NOT_EFFIECIENT) {
+            if ($result === self::NOT_EFFICIENT) {
                 $tables[] = $table;
             }
         }

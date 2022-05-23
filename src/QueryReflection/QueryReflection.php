@@ -417,14 +417,15 @@ final class QueryReflection
     public function analyzeQueryPlan(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable {
         $reflector = self::reflector();
 
-        // XXX overhaul
-        if ($reflector instanceof BasePdoQueryReflector) {
-            $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($reflector->getPDO());
-        } elseif ($reflector instanceof MysqliQueryReflector) {
-            $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($reflector->getMysqli());
-        } else {
-            throw new DbaException('Unsupported query reflector: '.get_class($reflector));
+        if (!$reflector instanceof RecordingReflector) {
+            throw new DbaException('Query plan analysis is only supported with a recording reflector');
         }
+
+        $ds = $reflector->getDatasource();
+        if ($ds === null) {
+            throw new DbaException(sprintf('Unable to create datasource from %s', get_class($reflector)));
+        }
+        $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
 
         $queryResolver = new QueryResolver();
         foreach($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
