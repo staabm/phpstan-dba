@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr;
-use PHPStan\Type\Type;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\Type;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryResolver
 {
     /**
-     * @return iterable<non-empty-string>
+     * @return iterable<string>
      *
      * @throws UnresolvableQueryException
      */
-    public function resolve(Scope $scope, Expr $queryExpr, ?Type $parameterTypes):iterable {
+    public function resolve(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable
+    {
         $queryReflection = new QueryReflection();
 
         $parameters = null;
-        if ($parameterTypes !== null) {
+        if (null !== $parameterTypes) {
             $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         }
 
@@ -34,5 +35,4 @@ final class QueryResolver
             yield $queryString;
         }
     }
-
 }

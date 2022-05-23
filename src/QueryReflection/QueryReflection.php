@@ -18,7 +18,6 @@ use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -414,7 +413,8 @@ final class QueryReflection
     /**
      * @return iterable<array-key, QueryPlanResult>
      */
-    public function analyzeQueryPlan(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable {
+    public function analyzeQueryPlan(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable
+    {
         $reflector = self::reflector();
 
         if (!$reflector instanceof RecordingReflector) {
@@ -422,13 +422,16 @@ final class QueryReflection
         }
 
         $ds = $reflector->getDatasource();
-        if ($ds === null) {
-            throw new DbaException(sprintf('Unable to create datasource from %s', get_class($reflector)));
+        if (null === $ds) {
+            throw new DbaException(sprintf('Unable to create datasource from %s', \get_class($reflector)));
         }
         $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
 
         $queryResolver = new QueryResolver();
-        foreach($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
+        foreach ($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
+            if ('' === $queryString) {
+                continue;
+            }
             yield $queryPlanAnalyzer->analyze($queryString);
         }
     }

@@ -60,6 +60,7 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
         if ($this->reflector instanceof RecordingReflector) {
             return $this->reflector->getDatasource();
         }
+
         return null;
     }
 }

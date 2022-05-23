@@ -15,11 +15,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
-use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
-use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\QueryReflection\QueryResolver;
-use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<CallLike>
@@ -120,15 +116,14 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $errors = [];
         $queryReflection = new QueryReflection();
-        foreach($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
+        foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
-            if (count($notUsingIndex)> 0) {
-                foreach($notUsingIndex as $table) {
+            if (\count($notUsingIndex) > 0) {
+                foreach ($notUsingIndex as $table) {
                     $errors[] = sprintf('Query plan analyzer: table "%s" is not using an index', $table);
                 }
-
             } else {
-                foreach($queryPlanResult->getTablesNotEfficient() as $table) {
+                foreach ($queryPlanResult->getTablesNotEfficient() as $table) {
                     $errors[] = sprintf('Query plan analyzer: in efficient index use in table "%s"', $table);
                 }
             }
@@ -141,5 +136,4 @@ final class QueryPlanAnalyzerRule implements Rule
 
         return $ruleErrors;
     }
-
 }

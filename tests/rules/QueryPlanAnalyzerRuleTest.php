@@ -4,7 +4,6 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
 use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
 
 /**
@@ -29,7 +28,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
                 'Query plan analyzer: table "ada" is not using an index',
-                7,
+                9,
             ],
         ]);
     }
