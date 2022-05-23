@@ -6,14 +6,22 @@ namespace staabm\PHPStanDba\PdoReflection;
 
 use PDOStatement;
 use PHPStan\Type\ArrayType;
+use PHPStan\Type\BenevolentUnionType;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 class PdoStatementObjectType extends GenericObjectType
@@ -93,5 +101,33 @@ class PdoStatementObjectType extends GenericObjectType
 
         // not yet supported fetch type - or $fetchType == BOTH
         return $bothType;
+    }
+
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
+     */
+    static public function createDefaultType(int $fetchType): Type {
+        $scalar = new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]);
+        $arrayKey = new BenevolentUnionType([new IntegerType(), new StringType()]);
+
+        switch($fetchType) {
+            case QueryReflector::FETCH_TYPE_CLASS:
+                return new GenericObjectType(PDOStatement::class, [new ObjectType('stdClass')]);
+            case QueryReflector::FETCH_TYPE_KEY_VALUE:
+                $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
+                $arrayBuilder->setOffsetValueType(new ConstantIntegerType(0), new MixedType());
+                $arrayBuilder->setOffsetValueType(new ConstantIntegerType(1), new MixedType());
+                return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
+            case QueryReflector::FETCH_TYPE_NUMERIC:
+                return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $scalar)]);
+            case QueryReflector::FETCH_TYPE_ASSOC:
+                return new GenericObjectType(PDOStatement::class, [new ArrayType(new StringType(), $scalar)]);
+            case QueryReflector::FETCH_TYPE_BOTH:
+                return new GenericObjectType(PDOStatement::class, [new ArrayType($arrayKey, $scalar)]);
+            case QueryReflector::FETCH_TYPE_COLUMN:
+                return new GenericObjectType(PDOStatement::class, [$scalar]);
+        }
+
+        return new GenericObjectType(PDOStatement::class, [new MixedType()]);
     }
 }
