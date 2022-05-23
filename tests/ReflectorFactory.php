@@ -61,7 +61,7 @@ final class ReflectorFactory
                 $mysqli = new mysqli($host, $user, $password, $dbname);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
-            } elseif ('pdo' === $reflector) {
+            } elseif ('pdo-mysql' === $reflector) {
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoMysqlQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
