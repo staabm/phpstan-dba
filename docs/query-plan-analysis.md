@@ -1,7 +1,7 @@
 # Query Plan Analysis
 
 Within your `phpstan-dba-bootstrap.php` file, you can optionally enable query plan analysis.
-When enabled, `phpstandba` will error when queries are not using indices or queries are inefficient.
+When enabled, `phpstan-dba` will error when queries are not using indices or queries are inefficient.
 
 Passing `true` will enable the feature:
 
@@ -11,6 +11,7 @@ $config->analyzeQueryPlans(true);
 ```
 
 For more fine grained control, you can pass a positive-integer describing the number of unindexed reads a query is allowed to execute before being considered inefficient.
+This will only affect queries which already use an index.
 
 ```php
 $config = new RuntimeConfiguration();
