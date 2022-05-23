@@ -1,50 +1,8 @@
 <?php return array (
-  'schemaVersion' => 'v6-schema-hash',
+  'schemaVersion' => 'v7-normalized-eol',
   'schemaHash' => NULL,
   'records' => 
   array (
-    '
-            SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
-        ' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    '
-            SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
-        ' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    '
-            SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC
-        ' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     '
             SELECT
                 ada.*,
@@ -261,7 +219,6 @@
       'result' => 
       array (
         5 => NULL,
-        4 => NULL,
         3 => NULL,
       ),
     ),

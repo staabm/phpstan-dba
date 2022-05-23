@@ -23,7 +23,7 @@ class Foo
             SELECT
                 adaid
             FROM
-                ada'); // intentioanlly across separate lines
+                ada'); // intentionally across separate lines
         while ($row = $stmt->fetch()) {
             assertType('int<-32768, 32767>', $row['adaid']);
         }
