@@ -12,7 +12,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 final class QueryPlanAnalyzerMysql
 {
     /**
-     * number of unindexed reads allowed before a queries is considered inefficient.
+     * number of unindexed reads allowed before a query is considered inefficient.
      */
     public const DEFAULT_UNINDEXED_READS_THRESHOLD = 100000;
 

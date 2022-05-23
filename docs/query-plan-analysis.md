@@ -17,7 +17,7 @@ $config = new RuntimeConfiguration();
 $config->analyzeQueryPlans(100000);
 ```
 
-To disable the effiency analysis but just check for queries not using indexes at all, pass `0`.
+To disable the effiency analysis but just check for queries not using indices at all, pass `0`.
 
 ```php
 $config = new RuntimeConfiguration();
