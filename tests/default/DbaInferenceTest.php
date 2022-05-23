@@ -50,7 +50,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__.'/data/runMysqlQuery.php');
 
         // XXX cases which are not yet supported by the PdoQueryReflector
-        if ('pdo' !== getenv('DBA_REFLECTOR') && 'pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+        if ('pdo-mysql' !== getenv('DBA_REFLECTOR') && 'pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__.'/data/query-alias.php');
         }
 
@@ -62,6 +62,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
 
         yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-union-result.php');
         yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli-union-result.php');
+        yield from $this->gatherAssertTypes(__DIR__.'/data/bug372.php');
     }
 
     /**

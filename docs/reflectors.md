@@ -8,7 +8,7 @@ It is **not** mandatory to use the same database driver for phpstan-dba, as you 
 | Reflector            | Key Features                                                                                                                                                 |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | MysqliQueryReflector | - limited to mysql/mariadb databases<br/>- requires a active database connection<br/>- most feature complete reflector                                       |
-| PdoQueryReflector    | - connects to a mysql/mariadb database<br/>- requires a active database connection |
+| PdoMysqlQueryReflector    | - connects to a mysql/mariadb database<br/>- requires a active database connection |
 | PdoPgSqlQueryReflector    | - connects to a PGSQL database<br/>- requires a active database connection |
 
 

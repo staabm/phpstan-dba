@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v6-schema-hash',
+  'schemaVersion' => 'v8-trim-queries',
   'schemaHash' => NULL,
   'records' => 
   array (

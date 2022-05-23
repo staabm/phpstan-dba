@@ -58,7 +58,7 @@ QueryReflection::setupReflector(
         ReflectionCache::create(
             $cacheFile
         ),
-        // XXX alternatively you can use PdoQueryReflector instead
+        // XXX alternatively you can use PdoMysqlQueryReflector instead
         new MysqliQueryReflector($mysqli),
         new SchemaHasherMysql($mysqli)
 
