@@ -20,7 +20,6 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -106,17 +105,19 @@ class PdoStatementObjectType extends GenericObjectType
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    static public function createDefaultType(int $fetchType): Type {
+    public static function createDefaultType(int $fetchType): Type
+    {
         $scalar = new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]);
         $arrayKey = new BenevolentUnionType([new IntegerType(), new StringType()]);
 
-        switch($fetchType) {
+        switch ($fetchType) {
             case QueryReflector::FETCH_TYPE_CLASS:
                 return new GenericObjectType(PDOStatement::class, [new ObjectType('stdClass')]);
             case QueryReflector::FETCH_TYPE_KEY_VALUE:
                 $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(0), new MixedType());
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(1), new MixedType());
+
                 return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
             case QueryReflector::FETCH_TYPE_NUMERIC:
                 return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $scalar)]);
