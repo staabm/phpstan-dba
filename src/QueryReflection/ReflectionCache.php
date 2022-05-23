@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v7-normalized-eol';
+    public const SCHEMA_VERSION = 'v7-normalized-eol-prepared';
 
     /**
      * @var string
