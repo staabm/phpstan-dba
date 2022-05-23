@@ -103,6 +103,10 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
+        if (false === QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads()) {
+            return [];
+        }
+
         $queryExpr = $args[0]->value;
 
         if ($scope->getType($queryExpr) instanceof MixedType) {

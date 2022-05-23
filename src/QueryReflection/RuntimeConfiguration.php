@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Php\PhpVersion;
+use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 
 final class RuntimeConfiguration
 {
@@ -39,6 +40,10 @@ final class RuntimeConfiguration
      * @var bool
      */
     private $stringifyTypes = false;
+    /**
+     * @var bool|0|positive-int
+     */
+    private $numberOfAllowedUnindexedReads = false;
 
     public static function create(): self
     {
@@ -70,6 +75,13 @@ final class RuntimeConfiguration
         return $this;
     }
 
+    /**
+     * When enabled, a DbaException will be thrown in case a sql query cannot be analyzed.
+     *
+     * Otherwise these queries will be ignored.
+     *
+     * @return $this
+     */
     public function debugMode(bool $mode): self
     {
         $this->debugMode = $mode;
@@ -86,6 +98,32 @@ final class RuntimeConfiguration
         $this->stringifyTypes = $stringify;
 
         return $this;
+    }
+
+    /**
+     * Enables query plan analysis, which indicates performance problems.
+     *
+     * Requires a active database connection.
+     *
+     * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis. `false` to disable analysis.
+     *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient, see QueryPlanAnalyzerMysql::DEFAULT_UNINDEXED_READS_THRESHOLD.
+     *                                                           `0` disables the efficiency checks but still scans for queries not using an index.
+     *
+     * @return $this
+     */
+    public function analyzeQueryPlans($numberOfAllowedUnindexedReads = true): self
+    {
+        $this->numberOfAllowedUnindexedReads = $numberOfAllowedUnindexedReads;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|0|positive-int
+     */
+    public function getNumberOfAllowedUnindexedReads()
+    {
+        return $this->numberOfAllowedUnindexedReads;
     }
 
     public function isDebugEnabled(): bool

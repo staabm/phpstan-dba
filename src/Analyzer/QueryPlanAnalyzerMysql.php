@@ -7,9 +7,15 @@ namespace staabm\PHPStanDba\Analyzer;
 use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class QueryPlanAnalyzerMysql
 {
+    /**
+     * number of unindexed reads allowed before a queries is considered inefficient.
+     */
+    public const DEFAULT_UNINDEXED_READS_THRESHOLD = 100000;
+
     /**
      * @var PDO|mysqli
      */
@@ -48,6 +54,11 @@ final class QueryPlanAnalyzerMysql
     private function buildResult(\IteratorAggregate $it): QueryPlanResult
     {
         $result = new QueryPlanResult();
+        $allowedUnindexedReads = QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads();
+
+        if (false === $allowedUnindexedReads) {
+            throw new ShouldNotHappenException();
+        }
 
         foreach ($it as $row) {
             // we cannot analyse tables without rows -> mysql will just return 'no matching row in const table'
@@ -57,8 +68,13 @@ final class QueryPlanAnalyzerMysql
 
             if (null === $row['key']) {
                 $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
-            } elseif ($row['rows'] > 100000) { // XXX add RuntimeConfiguration
-                $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
+            } else {
+                if (true === $allowedUnindexedReads && $row['rows'] > self::DEFAULT_UNINDEXED_READS_THRESHOLD) {
+                    $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
+                }
+                if (\is_int($allowedUnindexedReads) && $row['rows'] > $allowedUnindexedReads) {
+                    $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
+                }
             }
         }
 
