@@ -138,31 +138,33 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     16,
                 ],
                 [
-                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'doesNotExist' in 'field list' (42S22).",
+                    'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "doesnotexist" does not exist
+LINE 1: SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada L...
+               ^ (42703).',
                     21,
                 ],
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "doesnotexist" does not exist
-+LINE 1: SELECT * FROM ada WHERE doesNotExist=1 LIMIT 0
-+                                ^ (42703)',
+LINE 1: SELECT * FROM ada WHERE doesNotExist=1 LIMIT 0
+                                ^ (42703)',
                     26,
                 ],
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "doesnotexist" does not exist
-+LINE 1: SELECT * FROM ada ORDER BY doesNotExist LIMIT 0
-+                                   ^ (42703).',
+LINE 1: SELECT * FROM ada ORDER BY doesNotExist LIMIT 0
+                                   ^ (42703).',
                     31,
                 ],
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "doesnotexist" does not exist
-+LINE 1: SELECT * FROM ada GROUP BY doesNotExist LIMIT 0
-+                                   ^ (42703).',
+LINE 1: SELECT * FROM ada GROUP BY doesNotExist LIMIT 0
+                                   ^ (42703).',
                     36,
                 ],
                 [
                     'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "unknown_table" does not exist
-+LINE 1: SELECT * FROM unknown_table LIMIT 0
-+                      ^ (42P01).',
+LINE 1: SELECT * FROM unknown_table LIMIT 0
+                      ^ (42P01).',
                     41,
                 ],
                 [
@@ -179,14 +181,14 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                 ],
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
-+LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
-+                                                             ^ (42703).',
+LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
+                                                             ^ (42703).',
                     103,
                 ],
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "xy" does not exist
-+LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
-+                                              ^ (42703).',
+LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
+                                              ^ (42703).',
                     118,
                 ],
             ];
