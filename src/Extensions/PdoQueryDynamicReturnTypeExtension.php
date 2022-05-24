@@ -16,6 +16,7 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\PdoReflection\PdoStatementObjectType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
@@ -103,7 +104,24 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
         $pdoStatementReflection = new PdoStatementReflection();
+        $genericStatement = $pdoStatementReflection->createGenericStatement($queryStrings, $reflectionFetchType);
 
-        return $pdoStatementReflection->createGenericStatement($queryStrings, $reflectionFetchType);
+        if (null !== $genericStatement) {
+            return $genericStatement;
+        }
+
+        $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
+        foreach ($queryStrings as $queryString) {
+            if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
+                return null;
+            }
+
+            // return unknown type if query contains syntax errors
+            if (null !== $queryReflection->validateQueryString($queryString)) {
+                return null;
+            }
+        }
+
+        return PdoStatementObjectType::createDefaultType($reflectionFetchType);
     }
 }

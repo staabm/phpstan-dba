@@ -39,6 +39,42 @@
         5 => NULL,
       ),
     ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
       'error' => 
@@ -223,6 +259,17 @@
          'code' => 1064,
       )),
     ),
+    'SELECT email adaid
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
+            FROM ada
+            LIMIT        1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
+         'code' => 1064,
+      )),
+    ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
       'error' => 
@@ -247,6 +294,90 @@
       array (
         5 => NULL,
       ),
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            FOR UPDATE' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            FOR UPDATE' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR SHARE' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET \'1\'
+            FOR UPDATE' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\'
+            OFFSET 1' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT        \'1\',  \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\'
+            LIMIT   \'1\',     \'1\'' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
+            LIMIT        1' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT email, adaid
+            FROM ada
+            WHERE gesperrt = \'1\' AND email LIKE NULL
+            LIMIT        1' => 
+    array (
+      'error' => NULL,
     ),
     'SELECT email, adaid
             FROM ada
@@ -854,6 +985,11 @@
           )),
         )),
       ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
+            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
+    array (
+      'error' => NULL,
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
             WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 

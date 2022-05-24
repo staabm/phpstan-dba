@@ -39,8 +39,49 @@
         5 => NULL,
       ),
     ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT
+                ada.*,
+                COALESCE(NULLIF(email, ""), email) AS email
+            FROM ada
+                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
+            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT * FROM ada GROUP BY doesNotExist' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'doesNotExist\' in \'group statement\'',
+         'code' => 1054,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -48,6 +89,11 @@
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'doesNotExist\' in \'order clause\'',
+         'code' => 1054,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -55,6 +101,11 @@
     ),
     'SELECT * FROM ada WHERE doesNotExist=1' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'doesNotExist\' in \'where clause\'',
+         'code' => 1054,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -62,6 +113,11 @@
     ),
     'SELECT * FROM unknown_table' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.unknown_table\' doesn\'t exist',
+         'code' => 1146,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -139,6 +195,11 @@
     ),
     'SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'doesNotExist\' in \'field list\'',
+         'code' => 1054,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -210,6 +271,11 @@
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
       'result' => 
       array (
         5 => NULL,
@@ -468,6 +534,11 @@
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  LIMIT 1' => 
     array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
       'result' => 
       array (
         5 => NULL,
