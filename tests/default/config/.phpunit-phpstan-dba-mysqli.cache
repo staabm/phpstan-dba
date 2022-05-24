@@ -3389,10 +3389,11 @@ FROM ada' =>
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
     ),
     'SELECT email, adaid FROM ada' => 
     array (

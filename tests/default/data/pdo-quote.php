@@ -72,9 +72,9 @@ class Foo
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($s), PDO::FETCH_ASSOC);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$pdo->quote($nonE), PDO::FETCH_ASSOC);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
     }
 }

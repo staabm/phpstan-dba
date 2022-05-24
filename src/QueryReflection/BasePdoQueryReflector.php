@@ -20,6 +20,7 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
  */
 abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflector
 {
+    private const PSQL_SYNTAX_ERROR = '42601';
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
     private const PSQL_UNDEFINED_COLUMN = '42703';
     private const PSQL_UNDEFINED_TABLE = '42P01';
@@ -30,10 +31,12 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
 
     private const PDO_SYNTAX_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
+        self::PSQL_SYNTAX_ERROR,
         self::PSQL_INVALID_TEXT_REPRESENTATION,
     ];
 
     private const PDO_ERROR_CODES = [
+        self::PSQL_SYNTAX_ERROR,
         self::PSQL_INVALID_TEXT_REPRESENTATION,
         self::PSQL_UNDEFINED_COLUMN,
         self::PSQL_UNDEFINED_TABLE,
