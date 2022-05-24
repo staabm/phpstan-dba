@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\PdoReflection;
 use PDOStatement;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
-use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
