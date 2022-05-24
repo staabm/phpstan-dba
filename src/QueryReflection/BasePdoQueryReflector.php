@@ -36,6 +36,7 @@ abstract class BasePdoQueryReflector implements QueryReflector
     ];
 
     private const PDO_ERROR_CODES = [
+        self::PSQL_SYNTAX_ERROR,
         self::PSQL_INVALID_TEXT_REPRESENTATION,
         self::PSQL_UNDEFINED_COLUMN,
         self::PSQL_UNDEFINED_TABLE,
