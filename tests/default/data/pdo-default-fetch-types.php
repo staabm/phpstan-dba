@@ -55,9 +55,9 @@ class HelloWorld
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_COLUMN);
-        assertType('PDOStatement', $stmt); // could be PDOStatement<scalar>
+        assertType('PDOStatement', $stmt); // could be PDOStatement<float|int|string>
         foreach ($stmt as $row) {
-            assertType('mixed', $row); // could be scalar
+            assertType('mixed', $row); // could be float|int|string
         }
     }
 }
