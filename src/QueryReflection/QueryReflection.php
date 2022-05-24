@@ -436,6 +436,10 @@ final class QueryReflection
                 continue;
             }
 
+            if ('SELECT' !== self::getQueryType($queryString)) {
+                continue;
+            }
+
             if ($reflector->validateQueryString($queryString) instanceof Error) {
                 continue;
             }

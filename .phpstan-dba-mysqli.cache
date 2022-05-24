@@ -770,7 +770,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -783,7 +783,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -840,7 +840,7 @@ WHERE table_name = \'1970-01-01\'' =>
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
