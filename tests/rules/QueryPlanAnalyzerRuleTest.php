@@ -49,6 +49,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 'Query plan analyzer: table "ada" is not using an index',
                 17,
             ],
+            [
+                'Query plan analyzer: table "ada" is not using an index',
+                22,
+            ],
         ]);
     }
 }

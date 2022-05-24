@@ -435,6 +435,11 @@ final class QueryReflection
             if ('' === $queryString) {
                 continue;
             }
+
+            if ($reflector->validateQueryString($queryString) instanceof Error) {
+                continue;
+            }
+
             yield $queryPlanAnalyzer->analyze($queryString);
         }
     }
