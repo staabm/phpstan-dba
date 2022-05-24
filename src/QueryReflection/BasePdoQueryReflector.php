@@ -77,6 +77,7 @@ abstract class BasePdoQueryReflector implements QueryReflector
         }
 
         $e = $result;
+        var_dump($e->getCode());
         if (\in_array($e->getCode(), self::PDO_ERROR_CODES, true)) {
             if (
                 \in_array($e->getCode(), self::PDO_SYNTAX_ERROR_CODES, true)
