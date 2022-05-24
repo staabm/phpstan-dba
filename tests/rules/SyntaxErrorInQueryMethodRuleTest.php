@@ -150,7 +150,7 @@ LINE 1: SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada L...
                 [
                     'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "doesnotexist" does not exist
 LINE 1: SELECT * FROM ada WHERE doesNotExist=1 LIMIT 0
-                                ^ (42703)',
+                                ^ (42703).',
                     26,
                 ],
                 [
@@ -184,7 +184,9 @@ LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
                     76,
                 ],
                 [
-                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).'
                     82,
                 ],
                 [
