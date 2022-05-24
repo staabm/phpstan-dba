@@ -38,6 +38,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndex(): void
     {
+        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+            $this->markTestSkipped('This test is not supported on PostgreSQL');
+        }
+
         $this->numberOfAllowedUnindexedReads = true;
 
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [

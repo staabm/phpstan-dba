@@ -52,7 +52,7 @@ final class QueryPlanAnalyzerMysql
     /**
      * @param \IteratorAggregate<array-key, array{key: string|null, rows: positive-int, table: ?string}> $it
      */
-    private function buildResult(\IteratorAggregate $it): QueryPlanResult
+    private function buildResult($it): QueryPlanResult
     {
         $result = new QueryPlanResult();
         $allowedUnindexedReads = QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads();
