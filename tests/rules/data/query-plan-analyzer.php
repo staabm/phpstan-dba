@@ -19,12 +19,12 @@ class Foo
 
     public function noindexPreparedDbal(Connection $conn, string $email): void
     {
-        $conn->executeQuery("SELECT * FROM ada WHERE email = ?", [$email]);
+        $conn->executeQuery('SELECT * FROM ada WHERE email = ?', [$email]);
     }
 
     public function syntaxError(Connection $conn): void
     {
-        $conn->executeQuery("SELECT FROM WHERE");
+        $conn->executeQuery('SELECT FROM WHERE');
     }
 
     public function indexed(PDO $pdo, int $adaid): void

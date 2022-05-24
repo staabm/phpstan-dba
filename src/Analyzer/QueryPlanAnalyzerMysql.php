@@ -37,6 +37,7 @@ final class QueryPlanAnalyzerMysql
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query('EXPLAIN '.$query);
 
+            // @phpstan-ignore-next-line
             return $this->buildResult($stmt);
         } else {
             $result = $this->connection->query('EXPLAIN '.$query);

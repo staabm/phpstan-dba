@@ -661,6 +661,14 @@
         )),
       ),
     ),
+    'SELECT * FROM `ada` WHERE adaid = 1' => 
+    array (
+      'error' => NULL,
+    ),
+    'SELECT * FROM `ada` WHERE email = \'test@example.com\';' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
       'error' => NULL,
