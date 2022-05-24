@@ -107,7 +107,8 @@ class PdoStatementObjectType extends GenericObjectType
      */
     public static function createDefaultType(int $fetchType): Type
     {
-        $scalar = new UnionType([new IntegerType(), new FloatType(), new StringType(), new BooleanType()]);
+        // we assume native PDO is not able to return bool.
+        $pdoScalar = new UnionType([new IntegerType(), new FloatType(), new StringType()]);
         $arrayKey = new BenevolentUnionType([new IntegerType(), new StringType()]);
 
         switch ($fetchType) {
@@ -120,13 +121,13 @@ class PdoStatementObjectType extends GenericObjectType
 
                 return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
             case QueryReflector::FETCH_TYPE_NUMERIC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $scalar)]);
+                return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $pdoScalar)]);
             case QueryReflector::FETCH_TYPE_ASSOC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(new StringType(), $scalar)]);
+                return new GenericObjectType(PDOStatement::class, [new ArrayType(new StringType(), $pdoScalar)]);
             case QueryReflector::FETCH_TYPE_BOTH:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType($arrayKey, $scalar)]);
+                return new GenericObjectType(PDOStatement::class, [new ArrayType($arrayKey, $pdoScalar)]);
             case QueryReflector::FETCH_TYPE_COLUMN:
-                return new GenericObjectType(PDOStatement::class, [$scalar]);
+                return new GenericObjectType(PDOStatement::class, [$pdoScalar]);
         }
 
         return new GenericObjectType(PDOStatement::class, [new MixedType()]);

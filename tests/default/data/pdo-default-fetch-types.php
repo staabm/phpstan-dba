@@ -10,9 +10,9 @@ class HelloWorld
     public function defaultFetchType(PDO $pdo, string $q): void
     {
         $stmt = $pdo->query($q);
-        assertType('PDOStatement<array<bool|float|int|string>>', $stmt);
+        assertType('PDOStatement<array<float|int|string>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<bool|float|int|string>', $row);
+            assertType('array<float|int|string>', $row);
         }
     }
 
@@ -37,21 +37,21 @@ class HelloWorld
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, bool|float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<string, bool|float|int|string>', $row);
+            assertType('array<string, float|int|string>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_NUM);
-        assertType('PDOStatement<array<int<0, max>, bool|float|int|string>>', $stmt); // could be list
+        assertType('PDOStatement<array<int<0, max>, float|int|string>>', $stmt); // could be list
         foreach ($stmt as $row) {
-            assertType('array<int<0, max>, bool|float|int|string>', $row);
+            assertType('array<int<0, max>, float|int|string>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_BOTH);
-        assertType('PDOStatement<array<bool|float|int|string>>', $stmt);
+        assertType('PDOStatement<array<float|int|string>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<bool|float|int|string>', $row);
+            assertType('array<float|int|string>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_COLUMN);
