@@ -79,7 +79,7 @@ final class QueryPlanAnalyzerMysql
             if (null === $row['key'] && $row['rows'] > $allowedRowsNotRequiringIndex) {
                 // derived table aka. a expression that generates a table within the scope of a query FROM clause
                 // is a temporary table, which indexes cannot be created for.
-                if (strtolower($row['select_type']) === 'derived') {
+                if ('derived' === strtolower($row['select_type'])) {
                     continue;
                 }
 
