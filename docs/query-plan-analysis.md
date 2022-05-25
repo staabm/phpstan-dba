@@ -33,6 +33,14 @@ $config = new RuntimeConfiguration();
 $config->analyzeQueryPlans(0);
 ```
 
+When running in environments in which only the database schema, but no data is available pass `$numberOfRowsNotRequiringIndex=0`.
+
+```php
+$config = new RuntimeConfiguration();
+$config->analyzeQueryPlans(true, 0);
+```
+
+
 **Note:** For a meaningful performance analysis it is vital to utilize a database, which containts data and schema as similar as possible to the production database.
 
 **Note:** "Query Plan Analysis" requires an active database connection.
