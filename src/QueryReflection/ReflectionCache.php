@@ -329,7 +329,7 @@ final class ReflectionCache
             $this->cacheIsDirty = true;
         }
 
-        // the cache requires to a populated 'error' item
+        // the cache requires a populated 'error' item
         $this->putValidationError($queryString, null);
     }
 }
