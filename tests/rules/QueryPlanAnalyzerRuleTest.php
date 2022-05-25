@@ -54,18 +54,23 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $this->numberOfRowsNotRequiringIndex = 2;
 
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
+        $tip = "see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html";
+
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
                 "Query is not using an index on table 'ada'.".$proposal,
                 12,
+                $tip,
             ],
             [
                 "Query is not using an index on table 'ada'.".$proposal,
                 17,
+                $tip,
             ],
             [
                 "Query is not using an index on table 'ada'.".$proposal,
                 22,
+                $tip,
             ],
         ]);
     }
