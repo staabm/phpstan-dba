@@ -72,7 +72,7 @@ class SyntaxErrorInPreparedStatementMethodRuleReflectorTest extends RuleTestCase
                 319,
             ],
         ];
-        } elseif ('pdo-mysql' === getenv('DBA_REFLECTOR')) {
+        } elseif ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
@@ -141,7 +141,7 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     319,
                 ],
             ];
-        } elseif ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+        } elseif ('pdo-mysql' === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
