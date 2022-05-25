@@ -80,19 +80,19 @@ class Foo
         // ---- queries, for which we cannot infer the return type
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
     public function dynamicQuery(PDO $pdo, string $query)
     {
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
     public function insertQuery(PDO $pdo)
