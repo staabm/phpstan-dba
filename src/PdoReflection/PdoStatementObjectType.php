@@ -16,6 +16,7 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -107,7 +108,7 @@ class PdoStatementObjectType extends GenericObjectType
     public static function createDefaultType(int $fetchType): Type
     {
         // we assume native PDO is not able to return bool.
-        $pdoScalar = new UnionType([new IntegerType(), new FloatType(), new StringType()]);
+        $pdoScalar = new UnionType([new IntegerType(), new FloatType(), new StringType(), new NullType()]);
         $arrayKey = new BenevolentUnionType([new IntegerType(), new StringType()]);
 
         switch ($fetchType) {
