@@ -56,15 +56,15 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
-                "Query is not using an index on table 'ada'.". $proposal,
+                "Query is not using an index on table 'ada'.".$proposal,
                 12,
             ],
             [
-                "Query is not using an index on table 'ada'.". $proposal,
+                "Query is not using an index on table 'ada'.".$proposal,
                 17,
             ],
             [
-                "Query is not using an index on table 'ada'.". $proposal,
+                "Query is not using an index on table 'ada'.".$proposal,
                 22,
             ],
         ]);
