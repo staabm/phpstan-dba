@@ -15,6 +15,7 @@ if (false === getenv('GITHUB_ACTION')) {
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 // $config->debugMode(true);
+$config->analyzeQueryPlans(true, 2);
 
 if (false === getenv('GITHUB_ACTION') && false === getenv('DBA_MODE')) {
     putenv('DBA_MODE=replay-and-recording');
