@@ -131,6 +131,7 @@ final class QueryPlanAnalyzerRule implements Rule
                             $table
                         ))
                         ->line($callLike->getLine())
+                        ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();
                 }
             } else {
@@ -152,6 +153,7 @@ final class QueryPlanAnalyzerRule implements Rule
                             $table
                         ))
                         ->line($callLike->getLine())
+                        ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();
                 }
             }
