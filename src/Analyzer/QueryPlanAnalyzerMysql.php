@@ -18,7 +18,7 @@ final class QueryPlanAnalyzerMysql
     /**
      * max number of rows in a table, for which we don't report errors, because using a index/table-scan wouldn't improve performance.
      */
-    public const DEFAULT_SMALL_TABLE_THRESHOLD = 1000;
+    public const DEFAULT_SMALL_TABLE_THRESHOLD = 0;
 
     /**
      * @var PDO|mysqli
