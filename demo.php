@@ -12,6 +12,10 @@ function demo(\PDO $pdo): void
         }
     }
 
+    // ---------- query plan analysis ----------
+
+    $pdo->query("SELECT * FROM `ada` WHERE email = 'test@example.com';");
+
     // ---------- in-depth query analysis ----------
 
 	$pdo->query('SELECT * FROM unknownTable', PDO::FETCH_ASSOC);
