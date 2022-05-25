@@ -18,26 +18,8 @@ jobs:
         include:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
-            reflector: "pdo-mysql"
-            mode: "recording"
-          - php-version: "8.0"
-            db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-
-          - php-version: "8.1"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
-          - php-version: '8.1'
-            db-image: 'mariadb:latest'
-            reflector: "mysqli"
-            mode: "recording"
-
-          - php-version: "8.1"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "replay-and-recording"
 
     env:
        DBA_REFLECTOR: ${{ matrix.reflector }}
@@ -73,43 +55,5 @@ jobs:
       - name: Setup mysql
         run: |
           mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
-
-      - run: composer phpstan
-
-  replay:
-    name: PHPStan (reflection replay)
-    runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php-version: "8.1"
-            reflector: "mysqli"
-            mode: "replay"
-          - php-version: "8.1"
-            reflector: "pdo-mysql"
-            mode: "replay"
-
-    env:
-       DBA_REFLECTOR: ${{ matrix.reflector }}
-       DBA_MODE: ${{ matrix.mode }}
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.client_payload.pull_request.head.ref }}
-
-      - name: Setup PHP
-        id: setup-php
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "${{ matrix.php-version }}"
-          coverage: none
-
-      - uses: "ramsey/composer-install@v2"
-        with:
-          composer-options: "--prefer-dist --no-progress"
 
       - run: composer phpstan
