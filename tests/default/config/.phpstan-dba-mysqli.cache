@@ -8,6 +8,7 @@
             FROM
                 ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -137,6 +138,7 @@
     ),
     'SELECT * FROM typemix' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1382,6 +1384,7 @@
     ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1593,6 +1596,7 @@
     'SELECT adaid 
 FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1720,6 +1724,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1820,6 +1825,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1883,6 +1889,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE NOWAIT' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1946,6 +1953,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE SKIP LOCKED' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2009,6 +2017,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2072,6 +2081,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2135,6 +2145,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2198,6 +2209,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2261,6 +2273,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2324,6 +2337,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2387,27 +2401,19 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:adaids)' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids)' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2471,6 +2477,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2534,6 +2541,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2597,6 +2605,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2660,6 +2669,7 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2723,6 +2733,7 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2786,6 +2797,7 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2849,13 +2861,11 @@ FROM ada' =>
     ),
     'SELECT count(*) AS c FROM typemix WHERE c_datetime=:last_dt' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2913,6 +2923,7 @@ FROM ada' =>
     ),
     'SELECT count(*) FROM typemix WHERE c_datetime = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2970,6 +2981,7 @@ FROM ada' =>
     ),
     'SELECT eladaid FROM ak' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3064,6 +3076,7 @@ FROM ada' =>
     'SELECT email 
 FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3179,6 +3192,7 @@ FROM ada' =>
     ),
     'SELECT email FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3274,13 +3288,10 @@ FROM ada' =>
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3445,6 +3456,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada LIMIT 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3542,6 +3554,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada LIMIT 1, 10' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3639,6 +3652,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3736,6 +3750,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3833,6 +3848,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3930,6 +3946,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 2' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4027,6 +4044,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 3' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4124,27 +4142,19 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ?' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE adaid IN(1,3)' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4242,13 +4252,11 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid=' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -4413,6 +4421,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4510,13 +4519,11 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email <=> :email' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4614,6 +4621,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4711,6 +4719,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4808,6 +4817,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'webmaster@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4905,27 +4915,19 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = :email' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE email = :test1 AND email = :test2' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE email = ?' => 
     array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
+      'error' => NULL,
     ),
     'SELECT email, adaid FROM ada WHERE email=\'foo\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5023,6 +5025,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5120,6 +5123,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5217,6 +5221,7 @@ FROM ada' =>
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
