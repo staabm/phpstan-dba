@@ -328,5 +328,8 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
+
+        // the cache requires to a populated 'error' item
+        $this->putValidationError($queryString, null);
     }
 }
