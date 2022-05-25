@@ -54,7 +54,7 @@ final class QueryPlanAnalyzerMysql
     }
 
     /**
-     * @param \IteratorAggregate<array-key, array{key: string|null, type: string|null, rows: positive-int, table: ?string}> $it
+     * @param \IteratorAggregate<array-key, array{select_type: string, key: string|null, type: string|null, rows: positive-int, table: ?string}> $it
      */
     private function buildResult($it): QueryPlanResult
     {
@@ -77,6 +77,12 @@ final class QueryPlanAnalyzerMysql
             }
 
             if (null === $row['key'] && $row['rows'] > $allowedRowsNotRequiringIndex) {
+                // derived table aka. a expression that generates a table within the scope of a query FROM clause
+                // is a temporary table, which indexes cannot be created for.
+                if (strtolower($row['select_type']) === 'derived') {
+                    continue;
+                }
+
                 $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
             } else {
                 if (null !== $row['type'] && 'all' === strtolower($row['type']) && $row['rows'] > $allowedRowsNotRequiringIndex) {
