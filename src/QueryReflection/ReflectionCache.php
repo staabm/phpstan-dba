@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v8-trim-queries';
+    public const SCHEMA_VERSION = 'v9-put-null-when-valid';
 
     /**
      * @var string
