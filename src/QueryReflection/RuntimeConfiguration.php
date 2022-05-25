@@ -45,7 +45,7 @@ final class RuntimeConfiguration
      */
     private $numberOfAllowedUnindexedReads = false;
     /**
-     * @var false|positive-int
+     * @var false|0|positive-int
      */
     private $numberOfRowsNotRequiringIndex = false;
 
@@ -112,7 +112,7 @@ final class RuntimeConfiguration
      * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis with QueryPlanAnalyzerMysql::DEFAULT_UNINDEXED_READS_THRESHOLD. `false` to disable analysis.
      *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient.
      *                                                           `0` disables the efficiency checks but still scans for queries not using an index.
-     * @param positive-int        $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index
+     * @param 0|positive-int      $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index
      *
      * @return $this
      */
@@ -133,7 +133,7 @@ final class RuntimeConfiguration
     }
 
     /**
-     * @return false|positive-int
+     * @return false|0|positive-int
      */
     public function getNumberOfRowsNotRequiringIndex()
     {
