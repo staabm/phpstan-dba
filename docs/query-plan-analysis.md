@@ -3,6 +3,8 @@
 Within your `phpstan-dba-bootstrap.php` file, you can optionally enable query plan analysis.
 When enabled, `phpstan-dba` will error when queries are not using indices or queries are inefficient.
 
+The analyzer is reporting problems related to queries not using index, full-table-scans and too many unindexed reads.
+
 Passing `true` will enable the feature:
 
 ```php
