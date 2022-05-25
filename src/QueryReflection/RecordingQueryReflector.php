@@ -7,7 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 
-final class RecordingQueryReflector implements QueryReflector
+final class RecordingQueryReflector implements QueryReflector, RecordingReflector
 {
     /**
      * @var ReflectionCache
@@ -53,5 +53,14 @@ final class RecordingQueryReflector implements QueryReflector
         );
 
         return $resultType;
+    }
+
+    public function getDatasource()
+    {
+        if ($this->reflector instanceof RecordingReflector) {
+            return $this->reflector->getDatasource();
+        }
+
+        return null;
     }
 }

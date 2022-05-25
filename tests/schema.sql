@@ -12,6 +12,12 @@ CREATE TABLE `ada` (
 ALTER TABLE `ada`
     ADD PRIMARY KEY (`adaid`);
 
+INSERT INTO `ada` (`adaid`, `gesperrt`, `email`, `freigabe1u1`)
+VALUES
+    (1, 0, 'test@example.com', 0),
+    (3, 0, 'test@example.com', 0),
+    (2, 1, 'another@example.com', 1);
+
 
 CREATE TABLE `ak` (
     `akid` int(11) NOT NULL DEFAULT '0',

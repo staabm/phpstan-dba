@@ -18,7 +18,7 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 /**
  * @phpstan-type ColumnMeta array{name: string, table: string, native_type: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: PDO::PARAM_* }
  */
-abstract class BasePdoQueryReflector implements QueryReflector
+abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflector
 {
     private const PSQL_SYNTAX_ERROR = '42601';
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
@@ -157,6 +157,11 @@ abstract class BasePdoQueryReflector implements QueryReflector
         }
 
         return $this->emulateFlags($nativeType, $tableName, $columnName);
+    }
+
+    public function getDatasource()
+    {
+        return $this->pdo;
     }
 
     /** @return PDOException|list<ColumnMeta>|null */

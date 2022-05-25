@@ -14,6 +14,8 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
+use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -406,5 +408,43 @@ final class QueryReflection
         }
 
         return [];
+    }
+
+    /**
+     * @return iterable<array-key, QueryPlanResult>
+     */
+    public function analyzeQueryPlan(Scope $scope, Expr $queryExpr, ?Type $parameterTypes): iterable
+    {
+        $reflector = self::reflector();
+
+        if (!$reflector instanceof RecordingReflector) {
+            throw new DbaException('Query plan analysis is only supported with a recording reflector');
+        }
+        if ($reflector instanceof PdoPgSqlQueryReflector) {
+            throw new DbaException('Query plan analysis is not yet supported with the pdo-pgsql reflector, see https://github.com/staabm/phpstan-dba/issues/378');
+        }
+
+        $ds = $reflector->getDatasource();
+        if (null === $ds) {
+            throw new DbaException(sprintf('Unable to create datasource from %s', \get_class($reflector)));
+        }
+        $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
+
+        $queryResolver = new QueryResolver();
+        foreach ($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
+            if ('' === $queryString) {
+                continue;
+            }
+
+            if ('SELECT' !== self::getQueryType($queryString)) {
+                continue;
+            }
+
+            if ($reflector->validateQueryString($queryString) instanceof Error) {
+                continue;
+            }
+
+            yield $queryPlanAnalyzer->analyze($queryString);
+        }
     }
 }

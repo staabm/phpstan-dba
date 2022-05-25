@@ -9,7 +9,7 @@ use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\Error;
 
-final class ReplayAndRecordingQueryReflector implements QueryReflector
+final class ReplayAndRecordingQueryReflector implements QueryReflector, RecordingReflector
 {
     private ReplayQueryReflector $replayReflector;
 
@@ -69,5 +69,10 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector
         } catch (CacheNotPopulatedException $e) {
             return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
         }
+    }
+
+    public function getDatasource()
+    {
+        return $this->createRecordingReflector()->getDatasource();
     }
 }

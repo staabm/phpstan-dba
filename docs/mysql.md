@@ -24,6 +24,7 @@ $cacheFile = __DIR__.'/.phpstan-dba.cache';
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
+// $config->analyzeQueryPlans(true);
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');

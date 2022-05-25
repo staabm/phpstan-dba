@@ -8,6 +8,7 @@ This extension provides the following features:
 
 * result set type-inferrence
 * inspect sql queries, detect errors and placeholder/bound value mismatches
+* query plan analysis to detect performance issues
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
 * API to configure the same features for your custom sql based database access layer
 
@@ -49,6 +50,7 @@ $cacheFile = __DIR__.'/.phpstan-dba.cache';
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
+// $config->analyzeQueryPlans(true);
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');
@@ -97,6 +99,7 @@ includes:
 
 - [Runtime configuration](https://github.com/staabm/phpstan-dba/blob/main/docs/configuration.md)
 - [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md)
+- [Query Plan Analysis](https://github.com/staabm/phpstan-dba/blob/main/docs/query-plan-analysis.md)
 - [Custom Query APIs Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
 - [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
 - [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)

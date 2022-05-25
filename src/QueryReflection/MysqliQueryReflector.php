@@ -15,7 +15,7 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\TypeMapping\MysqliTypeMapper;
 
-final class MysqliQueryReflector implements QueryReflector
+final class MysqliQueryReflector implements QueryReflector, RecordingReflector
 {
     private const MYSQL_SYNTAX_ERROR_CODE = 1064;
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
@@ -149,5 +149,10 @@ final class MysqliQueryReflector implements QueryReflector
         } finally {
             $this->db->rollback();
         }
+    }
+
+    public function getDatasource()
+    {
+        return $this->db;
     }
 }

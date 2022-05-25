@@ -23,6 +23,7 @@ $cacheFile = __DIR__.'/.phpstan-dba.cache';
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
+// $config->analyzeQueryPlans(true);
 
 QueryReflection::setupReflector(
     new ReplayQueryReflector(
