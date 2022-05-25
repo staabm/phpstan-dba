@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v8-trim-queries';
+    public const SCHEMA_VERSION = 'v9-put-null-when-valid';
 
     /**
      * @var string
@@ -328,5 +328,8 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
+
+        // the cache requires a populated 'error' item
+        $this->putValidationError($queryString, null);
     }
 }

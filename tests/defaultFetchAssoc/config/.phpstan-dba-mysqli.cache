@@ -1,10 +1,11 @@
 <?php return array (
-  'schemaVersion' => 'v8-trim-queries',
+  'schemaVersion' => 'v9-put-null-when-valid',
   'schemaHash' => NULL,
   'records' => 
   array (
     'SELECT email, adaid FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 

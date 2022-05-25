@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v8-trim-queries',
+  'schemaVersion' => 'v9-put-null-when-valid',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -10,6 +10,7 @@
                 INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
             WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -22,6 +23,7 @@
                 INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
             WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -34,6 +36,7 @@
                 INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
             WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -758,6 +761,7 @@
     ),
     'SELECT adaid FROM ada WHERE email=\'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -821,6 +825,7 @@
     ),
     'SELECT adaid FROM ada WHERE email=:email' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -848,6 +853,7 @@
     ),
     'SELECT email FROM ada WHERE gesperrt=:gesperrt' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -987,6 +993,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1084,6 +1091,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = :email' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1091,6 +1099,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = ?' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1098,6 +1107,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1105,6 +1115,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = \'email@example.org\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1112,6 +1123,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1119,6 +1131,7 @@
     ),
     'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1240,6 +1253,7 @@
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1811,6 +1825,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1964,6 +1979,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = :adaid' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1971,6 +1987,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = :asdsa' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -1978,6 +1995,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -2010,6 +2028,7 @@
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
