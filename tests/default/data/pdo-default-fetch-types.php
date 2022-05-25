@@ -10,9 +10,9 @@ class HelloWorld
     public function defaultFetchType(PDO $pdo, string $q): void
     {
         $stmt = $pdo->query($q);
-        assertType('PDOStatement<array<float|int|string>>', $stmt);
+        assertType('PDOStatement<array<float|int|string|null>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<float|int|string>', $row);
+            assertType('array<float|int|string|null>', $row);
         }
     }
 
@@ -37,27 +37,27 @@ class HelloWorld
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array<string, float|int|string>>', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<string, float|int|string>', $row);
+            assertType('array<string, float|int|string|null>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_NUM);
-        assertType('PDOStatement<array<int<0, max>, float|int|string>>', $stmt); // could be list
+        assertType('PDOStatement<array<int<0, max>, float|int|string|null>>', $stmt); // could be list
         foreach ($stmt as $row) {
-            assertType('array<int<0, max>, float|int|string>', $row);
+            assertType('array<int<0, max>, float|int|string|null>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_BOTH);
-        assertType('PDOStatement<array<float|int|string>>', $stmt);
+        assertType('PDOStatement<array<float|int|string|null>>', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<float|int|string>', $row);
+            assertType('array<float|int|string|null>', $row);
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_COLUMN);
-        assertType('PDOStatement', $stmt); // could be PDOStatement<float|int|string>
+        assertType('PDOStatement', $stmt); // could be PDOStatement<float|int|string|null>
         foreach ($stmt as $row) {
-            assertType('mixed', $row); // could be float|int|string
+            assertType('mixed', $row); // could be float|int|string|null
         }
     }
 }

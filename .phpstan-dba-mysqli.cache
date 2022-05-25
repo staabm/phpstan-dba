@@ -691,6 +691,10 @@ WHERE table_name = ?' =>
          'code' => 1054,
       )),
     ),
+    'SELECT email, adaid FROM ada WHERE adaid=1' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT email, adaid FROM ada WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
       'error' => NULL,
