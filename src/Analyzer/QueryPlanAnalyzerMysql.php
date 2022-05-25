@@ -15,6 +15,10 @@ final class QueryPlanAnalyzerMysql
      * number of unindexed reads allowed before a query is considered inefficient.
      */
     public const DEFAULT_UNINDEXED_READS_THRESHOLD = 100000;
+    /**
+     * max number of rows in a table, for which we don't report errors, because using a index/table-scan wouldn't improve performance.
+     */
+    public const DEFAULT_SMALL_TABLE_THRESHOLD = 1000;
 
     /**
      * @var PDO|mysqli
@@ -50,14 +54,19 @@ final class QueryPlanAnalyzerMysql
     }
 
     /**
-     * @param \IteratorAggregate<array-key, array{key: string|null, rows: positive-int, table: ?string}> $it
+     * @param \IteratorAggregate<array-key, array{key: string|null, type: string|null, rows: positive-int, table: ?string}> $it
      */
     private function buildResult($it): QueryPlanResult
     {
         $result = new QueryPlanResult();
-        $allowedUnindexedReads = QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads();
 
+        $allowedUnindexedReads = QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads();
         if (false === $allowedUnindexedReads) {
+            throw new ShouldNotHappenException();
+        }
+
+        $allowedRowsNotRequiringIndex = QueryReflection::getRuntimeConfiguration()->getNumberOfRowsNotRequiringIndex();
+        if (false === $allowedRowsNotRequiringIndex) {
             throw new ShouldNotHappenException();
         }
 
@@ -67,14 +76,15 @@ final class QueryPlanAnalyzerMysql
                 continue;
             }
 
-            if (null === $row['key']) {
+            if (null === $row['key'] && $row['rows'] > $allowedRowsNotRequiringIndex) {
                 $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
             } else {
-                if (true === $allowedUnindexedReads && $row['rows'] > self::DEFAULT_UNINDEXED_READS_THRESHOLD) {
-                    $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
-                }
-                if (\is_int($allowedUnindexedReads) && $row['rows'] > $allowedUnindexedReads) {
-                    $result->addRow($row['table'], QueryPlanResult::NOT_EFFICIENT);
+                if (null !== $row['type'] && 'all' === strtolower($row['type']) && $row['rows'] > $allowedRowsNotRequiringIndex) {
+                    $result->addRow($row['table'], QueryPlanResult::TABLE_SCAN);
+                } elseif (true === $allowedUnindexedReads && $row['rows'] > self::DEFAULT_UNINDEXED_READS_THRESHOLD) {
+                    $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
+                } elseif (\is_int($allowedUnindexedReads) && $row['rows'] > $allowedUnindexedReads) {
+                    $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
                 }
             }
         }

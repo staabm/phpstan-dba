@@ -7,7 +7,8 @@ namespace staabm\PHPStanDba\Analyzer;
 final class QueryPlanResult
 {
     public const NO_INDEX = 'no-index';
-    public const NOT_EFFICIENT = 'inefficient';
+    public const TABLE_SCAN = 'table-scan';
+    public const UNINDEXED_READS = 'unindexed-reads';
 
     /**
      * @var array<string, self::*>
@@ -42,11 +43,26 @@ final class QueryPlanResult
     /**
      * @return string[]
      */
-    public function getTablesNotEfficient(): array
+    public function getTablesDoingTableScan(): array
     {
         $tables = [];
         foreach ($this->result as $table => $result) {
-            if (self::NOT_EFFICIENT === $result) {
+            if (self::TABLE_SCAN === $result) {
+                $tables[] = $table;
+            }
+        }
+
+        return $tables;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTablesDoingUnindexedReads(): array
+    {
+        $tables = [];
+        foreach ($this->result as $table => $result) {
+            if (self::UNINDEXED_READS === $result) {
                 $tables[] = $table;
             }
         }

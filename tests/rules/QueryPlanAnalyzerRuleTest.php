@@ -16,6 +16,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads;
+    /**
+     * @var positive-int
+     */
+    private $numberOfRowsNotRequiringIndex;
 
     protected function tearDown(): void
     {
@@ -24,7 +28,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        QueryReflection::getRuntimeConfiguration()->analyzeQueryPlans($this->numberOfAllowedUnindexedReads);
+        QueryReflection::getRuntimeConfiguration()->analyzeQueryPlans($this->numberOfAllowedUnindexedReads, $this->numberOfRowsNotRequiringIndex);
 
         return self::getContainer()->getByType(QueryPlanAnalyzerRule::class);
     }
@@ -47,18 +51,28 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         }
 
         $this->numberOfAllowedUnindexedReads = true;
+        $this->numberOfRowsNotRequiringIndex = 2;
 
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
-                'Query plan analyzer: table "ada" is not using an index',
+                "Query is not using an index on table 'ada'.
+
+Consider optimizing the query.
+In some cases this is not a problem and this error should be ignored.",
                 12,
             ],
             [
-                'Query plan analyzer: table "ada" is not using an index',
+                "Query is not using an index on table 'ada'.
+
+Consider optimizing the query.
+In some cases this is not a problem and this error should be ignored.",
                 17,
             ],
             [
-                'Query plan analyzer: table "ada" is not using an index',
+                "Query is not using an index on table 'ada'.
+
+Consider optimizing the query.
+In some cases this is not a problem and this error should be ignored.",
                 22,
             ],
         ]);

@@ -118,24 +118,43 @@ final class QueryPlanAnalyzerRule implements Rule
             $parameterTypes = $scope->getType($args[1]->value);
         }
 
-        $errors = [];
+        $ruleErrors = [];
         $queryReflection = new QueryReflection();
+        $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
             if (\count($notUsingIndex) > 0) {
                 foreach ($notUsingIndex as $table) {
-                    $errors[] = sprintf('Query plan analyzer: table "%s" is not using an index', $table);
+                    $ruleErrors[] = RuleErrorBuilder::message(
+                        sprintf(
+                            "Query is not using an index on table '%s'.".$proposal,
+                            $table
+                        ))
+                        ->line($callLike->getLine())
+                        ->build();
                 }
             } else {
-                foreach ($queryPlanResult->getTablesNotEfficient() as $table) {
-                    $errors[] = sprintf('Query plan analyzer: inefficient index use in table "%s"', $table);
+                foreach ($queryPlanResult->getTablesDoingTableScan() as $table) {
+                    $ruleErrors[] = RuleErrorBuilder::message(
+                        sprintf(
+                            "Query is using a full-table-scan on table '%s'.".$proposal,
+                            $table
+                        ))
+                        ->line($callLike->getLine())
+                        ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/table-scan-avoidance.html')
+                        ->build();
+                }
+
+                foreach ($queryPlanResult->getTablesDoingUnindexedReads() as $table) {
+                    $ruleErrors[] = RuleErrorBuilder::message(
+                        sprintf(
+                        "Query is triggering too many unindexed-reads on table '%s'.".$proposal,
+                            $table
+                        ))
+                        ->line($callLike->getLine())
+                        ->build();
                 }
             }
-        }
-
-        $ruleErrors = [];
-        foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
         }
 
         return $ruleErrors;

@@ -44,6 +44,10 @@ final class RuntimeConfiguration
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
+    /**
+     * @var false|positive-int
+     */
+    private $numberOfRowsNotRequiringIndex = false;
 
     public static function create(): self
     {
@@ -105,15 +109,17 @@ final class RuntimeConfiguration
      *
      * Requires a active database connection.
      *
-     * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis. `false` to disable analysis.
-     *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient, see QueryPlanAnalyzerMysql::DEFAULT_UNINDEXED_READS_THRESHOLD.
+     * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis with QueryPlanAnalyzerMysql::DEFAULT_UNINDEXED_READS_THRESHOLD. `false` to disable analysis.
+     *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient.
      *                                                           `0` disables the efficiency checks but still scans for queries not using an index.
+     * @param positive-int        $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index
      *
      * @return $this
      */
-    public function analyzeQueryPlans($numberOfAllowedUnindexedReads = true): self
+    public function analyzeQueryPlans($numberOfAllowedUnindexedReads = true, $numberOfRowsNotRequiringIndex = QueryPlanAnalyzerMysql::DEFAULT_SMALL_TABLE_THRESHOLD): self
     {
         $this->numberOfAllowedUnindexedReads = $numberOfAllowedUnindexedReads;
+        $this->numberOfRowsNotRequiringIndex = $numberOfRowsNotRequiringIndex;
 
         return $this;
     }
@@ -124,6 +130,14 @@ final class RuntimeConfiguration
     public function getNumberOfAllowedUnindexedReads()
     {
         return $this->numberOfAllowedUnindexedReads;
+    }
+
+    /**
+     * @return false|positive-int
+     */
+    public function getNumberOfRowsNotRequiringIndex()
+    {
+        return $this->numberOfRowsNotRequiringIndex;
     }
 
     public function isDebugEnabled(): bool
