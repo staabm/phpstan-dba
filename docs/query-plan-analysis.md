@@ -5,6 +5,12 @@ When enabled, `phpstan-dba` will error when queries are not using indices or que
 
 The analyzer is reporting problems related to queries not using index, full-table-scans and too many unindexed reads.
 
+## Signature
+
+`analyzeQueryPlans($numberOfAllowedUnindexedReads = true, $numberOfRowsNotRequiringIndex = QueryPlanAnalyzerMysql::DEFAULT_SMALL_TABLE_THRESHOLD)`
+
+## Examples
+
 Passing `true` will enable the feature:
 
 ```php
