@@ -306,7 +306,7 @@ final class QueryReflection
         foreach ($parameters as $placeholderKey => $parameter) {
             $value = $parameter->simulatedValue;
 
-            if (\is_string($value)) {
+            if (\is_string($value) && !is_numeric($value)) {
                 // XXX escaping
                 $value = "'".$value."'";
             } elseif (null === $value) {
