@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\QueryReflection;
+namespace staabm\PHPStanDba\Analyzer;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
-final class QueryResolver
+final class QueryPlanQueryResolver
 {
     /**
      * @return iterable<string>
@@ -32,7 +34,11 @@ final class QueryResolver
         }
 
         foreach ($queryStrings as $queryString) {
-            yield $queryString;
+            $normalizedQuery = QuerySimulation::stripTrailers($queryString);
+
+            if (null !== $normalizedQuery) {
+                yield $normalizedQuery;
+            }
         }
     }
 }

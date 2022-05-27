@@ -8,6 +8,73 @@
             FROM
                 ada' => 
     array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT
+                adaid
+            FROM
+                ada' => 
+    array (
       'result' => 
       array (
         5 => 
@@ -71,7 +138,6 @@
     ),
     'SELECT * FROM typemix' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1317,7 +1383,6 @@
     ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1528,7 +1593,6 @@
     ),
     'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1650,6 +1714,71 @@
     'SELECT adaid 
 FROM ada' => 
     array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+        )),
+      ),
+    ),
+    'SELECT adaid 
+FROM ada' => 
+    array (
       'result' => 
       array (
         5 => 
@@ -1713,7 +1842,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1814,7 +1942,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1878,7 +2005,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE NOWAIT' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1942,7 +2068,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE SKIP LOCKED' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2006,7 +2131,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2070,7 +2194,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2134,7 +2257,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2198,7 +2320,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2388,7 +2509,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (1)' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2452,7 +2572,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (1) AND email LIKE \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2540,7 +2659,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE adaid IN (NULL) AND email LIKE \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2604,7 +2722,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2668,7 +2785,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2732,7 +2848,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2796,7 +2911,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2860,7 +2974,6 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2924,7 +3037,6 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2996,7 +3108,6 @@ FROM ada' =>
     ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3054,7 +3165,6 @@ FROM ada' =>
     ),
     'SELECT count(*) FROM typemix WHERE c_datetime = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3112,7 +3222,6 @@ FROM ada' =>
     ),
     'SELECT eladaid FROM ak' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3207,6 +3316,65 @@ FROM ada' =>
     'SELECT email 
 FROM ada' => 
     array (
+      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+        )),
+      ),
+    ),
+    'SELECT email 
+FROM ada' => 
+    array (
       'result' => 
       array (
         5 => 
@@ -3264,7 +3432,6 @@ FROM ada' =>
     ),
     'SELECT email FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3360,14 +3527,9 @@ FROM ada' =>
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3532,7 +3694,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3630,7 +3791,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada LIMIT 1, 10' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3922,7 +4082,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4020,7 +4179,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 1 and email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4118,7 +4276,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 2' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4216,7 +4373,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid = 3' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4338,7 +4494,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid IN(1,3)' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4444,7 +4599,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4609,7 +4763,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email <=> \'\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4715,7 +4868,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4813,7 +4965,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'email@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -4911,7 +5062,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5009,7 +5159,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email = \'webmaster@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5131,7 +5280,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email=\'foo\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5229,7 +5377,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5327,7 +5474,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -5425,7 +5571,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 

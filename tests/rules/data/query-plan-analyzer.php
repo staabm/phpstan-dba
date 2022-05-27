@@ -19,6 +19,7 @@ class Foo
 
     public function noindexPreparedDbal(Connection $conn, string $email): void
     {
+        $conn->executeQuery('SELECT * FROM ada WHERE email = ?', [$email]);
         $conn->executeQuery('SELECT * FROM ada WHERE email = ?  LIMIT 5 OFFSET 2', [$email]);
     }
 
@@ -35,6 +36,11 @@ class Foo
     public function indexed(PDO $pdo, int $adaid): void
     {
         $pdo->query('SELECT * FROM `ada` WHERE adaid = '.$adaid);
+    }
+
+    public function indexedPrepared(Connection $conn, int $adaidl): void
+    {
+        $conn->executeQuery('SELECT * FROM ada WHERE adaid = ?', [$adaidl]);
     }
 
     public function writes(PDO $pdo, int $adaid): void

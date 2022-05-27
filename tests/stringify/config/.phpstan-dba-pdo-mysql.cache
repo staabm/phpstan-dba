@@ -5,7 +5,6 @@
   array (
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -64,7 +63,7 @@
             )),
             2 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -90,7 +89,7 @@
             )),
             4 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -116,7 +115,7 @@
             )),
             6 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
