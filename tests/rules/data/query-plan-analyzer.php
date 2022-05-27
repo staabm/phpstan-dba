@@ -39,4 +39,10 @@ class Foo
         $pdo->query('REPLACE INTO `ada` SET email="test" WHERE adaid = '.$adaid);
         $pdo->query('DELETE FROM `ada` WHERE adaid = '.$adaid);
     }
+
+    public function bug385(PDO $pdo, string $email): void
+    {
+        $stmt = $pdo->query('SELECT * FROM `ada` WHERE email = ?');
+        $stmt->execute([$email]);
+    }
 }
