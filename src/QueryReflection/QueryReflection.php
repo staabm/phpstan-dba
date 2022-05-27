@@ -15,6 +15,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
+use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
@@ -430,7 +431,7 @@ final class QueryReflection
         }
         $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
 
-        $queryResolver = new QueryResolver();
+        $queryResolver = new QueryPlanQueryResolver();
         foreach ($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {
             if ('' === $queryString) {
                 continue;

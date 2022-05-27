@@ -124,7 +124,7 @@ final class QuerySimulation
 
     public static function simulate(string $queryString): ?string
     {
-        $queryString = self::stripTraillingLimit($queryString);
+        $queryString = self::stripTrailers($queryString);
 
         if (null === $queryString) {
             return null;
@@ -134,7 +134,7 @@ final class QuerySimulation
         return $queryString;
     }
 
-    private static function stripTraillingLimit(string $queryString): ?string
+    public static function stripTrailers(string $queryString): ?string
     {
         // XXX someday we will use a proper SQL parser
         $queryString = rtrim($queryString);
