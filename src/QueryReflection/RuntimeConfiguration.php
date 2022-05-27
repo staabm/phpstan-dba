@@ -112,7 +112,8 @@ final class RuntimeConfiguration
      * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis with QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD. `false` to disable analysis.
      *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient.
      *                                                           `0` disables the efficiency checks but still scans for queries not using an index.
-     * @param 0|positive-int      $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index
+     * @param 0|positive-int      $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index.
+     *                                                           for sane defaults see QueryPlanAnalyzer::TABLES_WITHOUT_DATA and QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD
      *
      * @return $this
      */
