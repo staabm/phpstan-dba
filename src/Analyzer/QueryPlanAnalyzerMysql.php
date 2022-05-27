@@ -12,13 +12,17 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 final class QueryPlanAnalyzerMysql
 {
     /**
-     * number of unindexed reads allowed before a query is considered inefficient.
+     * @deprecated use QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD instead.
      */
-    public const DEFAULT_UNINDEXED_READS_THRESHOLD = 100000;
+    public const DEFAULT_UNINDEXED_READS_THRESHOLD = QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD;
     /**
-     * max number of rows in a table, for which we don't report errors, because using a index/table-scan wouldn't improve performance.
+     * @deprecated use QueryPlanAnalyzer::TABLES_WITHOUT_DATA instead.
      */
-    public const DEFAULT_SMALL_TABLE_THRESHOLD = 0;
+    public const TABLES_WITHOUT_DATA = QueryPlanAnalyzer::TABLES_WITHOUT_DATA;
+    /**
+     * @deprecated use QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD instead.
+     */
+    public const DEFAULT_SMALL_TABLE_THRESHOLD = QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD;
 
     /**
      * @var PDO|mysqli
