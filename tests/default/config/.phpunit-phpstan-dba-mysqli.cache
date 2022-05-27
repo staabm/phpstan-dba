@@ -8,7 +8,6 @@
             FROM
                 ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1714,7 +1713,6 @@
     'SELECT adaid 
 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3316,7 +3314,6 @@ FROM ada' =>
     'SELECT email 
 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 

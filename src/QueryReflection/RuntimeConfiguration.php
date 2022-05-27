@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Php\PhpVersion;
-use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
+use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzer;
 
 final class RuntimeConfiguration
 {
@@ -109,14 +109,15 @@ final class RuntimeConfiguration
      *
      * Requires a active database connection.
      *
-     * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis with QueryPlanAnalyzerMysql::DEFAULT_UNINDEXED_READS_THRESHOLD. `false` to disable analysis.
+     * @param bool|0|positive-int $numberOfAllowedUnindexedReads `true` to enable analysis with QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD. `false` to disable analysis.
      *                                                           Otherwise the number of reads a query is allowed to execute, before it is considered inefficient.
      *                                                           `0` disables the efficiency checks but still scans for queries not using an index.
-     * @param 0|positive-int      $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index
+     * @param 0|positive-int      $numberOfRowsNotRequiringIndex number of reads a query is allowed to execute, without requiring a index.
+     *                                                           for sane defaults see QueryPlanAnalyzer::TABLES_WITHOUT_DATA and QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD
      *
      * @return $this
      */
-    public function analyzeQueryPlans($numberOfAllowedUnindexedReads = true, $numberOfRowsNotRequiringIndex = QueryPlanAnalyzerMysql::DEFAULT_SMALL_TABLE_THRESHOLD): self
+    public function analyzeQueryPlans($numberOfAllowedUnindexedReads = true, $numberOfRowsNotRequiringIndex = QueryPlanAnalyzer::TABLES_WITHOUT_DATA): self
     {
         $this->numberOfAllowedUnindexedReads = $numberOfAllowedUnindexedReads;
         $this->numberOfRowsNotRequiringIndex = $numberOfRowsNotRequiringIndex;
