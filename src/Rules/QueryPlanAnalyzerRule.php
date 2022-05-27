@@ -16,9 +16,12 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 
 /**
  * @implements Rule<CallLike>
+ *
+ * @see QueryPlanAnalyzerRuleTest
  */
 final class QueryPlanAnalyzerRule implements Rule
 {
