@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Analyzer;
 
-use mysqli;
-use PDO;
-use PHPStan\ShouldNotHappenException;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
-
 final class QueryPlanAnalyzer
 {
     /**

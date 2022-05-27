@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Php\PhpVersion;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzer;
-use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 
 final class RuntimeConfiguration
 {
