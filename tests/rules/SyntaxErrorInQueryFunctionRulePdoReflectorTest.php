@@ -46,4 +46,40 @@ class SyntaxErrorInQueryFunctionRulePdoReflectorTest extends RuleTestCase
             ],
         ]);
     }
+
+    public function testSyntaxErrorInPgsqlQueryRule(): void
+    {
+        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+            $this->markTestSkipped('Only works with PdoPgsqlQueryReflector');
+        }
+
+        require_once __DIR__.'/data/syntax-error-in-query-function.php';
+
+        $this->analyse([__DIR__.'/data/syntax-error-in-query-function.php'], [
+            [
+                <<<TEXT
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).
+TEXT,
+                9,
+            ],
+            [
+                <<<TEXT
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).
+TEXT,
+                19,
+            ],
+            [
+                <<<TEXT
+Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
+LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
+                                                             ^ (42703).
+TEXT,
+                39,
+            ],
+        ]);
+    }
 }
