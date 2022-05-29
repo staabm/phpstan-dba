@@ -50,7 +50,7 @@ class SyntaxErrorInQueryFunctionRulePdoReflectorTest extends RuleTestCase
     public function testSyntaxErrorInPgsqlQueryRule(): void
     {
         if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
-            $this->markTestSkipped('Only works with PdoMysqlQueryReflector');
+            $this->markTestSkipped('Only works with PdoPgsqlQueryReflector');
         }
 
         require_once __DIR__.'/data/syntax-error-in-query-function.php';
