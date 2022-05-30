@@ -51,3 +51,19 @@ services:
 ```
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
+
+## use `QueryPlanAnalyzerRule` for your custom classes
+
+Reuse the `QueryPlanAnalyzerRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
+
+    -
+        class: staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'myClass::query#0'
+                - 'anotherClass::takesAQuery#2'
+
+__the callable format is `class::method#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
+
+see also [Query Plan Analysis](https://github.com/staabm/phpstan-dba/blob/main/docs/query-plan-analysis.md)
