@@ -42,15 +42,17 @@ final class QueryPlanAnalyzerMysql
      */
     public function analyze(string $query): QueryPlanResult
     {
+        $simulatedQuery = 'EXPLAIN '.$query;
+
         if ($this->connection instanceof PDO) {
-            $stmt = $this->connection->query('EXPLAIN '.$query);
+            $stmt = $this->connection->query($simulatedQuery);
 
             // @phpstan-ignore-next-line
-            return $this->buildResult($stmt);
+            return $this->buildResult($simulatedQuery, $stmt);
         } else {
-            $result = $this->connection->query('EXPLAIN '.$query);
+            $result = $this->connection->query($simulatedQuery);
             if ($result instanceof \mysqli_result) {
-                return $this->buildResult($result);
+                return $this->buildResult($simulatedQuery, $result);
             }
         }
 
@@ -60,9 +62,9 @@ final class QueryPlanAnalyzerMysql
     /**
      * @param \IteratorAggregate<array-key, array{select_type: string, key: string|null, type: string|null, rows: positive-int, table: ?string}> $it
      */
-    private function buildResult($it): QueryPlanResult
+    private function buildResult(string $simulatedQuery, $it): QueryPlanResult
     {
-        $result = new QueryPlanResult();
+        $result = new QueryPlanResult($simulatedQuery);
 
         $allowedUnindexedReads = QueryReflection::getRuntimeConfiguration()->getNumberOfAllowedUnindexedReads();
         if (false === $allowedUnindexedReads) {

@@ -124,13 +124,19 @@ final class QueryPlanAnalyzerRule implements Rule
         $ruleErrors = [];
         $queryReflection = new QueryReflection();
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
+
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
+            $suffix = $proposal;
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                $suffix = $proposal."\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
+            }
+
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
             if (\count($notUsingIndex) > 0) {
                 foreach ($notUsingIndex as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is not using an index on table '%s'.".$proposal,
+                            "Query is not using an index on table '%s'.".$suffix,
                             $table
                         ))
                         ->line($callLike->getLine())
@@ -141,7 +147,7 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingTableScan() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is using a full-table-scan on table '%s'.".$proposal,
+                            "Query is using a full-table-scan on table '%s'.".$suffix,
                             $table
                         ))
                         ->line($callLike->getLine())
@@ -152,7 +158,7 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingUnindexedReads() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                        "Query is triggering too many unindexed-reads on table '%s'.".$proposal,
+                        "Query is triggering too many unindexed-reads on table '%s'.".$suffix,
                             $table
                         ))
                         ->line($callLike->getLine())

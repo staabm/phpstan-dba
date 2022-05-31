@@ -16,6 +16,21 @@ final class QueryPlanResult
     private $result = [];
 
     /**
+     * @var string
+     */
+    private $simulatedQuery;
+
+    public function __construct(string $simulatedQuery)
+    {
+        $this->simulatedQuery = $simulatedQuery;
+    }
+
+    public function getSimulatedQuery(): string
+    {
+        return $this->simulatedQuery;
+    }
+
+    /**
      * @param self::* $result
      *
      * @return void
