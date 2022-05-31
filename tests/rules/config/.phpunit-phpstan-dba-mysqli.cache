@@ -96,6 +96,7 @@
     ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -573,6 +574,10 @@
          'message' => 'Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
     array (
@@ -581,9 +586,14 @@
          'message' => 'Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT * FROM ada WHERE adaid = \'1\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -742,10 +752,13 @@
          'message' => 'Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1360,7 +1373,6 @@
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'  LIMIT \'27\' OFFSET \'15\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1830,6 +1842,10 @@
          'message' => 'Table \'phpstan_dba.unknown_table\' doesn\'t exist',
          'code' => 1146,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT *,adaid FROM `ada` WHERE email = \'test@example.com\'' => 
     array (
@@ -2008,7 +2024,6 @@
     ),
     'SELECT *,adaid FROM `ada` WHERE email = \'test@example.com\';' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2182,10 +2197,6 @@
 Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT FROM WHERE LIMIT 0' => 
     array (
@@ -2229,7 +2240,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT adaid FROM ada WHERE email=\'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2306,6 +2316,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'Unknown column \'doesNotExist\' in \'field list\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT email FROM ada WHERE adaid IN (\'1\')' => 
     array (
@@ -2367,6 +2381,11 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+        3 => NULL,
+      ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -2375,6 +2394,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'gesperrt freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT email, adaid
             FROM ada
@@ -2627,10 +2650,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'Unknown column \'xy\' in \'group statement\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2889,6 +2915,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid FROM ada WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2999,6 +3026,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
@@ -3010,6 +3041,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -3275,6 +3307,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  LIMIT 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3428,6 +3461,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3581,7 +3615,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3925,6 +3958,11 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'Unknown column \'asdsa\' in \'where clause\'',
          'code' => 1054,
       )),
+      'result' => 
+      array (
+        3 => NULL,
+        5 => NULL,
+      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=\'1\'' => 
     array (
@@ -3932,7 +3970,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
