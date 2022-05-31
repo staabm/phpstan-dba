@@ -91,7 +91,7 @@ final class QueryPlanAnalyzerMysql
             } else {
                 if (null !== $row['type'] && 'all' === strtolower($row['type']) && $row['rows'] >= $allowedRowsNotRequiringIndex) {
                     $result->addRow($row['table'], QueryPlanResult::TABLE_SCAN);
-                } elseif (true === $allowedUnindexedReads && $row['rows'] >= self::DEFAULT_UNINDEXED_READS_THRESHOLD) {
+                } elseif (true === $allowedUnindexedReads && $row['rows'] >= QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD) {
                     $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
                 } elseif (\is_int($allowedUnindexedReads) && $row['rows'] >= $allowedUnindexedReads) {
                     $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
