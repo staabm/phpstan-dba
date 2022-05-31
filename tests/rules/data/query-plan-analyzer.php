@@ -58,6 +58,11 @@ class Foo
 
     public function nonSimulatableQuery(Connection $conn, $email): void
     {
-        $conn->executeQuery('SELECT * FROM ada WHERE email = '.$email);
+        $conn->executeQuery('SELECT * FROM ada WHERE email = ' . $email);
+    }
+
+    public function unknownConstant(Connection $conn, int $adaidl): void
+    {
+        $conn->executeQuery('SELECT * FROM ada WHERE adaid = ?', [CONSTANT_DOES_NOT_EXIST]);
     }
 }
