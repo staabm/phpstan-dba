@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\Extensions;
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
 use Doctrine\DBAL\Result;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
@@ -90,6 +89,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         }
 
         $doctrineReflection = new DoctrineReflection();
+
         return $doctrineReflection->reduceResultType($methodReflection, $resultType);
     }
 }
