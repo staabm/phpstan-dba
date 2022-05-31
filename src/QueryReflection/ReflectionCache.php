@@ -241,7 +241,7 @@ final class ReflectionCache
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('error', $cacheEntry)) {
-            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
+            return null;
         }
 
         return $cacheEntry['error'];
