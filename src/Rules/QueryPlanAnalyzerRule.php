@@ -17,6 +17,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
  * @implements Rule<CallLike>
@@ -90,7 +91,13 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        return $this->analyze($callLike, $scope);
+        try {
+            return $this->analyze($callLike, $scope);
+        } catch (UnresolvableQueryException $exception) {
+            return [
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+            ];
+        }
     }
 
     /**

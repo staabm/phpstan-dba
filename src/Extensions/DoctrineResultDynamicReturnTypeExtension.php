@@ -18,6 +18,7 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineResultObjectType;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -55,6 +56,20 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             return $defaultReturn;
         }
 
+        try {
+            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
+            if (null !== $resultType) {
+                return $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
+        }
+
+        return $defaultReturn;
+    }
+
+    private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
+    {
         $resultType = $scope->getType($methodCall->var);
         if ('columncount' === strtolower($methodReflection->getName())) {
             if ($resultType instanceof DoctrineResultObjectType) {
@@ -70,16 +85,11 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
                 }
             }
 
-            return $defaultReturn;
+            return null;
         }
 
         $doctrineReflection = new DoctrineReflection();
-        $fetchResultType = $doctrineReflection->reduceResultType($methodReflection, $resultType);
 
-        if (null !== $fetchResultType) {
-            return $fetchResultType;
-        }
-
-        return $defaultReturn;
+        return $doctrineReflection->reduceResultType($methodReflection, $resultType);
     }
 }

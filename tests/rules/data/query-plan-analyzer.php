@@ -50,4 +50,14 @@ class Foo
         $pdo->query('REPLACE INTO `ada` SET email="test" WHERE adaid = '.$adaid);
         $pdo->query('DELETE FROM `ada` WHERE adaid = '.$adaid);
     }
+
+    public function unknownQuery(Connection $conn, string $query): void
+    {
+        $conn->executeQuery($query);
+    }
+
+    public function nonSimulatableQuery(Connection $conn, $email): void
+    {
+        $conn->executeQuery('SELECT * FROM ada WHERE email = '.$email);
+    }
 }

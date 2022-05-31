@@ -20,6 +20,7 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -56,9 +57,13 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
-        $stringType = $this->inferType($methodCall, $scope);
-        if (null !== $stringType) {
-            return $stringType;
+        try {
+            $stringType = $this->inferType($methodCall, $scope);
+            if (null !== $stringType) {
+                return $stringType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;

@@ -241,7 +241,7 @@ final class ReflectionCache
 
         $cacheEntry = $this->records[$queryString];
         if (!\array_key_exists('error', $cacheEntry)) {
-            throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
+            return null;
         }
 
         return $cacheEntry['error'];
@@ -328,8 +328,5 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
-
-        // the cache requires a populated 'error' item
-        $this->putValidationError($queryString, null);
     }
 }

@@ -66,12 +66,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         try {
             $resultType = $this->inferResultType($args[1]->value, $scope);
+            if (null !== $resultType) {
+                return $resultType;
+            }
         } catch (UnresolvableQueryException $e) {
-            return $defaultReturn;
-        }
-
-        if (null !== $resultType) {
-            return $resultType;
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;
@@ -96,12 +95,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
 
         try {
             $resultType = $this->inferResultType($args[0]->value, $scope);
+            if (null !== $resultType) {
+                return $resultType;
+            }
         } catch (UnresolvableQueryException $e) {
-            return $defaultReturn;
-        }
-
-        if (null !== $resultType) {
-            return $resultType;
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;
