@@ -88,6 +88,11 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 28,
                 $tip,
             ],
+            [
+                "Query is not using an index on table 'ada'.".$proposal,
+                56,
+                $tip,
+            ],
         ]);
     }
 
