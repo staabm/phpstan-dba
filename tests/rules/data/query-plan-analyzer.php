@@ -61,7 +61,7 @@ class Foo
         $conn->executeQuery('SELECT * FROM ada WHERE email = ' . $email);
     }
 
-    public function unknownConstant(Connection $conn, int $adaidl): void
+    public function unknownConstant(Connection $conn): void
     {
         $conn->executeQuery('SELECT * FROM ada WHERE adaid = ?', [CONSTANT_DOES_NOT_EXIST]);
     }
