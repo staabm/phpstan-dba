@@ -5,7 +5,6 @@
   array (
     'SELECT email, adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 

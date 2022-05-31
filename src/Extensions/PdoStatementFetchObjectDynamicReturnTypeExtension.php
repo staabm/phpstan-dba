@@ -16,6 +16,7 @@ use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementFetchObjectDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -43,9 +44,13 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
     {
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-        if (null !== $resultType) {
-            $returnType = $resultType;
+        try {
+            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
+            if (null !== $resultType) {
+                $returnType = $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         return $returnType;

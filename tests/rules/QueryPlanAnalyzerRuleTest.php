@@ -134,6 +134,11 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 28,
                 $tip,
             ],
+            [
+                'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
+                61,
+                'Make sure all variables involved have a non-mixed type and array-types are specified.',
+            ],
         ]);
     }
 }

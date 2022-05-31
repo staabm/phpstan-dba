@@ -17,6 +17,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class DoctrineConnectionFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -71,9 +72,13 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
             $params = $args[1]->value;
         }
 
-        $resultType = $this->inferType($methodReflection, $args[0]->value, $params, $scope);
-        if (null !== $resultType) {
-            return $resultType;
+        try {
+            $resultType = $this->inferType($methodReflection, $args[0]->value, $params, $scope);
+            if (null !== $resultType) {
+                return $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;

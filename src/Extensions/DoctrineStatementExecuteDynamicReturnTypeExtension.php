@@ -18,6 +18,7 @@ use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class DoctrineStatementExecuteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -49,9 +50,13 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
             return $defaultReturn;
         }
 
-        $resultType = $this->inferType($methodReflection, $methodCall, $args[0]->value, $scope);
-        if (null !== $resultType) {
-            return $resultType;
+        try {
+            $resultType = $this->inferType($methodReflection, $methodCall, $args[0]->value, $scope);
+            if (null !== $resultType) {
+                return $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;

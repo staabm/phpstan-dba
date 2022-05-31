@@ -23,6 +23,7 @@ use PHPStan\Type\TypeCombinator;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
+use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
@@ -56,9 +57,13 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
     {
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
-        $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-        if (null !== $resultType) {
-            $returnType = $resultType;
+        try {
+            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
+            if (null !== $resultType) {
+                $returnType = $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         // fetchAll() can return false prior to php8

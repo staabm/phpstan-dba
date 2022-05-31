@@ -67,12 +67,11 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
         try {
             $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
-        } catch (UnresolvableQueryException $e) {
-            return $defaultReturn;
-        }
-
-        if (null !== $resultType) {
-            return $resultType;
+            if (null !== $resultType) {
+                return $resultType;
+            }
+        } catch (UnresolvableQueryException $exception) {
+            // simulation not possible.. use default value
         }
 
         return $defaultReturn;
