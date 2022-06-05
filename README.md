@@ -22,7 +22,7 @@ At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically 
 
 see the ['Files Changed' tab of the DEMO-PR](https://github.com/staabm/phpstan-dba/pull/61/files#diff-98a3c43049f6a0c859c0303037d9773534396533d7890bad187d465d390d634e) for a quick glance.
 
-## Support phpstan-dba
+## 💌 Support phpstan-dba
 
 [Consider supporting the project](https://github.com/sponsors/staabm), so we can make this tool even better even faster for everyone.
 
