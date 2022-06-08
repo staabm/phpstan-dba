@@ -92,7 +92,7 @@ final class QueryPlanAnalyzerMysql
                 $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
             } else {
                 // don't analyse maybe existing data, to make the result consistent with empty db schemas
-                if ($allowedRowsNotRequiringIndex === QueryPlanAnalyzer::TABLES_WITHOUT_DATA) {
+                if (QueryPlanAnalyzer::TABLES_WITHOUT_DATA === $allowedRowsNotRequiringIndex) {
                     continue;
                 }
 
