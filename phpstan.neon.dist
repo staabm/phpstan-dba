@@ -1,12 +1,11 @@
 includes:
-    - config/stubFiles.neon
-    - config/extensions.neon
+    - config/dba.neon
 
 parameters:
     level: max
 
     paths:
-        - src/
+        - demo.php
 
     bootstrapFiles:
         - bootstrap.php
