@@ -77,7 +77,7 @@ final class QueryPlanAnalyzerMysql
         }
 
         foreach ($it as $row) {
-            // we cannot analyse tables without rows -> mysql will just return 'no matching row in const table'
+            // mysql might return 'no matching row in const table'
             if (null === $row['table']) {
                 continue;
             }
@@ -91,6 +91,11 @@ final class QueryPlanAnalyzerMysql
 
                 $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
             } else {
+                // don't analyse maybe existing data, to make the result consistent with empty db schemas
+                if (QueryPlanAnalyzer::TABLES_WITHOUT_DATA === $allowedRowsNotRequiringIndex) {
+                    continue;
+                }
+
                 if (null !== $row['type'] && 'all' === strtolower($row['type']) && $row['rows'] >= $allowedRowsNotRequiringIndex) {
                     $result->addRow($row['table'], QueryPlanResult::TABLE_SCAN);
                 } elseif (true === $allowedUnindexedReads && $row['rows'] >= QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD) {
