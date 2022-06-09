@@ -127,7 +127,7 @@ final class ReflectionCache
     private function readCachedRecords(bool $useReadLock): ?array
     {
         if (!is_file($this->cacheFile)) {
-            if (false === file_put_contents($this->cacheFile, '')) {
+            if (false === file_put_contents($this->cacheFile, '', LOCK_EX)) {
                 throw new DbaException(sprintf('Cache file "%s" is not readable and creating a new one did not succeed.', $this->cacheFile));
             }
         }
@@ -202,7 +202,7 @@ final class ReflectionCache
                     'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
                 ], true).';';
 
-            if (false === file_put_contents($this->cacheFile, $cacheContent)) {
+            if (false === file_put_contents($this->cacheFile, $cacheContent, LOCK_EX)) {
                 throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
             }
 
