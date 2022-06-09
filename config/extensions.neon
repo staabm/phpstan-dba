@@ -86,7 +86,7 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
-	-
-		class: staabm\PHPStanDba\Ast\NodeConnectingVisitor
-		tags:
-			- phpstan.parser.richParserNodeVisitor
+    -
+        class: staabm\PHPStanDba\Ast\NodeConnectingVisitor
+        tags:
+        	- phpstan.parser.richParserNodeVisitor
