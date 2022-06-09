@@ -20,6 +20,12 @@ jobs:
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
+            phpstan-version: "@dev"
+
+          - php-version: "8.0"
+            db-image: 'mysql:8.0'
+            reflector: "pdo-mysql"
+            mode: "recording"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
@@ -69,6 +75,11 @@ jobs:
       - uses: "ramsey/composer-install@v2"
         with:
           composer-options: "--prefer-dist --no-progress"
+
+      - name: Enable phpstan@dev
+        if: "${{matrix.phpstan-version != ''}}"
+        run: |
+          composer update phpstan/phpstan:@dev
 
       - name: Setup mysql
         run: |
