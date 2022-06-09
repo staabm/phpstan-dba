@@ -15,7 +15,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class ExpressionFinder
 {
-
     private NodeFinder $nodeFinder;
 
     public function __construct()

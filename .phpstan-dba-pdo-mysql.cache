@@ -179,7 +179,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -192,7 +192,7 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -240,14 +240,14 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\StringType::__set_state(array(
               )),
               2 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -279,7 +279,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -316,14 +316,14 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\StringType::__set_state(array(
               )),
               2 => 
               PHPStan\Type\NullType::__set_state(array(
