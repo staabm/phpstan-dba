@@ -113,7 +113,7 @@ final class ExpressionFinder
     private function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
     {
         // move to previous expression
-        $previousStatement = $node->getAttribute(NodeConnectingVisitor::ATTRIBUTE_PREVIOUS);
+        $previousStatement = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PREVIOUS);
         if (null !== $previousStatement) {
             if (!$previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
@@ -127,7 +127,7 @@ final class ExpressionFinder
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
         }
 
-        $parent = $node->getAttribute(NodeConnectingVisitor::ATTRIBUTE_PARENT);
+        $parent = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PARENT);
         if ($parent instanceof FunctionLike) {
             return null;
         }

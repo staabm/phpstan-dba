@@ -10,7 +10,7 @@ use function array_pop;
 use function count;
 use function get_class;
 
-final class NodeConnectingVisitor extends NodeVisitorAbstract
+final class PreviousConnectingVisitor extends NodeVisitorAbstract
 {
     const ATTRIBUTE_PARENT = 'dba-parent';
     const ATTRIBUTE_PREVIOUS = 'dba-previous';
