@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\QueryReflection;
+namespace staabm\PHPStanDba\Ast;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -15,20 +15,6 @@ use PHPStan\ShouldNotHappenException;
 
 final class ExpressionFinder
 {
-    /**
-     * Do not change, part of internal PHPStan naming.
-     *
-     * @var string
-     */
-    private const PREVIOUS = 'previous';
-
-    /**
-     * Convention key name in php-parser and PHPStan for parent node.
-     *
-     * @var string
-     */
-    private const PARENT = 'parent';
-
     private NodeFinder $nodeFinder;
 
     public function __construct()
@@ -119,12 +105,14 @@ final class ExpressionFinder
     }
 
     /**
+     * XXX At best, this method would be implemented in NodeConnectingVisitor, and the 'firstPreviousAssign' would be directly available.
+     *
      * @param callable(Node $node):bool $filter
      */
     private function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
     {
         // move to previous expression
-        $previousStatement = $node->getAttribute(self::PREVIOUS);
+        $previousStatement = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PREVIOUS);
         if (null !== $previousStatement) {
             if (!$previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
@@ -138,7 +126,7 @@ final class ExpressionFinder
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
         }
 
-        $parent = $node->getAttribute(self::PARENT);
+        $parent = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PARENT);
         if ($parent instanceof FunctionLike) {
             return null;
         }
