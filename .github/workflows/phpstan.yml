@@ -76,7 +76,7 @@ jobs:
         with:
           composer-options: "--prefer-dist --no-progress"
 
-      -
+      - name: Enable phpstan@dev
         if: "${{matrix.phpstan-version != ''}}"
         run: |
           composer update phpstan/phpstan:@dev
