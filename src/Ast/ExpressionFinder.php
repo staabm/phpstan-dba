@@ -106,6 +106,8 @@ final class ExpressionFinder
     }
 
     /**
+     * XXX At best, this method would be implemented in NodeConnectingVisitor, and the 'firstPreviousAssign' would be directly available.
+     *
      * @param callable(Node $node):bool $filter
      */
     private function findFirstPreviousOfNode(Node $node, callable $filter): ?Node

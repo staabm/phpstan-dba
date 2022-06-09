@@ -14,7 +14,7 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
 {
     const ATTRIBUTE_PARENT = 'dba-parent';
     const ATTRIBUTE_PREVIOUS = 'dba-previous';
-    
+
     /**
      * @var Node[]
      */
@@ -28,6 +28,8 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
     public function beforeTraverse(array $nodes) {
         $this->stack    = [];
         $this->previous = null;
+
+        return null;
     }
 
     public function enterNode(Node $node) {
@@ -40,11 +42,15 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
         }
 
         $this->stack[] = $node;
+
+        return null;
     }
 
     public function leaveNode(Node $node) {
         $this->previous = $node;
 
         array_pop($this->stack);
+
+        return null;
     }
 }
