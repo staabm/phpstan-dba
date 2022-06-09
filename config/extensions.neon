@@ -1,3 +1,6 @@
+includes:
+	- ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 services:
     -
         class: staabm\PHPStanDba\Extensions\DoctrineConnectionQueryDynamicReturnTypeExtension
@@ -54,7 +57,7 @@ services:
         tags:
         	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
 
-    -     
+    -
         class: staabm\PHPStanDba\Extensions\PdoStatementFetchObjectDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
