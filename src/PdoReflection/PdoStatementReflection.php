@@ -13,7 +13,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
-use staabm\PHPStanDba\QueryReflection\ExpressionFinder;
+use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 

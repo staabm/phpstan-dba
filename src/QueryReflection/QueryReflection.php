@@ -17,6 +17,7 @@ use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
+use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\UnresolvableQueryException;

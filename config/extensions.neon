@@ -54,7 +54,7 @@ services:
         tags:
         	- phpstan.typeSpecifier.methodTypeSpecifyingExtension
 
-    -     
+    -
         class: staabm\PHPStanDba\Extensions\PdoStatementFetchObjectDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
@@ -85,3 +85,8 @@ services:
         class: staabm\PHPStanDba\Extensions\PdoQuoteDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+	-
+		class: staabm\PHPStanDba\Ast\NodeConnectingVisitor
+		tags:
+			- phpstan.parser.richParserNodeVisitor
