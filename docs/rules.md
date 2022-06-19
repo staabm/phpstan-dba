@@ -1,6 +1,6 @@
-# Advanced Usage / Re-Using `phpstandba` PHPStan for custom query APIs
+# Advanced Usage / Re-Using `phpstan-dba` PHPStan for custom query APIs
 
-For custom/non-standard query APIs the PHPStan rules shipped with `phpstandba` can be configured.
+For custom/non-standard query APIs the PHPStan rules shipped with `phpstan-dba` can be configured.
 
 ## use `SyntaxErrorInPreparedStatementMethodRule` for your custom classes
 
