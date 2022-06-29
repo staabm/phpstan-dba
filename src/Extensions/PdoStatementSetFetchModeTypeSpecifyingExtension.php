@@ -18,7 +18,10 @@ use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-    private TypeSpecifier $typeSpecifier;
+    /**
+     * @var TypeSpecifier
+     */
+    private $typeSpecifier;
 
     public function getClass(): string
     {

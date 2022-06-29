@@ -25,6 +25,10 @@ class SyntaxErrorInQueryFunctionRulePdoReflectorTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('Test requires PHP 7.4.');
+        }
+
         if ('pdo-mysql' !== getenv('DBA_REFLECTOR')) {
             $this->markTestSkipped('Only works with PdoMysqlQueryReflector');
         }
