@@ -50,7 +50,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     /**
      * @var array<string, PDOException|list<ColumnMeta>|null>
      */
-    protected array $cache = [];
+    protected $cache = [];
 
     protected TypeMapper $typeMapper;
 
