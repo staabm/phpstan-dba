@@ -52,16 +52,24 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
      */
     protected $cache = [];
 
-    protected TypeMapper $typeMapper;
+    /**
+     * @var TypeMapper
+     */
+    protected $typeMapper;
 
-    // @phpstan-ignore-next-line
-    protected ?PDOStatement $stmt = null;
+    /**
+     * @var PDOStatement|null
+     */
+    protected ?PDOStatement $stmt = null; @phpstan-ignore-line
     /**
      * @var array<string, array<string, list<string>>>
      */
-    protected array $emulatedFlags = [];
+    protected $emulatedFlags = [];
 
-    protected PDO $pdo;
+    /**
+     * @var PDO
+     */
+    protected $pdo;
 
     public function __construct(PDO $pdo, TypeMapper $typeMapper)
     {

@@ -10,12 +10,15 @@ use PHPStan\Type\Type;
 final class MysqliTypeMapper
 {
     /** @var array<int, string> */
-    private array $nativeTypes = [];
+    private $nativeTypes = [];
 
     /** @var array<int, string> */
-    private array $nativeFlags = [];
+    private $nativeFlags = [];
 
-    private MysqlTypeMapper $typeMapper;
+    /**
+     * @var MysqlTypeMapper
+     */
+    private $typeMapper;
 
     public function __construct()
     {
