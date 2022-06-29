@@ -18,7 +18,7 @@ jobs:
         include:
           - php-version: "7.3"
             db-image: 'mysql:8.0'
-            reflector: "pdo"
+            reflector: "pdo-mysql"
             mode: "recording"
           - php-version: "7.4"
             db-image: 'mysql:8.0'
