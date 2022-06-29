@@ -28,7 +28,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
         if (PHP_VERSION_ID < 70400) {
             self::markTestSkipped('Test requires PHP 7.4.');
         }
-        
+
         if ('mysqli' === getenv('DBA_REFLECTOR')) {
             $expected = [
                 [
