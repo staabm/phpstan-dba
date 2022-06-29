@@ -59,8 +59,9 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
 
     /**
      * @var PDOStatement|null
+     * @phpstan-ignore-next-line
      */
-    protected ?PDOStatement $stmt = null; @phpstan-ignore-line
+    protected $stmt = null;
     /**
      * @var array<string, array<string, list<string>>>
      */
