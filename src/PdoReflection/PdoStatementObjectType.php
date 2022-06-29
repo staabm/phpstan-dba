@@ -25,7 +25,10 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 class PdoStatementObjectType extends GenericObjectType
 {
-    private Type $bothType;
+    /**
+     * @var Type
+     */
+    private $bothType;
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType

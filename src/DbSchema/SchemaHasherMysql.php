@@ -15,7 +15,10 @@ final class SchemaHasherMysql
      */
     private $connection;
 
-    private ?string $hash = null;
+    /**
+     * @var string|null
+     */
+    private $hash = null;
 
     /**
      * @param PDO|mysqli $connection
