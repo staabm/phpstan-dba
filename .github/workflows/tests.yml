@@ -16,10 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: "7.2"
-            db-image: 'mysql:8.0'
-            reflector: "pdo"
-            mode: "recording"
           - php-version: "7.3"
             db-image: 'mysql:8.0'
             reflector: "pdo"
