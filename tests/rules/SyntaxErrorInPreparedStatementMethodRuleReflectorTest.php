@@ -4,6 +4,9 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoMysqlQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoPgSqlQueryReflector;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 
 /**
