@@ -4,6 +4,9 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoMysqlQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoPgSqlQueryReflector;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 
 /**
@@ -29,7 +32,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
             self::markTestSkipped('Test requires PHP 7.4.');
         }
 
-        if ('mysqli' === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
                 [
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
@@ -80,7 +83,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     118,
                 ],
             ];
-        } elseif ('pdo-mysql' === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
@@ -131,7 +134,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     118,
                 ],
             ];
-        } elseif ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
