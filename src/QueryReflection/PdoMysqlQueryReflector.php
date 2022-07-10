@@ -19,6 +19,8 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
  */
 class PdoMysqlQueryReflector extends BasePdoQueryReflector
 {
+    public const NAME = 'pdo-mysql';
+
     public function __construct(PDO $pdo)
     {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
