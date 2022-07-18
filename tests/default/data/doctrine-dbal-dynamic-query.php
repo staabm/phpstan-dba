@@ -6,10 +6,10 @@ use Doctrine\DBAL\Connection;
 use function PHPStan\Testing\assertType;
 
 class Foo {
-    public function fetchOneWithDynamicQueryPart(Connection $conn)
+    public function fetchOneWithDynamicQueryPart(Connection $conn, string $email)
     {
-        $query = 'SELECT email, adaid FROM ada WHERE email != "" AND '.$this->dynamicWhere(rand(0,100));
-        $fetchResult = $conn->fetchOne($query, []);
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhere(rand(0,100));
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
         assertType('string|false', $fetchResult);
     }
 
