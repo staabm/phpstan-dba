@@ -15,6 +15,8 @@ class Foo {
 
     /**
      * simulating a dynamic where part, not relevant for the query overall result
+     *
+     * @return '1=1'
      */
     private function dynamicWhere(int $i) {
         $where = ['1=1'];
