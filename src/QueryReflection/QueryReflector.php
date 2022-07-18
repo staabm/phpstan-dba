@@ -16,6 +16,8 @@ interface QueryReflector
     public const FETCH_TYPE_COLUMN = 7;
     public const FETCH_TYPE_CLASS = 8;
 
+    public const UNRELEVANT_QUERY_PART = '1=1';
+
     public function validateQueryString(string $queryString): ?Error;
 
     /**

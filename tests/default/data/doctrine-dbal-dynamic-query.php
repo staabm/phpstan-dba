@@ -3,6 +3,7 @@
 namespace DoctrineDbalDynamicQueryTest;
 
 use Doctrine\DBAL\Connection;
+use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use function PHPStan\Testing\assertType;
 
 class Foo {
@@ -16,7 +17,7 @@ class Foo {
     /**
      * simulating a dynamic where part, not relevant for the query overall result
      *
-     * @return '1=1'
+     * @return QueryReflector::UNRELEVANT_QUERY_PART
      */
     private function dynamicWhere(int $i) {
         $where = ['1=1'];
@@ -25,6 +26,7 @@ class Foo {
             $where[] = 'adaid = '.$i.'';
         }
 
+        // @phpstan-ignore-next-line
         return implode(' AND ', $where);
     }
 }
