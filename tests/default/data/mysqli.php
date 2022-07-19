@@ -12,9 +12,15 @@ class Foo
         $result = $mysqli->query('SELECT email, adaid FROM ada');
         assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
 
+        $field = 'email';
+        if (rand(0, 1)) {
+            $field = 'adaid';
+        }
+
         foreach ($result as $row) {
             assertType('int<-32768, 32767>', $row['adaid']);
             assertType('string', $row['email']);
+            assertType('int<-32768, 32767>|string', $row[$field]);
         }
     }
 
