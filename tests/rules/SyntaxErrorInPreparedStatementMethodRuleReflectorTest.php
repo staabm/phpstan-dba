@@ -212,15 +212,15 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    "Unknown column 'does_not_exist' in 'field list' (1054).",
                     12,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    "Unknown column 'does_not_exist' in 'field list' (1054).",
                     36,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND email='test@example.com' LIMIT 0' at line 1 (1064).",
+                    "Unknown column 'does_not_exist' in 'field list' (1054).",
                     60,
                 ],
             ];

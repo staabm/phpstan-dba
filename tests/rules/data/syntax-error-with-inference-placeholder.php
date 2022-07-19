@@ -8,7 +8,7 @@ class Foo
 {
     public function syntaxErrorSingleQuoted(Connection $connection, string $email)
     {
-        $query = 'SELECT email,, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhereSingleQuoted(rand(0, 100));
+        $query = 'SELECT email, does_not_exist FROM ada WHERE email = :email AND '.$this->dynamicWhereSingleQuoted(rand(0, 100));
         $connection->preparedQuery($query, ['email' => $email]);
     }
 
@@ -32,7 +32,7 @@ class Foo
 
     public function syntaxErrorDoubleQuoted(Connection $connection, string $email)
     {
-        $query = 'SELECT email,, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhereDoubleQuoted(rand(0, 100));
+        $query = 'SELECT email, does_not_exist adaid FROM ada WHERE email = :email AND '.$this->dynamicWhereDoubleQuoted(rand(0, 100));
         $connection->preparedQuery($query, ['email' => $email]);
     }
 
@@ -56,7 +56,7 @@ class Foo
 
     public function syntaxErrorMixedQuoted(Connection $connection, string $email)
     {
-        $query = 'SELECT email,, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhereMixedQuoted(rand(0, 100));
+        $query = 'SELECT email, does_not_exist adaid FROM ada WHERE email = :email AND '.$this->dynamicWhereMixedQuoted(rand(0, 100));
         $connection->preparedQuery($query, ['email' => $email]);
     }
 
