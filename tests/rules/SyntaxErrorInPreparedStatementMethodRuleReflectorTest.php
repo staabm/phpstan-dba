@@ -200,7 +200,71 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         }
 
         require_once __DIR__.'/data/syntax-error-in-prepared-statement.php';
-
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
+    }
+
+    public function testSyntaxErrorWithInferencePlaceholder()
+    {
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('Test requires PHP 7.4.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    12,
+                ],
+                [
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    36,
+                ],
+                [
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    60,
+                ],
+            ];
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
+                    12,
+                ],
+                [
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
+                    36,
+                ],
+                [
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
+                    60,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
+                    12,
+                ],
+                [
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
+                    36,
+                ],
+                [
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
+                    60,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+        }
+
+        require_once __DIR__.'/data/syntax-error-with-inference-placeholder.php';
+        $this->analyse([__DIR__.'/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
     }
 }

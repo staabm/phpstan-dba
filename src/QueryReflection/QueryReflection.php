@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -186,6 +187,27 @@ final class QueryReflection
      */
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
     {
+        if ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
+            $classReflection = $scope->getClassReflection();
+
+            // XXX atm we only support inference-placeholder for method calls within the same class
+            if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
+                $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
+
+                // atm no resolved phpdoc for methods
+                // see https://github.com/phpstan/phpstan/discussions/7657
+                $phpDocString = $methodReflection->getDocComment();
+                if (null !== $phpDocString && preg_match('/@phpstandba-inference-placeholder\s+(.+)$/m', $phpDocString, $matches)) {
+                    $placeholder = $matches[1];
+
+                    if (\in_array($placeholder[0], ['"', "'"], true)) {
+                        $placeholder = trim($placeholder, $placeholder[0]);
+                    }
+
+                    return $placeholder;
+                }
+            }
+        }
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;

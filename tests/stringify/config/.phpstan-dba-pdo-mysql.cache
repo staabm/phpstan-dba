@@ -18,6 +18,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -27,6 +28,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -36,6 +38,7 @@
             )),
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -45,6 +48,7 @@
             )),
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -166,21 +170,25 @@
               )),
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
