@@ -211,7 +211,7 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
             ],
         ];
 
-        require_once __DIR__.'/data/syntax-error-in-dynamic-query.php';
-        $this->analyse([__DIR__.'/data/syntax-error-in-dynamic-query.php'], $expectedErrors);
+        require_once __DIR__ . '/data/syntax-error-with-inference-placeholder.php';
+        $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
     }
 }
