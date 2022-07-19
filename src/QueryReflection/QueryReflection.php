@@ -194,6 +194,8 @@ final class QueryReflection
             if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
                 $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
 
+                // atm no resolved phpdoc for methods
+                // see https://github.com/phpstan/phpstan/discussions/7657
                 $phpDocString = $methodReflection->getDocComment();
                 if (null !== $phpDocString && preg_match('/@phpstandba-inference-placeholder\s+(.+)$/m', $phpDocString, $matches)) {
                     $placeholder = $matches[1];
