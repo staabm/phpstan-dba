@@ -23,6 +23,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_NAME',
                'isClassString' => false,
             )),
@@ -32,6 +33,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'EXTRA',
                'isClassString' => false,
             )),
@@ -41,6 +43,7 @@
             )),
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_TYPE',
                'isClassString' => false,
             )),
@@ -92,16 +95,19 @@
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_NAME',
                  'isClassString' => false,
               )),
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_TYPE',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'EXTRA',
                  'isClassString' => false,
               )),
@@ -120,7 +126,6 @@
                  FROM information_schema.columns
                  WHERE table_name = ? AND table_schema = DATABASE()' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -158,6 +163,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'dbsignature',
                'isClassString' => false,
             )),
@@ -167,6 +173,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'grouper',
                'isClassString' => false,
             )),
@@ -179,7 +186,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -192,7 +199,7 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -228,11 +235,13 @@
               )),
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'dbsignature',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'grouper',
                  'isClassString' => false,
               )),
@@ -240,14 +249,14 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\StringType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               2 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -266,11 +275,13 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'dbsignature',
                'isClassString' => false,
             )),
             1 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'grouper',
                'isClassString' => false,
             )),
@@ -279,7 +290,7 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'types' => 
               array (
                 0 => 
@@ -304,11 +315,13 @@
             array (
               0 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'dbsignature',
                  'isClassString' => false,
               )),
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'grouper',
                  'isClassString' => false,
               )),
@@ -316,14 +329,14 @@
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\IntegerType::__set_state(array(
+              PHPStan\Type\StringType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               2 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -354,6 +367,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_NAME',
                'isClassString' => false,
             )),
@@ -363,6 +377,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'EXTRA',
                'isClassString' => false,
             )),
@@ -372,6 +387,7 @@
             )),
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_TYPE',
                'isClassString' => false,
             )),
@@ -423,16 +439,19 @@
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_NAME',
                  'isClassString' => false,
               )),
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_TYPE',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'EXTRA',
                  'isClassString' => false,
               )),
@@ -490,6 +509,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'dbsignature',
                'isClassString' => false,
             )),
@@ -499,6 +519,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'grouper',
                'isClassString' => false,
             )),
@@ -560,11 +581,13 @@
               )),
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'dbsignature',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'grouper',
                  'isClassString' => false,
               )),
@@ -598,11 +621,13 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'dbsignature',
                'isClassString' => false,
             )),
             1 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'grouper',
                'isClassString' => false,
             )),
@@ -636,11 +661,13 @@
             array (
               0 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'dbsignature',
                  'isClassString' => false,
               )),
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'grouper',
                  'isClassString' => false,
               )),
@@ -682,6 +709,7 @@ WHERE table_name = \'1970-01-01\'' =>
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_NAME',
                'isClassString' => false,
             )),
@@ -691,6 +719,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_DEFAULT',
                'isClassString' => false,
             )),
@@ -700,6 +729,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'IS_NULLABLE',
                'isClassString' => false,
             )),
@@ -718,7 +748,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -731,7 +761,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -771,16 +801,19 @@ WHERE table_name = \'1970-01-01\'' =>
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_DEFAULT',
                  'isClassString' => false,
               )),
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_NAME',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'IS_NULLABLE',
                  'isClassString' => false,
               )),
@@ -788,7 +821,7 @@ WHERE table_name = \'1970-01-01\'' =>
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -806,7 +839,6 @@ WHERE table_name = \'1970-01-01\'' =>
 FROM information_schema.columns
 WHERE table_name = ?' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -830,6 +862,7 @@ WHERE table_name = \'1970-01-01\'' =>
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_NAME',
                'isClassString' => false,
             )),
@@ -839,6 +872,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'COLUMN_DEFAULT',
                'isClassString' => false,
             )),
@@ -848,6 +882,7 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'IS_NULLABLE',
                'isClassString' => false,
             )),
@@ -939,16 +974,19 @@ WHERE table_name = \'1970-01-01\'' =>
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_DEFAULT',
                  'isClassString' => false,
               )),
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'COLUMN_NAME',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'IS_NULLABLE',
                  'isClassString' => false,
               )),
