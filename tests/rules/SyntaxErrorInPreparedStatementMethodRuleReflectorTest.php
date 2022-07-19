@@ -203,23 +203,58 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
     }
 
-    public function testSyntaxErrorInDynamicQuery() {
-        $expectedErrors = [
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
-                12,
-            ],
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
-                36,
-            ],
-            [
-                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
-                60,
-            ],
-        ];
+    public function testSyntaxErrorWithInferencePlaceholder()
+    {
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    12,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    36,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND email='test@example.com' LIMIT 0' at line 1 (1064).",
+                    60,
+                ],
+            ];
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    12,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    36,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND email='test@example.com' LIMIT 0' at line 1 (1064).",
+                    60,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (42000).",
+                    12,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (42000).",
+                    36,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND email='test@example.com' LIMIT 0' at line 1 (42000).",
+                    60,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+        }
 
-        require_once __DIR__ . '/data/syntax-error-with-inference-placeholder.php';
-        $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
+        require_once __DIR__.'/data/syntax-error-with-inference-placeholder.php';
+        $this->analyse([__DIR__.'/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
     }
 }

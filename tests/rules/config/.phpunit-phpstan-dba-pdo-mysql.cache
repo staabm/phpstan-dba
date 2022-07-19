@@ -3739,6 +3739,22 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => NULL,
     ),
+    'SELECT email,, adaid FROM ada WHERE email = \'1970-01-01\' AND 1=1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \', adaid FROM ada WHERE email = \'1970-01-01\' AND 1=1 LIMIT 0\' at line 1',
+         'code' => '42000',
+      )),
+    ),
+    'SELECT email,, adaid FROM ada WHERE email = \'1970-01-01\' AND email=\'test@example.com\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \', adaid FROM ada WHERE email = \'1970-01-01\' AND email=\'test@example.com\' LIMIT 0\' at line 1',
+         'code' => '42000',
+      )),
+    ),
     'SELECT with syntax error GROUPY by x' => 
     array (
       'error' => 
