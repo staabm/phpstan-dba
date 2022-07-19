@@ -18,6 +18,7 @@
           array (
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -27,6 +28,7 @@
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -72,11 +74,13 @@
               )),
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),

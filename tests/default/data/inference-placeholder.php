@@ -1,10 +1,9 @@
 <?php
 
-namespace DoctrineDbalDynamicQueryTest;
+namespace InferencePlaceholderTest;
 
 use Doctrine\DBAL\Connection;
 use function PHPStan\Testing\assertType;
-use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 class Foo
 {
@@ -30,7 +29,6 @@ class Foo
             $where[] = 'adaid = '.$i.'';
         }
 
-        // @phpstan-ignore-next-line
         return implode(' AND ', $where);
     }
 }

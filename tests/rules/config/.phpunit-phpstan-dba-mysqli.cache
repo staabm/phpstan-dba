@@ -93,7 +93,6 @@
     ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -614,7 +613,6 @@
     ),
     'SELECT * FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -788,6 +786,7 @@
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2298,6 +2297,10 @@
 Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1064,
       )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
     'SELECT FROM WHERE LIMIT 0' => 
     array (
@@ -2477,6 +2480,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1064,
       )),
     ),
+    'SELECT email adaid FROM ada WHERE email = \'1970-01-01\' AND 1=1' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
       'error' => 
@@ -2486,7 +2493,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
       )),
       'result' => 
       array (
-        5 => NULL,
         3 => NULL,
       ),
     ),
@@ -2497,10 +2503,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'gesperrt freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid
             FROM ada
@@ -4295,6 +4297,30 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;' => 
     array (
       'error' => NULL,
+    ),
+    'SELECT email,, adaid FROM ada WHERE email = \'1970-01-01\' AND \'1=1\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \', adaid FROM ada WHERE email = \'1970-01-01\' AND \'1=1\' LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email,, adaid FROM ada WHERE email = \'1970-01-01\' AND 1=1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \', adaid FROM ada WHERE email = \'1970-01-01\' AND 1=1 LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email,, adaid FROM ada WHERE email = \'1970-01-01\' AND email=\'test@example.com\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \', adaid FROM ada WHERE email = \'1970-01-01\' AND email=\'test@example.com\' LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
     ),
     'SELECT with syntax error GROUPY by x' => 
     array (
