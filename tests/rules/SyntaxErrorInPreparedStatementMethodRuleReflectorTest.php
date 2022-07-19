@@ -212,51 +212,51 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Unknown column 'does_not_exist' in 'field list' (1054).",
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
                     12,
                 ],
                 [
-                    "Unknown column 'does_not_exist' in 'field list' (1054).",
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
                     36,
                 ],
                 [
-                    "Unknown column 'does_not_exist' in 'field list' (1054).",
+                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
                     60,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near \",\"
-LINE 1: SELECT email,, adaid FROM ada WHERE email = '1970-01-01' AND...
-                     ^ (42601).",
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
                     12,
                 ],
                 [
-                    "Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near \",\"
-LINE 1: SELECT email,, adaid FROM ada WHERE email = '1970-01-01' AND...
-                     ^ (42601).",
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
                     36,
                 ],
                 [
-                    "Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near \",\"
-LINE 1: SELECT email,, adaid FROM ada WHERE email = '1970-01-01' AND...
-                     ^ (42601).",
+                    "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+                      ^ (42703).",
                     60,
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (42000).",
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
                     12,
                 ],
                 [
-                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (42000).",
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
                     36,
                 ],
                 [
-                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND email='test@example.com' LIMIT 0' at line 1 (42000).",
+                    "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
                     60,
                 ],
             ];
