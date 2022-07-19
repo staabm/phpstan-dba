@@ -13,7 +13,7 @@ class Foo
         assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
 
         $field = 'email';
-        if (rand(0,1)) {
+        if (rand(0, 1)) {
             $field = 'adaid';
         }
 
