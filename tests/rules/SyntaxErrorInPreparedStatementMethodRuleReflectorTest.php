@@ -223,11 +223,15 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    "Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near
+LINE 1: SELECT email,, adaid FROM ada WHERE email = '1970-01-01' AND...
+                     ^ (42601).",
                     12,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                    "Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ","
+LINE 1: SELECT email,, adaid FROM ada WHERE email = '1970-01-01' AND...
+                     ^ (42601).",
                     36,
                 ],
                 [
