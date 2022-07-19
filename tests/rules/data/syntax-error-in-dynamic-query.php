@@ -1,18 +1,16 @@
 <?php
 
-namespace DoctrineDbalDynamicQueryTest;
+namespace SyntaxErrorInDynamicQuery;
 
-use Doctrine\DBAL\Connection;
-use function PHPStan\Testing\assertType;
+use staabm\PHPStanDba\Tests\Fixture\Connection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 class Foo
 {
-    public function fetchOneWithDynamicQueryPart(Connection $conn, string $email)
+    public function syntaxError(Connection $connection, string $email)
     {
-        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhere(rand(0, 100));
-        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
-        assertType('string|false', $fetchResult);
+        $query = 'SELECT email,, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhere(rand(0, 100));
+        $connection->preparedQuery($query, ['email' => $email]);
     }
 
     /**
@@ -30,7 +28,6 @@ class Foo
             $where[] = 'adaid = '.$i.'';
         }
 
-        // @phpstan-ignore-next-line
         return implode(' AND ', $where);
     }
 }

@@ -200,7 +200,18 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
         }
 
         require_once __DIR__.'/data/syntax-error-in-prepared-statement.php';
-
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
+    }
+
+    public function testSyntaxErrorInDynamicQuery() {
+        $expectedErrors = [
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near ', adaid FROM ada WHERE email = '1970-01-01' AND 1=1 LIMIT 0' at line 1 (1064).",
+                13,
+            ],
+        ];
+
+        require_once __DIR__.'/data/syntax-error-in-dynamic-query.php';
+        $this->analyse([__DIR__.'/data/syntax-error-in-dynamic-query.php'], $expectedErrors);
     }
 }
