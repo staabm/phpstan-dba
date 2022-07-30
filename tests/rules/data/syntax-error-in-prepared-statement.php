@@ -323,4 +323,9 @@ class Foo
     {
         $connection->preparedQuery('SELECT email FROM ada WHERE email = :param OR email = :parameter', ['param' => 'abc', 'parameter' => 'def']);
     }
+
+    public function unknownConstant(Connection $connection)
+    {
+        $connection->preparedQuery('SELECT email FROM ada WHERE email = :param OR email = :parameter', ['param' => CONSTANT_DOES_NOT_EXIST, 'parameter' => 'def']);
+    }
 }

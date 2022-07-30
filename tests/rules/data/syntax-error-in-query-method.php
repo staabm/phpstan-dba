@@ -117,4 +117,9 @@ class Foo
 
         $pdo->query('SELECT email, adaid FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
     }
+
+    public function unknownConstant(PDO $pdo)
+    {
+        $pdo->query('SELECT * FROM ada WHERE doesNotExist='.CONSTANT_DOES_NOT_EXIST, PDO::FETCH_ASSOC);
+    }
 }
