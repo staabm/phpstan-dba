@@ -33,7 +33,7 @@ $config = new RuntimeConfiguration();
 $config->analyzeQueryPlans(0);
 ```
 
-When running in environments in which only the database schema, but no data is available pass `$numberOfRowsNotRequiringIndex=0`:
+When running in environments in which only the database schema, but no data is available pass `QueryPlanAnalyzer::TABLES_WITHOUT_DATA`:
 
 ```php
 $config = new RuntimeConfiguration();
