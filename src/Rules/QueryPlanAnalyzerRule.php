@@ -130,10 +130,9 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $ruleErrors = [];
         $queryReflection = new QueryReflection();
-        $proposal = "";
 
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
-            $suffix = $proposal;
+            $suffix = "";
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
                 $suffix = $proposal."\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
             }
