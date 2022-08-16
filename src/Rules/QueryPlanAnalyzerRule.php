@@ -134,7 +134,7 @@ final class QueryPlanAnalyzerRule implements Rule
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $suffix = "";
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                $suffix = $proposal."\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
+                $suffix = "\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
             }
 
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
