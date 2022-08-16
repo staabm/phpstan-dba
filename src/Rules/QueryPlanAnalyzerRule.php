@@ -130,7 +130,7 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $ruleErrors = [];
         $queryReflection = new QueryReflection();
-        $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
+        $proposal = "\n\nConsider optimizing the query or adding an index.";
 
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $suffix = $proposal;
