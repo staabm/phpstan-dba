@@ -104,7 +104,7 @@ includes:
 
 - [Runtime configuration](https://github.com/staabm/phpstan-dba/blob/main/docs/configuration.md)
 - [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md)
-- [Custom Query APIs Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
+- [Custom Query API Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
 - [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
 - [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
 - [Reflector Overview](https://github.com/staabm/phpstan-dba/blob/main/docs/reflectors.md)
