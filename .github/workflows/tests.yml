@@ -81,12 +81,11 @@ jobs:
       with:
         php-version: "${{ matrix.php-version }}"
         coverage: none
-        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "--ignore-platform-req=php+"
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress"
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -130,12 +129,11 @@ jobs:
       with:
         php-version: "${{ matrix.php-version }}"
         coverage: none
-        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "--ignore-platform-req=php+"
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress"
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
