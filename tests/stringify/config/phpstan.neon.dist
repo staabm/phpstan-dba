@@ -9,7 +9,7 @@ parameters:
         - ../
 
     excludePaths:
-        - tests/*Fixture/**
+        - *Fixture/**
         - tests/*/data/**
 
     bootstrapFiles:

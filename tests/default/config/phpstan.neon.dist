@@ -18,5 +18,5 @@ parameters:
         - '#.*with no value type specified in iterable type array.#'
 
     excludePaths:
-        - tests/*Fixture/**
+        - *Fixture/**
         - tests/*/data/**

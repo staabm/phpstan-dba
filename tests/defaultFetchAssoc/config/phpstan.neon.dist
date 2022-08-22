@@ -12,7 +12,7 @@ parameters:
         - bootstrap.php
 
     excludePaths:
-        - tests/*Fixture/**
+        - *Fixture/**
         - tests/*/data/**
 
     ignoreErrors:
