@@ -117,9 +117,4 @@ class Foo
 
         $pdo->query('SELECT email, adaid FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
     }
-
-    public function mysqliExecuteQuery(\mysqli $mysqli)
-    {
-        $mysqli->execute_query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
-    }
 }

@@ -103,4 +103,18 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
             default: throw new \RuntimeException(sprintf('Unsupported DBA_REFLECTOR %s', $dbaReflector));
         }
     }
+
+    public function testMysqliExecuteQuery(): void
+    {
+        if (\PHP_VERSION_ID < 80200) {
+            self::markTestSkipped('Test requires PHP 8.2.');
+        }
+
+        $this->analyse([__DIR__.'/data/mysqli_execute_query.php'], [
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                11,
+            ],
+        ]);
+    }
 }
