@@ -8,9 +8,6 @@ parameters:
     paths:
         - ../
 
-    excludePaths:
-        - tests/*/data/*
-
     bootstrapFiles:
         - bootstrap.php
 
@@ -21,8 +18,5 @@ parameters:
         - '#.*with no value type specified in iterable type array.#'
 
     excludePaths:
-        analyseAndScan:
-            - *Fixture/**
-            - */tests/default/data/pdo-pgsql.php
-            # XXX cases which are not yet supported by the PdoQueryReflector
-            - */tests/default/data/query-alias.php
+        - tests/*Fixture/**
+        - tests/*/data/**

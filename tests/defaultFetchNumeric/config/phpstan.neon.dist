@@ -9,7 +9,8 @@ parameters:
         - ../
 
     excludePaths:
-        - tests/*/data/*
+        - tests/*Fixture/**
+        - tests/*/data/**
 
     bootstrapFiles:
         - bootstrap.php
@@ -17,7 +18,3 @@ parameters:
     ignoreErrors:
         - '#.*has no return type specified.#'
         - '#.*return type has no value type specified in iterable type iterable.#'
-
-    excludePaths:
-        analyseAndScan:
-            - *Fixture/**
