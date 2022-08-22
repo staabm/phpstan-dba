@@ -81,6 +81,8 @@ jobs:
       with:
         php-version: "${{ matrix.php-version }}"
         coverage: none
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--ignore-platform-req=php+"
 
     - uses: "ramsey/composer-install@v2"
       with:
@@ -128,6 +130,8 @@ jobs:
       with:
         php-version: "${{ matrix.php-version }}"
         coverage: none
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--ignore-platform-req=php+"
 
     - uses: "ramsey/composer-install@v2"
       with:
