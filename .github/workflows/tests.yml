@@ -42,6 +42,15 @@ jobs:
             reflector: "mysqli"
             mode: "recording"
 
+          - php-version: "8.2"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
+            mode: "recording"
+          - php-version: '8.2'
+            db-image: 'mariadb:latest'
+            reflector: "mysqli"
+            mode: "recording"
+
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
@@ -75,7 +84,8 @@ jobs:
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress"
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -122,7 +132,8 @@ jobs:
 
     - uses: "ramsey/composer-install@v2"
       with:
-        composer-options: "--prefer-dist --no-progress"
+        # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
+        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
