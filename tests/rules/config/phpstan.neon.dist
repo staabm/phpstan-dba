@@ -10,7 +10,7 @@ parameters:
 
     excludePaths:
         - *Fixture/**
-        - tests/*/data/**
+        - *tests/*/data/**
 
     bootstrapFiles:
         - bootstrap.php

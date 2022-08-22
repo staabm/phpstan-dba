@@ -19,4 +19,4 @@ parameters:
 
     excludePaths:
         - *Fixture/**
-        - tests/*/data/**
+        - *tests/*/data/**

@@ -13,7 +13,7 @@ parameters:
 
     excludePaths:
         - *Fixture/**
-        - tests/*/data/**
+        - *tests/*/data/**
 
     ignoreErrors:
         - '#.*has no return type specified.#'
