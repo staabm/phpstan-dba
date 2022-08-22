@@ -38,9 +38,4 @@ class Foo
 
         mysqli_query($mysqli, $query);
     }
-
-    public function mysqli_execute_query(\mysqli $mysqli)
-    {
-        mysqli_execute_query($mysqli, 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
-    }
 }
