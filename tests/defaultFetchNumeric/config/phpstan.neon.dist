@@ -8,6 +8,9 @@ parameters:
     paths:
         - ../
 
+    excludePaths:
+        - tests/*/data/*
+
     bootstrapFiles:
         - bootstrap.php
 

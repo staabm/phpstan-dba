@@ -11,6 +11,9 @@ parameters:
     bootstrapFiles:
         - bootstrap.php
 
+    excludePaths:
+        - tests/*/data/*
+
     ignoreErrors:
         - '#.*has no return type specified.#'
         - '#.*return type has no value type specified in iterable type iterable.#'
