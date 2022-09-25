@@ -126,7 +126,10 @@ final class MysqlTypeMapper implements TypeMapper
             switch (strtoupper($mysqlType)) {
                 case 'DECIMAL':
                 case 'NEWDECIMAL':
-                    $phpstanType = new AccessoryNumericStringType();
+                    $phpstanType = new IntersectionType([
+                        new StringType(),
+                        new AccessoryNumericStringType(),
+                    ]);
                     break;
                 case 'LONGLONG':
                 case 'LONG':
