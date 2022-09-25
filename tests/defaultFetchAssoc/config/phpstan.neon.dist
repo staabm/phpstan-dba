@@ -11,10 +11,9 @@ parameters:
     bootstrapFiles:
         - bootstrap.php
 
-    ignoreErrors:
-        - '#.*has no return type specified.#'
-        - '#.*return type has no value type specified in iterable type iterable.#'
-
     excludePaths:
-        analyseAndScan:
-            - *Fixture/**
+        - *Fixture/**
+        - *tests/*/data/**
+
+    ignoreErrors:
+        - '#.*return type has no value type specified in iterable type iterable.#'
