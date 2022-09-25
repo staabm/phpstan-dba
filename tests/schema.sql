@@ -66,7 +66,9 @@ CREATE TABLE `typemix` (
    `c_unsigned_mediumint` mediumint UNSIGNED NOT NULL,
    `c_unsigned_bigint` bigint UNSIGNED NOT NULL,
    `c_json` json,
-   `c_json_not_null` json NOT NULL
+   `c_json_not_null` json NOT NULL,
+   `c_decimal` decimal(12, 2),
+   `c_decimal_not_null` decimal(12, 2) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 ALTER TABLE `typemix`

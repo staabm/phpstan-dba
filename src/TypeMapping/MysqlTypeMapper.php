@@ -117,13 +117,20 @@ final class MysqlTypeMapper implements TypeMapper
             $phpstanType = IntegerRangeType::fromInterval(0, 2155);
         }
         // floats are detected as numerics in mysqli
-        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'NEWDECIMAL', 'REAL'], true)) {
+        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'REAL'], true)) {
             $phpstanType = new FloatType();
         }
 
         // fallbacks
         if (null === $phpstanType) {
             switch (strtoupper($mysqlType)) {
+                case 'DECIMAL':
+                case 'NEWDECIMAL':
+                    $phpstanType = new IntersectionType([
+                        new StringType(),
+                        new AccessoryNumericStringType(),
+                    ]);
+                    break;
                 case 'LONGLONG':
                 case 'LONG':
                 case 'SHORT':

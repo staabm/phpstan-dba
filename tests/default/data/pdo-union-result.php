@@ -26,7 +26,7 @@ class Foo
         foreach ($queries as $query) {
             $stmt = $pdo->query($query);
             $result = $stmt->fetch(PDO::FETCH_NUM);
-            assertType('array{int<-32768, 32767>|string}|false', $result);
+            assertType('array{int<-32768, 32767>}|array{string}|false', $result);
         }
     }
 }
