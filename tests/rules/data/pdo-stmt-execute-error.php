@@ -121,4 +121,10 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada -- :can have :more ? :placeholders? ?');
         $stmt->execute([]);
     }
+
+    public function bug422UnnamedPlaceholdersInCommentInsideOfQuery(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid /* why? ? */ FROM ada /* just ?? :because ?*/ WHERE email = :email -- ?');
+        $stmt->execute(['email' => 'a']);
+    }
 }
