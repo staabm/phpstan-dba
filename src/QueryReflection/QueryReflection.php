@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -187,13 +188,21 @@ final class QueryReflection
      */
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
     {
-        if ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
-            $classReflection = $scope->getClassReflection();
+        if ($queryExpr instanceof Expr\CallLike) {
+            $methodReflection = null;
+            if ($queryExpr instanceof Expr\StaticCall) {
+                if ($queryExpr->class instanceof Name && $queryExpr->name instanceof Identifier) {
+                    $classType = $scope->resolveTypeByName($queryExpr->class);
+                    $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
+                }
+            } elseif ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
+                $classReflection = $scope->getClassReflection();
+                if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
+                    $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
+                }
+            }
 
-            // XXX atm we only support inference-placeholder for method calls within the same class
-            if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
-                $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
-
+            if (null !== $methodReflection) {
                 // atm no resolved phpdoc for methods
                 // see https://github.com/phpstan/phpstan/discussions/7657
                 $phpDocString = $methodReflection->getDocComment();
