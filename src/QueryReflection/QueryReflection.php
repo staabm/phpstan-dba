@@ -191,7 +191,7 @@ final class QueryReflection
         if ($queryExpr instanceof Expr\CallLike) {
             $methodReflection = null;
             if ($queryExpr instanceof Expr\StaticCall) {
-                if ($queryExpr->class instanceof Name) {
+                if ($queryExpr->class instanceof Name && $queryExpr->name instanceof Identifier) {
                     $classType = $scope->resolveTypeByName($queryExpr->class);
                 } else {
                     $classType = $scope->getType($queryExpr->class);
