@@ -251,7 +251,7 @@ final class QueryReflection
 
         if ($parameterTypes instanceof UnionType) {
             foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
-                $parameters += $this->resolveConstantArray($constantArray, true);
+                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
             }
 
             return $parameters;
@@ -278,7 +278,10 @@ final class QueryReflection
         $optionalKeys = $parameterTypes->getOptionalKeys();
 
         foreach ($keyTypes as $i => $keyType) {
-            $isOptional = \in_array($i, $optionalKeys, true) || $forceOptional;
+            $isOptional = \in_array($i, $optionalKeys, true);
+            if ($forceOptional) {
+                $isOptional = true;
+            }
 
             if ($keyType instanceof ConstantStringType) {
                 $placeholderName = $keyType->getValue();

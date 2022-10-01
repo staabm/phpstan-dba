@@ -129,8 +129,9 @@ final class QuerySimulation
         if (null === $queryString) {
             return null;
         }
+        $queryString .= ' LIMIT 0';
 
-        return $queryString.' LIMIT 0';
+        return $queryString;
     }
 
     public static function stripTrailers(string $queryString): ?string
