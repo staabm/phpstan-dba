@@ -43,7 +43,7 @@ class Foo
      *
      * @return string
      */
-    static private function staticDynamicWhere(int $i)
+    private static function staticDynamicWhere(int $i)
     {
         $where = ['1=1'];
 
