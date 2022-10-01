@@ -188,7 +188,7 @@ final class QueryReflection
      */
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
     {
-        if ($queryExpr instanceof Expr\CallLike && $queryExpr->name instanceof Identifier) {
+        if ($queryExpr instanceof Expr\CallLike) {
             $methodReflection = null;
             if ($queryExpr instanceof Expr\StaticCall) {
                 if ($queryExpr->class instanceof Name) {
@@ -197,7 +197,7 @@ final class QueryReflection
                     $classType = $scope->getType($queryExpr->class);
                 }
                 $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
-            } else {
+            } elseif ($queryExpr->name instanceof Identifier) {
                 $classReflection = $scope->getClassReflection();
                 if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
                     $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
