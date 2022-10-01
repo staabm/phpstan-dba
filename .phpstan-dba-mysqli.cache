@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v9-put-null-when-valid',
-  'schemaHash' => '7b24c5bbba5bc71dcd27a489a856604c',
+  'schemaHash' => NULL,
   'records' => 
   array (
     'SELECT

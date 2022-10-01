@@ -124,7 +124,7 @@ final class QuerySimulation
 
     public static function simulate(string $queryString): ?string
     {
-        $queryString = self::stripTrailers($queryString);
+        $queryString = self::stripTrailers(self::stripComments($queryString));
 
         if (null === $queryString) {
             return null;
@@ -157,5 +157,29 @@ final class QuerySimulation
         }
 
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
+    }
+
+    /**
+     * @see https://larrysteinle.com/2011/02/09/use-regular-expressions-to-clean-sql-statements/
+     * @see https://github.com/decemberster/sql-strip-comments/blob/3bef3558211a6f6191d2ad0ceb8577eda39dd303/index.js
+     */
+    public static function stripComments(string $query): string
+    {
+        return trim(preg_replace_callback(
+            '/("(""|[^"])*")|(\'(\'\'|[^\'])*\')|(--[^\n\r]*)|(\/\*[\w\W]*?(?=\*\/)\*\/)/m',
+            static function (array $matches): string {
+                $match = $matches[0];
+                $matchLength = \strlen($match);
+                if (
+                    ('"' === $match[0] && '"' === $match[$matchLength - 1])
+                    || ('\'' === $match[0] && '\'' === $match[$matchLength - 1])
+                ) {
+                    return $match;
+                }
+
+                return '';
+            },
+            $query
+        ) ?? $query);
     }
 }

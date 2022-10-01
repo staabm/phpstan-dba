@@ -98,4 +98,33 @@ class Foo
         ');
         $stmt->execute([':akid' => 1]); // everything fine
     }
+
+    public function bug422UnnamedPlaceholdersInComment(PDO $pdo)
+    {
+        $query = '
+            Select * from ada
+            where adakzid = 15 -- customer ???
+        ';
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([]);
+    }
+
+    public function bug422NamedPlaceholdersInComment(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada -- nice :placeholder bro');
+        $stmt->execute([]);
+    }
+
+    public function bug422NamedAndUnnamedPlaceholdersInComment(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada -- :can have :more ? :placeholders? ?');
+        $stmt->execute([]);
+    }
+
+    public function bug422UnnamedPlaceholdersInCommentInsideOfQuery(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid /* why? ? */ FROM ada /* just ?? :because ?*/ WHERE email = :email -- ?');
+        $stmt->execute(['email' => 'a']);
+    }
 }

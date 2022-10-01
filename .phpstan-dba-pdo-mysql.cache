@@ -126,7 +126,6 @@
                  FROM information_schema.columns
                  WHERE table_name = ? AND table_schema = DATABASE()' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => NULL,
@@ -514,7 +513,6 @@ WHERE table_name = \'1970-01-01\'' =>
 FROM information_schema.columns
 WHERE table_name = ?' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => NULL,

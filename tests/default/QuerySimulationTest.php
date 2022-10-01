@@ -41,4 +41,45 @@ class QuerySimulationTest extends TestCase
         $simulatedValue = QuerySimulation::simulateParamValueType($builder->getArray(), false);
         $this->assertNotNull($simulatedValue);
     }
+
+    /**
+     * @dataProvider provideQueriesWithComments
+     */
+    public function testStripComments(string $query, string $expectedQuery)
+    {
+        self::assertSame($expectedQuery, QuerySimulation::stripComments($query));
+    }
+
+    /**
+     * @return iterable<array{string, string}>
+     */
+    public function provideQueriesWithComments(): iterable
+    {
+        yield 'Single line comment' => [
+            'SELECT * FROM ada; -- ignore me',
+            'SELECT * FROM ada;',
+        ];
+        yield 'Single line block comment' => [
+            'SELECT * FROM ada; /* ignore me */',
+            'SELECT * FROM ada;',
+        ];
+        yield 'Single line comment inside block comment' => [
+            'SELECT * FROM ada; /* -- ignore me */',
+            'SELECT * FROM ada;',
+        ];
+        yield 'Select comment-like value' => [
+            'SELECT "hello -- darkness my old friend -- /* ive come to talk with you again */ bye" FROM ada --thanks',
+            'SELECT "hello -- darkness my old friend -- /* ive come to talk with you again */ bye" FROM ada',
+        ];
+        yield 'Multi-line comment' => [
+            '
+                SELECT * FROM ada
+                /*
+                    nice
+                    comment
+                 */
+            ',
+            'SELECT * FROM ada',
+        ];
+    }
 }

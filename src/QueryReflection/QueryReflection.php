@@ -136,7 +136,7 @@ final class QueryReflection
 
         if ($type instanceof UnionType) {
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
-                yield $this->normalizeQueryString($constantString->getValue());
+                yield QuerySimulation::stripComments($this->normalizeQueryString($constantString->getValue()));
             }
 
             return;
@@ -144,7 +144,7 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            yield $this->normalizeQueryString($queryString);
+            yield QuerySimulation::stripComments($this->normalizeQueryString($queryString));
         }
     }
 
