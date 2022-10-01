@@ -197,7 +197,7 @@ final class QueryReflection
                     $classType = $scope->getType($queryExpr->class);
                 }
                 $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
-            } elseif ($queryExpr->name instanceof Identifier) {
+            } elseif ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
                 $classReflection = $scope->getClassReflection();
                 if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
                     $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
