@@ -114,6 +114,28 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 73,
             ],
+            /* https://github.com/staabm/phpstan-dba/issues/422
+            [
+                'Query expects 3 placeholders, but no values are given.',
+                110,
+            ],
+            [
+                'Query expects placeholder :placeholder, but it is missing from values given.',
+                116,
+            ],
+            [
+                'Query expects placeholder :can, but it is missing from values given.',
+                122,
+            ],
+            [
+                'Query expects placeholder :more, but it is missing from values given.',
+                122,
+            ],
+            [
+                'Query expects placeholder :placeholders, but it is missing from values given.',
+                122,
+            ],
+            */
         ]);
     }
 }

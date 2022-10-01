@@ -37,7 +37,7 @@ final class QueryPlanQueryResolver
             $normalizedQuery = QuerySimulation::stripTrailers($queryString);
 
             if (null !== $normalizedQuery) {
-                yield $normalizedQuery;
+                yield QuerySimulation::stripComments($normalizedQuery);
             }
         }
     }

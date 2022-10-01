@@ -135,7 +135,7 @@ final class QueryReflection
 
         if ($type instanceof UnionType) {
             foreach (TypeUtils::getConstantStrings($type) as $constantString) {
-                yield $this->normalizeQueryString($constantString->getValue());
+                yield QuerySimulation::stripComments($this->normalizeQueryString($constantString->getValue()));
             }
 
             return;
@@ -143,7 +143,7 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            yield $this->normalizeQueryString($queryString);
+            yield QuerySimulation::stripComments($this->normalizeQueryString($queryString));
         }
     }
 
@@ -251,7 +251,7 @@ final class QueryReflection
 
         if ($parameterTypes instanceof UnionType) {
             foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
-                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
+                $parameters += $this->resolveConstantArray($constantArray, true);
             }
 
             return $parameters;
@@ -278,10 +278,7 @@ final class QueryReflection
         $optionalKeys = $parameterTypes->getOptionalKeys();
 
         foreach ($keyTypes as $i => $keyType) {
-            $isOptional = \in_array($i, $optionalKeys, true);
-            if ($forceOptional) {
-                $isOptional = true;
-            }
+            $isOptional = \in_array($i, $optionalKeys, true) || $forceOptional;
 
             if ($keyType instanceof ConstantStringType) {
                 $placeholderName = $keyType->getValue();

@@ -44,7 +44,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if (PdoStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
+        if (PDOStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
             return [];
         }
 
