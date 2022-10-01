@@ -193,10 +193,8 @@ final class QueryReflection
             if ($queryExpr instanceof Expr\StaticCall) {
                 if ($queryExpr->class instanceof Name && $queryExpr->name instanceof Identifier) {
                     $classType = $scope->resolveTypeByName($queryExpr->class);
-                } else {
-                    $classType = $scope->getType($queryExpr->class);
+                    $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
                 }
-                $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
             } elseif ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
                 $classReflection = $scope->getClassReflection();
                 if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
