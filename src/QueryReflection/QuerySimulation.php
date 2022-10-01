@@ -124,13 +124,13 @@ final class QuerySimulation
 
     public static function simulate(string $queryString): ?string
     {
-        $queryString = self::stripTrailers($queryString);
+        $queryString = self::stripTrailers(self::stripComments($queryString));
 
         if (null === $queryString) {
             return null;
         }
 
-        return self::stripComments($queryString).' LIMIT 0';
+        return $queryString.' LIMIT 0';
     }
 
     public static function stripTrailers(string $queryString): ?string
