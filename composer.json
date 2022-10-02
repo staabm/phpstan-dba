@@ -42,6 +42,8 @@
 			"php-cs-fixer fix"
 		],
 		"test": [
+			"@putenv DBA_REFLECTOR=mysqli",
+
 			"@phpunit",
 			"@phpstan",
 			"@csfix"
