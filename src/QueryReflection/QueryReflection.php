@@ -235,9 +235,10 @@ final class QueryReflection
 
         if ($queryExpr instanceof Encapsed) {
             $string = '';
-            foreach($queryExpr->parts as $part) {
+            foreach ($queryExpr->parts as $part) {
                 $string .= $this->resolveQueryStringExpr($part, $scope);
             }
+
             return $string;
         }
 
