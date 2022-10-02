@@ -190,7 +190,7 @@ final class QueryReflection
      */
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
-        if ($resolveVariables === true && $queryExpr instanceof Expr\Variable) {
+        if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
             $assignExpr = $finder->findQueryStringExpression($queryExpr);
 
