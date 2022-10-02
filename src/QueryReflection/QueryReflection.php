@@ -8,6 +8,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\Encapsed;
+use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -229,6 +231,18 @@ final class QueryReflection
             }
 
             return $leftString.$rightString;
+        }
+
+        if ($queryExpr instanceof Encapsed) {
+            $string = '';
+            foreach($queryExpr->parts as $part) {
+                $string .= $this->resolveQueryStringExpr($part, $scope);
+            }
+            return $string;
+        }
+
+        if ($queryExpr instanceof EncapsedStringPart) {
+            return $queryExpr->value;
         }
 
         $type = $scope->getType($queryExpr);
