@@ -44,48 +44,48 @@ class Foo
     }
 
     /**
-     * @param numeric-string   $numericString
+     * @param numeric-string $numericString
      * @param non-empty-string $nonEmptyString
-     * @param mixed            $mixed
+     * @param mixed $mixed
      */
     public function concatedQuerySelected(PDO $pdo, int $int, string $string, float $float, bool $bool, $numericString, $nonEmptyString, $mixed)
     {
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$int, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid=' . $int, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.self::INT, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid=' . self::INT, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // requires phpstan 1.4.6+
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid IN('.implode(',', [self::INT, 3]).')', PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid IN(' . implode(',', [self::INT, 3]) . ')', PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email='".self::FOO."'", PDO::FETCH_ASSOC);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email='" . self::FOO . "'", PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$numericString, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid=' . $numericString, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid='.$bool, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid=' . $bool, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // ----
 
-        $stmt = $pdo->query('SELECT akid FROM ak WHERE eadavk>'.$float, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT akid FROM ak WHERE eadavk>' . $float, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{akid: int<-2147483648, 2147483647>}>', $stmt); // akid is not an auto-increment
 
-        $stmt = $pdo->query('SELECT akid FROM ak WHERE eadavk>'.self::FLOAT, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT akid FROM ak WHERE eadavk>' . self::FLOAT, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{akid: int<-2147483648, 2147483647>}>', $stmt); // akid is not an auto-increment
 
         // ---- queries, for which we cannot infer the return type
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$string, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE ' . $string, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$nonEmptyString, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE ' . $nonEmptyString, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
 
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE '.$mixed, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE ' . $mixed, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
@@ -116,7 +116,7 @@ class Foo
         assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
 
         if ($bool) {
-            $query .= ' WHERE adaid='.$adaid;
+            $query .= ' WHERE adaid=' . $adaid;
         }
 
         $stmt = $pdo->query($query, PDO::FETCH_NUM);
@@ -136,10 +136,10 @@ class Foo
      */
     public function unionParam(PDO $pdo, $adaid, $email)
     {
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = ' . $adaid, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email = '".$email."'", PDO::FETCH_ASSOC);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE email = '" . $email . "'", PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 
@@ -160,18 +160,18 @@ class Foo
 
     public function offsetAfterLimit(PDO $pdo, int $limit, int $offset)
     {
-        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' OFFSET '.$offset;
+        $query = 'SELECT adaid FROM ada LIMIT ' . $limit . ' OFFSET ' . $offset;
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
     }
 
     public function readlocks(PDO $pdo, int $limit, int $offset)
     {
-        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' OFFSET '.$offset.' FOR UPDATE';
+        $query = 'SELECT adaid FROM ada LIMIT ' . $limit . ' OFFSET ' . $offset . ' FOR UPDATE';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
 
-        $query = 'SELECT adaid FROM ada LIMIT '.$limit.' FOR SHARE';
+        $query = 'SELECT adaid FROM ada LIMIT ' . $limit . ' FOR SHARE';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
     }
@@ -200,16 +200,22 @@ class Foo
 
     /**
      * @param int|numeric-string $adaid
-     * @param string|int         $gesperrt
+     * @param string|int $gesperrt
      */
     public function mixInUnionParam(PDO $pdo, $adaid, $gesperrt)
     {
         // union of simulatable and simulatable is simulatable
-        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = '.$adaid, PDO::FETCH_ASSOC);
+        $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE adaid = ' . $adaid, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
 
         // union of simulatable and non-simulatable is simulatable
-        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE gesperrt = '".$gesperrt."'", PDO::FETCH_ASSOC);
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE gesperrt = '" . $gesperrt . "'", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+    }
+
+    public function queryEncapsedString(PDO $pdo, int $adaid)
+    {
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid=$adaid", PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 }
