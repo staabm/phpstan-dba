@@ -217,5 +217,11 @@ class Foo
     {
         $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid=$adaid", PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+
+        $fn = function():int {
+            return 123;
+        };
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid={$fn()}", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 }
