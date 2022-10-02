@@ -188,8 +188,19 @@ final class QueryReflection
     /**
      * @throws UnresolvableQueryException
      */
-    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
+        if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
+            $finder = new ExpressionFinder();
+            $assignExpr = $finder->findQueryStringExpression($queryExpr);
+
+            if (null !== $assignExpr) {
+                return $this->resolveQueryStringExpr($assignExpr, $scope);
+            }
+
+            return $this->resolveQueryStringExpr($queryExpr, $scope, false);
+        }
+
         if ($queryExpr instanceof Expr\CallLike) {
             $methodReflection = null;
             if ($queryExpr instanceof Expr\StaticCall) {

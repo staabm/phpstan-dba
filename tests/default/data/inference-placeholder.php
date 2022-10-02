@@ -18,6 +18,14 @@ class Foo
         assertType('string|false', $fetchResult);
     }
 
+    public function fetchOneWithDynamicQueryPartViaVariable(Connection $conn, string $email)
+    {
+        $dynamicPart = self::dynamicWhere(rand(0, 100));
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$dynamicPart;
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
+        assertType('string|false', $fetchResult);
+    }
+
     /**
      * simulating a dynamic where part, not relevant for the query overall result.
      *
