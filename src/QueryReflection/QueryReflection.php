@@ -6,8 +6,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
@@ -205,7 +203,7 @@ final class QueryReflection
         if ($queryExpr instanceof Expr\CallLike) {
             $placeholder = PhpDocUtil::matchStringAnnotation('@phpstandba-inference-placeholder', $queryExpr, $scope);
 
-            if ($placeholder !== null) {
+            if (null !== $placeholder) {
                 return $placeholder;
             }
         }
