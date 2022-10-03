@@ -29,6 +29,8 @@ final class PhpDocUtil {
     }
 
     /**
+     * Returns a unquoted plain string following a annotation.
+     *
      * @param string $annotation e.g. '@phpstandba-inference-placeholder'
      */
     static function matchStringAnnotation(string $annotation, CallLike $callike, Scope $scope): ?string {
