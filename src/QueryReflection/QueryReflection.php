@@ -6,8 +6,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
@@ -24,6 +22,7 @@ use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -202,34 +201,13 @@ final class QueryReflection
         }
 
         if ($queryExpr instanceof Expr\CallLike) {
-            $methodReflection = null;
-            if ($queryExpr instanceof Expr\StaticCall) {
-                if ($queryExpr->class instanceof Name && $queryExpr->name instanceof Identifier) {
-                    $classType = $scope->resolveTypeByName($queryExpr->class);
-                    $methodReflection = $scope->getMethodReflection($classType, $queryExpr->name->name);
-                }
-            } elseif ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
-                $classReflection = $scope->getClassReflection();
-                if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
-                    $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
-                }
-            }
+            $placeholder = PhpDocUtil::matchStringAnnotation('@phpstandba-inference-placeholder', $queryExpr, $scope);
 
-            if (null !== $methodReflection) {
-                // atm no resolved phpdoc for methods
-                // see https://github.com/phpstan/phpstan/discussions/7657
-                $phpDocString = $methodReflection->getDocComment();
-                if (null !== $phpDocString && preg_match('/@phpstandba-inference-placeholder\s+(.+)$/m', $phpDocString, $matches)) {
-                    $placeholder = $matches[1];
-
-                    if (\in_array($placeholder[0], ['"', "'"], true)) {
-                        $placeholder = trim($placeholder, $placeholder[0]);
-                    }
-
-                    return $placeholder;
-                }
+            if (null !== $placeholder) {
+                return $placeholder;
             }
         }
+
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
