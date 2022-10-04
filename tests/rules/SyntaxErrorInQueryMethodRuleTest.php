@@ -231,5 +231,4 @@ LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
             ],
         ]);
     }
-    
 }
