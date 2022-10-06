@@ -69,6 +69,9 @@ final class PhpDocUtil
             $classReflection = $scope->getClassReflection();
             if (null !== $classReflection && $classReflection->hasMethod($callike->name->name)) {
                 $methodReflection = $classReflection->getMethod($callike->name->name, $scope);
+            } else {
+                $callerType = $scope->getType($callike->var);
+                $methodReflection = $scope->getMethodReflection($callerType, $callike->name->name);
             }
         }
 
