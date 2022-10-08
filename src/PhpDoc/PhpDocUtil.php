@@ -24,6 +24,8 @@ final class PhpDocUtil
             $methodReflection = $callLike;
         }
 
+        // XXX does not yet support conditional escaping
+        // https://psalm.dev/docs/security_analysis/avoiding_false_positives/#conditional-escaping-tainted-input
         if (null !== $methodReflection) {
             // atm no resolved phpdoc for methods
             // see https://github.com/phpstan/phpstan/discussions/7657
