@@ -201,6 +201,10 @@ final class QueryReflection
         }
 
         if ($queryExpr instanceof Expr\CallLike) {
+            if (PhpDocUtil::matchTaintEscape($queryExpr, $scope) === 'sql') {
+                return '1';
+            }
+
             $placeholder = PhpDocUtil::matchStringAnnotation('@phpstandba-inference-placeholder', $queryExpr, $scope);
 
             if (null !== $placeholder) {

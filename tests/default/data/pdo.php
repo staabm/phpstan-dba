@@ -3,6 +3,7 @@
 namespace PdoTest;
 
 use PDO;
+use staabm\PHPStanDba\Tests\Fixture\Escaper;
 use function PHPStan\Testing\assertType;
 
 class Foo
@@ -222,6 +223,19 @@ class Foo
             return self::INT;
         };
         $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid={$fn()}", PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+    }
+
+    public function taintStaticEscaped(PDO $pdo, string $s)
+    {
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid=". Escaper::staticEscape($s), PDO::FETCH_ASSOC);
+        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+    }
+
+    public function taintEscaped(PDO $pdo, string $s)
+    {
+        $escapeer = new Escaper();
+        $stmt = $pdo->query("SELECT email, adaid FROM ada WHERE adaid=". $escapeer->escape($s), PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
     }
 }
