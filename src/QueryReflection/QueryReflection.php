@@ -205,8 +205,7 @@ final class QueryReflection
                 return '1';
             }
 
-            $placeholder = PhpDocUtil::matchStringAnnotation('@phpstandba-inference-placeholder', $queryExpr, $scope);
-
+            $placeholder = PhpDocUtil::matchInferencePlaceholder($queryExpr, $scope);
             if (null !== $placeholder) {
                 return $placeholder;
             }

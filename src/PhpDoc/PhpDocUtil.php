@@ -39,9 +39,19 @@ final class PhpDocUtil
     }
 
     /**
-     * @param CallLike|MethodReflection $callLike
+     * @api
      *
-     *@api
+     * @param CallLike|MethodReflection $callLike
+     */
+    public static function matchInferencePlaceholder($callLike, Scope $scope): ?string
+    {
+        return self::matchStringAnnotation('@phpstandba-inference-placeholder', $callLike, $scope);
+    }
+
+    /**
+     * @api
+     *
+     * @param CallLike|MethodReflection $callLike
      */
     public static function commentContains(string $text, $callLike, Scope $scope): bool
     {
@@ -66,11 +76,16 @@ final class PhpDocUtil
     /**
      * Returns a unquoted plain string following a annotation.
      *
-     * @param string $annotation e.g. '@phpstandba-inference-placeholder'
+     * @param string                    $annotation e.g. '@phpstandba-inference-placeholder'
+     * @param CallLike|MethodReflection $callLike
      */
-    public static function matchStringAnnotation(string $annotation, CallLike $callLike, Scope $scope): ?string
+    private static function matchStringAnnotation(string $annotation, $callLike, Scope $scope): ?string
     {
-        $methodReflection = self::getMethodReflection($callLike, $scope);
+        if ($callLike instanceof CallLike) {
+            $methodReflection = self::getMethodReflection($callLike, $scope);
+        } else {
+            $methodReflection = $callLike;
+        }
 
         if (null !== $methodReflection) {
             // atm no resolved phpdoc for methods
