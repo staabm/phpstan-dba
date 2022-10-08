@@ -38,8 +38,8 @@ final class PhpDocUtil
 
     /**
      * @param CallLike|MethodReflection $callLike
-     *@api
      *
+     *@api
      */
     public static function commentContains(string $text, $callLike, Scope $scope): bool
     {

@@ -201,7 +201,7 @@ final class QueryReflection
         }
 
         if ($queryExpr instanceof Expr\CallLike) {
-            if (PhpDocUtil::matchTaintEscape($queryExpr, $scope) === 'sql') {
+            if ('sql' === PhpDocUtil::matchTaintEscape($queryExpr, $scope)) {
                 return '1';
             }
 
