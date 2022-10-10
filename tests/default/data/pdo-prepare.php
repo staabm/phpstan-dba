@@ -167,7 +167,7 @@ class Foo
     }
 
     /**
-     * @param list<int> $idsToUpdate
+     * @param list<positive-int> $idsToUpdate
      */
     public function specifiedList(PDO $pdo, array $idsToUpdate, string $time)
     {
