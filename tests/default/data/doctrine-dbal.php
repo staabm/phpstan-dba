@@ -228,4 +228,17 @@ class Foo
         );
         assertType('Doctrine\DBAL\Result', $result);
     }
+
+    /**
+     * @param list<positive-int> $idsToUpdate
+     */
+    public function specifiedList(Connection $conn, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $result = $conn->executeQuery($query, [
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $result);
+    }
 }
