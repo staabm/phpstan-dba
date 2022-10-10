@@ -28,7 +28,7 @@ class Foo
 
     public function bug439(Connection $conn, string $email)
     {
-        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->whitespaceAfterPlaceholder(rand(0, 100));
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->stuffAfterPlaceholder(rand(0, 100));
         $fetchResult = $conn->fetchOne($query, ['email' => $email]);
         assertType('string|false', $fetchResult);
     }
@@ -70,11 +70,11 @@ class Foo
     }
 
     /**
-     * @phpstandba-inference-placeholder '1=1'  <-- intentional whitespace after placeholders
+     * @phpstandba-inference-placeholder '1=1'  <-- anything behind placeholder value
      *
      * @return string
      */
-    private function whitespaceAfterPlaceholder(int $i)
+    private function stuffAfterPlaceholder(int $i)
     {
         return '';
     }
