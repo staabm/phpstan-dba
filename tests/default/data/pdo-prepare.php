@@ -165,4 +165,18 @@ class Foo
         // make sure we don't infer a wrong type.
         assertType('PDOStatement', $stmt);
     }
+
+    /**
+     * @param list<int> $idsToUpdate
+     */
+    public function specifiedList(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+    }
 }
