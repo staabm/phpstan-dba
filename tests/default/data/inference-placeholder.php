@@ -29,7 +29,7 @@ class Foo
     /**
      * simulating a dynamic where part, not relevant for the query overall result.
      *
-     * @phpstandba-inference-placeholder '1=1'
+     * @phpstandba-inference-placeholder '1=1'  
      *
      * @return string
      */
