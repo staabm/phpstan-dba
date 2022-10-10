@@ -91,7 +91,7 @@ final class PhpDocUtil
             // atm no resolved phpdoc for methods
             // see https://github.com/phpstan/phpstan/discussions/7657
             $phpDocString = $methodReflection->getDocComment();
-            if (null !== $phpDocString && preg_match('/'.$annotation.'\s+(.+)$/m', $phpDocString, $matches)) {
+            if (null !== $phpDocString && preg_match('/'.$annotation.'\s+(\S+)$/m', $phpDocString, $matches)) {
                 $placeholder = $matches[1];
 
                 if (\in_array($placeholder[0], ['"', "'"], true)) {
