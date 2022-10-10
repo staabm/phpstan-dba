@@ -238,4 +238,15 @@ class Foo
         $fetchResult = $conn->fetchOne($query, $idsToUpdate);
         assertType('string|false', $fetchResult);
     }
+
+    /**
+     * @param array<positive-int> $idsToUpdate
+     */
+    public function fetchFromArrayParam(Connection $conn, array $idsToUpdate)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN(?)';
+        $fetchResult = $conn->fetchOne($query, $idsToUpdate);
+        assertType('string|false', $fetchResult);
+    }
+
 }
