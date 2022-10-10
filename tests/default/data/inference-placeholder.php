@@ -26,10 +26,17 @@ class Foo
         assertType('string|false', $fetchResult);
     }
 
+    public function bug439(Connection $conn, string $email)
+    {
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->whitespaceAfterPlaceholder(rand(0, 100));
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
+        assertType('string|false', $fetchResult);
+    }
+
     /**
      * simulating a dynamic where part, not relevant for the query overall result.
      *
-     * @phpstandba-inference-placeholder '1=1'  
+     * @phpstandba-inference-placeholder '1=1'  <-- intentional whitespace after placeholders
      *
      * @return string
      */
@@ -60,5 +67,15 @@ class Foo
         }
 
         return implode(' AND ', $where);
+    }
+
+    /**
+     * @phpstandba-inference-placeholder '1=1'  <-- intentional whitespace after placeholders
+     *
+     * @return string
+     */
+    private function whitespaceAfterPlaceholder(int $i)
+    {
+        return '';
     }
 }
