@@ -232,10 +232,10 @@ class Foo
     /**
      * @param list<positive-int> $idsToUpdate
      */
-    public function specifiedList(Connection $conn, array $idsToUpdate)
+    public function fetchFromListParam(Connection $conn, array $idsToUpdate)
     {
         $query = 'SELECT adaid FROM ada WHERE adaid IN (?)';
-        $result = $conn->executeQuery($query, $idsToUpdate);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $result);
+        $fetchResult = $conn->fetchOne($query, $idsToUpdate);
+        assertType('string|false', $fetchResult);
     }
 }
