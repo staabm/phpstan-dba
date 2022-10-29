@@ -66,7 +66,6 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        $unsupportedMethod = true;
         $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
@@ -76,12 +75,11 @@ final class QueryPlanAnalyzerRule implements Rule
 
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
-                $unsupportedMethod = false;
                 break;
             }
         }
 
-        if ($unsupportedMethod) {
+        if ($queryArgPosition === null) {
             return [];
         }
 

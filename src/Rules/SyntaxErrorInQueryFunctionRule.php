@@ -58,7 +58,6 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             return [];
         }
 
-        $unsupportedFunction = true;
         $queryArgPosition = null;
         foreach ($this->functionNames as $functionName) {
             sscanf($functionName, '%[^#]#%s', $functionName, $queryArgPosition);
@@ -67,12 +66,11 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             }
 
             if (strtolower($functionName) === strtolower($calledFunctionName)) {
-                $unsupportedFunction = false;
                 break;
             }
         }
 
-        if ($unsupportedFunction) {
+        if ($queryArgPosition === null) {
             return [];
         }
 
