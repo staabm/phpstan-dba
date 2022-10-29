@@ -10,3 +10,10 @@ parameters:
 
     bootstrapFiles:
         - bootstrap.php
+
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        - '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
+        - '#^Property staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:\$hash \(string\|null\) does not accept float\|int\|string\.$#'
+
