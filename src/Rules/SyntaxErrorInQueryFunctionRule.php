@@ -60,8 +60,8 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
         $queryArgPosition = null;
         foreach ($this->functionNames as $functionName) {
-            sscanf($functionName, '%[^#]#%s', $functionName, $queryArgPosition);
-            if (!is_string($functionName) || !is_numeric($queryArgPosition)) {
+            sscanf($functionName, '%[^#]#%i', $functionName, $queryArgPosition);
+            if (!is_string($functionName) || !is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid functionName definition');
             }
 

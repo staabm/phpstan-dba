@@ -68,8 +68,8 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
-            if (!is_string($className) || !is_string($methodName) || !is_numeric($queryArgPosition)) {
+            sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
+            if (!is_string($className) || !is_string($methodName) || !is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
@@ -84,7 +84,6 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $args = $callLike->getArgs();
-
         if (!\array_key_exists($queryArgPosition, $args)) {
             return [];
         }
