@@ -13,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
@@ -68,6 +69,9 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
+            if (!is_string($className) || !is_string($methodName)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
