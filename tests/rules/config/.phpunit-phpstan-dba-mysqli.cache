@@ -55,6 +55,18 @@
         5 => NULL,
       ),
     ),
+    'SELECT * FROM ``' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Incorrect table name \'\'',
+         'code' => 1103,
+      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
       'result' => 
@@ -2950,6 +2962,18 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         5 => NULL,
       ),
     ),
+    'SELECT email, adaid FROM `` WHERE adaid = \'1\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Incorrect table name \'\'',
+         'code' => 1103,
+      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada' => 
     array (
       'result' => 
@@ -3259,6 +3283,18 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'Unknown column \'xy\' in \'group statement\'',
          'code' => 1054,
+      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
+         'code' => 1064,
       )),
       'result' => 
       array (

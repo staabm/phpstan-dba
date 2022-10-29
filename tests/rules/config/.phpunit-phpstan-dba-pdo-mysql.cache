@@ -2696,6 +2696,18 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => '42S22',
       )),
     ),
+    'SELECT email, adaid FROM ada WHERE' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
+         'code' => '42000',
+      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
       'result' => 
