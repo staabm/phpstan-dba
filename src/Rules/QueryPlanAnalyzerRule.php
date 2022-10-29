@@ -13,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -65,24 +66,24 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        $unsupportedMethod = true;
         $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
+            sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
+            if (!is_string($className) || !is_string($methodName) || !is_int($queryArgPosition)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
-                $unsupportedMethod = false;
                 break;
             }
         }
 
-        if ($unsupportedMethod) {
+        if ($queryArgPosition === null) {
             return [];
         }
 
         $args = $callLike->getArgs();
-
         if (!\array_key_exists($queryArgPosition, $args)) {
             return [];
         }

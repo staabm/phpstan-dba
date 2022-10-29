@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -49,19 +50,20 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        $unsupportedMethod = true;
         $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
+            sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
+            if (!is_string($className) || !is_string($methodName) || !is_int($queryArgPosition)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
-                $unsupportedMethod = false;
                 break;
             }
         }
 
-        if ($unsupportedMethod) {
+        if ($queryArgPosition === null) {
             return [];
         }
 
