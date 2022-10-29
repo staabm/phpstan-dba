@@ -63,7 +63,7 @@ class Foo
 
     public function bug442(Connection $conn, string $table)
     {
-        // just make sure we don't error
+        // just make sure we don't fatal error
         $conn->fetchAllAssociative("SELECT * FROM `$table`");
 
         $query = 'SELECT email, adaid FROM '. $table .' WHERE adaid = ?';
