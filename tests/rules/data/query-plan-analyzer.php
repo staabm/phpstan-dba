@@ -60,4 +60,16 @@ class Foo
     {
         $conn->executeQuery('SELECT * FROM ada WHERE email = '.$email);
     }
+
+    public function bug442(Connection $conn, string $table)
+    {
+        // just make sure we don't fatal error
+        $conn->fetchAllAssociative("SELECT * FROM `$table`");
+
+        $query = 'SELECT email, adaid FROM '. $table .' WHERE adaid = ?';
+        $conn->fetchAssociative($query, [1]);
+
+        $query = "SELECT email, adaid FROM `$table` WHERE adaid = ?";
+        $conn->fetchAssociative($query, [1]);
+    }
 }

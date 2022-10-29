@@ -87,8 +87,8 @@ jobs:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
         composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
-    - name: Setup Problem Matchers for PHPUnit
-      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+    - name: Configure matchers
+      uses: mheap/phpunit-matcher-action@v1
 
     - name: Lint
       run: php vendor/bin/parallel-lint --colors src tests
@@ -97,7 +97,7 @@ jobs:
       run: |
         mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
 
-    - run: composer phpunit
+    - run: composer phpunit -- --teamcity
 
   replay:
     name: PHPUnit (reflection replay)
@@ -135,7 +135,7 @@ jobs:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
         composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
-    - name: Setup Problem Matchers for PHPUnit
-      run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+    - name: Configure matchers
+      uses: mheap/phpunit-matcher-action@v1
 
-    - run: composer phpunit
+    - run: composer phpunit -- --teamcity

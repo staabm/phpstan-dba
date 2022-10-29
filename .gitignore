@@ -10,3 +10,5 @@ pdo.php
 .env
 
 .idea/
+
+/test.php
