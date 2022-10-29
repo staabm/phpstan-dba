@@ -13,6 +13,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
@@ -299,8 +300,13 @@ final class QueryReflection
                 $isOptional = true;
             }
 
-            if ($keyType instanceof ConstantStringType) {
-                $placeholderName = $keyType->getValue();
+            if (!$keyType instanceof ConstantScalarType) {
+                continue;
+            }
+
+            $value = $keyType->getValue();
+            if (is_string($value)) {
+                $placeholderName = $value;
 
                 if ('' === $placeholderName) {
                     throw new ShouldNotHappenException('Empty placeholder name');
@@ -314,7 +320,7 @@ final class QueryReflection
                 );
 
                 $parameters[$param->name] = $param;
-            } elseif ($keyType instanceof ConstantIntegerType) {
+            } elseif (is_int($value)) {
                 $param = new Parameter(
                     null,
                     $valueTypes[$i],
