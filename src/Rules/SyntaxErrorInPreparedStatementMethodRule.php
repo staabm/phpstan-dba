@@ -69,7 +69,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
-            if (!is_string($className) || !is_string($methodName)) {
+            if (!\is_string($className) || !\is_string($methodName)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 

@@ -69,7 +69,7 @@ final class QueryPlanAnalyzerRule implements Rule
         $queryArgPosition = null;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
-            if (!is_string($className) || !is_string($methodName) || !is_int($queryArgPosition)) {
+            if (!\is_string($className) || !\is_string($methodName) || !\is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
@@ -79,7 +79,7 @@ final class QueryPlanAnalyzerRule implements Rule
             }
         }
 
-        if ($queryArgPosition === null) {
+        if (null === $queryArgPosition) {
             return [];
         }
 
