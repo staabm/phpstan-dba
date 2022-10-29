@@ -20,6 +20,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     private const MYSQL_SYNTAX_ERROR_CODE = 1064;
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
     public const MYSQL_UNKNOWN_TABLE = 1146;
+    public const MYSQL_INCORRECT_TABLE = 1103;
 
     public const MYSQL_HOST_NOT_FOUND = 2002;
 
@@ -29,6 +30,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
         self::MYSQL_UNKNOWN_TABLE,
+        self::MYSQL_INCORRECT_TABLE,
     ];
 
     private const MAX_CACHE_SIZE = 50;
