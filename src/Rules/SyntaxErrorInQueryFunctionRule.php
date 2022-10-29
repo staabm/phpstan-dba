@@ -61,7 +61,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         $queryArgPosition = null;
         foreach ($this->functionNames as $functionName) {
             sscanf($functionName, '%[^#]#%i', $functionName, $queryArgPosition);
-            if (!is_string($functionName) || !is_int($queryArgPosition)) {
+            if (!\is_string($functionName) || !\is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid functionName definition');
             }
 
@@ -70,7 +70,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             }
         }
 
-        if ($queryArgPosition === null) {
+        if (null === $queryArgPosition) {
             return [];
         }
 
