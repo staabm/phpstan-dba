@@ -43,9 +43,13 @@
 		],
 		"test": [
 			"@putenv DBA_REFLECTOR=mysqli",
-
 			"@phpunit",
 			"@phpstan",
+
+			"@putenv DBA_REFLECTOR=pdo-mysql",
+			"@phpunit",
+			"@phpstan",
+
 			"@csfix"
 		],
 		"record": [
