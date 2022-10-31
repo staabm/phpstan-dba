@@ -8,7 +8,7 @@ class X {
      */
     private $conn;
 
-    public function bug394($sequence)
+    public function bug394(mixed $sequence)
     {
         if ($sequence['conditionId'] !== null) {
             $query = 'SELECT email, adaid FROM ada WHERE adaid = ?';
