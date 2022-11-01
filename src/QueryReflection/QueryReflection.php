@@ -174,7 +174,7 @@ final class QueryReflection
     {
         if ($queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+            $queryStringExpr = $finder->findAssignment($queryExpr);
 
             if (null !== $queryStringExpr) {
                 return $this->resolveQueryStringExpr($queryStringExpr, $scope);
@@ -190,8 +190,9 @@ final class QueryReflection
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
+
             $finder = new ExpressionFinder();
-            $assignExpr = $finder->findQueryStringExpression($queryExpr);
+            $assignExpr = $finder->findAssignment($queryExpr);
 
             if (null !== $assignExpr) {
                 return $this->resolveQueryStringExpr($assignExpr, $scope);
