@@ -51,7 +51,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         }
 
         $queryArgPosition = null;
-        $unsupportedMethod = false;
+        $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
             if (!\is_string($className) || !\is_string($methodName) || !\is_int($queryArgPosition)) {
@@ -61,7 +61,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             if ($methodName === $methodReflection->getName() &&
                 ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))
             ) {
-                $unsupportedMethod = true;
+                $unsupportedMethod = false;
                 break;
             }
         }
