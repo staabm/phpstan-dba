@@ -117,4 +117,9 @@ class Foo
 
         $pdo->query('SELECT email, adaid FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
     }
+
+    public function bug442(PDO $pdo, string $table)
+    {
+        $pdo->query("SELECT * FROM `$table`");
+    }
 }

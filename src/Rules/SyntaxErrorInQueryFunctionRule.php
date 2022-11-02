@@ -59,6 +59,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         }
 
         $queryArgPosition = null;
+        $unsupportedFunction = true;
         foreach ($this->functionNames as $functionName) {
             sscanf($functionName, '%[^#]#%i', $functionName, $queryArgPosition);
             if (!\is_string($functionName) || !\is_int($queryArgPosition)) {
@@ -66,11 +67,15 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             }
 
             if (strtolower($functionName) === strtolower($calledFunctionName)) {
+                $unsupportedFunction = false;
                 break;
             }
         }
 
         if (null === $queryArgPosition) {
+            throw new ShouldNotHappenException('Invalid classMethod definition');
+        }
+        if ($unsupportedFunction) {
             return [];
         }
 

@@ -38,4 +38,9 @@ class Foo
 
         mysqli_query($mysqli, $query);
     }
+
+    public function bug442(\mysqli $mysqli, string $table)
+    {
+        mysqli_query($mysqli, "SELECT * FROM `$table`");
+    }
 }

@@ -154,6 +154,7 @@ final class ReflectionCache
             return null;
         }
 
+        // the schemaHash is only available in replay-and-record mode.
         if (null === $this->schemaHash) {
             $this->schemaHash = $cache['schemaHash'];
         } elseif ($this->schemaHash !== $cache['schemaHash']) {
