@@ -8,14 +8,12 @@ class X {
      */
     private $conn;
 
-    public function bug394(mixed $sequence)
+    public function bug394(mixed $conditionId)
     {
-        if ($sequence['conditionId'] !== null) {
+        if ($conditionId !== null) {
             $query = 'SELECT email, adaid FROM ada WHERE adaid = ?';
-            $fetchResult = $this->conn->fetchAssociative($query, [$sequence['conditionId']]);
+            $fetchResult = $this->conn->fetchAssociative($query, [$conditionId]);
             assertType('array{email: string, adaid: int<-32768, 32767>}|false', $fetchResult);
         }
     }
 }
-
-
