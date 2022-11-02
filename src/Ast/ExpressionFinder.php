@@ -43,6 +43,7 @@ final class ExpressionFinder
                 return $node instanceof Assign;
             });
 
+            // atm we cannot reason about variables which are manipulated via assign ops
             if ($matchedAssignOp) {
                 return null;
             }
