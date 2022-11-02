@@ -88,7 +88,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);
             foreach ($queryStrings as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
-                if (null !== $queryError) {
+                if (null !== $queryError && !$queryError->isInsignificant()) {
                     return [
                         RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
                     ];

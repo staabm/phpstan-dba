@@ -93,7 +93,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         try {
             foreach ($queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope) as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
-                if (null !== $queryError) {
+                if (null !== $queryError && !$queryError->isInsignificant()) {
                     return [
                         RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
                     ];

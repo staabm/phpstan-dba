@@ -130,7 +130,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         try {
             foreach ($queryStrings as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
-                if (null !== $queryError) {
+                if (null !== $queryError && !$queryError->isInsignificant()) {
                     $error = $queryError->asRuleMessage();
                     $errors[$error] = $error;
                 }

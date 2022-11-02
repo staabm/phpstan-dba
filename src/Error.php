@@ -43,6 +43,14 @@ final class Error
         return $this->code;
     }
 
+    public function isInsignificant(): bool
+    {
+        $noTableGiven = strpos($this->getMessage(), " ''");
+        $inCorrectTable = \in_array($this->code, [MysqliQueryReflector::MYSQL_INCORRECT_TABLE, BasePdoQueryReflector::MYSQL_INCORRECT_TABLE], true);
+
+        return $inCorrectTable && $noTableGiven;
+    }
+
     public function asRuleMessage(): string
     {
         return 'Query error: '.$this->getMessage().' ('.$this->getCode().').';
