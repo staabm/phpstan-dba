@@ -28,6 +28,16 @@ final class ExpressionFinder
 
     /**
      * @param Variable|MethodCall $expr
+     *
+     * @deprecated use findAssignmentExpression() instead
+     */
+    public function findQueryStringExpression(Expr $expr): ?Expr
+    {
+        return $this->findAssignmentExpression($expr);
+    }
+
+    /**
+     * @param Variable|MethodCall $expr
      */
     public function findAssignmentExpression(Expr $expr, bool $skipAssignOps = false): ?Expr
     {
