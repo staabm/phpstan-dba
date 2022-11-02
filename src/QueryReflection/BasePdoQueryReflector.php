@@ -28,7 +28,6 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     private const MYSQL_SYNTAX_ERROR_CODE = '42000';
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = '42S22';
     private const MYSQL_UNKNOWN_TABLE = '42S02';
-    public const MYSQL_INCORRECT_TABLE = '42000';
 
     private const PDO_SYNTAX_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
@@ -44,7 +43,6 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
         self::MYSQL_UNKNOWN_TABLE,
-        self::MYSQL_INCORRECT_TABLE,
     ];
 
     protected const MAX_CACHE_SIZE = 50;

@@ -2,12 +2,14 @@
 
 namespace staabm\PHPStanDba;
 
+use PDOException;
 use staabm\PHPStanDba\QueryReflection\BasePdoQueryReflector;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
 /**
- * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<BasePdoQueryReflector::PDO_ERROR_CODES>
+ * @phpstan-type ExtensionErrorCode value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<BasePdoQueryReflector::PDO_ERROR_CODES>
+ * @phpstan-type MysqlErrorCode value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>
  */
 final class Error
 {
@@ -17,17 +19,31 @@ final class Error
     private $message;
 
     /**
-     * @var ErrorCodes
+     * The error code of the used php extension.
+     *
+     * Sometimes thats the same as the dbErrorCode,
+     * but some extensions (e.g. PDO) have separate error codes.
+     *
+     * @var ExtensionErrorCode
      */
-    private $code;
+    private $extensionErrorCode;
 
     /**
-     * @param ErrorCodes $code
+     * The underlying mysql error code
+     *
+     * @var MysqlErrorCode|null
      */
-    public function __construct(string $message, $code)
+    private $dbErrorCode;
+
+    /**
+     * @param ExtensionErrorCode $extensionErrorCode
+     * @param MysqlErrorCode $dbErrorCode
+     */
+    public function __construct(string $message, $extensionErrorCode, $dbErrorCode)
     {
         $this->message = $message;
-        $this->code = $code;
+        $this->extensionErrorCode = $extensionErrorCode;
+        $this->dbErrorCode = $dbErrorCode;
     }
 
     public function getMessage(): string
@@ -36,17 +52,17 @@ final class Error
     }
 
     /**
-     * @return ErrorCodes
+     * @return ExtensionErrorCode
      */
     public function getCode()
     {
-        return $this->code;
+        return $this->extensionErrorCode;
     }
 
     public function isInsignificant(): bool
     {
         $noTableGiven = strpos($this->getMessage(), " ''");
-        $inCorrectTable = \in_array($this->code, [MysqliQueryReflector::MYSQL_INCORRECT_TABLE, BasePdoQueryReflector::MYSQL_INCORRECT_TABLE], true);
+        $inCorrectTable = \in_array($this->dbErrorCode, [MysqliQueryReflector::MYSQL_INCORRECT_TABLE], true);
 
         return $inCorrectTable && $noTableGiven;
     }
@@ -57,12 +73,16 @@ final class Error
     }
 
     /**
-     * @param ErrorCodes $code
+     * @param ExtensionErrorCode $code
      */
     public static function forSyntaxError(\Throwable $exception, $code, string $queryString): self
     {
-        $message = $exception->getMessage();
+        $dbErrorCode = null;
+        if ($exception instanceof PDOException && is_array($exception->errorInfo)) {
+            $dbErrorCode = $exception->errorInfo[1];
+        }
 
+        $message = $exception->getMessage();
         // make error string consistent across mysql/mariadb
         $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
         $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
@@ -71,28 +91,32 @@ final class Error
         $simulatedQuery = QuerySimulation::simulate($queryString);
         $message = $message."\n\nSimulated query: ".$simulatedQuery;
 
-        return new self($message, $code);
+        return new self($message, $code, $dbErrorCode);
     }
 
     /**
-     * @param ErrorCodes $code
+     * @param ExtensionErrorCode $code
      */
     public static function forException(\Throwable $exception, $code): self
     {
-        $message = $exception->getMessage();
+        $dbErrorCode = null;
+        if ($exception instanceof PDOException && is_array($exception->errorInfo)) {
+            $dbErrorCode = $exception->errorInfo[1];
+        }
 
+        $message = $exception->getMessage();
         // make error string consistent across mysql/mariadb
         $message = str_replace(' MySQL server', ' MySQL/MariaDB server', $message);
         $message = str_replace(' MariaDB server', ' MySQL/MariaDB server', $message);
 
-        return new self($message, $code);
+        return new self($message, $code, $dbErrorCode);
     }
 
     /**
-     * @param array{message: string, code: ErrorCodes} $array
+     * @param array{message: string, extensionErrorCode: ExtensionErrorCode, dbErrorCode: MysqlErrorCode} $array
      */
     public static function __set_state(array $array)
     {
-        return new self($array['message'], $array['code']);
+        return new self($array['message'], $array['extensionErrorCode'], $array['dbErrorCode']);
     }
 }
