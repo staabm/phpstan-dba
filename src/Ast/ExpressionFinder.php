@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
+use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 
 final class ExpressionFinder
@@ -29,7 +30,7 @@ final class ExpressionFinder
     /**
      * @param Variable|MethodCall $expr
      */
-    public function findAssignment(Expr $expr): ?Expr
+    public function findAssignment(Expr $expr, bool $skipAssignOps = false): ?Expr
     {
         $current = $expr;
         while (null !== $current) {
@@ -44,7 +45,7 @@ final class ExpressionFinder
             });
 
             // atm we cannot reason about variables which are manipulated via assign ops
-            if ($matchedAssignOp) {
+            if ($skipAssignOps && $matchedAssignOp) {
                 return null;
             }
 

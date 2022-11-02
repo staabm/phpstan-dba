@@ -192,7 +192,7 @@ final class QueryReflection
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
 
             $finder = new ExpressionFinder();
-            $assignExpr = $finder->findAssignment($queryExpr);
+            $assignExpr = $finder->findAssignment($queryExpr, true);
 
             if (null !== $assignExpr) {
                 return $this->resolveQueryStringExpr($assignExpr, $scope);
