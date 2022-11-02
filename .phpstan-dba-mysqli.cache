@@ -1,8 +1,136 @@
 <?php return array (
   'schemaVersion' => 'v9-put-null-when-valid',
-  'schemaHash' => '436d43fc96b9dd0cfad4bbc2837886e4',
+  'schemaHash' => NULL,
   'records' => 
   array (
+    'SELECT
+                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
+                    coalesce(EXTRA, "") as EXTRA,
+                    COLUMN_TYPE
+                 FROM information_schema.columns
+                 WHERE table_name = \'1970-01-01\' AND table_schema = DATABASE()' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'COLUMN_NAME',
+                 'isClassString' => false,
+              )),
+              4 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'COLUMN_TYPE',
+                 'isClassString' => false,
+              )),
+              5 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'EXTRA',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 3,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'COLUMN_NAME',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'EXTRA',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'COLUMN_TYPE',
+               'isClassString' => false,
+            )),
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            2 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            3 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            4 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            5 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
+    ),
+    'SELECT
+                    coalesce(COLUMN_NAME, "") as COLUMN_NAME,
+                    coalesce(EXTRA, "") as EXTRA,
+                    COLUMN_TYPE
+                 FROM information_schema.columns
+                 WHERE table_name = ? AND table_schema = DATABASE()' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT
                 MD5(
                     GROUP_CONCAT(
@@ -21,78 +149,6 @@
                 table_schema = DATABASE()
             GROUP BY
                 grouper' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT DISTINCT article_id, clang_id FROM article_slice WHERE' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-    ),
-    'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 FOR SHARE NOWAIT' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 FOR SHARE SKIP LOCKED' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 FOR UPDATE NOWAIT' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 FOR UPDATE SKIP LOCKED' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT akid FROM ak WHERE eadavk>1.0' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT akid FROM ak WHERE eadavk>1.1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT eladaid FROM ak' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-    ),
-    'SELECT email, adaid FROM ada' => 
     array (
       'result' => 
       array (
@@ -114,29 +170,30 @@
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'value' => 'adaid',
+                 'value' => 'dbsignature',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'value' => 'email',
+                 'value' => 'grouper',
                  'isClassString' => false,
               )),
             ),
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -32768,
-                 'max' => 32767,
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              2 => 
+              PHPStan\Type\NullType::__set_state(array(
               )),
             ),
           )),
@@ -150,7 +207,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'value' => 'email',
+               'value' => 'dbsignature',
                'isClassString' => false,
             )),
             1 => 
@@ -160,7 +217,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'value' => 'adaid',
+               'value' => 'grouper',
                'isClassString' => false,
             )),
             3 => 
@@ -171,20 +228,116 @@
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
             )),
             1 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
             )),
             2 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
             3 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+        3 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'dbsignature',
+                 'isClassString' => false,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'grouper',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              2 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'dbsignature',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'grouper',
+               'isClassString' => false,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            1 => 
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -193,73 +346,177 @@
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada LIMIT 1' => 
+    'SELECT column_name, column_default, is_nullable
+FROM information_schema.columns
+WHERE table_name = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 2,
+              )),
+              3 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'COLUMN_DEFAULT',
+                 'isClassString' => false,
+              )),
+              4 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'COLUMN_NAME',
+                 'isClassString' => false,
+              )),
+              5 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'value' => 'IS_NULLABLE',
+                 'isClassString' => false,
+              )),
+            ),
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 3,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'COLUMN_NAME',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+            2 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'COLUMN_DEFAULT',
+               'isClassString' => false,
+            )),
+            3 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 1,
+            )),
+            4 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'value' => 'IS_NULLABLE',
+               'isClassString' => false,
+            )),
+            5 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 2,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            2 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            3 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => true,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+            )),
+            4 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            5 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+        )),
+      ),
     ),
-    'SELECT email, adaid FROM ada LIMIT 1, 10' => 
+    'SELECT column_name, column_default, is_nullable
+FROM information_schema.columns
+WHERE table_name = ?' => 
     array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = 1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = 2' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = 3' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid IN(1,3)' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid=' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid=1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE email = \'webmaster@example.org\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE email=\'foo\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid FROM ada article_slice WHERE' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
     ),
   ),
   'runtimeConfig' => 
