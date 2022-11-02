@@ -53,6 +53,7 @@
 			"@csfix"
 		],
 		"record": [
+			"phpstan clear-result-cache",
 			"@putenv DBA_MODE=recording",
 
 			"@putenv DBA_REFLECTOR=mysqli",
