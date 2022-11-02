@@ -29,7 +29,7 @@ final class ExpressionFinder
     /**
      * @param Variable|MethodCall $expr
      */
-    public function findAssignment(Expr $expr, bool $skipAssignOps = false): ?Expr
+    public function findAssignmentExpression(Expr $expr, bool $skipAssignOps = false): ?Expr
     {
         $current = $expr;
         while (null !== $current) {
