@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v9-put-null-when-valid';
+    public const SCHEMA_VERSION = 'v10-exceptions-with-db-error-code';
 
     /**
      * @var string
