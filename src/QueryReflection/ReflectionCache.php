@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v10-exceptions-with-db-error-code';
+    public const SCHEMA_VERSION = 'v10-exception-with-db-error-code';
 
     /**
      * @var string
@@ -146,7 +146,8 @@ final class ReflectionCache
         if (!\is_array($cache) ||
             !\array_key_exists('schemaVersion', $cache) ||
             !\array_key_exists('schemaHash', $cache) ||
-            self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+            self::SCHEMA_VERSION !== $cache['schemaVersion']
+        ) {
             return null;
         }
 

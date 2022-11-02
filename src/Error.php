@@ -29,7 +29,7 @@ final class Error
     private $extensionErrorCode;
 
     /**
-     * The underlying mysql error code
+     * The underlying mysql error code.
      *
      * @var MysqlErrorCode|null
      */
@@ -37,7 +37,7 @@ final class Error
 
     /**
      * @param ExtensionErrorCode $extensionErrorCode
-     * @param MysqlErrorCode $dbErrorCode
+     * @param MysqlErrorCode     $dbErrorCode
      */
     public function __construct(string $message, $extensionErrorCode, $dbErrorCode)
     {
@@ -62,9 +62,9 @@ final class Error
     public function isInsignificant(): bool
     {
         $noTableGiven = strpos($this->getMessage(), " ''");
-        $inCorrectTable = \in_array($this->dbErrorCode, [MysqliQueryReflector::MYSQL_INCORRECT_TABLE], true);
+        $incorrectTable = \in_array($this->dbErrorCode, [MysqliQueryReflector::MYSQL_INCORRECT_TABLE], true);
 
-        return $inCorrectTable && $noTableGiven;
+        return $incorrectTable && $noTableGiven;
     }
 
     public function asRuleMessage(): string
@@ -77,9 +77,10 @@ final class Error
      */
     public static function forSyntaxError(\Throwable $exception, $code, string $queryString): self
     {
-        $dbErrorCode = null;
-        if ($exception instanceof PDOException && is_array($exception->errorInfo)) {
+        if ($exception instanceof PDOException && \is_array($exception->errorInfo)) {
             $dbErrorCode = $exception->errorInfo[1];
+        } else {
+            $dbErrorCode = $code;
         }
 
         $message = $exception->getMessage();
@@ -99,9 +100,10 @@ final class Error
      */
     public static function forException(\Throwable $exception, $code): self
     {
-        $dbErrorCode = null;
-        if ($exception instanceof PDOException && is_array($exception->errorInfo)) {
+        if ($exception instanceof PDOException && \is_array($exception->errorInfo)) {
             $dbErrorCode = $exception->errorInfo[1];
+        } else {
+            $dbErrorCode = $code;
         }
 
         $message = $exception->getMessage();

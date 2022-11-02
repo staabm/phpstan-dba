@@ -55,6 +55,13 @@
         5 => NULL,
       ),
     ),
+    'SELECT * FROM ``' => 
+    array (
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
       'result' => 
