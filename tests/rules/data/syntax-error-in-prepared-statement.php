@@ -351,4 +351,14 @@ class Foo
         ]);
     }
 
+    /**
+     * @return string|false
+     */
+    private function returnsUnion() {}
+
+    public function bug458(Connection $conn)
+    {
+        $table = $this->returnsUnion();
+        $conn->executeQuery('SELECT * FROM ' . $table . ' LIMIT 1');
+    }
 }
