@@ -12,7 +12,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
-use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 
 final class ExpressionFinder
@@ -41,6 +40,7 @@ final class ExpressionFinder
                 if ($node instanceof Node\Stmt\Expression && $node->expr instanceof AssignOp) {
                     $matchedAssignOp = true;
                 }
+
                 return $node instanceof Assign;
             });
 
