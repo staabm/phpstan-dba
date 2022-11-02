@@ -337,10 +337,10 @@ final class ReflectionCache
 
     private function isPHPStormSingleFileRun(): bool
     {
-        if (!array_key_exists('__CFBundleIdentifier', $_SERVER)) {
+        if (!\array_key_exists('__CFBundleIdentifier', $_SERVER)) {
             return false;
         }
 
-        return $_SERVER['__CFBundleIdentifier'] === 'com.jetbrains.PhpStorm';
+        return 'com.jetbrains.PhpStorm' === $_SERVER['__CFBundleIdentifier'];
     }
 }
