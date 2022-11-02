@@ -154,7 +154,9 @@ final class ReflectionCache
             return null;
         }
 
-        if (null === $this->schemaHash) {
+        if ($cache['schemaHash'] === null ) {
+            return null;
+        } elseif (null === $this->schemaHash) {
             $this->schemaHash = $cache['schemaHash'];
         } elseif ($this->schemaHash !== $cache['schemaHash']) {
             return null;
