@@ -3865,6 +3865,18 @@ FROM ada' =>
         )),
       ),
     ),
+    'SELECT email, adaid FROM ada WHERE' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        5 => NULL,
+      ),
+    ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
       'result' => 
@@ -5606,6 +5618,18 @@ FROM ada' =>
           array (
           ),
         )),
+      ),
+    ),
+    'SELECT email, adaid FROM ada article_slice WHERE' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+      'result' => 
+      array (
+        5 => NULL,
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 

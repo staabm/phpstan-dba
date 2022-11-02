@@ -24,7 +24,7 @@ final class PdoStatementReflection
     public function findPrepareQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         $exprFinder = new ExpressionFinder();
-        $queryExpr = $exprFinder->findQueryStringExpression($methodCall);
+        $queryExpr = $exprFinder->findAssignmentExpression($methodCall);
 
         // resolve query parameter from "prepare"
         if ($queryExpr instanceof MethodCall) {

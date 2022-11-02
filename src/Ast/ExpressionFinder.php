@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Ast;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\FunctionLike;
@@ -28,14 +29,24 @@ final class ExpressionFinder
     /**
      * @param Variable|MethodCall $expr
      */
-    public function findQueryStringExpression(Expr $expr): ?Expr
+    public function findAssignmentExpression(Expr $expr, bool $skipAssignOps = false): ?Expr
     {
         $current = $expr;
         while (null !== $current) {
+            $matchedAssignOp = false;
+
             /** @var Assign|null $assign */
-            $assign = $this->findFirstPreviousOfNode($current, function ($node) {
+            $assign = $this->findFirstPreviousOfNode($current, function ($node) use (&$matchedAssignOp) {
+                if ($node instanceof Node\Stmt\Expression && $node->expr instanceof AssignOp) {
+                    $matchedAssignOp = true;
+                }
+
                 return $node instanceof Assign;
             });
+
+            if ($skipAssignOps && $matchedAssignOp) {
+                return null;
+            }
 
             if (null !== $assign) {
                 if ($expr instanceof Variable && $this->resolveName($assign->var) === $this->resolveName($expr)) {

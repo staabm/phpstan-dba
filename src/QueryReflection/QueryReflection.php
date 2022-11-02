@@ -174,7 +174,7 @@ final class QueryReflection
     {
         if ($queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+            $queryStringExpr = $finder->findAssignmentExpression($queryExpr);
 
             if (null !== $queryStringExpr) {
                 return $this->resolveQueryStringExpr($queryStringExpr, $scope);
@@ -191,7 +191,8 @@ final class QueryReflection
     {
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $assignExpr = $finder->findQueryStringExpression($queryExpr);
+            // atm we cannot reason about variables which are manipulated via assign ops
+            $assignExpr = $finder->findAssignmentExpression($queryExpr, true);
 
             if (null !== $assignExpr) {
                 return $this->resolveQueryStringExpr($assignExpr, $scope);
