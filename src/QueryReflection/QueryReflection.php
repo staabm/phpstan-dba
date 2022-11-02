@@ -190,8 +190,8 @@ final class QueryReflection
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
-
             $finder = new ExpressionFinder();
+            // atm we cannot reason about variables which are manipulated via assign ops
             $assignExpr = $finder->findAssignment($queryExpr, true);
 
             if (null !== $assignExpr) {
