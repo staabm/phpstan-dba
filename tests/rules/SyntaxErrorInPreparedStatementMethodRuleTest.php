@@ -12,7 +12,7 @@ use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class SyntaxErrorInPreparedStatementMethodRuleReflectorTest extends RuleTestCase
+class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
