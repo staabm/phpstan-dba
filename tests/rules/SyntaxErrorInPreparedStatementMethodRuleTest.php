@@ -22,7 +22,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/config/syntax-error-in-prepared-statement.neon',
+            __DIR__.'/../../config/dba.neon',
         ];
     }
 
