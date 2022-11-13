@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use Dibi\Connection;
 use Dibi\DriverException;
-use mysqli_sql_exception;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -34,10 +33,11 @@ final class DibiQueryReflector implements QueryReflector, RecordingReflector
 
     private const MAX_CACHE_SIZE = 50;
 
-    /** @var array<string, mysqli_sql_exception|list<object>|null> */
+    /** @var array<string, DriverException|list<object>|null> */
     private $cache = [];
 
-    private Connection $connection;
+    /** @var Connection */
+    private $connection;
 
     /**
      * @var MysqliTypeMapper
@@ -79,7 +79,7 @@ final class DibiQueryReflector implements QueryReflector, RecordingReflector
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        /** @var array<Dibi\Reflection\Column> $result */
+        /** @var array<\Dibi\Reflection\Column> $result */
         $result = $this->simulateQuery($queryString);
 
         if (!\is_array($result)) {
