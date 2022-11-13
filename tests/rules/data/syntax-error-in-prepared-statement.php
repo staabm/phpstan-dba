@@ -329,12 +329,20 @@ class Foo
         $conn->executeQuery("SELECT * FROM `$table`");
     }
 
-    public function bidiTest(\Dibi\Connection $conn)
+    public function dibiTest(\Dibi\Connection $conn)
     {
         // syntax error, should expect a error in the test
         $conn->fetch('SELECT email adaid WHERE gesperrt FROM ada');
+        $conn->fetchSingle('SELECT email adaid WHERE gesperrt FROM ada');
+        $conn->query('SELECT email adaid WHERE gesperrt FROM ada');
+        $conn->fetchPairs('SELECT email adaid WHERE gesperrt FROM ada');
+        $conn->fetchAll('SELECT email adaid WHERE gesperrt FROM ada');
         // all good, no error expected
         $conn->fetch('SELECT email, adaid FROM ada');
+        $conn->fetchSingle('SELECT email, adaid FROM ada');
+        $conn->query('SELECT email, adaid FROM ada');
+        $conn->fetchPairs('SELECT email, adaid FROM ada');
+        $conn->fetchAll('SELECT email, adaid FROM ada');
     }
 
 }

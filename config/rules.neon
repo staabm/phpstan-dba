@@ -25,6 +25,10 @@ services:
                 - 'Doctrine\DBAL\Connection::iterateColumn'
                 - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
                 - 'Dibi\Connection::fetch'
+                - 'Dibi\Connection::fetchSingle'
+                - 'Dibi\Connection::query'
+                - 'Dibi\Connection::fetchAll'
+                - 'Dibi\Connection::fetchPairs'
 
     -
         class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
