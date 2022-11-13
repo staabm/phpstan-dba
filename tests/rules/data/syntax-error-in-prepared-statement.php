@@ -328,4 +328,13 @@ class Foo
     {
         $conn->executeQuery("SELECT * FROM `$table`");
     }
+
+    public function bidiTest(\Dibi\Connection $conn)
+    {
+        // syntax error, should expect a error in the test
+        $conn->fetch('SELECT email adaid WHERE gesperrt FROM ada');
+        // all good, no error expected
+        $conn->fetch('SELECT email, adaid FROM ada');
+    }
+
 }

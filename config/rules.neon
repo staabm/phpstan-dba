@@ -24,7 +24,7 @@ services:
                 - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed'
                 - 'Doctrine\DBAL\Connection::iterateColumn'
                 - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
-                - 'Dibi\Connection::fetch#0'
+                - 'Dibi\Connection::fetch'
 
     -
         class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
@@ -82,4 +82,3 @@ services:
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
-                - 'Dibi\Connection::fetch#0'
