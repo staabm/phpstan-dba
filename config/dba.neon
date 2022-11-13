@@ -49,6 +49,7 @@ services:
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
+                - 'Dibi\Connection::fetch#0'
 
     -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
@@ -89,3 +90,4 @@ services:
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
+                - 'Dibi\Connection::fetch#0'
