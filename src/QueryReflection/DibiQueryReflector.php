@@ -92,11 +92,11 @@ final class DibiQueryReflector implements QueryReflector, RecordingReflector
         foreach ($result as $val) {
             $arrayBuilder->setOffsetValueType(
                 new ConstantStringType($val->getName()),
-                $this->typeMapper->mapToPHPStanType($val->getVendorInfo('type'), $val->getVendorInfo('flags'), $val->getVendorInfo('length'))
+                $this->typeMapper->mapToPHPStanType((int) $val->getVendorInfo('type'), (int) $val->getVendorInfo('flags'), (int) $val->getVendorInfo('length'))
             );
             $arrayBuilder->setOffsetValueType(
                 new ConstantIntegerType($i),
-                $this->typeMapper->mapToPHPStanType($val->getVendorInfo('type'), $val->getVendorInfo('flags'), $val->getVendorInfo('length'))
+                $this->typeMapper->mapToPHPStanType((int) $val->getVendorInfo('type'), (int) $val->getVendorInfo('flags'), (int) $val->getVendorInfo('length'))
             );
             ++$i;
         }
@@ -139,7 +139,7 @@ final class DibiQueryReflector implements QueryReflector, RecordingReflector
         }
     }
 
-    public function getDatasource(): Connection
+    public function getDatasource()
     {
         return $this->connection;
     }
