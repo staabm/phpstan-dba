@@ -152,8 +152,8 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     319,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "gesperrt"
-LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
+LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                            ^ (42601).',
                     335,
                 ],
@@ -205,7 +205,7 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     319,
                 ],
                 [
-                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'gesperrt freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
                     335,
                 ],
             ];
