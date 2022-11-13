@@ -98,7 +98,6 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (1064).",
                 339,
             ],
-
         ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
