@@ -33,6 +33,7 @@ services:
                 - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed'
                 - 'Doctrine\DBAL\Connection::iterateColumn'
                 - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
+                - 'Dibi\Connection::fetch'
 
     -
         class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
