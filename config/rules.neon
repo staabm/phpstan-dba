@@ -4,6 +4,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
+                - 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct'
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery'
                 - 'Doctrine\DBAL\Connection::executeQuery'
                 - 'Doctrine\DBAL\Connection::executeCacheQuery'
                 - 'Doctrine\DBAL\Connection::executeStatement'
@@ -31,6 +34,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery#0'
                 - 'PDO::query#0'
                 - 'PDO::prepare#0'
                 - 'mysqli::query#0'
