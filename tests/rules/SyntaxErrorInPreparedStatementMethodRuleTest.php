@@ -170,31 +170,31 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
 LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
-                           ^ (42601).',
+                                          ^ (42601).',
                     335,
                 ],
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
 LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
-                           ^ (42601).',
+                                          ^ (42601).',
                     336,
                 ],
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
 LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
-                           ^ (42601).',
+                                          ^ (42601).',
                     337,
                 ],
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
 LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
-                           ^ (42601).',
+                                          ^ (42601).',
                     338,
                 ],
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
 LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
-                           ^ (42601).',
+                                          ^ (42601).',
                     339,
                 ],
             ];
