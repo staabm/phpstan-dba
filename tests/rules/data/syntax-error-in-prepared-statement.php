@@ -343,6 +343,7 @@ class Foo
         $conn->query('SELECT email, adaid FROM ada');
         $conn->fetchPairs('SELECT email, adaid FROM ada');
         $conn->fetchAll('SELECT email, adaid FROM ada');
+        $conn->query('UPDATE ada set', ['email' => 'test@github.com'], ' where adaid = 1');
     }
 
 }
