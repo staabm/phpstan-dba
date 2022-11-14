@@ -198,6 +198,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -363,6 +364,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -541,6 +543,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -711,6 +714,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -872,6 +876,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1033,6 +1038,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1219,6 +1225,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1326,6 +1333,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1367,6 +1375,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
+         'code' => '42000',
+      )),
+    ),
+    'SELECT email adaid WHERE gesperrt FROM ada' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
     ),
@@ -1575,11 +1591,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
     'SELECT email, adaid FROM ada' => 
     array (
+      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1676,6 +1694,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1777,6 +1796,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1878,6 +1898,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1999,6 +2020,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2142,6 +2164,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2272,6 +2295,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
@@ -2427,6 +2451,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2593,6 +2618,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2754,6 +2780,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2915,6 +2942,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3117,6 +3145,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),

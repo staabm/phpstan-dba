@@ -11,6 +11,7 @@
 	"require-dev": {
 		"ext-mysqli": "*",
 		"ext-pdo": "*",
+		"dibi/dibi": "^4.2",
 		"doctrine/dbal": "^3.2",
 		"friendsofphp/php-cs-fixer": "3.4.0",
 		"php-parallel-lint/php-parallel-lint": "^1.3",

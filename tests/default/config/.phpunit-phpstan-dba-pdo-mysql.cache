@@ -68,6 +68,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1499,6 +1500,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1747,6 +1749,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1813,6 +1816,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1878,6 +1882,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
@@ -1917,6 +1922,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -1982,6 +1988,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2047,6 +2054,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2112,6 +2120,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2177,6 +2186,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2242,6 +2252,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2307,6 +2318,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2372,6 +2384,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2437,6 +2450,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2502,6 +2516,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2588,6 +2603,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2653,6 +2669,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2718,6 +2735,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2783,6 +2801,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2848,6 +2867,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2913,6 +2933,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -2978,6 +2999,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3044,6 +3066,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3103,6 +3126,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3198,6 +3222,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3258,6 +3283,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3317,6 +3343,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
@@ -3352,6 +3379,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3461,6 +3489,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
@@ -3532,6 +3561,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3633,6 +3663,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3734,6 +3765,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3847,6 +3879,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -3948,6 +3981,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4049,6 +4083,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4150,6 +4185,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4251,6 +4287,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4373,6 +4410,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4481,6 +4519,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
         3 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
@@ -4552,6 +4591,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4653,6 +4693,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4761,6 +4802,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4862,6 +4904,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -4963,6 +5006,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5064,6 +5108,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5165,6 +5210,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5287,6 +5333,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5388,6 +5435,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5489,6 +5537,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
@@ -5650,6 +5699,7 @@ FROM ada' =>
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),
