@@ -51,9 +51,9 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
-            return null;
-        }
+//        if ('SELECT' !== $this->getQueryType($queryString)) {
+//            return null;
+//        }
 
         // this method cannot validate queries which contain placeholders.
         if (0 !== $this->countPlaceholders($queryString)) {
@@ -370,7 +370,7 @@ final class QueryReflection
         return $queryString;
     }
 
-    private static function reflector(): QueryReflector
+    public static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
             throw new DbaException('Reflector not initialized. Make sure a phpstan bootstrap file is configured which calls '.__CLASS__.'::setupReflector().');
