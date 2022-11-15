@@ -1,5 +1,16 @@
 services:
     -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInDibiPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'Dibi\Connection::fetch'
+                - 'Dibi\Connection::fetchSingle'
+                - 'Dibi\Connection::query'
+                - 'Dibi\Connection::fetchAll'
+                - 'Dibi\Connection::fetchPairs'
+
+    -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -24,11 +35,6 @@ services:
                 - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed'
                 - 'Doctrine\DBAL\Connection::iterateColumn'
                 - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
-                - 'Dibi\Connection::fetch'
-                - 'Dibi\Connection::fetchSingle'
-                - 'Dibi\Connection::query'
-                - 'Dibi\Connection::fetchAll'
-                - 'Dibi\Connection::fetchPairs'
 
     -
         class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
