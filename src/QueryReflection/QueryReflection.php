@@ -370,7 +370,7 @@ final class QueryReflection
         return $queryString;
     }
 
-    public static function reflector(): QueryReflector
+    private static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
             throw new DbaException('Reflector not initialized. Make sure a phpstan bootstrap file is configured which calls '.__CLASS__.'::setupReflector().');
