@@ -25,12 +25,12 @@ final class QueryPlanAnalyzerMysql
     public const DEFAULT_SMALL_TABLE_THRESHOLD = QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD;
 
     /**
-     * @var PDO|mysqli
+     * @var \Dibi\Connection|PDO|mysqli
      */
     private $connection;
 
     /**
-     * @param PDO|mysqli $connection
+     * @param \Dibi\Connection|PDO|mysqli $connection
      */
     public function __construct($connection)
     {

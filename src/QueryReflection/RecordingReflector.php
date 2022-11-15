@@ -12,7 +12,7 @@ interface RecordingReflector
      * Beware this might establish a database connection, in case a reflector is implemented lazily.
      * Therefore calling this method might have a negative performance impact.
      *
-     * @return \mysqli|\PDO|null
+     * @return \Dibi\Connection|\mysqli|\PDO|null
      */
     public function getDatasource();
 }

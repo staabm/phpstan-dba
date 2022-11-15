@@ -2,9 +2,11 @@
 
 namespace staabm\PHPStanDba\Tests;
 
+use Dibi\Connection;
 use mysqli;
 use PDO;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\QueryReflection\DibiQueryReflector;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoMysqlQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoPgSqlQueryReflector;
@@ -65,6 +67,15 @@ final class ReflectorFactory
                 $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoMysqlQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
+            } elseif ('dibi-mysql' === $reflector) {
+                $connection = new Connection([
+                    'host' => $host,
+                    'username' => $user,
+                    'password' => $password,
+                    'database' => $dbname,
+                ]);
+                $reflector = new DibiQueryReflector($connection);
+                $schemaHasher = new SchemaHasherMysql($connection);
             } elseif ('pdo-pgsql' === $reflector) {
                 $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoPgSqlQueryReflector($pdo);
