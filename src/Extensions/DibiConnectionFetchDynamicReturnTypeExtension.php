@@ -10,13 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
@@ -24,8 +18,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
-use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
-use staabm\PHPStanDba\DoctrineReflection\DoctrineResultObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -87,7 +79,7 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         $fetchTypes = [];
         foreach ($queryStrings as $queryString) {
             $queryString = $dibiReflection->rewriteQuery($queryString);
-            if ($queryString === null) {
+            if (null === $queryString) {
                 continue;
             }
 
