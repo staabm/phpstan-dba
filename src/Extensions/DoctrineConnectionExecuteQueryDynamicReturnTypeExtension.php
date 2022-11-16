@@ -11,7 +11,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -32,26 +31,21 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         return \in_array(strtolower($methodReflection->getName()), ['executequery', 'executecachequery'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
-            $scope,
-            $methodCall->getArgs(),
-            $methodReflection->getVariants(),
-        )->getReturnType();
 
         if (\count($args) < 1) {
-            return $defaultReturn;
+            return null;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
-            return $defaultReturn;
+            return null;
         }
 
         // make sure we don't report wrong types in doctrine 2.x
         if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
-            return $defaultReturn;
+            return null;
         }
 
         $params = null;
@@ -60,15 +54,12 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
         }
 
         try {
-            $resultType = $this->inferType($args[0]->value, $params, $scope);
-            if (null !== $resultType) {
-                return $resultType;
-            }
+            return $this->inferType($args[0]->value, $params, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $defaultReturn;
+        return null;
     }
 
     private function inferType(Expr $queryExpr, ?Expr $paramsExpr, Scope $scope): ?Type

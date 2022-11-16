@@ -8,7 +8,6 @@ use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
@@ -28,10 +27,8 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
         return \in_array($methodReflection->getName(), ['columnCount'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {
@@ -41,6 +38,6 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
             }
         }
 
-        return $defaultReturn;
+        return null;
     }
 }
