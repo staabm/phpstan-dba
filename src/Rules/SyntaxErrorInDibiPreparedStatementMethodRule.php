@@ -187,12 +187,17 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
 
         $result = $queryReflection->getResultType($queryParameters[0], QueryReflector::FETCH_TYPE_BOTH);
 
-        if ('fetchPairs' === $methodReflection->getName() && $result instanceof ConstantArrayType && 2 !== \count($result->getValueTypes())) {
-            return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got '.\count($result->getValueTypes()).'.')->line($callLike->getLine())->build()];
-        }
+        if ($result instanceof ConstantArrayType) {
+            // compensate fetch both
+            $columnsInResult = \count($result->getValueTypes()) / 2;
 
-        if ('fetchSingle' === $methodReflection->getName() && $result instanceof ConstantArrayType && 1 !== \count($result->getValueTypes())) {
-            return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got '.\count($result->getValueTypes()).'.')->line($callLike->getLine())->build()];
+            if ('fetchPairs' === $methodReflection->getName() &&  2 !== $columnsInResult) {
+                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got '.$columnsInResult.'.')->line($callLike->getLine())->build()];
+            }
+
+            if ('fetchSingle' === $methodReflection->getName() && 1 !== $columnsInResult) {
+                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got '.$columnsInResult.'.')->line($callLike->getLine())->build()];
+            }
         }
 
         return $errors;
