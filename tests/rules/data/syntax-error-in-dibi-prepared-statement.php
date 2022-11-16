@@ -41,6 +41,7 @@ class Foo
         $conn->fetchPairs('SELECT email FROM ada where email = %s', 'email@github.com');
     }
 
+    /* phpstan-dba does not yet support writable queries
     public function testDeleteUpdateInsert(\Dibi\Connection $conn)
     {
         $conn->query('DELETE from adasfd');
@@ -53,5 +54,6 @@ class Foo
             'email' => 'sdf',
         ]);
     }
+    */
 
 }
