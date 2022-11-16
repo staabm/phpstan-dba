@@ -11,7 +11,7 @@ use PHPStan\ShouldNotHappenException;
 final class SchemaHasherMysql
 {
     /**
-     * @var \Dibi\Connection|PDO|mysqli
+     * @var PDO|mysqli
      */
     private $connection;
 
@@ -21,7 +21,7 @@ final class SchemaHasherMysql
     private $hash = null;
 
     /**
-     * @param \Dibi\Connection|PDO|mysqli $connection
+     * @param PDO|mysqli $connection
      */
     public function __construct($connection)
     {
@@ -62,11 +62,6 @@ final class SchemaHasherMysql
         $hash = '';
         if ($this->connection instanceof PDO) {
             $stmt = $this->connection->query($query);
-            foreach ($stmt as $row) {
-                $hash = $row['dbsignature'] ?? '';
-            }
-        } elseif ($this->connection instanceof \Dibi\Connection) {
-            $stmt = $this->connection->query($query)->fetchAll();
             foreach ($stmt as $row) {
                 $hash = $row['dbsignature'] ?? '';
             }
