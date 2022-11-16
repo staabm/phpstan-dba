@@ -191,7 +191,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             // compensate fetch both
             $columnsInResult = \count($result->getValueTypes()) / 2;
 
-            if ('fetchPairs' === $methodReflection->getName() &&  2 !== $columnsInResult) {
+            if ('fetchPairs' === $methodReflection->getName() && 2 !== $columnsInResult) {
                 return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got '.$columnsInResult.'.')->line($callLike->getLine())->build()];
             }
 

@@ -4,8 +4,8 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use staabm\PHPStanDba\QueryReflection\DibiQueryReflector;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
+use staabm\PHPStanDba\QueryReflection\PdoMysqlQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoPgSqlQueryReflector;
 use staabm\PHPStanDba\Rules\SyntaxErrorInDibiPreparedStatementMethodRule;
 
@@ -77,15 +77,15 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ada' at line 1 (1064).",
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
                     13,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ada' at line 1 (1064).",
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
                     19,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ada' at line 1 (1064).",
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
                     25,
                 ],
                 [
@@ -93,7 +93,7 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
                     26,
                 ],
                 [
-                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM ada' at line 1 (1064).",
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
                     32,
                 ],
                 [
@@ -112,6 +112,48 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
                     "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
                     46,
                 ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
+                    13,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
+                    19,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
+                    25,
+                ],
+                [
+                    'fetchSingle requires exactly 1 selected column, got 2.',
+                    26,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
+                    32,
+                ],
+                [
+                    'fetchPairs requires exactly 2 selected columns, got 1.',
+                    33,
+                ],
+                [
+                    'Query expects 1 placeholder, but no values are given.',
+                    39,
+                ],
+                [
+                    'Query expects 0 placeholder, but 1 value is given.',
+                    40,
+                ],
+                /*
+                phpstan-dba does not yet support writable queries
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    46,
+                ],
+                */
             ];
         } else {
             throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
