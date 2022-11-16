@@ -8,7 +8,6 @@ use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -47,6 +46,7 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
+
         return null;
     }
 

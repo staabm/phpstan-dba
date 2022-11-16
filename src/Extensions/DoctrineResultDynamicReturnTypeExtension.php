@@ -10,7 +10,6 @@ use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -59,6 +58,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
+
         return null;
     }
 

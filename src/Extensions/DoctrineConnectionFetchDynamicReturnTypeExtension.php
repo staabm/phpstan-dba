@@ -11,7 +11,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -72,6 +71,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
+
         return null;
     }
 
