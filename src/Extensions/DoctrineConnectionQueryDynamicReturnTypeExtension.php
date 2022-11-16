@@ -32,38 +32,29 @@ final class DoctrineConnectionQueryDynamicReturnTypeExtension implements Dynamic
         return \in_array(strtolower($methodReflection->getName()), ['query'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
-            $scope,
-            $methodCall->getArgs(),
-            $methodReflection->getVariants(),
-        )->getReturnType();
 
         if (\count($args) < 1) {
-            return $defaultReturn;
+            return null;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
-            return $defaultReturn;
+            return null;
         }
 
         // make sure we don't report wrong types in doctrine 2.x
         if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
-            return $defaultReturn;
+            return null;
         }
 
         try {
-            $resultType = $this->inferType($args[0]->value, $scope);
-            if (null !== $resultType) {
-                return $resultType;
-            }
+            return $this->inferType($args[0]->value, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
-
-        return $defaultReturn;
+        return null;
     }
 
     private function inferType(Expr $queryExpr, Scope $scope): ?Type
