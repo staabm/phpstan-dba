@@ -75,7 +75,7 @@ final class ReflectorFactory
                     'database' => $dbname,
                 ]);
                 $reflector = new DibiQueryReflector($connection);
-                $schemaHasher = new SchemaHasherMysql($connection);
+                $schemaHasher = new SchemaHasherMysql($connection->getDriver()->getResource());
             } elseif ('pdo-pgsql' === $reflector) {
                 $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoPgSqlQueryReflector($pdo);
