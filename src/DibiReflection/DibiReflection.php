@@ -4,15 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\DibiReflection;
 
-use Dibi\Connection;
-use Dibi\ConstraintViolationException;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\MixedType;
-use PHPStan\Type\Type;
-use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\MysqliTypeMapper;
-
 final class DibiReflection
 {
     public function rewriteQuery(string $queryString): ?string
