@@ -10,13 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
@@ -24,8 +18,6 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
-use staabm\PHPStanDba\DoctrineReflection\DoctrineReflection;
-use staabm\PHPStanDba\DoctrineReflection\DoctrineResultObjectType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -87,11 +79,11 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         $fetchTypes = [];
         foreach ($queryStrings as $queryString) {
             $queryString = $dibiReflection->rewriteQuery($queryString);
-            if ($queryString === null) {
+            if (null === $queryString) {
                 continue;
             }
 
-            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
 
             if (null === $resultType) {
                 return null;
@@ -117,82 +109,16 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
 
     private function reduceResultType(MethodReflection $methodReflection, Type $resultType): ?Type
     {
-        if ($resultType instanceof UnionType) {
-            $resultTypes = [];
+        $methodName = $methodReflection->getName();
 
-            foreach ($resultType->getTypes() as $type) {
-                $rowType = $this->reduceResultType($methodReflection, $type);
-                if (null === $rowType) {
-                    return null;
-                }
-                $resultTypes[] = $rowType;
-            }
-
-            return TypeCombinator::union(...$resultTypes);
-        }
-
-        $resultRowType = $resultType;
-        $usedMethod = strtolower($methodReflection->getName());
-
-        switch ($usedMethod) {
-            case 'fetchPairs':
-                $fetchType = QueryReflector::FETCH_TYPE_KEY_VALUE;
-                break;
-            case 'fetchSingle':
-                $fetchType = QueryReflector::FETCH_TYPE_ONE;
-                break;
-            case 'fetchnumeric':
-            case 'fetchallnumeric':
-                $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
-                break;
-            case 'fetchAll':
-                $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
-                break;
-            default:
-                $fetchType = QueryReflector::FETCH_TYPE_BOTH;
-        }
-
-        if (QueryReflector::FETCH_TYPE_BOTH !== $fetchType && $resultRowType instanceof ConstantArrayType) {
-            $builder = ConstantArrayTypeBuilder::createEmpty();
-
-            $keyTypes = $resultRowType->getKeyTypes();
-            $valueTypes = $resultRowType->getValueTypes();
-
-            if (QueryReflector::FETCH_TYPE_KEY_VALUE === $fetchType) {
-                // $valueType contain 'BOTH' fetched values
-                if (\count($valueTypes) < 4) {
-                    return null;
-                }
-
-                if (\in_array($usedMethod, ['fetchallkeyvalue'], true)) {
-                    return new ArrayType($valueTypes[0], $valueTypes[2]);
-                }
-
-                return new GenericObjectType(Traversable::class, [$valueTypes[0], $valueTypes[2]]);
-            }
-
-            foreach ($keyTypes as $i => $keyType) {
-                if (QueryReflector::FETCH_TYPE_ONE === $fetchType) {
-                    return TypeCombinator::union($valueTypes[$i], new ConstantBooleanType(false));
-                }
-                if (QueryReflector::FETCH_TYPE_FIRST_COL === $fetchType) {
-                    return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
-                }
-
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                }
-            }
-
-            $resultType = $builder->getArray();
-
-            if (\in_array($usedMethod, ['fetchAll'], true)) {
-                return new ArrayType(IntegerRangeType::fromInterval(0, null), $resultType);
-            }
-
-            return $resultType;
+        if ('fetch' === $methodName) {
+            return new UnionType([new NullType(), $resultType]);
+        } elseif ('fetchAll' === $methodName) {
+            return new ArrayType(new IntegerType(), $resultType);
+        } elseif ('fetchPairs' === $methodName && $resultType instanceof ConstantArrayType && 2 === \count($resultType->getValueTypes())) {
+            return new ArrayType($resultType->getValueTypes()[0], $resultType->getValueTypes()[1]);
+        } elseif ('fetchSingle' === $methodName && $resultType instanceof ConstantArrayType && 1 === \count($resultType->getValueTypes())) {
+            return new UnionType([new NullType(), $resultType->getValueTypes()[0]]);
         }
 
         return null;
