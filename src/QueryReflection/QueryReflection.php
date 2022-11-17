@@ -51,9 +51,9 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
-            return null;
-        }
+//        if ('SELECT' !== $this->getQueryType($queryString)) {
+//            return null;
+//        }
 
         // this method cannot validate queries which contain placeholders.
         if (0 !== $this->countPlaceholders($queryString)) {
