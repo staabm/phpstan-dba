@@ -41,6 +41,13 @@ class Foo
         $conn->fetchPairs('SELECT email FROM ada where email = %s', 'email@github.com');
     }
 
+    public function testIgnoredPlaceholders(\Dibi\Connection $conn)
+    {
+        $conn->query('SELECT %n, %n from %n', 'email', 'dadid', 'ada');
+        $conn->query('SELECT email, adaid FROM ada group by %by', 'email');
+        $conn->query('SELECT email, adaid FROM ada where email = %bin group by %by', 1, 'email');
+    }
+
     /* phpstan-dba does not yet support writable queries
     public function testDeleteUpdateInsert(\Dibi\Connection $conn)
     {
