@@ -18,6 +18,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
+use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -143,7 +144,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         }
 
         $placeholders = [];
-        preg_match_all('#%(ex|in|i|and|or|s|t|d|~?like~?|n|lmt|ofs)#', $queryParameters[0], $placeholders, \PREG_SET_ORDER);
+        preg_match_all('#%(sN|bin|by|lmt|b|iN|f|dt|sql|ex|in|i|l|m|and|or|s|t|d|~?like~?|n|ofs|N)#', $queryParameters[0], $placeholders, \PREG_SET_ORDER);
         $placeholderCount = \count($placeholders);
         $parameterCount = \count($queryParameters) - 1;
 
@@ -176,6 +177,13 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
 
         if ($placeholderCount !== $parameterCount) {
             // means syntax like `query('insert into app', [...])`
+            return [];
+        }
+
+        $dibiReflection = new DibiReflection();
+        $queryParameters[0] = $dibiReflection->rewriteQuery($queryParameters[0]);
+
+        if (null === $queryParameters[0]) {
             return [];
         }
 
