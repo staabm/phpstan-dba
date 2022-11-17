@@ -90,3 +90,9 @@ services:
         class: staabm\PHPStanDba\Ast\PreviousConnectingVisitor
         tags:
         	- phpstan.parser.richParserNodeVisitor
+
+    -
+        class: staabm\PHPStanDba\Extensions\DibiConnectionFetchDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
