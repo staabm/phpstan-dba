@@ -95,3 +95,4 @@ services:
         class: staabm\PHPStanDba\Extensions\DibiConnectionFetchDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
+
