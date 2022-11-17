@@ -40,6 +40,10 @@
     array (
       'error' => NULL,
     ),
+    'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid' => 
+    array (
+      'error' => NULL,
+    ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
       'error' => NULL,
