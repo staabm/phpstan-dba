@@ -66,4 +66,4 @@ jobs:
               env:
                 PGPASSWORD: postgres
 
-            - run: composer phpunit
+            - run: composer phpunit -- --colors=always
