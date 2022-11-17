@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v9-put-null-when-valid',
-  'schemaHash' => NULL,
+  'schemaHash' => '978ac93a0dacd29d0a93b7827aa3319c',
   'records' => 
   array (
     'SELECT
@@ -39,21 +39,8 @@
         5 => NULL,
       ),
     ),
-    'SELECT * FROM ``' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Incorrect table name \'\'',
-         'code' => 1103,
-      )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -398,7 +385,6 @@
     ),
     'SELECT * FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -569,7 +555,6 @@
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1250,10 +1235,6 @@
 Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
@@ -1366,7 +1347,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -1518,7 +1498,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email FROM ada where email = "1"' => 
+    'SELECT email FROM ada where email = \'1\'' => 
     array (
       'result' => 
       array (
@@ -1578,10 +1558,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => 1064,
       )),
-      'result' => 
-      array (
-        3 => NULL,
-      ),
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -1790,18 +1766,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
           ),
            'isList' => false,
         )),
-      ),
-    ),
-    'SELECT email, adaid FROM `` WHERE adaid = \'1\'' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Incorrect table name \'\'',
-         'code' => 1103,
-      )),
-      'result' => 
-      array (
-        5 => NULL,
       ),
     ),
     'SELECT email, adaid FROM ada' => 
@@ -2117,18 +2081,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'Unknown column \'xy\' in \'group statement\'',
          'code' => 1054,
       )),
-    ),
-    'SELECT email, adaid FROM ada WHERE' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => 1064,
-      )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
@@ -3379,7 +3331,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email,adaid FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 

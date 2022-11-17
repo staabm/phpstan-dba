@@ -9,7 +9,7 @@ class Foo
 {
     public function fetch(\Dibi\Connection $connection)
     {
-        $row = $connection->fetch('SELECT email, adaid FROM ada');
+        $row = $connection->fetch('SELECT email, adaid FROM ada where adaid = %i', 1);
         assertType('array{email: string, adaid: int<-32768, 32767>}|null', $row);
     }
 
