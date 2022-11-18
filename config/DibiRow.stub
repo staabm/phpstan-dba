@@ -3,11 +3,10 @@
 namespace Dibi;
 
 /**
- * @template T
- *
- * @implements \Countable<T>
- * @implements \IteratorAggregate<int, T>
- * @implements \ArrayAccess<string, T>
+ * @template TKey of array-key
+ * @template TValue
+ * @implements \IteratorAggregate<TKey, TValue>
+ * @implements \ArrayAccess<TKey, TValue>
  */
 class Row implements \ArrayAccess, \IteratorAggregate, \Countable
 {
