@@ -1,0 +1,14 @@
+<?php
+
+namespace Dibi;
+
+/**
+ * @template rowType
+ *
+ * @implements \Traversable<int, rowType>
+ * @implements \IteratorAggregate<int, rowType>
+ */
+class Row implements \Traversable, \IteratorAggregate
+{
+
+}

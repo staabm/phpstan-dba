@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
+use Dibi\Row;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -11,6 +12,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
@@ -112,9 +114,9 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         $methodName = $methodReflection->getName();
 
         if ('fetch' === $methodName) {
-            return new UnionType([new NullType(), $resultType]);
+            return new UnionType([new NullType(), new GenericObjectType(Row::class, [$resultType])]);
         } elseif ('fetchAll' === $methodName) {
-            return new ArrayType(new IntegerType(), $resultType);
+            return new ArrayType(new IntegerType(), new GenericObjectType(Row::class, [$resultType]));
         } elseif ('fetchPairs' === $methodName && $resultType instanceof ConstantArrayType && 2 === \count($resultType->getValueTypes())) {
             return new ArrayType($resultType->getValueTypes()[0], $resultType->getValueTypes()[1]);
         } elseif ('fetchSingle' === $methodName && $resultType instanceof ConstantArrayType && 1 === \count($resultType->getValueTypes())) {

@@ -3,3 +3,4 @@ parameters:
         - DoctrineDbal.stub
         - PdoStatement.stub
         - Mysqli.stub
+        - DibiRow.stub
