@@ -11,7 +11,8 @@ class Foo
     {
         $row = $connection->fetch('SELECT email, adaid FROM ada where adaid = %i', 1);
         assertType('Dibi\Row<array{email: string, adaid: int<-32768, 32767>}>|null', $row);
-        assertType('int<-32768, 32767>', $row->adaid);
+// will try to implement magic properties once array access is resolved
+//        assertType('int<-32768, 32767>', $row->adaid);
         assertType('int<-32768, 32767>', $row['adaid']);
     }
 

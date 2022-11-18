@@ -3,12 +3,13 @@
 namespace Dibi;
 
 /**
- * @template rowType
+ * @template T
  *
- * @implements \Traversable<int, rowType>
- * @implements \IteratorAggregate<int, rowType>
+ * @implements \Countable<T>
+ * @implements \IteratorAggregate<int, T>
+ * @implements \ArrayAccess<string, T>
  */
-class Row implements \Traversable, \IteratorAggregate
+class Row implements \ArrayAccess, \IteratorAggregate, \Countable
 {
 
 }
