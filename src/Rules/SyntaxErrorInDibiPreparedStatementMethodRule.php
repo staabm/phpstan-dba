@@ -144,10 +144,13 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         }
 
         $placeholders = [];
+        // see https://dibiphp.com/en/documentation#toc-modifiers
         preg_match_all('#%(sN|bin|by|lmt|b|iN|f|dt|sql|ex|in|i|l|m|and|or|s|t|d|~?like~?|n|ofs|N)#', $queryParameters[0], $placeholders, \PREG_SET_ORDER);
         $placeholderCount = \count($placeholders);
         $parameterCount = \count($queryParameters) - 1;
 
+        // check that it's not the dibi magic insert statement $this->connection->query('INSERT into apps', ['xx' => ...])
+        // in that case it does not make sense to validate placeholder count because we know it won't match
         if (1 === $stringParameterCount && 'INSERT' !== QueryReflection::getQueryType($queryParameters[0])) {
             if ($parameterCount !== $placeholderCount) {
                 $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);

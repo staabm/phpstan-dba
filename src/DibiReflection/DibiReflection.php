@@ -8,6 +8,7 @@ final class DibiReflection
 {
     public function rewriteQuery(string $queryString): ?string
     {
+        // see https://dibiphp.com/en/documentation#toc-modifiers
         $queryString = str_replace('%lmt', 'LIMIT 1', $queryString);
         $queryString = str_replace('%ofs', ', 1', $queryString);
         $queryString = str_replace('%in', '(1)', $queryString);
