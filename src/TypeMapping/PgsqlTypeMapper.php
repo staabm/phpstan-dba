@@ -11,10 +11,12 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\PgsqlIntegerRanges;
 use function strtoupper;
@@ -24,7 +26,7 @@ final class PgsqlTypeMapper implements TypeMapper
     /**
      * @param list<string> $flags
      */
-    public function mapToPHPStanType(string $type, array $flags, int $length): Type
+    public function mapToPHPStanType(string $type, array $flags, int $length, ?string $reflectorClass = null): Type
     {
         $numeric = false;
         $notNull = false;
@@ -98,12 +100,19 @@ final class PgsqlTypeMapper implements TypeMapper
                     break;
                 case 'JSON':
                 case 'JSONB':
-                case 'DATE':
+                case 'VARCHAR':
                 case 'TEXT':
+                    $phpstanType = new StringType();
+                    break;
+                case 'DATE':
                 case 'TIME':
                 case 'TIMESTAMP':
-                case 'VARCHAR':
-                    $phpstanType = new StringType();
+                    if (DibiReflection::class === $reflectorClass) {
+                        $phpstanType = new ObjectType(\DateTimeImmutable::class);
+                    } else {
+                        $phpstanType = new StringType();
+                    }
+
                     break;
                 default:
                     $phpstanType = new MixedType();

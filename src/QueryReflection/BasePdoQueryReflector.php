@@ -121,13 +121,13 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
             if (QueryReflector::FETCH_TYPE_ASSOC === $fetchType || QueryReflector::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val['name']),
-                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
+                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'], $reflectorClass)
                 );
             }
             if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType || QueryReflector::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantIntegerType($i),
-                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'])
+                    $this->typeMapper->mapToPHPStanType($val['native_type'], $val['flags'], $val['len'], $reflectorClass)
                 );
             }
             ++$i;

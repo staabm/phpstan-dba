@@ -16,7 +16,7 @@ interface TypeMapper
     /**
      * @param list<string> $flags
      */
-    public function mapToPHPStanType(string $type, array $flags, int $length): Type;
+    public function mapToPHPStanType(string $type, array $flags, int $length, ?string $reflectorClass = null): Type;
 
     public function isNumericCol(string $mysqlType): bool;
 }
