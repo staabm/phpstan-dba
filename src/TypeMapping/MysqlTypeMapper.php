@@ -10,10 +10,12 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
+use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
@@ -22,7 +24,7 @@ final class MysqlTypeMapper implements TypeMapper
     /**
      * @param list<string> $mysqlFlags
      */
-    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
+    public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length, ?string $reflectorClass = null): Type
     {
         $numeric = false;
         $notNull = false;
@@ -144,11 +146,18 @@ final class MysqlTypeMapper implements TypeMapper
                 case 'STRING':
                 case 'VAR_STRING':
                 case 'JSON':
+                    $phpstanType = new StringType();
+                    break;
                 case 'DATE':
                 case 'TIME':
                 case 'DATETIME':
                 case 'TIMESTAMP':
-                    $phpstanType = new StringType();
+                    if (DibiReflection::class === $reflectorClass) {
+                        $phpstanType = new ObjectType(\DateTimeImmutable::class);
+                    } else {
+                        $phpstanType = new StringType();
+                    }
+
                     break;
                 default:
                     $phpstanType = new MixedType();

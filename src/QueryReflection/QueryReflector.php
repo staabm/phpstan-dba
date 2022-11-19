@@ -21,5 +21,5 @@ interface QueryReflector
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $queryString, int $fetchType): ?Type;
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type;
 }

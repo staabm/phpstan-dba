@@ -35,12 +35,12 @@ final class LazyQueryReflector implements QueryReflector
         return $this->reflector->validateQueryString($queryString);
     }
 
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
 
-        return $this->reflector->getResultType($queryString, $fetchType);
+        return $this->reflector->getResultType($queryString, $fetchType, $reflectorClass);
     }
 }

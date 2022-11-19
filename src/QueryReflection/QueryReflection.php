@@ -66,13 +66,13 @@ final class QueryReflection
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         if ('SELECT' !== $this->getQueryType($queryString)) {
             return null;
         }
 
-        return self::reflector()->getResultType($queryString, $fetchType);
+        return self::reflector()->getResultType($queryString, $fetchType, $reflectorClass);
     }
 
     /**

@@ -73,7 +73,7 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
         }
     }
 
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         if ($this->dbSchemaChanged()) {
             return $this->createRecordingReflector()->getResultType($queryString, $fetchType);

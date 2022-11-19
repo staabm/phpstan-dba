@@ -11,6 +11,9 @@ class Foo
     {
         $row = $connection->fetch('SELECT email, adaid FROM ada where adaid = %i', 1);
         assertType('array{email: string, adaid: int<-32768, 32767>}|null', $row);
+
+        $row = $connection->fetch('SELECT c_datetime FROM typemix');
+        assertType('array{c_datetime: DateTimeImmutable|null}|null', $row);
     }
 
     public function fetchAll(\Dibi\Connection $connection)

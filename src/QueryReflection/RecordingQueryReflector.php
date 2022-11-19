@@ -42,9 +42,9 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
         return $error;
     }
 
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
-        $resultType = $this->reflector->getResultType($queryString, $fetchType);
+        $resultType = $this->reflector->getResultType($queryString, $fetchType, $reflectorClass);
 
         $this->reflectionCache->putResultType(
             $queryString,

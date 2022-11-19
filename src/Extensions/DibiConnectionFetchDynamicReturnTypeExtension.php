@@ -83,7 +83,7 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
                 continue;
             }
 
-            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+            $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC, DibiReflection::class);
 
             if (null === $resultType) {
                 return null;

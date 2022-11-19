@@ -106,7 +106,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         $result = $this->simulateQuery($queryString);
 

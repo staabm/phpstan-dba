@@ -84,7 +84,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     /**
      * @param self::FETCH_TYPE* $fetchType
      */
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         $result = $this->simulateQuery($queryString);
         if (!\is_array($result)) {
@@ -107,13 +107,13 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
             if (self::FETCH_TYPE_ASSOC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantStringType($val->name),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length, $reflectorClass)
                 );
             }
             if (self::FETCH_TYPE_NUMERIC === $fetchType || self::FETCH_TYPE_BOTH === $fetchType) {
                 $arrayBuilder->setOffsetValueType(
                     new ConstantIntegerType($i),
-                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length)
+                    $this->typeMapper->mapToPHPStanType($val->type, $val->flags, $val->length, $reflectorClass)
                 );
             }
             ++$i;

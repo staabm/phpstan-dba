@@ -49,10 +49,10 @@ final class ChainedReflector implements QueryReflector
         return null;
     }
 
-    public function getResultType(string $queryString, int $fetchType): ?Type
+    public function getResultType(string $queryString, int $fetchType, ?string $reflectorClass = null): ?Type
     {
         foreach ($this->reflectors as $reflector) {
-            $reflectorResult = $reflector->getResultType($queryString, $fetchType);
+            $reflectorResult = $reflector->getResultType($queryString, $fetchType, $reflectorClass);
 
             if ($reflectorResult) {
                 return $reflectorResult;
