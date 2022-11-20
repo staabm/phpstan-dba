@@ -19,6 +19,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
+use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -144,10 +145,13 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         }
 
         $placeholders = [];
-        preg_match_all('#%(ex|in|i|and|or|s|t|d|~?like~?|n|lmt|ofs)#', $queryParameters[0], $placeholders, \PREG_SET_ORDER);
+        // see https://dibiphp.com/en/documentation#toc-modifiers
+        preg_match_all('#%(sN|bin|by|lmt|b|iN|f|dt|sql|ex|in|i|l|m|and|or|s|t|d|~?like~?|n|ofs|N)#', $queryParameters[0], $placeholders, \PREG_SET_ORDER);
         $placeholderCount = \count($placeholders);
         $parameterCount = \count($queryParameters) - 1;
 
+        // check that it's not the dibi magic insert statement $this->connection->query('INSERT into apps', ['xx' => ...])
+        // in that case it does not make sense to validate placeholder count because we know it won't match
         if (1 === $stringParameterCount && 'INSERT' !== QueryReflection::getQueryType($queryParameters[0])) {
             if ($parameterCount !== $placeholderCount) {
                 $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
@@ -177,6 +181,13 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
 
         if ($placeholderCount !== $parameterCount) {
             // means syntax like `query('insert into app', [...])`
+            return [];
+        }
+
+        $dibiReflection = new DibiReflection();
+        $queryParameters[0] = $dibiReflection->rewriteQuery($queryParameters[0]);
+
+        if (null === $queryParameters[0]) {
             return [];
         }
 
