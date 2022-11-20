@@ -1,0 +1,14 @@
+<?php
+
+namespace Dibi;
+
+/**
+ * @template TKey of array-key
+ * @template TValue
+ * @implements \IteratorAggregate<TKey, TValue>
+ * @implements \ArrayAccess<TKey, TValue>
+ */
+class Row implements \ArrayAccess, \IteratorAggregate, \Countable
+{
+
+}
