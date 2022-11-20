@@ -162,7 +162,7 @@ final class MysqlTypeMapper implements TypeMapper
                 case 'TIME':
                 case 'DATETIME':
                 case 'TIMESTAMP':
-                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTime()) {
+                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTimeImmutable()) {
                         $phpstanType = new ObjectType(\DateTimeImmutable::class);
                         break;
                     }

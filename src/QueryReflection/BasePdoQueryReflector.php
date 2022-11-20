@@ -13,8 +13,6 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
-use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
-use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
@@ -134,15 +132,6 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         }
 
         return $arrayBuilder->getArray();
-    }
-
-    public function setupDbaApi(?DbaApi $dbaApi): void
-    {
-        if (PdoMysqlQueryReflector::class === static::class) {
-            $this->typeMapper = new MysqlTypeMapper($dbaApi);
-        } else {
-            $this->typeMapper = new PgsqlTypeMapper($dbaApi);
-        }
     }
 
     /**

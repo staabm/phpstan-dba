@@ -64,5 +64,8 @@ final class ChainedReflector implements QueryReflector
 
     public function setupDbaApi(?DbaApi $dbaApi): void
     {
+        foreach ($this->reflectors as $reflector) {
+            $reflector->setupDbaApi($dbaApi);
+        }
     }
 }

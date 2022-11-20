@@ -19,6 +19,11 @@ final class LazyQueryReflector implements QueryReflector
     private $reflector;
 
     /**
+     * @var DbaApi|null
+     */
+    private $dbaApi;
+
+    /**
      * @param callable():QueryReflector $reflectorFactory
      */
     public function __construct(callable $reflectorFactory)
@@ -31,6 +36,8 @@ final class LazyQueryReflector implements QueryReflector
         if (null === $this->reflector) {
             $this->reflector = ($this->reflectorFactory)();
         }
+
+        $this->reflector->setupDbaApi($this->dbaApi);
 
         return $this->reflector->validateQueryString($queryString);
     }
@@ -46,5 +53,6 @@ final class LazyQueryReflector implements QueryReflector
 
     public function setupDbaApi(?DbaApi $dbaApi): void
     {
+        $this->dbaApi = $dbaApi;
     }
 }

@@ -17,7 +17,7 @@ final class DbaApi
         $this->api = $api;
     }
 
-    public function returnsDateTime(): bool
+    public function returnsDateTimeImmutable(): bool
     {
         return self::API_DIBI === $this->api;
     }

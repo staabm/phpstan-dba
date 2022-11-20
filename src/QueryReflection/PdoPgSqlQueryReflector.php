@@ -89,6 +89,11 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
         return $this->cache[$queryString];
     }
 
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->typeMapper = new PgsqlTypeMapper($dbaApi);
+    }
+
     /**
      * @return Iterator<string, PgsqlTypeMapper::FLAG_*>
      */

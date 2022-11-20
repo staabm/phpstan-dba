@@ -9,6 +9,7 @@ use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
+use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
@@ -87,6 +88,11 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
         }
 
         return $this->cache[$queryString];
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->typeMapper = new MysqlTypeMapper($dbaApi);
     }
 
     /**

@@ -117,7 +117,7 @@ final class PgsqlTypeMapper implements TypeMapper
                 case 'DATE':
                 case 'TIME':
                 case 'TIMESTAMP':
-                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTime()) {
+                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTimeImmutable()) {
                         $phpstanType = new ObjectType(\DateTimeImmutable::class);
                         break;
                     }
