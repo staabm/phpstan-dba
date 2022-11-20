@@ -18,8 +18,8 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
-use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
+use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
