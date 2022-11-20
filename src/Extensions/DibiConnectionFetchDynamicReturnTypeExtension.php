@@ -13,10 +13,8 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
-use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -113,13 +111,13 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         $methodName = $methodReflection->getName();
 
         if ('fetch' === $methodName) {
-            return new UnionType([new NullType(), $resultType]);
+            return TypeCombinator::addNull($resultType);
         } elseif ('fetchAll' === $methodName) {
             return new ArrayType(new IntegerType(), $resultType);
         } elseif ('fetchPairs' === $methodName && $resultType instanceof ConstantArrayType && 2 === \count($resultType->getValueTypes())) {
             return new ArrayType($resultType->getValueTypes()[0], $resultType->getValueTypes()[1]);
         } elseif ('fetchSingle' === $methodName && $resultType instanceof ConstantArrayType && 1 === \count($resultType->getValueTypes())) {
-            return new UnionType([new NullType(), $resultType->getValueTypes()[0]]);
+            return TypeCombinator::addNull($resultType->getValueTypes()[0]);
         }
 
         return null;

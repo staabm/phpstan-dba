@@ -32,6 +32,9 @@ class Foo
     {
         $row = $connection->fetchSingle('SELECT email FROM ada');
         assertType('string|null', $row);
+
+        $row = $connection->fetchSingle('SELECT max(adaid) FROM ada');
+        assertType('int<-32768, 32767>|null', $row);
     }
 
 }
