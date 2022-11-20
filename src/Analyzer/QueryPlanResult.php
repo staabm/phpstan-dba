@@ -6,12 +6,31 @@ namespace staabm\PHPStanDba\Analyzer;
 
 final class QueryPlanResult
 {
-    public const NO_INDEX = 'no-index';
-    public const TABLE_SCAN = 'table-scan';
-    public const UNINDEXED_READS = 'unindexed-reads';
+    public const ROW_NO_INDEX = 'no-index';
+    public const ROW_TABLE_SCAN = 'table-scan';
+    public const ROW_UNINDEXED_READS = 'unindexed-reads';
 
     /**
-     * @var array<string, self::*>
+     * @see https://www.postgresql.org/docs/current/sql-explain.html
+     * @see https://www.postgresql.org/docs/current/using-explain.html
+     */
+    public const ROW_AGGREGATE = 'aggregate';
+    public const ROW_BITMAP_HEAP_SCAN = 'bitmap-heap-scan';
+    public const ROW_BITMAP_INDEX_SCAN = 'bitmap-index-scan';
+    public const ROW_HASH_AGGREGATE = 'hash-aggregate';
+    public const ROW_INDEX_SCAN = 'index-scan';
+    public const ROW_SEQ_SCAN = 'seq-scan';
+
+    private const MYSQL_TIPS = [
+        self::ROW_NO_INDEX => 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html',
+        self::ROW_TABLE_SCAN => 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/table-scan-avoidance.html',
+        self::ROW_UNINDEXED_READS => 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html',
+    ];
+
+    public const PGSQL_TIP = 'see PostgreSQL Docs https://www.postgresql.org/docs/8.1/performance-tips.html';
+
+    /**
+     * @var array<string, self::ROW_*>
      */
     private $result = [];
 
@@ -31,7 +50,7 @@ final class QueryPlanResult
     }
 
     /**
-     * @param self::* $result
+     * @param self::ROW_* $result
      *
      * @return void
      */
@@ -47,7 +66,7 @@ final class QueryPlanResult
     {
         $tables = [];
         foreach ($this->result as $table => $result) {
-            if (self::NO_INDEX === $result) {
+            if (self::ROW_NO_INDEX === $result || self::ROW_INDEX_SCAN !== $result) {
                 $tables[] = $table;
             }
         }
@@ -62,7 +81,7 @@ final class QueryPlanResult
     {
         $tables = [];
         foreach ($this->result as $table => $result) {
-            if (self::TABLE_SCAN === $result) {
+            if (self::ROW_TABLE_SCAN === $result || self::ROW_SEQ_SCAN === $result) {
                 $tables[] = $table;
             }
         }
@@ -77,11 +96,20 @@ final class QueryPlanResult
     {
         $tables = [];
         foreach ($this->result as $table => $result) {
-            if (self::UNINDEXED_READS === $result) {
+            if (self::ROW_UNINDEXED_READS === $result || self::ROW_INDEX_SCAN !== $result) {
                 $tables[] = $table;
             }
         }
 
         return $tables;
+    }
+
+    public function getTipForTable(string $table): string
+    {
+        $result = $this->result[$table];
+
+        return \in_array($result, array_keys(self::MYSQL_TIPS), true)
+            ? self::MYSQL_TIPS[$this->result[$table]]
+            : self::PGSQL_TIP;
     }
 }

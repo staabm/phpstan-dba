@@ -4,6 +4,7 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
 
@@ -48,10 +49,6 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndex(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
-            $this->markTestSkipped('query plan analyzer is not yet implemented for pgsql');
-        }
-
         if ('recording' !== getenv('DBA_MODE')) {
             $this->markTestSkipped('query plan analyzer requires a active database connection');
         }
@@ -60,7 +57,9 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $this->numberOfRowsNotRequiringIndex = 2;
 
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
-        $tip = 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html';
+        $tip = 'pdo-pgsql' === getenv('DBA_REFLECTOR')
+            ? QueryPlanResult::PGSQL_TIP
+            : 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html';
 
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
@@ -93,10 +92,6 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndexInDebugMode(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
-            $this->markTestSkipped('query plan analyzer is not yet implemented for pgsql');
-        }
-
         if ('recording' !== getenv('DBA_MODE')) {
             $this->markTestSkipped('query plan analyzer requires a active database connection');
         }
@@ -106,16 +101,53 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $this->numberOfRowsNotRequiringIndex = 2;
 
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
+        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+            $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
+                [
+                    "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN (FORMAT JSON) SELECT * FROM ada WHERE email = 'test@example.com'",
+                    12,
+                    QueryPlanResult::PGSQL_TIP,
+                ],
+                [
+                    "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN (FORMAT JSON) SELECT *,adaid FROM ada WHERE email = 'test@example.com'",
+                    17,
+                    QueryPlanResult::PGSQL_TIP,
+                ],
+                [
+                    "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN (FORMAT JSON) SELECT * FROM ada WHERE email = '1970-01-01'",
+                    22,
+                    QueryPlanResult::PGSQL_TIP,
+                ],
+                [
+                    "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN (FORMAT JSON) SELECT * FROM ada WHERE email = '1970-01-01'",
+                    23,
+                    QueryPlanResult::PGSQL_TIP,
+                ],
+                [
+                    "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN (FORMAT JSON) SELECT * FROM ada WHERE email = '1970-01-01'",
+                    28,
+                    QueryPlanResult::PGSQL_TIP,
+                ],
+                [
+                    'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
+                    61,
+                    'Make sure all variables involved have a non-mixed type and array-types are specified.',
+                ],
+            ]);
+
+            return;
+        }
+
         $tip = 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html';
 
         $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM `ada` WHERE email = 'test@example.com'",
+                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = 'test@example.com'",
                 12,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT *,adaid FROM `ada` WHERE email = 'test@example.com'",
+                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT *,adaid FROM ada WHERE email = 'test@example.com'",
                 17,
                 $tip,
             ],

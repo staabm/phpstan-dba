@@ -9,7 +9,7 @@ use PDO;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
-final class QueryPlanAnalyzerMysql
+final class QueryPlanAnalyzerMysql implements Analyzer
 {
     /**
      * @deprecated use QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD instead
@@ -89,7 +89,7 @@ final class QueryPlanAnalyzerMysql
                     continue;
                 }
 
-                $result->addRow($row['table'], QueryPlanResult::NO_INDEX);
+                $result->addRow($row['table'], QueryPlanResult::ROW_NO_INDEX);
             } else {
                 // don't analyse maybe existing data, to make the result consistent with empty db schemas
                 if (QueryPlanAnalyzer::TABLES_WITHOUT_DATA === $allowedRowsNotRequiringIndex) {
@@ -97,11 +97,11 @@ final class QueryPlanAnalyzerMysql
                 }
 
                 if (null !== $row['type'] && 'all' === strtolower($row['type']) && $row['rows'] >= $allowedRowsNotRequiringIndex) {
-                    $result->addRow($row['table'], QueryPlanResult::TABLE_SCAN);
+                    $result->addRow($row['table'], QueryPlanResult::ROW_TABLE_SCAN);
                 } elseif (true === $allowedUnindexedReads && $row['rows'] >= QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD) {
-                    $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
+                    $result->addRow($row['table'], QueryPlanResult::ROW_UNINDEXED_READS);
                 } elseif (\is_int($allowedUnindexedReads) && $row['rows'] >= $allowedUnindexedReads) {
-                    $result->addRow($row['table'], QueryPlanResult::UNINDEXED_READS);
+                    $result->addRow($row['table'], QueryPlanResult::ROW_UNINDEXED_READS);
                 }
             }
         }
