@@ -9,7 +9,6 @@ use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
 /**
@@ -25,7 +24,7 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
     {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        parent::__construct($pdo, new MysqlTypeMapper());
+        parent::__construct($pdo);
     }
 
     /** @return PDOException|list<ColumnMeta>|null */

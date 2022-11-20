@@ -18,6 +18,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
+use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -62,7 +63,7 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
 
     private function inferType(MethodReflection $methodReflection, Expr $queryExpr, Scope $scope): ?Type
     {
-        $queryReflection = new QueryReflection();
+        $queryReflection = new QueryReflection(new DbaApi(DbaApi::API_DIBI));
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
         return $this->createFetchType($queryStrings, $methodReflection);
@@ -73,7 +74,7 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
      */
     private function createFetchType(iterable $queryStrings, MethodReflection $methodReflection): ?Type
     {
-        $queryReflection = new QueryReflection();
+        $queryReflection = new QueryReflection(new DbaApi(DbaApi::API_DIBI));
         $dibiReflection = new DibiReflection();
 
         $fetchTypes = [];

@@ -43,4 +43,8 @@ final class LazyQueryReflector implements QueryReflector
 
         return $this->reflector->getResultType($queryString, $fetchType);
     }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+    }
 }
