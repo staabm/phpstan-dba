@@ -118,6 +118,10 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         } elseif ('fetchPairs' === $methodName && $resultType instanceof ConstantArrayType && 2 === \count($resultType->getValueTypes())) {
             return new ArrayType($resultType->getValueTypes()[0], $resultType->getValueTypes()[1]);
         } elseif ('fetchSingle' === $methodName && $resultType instanceof ConstantArrayType && 1 === \count($resultType->getValueTypes())) {
+            if ($resultType->getValueTypes()[0]->accepts(new NullType(), true)->yes()) {
+                return $resultType->getValueTypes()[0];
+            }
+
             return new UnionType([new NullType(), $resultType->getValueTypes()[0]]);
         }
 
