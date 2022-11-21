@@ -10,7 +10,6 @@ use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -47,25 +46,20 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         return \in_array(strtolower($methodReflection->getName()), self::METHODS, true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
         // make sure we don't report wrong types in doctrine 2.x
         if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
-            return $defaultReturn;
+            return null;
         }
 
         try {
-            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-            if (null !== $resultType) {
-                return $resultType;
-            }
+            return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $defaultReturn;
+        return null;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type

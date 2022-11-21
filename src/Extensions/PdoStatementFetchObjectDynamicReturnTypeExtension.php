@@ -8,7 +8,6 @@ use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantStringType;
@@ -40,20 +39,15 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
         return \in_array($methodReflection->getName(), ['fetchObject'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
         try {
-            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-            if (null !== $resultType) {
-                $returnType = $resultType;
-            }
+            return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $returnType;
+        return null;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type

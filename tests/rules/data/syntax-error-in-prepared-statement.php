@@ -323,4 +323,10 @@ class Foo
     {
         $connection->preparedQuery('SELECT email FROM ada WHERE email = :param OR email = :parameter', ['param' => 'abc', 'parameter' => 'def']);
     }
+
+    public function bug442(Connection $conn, string $table)
+    {
+        $conn->executeQuery("SELECT * FROM `$table`");
+    }
+
 }

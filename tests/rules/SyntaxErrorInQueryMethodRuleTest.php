@@ -231,4 +231,9 @@ LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
             ],
         ]);
     }
+
+    public function testBugRexstan165()
+    {
+        $this->analyse([__DIR__.'/data/bug-rexstan-165.php'], []);
+    }
 }

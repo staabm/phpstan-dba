@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\Extensions;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
@@ -27,23 +26,22 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         return 'deployer\runmysqlquery' === strtolower($functionReflection->getName());
     }
 
-    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
+    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
     {
         $args = $functionCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
         if (\count($args) < 2) {
-            return $defaultReturn;
+            return null;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
-            return $defaultReturn;
+            return null;
         }
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {
-            return $defaultReturn;
+            return null;
         }
 
         $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
@@ -56,6 +54,6 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
             return TypeCombinator::addNull(new ArrayType(new IntegerType(), $builder->getArray()));
         }
 
-        return $defaultReturn;
+        return null;
     }
 }

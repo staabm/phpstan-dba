@@ -43,6 +43,11 @@ final class QueryReflection
      */
     private static $runtimeConfiguration;
 
+    public function __construct(?DbaApi $dbaApi = null)
+    {
+        self::reflector()->setupDbaApi($dbaApi);
+    }
+
     public static function setupReflector(QueryReflector $reflector, RuntimeConfiguration $runtimeConfiguration): void
     {
         self::$reflector = $reflector;
@@ -174,7 +179,7 @@ final class QueryReflection
     {
         if ($queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+            $queryStringExpr = $finder->findAssignmentExpression($queryExpr);
 
             if (null !== $queryStringExpr) {
                 return $this->resolveQueryStringExpr($queryStringExpr, $scope);
@@ -191,7 +196,8 @@ final class QueryReflection
     {
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $assignExpr = $finder->findQueryStringExpression($queryExpr);
+            // atm we cannot reason about variables which are manipulated via assign ops
+            $assignExpr = $finder->findAssignmentExpression($queryExpr, true);
 
             if (null !== $assignExpr) {
                 return $this->resolveQueryStringExpr($assignExpr, $scope);
@@ -228,7 +234,11 @@ final class QueryReflection
         if ($queryExpr instanceof Encapsed) {
             $string = '';
             foreach ($queryExpr->parts as $part) {
-                $string .= $this->resolveQueryStringExpr($part, $scope);
+                $resolvedPart = $this->resolveQueryStringExpr($part, $scope);
+                if (null === $resolvedPart) {
+                    return null;
+                }
+                $string .= $resolvedPart;
             }
 
             return $string;

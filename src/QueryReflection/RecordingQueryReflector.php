@@ -55,6 +55,11 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
         return $resultType;
     }
 
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->reflector->setupDbaApi($dbaApi);
+    }
+
     public function getDatasource()
     {
         if ($this->reflector instanceof RecordingReflector) {

@@ -1,0 +1,94 @@
+services:
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInDibiPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'Dibi\Connection::fetch'
+                - 'Dibi\Connection::fetchSingle'
+                - 'Dibi\Connection::query'
+                - 'Dibi\Connection::fetchAll'
+                - 'Dibi\Connection::fetchPairs'
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
+                - 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct'
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery'
+                - 'Doctrine\DBAL\Connection::executeQuery'
+                - 'Doctrine\DBAL\Connection::executeCacheQuery'
+                - 'Doctrine\DBAL\Connection::executeStatement'
+                - 'Doctrine\DBAL\Connection::fetchAssociative'
+                - 'Doctrine\DBAL\Connection::fetchNumeric'
+                - 'Doctrine\DBAL\Connection::fetchOne'
+                - 'Doctrine\DBAL\Connection::fetchAllNumeric'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociative'
+                - 'Doctrine\DBAL\Connection::fetchAllKeyValue'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociativeIndexed'
+                - 'Doctrine\DBAL\Connection::fetchFirstColumn'
+                - 'Doctrine\DBAL\Connection::iterateNumeric'
+                - 'Doctrine\DBAL\Connection::iterateAssociative'
+                - 'Doctrine\DBAL\Connection::iterateKeyValue'
+                - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed'
+                - 'Doctrine\DBAL\Connection::iterateColumn'
+                - 'Doctrine\DBAL\Connection::executeUpdate' # deprecated in doctrine
+
+    -
+        class: staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery#0'
+                - 'PDO::query#0'
+                - 'PDO::prepare#0'
+                - 'mysqli::query#0'
+                - 'mysqli::execute_query#0'
+                - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
+                - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
+
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            functionNames:
+                - 'Deployer\runMysqlQuery#0'
+                - 'mysqli_query#1'
+                - 'mysqli_execute_query#1'
+
+    -
+        class: staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                # prepared statement methods
+                - 'Doctrine\DBAL\Connection::executeQuery#0'
+                - 'Doctrine\DBAL\Connection::executeCacheQuery#0'
+                - 'Doctrine\DBAL\Connection::executeStatement#0'
+                - 'Doctrine\DBAL\Connection::fetchAssociative#0'
+                - 'Doctrine\DBAL\Connection::fetchNumeric#0'
+                - 'Doctrine\DBAL\Connection::fetchOne#0'
+                - 'Doctrine\DBAL\Connection::fetchAllNumeric#0'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociative#0'
+                - 'Doctrine\DBAL\Connection::fetchAllKeyValue#0'
+                - 'Doctrine\DBAL\Connection::fetchAllAssociativeIndexed#0'
+                - 'Doctrine\DBAL\Connection::fetchFirstColumn#0'
+                - 'Doctrine\DBAL\Connection::iterateNumeric#0'
+                - 'Doctrine\DBAL\Connection::iterateAssociative#0'
+                - 'Doctrine\DBAL\Connection::iterateKeyValue#0'
+                - 'Doctrine\DBAL\Connection::iterateAssociativeIndexed#0'
+                - 'Doctrine\DBAL\Connection::iterateColumn#0'
+                - 'Doctrine\DBAL\Connection::executeUpdate#0' # deprecated in doctrine
+                # regular statements
+                - 'PDO::query#0'
+                - 'PDO::prepare#0'
+                - 'mysqli::query#0'
+                - 'mysqli::execute_query#0'
+                - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
+                - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine

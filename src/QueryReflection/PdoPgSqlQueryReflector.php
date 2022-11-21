@@ -21,9 +21,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
 
     public function __construct(PDO $pdo)
     {
-        $typeMapper = new PgsqlTypeMapper();
-
-        parent::__construct($pdo, $typeMapper);
+        parent::__construct($pdo);
     }
 
     /** @return PDOException|list<PDOColumnMeta>|null */
@@ -89,6 +87,11 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
         }
 
         return $this->cache[$queryString];
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->typeMapper = new PgsqlTypeMapper($dbaApi);
     }
 
     /**

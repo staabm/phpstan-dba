@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v9-put-null-when-valid',
-  'schemaHash' => NULL,
+  'schemaHash' => '978ac93a0dacd29d0a93b7827aa3319c',
   'records' => 
   array (
     'SELECT email, adaid FROM ada' => 
@@ -101,6 +101,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),

@@ -101,6 +101,7 @@
            'optionalKeys' => 
           array (
           ),
+           'isList' => false,
         )),
       ),
     ),

@@ -12,7 +12,7 @@ use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
  */
-class SyntaxErrorInPreparedStatementMethodRuleReflectorTest extends RuleTestCase
+class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
@@ -22,7 +22,7 @@ class SyntaxErrorInPreparedStatementMethodRuleReflectorTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/config/syntax-error-in-prepared-statement.neon',
+            __DIR__.'/../../config/dba.neon',
         ];
     }
 

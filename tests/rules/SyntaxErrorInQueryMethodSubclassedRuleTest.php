@@ -22,7 +22,7 @@ class SyntaxErrorInQueryMethodSubclassedRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/config/subclassed-method-rule.neon',
+            __DIR__.'/../../config/dba.neon',
         ];
     }
 
