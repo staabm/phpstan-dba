@@ -43,6 +43,11 @@ final class QueryReflection
      */
     private static $runtimeConfiguration;
 
+    public function __construct(?DbaApi $dbaApi = null)
+    {
+        self::reflector()->setupDbaApi($dbaApi);
+    }
+
     public static function setupReflector(QueryReflector $reflector, RuntimeConfiguration $runtimeConfiguration): void
     {
         self::$reflector = $reflector;

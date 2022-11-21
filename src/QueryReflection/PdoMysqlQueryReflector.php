@@ -25,7 +25,7 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
     {
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        parent::__construct($pdo, new MysqlTypeMapper());
+        parent::__construct($pdo);
     }
 
     /** @return PDOException|list<ColumnMeta>|null */
@@ -88,6 +88,11 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
         }
 
         return $this->cache[$queryString];
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->typeMapper = new MysqlTypeMapper($dbaApi);
     }
 
     /**

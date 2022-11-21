@@ -86,6 +86,11 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
         }
     }
 
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->queryReflector->setupDbaApi($dbaApi);
+    }
+
     public function getDatasource()
     {
         return $this->createRecordingReflector()->getDatasource();

@@ -19,6 +19,7 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
+use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
@@ -102,7 +103,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        $queryReflection = new QueryReflection();
+        $queryReflection = new QueryReflection(new DbaApi(DbaApi::API_DIBI));
         $queryParameters = [];
         $errors = [];
 

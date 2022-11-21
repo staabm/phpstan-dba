@@ -72,12 +72,10 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
      */
     protected $pdo;
 
-    public function __construct(PDO $pdo, TypeMapper $typeMapper)
+    public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $this->typeMapper = $typeMapper;
     }
 
     public function validateQueryString(string $queryString): ?Error
