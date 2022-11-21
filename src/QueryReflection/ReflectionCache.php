@@ -174,6 +174,11 @@ final class ReflectionCache
             return;
         }
 
+        if ($this->isPHPStormSingleFileRun()) {
+            // don't overwrite reflection cache, when analyzing only a single file
+            return;
+        }
+
         try {
             flock(self::$lockHandle, LOCK_EX);
 
@@ -329,5 +334,14 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
+    }
+
+    private function isPHPStormSingleFileRun(): bool
+    {
+        if (!\array_key_exists('__CFBundleIdentifier', $_SERVER)) {
+            return false;
+        }
+
+        return 'com.jetbrains.PhpStorm' === $_SERVER['__CFBundleIdentifier'];
     }
 }
