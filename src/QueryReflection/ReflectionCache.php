@@ -216,9 +216,6 @@ final class ReflectionCache
         }
     }
 
-    /**
-     * @deprecated
-     */
     public function hasValidationError(string $queryString): bool
     {
         $records = $this->lazyReadRecords();
@@ -264,15 +261,10 @@ final class ReflectionCache
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
             $this->cacheIsDirty = true;
         }
-
-        // forget result when putting an error
-        unset($this->records[$queryString]['result']);
     }
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
-     *
-     * @deprecated
      */
     public function hasResultType(string $queryString, int $fetchType): bool
     {
@@ -337,8 +329,5 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
-
-        // forget error when putting a result
-        unset($this->records[$queryString]['error']);
     }
 }
