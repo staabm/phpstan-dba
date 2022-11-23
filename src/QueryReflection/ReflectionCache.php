@@ -320,7 +320,7 @@ final class ReflectionCache
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function putResultType(string $queryString, int $fetchType, ?Type $resultType): void
+    public function putResultType(string $queryString, int $fetchType, Type $resultType): void
     {
         $records = $this->lazyReadRecords();
 
