@@ -221,6 +221,9 @@ final class ReflectionCache
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function hasValidationError(string $queryString): bool
     {
         $records = $this->lazyReadRecords();
@@ -270,6 +273,8 @@ final class ReflectionCache
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
+     *
+     * @deprecated
      */
     public function hasResultType(string $queryString, int $fetchType): bool
     {
