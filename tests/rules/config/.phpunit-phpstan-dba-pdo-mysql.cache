@@ -41,7 +41,6 @@
     ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -394,7 +393,6 @@
     ),
     'SELECT * FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -569,7 +567,6 @@
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1254,10 +1251,6 @@
 Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
     array (
