@@ -174,11 +174,6 @@ final class ReflectionCache
             return;
         }
 
-        if ($this->isPHPStormSingleFileRun()) {
-            // don't overwrite reflection cache, when analyzing only a single file
-            return;
-        }
-
         try {
             flock(self::$lockHandle, LOCK_EX);
 
@@ -345,15 +340,5 @@ final class ReflectionCache
 
         // forget error when putting a result
         unset($this->records[$queryString]['error']);
-
-    }
-
-    private function isPHPStormSingleFileRun(): bool
-    {
-        if (!\array_key_exists('__CFBundleIdentifier', $_SERVER)) {
-            return false;
-        }
-
-        return 'com.jetbrains.PhpStorm' === $_SERVER['__CFBundleIdentifier'];
     }
 }
