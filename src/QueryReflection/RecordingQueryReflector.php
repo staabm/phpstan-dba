@@ -34,10 +34,12 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
     {
         $error = $this->reflector->validateQueryString($queryString);
 
-        $this->reflectionCache->putValidationError(
-            $queryString,
-            $error
-        );
+        if (null !== $error) {
+            $this->reflectionCache->putValidationError(
+                $queryString,
+                $error
+            );
+        }
 
         return $error;
     }

@@ -251,7 +251,7 @@ final class ReflectionCache
         return $cacheEntry['error'];
     }
 
-    public function putValidationError(string $queryString, ?Error $error): void
+    public function putValidationError(string $queryString, Error $error): void
     {
         $records = $this->lazyReadRecords();
 
