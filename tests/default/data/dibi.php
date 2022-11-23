@@ -10,10 +10,14 @@ class Foo
     public function fetch(\Dibi\Connection $connection)
     {
         $row = $connection->fetch('SELECT email, adaid FROM ada where adaid = %i', 1);
-        assertType('array{email: string, adaid: int<-32768, 32767>}|null', $row);
+//        assertType('Dibi\Row<array{email: string, adaid: int<-32768, 32767>}>|null', $row);
+        // will try to implement magic properties once array access is resolved
+        assertType('int<-32768, 32767>', $row['adaid']);
+        assertType('int<-32768, 32767>', $row->adaid);
+//        assertType('array{email: string, adaid: int<-32768, 32767>}|null', $row);
 
-        $row = $connection->fetch('SELECT c_datetime FROM typemix');
-        assertType('array{c_datetime: DateTimeImmutable|null}|null', $row);
+//        $row = $connection->fetch('SELECT c_datetime FROM typemix');
+//        assertType('array{c_datetime: DateTimeImmutable|null}|null', $row);
     }
 
     public function fetchAll(\Dibi\Connection $connection)
