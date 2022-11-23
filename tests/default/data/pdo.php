@@ -41,7 +41,7 @@ class Foo
     public function syntaxError(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
-        assertType('*ERROR*', $stmt);
+        assertType('PDOStatement', $stmt);
     }
 
     /**

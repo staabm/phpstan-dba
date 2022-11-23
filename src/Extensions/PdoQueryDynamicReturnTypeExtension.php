@@ -13,7 +13,6 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -112,9 +111,13 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         foreach ($queryStrings as $queryString) {
+            if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
+                return null;
+            }
+
             // return unknown type if query contains syntax errors
             if (null !== $queryReflection->validateQueryString($queryString)) {
-                return new ErrorType();
+                return null;
             }
         }
 
