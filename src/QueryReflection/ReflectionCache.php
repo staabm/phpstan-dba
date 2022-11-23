@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v10-unset-when-put';
+    public const SCHEMA_VERSION = 'v10-rework-replay';
 
     /**
      * @var string
