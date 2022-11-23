@@ -100,14 +100,14 @@ class Foo
     {
         $query = "INSERT INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
     public function replaceQuery(PDO $pdo)
     {
         $query = "REPLACE INTO ada SET email='test@complex-it.de'";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
     public function queryBranches(PDO $pdo, bool $bool, int $adaid)
@@ -128,7 +128,7 @@ class Foo
     {
         $query = "UPDATE ada SET email='test@complex-it.de' where adaid=-5";
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 
     /**

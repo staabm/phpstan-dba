@@ -121,6 +121,6 @@ class Foo
         $stmt->execute(['package' => 'abc']);
         // this query is too dynamic for beeing analyzed.
         // make sure we don't infer a wrong type.
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 }

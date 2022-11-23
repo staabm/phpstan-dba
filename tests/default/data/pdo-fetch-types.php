@@ -29,6 +29,6 @@ class Foo
     public function unsupportedFetchTypes(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_COLUMN);
-        assertType('PDOStatement', $stmt);
+        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
     }
 }
