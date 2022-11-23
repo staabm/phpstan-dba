@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v9-put-null-when-valid';
+    public const SCHEMA_VERSION = 'v10-unset-when-put';
 
     /**
      * @var string
@@ -269,6 +269,9 @@ final class ReflectionCache
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
             $this->cacheIsDirty = true;
         }
+
+        // forget result when putting an error
+        unset($this->records[$queryString]['result']);
     }
 
     /**
@@ -339,6 +342,10 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
+
+        // forget error when putting a result
+        unset($this->records[$queryString]['error']);
+
     }
 
     private function isPHPStormSingleFileRun(): bool
