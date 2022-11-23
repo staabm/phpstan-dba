@@ -10,7 +10,7 @@ class Foo
     public function execute(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE email <=> :email');
-        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt);
+        assertType('PDOStatement', $stmt);
         $stmt->execute([':email' => null]);
         assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
     }

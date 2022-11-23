@@ -55,7 +55,7 @@ class HelloWorld
         }
 
         $stmt = $pdo->query($q, PDO::FETCH_COLUMN);
-        assertType('PDOStatement<array<string, float|int|string|null>>', $stmt); // could be PDOStatement<float|int|string|null>
+        assertType('PDOStatement', $stmt); // could be PDOStatement<float|int|string|null>
         foreach ($stmt as $row) {
             assertType('mixed', $row); // could be float|int|string|null
         }
