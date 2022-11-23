@@ -1,0 +1,21 @@
+<?php
+
+namespace Dibi;
+
+/**
+ * @template TArray of array
+ * @implements \ArrayAccess<key-of<TArray>, value-of<TArray>>
+ */
+abstract class Row implements \ArrayAccess
+{
+
+	/**
+	 * @template TKey of key-of<TArray>
+	 * @param TKey $key
+	 * @return TArray[TKey]
+	 */
+	public function offsetGet(mixed $key): mixed
+	{
+	}
+
+}
