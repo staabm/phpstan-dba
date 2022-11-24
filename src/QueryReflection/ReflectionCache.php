@@ -261,6 +261,8 @@ final class ReflectionCache
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
             $this->cacheIsDirty = true;
         }
+
+        unset($this->records[$queryString]['result']);
     }
 
     /**
@@ -329,5 +331,7 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
+
+        unset($this->records[$queryString]['error']);
     }
 }
