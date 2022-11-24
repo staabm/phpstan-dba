@@ -1,47 +1,10 @@
 <?php return array (
-  'schemaVersion' => 'v9-put-null-when-valid',
+  'schemaVersion' => 'v10-rework-replay',
   'schemaHash' => NULL,
   'records' => 
   array (
-    'SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = \'1\')
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = :akid)
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT
-                ada.*,
-                COALESCE(NULLIF(email, ""), email) AS email
-            FROM ada
-                INNER JOIN ak ON (ak.adaid = ada.adaid AND ak.akid = ?)
-            WHERE adaid = 1 ORDER BY COALESCE(NULLIF(email, ""), email) ASC' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -201,10 +164,6 @@
            'isList' => false,
         )),
       ),
-    ),
-    'SELECT * FROM `ada` WHERE email = \'test@example.com\'' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT * FROM `ada` WHERE email = \'test@example.com\';' => 
     array (
@@ -375,10 +334,6 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM ada ORDER BY doesNotExist' => 
     array (
@@ -387,14 +342,9 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM ada WHERE adaid = \'1\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -562,14 +512,9 @@
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT * FROM ada WHERE email = \'1970-01-01\'' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -1061,14 +1006,6 @@
          'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.unknown_table\' doesn\'t exist',
          'code' => '42S02',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT *,adaid FROM `ada` WHERE email = \'test@example.com\'' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT *,adaid FROM `ada` WHERE email = \'test@example.com\';' => 
     array (
@@ -1254,38 +1191,6 @@
 Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT adaid FROM ada WHERE email = \'1970-01-01\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email = \'1970-01-01\' AND gesperrt = \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE ":gesperrt%"' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \':gesperrt%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT adaid FROM ada WHERE email LIKE \'some strange string - :gesperrt it is\'' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT adaid FROM ada WHERE email=\'1970-01-01\'' => 
     array (
@@ -1353,13 +1258,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT adaid FROM ada WHERE email=:email' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
       'error' => 
@@ -1367,10 +1265,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'field list\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email FROM ada' => 
     array (
@@ -1468,64 +1362,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email FROM ada WHERE adaid IN (\'1\')' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email FROM ada WHERE email = \'abc\' OR email = \'def\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email FROM ada WHERE gesperrt=:gesperrt' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT email FROM ada where email = ""' => 
-    array (
-      'result' => 
-      array (
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-             'objectType' => NULL,
-             'value' => 'email',
-             'isClassString' => false,
-          )),
-           'itemType' => 
-          PHPStan\Type\StringType::__set_state(array(
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 0,
-          ),
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'value' => 'email',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => false,
-        )),
-      ),
-    ),
-    'SELECT email FROM ada where email = "1"' => 
     array (
       'result' => 
       array (
@@ -1620,6 +1457,17 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => '42000',
       )),
     ),
+    'SELECT email adaid
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
+            FROM ada
+            LIMIT        1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
+         'code' => '42000',
+      )),
+    ),
     'SELECT email adaid WHERE gesperrt FROM ada' => 
     array (
       'error' => 
@@ -1635,11 +1483,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-        3 => NULL,
-      ),
     ),
     'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
     array (
@@ -1648,101 +1491,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'gesperrt freigabe1u1 FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            FOR UPDATE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            FOR UPDATE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-            FOR SHARE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET \'1\'
-            FOR UPDATE' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\'
-            OFFSET 1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT        \'1\',  \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\'
-            LIMIT   \'1\',     \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example%\'
-            LIMIT        1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid
-            FROM ada
-            WHERE gesperrt = \'1\' AND email LIKE NULL
-            LIMIT        1' => 
-    array (
-      'error' => NULL,
-    ),
-    'SELECT email, adaid  FROM ada  WHERE email = :email' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid /* why? ? */ FROM ada /* just ?? :because ?*/ WHERE email = \'a\' -- ?' => 
     array (
@@ -2159,22 +1907,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'xy\' in \'group statement\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => '42000',
-      )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
     array (
@@ -2278,51 +2010,8 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = :email' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = ?' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = :adaid' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = \'email@example.org\'' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = :adaid and email = :email' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid FROM ada WHERE adaid = ? and email = ?' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT email, adaid FROM ada WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2423,10 +2112,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
-    array (
-      'error' => NULL,
-    ),
     'SELECT email, adaid GROUP BY xy FROM ada  LIMIT 1' => 
     array (
       'error' => 
@@ -2434,21 +2119,9 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid GROUP BY xy FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         3 => 
@@ -2715,14 +2388,8 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada
-            WHERE (gesperrt=\'1\' AND freigabe1u1=1) OR (gesperrt=\'1\' AND freigabe1u1=0)' => 
-    array (
-      'error' => NULL,
-    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -2885,7 +2552,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  WHERE email=\'my_other_table\' LIMIT 1' => 
     array (
-      'error' => NULL,
       'result' => 
       array (
         5 => 
@@ -3208,27 +2874,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = :adaid' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = :asdsa' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\'' => 
     array (
       'error' => 
@@ -3244,15 +2889,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'where clause\'',
          'code' => '42S22',
       )),
-      'result' => 
-      array (
-        3 => NULL,
-        5 => NULL,
-      ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=\'1\'' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE gesperrt=1' => 
     array (
@@ -3415,10 +3051,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'isList' => false,
         )),
       ),
-    ),
-    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;' => 
-    array (
-      'error' => NULL,
     ),
     'SELECT email, does_not_exist FROM ada WHERE email = \'1970-01-01\' AND 1=1' => 
     array (
@@ -3617,22 +3249,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'with syntax error GROUPY by x LIMIT 0\' at line 1',
          'code' => '42000',
       )),
-    ),
-    'Select * from ada
-            where adakzid = 15' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
-    ),
-    'Select * from ada
-            where adakzid = 15 -- customer ???' => 
-    array (
-      'result' => 
-      array (
-        5 => NULL,
-      ),
     ),
   ),
   'runtimeConfig' => 
