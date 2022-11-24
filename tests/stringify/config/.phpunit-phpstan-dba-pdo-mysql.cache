@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v9-put-null-when-valid',
+  'schemaVersion' => 'v10-rework-replay',
   'schemaHash' => NULL,
   'records' => 
   array (

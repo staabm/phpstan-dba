@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\Error;
 
@@ -66,11 +65,12 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
             return $this->createRecordingReflector()->validateQueryString($queryString);
         }
 
-        try {
-            return $this->replayReflector->validateQueryString($queryString);
-        } catch (CacheNotPopulatedException $e) {
-            return $this->createRecordingReflector()->validateQueryString($queryString);
+        $error = $this->replayReflector->validateQueryString($queryString);
+        if (null !== $error) {
+            return $error;
         }
+
+        return $this->createRecordingReflector()->validateQueryString($queryString);
     }
 
     public function getResultType(string $queryString, int $fetchType): ?Type
@@ -79,11 +79,12 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
             return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
         }
 
-        try {
-            return $this->replayReflector->getResultType($queryString, $fetchType);
-        } catch (CacheNotPopulatedException $e) {
-            return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
+        $resultType = $this->replayReflector->getResultType($queryString, $fetchType);
+        if (null !== $resultType) {
+            return $resultType;
         }
+
+        return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
     }
 
     public function getDatasource()

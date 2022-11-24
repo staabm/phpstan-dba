@@ -50,6 +50,11 @@ final class ReflectorFactory
             $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
         }
 
+        if (str_starts_with($mode, 'empty-')) {
+            file_put_contents($cacheFile, ''); // clear cache
+            $mode = substr($mode, 6);
+        }
+
         $reflectionCache = ReflectionCache::create(
             $cacheFile
         );

@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v9-put-null-when-valid';
+    public const SCHEMA_VERSION = 'v10-rework-replay';
 
     /**
      * @var string
@@ -174,11 +174,6 @@ final class ReflectionCache
             return;
         }
 
-        if ($this->isPHPStormSingleFileRun()) {
-            // don't overwrite reflection cache, when analyzing only a single file
-            return;
-        }
-
         try {
             flock(self::$lockHandle, LOCK_EX);
 
@@ -253,7 +248,7 @@ final class ReflectionCache
         return $cacheEntry['error'];
     }
 
-    public function putValidationError(string $queryString, ?Error $error): void
+    public function putValidationError(string $queryString, Error $error): void
     {
         $records = $this->lazyReadRecords();
 
@@ -266,6 +261,8 @@ final class ReflectionCache
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
             $this->cacheIsDirty = true;
         }
+
+        unset($this->records[$queryString]['result']);
     }
 
     /**
@@ -315,7 +312,7 @@ final class ReflectionCache
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function putResultType(string $queryString, int $fetchType, ?Type $resultType): void
+    public function putResultType(string $queryString, int $fetchType, Type $resultType): void
     {
         $records = $this->lazyReadRecords();
 
@@ -334,14 +331,7 @@ final class ReflectionCache
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }
-    }
 
-    private function isPHPStormSingleFileRun(): bool
-    {
-        if (!\array_key_exists('__CFBundleIdentifier', $_SERVER)) {
-            return false;
-        }
-
-        return 'com.jetbrains.PhpStorm' === $_SERVER['__CFBundleIdentifier'];
+        unset($this->records[$queryString]['error']);
     }
 }

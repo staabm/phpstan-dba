@@ -56,6 +56,15 @@ jobs:
             reflector: "pdo-mysql"
             mode: "replay-and-recording"
 
+          - php-version: "8.1"
+            db-image: 'mysql:8.0'
+            reflector: "pdo-mysql"
+            mode: "empty-recording"
+          - php-version: "8.1"
+            db-image: 'mysql:8.0'
+            reflector: "pdo-mysql"
+            mode: "empty-replay-and-recording"
+
     env:
       DBA_REFLECTOR: ${{ matrix.reflector }}
       DBA_MODE: ${{ matrix.mode }}
