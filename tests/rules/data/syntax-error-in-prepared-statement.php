@@ -322,6 +322,7 @@ class Foo
     public function preparedNamedParamsSubstitution(Connection $connection)
     {
         $connection->preparedQuery('SELECT email FROM ada WHERE email = :param OR email = :parameter', ['param' => 'abc', 'parameter' => 'def']);
+        $connection->preparedQuery('INSERT into ada(adaid, gesperrt, email,freigabe1u1) values(:adaid, :gesperrt, :email, :freigabe1u1)', ['adaid' => 1, 'gesperrt' => 0, 'email' => 'test@github.com', 0]);
     }
 
     public function bug442(Connection $conn, string $table)

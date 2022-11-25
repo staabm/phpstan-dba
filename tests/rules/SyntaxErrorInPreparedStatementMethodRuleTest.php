@@ -71,6 +71,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                 137,
             ],
             [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `changet' at line 3 (1064).",
+                209,
+            ],
+            [
                 'Query expects placeholder :name, but it is missing from values given.',
                 307,
             ],
@@ -138,6 +142,14 @@ HINT:  Perhaps you meant to reference the column "ada.gesperrt". (42703).',
                     137,
                 ],
                 [
+                    'Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.package\' doesn\'t exist (42S02).',
+                    180,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    209,
+                ],
+                [
                     'Query expects placeholder :name, but it is missing from values given.',
                     307,
                 ],
@@ -185,6 +197,14 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 [
                     'Value :gesperrt is given, but the query does not contain this placeholder.',
                     137,
+                ],
+                [
+                    'Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.package\' doesn\'t exist (42S02).',
+                    180,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    209,
                 ],
                 [
                     'Query expects placeholder :name, but it is missing from values given.',

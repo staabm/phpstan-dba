@@ -50,7 +50,6 @@ class Foo
         $conn->query('SELECT %n, %n frommmm %n', 'email', 'dadid', 'ada');
     }
 
-    /* phpstan-dba does not yet support writable queries
     public function testDeleteUpdateInsert(\Dibi\Connection $conn)
     {
         $conn->query('DELETE from adasfd');
@@ -63,6 +62,5 @@ class Foo
             'email' => 'sdf',
         ]);
     }
-    */
 
 }

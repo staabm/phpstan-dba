@@ -56,7 +56,12 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
+        if (!\in_array($this->getQueryType($queryString), [
+            'SELECT',
+            'INSERT',
+            'DELETE',
+            'UPDATE',
+        ], true)) {
             return null;
         }
 

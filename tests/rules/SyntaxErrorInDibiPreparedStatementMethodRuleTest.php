@@ -151,13 +151,10 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                     'Query expects 0 placeholder, but 1 value is given.',
                     40,
                 ],
-                /*
-                phpstan-dba does not yet support writable queries
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
-                    46,
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    55,
                 ],
-                */
             ];
         } else {
             throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
