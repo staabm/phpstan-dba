@@ -50,7 +50,7 @@ class Foo
         $conn->query('SELECT %n, %n frommmm %n', 'email', 'dadid', 'ada');
     }
 
-    public function testDeleteUpdateInsert(\Dibi\Connection $conn)
+    public function testInvalidDeleteUpdateInsert(\Dibi\Connection $conn)
     {
         $conn->query('DELETE from adasfd');
         $conn->query('DELETE from ada');
