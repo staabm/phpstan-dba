@@ -61,6 +61,7 @@ final class QueryReflection
             'INSERT',
             'DELETE',
             'UPDATE',
+            'REPLACE',
         ], true)) {
             return null;
         }
