@@ -20,7 +20,7 @@ jobs:
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
-            phpstan-version: "@dev"
+            phpstan-version: "phpstan@dev"
 
           - php-version: "8.0"
             db-image: 'mysql:8.0'
