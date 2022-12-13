@@ -130,8 +130,8 @@ final class QuerySimulation
             return null;
         }
 
-        // make sure we don't unnecessarily transfer data, as we are only interessted in the statement is succeeding
-        if ('SELECT' === QueryReflection::getQueryType($queryString)) {
+        // make sure we don't unnecessarily transfer data, as we are only interested in the statement is succeeding
+        if ('INSERT' !== QueryReflection::getQueryType($queryString)) {
             $queryString .= ' LIMIT 0';
         }
 
