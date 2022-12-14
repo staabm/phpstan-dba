@@ -17,6 +17,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
+use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerPgSql;
 use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\Ast\ExpressionFinder;
@@ -470,15 +471,19 @@ final class QueryReflection
         if (!$reflector instanceof RecordingReflector) {
             throw new DbaException('Query plan analysis is only supported with a recording reflector');
         }
-        if ($reflector instanceof PdoPgSqlQueryReflector) {
-            throw new DbaException('Query plan analysis is not yet supported with the pdo-pgsql reflector, see https://github.com/staabm/phpstan-dba/issues/378');
-        }
 
         $ds = $reflector->getDatasource();
         if (null === $ds) {
             throw new DbaException(sprintf('Unable to create datasource from %s', \get_class($reflector)));
         }
-        $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
+
+        $innerReflector = method_exists($reflector, 'getReflector') ? $reflector->getReflector() : null;
+        if ($innerReflector instanceof PdoPgSqlQueryReflector) {
+            \assert($ds instanceof \PDO);
+            $queryPlanAnalyzer = new QueryPlanAnalyzerPgSql($ds);
+        } else {
+            $queryPlanAnalyzer = new QueryPlanAnalyzerMysql($ds);
+        }
 
         $queryResolver = new QueryPlanQueryResolver();
         foreach ($queryResolver->resolve($scope, $queryExpr, $parameterTypes) as $queryString) {

@@ -72,4 +72,9 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
 
         return null;
     }
+
+    public function getReflector(): QueryReflector
+    {
+        return $this->reflector;
+    }
 }

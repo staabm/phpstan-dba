@@ -9,12 +9,12 @@ class Foo
 {
     public function noindex(PDO $pdo): void
     {
-        $pdo->query("SELECT * FROM `ada` WHERE email = 'test@example.com';");
+        $pdo->query("SELECT * FROM ada WHERE email = 'test@example.com';");
     }
 
     public function noindexDbal(Connection $conn): void
     {
-        $conn->executeQuery("SELECT *,adaid FROM `ada` WHERE email = 'test@example.com';");
+        $conn->executeQuery("SELECT *,adaid FROM ada WHERE email = 'test@example.com';");
     }
 
     public function noindexPreparedDbal(Connection $conn, string $email): void
@@ -35,7 +35,7 @@ class Foo
 
     public function indexed(PDO $pdo, int $adaid): void
     {
-        $pdo->query('SELECT * FROM `ada` WHERE adaid = '.$adaid);
+        $pdo->query('SELECT * FROM ada WHERE adaid = '.$adaid);
     }
 
     public function indexedPrepared(Connection $conn, int $adaidl): void
@@ -45,10 +45,10 @@ class Foo
 
     public function writes(PDO $pdo, int $adaid): void
     {
-        $pdo->query('UPDATE `ada` SET email="test" WHERE adaid = '.$adaid);
-        $pdo->query('INSERT INTO `ada` SET email="test" WHERE adaid = '.$adaid);
-        $pdo->query('REPLACE INTO `ada` SET email="test" WHERE adaid = '.$adaid);
-        $pdo->query('DELETE FROM `ada` WHERE adaid = '.$adaid);
+        $pdo->query('UPDATE ada SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('INSERT INTO ada SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('REPLACE INTO ada SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('DELETE FROM ada WHERE adaid = '.$adaid);
     }
 
     public function unknownQuery(Connection $conn, string $query): void
@@ -64,12 +64,12 @@ class Foo
     public function bug442(Connection $conn, string $table)
     {
         // just make sure we don't fatal error
-        $conn->fetchAllAssociative("SELECT * FROM `$table`");
+        $conn->fetchAllAssociative("SELECT * FROM " . $table);
 
         $query = 'SELECT email, adaid FROM '. $table .' WHERE adaid = ?';
         $conn->fetchAssociative($query, [1]);
 
-        $query = "SELECT email, adaid FROM `$table` WHERE adaid = ?";
+        $query = "SELECT email, adaid FROM " . $table . " WHERE adaid = ?";
         $conn->fetchAssociative($query, [1]);
     }
 }
