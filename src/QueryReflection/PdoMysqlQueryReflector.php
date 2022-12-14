@@ -49,6 +49,7 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
             $this->pdo->beginTransaction();
         } catch (PDOException $e) {
             // not all drivers may support transactions
+            throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
         }
 
         try {
@@ -60,6 +61,7 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
                 $this->pdo->rollBack();
             } catch (PDOException $e) {
                 // not all drivers may support transactions
+                throw new \RuntimeException('Failed to rollback transaction', $e->getCode(), $e);
             }
         }
 
