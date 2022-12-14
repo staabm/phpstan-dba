@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v10-rework-replay',
+  'schemaVersion' => 'v11-phpstan1_9_3-update',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -12,6 +12,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -33,32 +37,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -70,6 +82,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -81,6 +94,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -91,6 +105,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -101,6 +116,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -111,6 +127,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -174,6 +191,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -195,32 +216,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -232,6 +261,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -243,6 +273,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -253,6 +284,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -263,6 +295,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -273,6 +306,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -352,6 +386,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -373,32 +411,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -410,6 +456,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -421,6 +468,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -431,6 +479,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -441,6 +490,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -451,6 +501,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -522,6 +573,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -543,32 +598,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -580,6 +643,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -591,6 +655,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -601,6 +666,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -611,6 +677,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -621,6 +688,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -684,6 +752,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -705,32 +777,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -742,6 +822,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -753,6 +834,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -763,6 +845,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -773,6 +856,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -783,6 +867,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -846,6 +931,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -867,32 +956,40 @@
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -904,6 +1001,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -915,6 +1013,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -925,6 +1024,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -935,6 +1035,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -945,6 +1046,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -1016,6 +1118,10 @@
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|4|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1041,32 +1147,40 @@
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               8 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1078,6 +1192,7 @@
               PHPStan\Type\StringType::__set_state(array(
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1089,6 +1204,7 @@
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1099,6 +1215,7 @@
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -1109,6 +1226,7 @@
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1119,6 +1237,7 @@
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -1201,6 +1320,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'adaid\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1210,10 +1333,12 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1230,6 +1355,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1275,6 +1401,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\Constant\ConstantStringType::__set_state(array(
              'objectType' => NULL,
+             'arrayKeyType' => NULL,
              'value' => 'email',
              'isClassString' => false,
           )),
@@ -1291,6 +1418,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1311,6 +1439,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1320,10 +1452,12 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\StringType::__set_state(array(
@@ -1338,6 +1472,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1371,6 +1506,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\Constant\ConstantStringType::__set_state(array(
              'objectType' => NULL,
+             'arrayKeyType' => NULL,
              'value' => 'email',
              'isClassString' => false,
           )),
@@ -1387,6 +1523,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1413,6 +1550,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\Constant\ConstantStringType::__set_state(array(
              'objectType' => NULL,
+             'arrayKeyType' => NULL,
              'value' => 'email',
              'isClassString' => false,
           )),
@@ -1429,6 +1567,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1490,6 +1629,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1503,20 +1646,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1528,6 +1677,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1539,6 +1689,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1549,6 +1700,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1592,6 +1744,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1605,20 +1761,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1630,6 +1792,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1641,6 +1804,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1651,6 +1815,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1694,6 +1859,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1707,20 +1876,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1732,6 +1907,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1743,6 +1919,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1753,6 +1930,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1796,6 +1974,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1809,20 +1991,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1834,6 +2022,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1845,6 +2034,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1855,6 +2045,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -1906,6 +2097,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -1919,20 +2114,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -1944,6 +2145,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -1955,6 +2157,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -1965,6 +2168,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2008,6 +2212,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2021,20 +2229,38 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2046,6 +2272,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2057,6 +2284,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2067,6 +2301,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2118,37 +2359,49 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2160,6 +2413,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2171,24 +2425,28 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
             1 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
             3 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -2224,6 +2482,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2245,32 +2507,64 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'freigabe1u1',
+                   'isClassString' => false,
+                )),
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'gesperrt',
+                   'isClassString' => false,
+                )),
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2282,6 +2576,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2293,6 +2588,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2303,6 +2605,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2313,6 +2622,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -2323,6 +2639,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -2386,6 +2709,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2407,32 +2734,64 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'freigabe1u1',
+                   'isClassString' => false,
+                )),
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'gesperrt',
+                   'isClassString' => false,
+                )),
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2444,6 +2803,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2455,6 +2815,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2465,6 +2832,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2475,6 +2849,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -2485,6 +2866,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -2548,6 +2936,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2569,32 +2961,64 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'freigabe1u1',
+                   'isClassString' => false,
+                )),
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'gesperrt',
+                   'isClassString' => false,
+                )),
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2606,6 +3030,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2617,6 +3042,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2627,6 +3059,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2637,6 +3076,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'gesperrt',
+                 'isClassString' => false,
+              )),
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -2647,6 +3093,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'freigabe1u1',
+                 'isClassString' => false,
+              )),
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -2710,6 +3163,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2731,32 +3188,40 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2768,6 +3233,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2779,6 +3245,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2789,6 +3256,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2799,6 +3267,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -2809,6 +3278,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -2888,6 +3358,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|2|3|\'adaid\'|\'email\'|\'freigabe1u1\'|\'gesperrt\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -2909,32 +3383,40 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               4 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               5 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
               6 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
               )),
               7 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'gesperrt',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -2946,6 +3428,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -2957,6 +3440,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2967,6 +3451,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -2977,6 +3462,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             4 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'gesperrt',
                'isClassString' => false,
             )),
@@ -2987,6 +3473,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             6 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'freigabe1u1',
                'isClassString' => false,
             )),
@@ -3066,6 +3553,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
@@ -3079,20 +3570,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -3104,6 +3601,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -3115,6 +3613,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -3125,6 +3624,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -3162,25 +3662,35 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
            'keyType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '\'adaid\'|\'email\'',
+            ),
              'types' => 
             array (
               0 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
+                 'arrayKeyType' => NULL,
                  'value' => 'email',
                  'isClassString' => false,
               )),
             ),
+             'normalized' => false,
           )),
            'itemType' => 
           PHPStan\Type\UnionType::__set_state(array(
              'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
              'types' => 
             array (
               0 => 
@@ -3192,6 +3702,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'max' => 32767,
               )),
             ),
+             'normalized' => true,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -3203,12 +3714,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'email',
                'isClassString' => false,
             )),
             1 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
+               'arrayKeyType' => NULL,
                'value' => 'adaid',
                'isClassString' => false,
             )),

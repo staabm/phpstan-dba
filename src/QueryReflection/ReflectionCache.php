@@ -13,7 +13,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReflectionCache
 {
-    public const SCHEMA_VERSION = 'v10-rework-replay';
+    public const SCHEMA_VERSION = 'v11-phpstan1_9_3-update';
 
     /**
      * @var string
@@ -136,7 +136,14 @@ final class ReflectionCache
             if ($useReadLock) {
                 flock(self::$lockHandle, \LOCK_SH);
             }
-            $cache = require $this->cacheFile;
+
+            try {
+                $cache = require $this->cacheFile;
+            } catch (\Throwable $e) {
+                // in case of invalid cache,
+                // or incompatible class definitions between phpstan versions
+                return null;
+            }
         } finally {
             if ($useReadLock) {
                 flock(self::$lockHandle, \LOCK_UN);
