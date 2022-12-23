@@ -571,7 +571,6 @@ WHERE table_name = \'1970-01-01\'' =>
                'cachedDescriptions' => 
               array (
                 4 => 'string|null',
-                3 => 'string|null',
               ),
                'types' => 
               array (

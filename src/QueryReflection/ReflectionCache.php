@@ -71,6 +71,7 @@ final class ReflectionCache
      * @api
      *
      * @param non-empty-string $cacheFile
+     *
      * @return static
      */
     public static function create(string $cacheFile): self
@@ -80,6 +81,7 @@ final class ReflectionCache
 
     /**
      * @deprecated use create() instead
+     *
      * @api
      */
     public static function load(string $cacheFile): self

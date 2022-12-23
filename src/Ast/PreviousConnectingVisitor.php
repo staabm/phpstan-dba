@@ -33,7 +33,7 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if ($this->stack !== []) {
+        if ([] !== $this->stack) {
             $node->setAttribute(self::ATTRIBUTE_PARENT, $this->stack[\count($this->stack) - 1]);
         }
 

@@ -115,6 +115,7 @@ final class QueryReflection
 
     /**
      * @api
+     *
      * @deprecated use resolvePreparedQueryStrings() instead
      *
      * @throws UnresolvableQueryException
@@ -261,7 +262,7 @@ final class QueryReflection
     {
         $query = ltrim($query);
 
-        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches) === 1) {
+        if (1 === preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
             return strtoupper($matches[1]);
         }
 

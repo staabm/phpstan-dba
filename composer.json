@@ -56,6 +56,8 @@
 			"@csfix"
 		],
 		"record": [
+			"phpstan analyse -c phpstan.neon.dist --generate-baseline",
+
 			"phpstan clear-result-cache",
 			"@putenv DBA_MODE=recording",
 
