@@ -46,16 +46,6 @@ parameters:
 			path: src/TypeMapping/MysqliTypeMapper.php
 
 		-
-			message: "#^Only booleans are allowed in an elseif condition, int\\|false given\\.$#"
-			count: 1
-			path: src/TypeMapping/MysqliTypeMapper.php
-
-		-
 			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
-			count: 1
-			path: src/TypeMapping/MysqliTypeMapper.php
-
-		-
-			message: "#^Only booleans are allowed in an if condition, int\\|false given\\.$#"
 			count: 1
 			path: src/TypeMapping/MysqliTypeMapper.php
