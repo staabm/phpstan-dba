@@ -48,6 +48,9 @@ final class QueryReflection
         self::reflector()->setupDbaApi($dbaApi);
     }
 
+    /**
+     * @api
+     */
     public static function setupReflector(QueryReflector $reflector, RuntimeConfiguration $runtimeConfiguration): void
     {
         self::$reflector = $reflector;
@@ -56,7 +59,7 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
+        if ('SELECT' !== self::getQueryType($queryString)) {
             return null;
         }
 
@@ -73,7 +76,7 @@ final class QueryReflection
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
+        if ('SELECT' !== self::getQueryType($queryString)) {
             return null;
         }
 
@@ -111,6 +114,7 @@ final class QueryReflection
     }
 
     /**
+     * @api
      * @deprecated use resolvePreparedQueryStrings() instead
      *
      * @throws UnresolvableQueryException

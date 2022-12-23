@@ -20,10 +20,11 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     private const MYSQL_SYNTAX_ERROR_CODE = 1064;
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
     public const MYSQL_UNKNOWN_TABLE = 1146;
-    public const MYSQL_INCORRECT_TABLE = 1103;
+    private const MYSQL_INCORRECT_TABLE = 1103;
 
-    public const MYSQL_HOST_NOT_FOUND = 2002;
-
+    /**
+     * @api
+     */
     public const NAME = 'mysqli';
 
     private const MYSQL_ERROR_CODES = [
