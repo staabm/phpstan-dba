@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: '#^Instanceof between mysqli_result\<array\<string, int\|string\|null\>\> and mysqli_result will always evaluate to true\.$#'
+			count: 1
+			path: src/DbSchema/SchemaHasherMysql.php
+
+		-
 			message: "#^Instanceof between mysqli_result\\<array\\<string, int\\<\\-128, 127\\>\\|string\\|null\\>\\> and mysqli_result will always evaluate to true\\.$#"
 			count: 1
 			path: src/DbSchema/SchemaHasherMysql.php
