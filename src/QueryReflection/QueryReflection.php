@@ -261,7 +261,7 @@ final class QueryReflection
     {
         $query = ltrim($query);
 
-        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
+        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches) === 1) {
             return strtoupper($matches[1]);
         }
 
