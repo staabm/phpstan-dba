@@ -12,14 +12,17 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 final class QueryPlanAnalyzerMysql
 {
     /**
+     * @api
      * @deprecated use QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD instead
      */
     public const DEFAULT_UNINDEXED_READS_THRESHOLD = QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD;
     /**
+     * @api
      * @deprecated use QueryPlanAnalyzer::TABLES_WITHOUT_DATA instead
      */
     public const TABLES_WITHOUT_DATA = QueryPlanAnalyzer::TABLES_WITHOUT_DATA;
     /**
+     * @api
      * @deprecated use QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD instead
      */
     public const DEFAULT_SMALL_TABLE_THRESHOLD = QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD;

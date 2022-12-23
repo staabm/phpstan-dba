@@ -27,6 +27,7 @@ final class ExpressionFinder
     }
 
     /**
+     * @api
      * @param Variable|MethodCall $expr
      *
      * @deprecated use findAssignmentExpression() instead
