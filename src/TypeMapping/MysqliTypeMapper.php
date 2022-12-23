@@ -29,12 +29,12 @@ final class MysqliTypeMapper
                 // skip bool constants like MYSQLI_IS_MARIADB
                 continue;
             }
-            if (preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
+            if (1 === preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
                 if (!\is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }
                 $this->nativeTypes[$n] = $m[1];
-            } elseif (preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
+            } elseif (1 === preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
                 if (!\is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }

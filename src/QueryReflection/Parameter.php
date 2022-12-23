@@ -6,6 +6,9 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
 
+/**
+ * @api
+ */
 final class Parameter
 {
     /**

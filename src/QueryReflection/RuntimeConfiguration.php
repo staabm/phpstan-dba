@@ -7,6 +7,9 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PHPStan\Php\PhpVersion;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzer;
 
+/**
+ * @api
+ */
 final class RuntimeConfiguration
 {
     /**

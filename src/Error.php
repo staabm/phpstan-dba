@@ -7,6 +7,8 @@ use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
 /**
+ * @api
+ *
  * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<BasePdoQueryReflector::PDO_ERROR_CODES>
  */
 final class Error

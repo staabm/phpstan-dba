@@ -14,7 +14,7 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
     public const ATTRIBUTE_PREVIOUS = 'dba-previous';
 
     /**
-     * @var Node[]
+     * @var list<Node>
      */
     private $stack = [];
 
@@ -33,7 +33,7 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if (!empty($this->stack)) {
+        if ([] !== $this->stack) {
             $node->setAttribute(self::ATTRIBUTE_PARENT, $this->stack[\count($this->stack) - 1]);
         }
 
