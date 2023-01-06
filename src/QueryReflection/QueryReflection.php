@@ -59,7 +59,7 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if (self::getRuntimeConfiguration()->isAnalyzingWritableQueries()) {
+        if (self::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
             if (!\in_array(self::getQueryType($queryString), [
                 'SELECT',
                 'INSERT',

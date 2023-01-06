@@ -146,7 +146,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
             return $this->cache[$queryString] = null;
         }
 
-        if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWritableQueries()) {
+        if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
             $this->db->begin_transaction();
         } else {
             $this->db->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
