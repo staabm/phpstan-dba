@@ -171,7 +171,7 @@ final class RuntimeConfiguration
         return $this->stringifyTypes;
     }
 
-    public function analyzesWritableQueries(): bool
+    public function isAnalyzingWritableQueries(): bool
     {
         return $this->writableQueries;
     }
