@@ -131,7 +131,7 @@ final class QuerySimulation
         }
 
         // make sure we don't unnecessarily transfer data, as we are only interested in the statement is succeeding
-        if (!in_array(QueryReflection::getQueryType($queryString), ['REPLACE', 'INSERT'], true)) {
+        if (!\in_array(QueryReflection::getQueryType($queryString), ['REPLACE', 'INSERT'], true)) {
             $queryString .= ' LIMIT 0';
         }
 
