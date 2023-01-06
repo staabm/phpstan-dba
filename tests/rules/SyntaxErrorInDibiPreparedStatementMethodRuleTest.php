@@ -177,19 +177,19 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                     40,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     66,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     67,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     68,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     69,
                 ],
             ];
