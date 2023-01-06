@@ -59,14 +59,20 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if (!\in_array(self::getQueryType($queryString), [
-            'SELECT',
-            'INSERT',
-            'DELETE',
-            'UPDATE',
-            'REPLACE',
-        ], true)) {
-            return null;
+        if (QueryReflection::getRuntimeConfiguration()->analyzesWritableQueries()) {
+            if (!\in_array(self::getQueryType($queryString), [
+                'SELECT',
+                'INSERT',
+                'DELETE',
+                'UPDATE',
+                'REPLACE',
+            ], true)) {
+                return null;
+            }
+        } else {
+            if ('SELECT' !== self::getQueryType($queryString)) {
+                return null;
+            }
         }
 
         // this method cannot validate queries which contain placeholders.
