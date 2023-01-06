@@ -34,7 +34,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
 
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $longError = "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `chan...' at line 3 (1064).";
-            if (getenv('GITHUB_ACTION')) {
+            if (false !== getenv('GITHUB_ACTION')) {
                 $longError = "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `changet' at line 3 (1064).";
             }
 
