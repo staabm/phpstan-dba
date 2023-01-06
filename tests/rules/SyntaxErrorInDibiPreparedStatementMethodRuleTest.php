@@ -66,13 +66,10 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
                     'Query expects 0 placeholder, but 1 value is given.',
                     40,
                 ],
-                /*
-                phpstan-dba does not yet support writable queries
                 [
                     "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
-                    46,
+                    55,
                 ],
-                */
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [

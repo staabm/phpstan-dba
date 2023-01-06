@@ -71,6 +71,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                 137,
             ],
             [
+                'Query error: Table \'phpstan_dba.package\' doesn\'t exist (1146).',
+                180,
+            ],
+            [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `chan...' at line 3 (1064).",
                 209,
             ],

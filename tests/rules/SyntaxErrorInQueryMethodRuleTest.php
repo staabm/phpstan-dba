@@ -82,6 +82,22 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     "Query error: Unknown column 'xy' in 'group statement' (1054).",
                     118,
                 ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    135,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    136,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    137,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    138,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
@@ -132,6 +148,22 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                 [
                     "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'xy' in 'group statement' (42S22).",
                     118,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    135,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    136,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    137,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    138,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {

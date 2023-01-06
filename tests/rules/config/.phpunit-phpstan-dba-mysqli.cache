@@ -3,6 +3,14 @@
   'schemaHash' => NULL,
   'records' => 
   array (
+    'DELETE from adasfd' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.adasfd\' doesn\'t exist',
+         'code' => 1146,
+      )),
+    ),
     'INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img`, `link`, `changed`) VALUES (\'81729\', \'TestSupplier\', \'\', \'\', \'2019-12-09 10:42:10\');
 
             INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `changetime`, `pricegroupID`, `pricegroupActive`, `filtergroupID`, `laststock`, `crossbundlelook`, `notification`, `template`, `mode`) VALUES
@@ -20,8 +28,40 @@
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `changet\' at line 3',
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `chan...\' at line 3',
          'code' => 1064,
+      )),
+    ),
+    'INSERT into %n' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'%n\' at line 1',
+         'code' => 1064,
+      )),
+    ),
+    'INSERT into ada' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'\' at line 1',
+         'code' => 1064,
+      )),
+    ),
+    'INSERT into adasfd SET email="sdf"' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.adasfd\' doesn\'t exist',
+         'code' => 1146,
+      )),
+    ),
+    'REPLACE into adasfd SET email="sdf"' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.adasfd\' doesn\'t exist',
+         'code' => 1146,
       )),
     ),
     'SELECT * FROM `ada` WHERE adaid = 1' => 
@@ -3771,6 +3811,22 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'with syntax error GROUPY by x LIMIT 0\' at line 1',
          'code' => 1064,
+      )),
+    ),
+    'UPDATE adasfd SET email = ""' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.adasfd\' doesn\'t exist',
+         'code' => 1146,
+      )),
+    ),
+    'UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL) AND (indexedAt IS NULL OR indexedAt <= crawledAt)' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.package\' doesn\'t exist',
+         'code' => 1146,
       )),
     ),
   ),

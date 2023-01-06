@@ -122,4 +122,20 @@ class Foo
     {
         $pdo->query("SELECT * FROM `$table`");
     }
+
+    public function testDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from ada');
+        $pdo->query('UPDATE ada set email = ""');
+        $pdo->query('INSERT into ada SET email="sdf"');
+    }
+
+    public function testInvalidDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from adasfd');
+        $pdo->query('UPDATE adasfd SET email = ""');
+        $pdo->query('INSERT into adasfd SET email="sdf"');
+        $pdo->query('REPLACE into adasfd SET email="sdf"');
+    }
+
 }

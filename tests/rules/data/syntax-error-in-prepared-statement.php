@@ -330,4 +330,25 @@ class Foo
         $conn->executeQuery("SELECT * FROM `$table`");
     }
 
+    public function testDeleteUpdateInsert(Connection $conn)
+    {
+        $conn->query('DELETE from ada');
+        $conn->query('UPDATE ada set email = ""');
+        $conn->query('INSERT into ada', [
+            'email' => 'sdf',
+        ]);
+    }
+
+    public function testInvalidDeleteUpdateInsert(Connection $conn)
+    {
+        $conn->query('DELETE from adasfd');
+        $conn->query('UPDATE from adasfd');
+        $conn->query('REPLACE into adasfd', [
+            'email' => 'sdf',
+        ]);
+        $conn->query('INSERT into adasfd', [
+            'email' => 'sdf',
+        ]);
+    }
+
 }
