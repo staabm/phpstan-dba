@@ -191,33 +191,19 @@ LINE 1: REPLACE into adasfd SET email="sdf"
                     40,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
-LINE 1: UPDATE ada set email = ""
-                               ^ (42601).',
-                    56,
-                ],
-                [
-                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "adasfd" does not exist
-LINE 1: DELETE from adasfd
-                    ^ (42P01).',
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     66,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
-LINE 1: UPDATE adasfd SET email = ""
-                                  ^ (42601).',
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     67,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
-LINE 1: INSERT into adasfd SET email="sdf"
-                           ^ (42601).',
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     68,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "REPLACE"
-LINE 1: REPLACE into adasfd SET email="sdf"
-        ^ (42601).',
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     69,
                 ],
             ];
