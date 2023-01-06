@@ -126,19 +126,33 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                     40,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE ada set email = ""
+                               ^ (42601).',
+                    56,
+                ],
+                [
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "adasfd" does not exist
+LINE 1: DELETE from adasfd
+                    ^ (42P01).',
                     66,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE adasfd SET email = ""
+                                  ^ (42601).',
                     67,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: INSERT into adasfd SET email="sdf"
+                           ^ (42601).',
                     68,
                 ],
                 [
-                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "REPLACE"
+LINE 1: REPLACE into adasfd SET email="sdf"
+        ^ (42601).',
                     69,
                 ],
             ];
