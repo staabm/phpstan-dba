@@ -231,14 +231,14 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
 LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
                ^ (42601).',
-                    209,
+                    30,
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
-                    209,
+                    30,
                 ],
             ];
         } else {
