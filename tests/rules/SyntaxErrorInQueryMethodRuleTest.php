@@ -240,6 +240,42 @@ LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
                                               ^ (42703).',
                     118,
                 ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE ada set email = ""
+                               ^ (42601).',
+                    129,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: INSERT into ada SET email="sdf"
+                        ^ (42601).',
+                    130,
+                ],
+                [
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "adasfd" does not exist
+LINE 1: DELETE from adasfd
+                    ^ (42P01).',
+                    135,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE adasfd SET email = ""
+                                  ^ (42601).',
+                    136,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: INSERT into adasfd SET email="sdf"
+                           ^ (42601).',
+                    137,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "REPLACE"
+LINE 1: REPLACE into adasfd SET email="sdf"
+        ^ (42601).',
+                    138,
+                ],
             ];
         } else {
             throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));

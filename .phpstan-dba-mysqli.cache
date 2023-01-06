@@ -160,7 +160,6 @@
              'cachedDescriptions' => 
             array (
               2 => '0|1|\'dbsignature\'|\'grouper\'',
-              1 => 'int|string',
             ),
              'types' => 
             array (
@@ -191,20 +190,19 @@
           )),
            'itemType' => 
           \PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'cachedDescriptions' => 
             array (
-              1 => 'int<-128, 127>|string|null',
             ),
              'types' => 
             array (
               0 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               \PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -128,
                  'max' => 127,
-              )),
-              1 => 
-              \PHPStan\Type\StringType::__set_state(array(
               )),
               2 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -246,12 +244,9 @@
           array (
             0 => 
             \PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                4 => 'string|null',
-                2 => 'string|null',
-                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -266,12 +261,9 @@
             )),
             1 => 
             \PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                4 => 'string|null',
-                2 => 'string|null',
-                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -308,7 +300,6 @@
              'cachedDescriptions' => 
             array (
               2 => '\'dbsignature\'|\'grouper\'',
-              1 => 'string',
             ),
              'types' => 
             array (
@@ -331,20 +322,19 @@
           )),
            'itemType' => 
           \PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'cachedDescriptions' => 
             array (
-              1 => 'int<-128, 127>|string|null',
             ),
              'types' => 
             array (
               0 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
               \PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -128,
                  'max' => 127,
-              )),
-              1 => 
-              \PHPStan\Type\StringType::__set_state(array(
               )),
               2 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -378,11 +368,9 @@
           array (
             0 => 
             \PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                4 => 'string|null',
-                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -422,7 +410,6 @@ WHERE table_name = \'1970-01-01\'' =>
              'cachedDescriptions' => 
             array (
               2 => '0|1|2|\'column_default\'|\'column_name\'|\'is_nullable\'',
-              1 => 'int|string',
             ),
              'types' => 
             array (
@@ -441,39 +428,21 @@ WHERE table_name = \'1970-01-01\'' =>
               3 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                   'value' => 'column_default',
-                   'isClassString' => false,
-                )),
+                 'arrayKeyType' => NULL,
                  'value' => 'column_default',
                  'isClassString' => false,
               )),
               4 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                   'value' => 'column_name',
-                   'isClassString' => false,
-                )),
+                 'arrayKeyType' => NULL,
                  'value' => 'column_name',
                  'isClassString' => false,
               )),
               5 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                   'value' => 'is_nullable',
-                   'isClassString' => false,
-                )),
+                 'arrayKeyType' => NULL,
                  'value' => 'is_nullable',
                  'isClassString' => false,
               )),
@@ -482,10 +451,9 @@ WHERE table_name = \'1970-01-01\'' =>
           )),
            'itemType' => 
           \PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
+             'sortedTypes' => false,
              'cachedDescriptions' => 
             array (
-              1 => 'string|null',
             ),
              'types' => 
             array (
@@ -508,13 +476,7 @@ WHERE table_name = \'1970-01-01\'' =>
             0 => 
             \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'column_name',
-                 'isClassString' => false,
-              )),
+               'arrayKeyType' => NULL,
                'value' => 'column_name',
                'isClassString' => false,
             )),
@@ -525,13 +487,7 @@ WHERE table_name = \'1970-01-01\'' =>
             2 => 
             \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'column_default',
-                 'isClassString' => false,
-              )),
+               'arrayKeyType' => NULL,
                'value' => 'column_default',
                'isClassString' => false,
             )),
@@ -542,13 +498,7 @@ WHERE table_name = \'1970-01-01\'' =>
             4 => 
             \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'is_nullable',
-                 'isClassString' => false,
-              )),
+               'arrayKeyType' => NULL,
                'value' => 'is_nullable',
                'isClassString' => false,
             )),
@@ -567,10 +517,9 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             2 => 
             \PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                4 => 'string|null',
               ),
                'types' => 
               array (
@@ -585,10 +534,9 @@ WHERE table_name = \'1970-01-01\'' =>
             )),
             3 => 
             \PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                4 => 'string|null',
               ),
                'types' => 
               array (
