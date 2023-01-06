@@ -48,24 +48,14 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
             return $this->cache[$queryString] = null;
         }
 
-        try {
-            $this->pdo->beginTransaction();
-        } catch (PDOException $e) {
-            // not all drivers may support transactions
-            throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
-        }
+        $this->pdo->beginTransaction();
 
         try {
             $stmt = $this->pdo->query($simulatedQuery);
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
         } finally {
-            try {
-                $this->pdo->rollBack();
-            } catch (PDOException $e) {
-                // not all drivers may support transactions
-                throw new \RuntimeException('Failed to rollback transaction', $e->getCode(), $e);
-            }
+            $this->pdo->rollBack();
         }
 
         $this->cache[$queryString] = [];

@@ -61,15 +61,27 @@ final class SchemaHasherMysql
 
         $hash = '';
         if ($this->connection instanceof PDO) {
-            $stmt = $this->connection->query($query);
-            foreach ($stmt as $row) {
-                $hash = $row['dbsignature'] ?? '';
+            $this->connection->beginTransaction();
+
+            try {
+                $stmt = $this->connection->query($query);
+                foreach ($stmt as $row) {
+                    $hash = $row['dbsignature'] ?? '';
+                }
+            } finally {
+                $this->connection->rollBack();
             }
         } else {
-            $result = $this->connection->query($query);
-            if ($result instanceof \mysqli_result) {
-                $row = $result->fetch_assoc();
-                $hash = $row['dbsignature'] ?? '';
+            $this->connection->begin_transaction();
+
+            try {
+                $result = $this->connection->query($query);
+                if ($result instanceof \mysqli_result) {
+                    $row = $result->fetch_assoc();
+                    $hash = $row['dbsignature'] ?? '';
+                }
+            } finally {
+                $this->connection->rollback();
             }
         }
 

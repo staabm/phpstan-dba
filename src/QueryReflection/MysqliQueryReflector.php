@@ -56,6 +56,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
         $this->db->set_charset('utf8');
         // enable exception throwing on php <8.1
         mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
+        $this->db->autocommit(false);
     }
 
     public function validateQueryString(string $queryString): ?Error
