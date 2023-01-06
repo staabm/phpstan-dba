@@ -12,6 +12,7 @@ This extension provides the following features, as long as you [stick to the rul
 * [query plan analysis](https://staabm.github.io/2022/08/16/phpstan-dba-query-plan-analysis.html) to detect performance issues
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
 * API to configure the same features for your custom sql based database access layer
+* Opt-In analysis of write queries (since version 0.2.55+)
 
 In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
 
@@ -56,6 +57,7 @@ $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
 // $config->analyzeQueryPlans(true);
+// $config->analyzeWriteQueries(true); // requires transaction support in db schema and db driver
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');
