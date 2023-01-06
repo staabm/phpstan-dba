@@ -126,8 +126,8 @@ class Foo
     public function testDeleteUpdateInsert(PDO $pdo)
     {
         $pdo->query('DELETE from ada');
-        $pdo->query('UPDATE ada set email = ""');
-        $pdo->query('INSERT into ada SET email="sdf"');
+        $pdo->query('UPDATE ada set email = ""'); // pgsql-only syntax error
+        $pdo->query('INSERT into ada SET email="sdf"'); // pgsql-only syntax error
     }
 
     public function testInvalidDeleteUpdateInsert(PDO $pdo)
