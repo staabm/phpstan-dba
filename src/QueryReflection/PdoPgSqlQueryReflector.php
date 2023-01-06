@@ -17,6 +17,9 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
  */
 final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
 {
+    /**
+     * @api
+     */
     public const NAME = 'pdo-pgsql';
 
     public function __construct(PDO $pdo)

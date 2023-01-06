@@ -18,7 +18,7 @@ class QuerySimulationTest extends TestCase
         $builder->setOffsetValueType(new IntegerType(), new IntegerType());
 
         $simulatedValue = QuerySimulation::simulateParamValueType($builder->getArray(), false);
-        $this->assertNotNull($simulatedValue);
+        self::assertNotNull($simulatedValue);
     }
 
     public function testIntersectionTypeString()
@@ -28,7 +28,7 @@ class QuerySimulationTest extends TestCase
         $builder->setOffsetValueType(new StringType(), new IntegerType());
 
         $simulatedValue = QuerySimulation::simulateParamValueType($builder->getArray(), false);
-        $this->assertNotNull($simulatedValue);
+        self::assertNotNull($simulatedValue);
     }
 
     public function testIntersectionTypeMix()
@@ -39,7 +39,7 @@ class QuerySimulationTest extends TestCase
         $builder->setOffsetValueType(new IntegerType(), new FloatType());
 
         $simulatedValue = QuerySimulation::simulateParamValueType($builder->getArray(), false);
-        $this->assertNotNull($simulatedValue);
+        self::assertNotNull($simulatedValue);
     }
 
     /**

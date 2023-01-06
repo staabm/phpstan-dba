@@ -19,6 +19,9 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
  */
 class PdoMysqlQueryReflector extends BasePdoQueryReflector
 {
+    /**
+     * @api
+     */
     public const NAME = 'pdo-mysql';
 
     public function __construct(PDO $pdo)
