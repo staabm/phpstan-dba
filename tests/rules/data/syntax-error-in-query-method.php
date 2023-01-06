@@ -122,4 +122,20 @@ class Foo
     {
         $pdo->query("SELECT * FROM `$table`");
     }
+
+    public function testDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from ada');
+        $pdo->query('UPDATE ada set email = ""'); // pgsql-only syntax error
+        $pdo->query('INSERT into ada SET email="sdf"'); // pgsql-only syntax error
+    }
+
+    public function testInvalidDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from adasfd');
+        $pdo->query('UPDATE adasfd SET email = ""');
+        $pdo->query('INSERT into adasfd SET email="sdf"');
+        $pdo->query('REPLACE into adasfd SET email="sdf"');
+    }
+
 }

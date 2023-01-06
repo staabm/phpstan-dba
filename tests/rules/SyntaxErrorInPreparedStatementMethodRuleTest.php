@@ -71,6 +71,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                 137,
             ],
             [
+                'Query error: Table \'phpstan_dba.package\' doesn\'t exist (1146).',
+                180,
+            ],
+            [
                 'Query expects placeholder :name, but it is missing from values given.',
                 307,
             ],
@@ -138,6 +142,12 @@ HINT:  Perhaps you meant to reference the column "ada.gesperrt". (42703).',
                     137,
                 ],
                 [
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "package" does not exist
+LINE 1: UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL)...
+               ^ (42P01).',
+                    180,
+                ],
+                [
                     'Query expects placeholder :name, but it is missing from values given.',
                     307,
                 ],
@@ -187,6 +197,10 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     137,
                 ],
                 [
+                    'Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.package\' doesn\'t exist (42S02).',
+                    180,
+                ],
+                [
                     'Query expects placeholder :name, but it is missing from values given.',
                     307,
                 ],
@@ -201,6 +215,38 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
 
         require_once __DIR__.'/data/syntax-error-in-prepared-statement.php';
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
+    }
+
+    public function testBug94()
+    {
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('Test requires PHP 7.4.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('Error message different depending on version of the database.');
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
+LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
+               ^ (42601).',
+                    30,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    30,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+        }
+
+        require_once __DIR__.'/data/bug-94.php';
+        $this->analyse([__DIR__.'/data/bug-94.php'], $expectedErrors);
     }
 
     public function testSyntaxErrorWithInferencePlaceholder()

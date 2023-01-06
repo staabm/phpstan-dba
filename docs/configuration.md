@@ -8,3 +8,4 @@ If not configured otherwise, the following defaults are used:
 - when analyzing a php8+ codebase, [`PDO::ERRMODE_EXCEPTION` error handling](https://www.php.net/manual/en/pdo.error-handling.php) is assumed.
 - when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 - the fetch mode defaults to `QueryReflector::FETCH_TYPE_BOTH`, but can be configured using the [`defaultFetchMode`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
+- only readable queries are analyzed per default. In case your database schema and database driver support transactions, you may consider enabled writable queries using the [`analyzeWriteQueries`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.

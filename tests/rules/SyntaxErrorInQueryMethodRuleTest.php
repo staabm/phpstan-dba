@@ -82,6 +82,22 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     "Query error: Unknown column 'xy' in 'group statement' (1054).",
                     118,
                 ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    135,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    136,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    137,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    138,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
@@ -132,6 +148,22 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                 [
                     "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'xy' in 'group statement' (42S22).",
                     118,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    135,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    136,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    137,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    138,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -207,6 +239,42 @@ LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
 LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
                                               ^ (42703).',
                     118,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE ada set email = ""
+                               ^ (42601).',
+                    129,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: INSERT into ada SET email="sdf"
+                        ^ (42601).',
+                    130,
+                ],
+                [
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "adasfd" does not exist
+LINE 1: DELETE from adasfd
+                    ^ (42P01).',
+                    135,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: UPDATE adasfd SET email = ""
+                                  ^ (42601).',
+                    136,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: INSERT into adasfd SET email="sdf"
+                           ^ (42601).',
+                    137,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "REPLACE"
+LINE 1: REPLACE into adasfd SET email="sdf"
+        ^ (42601).',
+                    138,
                 ],
             ];
         } else {

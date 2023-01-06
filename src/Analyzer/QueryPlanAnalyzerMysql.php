@@ -51,14 +51,26 @@ final class QueryPlanAnalyzerMysql
         $simulatedQuery = 'EXPLAIN '.$query;
 
         if ($this->connection instanceof PDO) {
-            $stmt = $this->connection->query($simulatedQuery);
+            $this->connection->beginTransaction();
 
-            // @phpstan-ignore-next-line
-            return $this->buildResult($simulatedQuery, $stmt);
+            try {
+                $stmt = $this->connection->query($simulatedQuery);
+
+                // @phpstan-ignore-next-line
+                return $this->buildResult($simulatedQuery, $stmt);
+            } finally {
+                $this->connection->rollBack();
+            }
         } else {
-            $result = $this->connection->query($simulatedQuery);
-            if ($result instanceof \mysqli_result) {
-                return $this->buildResult($simulatedQuery, $result);
+            $this->connection->begin_transaction();
+
+            try {
+                $result = $this->connection->query($simulatedQuery);
+                if ($result instanceof \mysqli_result) {
+                    return $this->buildResult($simulatedQuery, $result);
+                }
+            } finally {
+                $this->connection->rollback();
             }
         }
 

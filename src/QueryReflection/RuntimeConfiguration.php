@@ -44,6 +44,10 @@ final class RuntimeConfiguration
      */
     private $stringifyTypes = false;
     /**
+     * @var bool
+     */
+    private $writableQueries = false;
+    /**
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
@@ -108,6 +112,21 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Enables checking of writable queries (INSERT, UPDATE, DELETE,...).
+     *
+     * This feature requires a database and a database driver which supports transactions.
+     * Otherwise, the analysis might lead to data loss!
+     *
+     * Also make sure your mysql tables use the InnoDB engine.
+     */
+    public function analyzeWriteQueries(bool $enabled): self
+    {
+        $this->writableQueries = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Enables query plan analysis, which indicates performance problems.
      *
      * Requires a active database connection.
@@ -152,6 +171,11 @@ final class RuntimeConfiguration
     public function isStringifyTypes(): bool
     {
         return $this->stringifyTypes;
+    }
+
+    public function isAnalyzingWriteQueries(): bool
+    {
+        return $this->writableQueries;
     }
 
     /**

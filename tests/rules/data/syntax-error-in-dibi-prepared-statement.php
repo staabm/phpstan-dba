@@ -50,10 +50,8 @@ class Foo
         $conn->query('SELECT %n, %n frommmm %n', 'email', 'dadid', 'ada');
     }
 
-    /* phpstan-dba does not yet support writable queries
     public function testDeleteUpdateInsert(\Dibi\Connection $conn)
     {
-        $conn->query('DELETE from adasfd');
         $conn->query('DELETE from ada');
         $conn->query('UPDATE ada set email = ""');
         $conn->query('INSERT into ada', [
@@ -63,6 +61,12 @@ class Foo
             'email' => 'sdf',
         ]);
     }
-    */
+    public function testInvalidDeleteUpdateInsert(\Dibi\Connection $conn)
+    {
+        $conn->query('DELETE from adasfd');
+        $conn->query('UPDATE adasfd SET email = ""');
+        $conn->query('INSERT into adasfd SET email="sdf"');
+        $conn->query('REPLACE into adasfd SET email="sdf"');
+    }
 
 }
