@@ -4,7 +4,7 @@ namespace Bug94;
 
 use staabm\PHPStanDba\Tests\Fixture\Connection;
 
-public function noErrorInBug94(Connection $connection)
+function noErrorInBug94(Connection $connection)
 {
     // XXX with proper sql parsing, we should better detect the placeholders and therefore could validate this query
     $sql = "
