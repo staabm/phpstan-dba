@@ -68,7 +68,19 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
                 ],
                 [
                     "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
-                    55,
+                    66,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    67,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    68,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    69,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -113,6 +125,22 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                     'Query expects 0 placeholder, but 1 value is given.',
                     40,
                 ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    66,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    67,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    68,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    69,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
@@ -149,8 +177,20 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                     40,
                 ],
                 [
-                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
-                    55,
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    66,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    67,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    68,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    69,
                 ],
             ];
         } else {

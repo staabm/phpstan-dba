@@ -109,8 +109,6 @@ final class ExpressionFinder
     }
 
     /**
-     * XXX use astral simpleNameResolver instead.
-     *
      * @param Expr|Variable|MethodCall $node
      *
      * @return string|null
