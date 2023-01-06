@@ -18,7 +18,7 @@
 		"phpstan/extension-installer": "^1.2",
 		"phpstan/phpstan-php-parser": "^1.1",
 		"phpstan/phpstan-phpunit": "^1.0",
-		"phpstan/phpstan-strict-rules": "^1.1",
+		"phpstan/phpstan-strict-rules": "^1.4",
 		"phpunit/phpunit": "^9",
 		"tomasvotruba/unused-public": "^0.0.34",
 		"vlucas/phpdotenv": "^5.4"
