@@ -7,7 +7,7 @@ CREATE TABLE `ada` (
     `gesperrt` tinyint(1) NOT NULL DEFAULT '0',
     `email` varchar(100) NOT NULL DEFAULT '',
     `freigabe1u1` smallint(1) NOT NULL
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 ALTER TABLE `ada`
     ADD PRIMARY KEY (`adaid`);
@@ -23,7 +23,7 @@ CREATE TABLE `ak` (
     `akid` int(11) NOT NULL DEFAULT '0',
     `eladaid` int(11) DEFAULT NULL,
     `eadavk` decimal(12,2) NOT NULL
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 ALTER TABLE `ak`
     ADD PRIMARY KEY (`akid`);
@@ -69,7 +69,7 @@ CREATE TABLE `typemix` (
    `c_json_not_null` json NOT NULL,
    `c_decimal` decimal(12, 2),
    `c_decimal_not_null` decimal(12, 2) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `typemix`
     ADD PRIMARY KEY (`pid`);
@@ -82,7 +82,7 @@ CREATE TABLE `cmsdomain` (
     `cmsdomainid` int(11) NOT NULL,
     `url` varchar(255) COLLATE latin1_german1_ci NOT NULL,
     `standard` tinyint(1) NOT NULL
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 ALTER TABLE `cmsdomain`
   ADD PRIMARY KEY (`id`),
