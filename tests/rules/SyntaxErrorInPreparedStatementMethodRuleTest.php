@@ -33,11 +33,6 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
         }
 
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
-            $error = "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `chan...' at line 3 (1064).";
-            if (false !== getenv('GITHUB_ACTION')) {
-                $error = "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'INSERT INTO `s_articles` (`id`, `supplierID`, `name`, `datum`, `taxID`, `changet' at line 3 (1064).";
-            }
-
             $expectedErrors = [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
@@ -78,10 +73,6 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
             [
                 'Query error: Table \'phpstan_dba.package\' doesn\'t exist (1146).',
                 180,
-            ],
-            [
-                $error,
-                209,
             ],
             [
                 'Query expects placeholder :name, but it is missing from values given.',
@@ -157,12 +148,6 @@ LINE 1: UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL)...
                     180,
                 ],
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
-LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
-               ^ (42601).',
-                    209,
-                ],
-                [
                     'Query expects placeholder :name, but it is missing from values given.',
                     307,
                 ],
@@ -216,10 +201,6 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     180,
                 ],
                 [
-                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
-                    209,
-                ],
-                [
                     'Query expects placeholder :name, but it is missing from values given.',
                     307,
                 ],
@@ -234,6 +215,38 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
 
         require_once __DIR__.'/data/syntax-error-in-prepared-statement.php';
         $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
+    }
+
+    public function testBug94()
+    {
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('Test requires PHP 7.4.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('Error message different depending on version of the database.');
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
+LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
+               ^ (42601).',
+                    209,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    209,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+        }
+
+        require_once __DIR__.'/data/bug-94.php';
+        $this->analyse([__DIR__.'/data/bug-94.php'], $expectedErrors);
     }
 
     public function testSyntaxErrorWithInferencePlaceholder()
