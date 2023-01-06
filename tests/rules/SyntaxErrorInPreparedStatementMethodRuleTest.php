@@ -146,11 +146,15 @@ HINT:  Perhaps you meant to reference the column "ada.gesperrt". (42703).',
                     137,
                 ],
                 [
-                    'Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.package\' doesn\'t exist (42S02).',
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "package" does not exist
+LINE 1: UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL)...
+               ^ (42P01).',
                     180,
                 ],
                 [
-                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
+LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
+               ^ (42601).',
                     209,
                 ],
                 [
