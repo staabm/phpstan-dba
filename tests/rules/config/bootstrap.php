@@ -14,7 +14,7 @@ if (false === getenv('GITHUB_ACTION')) {
 
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
-$config->isAnalyzingWritableQueries(true);
+$config->analyzeWriteQueries(true);
 // $config->debugMode(true);
 
 $reflector = ReflectorFactory::create(__DIR__);
