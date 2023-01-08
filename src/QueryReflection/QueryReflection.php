@@ -68,6 +68,7 @@ final class QueryReflection
                 'UPDATE',
                 'REPLACE',
             ], true)) {
+                // turn write queries into explain, so we don't need to execute a query which might modify data
                 $queryString = 'EXPLAIN '.$queryString;
             } elseif ('SELECT' !== $queryType) {
                 return null;
