@@ -128,7 +128,7 @@ LINE 1: SELECT email adaid WHERE gesperrt FROM ada LIMIT 0
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
 LINE 1: EXPLAIN UPDATE ada set email = ""
-                               ^ (42601).',
+                                       ^ (42601).',
                     56,
                 ],
                 [
@@ -140,7 +140,7 @@ LINE 1: EXPLAIN DELETE from adasfd
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
 LINE 1: EXPLAIN UPDATE adasfd SET email = ""
-                                  ^ (42601).',
+                                          ^ (42601).',
                     67,
                 ],
                 [
