@@ -57,7 +57,6 @@ $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
 // $config->analyzeQueryPlans(true);
-// $config->analyzeWriteQueries(true); // requires transaction support in db schema and db driver
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');
