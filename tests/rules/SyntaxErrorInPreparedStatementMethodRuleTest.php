@@ -143,8 +143,8 @@ HINT:  Perhaps you meant to reference the column "ada.gesperrt". (42703).',
                 ],
                 [
                     'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "package" does not exist
-LINE 1: UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL)...
-               ^ (42P01).',
+LINE 1: EXPLAIN UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL)...
+                       ^ (42P01).',
                     180,
                 ],
                 [
@@ -229,8 +229,8 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
             $expectedErrors = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
-LINE 1: INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
-               ^ (42601).',
+LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `name`, `img...
+                       ^ (42601).',
                     30,
                 ],
             ];
