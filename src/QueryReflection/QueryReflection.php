@@ -59,18 +59,21 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
+        $queryType = self::getQueryType($queryString);
+
         if (self::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
-            if (!\in_array(self::getQueryType($queryString), [
-                'SELECT',
+            if (\in_array($queryType, [
                 'INSERT',
                 'DELETE',
                 'UPDATE',
                 'REPLACE',
             ], true)) {
+                $queryString = 'EXPLAIN '.$queryString;
+            } elseif ('SELECT' !== $queryType) {
                 return null;
             }
         } else {
-            if ('SELECT' !== self::getQueryType($queryString)) {
+            if ('SELECT' !== $queryType) {
                 return null;
             }
         }
