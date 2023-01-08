@@ -62,7 +62,7 @@ final class QueryPlanAnalyzerMysql
                 $this->connection->rollBack();
             }
         } else {
-            $this->connection->begin_transaction();
+            $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
 
             try {
                 $result = $this->connection->query($simulatedQuery);

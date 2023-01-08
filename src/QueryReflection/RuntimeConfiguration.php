@@ -46,7 +46,7 @@ final class RuntimeConfiguration
     /**
      * @var bool
      */
-    private $writableQueries = false;
+    private $writableQueries = true;
     /**
      * @var bool|0|positive-int
      */
