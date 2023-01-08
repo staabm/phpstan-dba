@@ -113,11 +113,6 @@ final class RuntimeConfiguration
 
     /**
      * Enables checking of writable queries (INSERT, UPDATE, DELETE,...).
-     *
-     * This feature requires a database and a database driver which supports transactions.
-     * Otherwise, the analysis might lead to data loss!
-     *
-     * Also make sure your mysql tables use the InnoDB engine.
      */
     public function analyzeWriteQueries(bool $enabled): self
     {
