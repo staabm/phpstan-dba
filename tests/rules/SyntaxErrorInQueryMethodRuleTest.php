@@ -243,13 +243,13 @@ LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
 LINE 1: EXPLAIN UPDATE ada set email = ""
-                               ^ (42601).',
+                                       ^ (42601).',
                     129,
                 ],
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
 LINE 1: EXPLAIN INSERT into ada SET email="sdf"
-                        ^ (42601).',
+                                ^ (42601).',
                     130,
                 ],
                 [
