@@ -68,6 +68,7 @@ final class SchemaHasherMysql
                 foreach ($stmt as $row) {
                     $hash = $row['dbsignature'] ?? '';
                 }
+                $stmt->closeCursor();
             } finally {
                 $this->connection->rollBack();
             }
@@ -80,6 +81,7 @@ final class SchemaHasherMysql
                     $row = $result->fetch_assoc();
                     $hash = $row['dbsignature'] ?? '';
                 }
+                $result->close();
             } finally {
                 $this->connection->rollback();
             }

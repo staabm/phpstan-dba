@@ -56,12 +56,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
         } finally {
-            try {
-                $this->pdo->rollBack();
-            } catch (PDOException $e) {
-                // not all drivers may support transactions
-                throw new \RuntimeException('Failed to rollback transaction', $e->getCode(), $e);
-            }
+            $this->pdo->rollBack();
         }
 
         $this->cache[$queryString] = [];
@@ -91,6 +86,8 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
             ++$columnIndex;
         }
 
+        $stmt->closeCursor();
+
         return $this->cache[$queryString];
     }
 
@@ -114,21 +111,25 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
             );
         }
 
-        $this->stmt->execute([$tableName]);
-        $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $this->stmt->execute([$tableName]);
+            $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        /** @var array{column_default?: string, column_name: string, is_nullable: string} $row */
-        foreach ($result as $row) {
-            $default = $row['column_default'] ?? '';
-            $columnName = $row['column_name'];
-            $isNullable = 'YES' === $row['is_nullable'];
+            /** @var array{column_default?: string, column_name: string, is_nullable: string} $row */
+            foreach ($result as $row) {
+                $default = $row['column_default'] ?? '';
+                $columnName = $row['column_name'];
+                $isNullable = 'YES' === $row['is_nullable'];
 
-            if (!$isNullable) {
-                yield $columnName => PgsqlTypeMapper::FLAG_NOT_NULL;
+                if (!$isNullable) {
+                    yield $columnName => PgsqlTypeMapper::FLAG_NOT_NULL;
+                }
+                if (str_contains($default, 'nextval')) {
+                    yield $columnName => PgsqlTypeMapper::FLAG_AUTO_INCREMENT;
+                }
             }
-            if (str_contains($default, 'nextval')) {
-                yield $columnName => PgsqlTypeMapper::FLAG_AUTO_INCREMENT;
-            }
+        } finally {
+            $this->stmt->closeCursor();
         }
     }
 }

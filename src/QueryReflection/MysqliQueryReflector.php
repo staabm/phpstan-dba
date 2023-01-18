@@ -160,7 +160,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
             }
 
             $resultInfo = $result->fetch_fields();
-            $result->free();
+            $result->close();
 
             return $this->cache[$queryString] = $resultInfo;
         } catch (mysqli_sql_exception $e) {

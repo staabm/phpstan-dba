@@ -57,7 +57,10 @@ final class QueryPlanAnalyzerMysql
                 $stmt = $this->connection->query($simulatedQuery);
 
                 // @phpstan-ignore-next-line
-                return $this->buildResult($simulatedQuery, $stmt);
+                $planResult = $this->buildResult($simulatedQuery, $stmt);
+                $stmt->closeCursor();
+
+                return $planResult;
             } finally {
                 $this->connection->rollBack();
             }
@@ -67,7 +70,10 @@ final class QueryPlanAnalyzerMysql
             try {
                 $result = $this->connection->query($simulatedQuery);
                 if ($result instanceof \mysqli_result) {
-                    return $this->buildResult($simulatedQuery, $result);
+                    $planResult = $this->buildResult($simulatedQuery, $result);
+                    $result->close();
+
+                    return $planResult;
                 }
             } finally {
                 $this->connection->rollback();
