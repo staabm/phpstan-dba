@@ -11,6 +11,7 @@ use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -29,6 +30,7 @@ use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\ParserExtension\ParserInference;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
@@ -104,11 +106,20 @@ final class QueryReflection
         }
 
         $resultType = self::reflector()->getResultType($queryString, $fetchType);
-        if (
-            null !== $resultType
-            && self::getRuntimeConfiguration()->isStringifyTypes()
-        ) {
-            return $this->stringifyResult($resultType);
+
+        if (null !== $resultType) {
+            if (!$resultType instanceof ConstantArrayType) {
+                throw new ShouldNotHappenException();
+            }
+    
+            $parserInference = new ParserInference();
+            $resultType = $parserInference->narrowResultType($queryString, $resultType);
+    
+            if (
+                self::getRuntimeConfiguration()->isStringifyTypes()
+            ) {
+                return $this->stringifyResult($resultType);
+            }
         }
 
         return $resultType;
