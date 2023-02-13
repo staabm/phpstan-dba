@@ -20,7 +20,8 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
-use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
 /**
  * @internal
@@ -30,7 +31,7 @@ final class QuerySimulation
     private const DATE_FORMAT = 'Y-m-d';
 
     /**
-     * @throws UnresolvableQueryException
+     * @throws \staabm\PHPStanDba\UnresolvableQueryException
      */
     public static function simulateParamValueType(Type $paramType, bool $preparedParam): ?string
     {
@@ -94,6 +95,10 @@ final class QuerySimulation
             }
 
             // plain string types can contain anything.. we cannot reason about it
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                throw new UnresolvableQueryStringTypeException('Cannot resolve query with variable type: '.$paramType->describe(VerbosityLevel::precise()));
+            }
+
             return null;
         }
 
@@ -113,7 +118,7 @@ final class QuerySimulation
         // all types which we can't simulate and render a query unresolvable at analysis time
         if ($paramType instanceof MixedType || $paramType instanceof IntersectionType) {
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                throw new UnresolvableQueryException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
+                throw new UnresolvableQueryMixedTypeException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
             }
 
             return null;

@@ -6,7 +6,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\PdoStatementExecuteMethodRule;
-use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
 /**
  * @extends RuleTestCase<PdoStatementExecuteMethodRule>
@@ -43,12 +44,17 @@ class UnresolvablePdoStatementRuleTest extends RuleTestCase
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 13,
-                UnresolvableQueryException::RULE_TIP,
+                UnresolvableQueryMixedTypeException::getTip(),
             ],
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 17,
-                UnresolvableQueryException::RULE_TIP,
+                UnresolvableQueryMixedTypeException::getTip(),
+            ],
+            [
+                'Unresolvable Query: Cannot resolve query with variable type: string.',
+                54,
+                UnresolvableQueryStringTypeException::getTip(),
             ],
         ]);
     }

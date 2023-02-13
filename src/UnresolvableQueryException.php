@@ -2,9 +2,12 @@
 
 namespace staabm\PHPStanDba;
 
-final class UnresolvableQueryException extends DbaException
+/**
+ * @api
+ */
+abstract class UnresolvableQueryException extends DbaException
 {
-    public const RULE_TIP = 'Make sure all variables involved have a non-mixed type and array-types are specified.';
+    abstract public static function getTip(): string;
 
     public function asRuleMessage(): string
     {

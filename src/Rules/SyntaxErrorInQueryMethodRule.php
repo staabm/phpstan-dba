@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\MixedType;
+use PHPStan\Type\StringType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
@@ -79,7 +79,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
+        if ($scope->getType($args[$queryArgPosition]->value)->isSuperTypeOf(new StringType())->yes()) {
             return [];
         }
 
@@ -96,7 +96,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($node->getLine())->build(),
             ];
         }
 

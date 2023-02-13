@@ -14,8 +14,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -94,7 +94,7 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
+        if ($scope->getType($args[$queryArgPosition]->value)->isSuperTypeOf(new StringType())->yes()) {
             return [];
         }
 
@@ -102,7 +102,7 @@ final class QueryPlanAnalyzerRule implements Rule
             return $this->analyze($callLike, $scope);
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
             ];
         }
     }
@@ -126,7 +126,7 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $queryExpr = $args[0]->value;
 
-        if ($scope->getType($queryExpr) instanceof MixedType) {
+        if ($scope->getType($queryExpr)->isSuperTypeOf(new StringType())->yes()) {
             return [];
         }
 

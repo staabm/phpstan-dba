@@ -28,4 +28,14 @@ class Foo
     {
         $pdo->query($query);
     }
+
+    public function stringParam(PDO $pdo, string $string)
+    {
+        $pdo->query('SELECT email FROM ada WHERE gesperrt='.$string);
+    }
+
+    public function stringQueryFragment(PDO $pdo, string $string)
+    {
+        $pdo->query('SELECT email FROM ada WHERE '.$string);
+    }
 }

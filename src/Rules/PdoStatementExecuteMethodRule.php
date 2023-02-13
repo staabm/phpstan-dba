@@ -15,7 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\MixedType;
+use PHPStan\Type\StringType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -67,7 +67,7 @@ final class PdoStatementExecuteMethodRule implements Rule
         if (null === $queryExpr) {
             return [];
         }
-        if ($scope->getType($queryExpr) instanceof MixedType) {
+        if ($scope->getType($queryExpr)->isSuperTypeOf(new StringType())->yes()) {
             return [];
         }
 
@@ -98,7 +98,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($methodCall->getLine())->build(),
             ];
         }
 
@@ -111,7 +111,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($methodCall->getLine())->build(),
             ];
         }
 

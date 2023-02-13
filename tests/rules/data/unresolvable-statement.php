@@ -24,4 +24,9 @@ class Foo
     {
         $connection->preparedQuery($string, []);
     }
+
+    public function stringQueryFragment(Connection $connection, string $string)
+    {
+        $connection->preparedQuery('SELECT email FROM ada WHERE '.$string, []);
+    }
 }
