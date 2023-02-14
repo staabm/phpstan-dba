@@ -37,6 +37,7 @@ final class ParserInference
         $this->extensions = [
             new CountParserExtension(),
             new CoalesceParserExtension(),
+            new IfNullParserExtension(),
         ];
     }
 
@@ -46,7 +47,7 @@ final class ParserInference
         $session = new Session($platform);
         $parser = new Parser($session);
 
-        $queryString = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
+//        $queryString = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
 
         // returns a Generator. will not parse anything if you don't iterate over it
         $commands = $parser->parse($queryString);
@@ -61,7 +62,6 @@ final class ParserInference
                     $fromColumns = $command->getColumns();
                 }
                 $from = $command->getFrom();
-                var_dump(\get_class($from));
 
                 if ($from instanceof TableReferenceTable) {
                     $fromName = $from->getTable()->getName();
@@ -74,7 +74,8 @@ final class ParserInference
         }
 
         if (null === $fromTable) {
-            throw new ShouldNotHappenException();
+            // not parsable atm, return un-narrowed type
+            return $resultType;
         }
         if (null === $fromColumns) {
             throw new ShouldNotHappenException();
@@ -99,9 +100,8 @@ final class ParserInference
 
                 $extensionType = $extension->getTypeFromExpression($expression, $queryScope);
                 if (null !== $extensionType) {
-                    $valueType = TypeCombinator::intersect(
-                        $valueType, $extensionType
-                    );
+                    $valueType = $extensionType;
+                    break;
                 }
             }
 

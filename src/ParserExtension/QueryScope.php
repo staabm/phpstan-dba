@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\ParserExtension;
 
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\BooleanType;
+use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
+use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\Identifier;
+use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
 use SqlFtw\Sql\Expression\SimpleName;
+use SqlFtw\Sql\Expression\StringValue;
 use staabm\PHPStanDba\SchemaReflection\Table;
 
 final class QueryScope
@@ -42,6 +49,15 @@ final class QueryScope
     {
         if ($expression instanceof NullLiteral) {
             return new NullType();
+        }
+        if ($expression instanceof StringValue) {
+            return new ConstantStringType($expression->asString());
+        }
+        if ($expression instanceof IntValue) {
+            return new ConstantIntegerType($expression->asInt());
+        }
+        if ($expression instanceof BoolValue) {
+            return new ConstantBooleanType($expression->asBool());
         }
 
         if ($expression instanceof SimpleName) {
