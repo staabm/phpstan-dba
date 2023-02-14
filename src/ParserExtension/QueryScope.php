@@ -8,6 +8,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
+use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
@@ -35,7 +36,7 @@ final class QueryScope
     }
 
     /**
-     * @param Identifier|Literal $expression
+     * @param Identifier|Literal|ExpressionNode $expression
      */
     public function getType($expression): Type
     {
@@ -44,21 +45,21 @@ final class QueryScope
         }
 
         if ($expression instanceof SimpleName) {
-            foreach($this->fromTable->getColumns() as $column) {
+            foreach ($this->fromTable->getColumns() as $column) {
                 if ($column->getName() === $expression->getName()) {
                     return $column->getType();
                 }
             }
 
-            foreach($this->joinedTables as $joinedTable) {
-                foreach($joinedTable->getColumns() as $column) {
+            foreach ($this->joinedTables as $joinedTable) {
+                foreach ($joinedTable->getColumns() as $column) {
                     if ($column->getName() === $expression->getName()) {
                         return $column->getType();
                     }
                 }
             }
 
-            throw new ShouldNotHappenException('Unable to resolve column ' . $expression->getName());
+            throw new ShouldNotHappenException('Unable to resolve column '.$expression->getName());
         }
 
         return new MixedType();

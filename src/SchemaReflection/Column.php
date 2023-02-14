@@ -6,7 +6,8 @@ namespace staabm\PHPStanDba\SchemaReflection;
 
 use PHPStan\Type\Type;
 
-final class Column {
+final class Column
+{
     /**
      * @var string
      */

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\SchemaReflection;
 
-use PHPStan\Type\Type;
-
-final class Table {
+final class Table
+{
     /**
      * @var string
      */
@@ -17,22 +16,24 @@ final class Table {
     private $columns = [];
 
     /**
-     * @param string $name
      * @param list<Column> $columns
      */
-    public function __construct(string $name, array $columns) {
+    public function __construct(string $name, array $columns)
+    {
         $this->name = $name;
         $this->columns = $columns;
     }
 
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
     /**
      * @return list<Column>
      */
-    public function getColumns(): array {
+    public function getColumns(): array
+    {
         return $this->columns;
     }
 }

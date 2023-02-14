@@ -54,14 +54,14 @@ final class ParserInference
         $fromColumns = null;
         $fromTable = null;
         $joinedTables = [];
-        foreach ($commands as list($command)) {
+        foreach ($commands as [$command]) {
             // Parser does not throw exceptions. this allows to parse partially invalid code and not fail on first error
             if ($command instanceof SelectCommand) {
-                if ($fromColumns === null) {
+                if (null === $fromColumns) {
                     $fromColumns = $command->getColumns();
                 }
                 $from = $command->getFrom();
-                var_dump(get_class($from));
+                var_dump(\get_class($from));
 
                 if ($from instanceof TableReferenceTable) {
                     $fromName = $from->getTable()->getName();
@@ -73,10 +73,10 @@ final class ParserInference
             }
         }
 
-        if ($fromTable === null) {
+        if (null === $fromTable) {
             throw new ShouldNotHappenException();
         }
-        if ($fromColumns === null) {
+        if (null === $fromColumns) {
             throw new ShouldNotHappenException();
         }
 

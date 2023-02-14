@@ -165,10 +165,10 @@ final class QueryReflection
         return $type;
     }
     
-    private function getSchemaReflection() : SchemaReflection
+    private function getSchemaReflection(): SchemaReflection
     {
-        if ($this->schemaReflection === null) {
-            $this->schemaReflection = new SchemaReflection(function($queryString) {
+        if (null === $this->schemaReflection) {
+            $this->schemaReflection = new SchemaReflection(function ($queryString) {
                 $resultType = self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
 
                 if (!$resultType instanceof ConstantArrayType) {
