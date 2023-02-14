@@ -16,7 +16,7 @@ class Foo
         assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>, count(email): int, 1: int<0, max>}>', $stmt);
     }
 
-    public function COALESCE(PDO $pdo)
+    public function coalesce(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT COALESCE(null, eladaid) as col from ak');
         assertType('PDOStatement<array{col: int<0, 255>|null, 0: int<0, 255>|null}>', $stmt);
