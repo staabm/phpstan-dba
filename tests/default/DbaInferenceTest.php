@@ -11,7 +11,6 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        return;
         yield from $this->gatherAssertTypes(__DIR__.'/data/doctrine-dbal.php');
 
         // make sure class constants can be resolved
