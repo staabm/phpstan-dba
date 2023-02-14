@@ -4,25 +4,33 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\ParserExtension;
 
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Parser\Parser;
 use SqlFtw\Platform\Platform;
 use SqlFtw\Session\Session;
 use SqlFtw\Sql\Dml\Query\SelectCommand;
-use SqlFtw\Sql\Expression\BuiltInFunction;
-use SqlFtw\Sql\Expression\FunctionCall;
 
 final class ParserInference
 {
+    /**
+     * @var list<ParserExtension>
+     */
+    private $extensions;
+
+    public function __construct()
+    {
+        $this->extensions = [
+            new CountParserExtension(),
+            new MinParserExtension(),
+        ];
+    }
+
     public function narrowResultType(string $queryString, ConstantArrayType $resultType): Type
     {
-        $keyTypes = $resultType->getKeyTypes();
-
         $platform = Platform::get(Platform::MYSQL, '8.0'); // version defaults to x.x.99 when no patch number is given
         $session = new Session($platform);
         $parser = new Parser($session);
@@ -35,18 +43,36 @@ final class ParserInference
                 $columns = $command->getColumns();
                 foreach ($columns as $i => $column) {
                     $expression = $column->getExpression();
-                    if ($expression instanceof FunctionCall && BuiltInFunction::COUNT == $expression->getFunction()->getName()) {
-                        if (null !== $column->getAlias()) {
-                            $offsetType = new ConstantStringType($column->getAlias());
-                        } else {
-                            $offsetType = $keyTypes[$i];
+
+                    $offsetType = new ConstantIntegerType($i);
+                    $aliasOffsetType = null;
+                    if (null !== $column->getAlias()) {
+                        $aliasOffsetType = new ConstantStringType($column->getAlias());
+                    }
+
+                    $valueType = $resultType->getOffsetValueType($offsetType);
+                    foreach ($this->extensions as $extension) {
+                        if (!$extension->isExpressionSupported($expression)) {
+                            continue;
                         }
 
-                        $valueType = TypeCombinator::intersect(
-                            $resultType->getOffsetValueType($offsetType),
-                            IntegerRangeType::fromInterval(0, null)
-                        );
+                        $extensionType = $extension->getTypeFromExpression($expression);
+                        if (null !== $extensionType) {
+                            $valueType = TypeCombinator::intersect(
+                                $valueType, $extensionType
+                            );
+                        }
+                    }
 
+                    if (null !== $aliasOffsetType && $resultType->hasOffsetValueType($aliasOffsetType)->yes()) {
+                        if (null !== $aliasOffsetType) {
+                            $resultType = $resultType->setOffsetValueType(
+                                $aliasOffsetType,
+                                $valueType
+                            );
+                        }
+                    }
+                    if ($resultType->hasOffsetValueType($offsetType)->yes()) {
                         $resultType = $resultType->setOffsetValueType(
                             $offsetType,
                             $valueType

@@ -115,9 +115,7 @@ final class QueryReflection
             $parserInference = new ParserInference();
             $resultType = $parserInference->narrowResultType($queryString, $resultType);
     
-            if (
-                self::getRuntimeConfiguration()->isStringifyTypes()
-            ) {
+            if (self::getRuntimeConfiguration()->isStringifyTypes()) {
                 return $this->stringifyResult($resultType);
             }
         }
