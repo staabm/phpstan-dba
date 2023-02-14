@@ -10,11 +10,11 @@ use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
-final class MinParserExtension implements ParserExtension
+final class CoalesceParserExtension implements ParserExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
-        return $expression instanceof FunctionCall && BuiltInFunction::MIN == $expression->getFunction()->getName();
+        return $expression instanceof FunctionCall && BuiltInFunction::COALESCE == $expression->getFunction()->getName();
     }
 
     public function getTypeFromExpression(ExpressionNode $expression): Type

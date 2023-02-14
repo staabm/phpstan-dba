@@ -25,7 +25,7 @@ final class ParserInference
     {
         $this->extensions = [
             new CountParserExtension(),
-            new MinParserExtension(),
+            new CoalesceParserExtension(),
         ];
     }
 
@@ -65,12 +65,10 @@ final class ParserInference
                     }
 
                     if (null !== $aliasOffsetType && $resultType->hasOffsetValueType($aliasOffsetType)->yes()) {
-                        if (null !== $aliasOffsetType) {
-                            $resultType = $resultType->setOffsetValueType(
-                                $aliasOffsetType,
-                                $valueType
-                            );
-                        }
+                        $resultType = $resultType->setOffsetValueType(
+                            $aliasOffsetType,
+                            $valueType
+                        );
                     }
                     if ($resultType->hasOffsetValueType($offsetType)->yes()) {
                         $resultType = $resultType->setOffsetValueType(
