@@ -4,18 +4,36 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\ParserExtension;
 
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
 use SqlFtw\Sql\Expression\SimpleName;
-use staabm\PHPStanDba\Types\MysqlIntegerRanges;
+use staabm\PHPStanDba\SchemaReflection\Table;
 
 final class QueryScope
 {
+    /**
+     * @var Table
+     */
+    private $fromTable;
+    /**
+     * @var list<Table>
+     */
+    private $joinedTables;
+
+    /**
+     * @param list<Table> $joinedTables
+     */
+    public function __construct(Table $fromTable, array $joinedTables)
+    {
+        $this->fromTable = $fromTable;
+        $this->joinedTables = $joinedTables;
+    }
+
     /**
      * @param Identifier|Literal $expression
      */
@@ -26,18 +44,21 @@ final class QueryScope
         }
 
         if ($expression instanceof SimpleName) {
-            // XXX utilize schema reflection
-
-            if ('eladaid' === $expression->getName()) {
-                $ranges = new MysqlIntegerRanges();
-
-                return TypeCombinator::addNull($ranges->unsignedTinyInt());
+            foreach($this->fromTable->getColumns() as $column) {
+                if ($column->getName() === $expression->getName()) {
+                    return $column->getType();
+                }
             }
-            if ('akid' === $expression->getName()) {
-                $ranges = new MysqlIntegerRanges();
 
-                return $ranges->signedInt();
+            foreach($this->joinedTables as $joinedTable) {
+                foreach($joinedTable->getColumns() as $column) {
+                    if ($column->getName() === $expression->getName()) {
+                        return $column->getType();
+                    }
+                }
             }
+
+            throw new ShouldNotHappenException('Unable to resolve column ' . $expression->getName());
         }
 
         return new MixedType();

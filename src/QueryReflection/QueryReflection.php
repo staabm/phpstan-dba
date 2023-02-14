@@ -32,6 +32,7 @@ use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\ParserExtension\ParserInference;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
+use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -51,6 +52,11 @@ final class QueryReflection
      * @var RuntimeConfiguration|null
      */
     private static $runtimeConfiguration;
+
+    /**
+     * @var SchemaReflection
+     */
+    private $schemaReflection;
 
     public function __construct(?DbaApi $dbaApi = null)
     {
@@ -112,7 +118,7 @@ final class QueryReflection
                 throw new ShouldNotHappenException();
             }
     
-            $parserInference = new ParserInference();
+            $parserInference = new ParserInference($this->getSchemaReflection());
             $resultType = $parserInference->narrowResultType($queryString, $resultType);
     
             if (self::getRuntimeConfiguration()->isStringifyTypes()) {
@@ -157,6 +163,23 @@ final class QueryReflection
         }
 
         return $type;
+    }
+    
+    private function getSchemaReflection() : SchemaReflection
+    {
+        if ($this->schemaReflection === null) {
+            $this->schemaReflection = new SchemaReflection(function($queryString) {
+                $resultType = self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+
+                if (!$resultType instanceof ConstantArrayType) {
+                    throw new ShouldNotHappenException();
+                }
+
+                return $resultType;
+            });
+        }
+
+        return $this->schemaReflection;
     }
 
     /**
