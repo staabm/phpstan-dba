@@ -22,9 +22,10 @@ return (new PhpCsFixer\Config())
         'strict_param' => true,
         'array_syntax' => ['syntax' => 'short'],
         'fopen_flags' => false,
+        'array_indentation' => true,
         'ordered_imports' => true,
         'protected_to_private' => false,
-        'list_syntax' => ['syntax' => 'long'], // 'short' requires php 7.1+
+        'list_syntax' => ['syntax' => 'short'],
         'psr_autoloading' => ['dir' => 'src/'],
     ])
     ->setRiskyAllowed(true)
