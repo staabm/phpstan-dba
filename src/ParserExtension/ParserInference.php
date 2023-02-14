@@ -17,7 +17,7 @@ use SqlFtw\Sql\Dml\Query\SelectCommand;
 final class ParserInference
 {
     /**
-     * @var list<ParserExtension>
+     * @var list<ParserExtension<mixed>>
      */
     private $extensions;
 
@@ -34,6 +34,8 @@ final class ParserInference
         $platform = Platform::get(Platform::MYSQL, '8.0'); // version defaults to x.x.99 when no patch number is given
         $session = new Session($platform);
         $parser = new Parser($session);
+
+        $queryScope = new QueryScope();
 
         // returns a Generator. will not parse anything if you don't iterate over it
         $commands = $parser->parse($queryString);
@@ -56,7 +58,7 @@ final class ParserInference
                             continue;
                         }
 
-                        $extensionType = $extension->getTypeFromExpression($expression);
+                        $extensionType = $extension->getTypeFromExpression($expression, $queryScope);
                         if (null !== $extensionType) {
                             $valueType = TypeCombinator::intersect(
                                 $valueType, $extensionType

@@ -10,6 +10,9 @@ use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
+/**
+ * @implements ParserExtension<FunctionCall>
+ */
 final class CountParserExtension implements ParserExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
@@ -17,7 +20,7 @@ final class CountParserExtension implements ParserExtension
         return $expression instanceof FunctionCall && BuiltInFunction::COUNT == $expression->getFunction()->getName();
     }
 
-    public function getTypeFromExpression(ExpressionNode $expression): Type
+    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
     {
         return IntegerRangeType::fromInterval(0, null);
     }
