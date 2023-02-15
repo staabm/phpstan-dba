@@ -36,6 +36,7 @@ final class ParserInference
         $this->extensions = [
             new CountReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
+            new ConcatReturnTypeExtension(),
         ];
     }
 

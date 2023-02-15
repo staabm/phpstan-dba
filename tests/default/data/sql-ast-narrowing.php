@@ -60,4 +60,22 @@ class Foo
         $stmt = $pdo->query('SELECT nullif(gesperrt, freigabe1u1) as col from ada');
         assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
     }
+
+    public function concat(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT concat(akid, 5000) as col from ak');
+        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT concat(eladaid, 5000) as col from ak');
+        assertType("PDOStatement<array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}>", $stmt);
+
+        $stmt = $pdo->query('SELECT concat(eladaid, akid) as col from ak');
+        assertType("PDOStatement<array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}>", $stmt);
+
+        $stmt = $pdo->query('SELECT concat(eladaid, null) as col from ak');
+        assertType('PDOStatement<array{col: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT concat("abc", akid, 5000) as col from ak');
+        assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
+    }
 }

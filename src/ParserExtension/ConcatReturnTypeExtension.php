@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace staabm\PHPStanDba\ParserExtension;
+
+use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
+use PHPStan\Type\Accessory\AccessoryNonFalsyStringType;
+use PHPStan\Type\Accessory\AccessoryNumericStringType;
+use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\FloatType;
+use PHPStan\Type\GeneralizePrecision;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\NullType;
+use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
+use SqlFtw\Sql\Expression\BuiltInFunction;
+use SqlFtw\Sql\Expression\ExpressionNode;
+use SqlFtw\Sql\Expression\FunctionCall;
+
+/**
+ * @implements QueryExpressionReturnTypeExtension<FunctionCall>
+ */
+final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtension
+{
+    public function isExpressionSupported(ExpressionNode $expression): bool
+    {
+        return
+            $expression instanceof FunctionCall
+            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::CONCAT], true);
+    }
+
+    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
+    {
+        $args = $expression->getArguments();
+
+        $results = [];
+        $containtsNull = false;
+        $allNumeric = true;
+        $isNonFalsyString = false;
+        $isNonEmptyString = false;
+        $isNumber = new UnionType([new IntegerType(), new FloatType()]);
+        foreach ($args as $arg) {
+            $argType = $scope->getType($arg);
+
+            if ($argType->isNull()->yes()) {
+                return new NullType();
+            }
+            if (TypeCombinator::containsNull($argType)) {
+                $containtsNull = true;
+
+                $argType = TypeCombinator::removeNull($argType);
+            }
+
+            if (
+                !$argType->isNumericString()->yes()
+                && !$isNumber->isSuperTypeOf($argType)->yes())
+            {
+                $allNumeric = false;
+            }
+
+            if ($argType->isNonFalsyString()->yes()) {
+                $isNonFalsyString = true;
+            }
+            elseif ($argType->isNonEmptyString()->yes() || $isNumber->isSuperTypeOf($argType)->yes()) {
+                $isNonEmptyString = true;
+            }
+
+        }
+
+        $accessories = [];
+        if ($allNumeric) {
+            $accessories[] = new AccessoryNumericStringType();
+        }
+
+        if ($isNonFalsyString) {
+            $accessories[] = new AccessoryNonFalsyStringType();
+        }
+        elseif ($isNonEmptyString) {
+            $accessories[] = new AccessoryNonEmptyStringType();
+        }
+
+        $results[] = TypeCombinator::intersect(new StringType(), ...$accessories);
+
+        if ($containtsNull) {
+            $results[] = new NullType();
+        }
+
+        return TypeCombinator::union(...$results);
+    }
+}
