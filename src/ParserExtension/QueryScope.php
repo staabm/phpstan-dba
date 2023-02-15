@@ -59,7 +59,11 @@ final class QueryScope
             return new ConstantIntegerType($expression->asInt());
         }
         if ($expression instanceof BoolValue) {
-            return new ConstantBooleanType($expression->asBool());
+            $asBool = $expression->asBool();
+            if ($asBool === null) {
+                return new NullType();
+            }
+            return new ConstantBooleanType($asBool);
         }
         if ($expression instanceof NumericValue) {
             $number = $expression->asNumber();
