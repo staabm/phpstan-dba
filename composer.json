@@ -2,7 +2,7 @@
 	"name": "staabm/phpstan-dba",
 	"type": "phpstan-extension",
 	"license": "MIT",
-	"keywords": ["dev", "static analysis", "database access layer", "code quality"],
+	"keywords": ["dev", "phpstan", "phpstan-extension", "static analysis", "database access layer", "code quality"],
 	"require": {
 		"php": "^7.3 || ^8.0",
 		"composer-runtime-api": "^2.0",
