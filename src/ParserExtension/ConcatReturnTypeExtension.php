@@ -29,7 +29,7 @@ final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtens
     {
         return
             $expression instanceof FunctionCall
-            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::CONCAT], true);
+            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::CONCAT, BuiltInFunction::CONCAT_WS], true);
     }
 
     public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
@@ -45,14 +45,17 @@ final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtens
         foreach ($args as $arg) {
             $argType = $scope->getType($arg);
 
-            if ($argType->isNull()->yes()) {
-                return new NullType();
-            }
-            if (TypeCombinator::containsNull($argType)) {
-                $containtsNull = true;
+            if ($expression->getFunction()->getName() == BuiltInFunction::CONCAT) {
+                if ($argType->isNull()->yes()) {
+                    return new NullType();
+                }
 
-                $argType = TypeCombinator::removeNull($argType);
+                if (TypeCombinator::containsNull($argType)) {
+                    $containtsNull = true;
+                }
             }
+
+            $argType = TypeCombinator::removeNull($argType);
 
             if (
                 !$argType->isNumericString()->yes()

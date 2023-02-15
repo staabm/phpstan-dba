@@ -81,4 +81,22 @@ class Foo
         $stmt = $pdo->query('SELECT concat("abc", akid, 5000) as col from ak');
         assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
     }
+
+    public function concat_ws(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT concat_ws(akid, 5000) as col from ak');
+        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT concat_ws(eladaid, 5000) as col from ak');
+        assertType("PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>", $stmt);
+
+        $stmt = $pdo->query('SELECT concat_ws(eladaid, akid) as col from ak');
+        assertType("PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>", $stmt);
+
+        $stmt = $pdo->query('SELECT concat_ws(eladaid, null) as col from ak');
+        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT concat_ws("abc", akid, 5000) as col from ak');
+        assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
+    }
 }
