@@ -187,4 +187,13 @@ class Foo
         assertType('PDOStatement<array{max: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
     }
 
+    public function isNull(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT isnull(akid) as n1 from ak');
+        assertType('PDOStatement<array{n1: 0, 0: 0}>', $stmt);
+
+        $stmt = $pdo->query('SELECT isnull(eladaid) as n1 from ak');
+        assertType('PDOStatement<array{n1: 0|1, 0: 0|1}>', $stmt);
+    }
+
 }

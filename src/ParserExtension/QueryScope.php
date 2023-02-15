@@ -54,6 +54,7 @@ final class QueryScope
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
             new AvgReturnTypeExtension(),
+            new IsNullReturnTypeExtension(),
         ];
     }
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\ParserExtension;
 
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
