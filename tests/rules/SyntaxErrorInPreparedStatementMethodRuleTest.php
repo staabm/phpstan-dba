@@ -82,6 +82,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'gesperrt freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                     319,
                 ],
+                [
+                    'Query expects placeholder :freigabe1u1, but it is missing from values given.',
+                    325,
+                ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
@@ -157,6 +161,10 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                            ^ (42601).',
                     319,
                 ],
+                [
+                    'Query expects placeholder :freigabe1u1, but it is missing from values given.',
+                    325,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
@@ -207,6 +215,10 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'gesperrt freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
                     319,
+                ],
+                [
+                    'Query expects placeholder :freigabe1u1, but it is missing from values given.',
+                    325,
                 ],
             ];
         } else {

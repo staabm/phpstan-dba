@@ -32,10 +32,6 @@ final class PlaceholderValidation
      */
     private function checkErrors(string $queryString, array $parameters): iterable
     {
-        if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
-            return;
-        }
-
         $queryReflection = new QueryReflection();
         if ($queryReflection->containsNamedPlaceholders($queryString, $parameters)) {
             yield from $this->validateNamedPlaceholders($queryString, $parameters);
