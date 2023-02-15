@@ -100,7 +100,7 @@ class Foo
         assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
     }
 
-    public function length(PDO $pdo): void
+    public function posIntReturn(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT length(akid) as col from ak');
         assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
@@ -196,4 +196,15 @@ class Foo
         assertType('PDOStatement<array{n1: 0|1, 0: 0|1}>', $stmt);
     }
 
+    public function abs(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT abs(null) as abs from ada');
+        assertType('PDOStatement<array{abs: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT abs(freigabe1u1) as abs from ada');
+        assertType('PDOStatement<array{abs: int<0, 127>, 0: int<0, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT abs(eladaid) as abs from ak');
+        assertType('PDOStatement<array{abs: int<0, 2147483647>|null, 0: int<0, 2147483647>|null}>', $stmt);
+    }
 }
