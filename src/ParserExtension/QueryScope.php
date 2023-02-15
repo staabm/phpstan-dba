@@ -53,6 +53,7 @@ final class QueryScope
             new ConcatReturnTypeExtension(),
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
+            new AvgReturnTypeExtension(),
         ];
     }
 

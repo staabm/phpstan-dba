@@ -174,4 +174,17 @@ class Foo
         $stmt = $pdo->query('SELECT lower(concat(akid, 5000)) as col from ak');
         assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
     }
+
+    public function avgMinMax(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT avg(freigabe1u1) as avg from ada');
+        assertType('PDOStatement<array{avg: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT min(freigabe1u1) as min from ada');
+        assertType('PDOStatement<array{min: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT max(freigabe1u1) as max from ada');
+        assertType('PDOStatement<array{max: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+    }
+
 }
