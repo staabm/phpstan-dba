@@ -99,4 +99,31 @@ class Foo
         $stmt = $pdo->query('SELECT concat_ws("abc", akid, 5000) as col from ak');
         assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
     }
+
+    public function length(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT length(akid) as col from ak');
+        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+
+        $stmt = $pdo->query('SELECT char_length(eladaid) as col from ak');
+        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+
+        $stmt = $pdo->query('SELECT character_length(eladaid) as col from ak');
+        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+
+        $stmt = $pdo->query("SELECT FIELD('Bb', 'Aa', 'Bb', 'Cc', 'Dd', 'Ff') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+    }
+
+    public function instr(PDO $pdo): void
+    {
+        $stmt = $pdo->query("SELECT instr('foobarbar', 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+
+        $stmt = $pdo->query("SELECT instr(eladaid, 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+
+        $stmt = $pdo->query("SELECT instr(akid, 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+    }
 }

@@ -13,11 +13,21 @@ use SqlFtw\Sql\Expression\FunctionCall;
 /**
  * @implements QueryExpressionReturnTypeExtension<FunctionCall>
  */
-final class CountReturnTypeExtension implements QueryExpressionReturnTypeExtension
+final class PositiveIntReturningReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
+    private $functions = [
+        BuiltInFunction::COUNT,
+        BuiltInFunction::LENGTH,
+        BuiltInFunction::CHAR_LENGTH,
+        BuiltInFunction::CHARACTER_LENGTH,
+        BuiltInFunction::FIELD,
+    ];
+
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
-        return $expression instanceof FunctionCall && BuiltInFunction::COUNT == $expression->getFunction()->getName();
+        return
+            $expression instanceof FunctionCall
+            && \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
     public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type

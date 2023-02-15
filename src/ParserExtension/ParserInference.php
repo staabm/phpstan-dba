@@ -34,9 +34,10 @@ final class ParserInference
         $this->schemaReflection = $schemaReflection;
 
         $this->extensions = [
-            new CountReturnTypeExtension(),
+            new PositiveIntReturningReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
             new ConcatReturnTypeExtension(),
+            new InstrReturnTypeExtension(),
         ];
     }
 
