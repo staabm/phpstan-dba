@@ -15,6 +15,9 @@ use SqlFtw\Sql\Expression\FunctionCall;
  */
 final class PositiveIntReturningReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
+    /**
+     * @var list<string>
+     */
     private $functions = [
         BuiltInFunction::COUNT,
         BuiltInFunction::LENGTH,
