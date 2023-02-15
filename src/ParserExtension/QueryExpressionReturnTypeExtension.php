@@ -8,7 +8,7 @@ use PHPStan\Type\Type;
 use SqlFtw\Sql\Expression\ExpressionNode;
 
 /** @template TExpression of ExpressionNode */
-interface ParserExtension
+interface QueryExpressionReturnTypeExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool;
 

@@ -11,9 +11,9 @@ use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 /**
- * @implements ParserExtension<FunctionCall>
+ * @implements QueryExpressionReturnTypeExtension<FunctionCall>
  */
-final class CountParserExtension implements ParserExtension
+final class CountQueryExpressionReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {

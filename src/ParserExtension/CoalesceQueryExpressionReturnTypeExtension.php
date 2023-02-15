@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\ParserExtension;
 
-use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
@@ -12,21 +11,18 @@ use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 /**
- * @implements ParserExtension<FunctionCall>
+ * @implements QueryExpressionReturnTypeExtension<FunctionCall>
  */
-final class IfNullParserExtension implements ParserExtension
+final class CoalesceQueryExpressionReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
-        return $expression instanceof FunctionCall && BuiltInFunction::IFNULL == $expression->getFunction()->getName();
+        return $expression instanceof FunctionCall && BuiltInFunction::COALESCE == $expression->getFunction()->getName();
     }
 
-    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): ?Type
+    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
     {
         $args = $expression->getArguments();
-        if (count($args) !== 2) {
-            return null;
-        }
 
         $results = [];
         $containsNonNullable = false;

@@ -21,7 +21,7 @@ use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 final class ParserInference
 {
     /**
-     * @var list<ParserExtension<mixed>>
+     * @var list<QueryExpressionReturnTypeExtension<mixed>>
      */
     private $extensions;
 
@@ -35,9 +35,9 @@ final class ParserInference
         $this->schemaReflection = $schemaReflection;
 
         $this->extensions = [
-            new CountParserExtension(),
-            new CoalesceParserExtension(),
-            new IfNullParserExtension(),
+            new CountQueryExpressionReturnTypeExtension(),
+            new CoalesceQueryExpressionReturnTypeExtension(),
+            new IfNullQueryExpressionReturnTypeExtension(),
         ];
     }
 
