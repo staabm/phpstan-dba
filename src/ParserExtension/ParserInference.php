@@ -35,9 +35,9 @@ final class ParserInference
         $this->schemaReflection = $schemaReflection;
 
         $this->extensions = [
-            new CountQueryExpressionReturnTypeExtension(),
-            new CoalesceQueryExpressionReturnTypeExtension(),
-            new IfNullQueryExpressionReturnTypeExtension(),
+            new CountReturnTypeExtension(),
+            new CoalesceReturnTypeExtension(),
+            new IfNullReturnTypeExtension(),
         ];
     }
 

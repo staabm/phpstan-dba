@@ -13,7 +13,7 @@ use SqlFtw\Sql\Expression\FunctionCall;
 /**
  * @implements QueryExpressionReturnTypeExtension<FunctionCall>
  */
-final class CoalesceQueryExpressionReturnTypeExtension implements QueryExpressionReturnTypeExtension
+final class CoalesceReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {

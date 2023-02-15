@@ -14,7 +14,7 @@ use SqlFtw\Sql\Expression\FunctionCall;
 /**
  * @implements QueryExpressionReturnTypeExtension<FunctionCall>
  */
-final class IfNullQueryExpressionReturnTypeExtension implements QueryExpressionReturnTypeExtension
+final class IfNullReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
