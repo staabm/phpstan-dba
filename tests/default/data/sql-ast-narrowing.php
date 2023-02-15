@@ -30,6 +30,9 @@ class Foo
         $stmt = $pdo->query('SELECT ifnull(freigabe1u1, 5000) as col from ada');
         assertType('PDOStatement<array{col: 5000|int<-128, 127>, 0: 5000|int<-128, 127>}>', $stmt);
 
+        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, 123.23) as col from ada');
+        assertType('PDOStatement<array{col: 123.23|int<-128, 127>, 0: 123.23|int<-128, 127>}>', $stmt);
+
         $stmt = $pdo->query('SELECT ifnull(freigabe1u1, "default") as col from ada');
         assertType("PDOStatement<array{col: 'default'|int<-128, 127>, 0: 'default'|int<-128, 127>}>", $stmt);
 

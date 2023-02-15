@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\ParserExtension;
 
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantFloatType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MixedType;
@@ -17,6 +18,8 @@ use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
+use SqlFtw\Sql\Expression\NumericLiteral;
+use SqlFtw\Sql\Expression\NumericValue;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
 use staabm\PHPStanDba\SchemaReflection\Table;
@@ -57,6 +60,13 @@ final class QueryScope
         }
         if ($expression instanceof BoolValue) {
             return new ConstantBooleanType($expression->asBool());
+        }
+        if ($expression instanceof NumericValue) {
+            $number = $expression->asNumber();
+            if (is_int($number)) {
+                return new ConstantIntegerType($number);
+            }
+            return new ConstantFloatType($number);
         }
 
         if ($expression instanceof SimpleName) {
