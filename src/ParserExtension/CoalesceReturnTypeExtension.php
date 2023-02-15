@@ -17,7 +17,9 @@ final class CoalesceReturnTypeExtension implements QueryExpressionReturnTypeExte
 {
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
-        return $expression instanceof FunctionCall && BuiltInFunction::COALESCE == $expression->getFunction()->getName();
+        return
+            $expression instanceof FunctionCall
+            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::COALESCE, BuiltInFunction::IFNULL, BuiltInFunction::NULLIF], true);
     }
 
     public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type

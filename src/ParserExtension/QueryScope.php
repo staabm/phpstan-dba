@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\ParserExtension;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\BooleanType;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;

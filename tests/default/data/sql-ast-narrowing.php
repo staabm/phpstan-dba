@@ -42,4 +42,22 @@ class Foo
         $stmt = $pdo->query('SELECT ifnull(gesperrt, freigabe1u1) as col from ada');
         assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
     }
+
+    public function nullif(PDO $pdo)
+    {
+        $stmt = $pdo->query('SELECT nullif(freigabe1u1, 5000) as col from ada');
+        assertType('PDOStatement<array{col: 5000|int<-128, 127>, 0: 5000|int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(freigabe1u1, "default") as col from ada');
+        assertType("PDOStatement<array{col: 'default'|int<-128, 127>, 0: 'default'|int<-128, 127>}>", $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(freigabe1u1, freigabe1u1) as col from ada');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(freigabe1u1, gesperrt) as col from ada');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(gesperrt, freigabe1u1) as col from ada');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+    }
 }

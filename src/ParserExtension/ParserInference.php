@@ -9,7 +9,6 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeCombinator;
 use SqlFtw\Parser\Parser;
 use SqlFtw\Platform\Platform;
 use SqlFtw\Session\Session;
@@ -21,7 +20,7 @@ use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 final class ParserInference
 {
     /**
-     * @var list<QueryExpressionReturnTypeExtension<mixed>>
+     * @var list<QueryExpressionReturnTypeExtension>
      */
     private $extensions;
 
@@ -37,7 +36,6 @@ final class ParserInference
         $this->extensions = [
             new CountReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
-            new IfNullReturnTypeExtension(),
         ];
     }
 
