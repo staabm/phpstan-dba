@@ -111,6 +111,9 @@ class Foo
         $stmt = $pdo->query('SELECT character_length(eladaid) as col from ak');
         assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
 
+        $stmt = $pdo->query('SELECT octet_length(eladaid) as col from ak');
+        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+
         $stmt = $pdo->query("SELECT FIELD('Bb', 'Aa', 'Bb', 'Cc', 'Dd', 'Ff') as field from ak");
         assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
     }
@@ -138,6 +141,15 @@ class Foo
 
     public function strcase(PDO $pdo): void
     {
+        $stmt = $pdo->query("SELECT lower(c_varbinary255) as field from typemix");
+        assertType("PDOStatement<array{field: string, 0: string}>", $stmt);
+
+        $stmt = $pdo->query("SELECT lower(c_varbinary25) as field from typemix");
+        assertType("PDOStatement<array{field: string|null, 0: string|null}>", $stmt);
+
+        $stmt = $pdo->query("SELECT lower(null) as field from ak");
+        assertType("PDOStatement<array{field: null, 0: null}>", $stmt);
+
         $stmt = $pdo->query("SELECT lower('foobarbar') as field from ak");
         assertType("PDOStatement<array{field: 'foobarbar', 0: 'foobarbar'}>", $stmt);
 

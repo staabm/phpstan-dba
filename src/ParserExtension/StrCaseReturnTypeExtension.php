@@ -6,8 +6,9 @@ namespace staabm\PHPStanDba\ParserExtension;
 
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ConstantScalarType;
+use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
-use SebastianBergmann\Type\NullType;
+use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
@@ -44,6 +45,10 @@ final class StrCaseReturnTypeExtension implements QueryExpressionReturnTypeExten
             }
 
             return new ConstantStringType(strtoupper($argType->getValue()));
+        }
+
+        if (TypeCombinator::containsNull($argType)) {
+            return TypeCombinator::addNull($argType->toString());
         }
 
         return $argType->toString();

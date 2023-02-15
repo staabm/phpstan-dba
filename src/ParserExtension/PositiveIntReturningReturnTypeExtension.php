@@ -20,6 +20,7 @@ final class PositiveIntReturningReturnTypeExtension implements QueryExpressionRe
         BuiltInFunction::LENGTH,
         BuiltInFunction::CHAR_LENGTH,
         BuiltInFunction::CHARACTER_LENGTH,
+        BuiltInFunction::OCTET_LENGTH,
         BuiltInFunction::FIELD,
     ];
 
