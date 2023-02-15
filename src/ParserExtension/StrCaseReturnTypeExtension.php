@@ -18,11 +18,21 @@ use SqlFtw\Sql\Expression\FunctionCall;
  */
 final class StrCaseReturnTypeExtension implements QueryExpressionReturnTypeExtension
 {
+    /**
+     * @var list<string>
+     */
+    private $functions = [
+        BuiltInFunction::LOWER,
+        BuiltInFunction::LCASE,
+        BuiltInFunction::UPPER,
+        BuiltInFunction::UCASE,
+    ];
+
     public function isExpressionSupported(ExpressionNode $expression): bool
     {
         return
             $expression instanceof FunctionCall
-            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::LOWER, BuiltInFunction::UPPER], true);
+            && \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
     public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): ?Type
@@ -39,8 +49,8 @@ final class StrCaseReturnTypeExtension implements QueryExpressionReturnTypeExten
             return new NullType();
         }
 
-        if ($argType instanceof ConstantScalarType) {
-            if (BuiltInFunction::LOWER === $expression->getFunction()->getName()) {
+        if ($argType instanceof ConstantStringType) {
+            if (\in_array($expression->getFunction()->getName(), [BuiltInFunction::LOWER, BuiltInFunction::LCASE], true)) {
                 return new ConstantStringType(strtolower($argType->getValue()));
             }
 

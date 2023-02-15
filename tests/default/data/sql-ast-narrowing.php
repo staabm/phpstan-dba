@@ -141,6 +141,12 @@ class Foo
 
     public function strcase(PDO $pdo): void
     {
+        $stmt = $pdo->query("SELECT lcase(c_varbinary255) as field from typemix");
+        assertType("PDOStatement<array{field: string, 0: string}>", $stmt);
+
+        $stmt = $pdo->query("SELECT ucase(c_varbinary25) as field from typemix");
+        assertType("PDOStatement<array{field: string|null, 0: string|null}>", $stmt);
+
         $stmt = $pdo->query("SELECT lower(c_varbinary255) as field from typemix");
         assertType("PDOStatement<array{field: string, 0: string}>", $stmt);
 
