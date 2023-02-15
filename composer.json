@@ -2,6 +2,7 @@
 	"name": "staabm/phpstan-dba",
 	"type": "phpstan-extension",
 	"license": "MIT",
+	"keywords": ["dev"],
 	"require": {
 		"php": "^7.3 || ^8.0",
 		"composer-runtime-api": "^2.0",
