@@ -125,5 +125,14 @@ class Foo
 
         $stmt = $pdo->query("SELECT instr(akid, 'bar') as field from ak");
         assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+
+        $stmt = $pdo->query("SELECT locate('foo', eladaid, 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+
+        $stmt = $pdo->query("SELECT locate(eladaid, 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+
+        $stmt = $pdo->query("SELECT locate(akid, 'bar') as field from ak");
+        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
     }
 }

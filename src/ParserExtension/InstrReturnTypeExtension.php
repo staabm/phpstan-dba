@@ -20,7 +20,7 @@ final class InstrReturnTypeExtension implements QueryExpressionReturnTypeExtensi
     {
         return
             $expression instanceof FunctionCall
-            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::INSTR], true);
+            && \in_array($expression->getFunction()->getName(), [BuiltInFunction::INSTR, BuiltInFunction::LOCATE], true);
     }
 
     public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
