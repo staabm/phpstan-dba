@@ -207,4 +207,16 @@ class Foo
         $stmt = $pdo->query('SELECT abs(eladaid) as abs from ak');
         assertType('PDOStatement<array{abs: int<0, 2147483647>|null, 0: int<0, 2147483647>|null}>', $stmt);
     }
+
+    public function round(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT round(null) as abs from ada');
+        assertType('PDOStatement<array{abs: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT round(freigabe1u1) as abs from ada');
+        assertType('PDOStatement<array{abs: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT round(1.12, 1) as abs from ak');
+        assertType('PDOStatement<array{abs: float|int, 0: float|int}>', $stmt);
+    }
 }
