@@ -135,4 +135,25 @@ class Foo
         $stmt = $pdo->query("SELECT locate(akid, 'bar') as field from ak");
         assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
     }
+
+    public function strcase(PDO $pdo): void
+    {
+        $stmt = $pdo->query("SELECT lower('foobarbar') as field from ak");
+        assertType("PDOStatement<array{field: 'foobarbar', 0: 'foobarbar'}>", $stmt);
+
+        $stmt = $pdo->query("SELECT lower('FOO') as field from ak");
+        assertType("PDOStatement<array{field: 'foo', 0: 'foo'}>", $stmt);
+
+        $stmt = $pdo->query("SELECT upper('foobarbar') as field from ak");
+        assertType("PDOStatement<array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}>", $stmt);
+
+        $stmt = $pdo->query("SELECT upper('fooBARbar') as field from ak");
+        assertType("PDOStatement<array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}>", $stmt);
+
+        $stmt = $pdo->query("SELECT lower(upper('foobarbar')) as field from ak");
+        assertType("PDOStatement<array{field: 'foobarbar', 0: 'foobarbar'}>", $stmt);
+
+        $stmt = $pdo->query('SELECT lower(concat(akid, 5000)) as col from ak');
+        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+    }
 }

@@ -18,7 +18,6 @@ use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
-use SqlFtw\Sql\Expression\NumericLiteral;
 use SqlFtw\Sql\Expression\NumericValue;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
@@ -26,6 +25,11 @@ use staabm\PHPStanDba\SchemaReflection\Table;
 
 final class QueryScope
 {
+    /**
+     * @var list<QueryExpressionReturnTypeExtension>
+     */
+    private $extensions;
+
     /**
      * @var Table
      */
@@ -42,6 +46,14 @@ final class QueryScope
     {
         $this->fromTable = $fromTable;
         $this->joinedTables = $joinedTables;
+
+        $this->extensions = [
+            new PositiveIntReturningReturnTypeExtension(),
+            new CoalesceReturnTypeExtension(),
+            new ConcatReturnTypeExtension(),
+            new InstrReturnTypeExtension(),
+            new StrCaseReturnTypeExtension(),
+        ];
     }
 
     /**
@@ -60,16 +72,18 @@ final class QueryScope
         }
         if ($expression instanceof BoolValue) {
             $asBool = $expression->asBool();
-            if ($asBool === null) {
+            if (null === $asBool) {
                 return new NullType();
             }
+
             return new ConstantBooleanType($asBool);
         }
         if ($expression instanceof NumericValue) {
             $number = $expression->asNumber();
-            if (is_int($number)) {
+            if (\is_int($number)) {
                 return new ConstantIntegerType($number);
             }
+
             return new ConstantFloatType($number);
         }
 
@@ -89,6 +103,17 @@ final class QueryScope
             }
 
             throw new ShouldNotHappenException('Unable to resolve column '.$expression->getName());
+        }
+
+        foreach ($this->extensions as $extension) {
+            if (!$extension->isExpressionSupported($expression)) {
+                continue;
+            }
+
+            $extensionType = $extension->getTypeFromExpression($expression, $this);
+            if (null !== $extensionType) {
+                return $extensionType;
+            }
         }
 
         return new MixedType();

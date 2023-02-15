@@ -7,9 +7,7 @@ namespace staabm\PHPStanDba\ParserExtension;
 use PHPStan\Type\Accessory\AccessoryNonEmptyStringType;
 use PHPStan\Type\Accessory\AccessoryNonFalsyStringType;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
-use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\GeneralizePrecision;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
@@ -45,7 +43,7 @@ final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtens
         foreach ($args as $arg) {
             $argType = $scope->getType($arg);
 
-            if ($expression->getFunction()->getName() == BuiltInFunction::CONCAT) {
+            if (BuiltInFunction::CONCAT == $expression->getFunction()->getName()) {
                 if ($argType->isNull()->yes()) {
                     return new NullType();
                 }
@@ -59,18 +57,15 @@ final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtens
 
             if (
                 !$argType->isNumericString()->yes()
-                && !$isNumber->isSuperTypeOf($argType)->yes())
-            {
+                && !$isNumber->isSuperTypeOf($argType)->yes()) {
                 $allNumeric = false;
             }
 
             if ($argType->isNonFalsyString()->yes()) {
                 $isNonFalsyString = true;
-            }
-            elseif ($argType->isNonEmptyString()->yes() || $isNumber->isSuperTypeOf($argType)->yes()) {
+            } elseif ($argType->isNonEmptyString()->yes() || $isNumber->isSuperTypeOf($argType)->yes()) {
                 $isNonEmptyString = true;
             }
-
         }
 
         $accessories = [];
@@ -80,8 +75,7 @@ final class ConcatReturnTypeExtension implements QueryExpressionReturnTypeExtens
 
         if ($isNonFalsyString) {
             $accessories[] = new AccessoryNonFalsyStringType();
-        }
-        elseif ($isNonEmptyString) {
+        } elseif ($isNonEmptyString) {
             $accessories[] = new AccessoryNonEmptyStringType();
         }
 

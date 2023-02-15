@@ -40,6 +40,7 @@ final class InstrReturnTypeExtension implements QueryExpressionReturnTypeExtensi
         if ($containsNullable) {
             $result = TypeCombinator::addNull($result);
         }
+
         return $result;
     }
 }

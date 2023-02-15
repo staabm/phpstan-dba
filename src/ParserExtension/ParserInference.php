@@ -20,11 +20,6 @@ use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 final class ParserInference
 {
     /**
-     * @var list<QueryExpressionReturnTypeExtension>
-     */
-    private $extensions;
-
-    /**
      * @var SchemaReflection
      */
     private $schemaReflection;
@@ -32,13 +27,6 @@ final class ParserInference
     public function __construct(SchemaReflection $schemaReflection)
     {
         $this->schemaReflection = $schemaReflection;
-
-        $this->extensions = [
-            new PositiveIntReturningReturnTypeExtension(),
-            new CoalesceReturnTypeExtension(),
-            new ConcatReturnTypeExtension(),
-            new InstrReturnTypeExtension(),
-        ];
     }
 
     public function narrowResultType(string $queryString, ConstantArrayType $resultType): Type
@@ -93,16 +81,10 @@ final class ParserInference
             }
 
             $valueType = $resultType->getOffsetValueType($offsetType);
-            foreach ($this->extensions as $extension) {
-                if (!$extension->isExpressionSupported($expression)) {
-                    continue;
-                }
 
-                $extensionType = $extension->getTypeFromExpression($expression, $queryScope);
-                if (null !== $extensionType) {
-                    $valueType = $extensionType;
-                    break;
-                }
+            $type = $queryScope->getType($expression);
+            if (!$type instanceof MixedType) {
+                $valueType = $type;
             }
 
             if (null !== $aliasOffsetType && $resultType->hasOffsetValueType($aliasOffsetType)->yes()) {
