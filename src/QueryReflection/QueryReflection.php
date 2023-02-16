@@ -168,13 +168,7 @@ final class QueryReflection
     {
         if (null === $this->schemaReflection) {
             $this->schemaReflection = new SchemaReflection(function ($queryString) {
-                $resultType = self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
-
-                if (!$resultType instanceof ConstantArrayType) {
-                    throw new ShouldNotHappenException();
-                }
-
-                return $resultType;
+                return self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
             });
         }
 

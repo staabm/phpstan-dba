@@ -57,7 +57,11 @@ final class ParserInference
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
                     $joinName = $from->getRight()->getTable()->getName();
-                    $joinedTables[] = $this->schemaReflection->getTable($joinName);
+                    $joinedTable = $this->schemaReflection->getTable($joinName);
+
+                    if (null !== $joinedTable) {
+                        $joinedTables[] = $joinedTable;
+                    }
                 }
             }
         }
