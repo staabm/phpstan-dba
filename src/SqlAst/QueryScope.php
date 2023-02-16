@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\ParserExtension;
+namespace staabm\PHPStanDba\SqlAst;
 
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantBooleanType;
@@ -49,7 +49,7 @@ final class QueryScope
         $this->joinedTables = $joinedTables;
 
         $this->extensions = [
-            new PositiveIntReturningReturnTypeExtension(),
+            new PositiveIntReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
             new ConcatReturnTypeExtension(),
             new InstrReturnTypeExtension(),

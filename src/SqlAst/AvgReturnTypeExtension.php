@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\ParserExtension;
+namespace staabm\PHPStanDba\SqlAst;
 
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace staabm\PHPStanDba\ParserExtension;
+namespace staabm\PHPStanDba\SqlAst;
 
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\FunctionCall;
 
-final class PositiveIntReturningReturnTypeExtension implements QueryFunctionReturnTypeExtension
+final class PositiveIntReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
     /**
      * @var list<string>
