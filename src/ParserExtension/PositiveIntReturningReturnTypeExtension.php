@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\ParserExtension;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use SqlFtw\Sql\Expression\BuiltInFunction;
-use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 final class PositiveIntReturningReturnTypeExtension implements QueryFunctionReturnTypeExtension
@@ -26,8 +25,7 @@ final class PositiveIntReturningReturnTypeExtension implements QueryFunctionRetu
 
     public function isFunctionSupported(FunctionCall $expression): bool
     {
-        return
-            \in_array($expression->getFunction()->getName(), $this->functions, true);
+        return \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
     public function getReturnType(FunctionCall $expression, QueryScope $scope): Type

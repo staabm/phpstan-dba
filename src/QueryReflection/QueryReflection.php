@@ -11,7 +11,6 @@ use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -117,10 +116,10 @@ final class QueryReflection
             if (!$resultType instanceof ConstantArrayType) {
                 throw new ShouldNotHappenException();
             }
-    
+
             $parserInference = new ParserInference($this->getSchemaReflection());
             $resultType = $parserInference->narrowResultType($queryString, $resultType);
-    
+
             if (self::getRuntimeConfiguration()->isStringifyTypes()) {
                 return $this->stringifyResult($resultType);
             }
@@ -164,7 +163,7 @@ final class QueryReflection
 
         return $type;
     }
-    
+
     private function getSchemaReflection(): SchemaReflection
     {
         if (null === $this->schemaReflection) {

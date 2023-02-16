@@ -15,15 +15,13 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use SqlFtw\Sql\Expression\BuiltInFunction;
-use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
     public function isFunctionSupported(FunctionCall $expression): bool
     {
-        return
-            \in_array($expression->getFunction()->getName(), [BuiltInFunction::CONCAT, BuiltInFunction::CONCAT_WS], true);
+        return \in_array($expression->getFunction()->getName(), [BuiltInFunction::CONCAT, BuiltInFunction::CONCAT_WS], true);
     }
 
     public function getReturnType(FunctionCall $expression, QueryScope $scope): Type

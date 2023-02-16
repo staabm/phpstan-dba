@@ -14,6 +14,7 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\ExpressionNode;
+use SqlFtw\Sql\Expression\FunctionCall;
 use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
@@ -22,7 +23,6 @@ use SqlFtw\Sql\Expression\NumericValue;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
 use staabm\PHPStanDba\SchemaReflection\Table;
-use SqlFtw\Sql\Expression\FunctionCall;
 
 final class QueryScope
 {

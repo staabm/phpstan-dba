@@ -9,7 +9,6 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
-use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtension
@@ -26,8 +25,7 @@ final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtensi
 
     public function isFunctionSupported(FunctionCall $expression): bool
     {
-        return
-            \in_array($expression->getFunction()->getName(), $this->functions, true);
+        return \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
     public function getReturnType(FunctionCall $expression, QueryScope $scope): ?Type

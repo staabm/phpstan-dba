@@ -8,15 +8,13 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
-use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
 final class InstrReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
     public function isFunctionSupported(FunctionCall $expression): bool
     {
-        return
-            \in_array($expression->getFunction()->getName(), [BuiltInFunction::INSTR, BuiltInFunction::LOCATE], true);
+        return \in_array($expression->getFunction()->getName(), [BuiltInFunction::INSTR, BuiltInFunction::LOCATE], true);
     }
 
     public function getReturnType(FunctionCall $expression, QueryScope $scope): Type
