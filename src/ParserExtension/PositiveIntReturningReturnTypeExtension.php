@@ -10,10 +10,7 @@ use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
-/**
- * @implements QueryExpressionReturnTypeExtension<FunctionCall>
- */
-final class PositiveIntReturningReturnTypeExtension implements QueryExpressionReturnTypeExtension
+final class PositiveIntReturningReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
     /**
      * @var list<string>
@@ -27,14 +24,13 @@ final class PositiveIntReturningReturnTypeExtension implements QueryExpressionRe
         BuiltInFunction::FIELD,
     ];
 
-    public function isExpressionSupported(ExpressionNode $expression): bool
+    public function isFunctionSupported(FunctionCall $expression): bool
     {
         return
-            $expression instanceof FunctionCall
-            && \in_array($expression->getFunction()->getName(), $this->functions, true);
+            \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
-    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): Type
+    public function getReturnType(FunctionCall $expression, QueryScope $scope): Type
     {
         return IntegerRangeType::fromInterval(0, null);
     }

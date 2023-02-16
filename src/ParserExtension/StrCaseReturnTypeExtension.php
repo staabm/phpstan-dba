@@ -12,10 +12,7 @@ use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 
-/**
- * @implements QueryExpressionReturnTypeExtension<FunctionCall>
- */
-final class StrCaseReturnTypeExtension implements QueryExpressionReturnTypeExtension
+final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
     /**
      * @var list<string>
@@ -27,14 +24,13 @@ final class StrCaseReturnTypeExtension implements QueryExpressionReturnTypeExten
         BuiltInFunction::UCASE,
     ];
 
-    public function isExpressionSupported(ExpressionNode $expression): bool
+    public function isFunctionSupported(FunctionCall $expression): bool
     {
         return
-            $expression instanceof FunctionCall
-            && \in_array($expression->getFunction()->getName(), $this->functions, true);
+            \in_array($expression->getFunction()->getName(), $this->functions, true);
     }
 
-    public function getTypeFromExpression(ExpressionNode $expression, QueryScope $scope): ?Type
+    public function getReturnType(FunctionCall $expression, QueryScope $scope): ?Type
     {
         $args = $expression->getArguments();
 

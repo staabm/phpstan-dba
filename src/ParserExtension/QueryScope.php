@@ -22,11 +22,12 @@ use SqlFtw\Sql\Expression\NumericValue;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
 use staabm\PHPStanDba\SchemaReflection\Table;
+use SqlFtw\Sql\Expression\FunctionCall;
 
 final class QueryScope
 {
     /**
-     * @var list<QueryExpressionReturnTypeExtension>
+     * @var list<QueryFunctionReturnTypeExtension>
      */
     private $extensions;
 
@@ -109,14 +110,16 @@ final class QueryScope
             throw new ShouldNotHappenException('Unable to resolve column '.$expression->getName());
         }
 
-        foreach ($this->extensions as $extension) {
-            if (!$extension->isExpressionSupported($expression)) {
-                continue;
-            }
+        if ($expression instanceof FunctionCall) {
+            foreach ($this->extensions as $extension) {
+                if (!$extension->isFunctionSupported($expression)) {
+                    continue;
+                }
 
-            $extensionType = $extension->getTypeFromExpression($expression, $this);
-            if (null !== $extensionType) {
-                return $extensionType;
+                $extensionType = $extension->getReturnType($expression, $this);
+                if (null !== $extensionType) {
+                    return $extensionType;
+                }
             }
         }
 
