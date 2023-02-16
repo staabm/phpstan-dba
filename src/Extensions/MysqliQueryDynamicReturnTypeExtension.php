@@ -133,7 +133,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         if (!QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             return TypeCombinator::union(
                 $resultType,
-                new ConstantBooleanType(false),
+                new ConstantBooleanType(false)
             );
         }
 

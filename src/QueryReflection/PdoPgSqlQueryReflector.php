@@ -106,11 +106,11 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
     {
         if (null === $this->stmt) {
             $this->stmt = $this->pdo->prepare(
-                <<<'PSQL'
+<<<'PSQL'
                 SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = ?
-                PSQL
+PSQL
             );
         }
 

@@ -65,7 +65,8 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
     LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
                                               ^ (42601).
-    TEXT,
+TEXT
+                        ,
                         9,
                     ],
                     [
@@ -73,7 +74,8 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
     LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
                                               ^ (42601).
-    TEXT,
+TEXT
+                        ,
                         19,
                     ],
                     [
@@ -81,7 +83,8 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
     LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
                                                                  ^ (42703).
-    TEXT,
+TEXT
+                        ,
                         39,
                     ],
                 ];

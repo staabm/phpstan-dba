@@ -61,7 +61,8 @@ class SyntaxErrorInQueryMethodSubclassedRuleTest extends RuleTestCase
     Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "with"
     LINE 1: SELECT with syntax error GROUPY by x LIMIT 0
                    ^ (42601).
-    TEXT,
+TEXT
+                        ,
                         12,
                     ],
                     [
@@ -69,7 +70,8 @@ class SyntaxErrorInQueryMethodSubclassedRuleTest extends RuleTestCase
     Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
     LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
                                               ^ (42601).
-    TEXT,
+TEXT
+                        ,
                         18,
                     ],
                 ];

@@ -55,7 +55,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
         // set a sane default.. atm this should not have any impact
         $this->db->set_charset('utf8');
         // enable exception throwing on php <8.1
-        mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->db->autocommit(false);
     }
 
@@ -149,7 +149,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
         if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
             $this->db->begin_transaction();
         } else {
-            $this->db->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
+            $this->db->begin_transaction(MYSQLI_TRANS_START_READ_ONLY);
         }
 
         try {
