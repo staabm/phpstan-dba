@@ -94,10 +94,10 @@ jobs:
     - uses: "ramsey/composer-install@v2"
       with:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
+        composer-options: "--ignore-platform-req=php+"
 
     - name: Install sqlftw/sqlftw
-      run: composer require sqlftw/sqlftw -W
+      run: composer require sqlftw/sqlftw --ignore-platform-req=php+
       if: "${{matrix.php-version != '7.3'}}"
 
     - name: Setup Problem Matchers for PHPUnit
