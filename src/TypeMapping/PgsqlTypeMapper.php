@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
-use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\PgsqlIntegerRanges;
 use function strtoupper;
 

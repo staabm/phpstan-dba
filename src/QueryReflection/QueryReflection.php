@@ -105,15 +105,17 @@ final class QueryReflection
 
         $resultType = self::reflector()->getResultType($queryString, $fetchType);
         if (
-            $resultType !== null
-            && QueryReflection::getRuntimeConfiguration()->isStringifyTypes()
+            null !== $resultType
+            && self::getRuntimeConfiguration()->isStringifyTypes()
         ) {
             return $this->stringifyResult($resultType);
         }
+
         return $resultType;
     }
 
-    private function stringifyResult(Type $type): Type {
+    private function stringifyResult(Type $type): Type
+    {
         if (!$type instanceof ConstantArrayType) {
             return $type;
         }
@@ -121,14 +123,15 @@ final class QueryReflection
         $builder = ConstantArrayTypeBuilder::createEmpty();
 
         $keyTypes = $type->getKeyTypes();
-        foreach($type->getValueTypes() as $i => $valueType) {
+        foreach ($type->getValueTypes() as $i => $valueType) {
             $builder->setOffsetValueType($keyTypes[$i], $this->stringifyType($valueType));
         }
 
         return $builder->getArray();
     }
 
-    private function stringifyType(Type $type): Type {
+    private function stringifyType(Type $type): Type
+    {
         $numberType = new UnionType([new IntegerType(), new FloatType()]);
 
         if ($numberType->isSuperTypeOf($type)->yes()) {
