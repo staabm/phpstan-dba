@@ -6,6 +6,6 @@ final class UnresolvableQueryStringTypeException extends UnresolvableQueryExcept
 {
     public static function getTip(): string
     {
-        return 'Consider replacing variable strings with prepared statements or @phpstandba-inference-placeholder.';
+        return 'Consider replacing concatenated string-variables with prepared statements or @phpstandba-inference-placeholder.';
     }
 }
