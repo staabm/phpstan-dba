@@ -6,6 +6,9 @@ namespace staabm\PHPStanDba\SchemaReflection;
 
 use PHPStan\Type\Type;
 
+/**
+ * @api
+ */
 final class Column
 {
     /**

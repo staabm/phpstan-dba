@@ -56,6 +56,7 @@ final class ParserInference
                     $fromName = $from->getTable()->getName();
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
+                    // @phpstan-ignore-next-line
                     $joinName = $from->getRight()->getTable()->getName();
                     $joinedTable = $this->schemaReflection->getTable($joinName);
 
