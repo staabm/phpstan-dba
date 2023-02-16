@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\StringType;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -101,12 +100,11 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $queryExpr = $args[0]->value;
+        $queryReflection = new QueryReflection();
 
-        if ($scope->getType($queryExpr)->isSuperTypeOf(new StringType())->yes()) {
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
-
-        $queryReflection = new QueryReflection();
 
         $parameters = null;
         if (\count($args) > 1) {

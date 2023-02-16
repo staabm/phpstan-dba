@@ -15,7 +15,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\StringType;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -89,15 +88,6 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        $args = $callLike->getArgs();
-        if (!\array_key_exists($queryArgPosition, $args)) {
-            return [];
-        }
-
-        if ($scope->getType($args[$queryArgPosition]->value)->isSuperTypeOf(new StringType())->yes()) {
-            return [];
-        }
-
         try {
             return $this->analyze($callLike, $scope);
         } catch (UnresolvableQueryException $exception) {
@@ -125,8 +115,9 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $queryExpr = $args[0]->value;
+        $queryReflection = new QueryReflection();
 
-        if ($scope->getType($queryExpr)->isSuperTypeOf(new StringType())->yes()) {
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
 
@@ -136,7 +127,6 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $ruleErrors = [];
-        $queryReflection = new QueryReflection();
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
 
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {

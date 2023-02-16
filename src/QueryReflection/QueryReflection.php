@@ -10,9 +10,11 @@ use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
@@ -97,6 +99,27 @@ final class QueryReflection
         }
 
         return self::reflector()->getResultType($queryString, $fetchType);
+    }
+
+    /**
+     * Determine if a query will be resolvable.
+     *
+     * - If yes, the query is a literal string.
+     * - If no, the query is a non-literal string or mixed type.
+     * - If maybe, the query is neither of the two.
+     *
+     * We will typically skip processing of queries that return no, which are
+     * likely part of a software abstraction layer that we know nothing about.
+     */
+    public function isResolvable(Expr $queryExpr, Scope $scope): TrinaryLogic
+    {
+        $type = $scope->getType($queryExpr);
+        if ($type->isLiteralString()->yes()) {
+            return TrinaryLogic::createYes();
+        }
+        $isStringOrMixed = $type->isSuperTypeOf(new StringType());
+
+        return $isStringOrMixed->negate();
     }
 
     /**
