@@ -31,6 +31,7 @@ use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -116,7 +117,7 @@ final class QueryReflection
                 throw new ShouldNotHappenException();
             }
 
-            $parserInference = new \staabm\PHPStanDba\SqlAst\ParserInference($this->getSchemaReflection());
+            $parserInference = new ParserInference($this->getSchemaReflection());
             $resultType = $parserInference->narrowResultType($queryString, $resultType);
 
             if (self::getRuntimeConfiguration()->isStringifyTypes()) {
