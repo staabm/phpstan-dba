@@ -10,10 +10,17 @@ use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
@@ -96,7 +103,48 @@ final class QueryReflection
             return null;
         }
 
-        return self::reflector()->getResultType($queryString, $fetchType);
+        $resultType = self::reflector()->getResultType($queryString, $fetchType);
+        if (
+            $resultType !== null
+            && QueryReflection::getRuntimeConfiguration()->isStringifyTypes()
+        ) {
+            return $this->stringifyResult($resultType);
+        }
+        return $resultType;
+    }
+
+    private function stringifyResult(Type $type): Type {
+        if (!$type instanceof ConstantArrayType) {
+            return $type;
+        }
+
+        $builder = ConstantArrayTypeBuilder::createEmpty();
+
+        $keyTypes = $type->getKeyTypes();
+        foreach($type->getValueTypes() as $i => $valueType) {
+            $builder->setOffsetValueType($keyTypes[$i], $this->stringifyType($valueType));
+        }
+
+        return $builder->getArray();
+    }
+
+    private function stringifyType(Type $type): Type {
+        $numberType = new UnionType([new IntegerType(), new FloatType()]);
+
+        if ($numberType->isSuperTypeOf($type)->yes()) {
+            $stringified = new IntersectionType([
+                new StringType(),
+                new AccessoryNumericStringType(),
+            ]);
+
+            if (TypeCombinator::containsNull($type)) {
+                return TypeCombinator::addNull($stringified);
+            }
+
+            return $stringified;
+        }
+
+        return $type;
     }
 
     /**

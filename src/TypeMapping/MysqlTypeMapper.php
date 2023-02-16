@@ -175,18 +175,6 @@ final class MysqlTypeMapper implements TypeMapper
             }
         }
 
-        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
-            $numberType = new UnionType([new IntegerType(), new FloatType()]);
-            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
-
-            if ($isNumber) {
-                $phpstanType = new IntersectionType([
-                    new StringType(),
-                    new AccessoryNumericStringType(),
-                ]);
-            }
-        }
-
         if (false === $notNull) {
             $phpstanType = TypeCombinator::addNull($phpstanType);
         }
