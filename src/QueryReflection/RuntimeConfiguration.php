@@ -127,6 +127,8 @@ final class RuntimeConfiguration
 
     /**
      * Enables experimental sql-ast type narrowing.
+     *
+     * Requires "sqlftw/sqlftw" to be additionally installed.
      */
     public function utilizeSqlAst(bool $enabled): self
     {

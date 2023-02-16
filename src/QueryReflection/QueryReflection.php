@@ -120,8 +120,10 @@ final class QueryReflection
 
             if (
                 self::getRuntimeConfiguration()->isUtilizingSqlAst()
-                && InstalledVersions::isInstalled('sqlftw/sqlftw')
             ) {
+                if (!InstalledVersions::isInstalled('sqlftw/sqlftw')) {
+                    throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
+                }
                 $parserInference = new ParserInference($this->getSchemaReflection());
                 $resultType = $parserInference->narrowResultType($queryString, $resultType);
             }
