@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Composer\InstalledVersions;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\Encapsed;
@@ -117,8 +118,13 @@ final class QueryReflection
                 throw new ShouldNotHappenException();
             }
 
-            $parserInference = new ParserInference($this->getSchemaReflection());
-            $resultType = $parserInference->narrowResultType($queryString, $resultType);
+            if (
+                self::getRuntimeConfiguration()->isUtilizingSqlAst()
+                && InstalledVersions::isInstalled('sqlftw/sqlftw')
+            ) {
+                $parserInference = new ParserInference($this->getSchemaReflection());
+                $resultType = $parserInference->narrowResultType($queryString, $resultType);
+            }
 
             if (self::getRuntimeConfiguration()->isStringifyTypes()) {
                 return $this->stringifyResult($resultType);
