@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Composer\InstalledVersions;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\Encapsed;
@@ -30,6 +31,8 @@ use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
+use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -49,6 +52,11 @@ final class QueryReflection
      * @var RuntimeConfiguration|null
      */
     private static $runtimeConfiguration;
+
+    /**
+     * @var SchemaReflection
+     */
+    private $schemaReflection;
 
     public function __construct(?DbaApi $dbaApi = null)
     {
@@ -104,11 +112,25 @@ final class QueryReflection
         }
 
         $resultType = self::reflector()->getResultType($queryString, $fetchType);
-        if (
-            null !== $resultType
-            && self::getRuntimeConfiguration()->isStringifyTypes()
-        ) {
-            return $this->stringifyResult($resultType);
+
+        if (null !== $resultType) {
+            if (!$resultType instanceof ConstantArrayType) {
+                throw new ShouldNotHappenException();
+            }
+
+            if (
+                self::getRuntimeConfiguration()->isUtilizingSqlAst()
+            ) {
+                if (!InstalledVersions::isInstalled('sqlftw/sqlftw')) {
+                    throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
+                }
+                $parserInference = new ParserInference($this->getSchemaReflection());
+                $resultType = $parserInference->narrowResultType($queryString, $resultType);
+            }
+
+            if (self::getRuntimeConfiguration()->isStringifyTypes()) {
+                return $this->stringifyResult($resultType);
+            }
         }
 
         return $resultType;
@@ -148,6 +170,17 @@ final class QueryReflection
         }
 
         return $type;
+    }
+
+    private function getSchemaReflection(): SchemaReflection
+    {
+        if (null === $this->schemaReflection) {
+            $this->schemaReflection = new SchemaReflection(function ($queryString) {
+                return self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+            });
+        }
+
+        return $this->schemaReflection;
     }
 
     /**
