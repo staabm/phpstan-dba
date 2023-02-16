@@ -22,8 +22,7 @@
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^8.5|^9.5",
 		"tomasvotruba/unused-public": "^0.0.34",
-		"vlucas/phpdotenv": "^5.4",
-		"sqlftw/sqlftw": "0.1.6"
+		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflict": {
 		"sqlftw/sqlftw": "<0.1.6 || >0.1.6"
