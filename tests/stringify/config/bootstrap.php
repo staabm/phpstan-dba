@@ -15,6 +15,7 @@ if (false === getenv('GITHUB_ACTION')) {
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 $config->stringifyTypes(true);
+$config->utilizeSqlAst(true);
 
 $reflector = ReflectorFactory::create(__DIR__);
 
