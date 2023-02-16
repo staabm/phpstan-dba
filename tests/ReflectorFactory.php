@@ -44,7 +44,7 @@ final class ReflectorFactory
         $cacheFile = sprintf(
             '%s/.phpunit-phpstan-dba-%s.cache',
             $cacheDir,
-            $reflector,
+            $reflector
         );
         if (\defined('__PHPSTAN_RUNNING__')) {
             $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
