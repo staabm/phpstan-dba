@@ -126,7 +126,7 @@ final class RuntimeConfiguration
     }
 
     /**
-     * Enables the experimental sql-ast type narrowing.
+     * Enables experimental sql-ast type narrowing.
      */
     public function utilizeSqlAst(bool $enabled): self
     {
