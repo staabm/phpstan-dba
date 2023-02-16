@@ -98,7 +98,7 @@ jobs:
 
     - name: Install sqlftw/sqlftw
       run: composer require sqlftw/sqlftw -W
-      if: "${{matrix.phpstan-version != '7.3'}}"
+      if: "${{matrix.php-version != '7.3'}}"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
