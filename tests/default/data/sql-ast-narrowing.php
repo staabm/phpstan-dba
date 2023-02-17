@@ -23,6 +23,13 @@ class Foo
 
         $stmt = $pdo->query('SELECT COALESCE(null, eladaid, null, akid, null) as col from ak');
         assertType('PDOStatement<array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT COALESCE(freigabe1u1) as col from ada');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        // can't return 500, as freigabe1u1 cannot be null
+        $stmt = $pdo->query('SELECT COALESCE(freigabe1u1, 500) as col from ada');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
     }
 
     public function ifnull(PDO $pdo): void

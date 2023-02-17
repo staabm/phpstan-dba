@@ -51,6 +51,7 @@ final class QueryScope
         $this->extensions = [
             new PositiveIntReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
+            new IfNullReturnTypeExtension(),
             new ConcatReturnTypeExtension(),
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
