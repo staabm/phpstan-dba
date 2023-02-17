@@ -71,6 +71,18 @@ class Foo
         assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
     }
 
+    public function if(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT if(freigabe1u1 > 100, "a", 1) as col from ada');
+        assertType("PDOStatement<array{col: 1|'a', 0: 1|'a'}>", $stmt);
+
+        $stmt = $pdo->query('SELECT if(freigabe1u1 > 100, freigabe1u1, "nope") as col from ada');
+        assertType("PDOStatement<array{col: 'nope'|int<-128, 127>, 0: 'nope'|int<-128, 127>}>", $stmt); // could be 'nope'|int<100, 127>
+
+        $stmt = $pdo->query('SELECT if(freigabe1u1 > 100, if(gesperrt <> 1, "a", "b"), "other") as col from ada');
+        assertType("PDOStatement<array{col: 'a'|'b'|'other', 0: 'a'|'b'|'other'}>", $stmt);
+    }
+
     public function concat(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT concat(akid, 5000) as col from ak');

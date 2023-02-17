@@ -52,6 +52,7 @@ final class QueryScope
             new PositiveIntReturnTypeExtension(),
             new CoalesceReturnTypeExtension(),
             new IfNullReturnTypeExtension(),
+            new IfReturnTypeExtension(),
             new ConcatReturnTypeExtension(),
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
