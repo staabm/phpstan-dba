@@ -82,10 +82,11 @@ final class SchemaHasherMysql
             }
         } else {
             $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
+            var_dump($this->connection->error);
 
             try {
                 $result = $this->connection->query($query);
-                var_dump($result);
+                var_dump($this->connection->error);
                 if ($result instanceof \mysqli_result) {
                     $row = $result->fetch_assoc();
                     $hash = $row['dbsignature'] ?? '';
