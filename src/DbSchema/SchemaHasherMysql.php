@@ -81,8 +81,9 @@ final class SchemaHasherMysql
                 $this->connection->rollBack();
             }
         } else {
-            $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
-            var_dump($this->connection->error);
+            if (PHP_VERSION_ID > 70400) {
+                $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
+            }
 
             try {
                 $result = $this->connection->query($query);
@@ -93,7 +94,9 @@ final class SchemaHasherMysql
                     var_dump($row);
                 }
             } finally {
-                $this->connection->rollback();
+                if (PHP_VERSION_ID > 70400) {
+                    $this->connection->rollback();
+                }
             }
         }
 
