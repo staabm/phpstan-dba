@@ -9,6 +9,9 @@ class Foo
 {
     public function count(PDO $pdo): void
     {
+        $stmt = $pdo->query('SELECT count(*) as myemail from ada');
+        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
+
         $stmt = $pdo->query('SELECT count(email) as myemail from ada');
         assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
 
