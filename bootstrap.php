@@ -14,6 +14,7 @@ if (false === getenv('GITHUB_ACTION')) {
 
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
+$config->utilizeSqlAst(true);
 // $config->debugMode(true);
 
 if (false === getenv('GITHUB_ACTION') && false === getenv('DBA_MODE')) {
