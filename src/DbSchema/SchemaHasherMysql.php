@@ -65,11 +65,12 @@ final class SchemaHasherMysql
 
             try {
                 $stmt = $this->connection->query($query);
-                var_dump($stmt === false);
+                var_dump($stmt);
                 foreach ($stmt as $row) {
                     var_dump($row);
                     $hash = $row['dbsignature'] ?? '';
                 }
+                var_dump($hash);
             } finally {
                 $this->connection->rollBack();
             }
@@ -78,11 +79,11 @@ final class SchemaHasherMysql
 
             try {
                 $result = $this->connection->query($query);
-                var_dump($result === false);
+                var_dump($result);
                 if ($result instanceof \mysqli_result) {
                     $row = $result->fetch_assoc();
-                    var_dump($row);
                     $hash = $row['dbsignature'] ?? '';
+                    var_dump($row);
                 }
             } finally {
                 $this->connection->rollback();
