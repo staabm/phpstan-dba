@@ -38,16 +38,19 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 final class QueryReflection
 {
     private const UNNAMED_PATTERN = '\?';
+
     // see https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/pdo/pdo_sql_parser.re#L48
     private const NAMED_PATTERN = ':[a-zA-Z0-9_]+';
 
-    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|('.self::UNNAMED_PATTERN.')}';
-    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|('.self::NAMED_PATTERN.')}';
+    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|(' . self::UNNAMED_PATTERN . ')}';
+
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|(' . self::NAMED_PATTERN . ')}';
 
     /**
      * @var QueryReflector|null
      */
     private static $reflector;
+
     /**
      * @var RuntimeConfiguration|null
      */
@@ -84,7 +87,7 @@ final class QueryReflection
                 'REPLACE',
             ], true)) {
                 // turn write queries into explain, so we don't need to execute a query which might modify data
-                $queryString = 'EXPLAIN '.$queryString;
+                $queryString = 'EXPLAIN ' . $queryString;
             } elseif ('SELECT' !== $queryType) {
                 return null;
             }
@@ -114,14 +117,14 @@ final class QueryReflection
         $resultType = self::reflector()->getResultType($queryString, $fetchType);
 
         if (null !== $resultType) {
-            if (!$resultType instanceof ConstantArrayType) {
+            if (! $resultType instanceof ConstantArrayType) {
                 throw new ShouldNotHappenException();
             }
 
             if (
                 self::getRuntimeConfiguration()->isUtilizingSqlAst()
             ) {
-                if (!InstalledVersions::isInstalled('sqlftw/sqlftw')) {
+                if (! InstalledVersions::isInstalled('sqlftw/sqlftw')) {
                     throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
                 }
                 $parserInference = new ParserInference($this->getSchemaReflection());
@@ -138,7 +141,7 @@ final class QueryReflection
 
     private function stringifyResult(Type $type): Type
     {
-        if (!$type instanceof ConstantArrayType) {
+        if (! $type instanceof ConstantArrayType) {
             return $type;
         }
 
@@ -333,7 +336,7 @@ final class QueryReflection
                 return null;
             }
 
-            return $leftString.$rightString;
+            return $leftString . $rightString;
         }
 
         if ($queryExpr instanceof Encapsed) {
@@ -463,7 +466,7 @@ final class QueryReflection
 
             if (\is_string($value)) {
                 // XXX escaping
-                $value = "'".$value."'";
+                $value = "'" . $value . "'";
             } elseif (null === $value) {
                 $value = 'NULL';
             } else {
@@ -471,7 +474,7 @@ final class QueryReflection
             }
 
             if (\is_string($placeholderKey)) {
-                $queryString = (string) preg_replace('/'.$placeholderKey.'\\b/', $value, $queryString);
+                $queryString = (string) preg_replace('/' . $placeholderKey . '\\b/', $value, $queryString);
             } else {
                 $queryString = $replaceFirst($queryString, '?', $value);
             }
@@ -483,7 +486,7 @@ final class QueryReflection
     private static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
-            throw new DbaException('Reflector not initialized. Make sure a phpstan bootstrap file is configured which calls '.__CLASS__.'::setupReflector().');
+            throw new DbaException('Reflector not initialized. Make sure a phpstan bootstrap file is configured which calls ' . __CLASS__ . '::setupReflector().');
         }
 
         return self::$reflector;
@@ -492,7 +495,7 @@ final class QueryReflection
     public static function getRuntimeConfiguration(): RuntimeConfiguration
     {
         if (null === self::$runtimeConfiguration) {
-            throw new DbaException('Runtime configuration not initialized. Make sure a phpstan bootstrap file is configured which calls '.__CLASS__.'::setupReflector().');
+            throw new DbaException('Runtime configuration not initialized. Make sure a phpstan bootstrap file is configured which calls ' . __CLASS__ . '::setupReflector().');
         }
 
         return self::$runtimeConfiguration;
@@ -572,7 +575,7 @@ final class QueryReflection
     {
         $reflector = self::reflector();
 
-        if (!$reflector instanceof RecordingReflector) {
+        if (! $reflector instanceof RecordingReflector) {
             throw new DbaException('Query plan analysis is only supported with a recording reflector');
         }
         if ($reflector instanceof PdoPgSqlQueryReflector) {

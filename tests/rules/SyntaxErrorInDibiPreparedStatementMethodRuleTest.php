@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,7 +24,7 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -208,10 +210,10 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/syntax-error-in-dibi-prepared-statement.php';
-        $this->analyse([__DIR__.'/data/syntax-error-in-dibi-prepared-statement.php'], $expectedErrors);
+        require_once __DIR__ . '/data/syntax-error-in-dibi-prepared-statement.php';
+        $this->analyse([__DIR__ . '/data/syntax-error-in-dibi-prepared-statement.php'], $expectedErrors);
     }
 }

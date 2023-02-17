@@ -48,13 +48,13 @@ final class QueryPlanAnalyzerRule implements Rule
     public function processNode(Node $callLike, Scope $scope): array
     {
         if ($callLike instanceof MethodCall) {
-            if (!$callLike->name instanceof Node\Identifier) {
+            if (! $callLike->name instanceof Node\Identifier) {
                 return [];
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
-            if (!$callLike->class instanceof FullyQualified) {
+            if (! $callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
@@ -70,7 +70,7 @@ final class QueryPlanAnalyzerRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
-            if (!\is_string($className) || !\is_string($methodName) || !\is_int($queryArgPosition)) {
+            if (! \is_string($className) || ! \is_string($methodName) || ! \is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
@@ -90,7 +90,7 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $args = $callLike->getArgs();
-        if (!\array_key_exists($queryArgPosition, $args)) {
+        if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 
@@ -142,7 +142,7 @@ final class QueryPlanAnalyzerRule implements Rule
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $suffix = $proposal;
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                $suffix = $proposal."\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
+                $suffix = $proposal . "\n\nSimulated query: " . $queryPlanResult->getSimulatedQuery();
             }
 
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
@@ -150,9 +150,10 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($notUsingIndex as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is not using an index on table '%s'.".$suffix,
+                            "Query is not using an index on table '%s'." . $suffix,
                             $table
-                        ))
+                        )
+                    )
                         ->line($callLike->getLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();
@@ -161,9 +162,10 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingTableScan() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is using a full-table-scan on table '%s'.".$suffix,
+                            "Query is using a full-table-scan on table '%s'." . $suffix,
                             $table
-                        ))
+                        )
+                    )
                         ->line($callLike->getLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/table-scan-avoidance.html')
                         ->build();
@@ -172,9 +174,10 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingUnindexedReads() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                        "Query is triggering too many unindexed-reads on table '%s'.".$suffix,
+                            "Query is triggering too many unindexed-reads on table '%s'." . $suffix,
                             $table
-                        ))
+                        )
+                    )
                         ->line($callLike->getLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();

@@ -13,6 +13,7 @@ final class LazyQueryReflector implements QueryReflector
      * @var callable():QueryReflector
      */
     private $reflectorFactory;
+
     /**
      * @var QueryReflector|null
      */

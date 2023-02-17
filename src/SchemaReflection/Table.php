@@ -13,6 +13,7 @@ final class Table
      * @var string
      */
     private $name;
+
     /**
      * @var list<Column>
      */

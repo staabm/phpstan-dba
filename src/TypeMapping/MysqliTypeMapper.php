@@ -10,10 +10,14 @@ use staabm\PHPStanDba\QueryReflection\DbaApi;
 
 final class MysqliTypeMapper
 {
-    /** @var array<int, string> */
+    /**
+     * @var array<int, string>
+     */
     private $nativeTypes = [];
 
-    /** @var array<int, string> */
+    /**
+     * @var array<int, string>
+     */
     private $nativeFlags = [];
 
     /**
@@ -25,20 +29,20 @@ final class MysqliTypeMapper
     {
         $constants = get_defined_constants(true);
         foreach ($constants['mysqli'] as $c => $n) {
-            if (!\is_int($n)) {
+            if (! \is_int($n)) {
                 // skip bool constants like MYSQLI_IS_MARIADB
                 continue;
             }
             if (1 === preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
-                if (!\is_string($m[1])) {
+                if (! \is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }
                 $this->nativeTypes[$n] = $m[1];
             } elseif (1 === preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
-                if (!\is_string($m[1])) {
+                if (! \is_string($m[1])) {
                     throw new ShouldNotHappenException();
                 }
-                if (!\array_key_exists($n, $this->nativeFlags)) {
+                if (! \array_key_exists($n, $this->nativeFlags)) {
                     $this->nativeFlags[$n] = $m[1];
                 }
             }
@@ -57,7 +61,9 @@ final class MysqliTypeMapper
         return \array_key_exists($typeId, $this->nativeTypes) ? $this->nativeTypes[$typeId] : '';
     }
 
-    /** @return list<string> */
+    /**
+     * @return list<string>
+     */
     private function flags2txt(int $flagId): array
     {
         $result = [];

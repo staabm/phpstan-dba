@@ -36,7 +36,7 @@ final class ParserInference
         $session = new Session($platform);
         $parser = new Parser($session);
 
-//        $queryString = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
+        //        $queryString = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
 
         // returns a Generator. will not parse anything if you don't iterate over it
         $commands = $parser->parse($queryString);
@@ -89,7 +89,7 @@ final class ParserInference
             $valueType = $resultType->getOffsetValueType($offsetType);
 
             $type = $queryScope->getType($expression);
-            if (!$type instanceof MixedType) {
+            if (! $type instanceof MixedType) {
                 $valueType = $type;
             }
 

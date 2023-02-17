@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,7 +24,7 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -32,12 +34,14 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
             self::markTestSkipped('Test requires PHP 7.4.');
         }
 
-        require_once __DIR__.'/data/syntax-error-in-query-function.php';
+        require_once __DIR__ . '/data/syntax-error-in-query-function.php';
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-query-function.php'], $this->getExpectedErrors());
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-function.php'], $this->getExpectedErrors());
     }
 
-    /** @return list<array{string, int}> */
+    /**
+     * @return list<array{string, int}>
+     */
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');
@@ -113,7 +117,7 @@ TEXT
             self::markTestSkipped('Test requires PHP 8.2.');
         }
 
-        $this->analyse([__DIR__.'/data/mysqli_execute_query.php'], [
+        $this->analyse([__DIR__ . '/data/mysqli_execute_query.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 11,

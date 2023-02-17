@@ -51,13 +51,13 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
     public function processNode(Node $callLike, Scope $scope): array
     {
         if ($callLike instanceof MethodCall) {
-            if (!$callLike->name instanceof Node\Identifier) {
+            if (! $callLike->name instanceof Node\Identifier) {
                 return [];
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
-            if (!$callLike->class instanceof FullyQualified) {
+            if (! $callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
@@ -72,7 +72,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
-            if (!\is_string($className) || !\is_string($methodName)) {
+            if (! \is_string($className) || ! \is_string($methodName)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
@@ -132,7 +132,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             }
         }
 
-        if (!\is_string($queryParameters[0])) {
+        if (! \is_string($queryParameters[0])) {
             return [];
         }
 
@@ -169,7 +169,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
                 }
 
                 return [
-                    RuleErrorBuilder::message($placeholderExpectation.', '.$parameterActual.'.')->line($callLike->getLine())->build(),
+                    RuleErrorBuilder::message($placeholderExpectation . ', ' . $parameterActual . '.')->line($callLike->getLine())->build(),
                 ];
             }
         }
@@ -204,11 +204,11 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             $columnsInResult = \count($result->getValueTypes()) / 2;
 
             if ('fetchPairs' === $methodReflection->getName() && 2 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got '.$columnsInResult.'.')->line($callLike->getLine())->build()];
+                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got ' . $columnsInResult . '.')->line($callLike->getLine())->build()];
             }
 
             if ('fetchSingle' === $methodReflection->getName() && 1 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got '.$columnsInResult.'.')->line($callLike->getLine())->build()];
+                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got ' . $columnsInResult . '.')->line($callLike->getLine())->build()];
             }
         }
 

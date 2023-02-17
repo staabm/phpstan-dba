@@ -34,8 +34,8 @@ final class SchemaReflection
             return $this->tables[$tableName];
         }
 
-        $resultType = ($this->queryResolver)('SELECT * FROM '.$tableName);
-        if (!$resultType instanceof ConstantArrayType) {
+        $resultType = ($this->queryResolver)('SELECT * FROM ' . $tableName);
+        if (! $resultType instanceof ConstantArrayType) {
             return $this->tables[$tableName] = null;
         }
 
@@ -43,7 +43,7 @@ final class SchemaReflection
         $valueTypes = $resultType->getValueTypes();
         $columns = [];
         foreach ($keyTypes as $i => $keyType) {
-            if (!$keyType instanceof ConstantStringType) {
+            if (! $keyType instanceof ConstantStringType) {
                 throw new ShouldNotHappenException();
             }
 

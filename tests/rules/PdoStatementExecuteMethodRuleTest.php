@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -19,15 +21,15 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
     public function testParameterErrors(): void
     {
-        require_once __DIR__.'/data/pdo-stmt-execute-error.php';
+        require_once __DIR__ . '/data/pdo-stmt-execute-error.php';
 
-        $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
+        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
             [
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 12,

@@ -31,7 +31,7 @@ final class ChainedReflector implements QueryReflector
 
             // on "not found" error, we try the next reflector.
             if (null !== $reflectorError) {
-                if (!\in_array($reflectorError->getCode(), [MysqliQueryReflector::MYSQL_UNKNOWN_TABLE], true)) {
+                if (! \in_array($reflectorError->getCode(), [MysqliQueryReflector::MYSQL_UNKNOWN_TABLE], true)) {
                     return $reflectorError;
                 }
                 if (true === $nooneKnows) {

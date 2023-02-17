@@ -1,74 +1,76 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use Composer\InstalledVersions;
 use Composer\Semver\VersionParser;
-use function getenv;
 use PHPStan\Testing\TypeInferenceTestCase;
+use function getenv;
 
 class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        yield from $this->gatherAssertTypes(__DIR__.'/data/doctrine-dbal.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
 
         // make sure class constants can be resolved
-        require_once __DIR__.'/data/pdo.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo.php');
+        require_once __DIR__ . '/data/pdo.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo.php');
 
         if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
-            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-pgsql.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-pgsql.php');
         } else {
-            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-mysql.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-mysql.php');
         }
-        yield from $this->gatherAssertTypes(__DIR__.'/data/dibi.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/dibi.php');
 
         // make sure class constants can be resolved
-        require_once __DIR__.'/data/pdo-quote.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-quote.php');
+        require_once __DIR__ . '/data/pdo-quote.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-quote.php');
 
         // make sure class constants can be resolved
-        require_once __DIR__.'/data/pdo-prepare.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-prepare.php');
+        require_once __DIR__ . '/data/pdo-prepare.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-prepare.php');
 
         // make sure class constants can be resolved
-        require_once __DIR__.'/data/pdo-stmt-fetch.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-stmt-fetch.php');
+        require_once __DIR__ . '/data/pdo-stmt-fetch.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-fetch.php');
 
         // make sure class constants can be resolved
-        require_once __DIR__.'/data/pdo-fetch-types.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-fetch-types.php');
+        require_once __DIR__ . '/data/pdo-fetch-types.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-fetch-types.php');
 
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-column-count.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-stmt-execute.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-column-count.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-execute.php');
 
-        yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli-escape.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-escape.php');
 
         // make sure class definitions within the test files are known to reflection
-        require_once __DIR__.'/data/runMysqlQuery.php';
-        yield from $this->gatherAssertTypes(__DIR__.'/data/runMysqlQuery.php');
+        require_once __DIR__ . '/data/runMysqlQuery.php';
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/runMysqlQuery.php');
 
         // TODO pgsql: doesn't resolve null?
         if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
-            yield from $this->gatherAssertTypes(__DIR__.'/data/query-alias.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/query-alias.php');
         }
 
-        yield from $this->gatherAssertTypes(__DIR__.'/data/bug254.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/bug254.php');
 
         if (InstalledVersions::satisfies(new VersionParser(), 'phpstan/phpstan', '^1.4.7')) {
-            yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-stmt-set-fetch-mode.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-set-fetch-mode.php');
         }
 
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-union-result.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/mysqli-union-result.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/pdo-default-fetch-types.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/bug372.php');
-        yield from $this->gatherAssertTypes(__DIR__.'/data/inference-placeholder.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-union-result.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-union-result.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-default-fetch-types.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/bug372.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
 
         if (\PHP_VERSION_ID >= 70400 && 'pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
-            yield from $this->gatherAssertTypes(__DIR__.'/data/sql-ast-narrowing.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/sql-ast-narrowing.php');
         }
     }
 
@@ -80,7 +82,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
     public function testFileAsserts(
         string $assertType,
         string $file,
-               ...$args
+        ...$args
     ): void {
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
@@ -88,8 +90,8 @@ class DbaInferenceTest extends TypeInferenceTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/stubFiles.neon',
-            __DIR__.'/../../config/extensions.neon',
+            __DIR__ . '/../../config/stubFiles.neon',
+            __DIR__ . '/../../config/extensions.neon',
         ];
     }
 }
