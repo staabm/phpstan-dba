@@ -4138,6 +4138,73 @@
         )),
       ),
     ),
+    'SELECT IFNULL(MAX(eladaid),0)+1 as priority from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'priority\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'priority',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'priority',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
     'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1' => 
     array (
       'result' => 
