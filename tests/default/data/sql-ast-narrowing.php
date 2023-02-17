@@ -264,4 +264,19 @@ class Foo
         $stmt = $pdo->query('SELECT round(1.12, 1) as abs from ak');
         assertType('PDOStatement<array{abs: float|int, 0: float|int}>', $stmt);
     }
+
+    public function sum(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT sum(null) as sum from ak');
+        assertType('PDOStatement<array{sum: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT sum(akid) as sum from ak');
+        assertType('PDOStatement<array{sum: int, 0: int}>', $stmt);
+
+        $stmt = $pdo->query('SELECT sum(eladaid) as sum from ak');
+        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT sum(c_double) as sum from typemix');
+        assertType('PDOStatement<array{sum: float, 0: float}>', $stmt);
+    }
 }
