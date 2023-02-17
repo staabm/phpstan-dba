@@ -116,9 +116,10 @@ final class QueryScope
 
         if ($expression instanceof CaseExpression) {
             $resultTypes = [];
-            foreach($expression->getResults() as $result) {
+            foreach ($expression->getResults() as $result) {
                 $resultTypes[] = $this->getType($result);
             }
+
             return TypeCombinator::union(...$resultTypes);
         }
 
