@@ -78,7 +78,7 @@ jobs:
 
       - name: Install sqlftw/sqlftw
         run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.3'}}"
+        if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
       - name: Enable phpstan@dev
         if: "${{matrix.phpstan-version != ''}}"
@@ -129,6 +129,6 @@ jobs:
 
       - name: Install sqlftw/sqlftw
         run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.3'}}"
+        if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
       - run: composer phpstan

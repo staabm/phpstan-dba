@@ -16,6 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - php-version: "7.2"
+            db-image: 'mysql:5.7'
+            reflector: "pdo-mysql"
+            mode: "recording"
           - php-version: "7.3"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
@@ -98,7 +102,7 @@ jobs:
 
     - name: Install sqlftw/sqlftw
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-      if: "${{matrix.php-version != '7.3'}}"
+      if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -150,7 +154,7 @@ jobs:
 
     - name: Install sqlftw/sqlftw
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-      if: "${{matrix.php-version != '7.3'}}"
+      if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
