@@ -101,7 +101,7 @@ final class ReflectionCache
         return $this->schemaHash;
     }
 
-    public function setSchemaHash(string $hash)
+    public function setSchemaHash(string $hash): void
     {
         $this->cacheIsDirty = true;
         $this->schemaHash = $hash;

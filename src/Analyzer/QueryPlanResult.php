@@ -35,7 +35,7 @@ final class QueryPlanResult
     /**
      * @param self::* $result
      */
-    public function addRow(string $table, string $result)
+    public function addRow(string $table, string $result): void
     {
         $this->result[$table] = $result;
     }
