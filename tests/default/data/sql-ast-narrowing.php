@@ -94,7 +94,7 @@ class Foo
             WHEN freigabe1u1 = 50 THEN 'normal'
             ELSE freigabe1u1
         END as val from ada");
-        assertType("PDOStatement<array{val: 'big-one'|'normal'|int<-128, 127>, 0: 'big-one'|'normal'|int<-128, 127>}>", $stmt);
+        assertType("PDOStatement<array{val: 'big-one'|'normal'|int<-128, 127>, 0: 'big-one'|'normal'|int<-128, 127>}>", $stmt); // could be 'big-one'|'normal'|int<-128, 49>
     }
 
     public function concat(PDO $pdo): void
