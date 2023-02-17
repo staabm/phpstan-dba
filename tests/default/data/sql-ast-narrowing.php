@@ -54,6 +54,9 @@ class Foo
 
         $stmt = $pdo->query('SELECT ifnull(gesperrt, freigabe1u1) as col from ada');
         assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT IFNULL(MAX(eladaid),0)+1 as priority from ak');
+        assertType('PDOStatement<array{priority: int, 0: int}>', $stmt); // could be more precise integer range
     }
 
     public function nullif(PDO $pdo): void
