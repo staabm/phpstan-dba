@@ -59,6 +59,7 @@ final class QueryScope
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
             new AvgReturnTypeExtension(),
+            new SumReturnTypeExtension(),
             new IsNullReturnTypeExtension(),
             new AbsReturnTypeExtension(),
             new RoundReturnTypeExtension(),
