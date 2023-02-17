@@ -25,6 +25,12 @@ final class SchemaHasherMysql
      */
     public function __construct($connection)
     {
+        if ($connection instanceof PDO) {
+            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } else {
+            // enable exception throwing on php <8.1
+            mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);
+        }
         $this->connection = $connection;
     }
 
