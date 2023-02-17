@@ -28,7 +28,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
     }
 
     /** @return PDOException|list<PDOColumnMeta>|null */
-    protected function simulateQuery(string $queryString)
+    protected function simulateQuery(string $queryString) // @phpstan-ignore-line
     {
         if (\array_key_exists($queryString, $this->cache)) {
             return $this->cache[$queryString];
