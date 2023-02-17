@@ -37,9 +37,16 @@ final class SchemaHasherMysql
         // for a schema with 3.000 columns we need roughly
         // 70.000 group concat max length
         $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
-        $this->connection->query($maxConcatQuery);
+        $result = $this->connection->query($maxConcatQuery);
+        if ($result) {
+            if ($this->connection instanceof PDO) {
+                $result->close();
+            } else {
+                $result->closeCursor();
+            }
+        }
 
-        $query = '
+       $query = '
             SELECT
                 MD5(
                     GROUP_CONCAT(
@@ -68,6 +75,7 @@ final class SchemaHasherMysql
                 foreach ($stmt as $row) {
                     $hash = $row['dbsignature'] ?? '';
                 }
+                $stmt->closeCursor();
             } finally {
                 $this->connection->rollBack();
             }
@@ -79,6 +87,7 @@ final class SchemaHasherMysql
                 if ($result instanceof \mysqli_result) {
                     $row = $result->fetch_assoc();
                     $hash = $row['dbsignature'] ?? '';
+                    $result->close();
                 }
             } finally {
                 $this->connection->rollback();

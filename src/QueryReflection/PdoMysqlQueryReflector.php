@@ -82,6 +82,8 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
             ++$columnIndex;
         }
 
+        $stmt->closeCursor();
+
         return $this->cache[$queryString];
     }
 
@@ -107,20 +109,24 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
             );
         }
 
-        $this->stmt->execute([$tableName]);
-        $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $this->stmt->execute([$tableName]);
+            $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($result as $row) {
-            $extra = $row['EXTRA'];
-            $columnType = $row['COLUMN_TYPE'];
-            $columnName = $row['COLUMN_NAME'];
+            foreach ($result as $row) {
+                $extra = $row['EXTRA'];
+                $columnType = $row['COLUMN_TYPE'];
+                $columnName = $row['COLUMN_NAME'];
 
-            if (str_contains($extra, 'auto_increment')) {
-                yield $columnName => TypeMapper::FLAG_AUTO_INCREMENT;
+                if (str_contains($extra, 'auto_increment')) {
+                    yield $columnName => TypeMapper::FLAG_AUTO_INCREMENT;
+                }
+                if (str_contains($columnType, 'unsigned')) {
+                    yield $columnName => TypeMapper::FLAG_UNSIGNED;
+                }
             }
-            if (str_contains($columnType, 'unsigned')) {
-                yield $columnName => TypeMapper::FLAG_UNSIGNED;
-            }
+        } finally {
+            $this->stmt->closeCursor();
         }
     }
 }
