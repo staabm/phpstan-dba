@@ -65,7 +65,9 @@ final class SchemaHasherMysql
 
             try {
                 $stmt = $this->connection->query($query);
+                var_dump($stmt === false);
                 foreach ($stmt as $row) {
+                    var_dump($row);
                     $hash = $row['dbsignature'] ?? '';
                 }
             } finally {
@@ -76,8 +78,10 @@ final class SchemaHasherMysql
 
             try {
                 $result = $this->connection->query($query);
+                var_dump($result === false);
                 if ($result instanceof \mysqli_result) {
                     $row = $result->fetch_assoc();
+                    var_dump($row);
                     $hash = $row['dbsignature'] ?? '';
                 }
             } finally {
