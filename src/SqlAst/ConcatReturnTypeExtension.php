@@ -37,7 +37,7 @@ final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtensio
         foreach ($args as $arg) {
             $argType = $scope->getType($arg);
 
-            if (BuiltInFunction::CONCAT == $expression->getFunction()->getName()) {
+            if (BuiltInFunction::CONCAT === $expression->getFunction()->getName()) {
                 if ($argType->isNull()->yes()) {
                     return new NullType();
                 }
@@ -50,8 +50,8 @@ final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtensio
             $argType = TypeCombinator::removeNull($argType);
 
             if (
-                !$argType->isNumericString()->yes()
-                && !$isNumber->isSuperTypeOf($argType)->yes()) {
+                ! $argType->isNumericString()->yes()
+                && ! $isNumber->isSuperTypeOf($argType)->yes()) {
                 $allNumeric = false;
             }
 

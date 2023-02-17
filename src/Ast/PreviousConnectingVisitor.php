@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Ast;
 
-use function array_pop;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use function array_pop;
 
 final class PreviousConnectingVisitor extends NodeVisitorAbstract
 {
     public const ATTRIBUTE_PARENT = 'dba-parent';
+
     public const ATTRIBUTE_PREVIOUS = 'dba-previous';
 
     /**

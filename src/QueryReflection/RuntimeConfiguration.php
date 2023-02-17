@@ -16,10 +16,12 @@ final class RuntimeConfiguration
      * methods should return `false` on error.
      */
     public const ERROR_MODE_BOOL = 'bool';
+
     /**
      * methods will throw exceptions on errors, therefore will never return `false`.
      */
     public const ERROR_MODE_EXCEPTION = 'exception';
+
     /**
      * use whatever the configured php-src version uses per default.
      *
@@ -31,30 +33,37 @@ final class RuntimeConfiguration
      * @var self::ERROR_MODE*
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
+
     /**
      * @var QueryReflector::FETCH_TYPE*
      */
     private $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
+
     /**
      * @var bool
      */
     private $debugMode = false;
+
     /**
      * @var bool
      */
     private $stringifyTypes = false;
+
     /**
      * @var bool
      */
     private $writableQueries = true;
+
     /**
      * @var bool
      */
     private $utilizeSqlAst = false;
+
     /**
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
+
     /**
      * @var false|0|positive-int
      */

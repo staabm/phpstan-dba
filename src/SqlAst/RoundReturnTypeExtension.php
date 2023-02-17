@@ -38,7 +38,7 @@ final class RoundReturnTypeExtension implements QueryFunctionReturnTypeExtension
         $argType = TypeCombinator::removeNull($argType);
 
         if (1 === \count($args)) {
-            if (!$argType instanceof IntegerRangeType) {
+            if (! $argType instanceof IntegerRangeType) {
                 $argType = new IntegerType();
             }
         } else {

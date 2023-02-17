@@ -65,7 +65,7 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
             }
         }
 
-        if (!$this->reflectionProvider->hasClass($className)) {
+        if (! $this->reflectionProvider->hasClass($className)) {
             // XXX should we return NEVER or FALSE on unknown classes?
             return null;
         }

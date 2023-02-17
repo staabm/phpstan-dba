@@ -37,6 +37,7 @@ final class QueryScope
      * @var Table
      */
     private $fromTable;
+
     /**
      * @var list<Table>
      */
@@ -112,7 +113,7 @@ final class QueryScope
                 }
             }
 
-            throw new ShouldNotHappenException('Unable to resolve column '.$expression->getName());
+            throw new ShouldNotHappenException('Unable to resolve column ' . $expression->getName());
         }
 
         if ($expression instanceof CaseExpression) {
@@ -126,7 +127,7 @@ final class QueryScope
 
         if ($expression instanceof FunctionCall) {
             foreach ($this->extensions as $extension) {
-                if (!$extension->isFunctionSupported($expression)) {
+                if (! $extension->isFunctionSupported($expression)) {
                     continue;
                 }
 

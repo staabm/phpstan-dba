@@ -26,7 +26,7 @@ final class IsNullReturnTypeExtension implements QueryFunctionReturnTypeExtensio
             return null;
         }
 
-        if (!TypeCombinator::containsNull($scope->getType($args[0]))) {
+        if (! TypeCombinator::containsNull($scope->getType($args[0]))) {
             return new ConstantIntegerType(0);
         }
 

@@ -15,6 +15,7 @@ final class Column
      * @var string
      */
     private $name;
+
     /**
      * @var Type
      */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -16,10 +18,12 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads;
+
     /**
      * @var positive-int
      */
     private $numberOfRowsNotRequiringIndex;
+
     /**
      * @var bool
      */
@@ -42,7 +46,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -62,29 +66,29 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
         $tip = 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html';
 
-        $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
+        $this->analyse([__DIR__ . '/data/query-plan-analyzer.php'], [
             [
-                "Query is not using an index on table 'ada'.".$proposal,
+                "Query is not using an index on table 'ada'." . $proposal,
                 12,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal,
+                "Query is not using an index on table 'ada'." . $proposal,
                 17,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal,
+                "Query is not using an index on table 'ada'." . $proposal,
                 22,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal,
+                "Query is not using an index on table 'ada'." . $proposal,
                 23,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal,
+                "Query is not using an index on table 'ada'." . $proposal,
                 28,
                 $tip,
             ],
@@ -108,29 +112,29 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
         $tip = 'see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html';
 
-        $this->analyse([__DIR__.'/data/query-plan-analyzer.php'], [
+        $this->analyse([__DIR__ . '/data/query-plan-analyzer.php'], [
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM `ada` WHERE email = 'test@example.com'",
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM `ada` WHERE email = 'test@example.com'",
                 12,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT *,adaid FROM `ada` WHERE email = 'test@example.com'",
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT *,adaid FROM `ada` WHERE email = 'test@example.com'",
                 17,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
                 22,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
                 23,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'.".$proposal."\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM ada WHERE email = '1970-01-01'",
                 28,
                 $tip,
             ],

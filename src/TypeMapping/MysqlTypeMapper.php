@@ -57,7 +57,7 @@ final class MysqlTypeMapper implements TypeMapper
                     $unsigned = true;
                     break;
 
-                // ???
+                    // ???
                 case 'PRI_KEY':
                 case 'PART_KEY':
                 case 'MULTIPLE_KEY':

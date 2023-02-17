@@ -21,12 +21,17 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflector
 {
     private const PSQL_SYNTAX_ERROR = '42601';
+
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
+
     private const PSQL_UNDEFINED_COLUMN = '42703';
+
     private const PSQL_UNDEFINED_TABLE = '42P01';
 
     private const MYSQL_SYNTAX_ERROR_CODE = '42000';
+
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = '42S22';
+
     private const MYSQL_UNKNOWN_TABLE = '42S02';
 
     private const PDO_SYNTAX_ERROR_CODES = [
@@ -62,6 +67,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
      * @phpstan-ignore-next-line
      */
     protected $stmt = null;
+
     /**
      * @var array<string, array<string, list<string>>>
      */
@@ -82,7 +88,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     {
         $result = $this->simulateQuery($queryString);
 
-        if (!$result instanceof PDOException) {
+        if (! $result instanceof PDOException) {
             return null;
         }
 
@@ -108,7 +114,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     {
         $result = $this->simulateQuery($queryString);
 
-        if (!\is_array($result)) {
+        if (! \is_array($result)) {
             return null;
         }
 
@@ -157,7 +163,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         // determine flags of all columns of the given table once
         $schemaFlags = $this->checkInformationSchema($tableName);
         foreach ($schemaFlags as $schemaColumnName => $flag) {
-            if (!\array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
+            if (! \array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
                 $this->emulatedFlags[$tableName][$schemaColumnName] = [];
             }
             $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
@@ -171,9 +177,13 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         return $this->pdo;
     }
 
-    /** @return PDOException|list<ColumnMeta>|null */
+    /**
+     * @return PDOException|list<ColumnMeta>|null
+     */
     abstract protected function simulateQuery(string $queryString);
 
-    /** @return Iterator<string, TypeMapper::FLAG_*> */
+    /**
+     * @return Iterator<string, TypeMapper::FLAG_*>
+     */
     abstract protected function checkInformationSchema(string $tableName);
 }

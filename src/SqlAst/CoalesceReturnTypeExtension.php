@@ -26,7 +26,7 @@ final class CoalesceReturnTypeExtension implements QueryFunctionReturnTypeExtens
             $argType = $scope->getType($arg);
 
             $results[] = $argType;
-            if (!TypeCombinator::containsNull($argType)) {
+            if (! TypeCombinator::containsNull($argType)) {
                 $containsNonNullable = true;
                 break;
             }

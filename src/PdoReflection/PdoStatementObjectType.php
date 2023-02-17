@@ -62,7 +62,7 @@ class PdoStatementObjectType extends GenericObjectType
      */
     private function reduceBothType(Type $bothType, int $fetchType): Type
     {
-        if (!$bothType instanceof ConstantArrayType) {
+        if (! $bothType instanceof ConstantArrayType) {
             return $bothType;
         }
 

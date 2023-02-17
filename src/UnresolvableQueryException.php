@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba;
 
 final class UnresolvableQueryException extends DbaException
@@ -8,6 +10,6 @@ final class UnresolvableQueryException extends DbaException
 
     public function asRuleMessage(): string
     {
-        return 'Unresolvable Query: '.$this->getMessage().'.';
+        return 'Unresolvable Query: ' . $this->getMessage() . '.';
     }
 }

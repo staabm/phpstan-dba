@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,7 +24,7 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -32,12 +34,14 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
             self::markTestSkipped('Test requires PHP 7.4.');
         }
 
-        require_once __DIR__.'/data/syntax-error-in-method-subclassed.php';
+        require_once __DIR__ . '/data/syntax-error-in-method-subclassed.php';
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-method-subclassed.php'], $this->getExpectedErrors());
+        $this->analyse([__DIR__ . '/data/syntax-error-in-method-subclassed.php'], $this->getExpectedErrors());
     }
 
-    /** @return list<array{string, int}> */
+    /**
+     * @return list<array{string, int}>
+     */
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');

@@ -138,7 +138,7 @@ final class ExpressionFinder
         // move to previous expression
         $previousStatement = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PREVIOUS);
         if (null !== $previousStatement) {
-            if (!$previousStatement instanceof Node) {
+            if (! $previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
             }
             $foundNode = $this->findFirst([$previousStatement], $filter);

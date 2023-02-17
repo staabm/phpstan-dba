@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,7 +24,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -278,12 +280,12 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/syntax-error-in-query-method.php';
+        require_once __DIR__ . '/data/syntax-error-in-query-method.php';
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-query-method.php'], $expected);
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-method.php'], $expected);
     }
 
     public function testMysqliExecuteQuery(): void
@@ -292,7 +294,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
             self::markTestSkipped('Test requires PHP 8.2.');
         }
 
-        $this->analyse([__DIR__.'/data/mysqli_execute_query.php'], [
+        $this->analyse([__DIR__ . '/data/mysqli_execute_query.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
                 9,
@@ -302,6 +304,6 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
 
     public function testBugRexstan165()
     {
-        $this->analyse([__DIR__.'/data/bug-rexstan-165.php'], []);
+        $this->analyse([__DIR__ . '/data/bug-rexstan-165.php'], []);
     }
 }

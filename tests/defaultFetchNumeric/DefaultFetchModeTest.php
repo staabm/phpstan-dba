@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Testing\TypeInferenceTestCase;
@@ -8,7 +10,7 @@ class DefaultFetchModeTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        yield from $this->gatherAssertTypes(__DIR__.'/data/modes.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/modes.php');
     }
 
     /**
@@ -19,7 +21,7 @@ class DefaultFetchModeTest extends TypeInferenceTestCase
     public function testFileAsserts(
         string $assertType,
         string $file,
-               ...$args
+        ...$args
     ): void {
         $this->assertFileAsserts($assertType, $file, ...$args);
     }
@@ -27,8 +29,8 @@ class DefaultFetchModeTest extends TypeInferenceTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/stubFiles.neon',
-            __DIR__.'/../../config/extensions.neon',
+            __DIR__ . '/../../config/stubFiles.neon',
+            __DIR__ . '/../../config/extensions.neon',
         ];
     }
 }

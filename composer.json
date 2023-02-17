@@ -43,7 +43,7 @@
 	},
 	"scripts": {
 		"csfix": [
-			"vendor/bin/ecs --ansi"
+			"vendor/bin/ecs --ansi --fix"
 		],
 		"test": [
 			"@putenv DBA_REFLECTOR=mysqli",

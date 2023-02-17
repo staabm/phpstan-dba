@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,7 +24,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
@@ -222,11 +224,11 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/syntax-error-in-prepared-statement.php';
-        $this->analyse([__DIR__.'/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
+        require_once __DIR__ . '/data/syntax-error-in-prepared-statement.php';
+        $this->analyse([__DIR__ . '/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
     }
 
     public function testBug94()
@@ -254,11 +256,11 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/bug-94.php';
-        $this->analyse([__DIR__.'/data/bug-94.php'], $expectedErrors);
+        require_once __DIR__ . '/data/bug-94.php';
+        $this->analyse([__DIR__ . '/data/bug-94.php'], $expectedErrors);
     }
 
     public function testSyntaxErrorWithInferencePlaceholder()
@@ -319,10 +321,10 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/syntax-error-with-inference-placeholder.php';
-        $this->analyse([__DIR__.'/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
+        require_once __DIR__ . '/data/syntax-error-with-inference-placeholder.php';
+        $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
     }
 }

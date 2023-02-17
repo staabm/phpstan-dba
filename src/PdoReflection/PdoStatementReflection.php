@@ -54,7 +54,7 @@ final class PdoStatementReflection
      */
     public function getFetchType(Type $fetchModeType): ?int
     {
-        if (!$fetchModeType instanceof ConstantIntegerType) {
+        if (! $fetchModeType instanceof ConstantIntegerType) {
             return null;
         }
 
