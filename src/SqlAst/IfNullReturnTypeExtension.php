@@ -21,21 +21,12 @@ final class IfNullReturnTypeExtension implements QueryFunctionReturnTypeExtensio
         $args = $expression->getArguments();
 
         $results = [];
-        $containsNonNullable = false;
         foreach ($args as $arg) {
             $argType = $scope->getType($arg);
 
             $results[] = $argType;
-            if (!TypeCombinator::containsNull($argType)) {
-                $containsNonNullable = true;
-            }
         }
 
-        $union = TypeCombinator::union(...$results);
-        if ($containsNonNullable) {
-            return TypeCombinator::removeNull($union);
-        }
-
-        return $union;
+        return TypeCombinator::union(...$results);
     }
 }
