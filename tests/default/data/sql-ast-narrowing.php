@@ -83,6 +83,20 @@ class Foo
         assertType("PDOStatement<array{col: 'a'|'b'|'other', 0: 'a'|'b'|'other'}>", $stmt);
     }
 
+    public function caseWhen(PDO $pdo): void
+    {
+        $stmt = $pdo->query("SELECT CASE 1 WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END as val from ada");
+        assertType("PDOStatement<array{val: 'more'|'one'|'two', 0: 'more'|'one'|'two'}>", $stmt);
+
+        $stmt = $pdo->query("SELECT
+        CASE
+            WHEN freigabe1u1 > 50 THEN 'big-one'
+            WHEN freigabe1u1 = 50 THEN 'normal'
+            ELSE freigabe1u1
+        END as val from ada");
+        assertType("PDOStatement<array{val: 'big-one'|'normal'|int<-128, 127>, 0: 'big-one'|'normal'|int<-128, 127>}>", $stmt);
+    }
+
     public function concat(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT concat(akid, 5000) as col from ak');
