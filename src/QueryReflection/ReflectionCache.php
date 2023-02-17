@@ -213,11 +213,11 @@ final class ReflectionCache
             unset($newRecord);
 
             $cacheContent = '<?php return '.var_export([
-                    'schemaVersion' => self::SCHEMA_VERSION,
-                    'schemaHash' => $this->schemaHash,
-                    'records' => $newRecords,
-                    'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
-                ], true).';';
+                'schemaVersion' => self::SCHEMA_VERSION,
+                'schemaHash' => $this->schemaHash,
+                'records' => $newRecords,
+                'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
+            ], true).';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent, LOCK_EX)) {
                 throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));

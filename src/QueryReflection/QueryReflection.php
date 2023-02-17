@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Composer\InstalledVersions;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
@@ -23,6 +31,8 @@ use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
+use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class QueryReflection
@@ -42,6 +52,11 @@ final class QueryReflection
      * @var RuntimeConfiguration|null
      */
     private static $runtimeConfiguration;
+
+    /**
+     * @var SchemaReflection
+     */
+    private $schemaReflection;
 
     public function __construct(?DbaApi $dbaApi = null)
     {
@@ -96,7 +111,76 @@ final class QueryReflection
             return null;
         }
 
-        return self::reflector()->getResultType($queryString, $fetchType);
+        $resultType = self::reflector()->getResultType($queryString, $fetchType);
+
+        if (null !== $resultType) {
+            if (!$resultType instanceof ConstantArrayType) {
+                throw new ShouldNotHappenException();
+            }
+
+            if (
+                self::getRuntimeConfiguration()->isUtilizingSqlAst()
+            ) {
+                if (!InstalledVersions::isInstalled('sqlftw/sqlftw')) {
+                    throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
+                }
+                $parserInference = new ParserInference($this->getSchemaReflection());
+                $resultType = $parserInference->narrowResultType($queryString, $resultType);
+            }
+
+            if (self::getRuntimeConfiguration()->isStringifyTypes()) {
+                return $this->stringifyResult($resultType);
+            }
+        }
+
+        return $resultType;
+    }
+
+    private function stringifyResult(Type $type): Type
+    {
+        if (!$type instanceof ConstantArrayType) {
+            return $type;
+        }
+
+        $builder = ConstantArrayTypeBuilder::createEmpty();
+
+        $keyTypes = $type->getKeyTypes();
+        foreach ($type->getValueTypes() as $i => $valueType) {
+            $builder->setOffsetValueType($keyTypes[$i], $this->stringifyType($valueType));
+        }
+
+        return $builder->getArray();
+    }
+
+    private function stringifyType(Type $type): Type
+    {
+        $numberType = new UnionType([new IntegerType(), new FloatType()]);
+
+        if ($numberType->isSuperTypeOf($type)->yes()) {
+            $stringified = new IntersectionType([
+                new StringType(),
+                new AccessoryNumericStringType(),
+            ]);
+
+            if (TypeCombinator::containsNull($type)) {
+                return TypeCombinator::addNull($stringified);
+            }
+
+            return $stringified;
+        }
+
+        return $type;
+    }
+
+    private function getSchemaReflection(): SchemaReflection
+    {
+        if (null === $this->schemaReflection) {
+            $this->schemaReflection = new SchemaReflection(function ($queryString) {
+                return self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+            });
+        }
+
+        return $this->schemaReflection;
     }
 
     /**

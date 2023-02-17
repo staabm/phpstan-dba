@@ -9,7 +9,7 @@ use PDO;
 /**
  * This class was kept for BC reasons.
  *
- * @deprected use PdoMysqlQueryReflector instead
+ * @deprecated use PdoMysqlQueryReflector instead
  */
 final class PdoQueryReflector extends PdoMysqlQueryReflector // @phpstan-ignore-line
 {

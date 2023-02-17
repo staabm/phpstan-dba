@@ -76,6 +76,10 @@ jobs:
         with:
           composer-options: "--prefer-dist --no-progress"
 
+      - name: Install sqlftw/sqlftw
+        run: composer require sqlftw/sqlftw --ignore-platform-req=php+
+        if: "${{matrix.php-version != '7.3'}}"
+
       - name: Enable phpstan@dev
         if: "${{matrix.phpstan-version != ''}}"
         run: |
@@ -122,5 +126,9 @@ jobs:
       - uses: "ramsey/composer-install@v2"
         with:
           composer-options: "--prefer-dist --no-progress"
+
+      - name: Install sqlftw/sqlftw
+        run: composer require sqlftw/sqlftw --ignore-platform-req=php+
+        if: "${{matrix.php-version != '7.3'}}"
 
       - run: composer phpstan

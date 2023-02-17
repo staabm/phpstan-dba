@@ -48,6 +48,10 @@ final class RuntimeConfiguration
      */
     private $writableQueries = true;
     /**
+     * @var bool
+     */
+    private $utilizeSqlAst = false;
+    /**
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
@@ -122,6 +126,18 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Enables experimental sql-ast type narrowing.
+     *
+     * Requires "sqlftw/sqlftw" to be additionally installed.
+     */
+    public function utilizeSqlAst(bool $enabled): self
+    {
+        $this->utilizeSqlAst = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Enables query plan analysis, which indicates performance problems.
      *
      * Requires a active database connection.
@@ -171,6 +187,11 @@ final class RuntimeConfiguration
     public function isAnalyzingWriteQueries(): bool
     {
         return $this->writableQueries;
+    }
+
+    public function isUtilizingSqlAst(): bool
+    {
+        return $this->utilizeSqlAst;
     }
 
     /**
