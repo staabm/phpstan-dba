@@ -15,7 +15,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
     {
         if (\PHP_VERSION_ID >= 70400) {
             if (! InstalledVersions::isInstalled('doctrine/dbal')) {
-                throw new \Exception('doctrine/dbal 3.x is required to utilize the sql ast. Please install it via composer.');
+                throw new \Exception('doctrine/dbal 3.x is required to run tests for php 7.4+. Please install it via composer.');
             }
 
             yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
