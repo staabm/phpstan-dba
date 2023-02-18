@@ -60,6 +60,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
             self::markTestSkipped('query plan analyzer requires a active database connection');
         }
 
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('not yet supported on php < 7.4');
+        }
+
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
 
