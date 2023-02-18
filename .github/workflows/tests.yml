@@ -16,6 +16,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - php-version: "7.2"
+            db-image: 'mysql:5.7'
+            reflector: "pdo-mysql"
+            mode: "recording"
           - php-version: "7.3"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
@@ -96,9 +100,13 @@ jobs:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
         composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
-    - name: Install sqlftw/sqlftw
+    - name: Install sqlftw/sqlftw (optional dependency)
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-      if: "${{matrix.php-version != '7.3'}}"
+      if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
+
+    - name: Install doctrine/dbal (optional dependency)
+      run: composer require doctrine/dbal --ignore-platform-req=php+
+      if: "${{matrix.php-version != '7.2'}}"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -148,9 +156,13 @@ jobs:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
         composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
 
-    - name: Install sqlftw/sqlftw
+    - name: Install sqlftw/sqlftw (optional dependency)
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-      if: "${{matrix.php-version != '7.3'}}"
+      if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
+
+    - name: Install doctrine/dbal (optional dependency)
+      run: composer require doctrine/dbal --ignore-platform-req=php+
+      if: "${{matrix.php-version != '7.2'}}"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"

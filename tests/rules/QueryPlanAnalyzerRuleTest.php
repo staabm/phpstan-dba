@@ -60,6 +60,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
             self::markTestSkipped('query plan analyzer requires a active database connection');
         }
 
+        if (\PHP_VERSION_ID < 70300) {
+            self::markTestSkipped('not yet supported on php < 7.3');
+        }
+
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
 
@@ -103,6 +107,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
         if ('recording' !== getenv('DBA_MODE')) {
             self::markTestSkipped('query plan analyzer requires a active database connection');
+        }
+
+        if (\PHP_VERSION_ID < 70300) {
+            self::markTestSkipped('not yet supported on php < 7.3');
         }
 
         $this->debugMode = true;
