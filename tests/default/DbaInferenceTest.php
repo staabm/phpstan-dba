@@ -13,6 +13,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
+        // depends on doctrine/dbal 3.x
         if (\PHP_VERSION_ID >= 70400) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
         }
@@ -69,7 +70,11 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-union-result.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-default-fetch-types.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/bug372.php');
-        yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
+
+        // depends on doctrine/dbal 3.x
+        if (\PHP_VERSION_ID >= 70400) {
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
+        }
 
         if (\PHP_VERSION_ID >= 70400 && 'pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/sql-ast-narrowing.php');
