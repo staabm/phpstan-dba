@@ -9,4 +9,16 @@ class Connection
     public function preparedQuery(string $queryString, array $params)
     {
     }
+
+    public function assembleNoArrays(string $tableName)
+    {
+    }
+
+    public function assembleOneArray(string $tableName, $cols)
+    {
+    }
+
+    public function assembleTwoArrays(string $tableName, $cols1, $cols2)
+    {
+    }
 }

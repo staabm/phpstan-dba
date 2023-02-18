@@ -52,6 +52,26 @@ services:
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
+## use `SyntaxErrorInQueryAssemblerRule` for your custom classes
+
+Reuse the `SyntaxErrorInQueryAssemblerRule` within your PHPStan configuration to detect syntax errors in class methods that construct queries from table and column name variables, by registering a service:
+
+```
+services:
+    -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'My\Connection::truncate'
+                - 'My\Connection::insert#1'
+                - 'My\Connection::delete#1'
+                - 'My\Connection::update#1,2'
+```
+
+__the callable format is `class::method#arrayArgIndex,arrayArgIndex`. phpstan-dba assumes the method takes a table name as the 1st argument and any listed argument indices are arrays with column name keys and column value values.__
+
+
 ## use `QueryPlanAnalyzerRule` for your custom classes
 
 Reuse the `QueryPlanAnalyzerRule` within your PHPStan configuration to detect syntax errors in queries, by registering a service:
