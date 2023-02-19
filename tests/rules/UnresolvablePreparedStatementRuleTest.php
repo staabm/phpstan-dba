@@ -8,7 +8,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
@@ -45,7 +46,12 @@ class UnresolvablePreparedStatementRuleTest extends RuleTestCase
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 11,
-                UnresolvableQueryException::RULE_TIP,
+                UnresolvableQueryMixedTypeException::getTip(),
+            ],
+            [
+                'Unresolvable Query: Cannot resolve query with variable type: string.',
+                30,
+                UnresolvableQueryStringTypeException::getTip(),
             ],
         ]);
     }

@@ -47,4 +47,10 @@ class Foo
         $stmt->bindValue(':email', '%|'.$string.'|%');
         $stmt->execute();
     }
+
+    public function queryStringFragment(PDO $pdo, string $string)
+    {
+        $stmt = $pdo->prepare('SELECT email from ada WHERE '.$string);
+        $stmt->execute([':gesperrt' => 1]);
+    }
 }

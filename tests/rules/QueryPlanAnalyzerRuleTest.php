@@ -8,6 +8,8 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule;
+use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
 /**
  * @extends RuleTestCase<QueryPlanAnalyzerRule>
@@ -149,7 +151,22 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
                 61,
-                'Make sure all variables involved have a non-mixed type and array-types are specified.',
+                UnresolvableQueryMixedTypeException::getTip(),
+            ],
+            [
+                'Unresolvable Query: Cannot resolve query with variable type: string.',
+                67,
+                UnresolvableQueryStringTypeException::getTip(),
+            ],
+            [
+                'Unresolvable Query: Cannot resolve query with variable type: string.',
+                70,
+                UnresolvableQueryStringTypeException::getTip(),
+            ],
+            [
+                'Unresolvable Query: Cannot resolve query with variable type: string.',
+                73,
+                UnresolvableQueryStringTypeException::getTip(),
             ],
         ]);
     }
