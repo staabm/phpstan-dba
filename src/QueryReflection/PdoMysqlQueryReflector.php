@@ -31,7 +31,9 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
         parent::__construct($pdo);
     }
 
-    /** @return PDOException|list<ColumnMeta>|null */
+    /**
+     * @return PDOException|list<ColumnMeta>|null
+     */
     protected function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
@@ -64,12 +66,12 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
         while ($columnIndex < $columnCount) {
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
-            if (false === $columnMeta || !\array_key_exists('table', $columnMeta)) {
-                throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
+            if (false === $columnMeta || ! \array_key_exists('table', $columnMeta)) {
+                throw new ShouldNotHappenException('Failed to get column meta for column index ' . $columnIndex);
             }
 
             //  Native type may not be set, for example in case of JSON column.
-            if (!\array_key_exists('native_type', $columnMeta)) {
+            if (! \array_key_exists('native_type', $columnMeta)) {
                 $columnMeta['native_type'] = \PDO::PARAM_INT === $columnMeta['pdo_type'] ? 'INT' : 'STRING';
             }
 

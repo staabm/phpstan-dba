@@ -47,13 +47,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     public function processNode(Node $callLike, Scope $scope): array
     {
         if ($callLike instanceof MethodCall) {
-            if (!$callLike->name instanceof Node\Identifier) {
+            if (! $callLike->name instanceof Node\Identifier) {
                 return [];
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
-            if (!$callLike->class instanceof FullyQualified) {
+            if (! $callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
@@ -68,7 +68,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
-            if (!\is_string($className) || !\is_string($methodName)) {
+            if (! \is_string($className) || ! \is_string($methodName)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 

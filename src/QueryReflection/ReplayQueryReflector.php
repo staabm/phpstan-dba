@@ -21,7 +21,7 @@ final class ReplayQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if (!$this->reflectionCache->hasValidationError($queryString)) {
+        if (! $this->reflectionCache->hasValidationError($queryString)) {
             return null;
         }
 
@@ -30,7 +30,7 @@ final class ReplayQueryReflector implements QueryReflector
 
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        if (!$this->reflectionCache->hasResultType($queryString, $fetchType)) {
+        if (! $this->reflectionCache->hasResultType($queryString, $fetchType)) {
             return null;
         }
 

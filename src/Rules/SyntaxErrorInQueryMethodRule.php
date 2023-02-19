@@ -40,7 +40,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->name instanceof Node\Identifier) {
+        if (! $node->name instanceof Node\Identifier) {
             return [];
         }
 
@@ -53,7 +53,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
-            if (!\is_string($className) || !\is_string($methodName) || !\is_int($queryArgPosition)) {
+            if (! \is_string($className) || ! \is_string($methodName) || ! \is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
@@ -74,7 +74,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
 
         $args = $node->getArgs();
 
-        if (!\array_key_exists($queryArgPosition, $args)) {
+        if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 

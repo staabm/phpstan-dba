@@ -81,7 +81,7 @@ final class QuerySimulation
 
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
-            && !$paramType->toString() instanceof ErrorType;
+            && ! $paramType->toString() instanceof ErrorType;
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType

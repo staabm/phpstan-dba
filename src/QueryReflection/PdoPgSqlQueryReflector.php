@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use function array_shift;
 use Iterator;
 use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\TypeMapping\PgsqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
+use function array_shift;
 
 /**
  * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
@@ -27,8 +27,10 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
         parent::__construct($pdo);
     }
 
-    /** @return PDOException|list<PDOColumnMeta>|null */
-    protected function simulateQuery(string $queryString)
+    /**
+     * @return PDOException|list<PDOColumnMeta>|null
+     */
+    protected function simulateQuery(string $queryString) // @phpstan-ignore-line
     {
         if (\array_key_exists($queryString, $this->cache)) {
             return $this->cache[$queryString];
@@ -71,8 +73,8 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
             // see https://github.com/php/php-src/blob/master/ext/pdo_pgsql/pgsql_statement.c
             $columnMeta = $stmt->getColumnMeta($columnIndex);
 
-            if (false === $columnMeta || !\array_key_exists('native_type', $columnMeta)) {
-                throw new ShouldNotHappenException('Failed to get column meta for column index '.$columnIndex);
+            if (false === $columnMeta || ! \array_key_exists('native_type', $columnMeta)) {
+                throw new ShouldNotHappenException('Failed to get column meta for column index ' . $columnIndex);
             }
 
             $table = $columnMeta['table'] ?? '';
@@ -110,7 +112,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
                 SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = ?
-                PSQL
+PSQL
             );
         }
 
@@ -123,7 +125,7 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
             $columnName = $row['column_name'];
             $isNullable = 'YES' === $row['is_nullable'];
 
-            if (!$isNullable) {
+            if (! $isNullable) {
                 yield $columnName => PgsqlTypeMapper::FLAG_NOT_NULL;
             }
             if (str_contains($default, 'nextval')) {

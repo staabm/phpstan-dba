@@ -8,10 +8,14 @@ final class DbaApi
 {
     public const API_DIBI = 'dibi';
 
-    /** @var self::API_* */
+    /**
+     * @var self::API_*
+     */
     private $api;
 
-    /** @param self::API_* $api */
+    /**
+     * @param self::API_* $api
+     */
     public function __construct($api)
     {
         $this->api = $api;

@@ -14,9 +14,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper implements TypeMapper
@@ -59,7 +57,7 @@ final class MysqlTypeMapper implements TypeMapper
                     $unsigned = true;
                     break;
 
-                // ???
+                    // ???
                 case 'PRI_KEY':
                 case 'PART_KEY':
                 case 'MULTIPLE_KEY':
@@ -172,18 +170,6 @@ final class MysqlTypeMapper implements TypeMapper
                 default:
                     $phpstanType = new MixedType();
                     break;
-            }
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
-            $numberType = new UnionType([new IntegerType(), new FloatType()]);
-            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
-
-            if ($isNumber) {
-                $phpstanType = new IntersectionType([
-                    new StringType(),
-                    new AccessoryNumericStringType(),
-                ]);
             }
         }
 

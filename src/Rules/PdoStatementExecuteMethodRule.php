@@ -34,7 +34,7 @@ final class PdoStatementExecuteMethodRule implements Rule
 
     public function processNode(Node $methodCall, Scope $scope): array
     {
-        if (!$methodCall->name instanceof Node\Identifier) {
+        if (! $methodCall->name instanceof Node\Identifier) {
             return [];
         }
 

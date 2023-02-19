@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
-use const LOCK_EX;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use const LOCK_EX;
 
 final class ReflectionCache
 {
@@ -57,7 +57,7 @@ final class ReflectionCache
         if (null === self::$lockHandle) {
             // prevent parallel phpstan-worker-process from writing into the cache file at the same time
             // XXX we use a single system-wide lock file, which might get problematic if multiple users run phpstan on the same machine at the same time
-            $lockFile = sys_get_temp_dir().'/staabm-phpstan-dba-cache.lock';
+            $lockFile = sys_get_temp_dir() . '/staabm-phpstan-dba-cache.lock';
             $lockHandle = fopen($lockFile, 'w+');
             if (false === $lockHandle) {
                 throw new DbaException(sprintf('Could not open lock file "%s".', $lockFile));
@@ -101,10 +101,7 @@ final class ReflectionCache
         return $this->schemaHash;
     }
 
-    /**
-     * @return void
-     */
-    public function setSchemaHash(string $hash)
+    public function setSchemaHash(string $hash): void
     {
         $this->cacheIsDirty = true;
         $this->schemaHash = $hash;
@@ -135,7 +132,7 @@ final class ReflectionCache
      */
     private function readCachedRecords(bool $useReadLock): ?array
     {
-        if (!is_file($this->cacheFile)) {
+        if (! is_file($this->cacheFile)) {
             if (false === file_put_contents($this->cacheFile, '', LOCK_EX)) {
                 throw new DbaException(sprintf('Cache file "%s" is not readable and creating a new one did not succeed.', $this->cacheFile));
             }
@@ -159,9 +156,9 @@ final class ReflectionCache
             }
         }
 
-        if (!\is_array($cache) ||
-            !\array_key_exists('schemaVersion', $cache) ||
-            !\array_key_exists('schemaHash', $cache) ||
+        if (! \is_array($cache) ||
+            ! \array_key_exists('schemaVersion', $cache) ||
+            ! \array_key_exists('schemaHash', $cache) ||
             self::SCHEMA_VERSION !== $cache['schemaVersion']) {
             return null;
         }
@@ -177,7 +174,7 @@ final class ReflectionCache
             return null;
         }
 
-        if (!\is_array($cache['records'])) {
+        if (! \is_array($cache['records'])) {
             throw new ShouldNotHappenException();
         }
 
@@ -212,12 +209,12 @@ final class ReflectionCache
 
             unset($newRecord);
 
-            $cacheContent = '<?php return '.var_export([
+            $cacheContent = '<?php return ' . var_export([
                 'schemaVersion' => self::SCHEMA_VERSION,
                 'schemaHash' => $this->schemaHash,
                 'records' => $newRecords,
                 'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
-            ], true).';';
+            ], true) . ';';
 
             if (false === file_put_contents($this->cacheFile, $cacheContent, LOCK_EX)) {
                 throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
@@ -236,7 +233,7 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             return false;
         }
 
@@ -252,12 +249,12 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
-        if (!\array_key_exists('error', $cacheEntry)) {
+        if (! \array_key_exists('error', $cacheEntry)) {
             return null;
         }
 
@@ -268,12 +265,12 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
             $this->cacheIsDirty = true;
         }
 
-        if (!\array_key_exists('error', $this->records[$queryString]) || $this->records[$queryString]['error'] !== $error) {
+        if (! \array_key_exists('error', $this->records[$queryString]) || $this->records[$queryString]['error'] !== $error) {
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = $error;
             $this->cacheIsDirty = true;
         }
@@ -288,12 +285,12 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             return false;
         }
 
         $cacheEntry = $this->records[$queryString];
-        if (!\array_key_exists('result', $cacheEntry)) {
+        if (! \array_key_exists('result', $cacheEntry)) {
             return false;
         }
 
@@ -309,16 +306,16 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
         $cacheEntry = $this->records[$queryString];
-        if (!\array_key_exists('result', $cacheEntry)) {
+        if (! \array_key_exists('result', $cacheEntry)) {
             throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
-        if (!\array_key_exists($fetchType, $cacheEntry['result'])) {
+        if (! \array_key_exists($fetchType, $cacheEntry['result'])) {
             throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
 
@@ -332,18 +329,18 @@ final class ReflectionCache
     {
         $records = $this->lazyReadRecords();
 
-        if (!\array_key_exists($queryString, $records)) {
+        if (! \array_key_exists($queryString, $records)) {
             $this->changes[$queryString] = $this->records[$queryString] = [];
             $this->cacheIsDirty = true;
         }
 
-        if (!\array_key_exists('result', $this->records[$queryString])) {
+        if (! \array_key_exists('result', $this->records[$queryString])) {
             $this->changes[$queryString]['result'] = $this->records[$queryString]['result'] = [];
             $this->cacheIsDirty = true;
         }
 
         // @phpstan-ignore-next-line
-        if (!\array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
+        if (! \array_key_exists($fetchType, $this->records[$queryString]['result']) || $this->records[$queryString]['result'][$fetchType] !== $resultType) {
             $this->changes[$queryString]['result'][$fetchType] = $this->records[$queryString]['result'][$fetchType] = $resultType;
             $this->cacheIsDirty = true;
         }

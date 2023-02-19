@@ -19,14 +19,17 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
      * @var RecordingQueryReflector|null
      */
     private $recordingReflector = null;
+
     /**
      * @var QueryReflector
      */
     private $queryReflector;
+
     /**
      * @var ReflectionCache
      */
     private $reflectionCache;
+
     /**
      * @var SchemaHasherMysql
      */

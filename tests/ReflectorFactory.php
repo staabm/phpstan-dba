@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use mysqli;
@@ -44,10 +46,10 @@ final class ReflectorFactory
         $cacheFile = sprintf(
             '%s/.phpunit-phpstan-dba-%s.cache',
             $cacheDir,
-            $reflector,
+            $reflector
         );
         if (\defined('__PHPSTAN_RUNNING__')) {
-            $cacheFile = $cacheDir.'/.phpstan-dba-'.$reflector.'.cache';
+            $cacheFile = $cacheDir . '/.phpstan-dba-' . $reflector . '.cache';
         }
 
         if (str_starts_with($mode, 'empty-')) {
@@ -74,7 +76,7 @@ final class ReflectorFactory
                 $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
                 $reflector = new PdoPgSqlQueryReflector($pdo);
             } else {
-                throw new \RuntimeException('Unknown reflector: '.$reflector);
+                throw new \RuntimeException('Unknown reflector: ' . $reflector);
             }
 
             if ('replay-and-recording' === $mode) {
@@ -98,7 +100,7 @@ final class ReflectorFactory
                 $reflectionCache
             );
         } else {
-            throw new \RuntimeException('Unknown mode: '.$mode);
+            throw new \RuntimeException('Unknown mode: ' . $mode);
         }
 
         return $reflector;

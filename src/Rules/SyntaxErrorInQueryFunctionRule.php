@@ -48,7 +48,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->name instanceof Node\Name) {
+        if (! $node->name instanceof Node\Name) {
             return [];
         }
 
@@ -61,7 +61,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         $unsupportedFunction = true;
         foreach ($this->functionNames as $functionName) {
             sscanf($functionName, '%[^#]#%i', $functionName, $queryArgPosition);
-            if (!\is_string($functionName) || !\is_int($queryArgPosition)) {
+            if (! \is_string($functionName) || ! \is_int($queryArgPosition)) {
                 throw new ShouldNotHappenException('Invalid functionName definition');
             }
 
@@ -80,7 +80,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
         $args = $node->getArgs();
 
-        if (!\array_key_exists($queryArgPosition, $args)) {
+        if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 

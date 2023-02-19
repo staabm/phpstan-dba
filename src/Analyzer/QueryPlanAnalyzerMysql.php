@@ -17,12 +17,14 @@ final class QueryPlanAnalyzerMysql
      * @deprecated use QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD instead
      */
     public const DEFAULT_UNINDEXED_READS_THRESHOLD = QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD;
+
     /**
      * @api
      *
      * @deprecated use QueryPlanAnalyzer::TABLES_WITHOUT_DATA instead
      */
     public const TABLES_WITHOUT_DATA = QueryPlanAnalyzer::TABLES_WITHOUT_DATA;
+
     /**
      * @api
      *
@@ -48,7 +50,7 @@ final class QueryPlanAnalyzerMysql
      */
     public function analyze(string $query): QueryPlanResult
     {
-        $simulatedQuery = 'EXPLAIN '.$query;
+        $simulatedQuery = 'EXPLAIN ' . $query;
 
         if ($this->connection instanceof PDO) {
             $this->connection->beginTransaction();

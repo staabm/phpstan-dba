@@ -77,7 +77,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             $type = PDO::PARAM_STR;
         } else {
             $typeType = $scope->getType($args[1]->value);
-            if (!$typeType instanceof ConstantIntegerType) {
+            if (! $typeType instanceof ConstantIntegerType) {
                 return null;
             }
             $type = $typeType->getValue();
