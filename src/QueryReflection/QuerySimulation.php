@@ -96,7 +96,7 @@ final class QuerySimulation
 
             // plain string types can contain anything.. we cannot reason about it
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                throw new UnresolvableQueryStringTypeException('Cannot resolve query with variable type: '.$paramType->describe(VerbosityLevel::precise()));
+                throw new UnresolvableQueryStringTypeException('Cannot resolve query with variable type: ' . $paramType->describe(VerbosityLevel::precise()));
             }
 
             return null;
@@ -118,7 +118,7 @@ final class QuerySimulation
         // all types which we can't simulate and render a query unresolvable at analysis time
         if ($paramType instanceof MixedType || $paramType instanceof IntersectionType) {
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                throw new UnresolvableQueryMixedTypeException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
+                throw new UnresolvableQueryMixedTypeException('Cannot simulate parameter value for type: ' . $paramType->describe(VerbosityLevel::precise()));
             }
 
             return null;
