@@ -23,7 +23,6 @@ class DbaInferenceTest extends TypeInferenceTestCase
         }
 
         // make sure class constants can be resolved
-        require_once __DIR__ . '/data/pdo.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo.php');
 
         if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
@@ -32,31 +31,15 @@ class DbaInferenceTest extends TypeInferenceTestCase
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-mysql.php');
         }
         yield from $this->gatherAssertTypes(__DIR__ . '/data/dibi.php');
-
-        // make sure class constants can be resolved
-        require_once __DIR__ . '/data/pdo-quote.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-quote.php');
-
-        // make sure class constants can be resolved
-        require_once __DIR__ . '/data/pdo-prepare.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-prepare.php');
-
-        // make sure class constants can be resolved
-        require_once __DIR__ . '/data/pdo-stmt-fetch.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-fetch.php');
-
-        // make sure class constants can be resolved
-        require_once __DIR__ . '/data/pdo-fetch-types.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-fetch-types.php');
-
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-column-count.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-execute.php');
-
         yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-escape.php');
 
-        // make sure class definitions within the test files are known to reflection
-        require_once __DIR__ . '/data/runMysqlQuery.php';
         yield from $this->gatherAssertTypes(__DIR__ . '/data/runMysqlQuery.php');
 
         // TODO pgsql: doesn't resolve null?

@@ -27,8 +27,6 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
 
     public function testParameterErrors(): void
     {
-        require_once __DIR__ . '/data/pdo-stmt-execute-error.php';
-
         $this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
             [
                 'Query expects placeholder :adaid, but it is missing from values given.',

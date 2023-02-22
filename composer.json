@@ -37,7 +37,11 @@
 			"staabm\\PHPStanDba\\Tests\\": "tests/"
 		},
 		"classmap": [
-			"tests/default/data/runMysqlQuery.php"
+			"tests/default/data/",
+			"tests/defaultFetchAssoc/data/",
+			"tests/defaultFetchNumeric/data/",
+			"tests/rules/data/",
+			"tests/stringify/data/"
 		]
 	},
 	"scripts": {
