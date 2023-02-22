@@ -341,7 +341,7 @@ final class QueryReflection
             if (null !== $placeholder) {
                 return $placeholder;
             }
-            
+
             if ('sql' === PhpDocUtil::matchTaintEscape($queryExpr, $scope)) {
                 return '1';
             }
