@@ -34,8 +34,6 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
             self::markTestSkipped('Test requires PHP 7.4.');
         }
 
-        require_once __DIR__ . '/data/syntax-error-in-query-function.php';
-
         $this->analyse([__DIR__ . '/data/syntax-error-in-query-function.php'], $this->getExpectedErrors());
     }
 

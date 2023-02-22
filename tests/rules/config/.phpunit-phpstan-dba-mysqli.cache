@@ -1957,17 +1957,6 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1064,
       )),
     ),
-    'SELECT email adaid
-            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
-            FROM ada
-            LIMIT        1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3',
-         'code' => 1064,
-      )),
-    ),
     'SELECT email adaid WHERE gesperrt FROM ada' => 
     array (
       'error' => 
@@ -2133,14 +2122,26 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
               2 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
               3 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
@@ -2176,7 +2177,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -2187,7 +2194,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             2 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),

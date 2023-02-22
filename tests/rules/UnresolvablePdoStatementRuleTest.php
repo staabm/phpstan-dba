@@ -40,8 +40,6 @@ class UnresolvablePdoStatementRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        require_once __DIR__ . '/data/unresolvable-pdo-statement.php';
-
         $this->analyse([__DIR__ . '/data/unresolvable-pdo-statement.php'], [
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',

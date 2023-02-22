@@ -40,8 +40,6 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        require_once __DIR__ . '/data/unresolvable-query-in-method.php';
-
         $this->analyse([__DIR__ . '/data/unresolvable-query-in-method.php'], [
             [
                 'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
@@ -68,8 +66,6 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
 
     public function testBug536(): void
     {
-        require_once __DIR__ . '/data/bug-536.php';
-
         $this->analyse([__DIR__ . '/data/bug-536.php'], []);
     }
 }

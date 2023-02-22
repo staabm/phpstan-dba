@@ -213,7 +213,6 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
             throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__ . '/data/syntax-error-in-dibi-prepared-statement.php';
         $this->analyse([__DIR__ . '/data/syntax-error-in-dibi-prepared-statement.php'], $expectedErrors);
     }
 }
