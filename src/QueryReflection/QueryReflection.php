@@ -337,13 +337,13 @@ final class QueryReflection
         }
 
         if ($queryExpr instanceof Expr\CallLike) {
-            if ('sql' === PhpDocUtil::matchTaintEscape($queryExpr, $scope)) {
-                return '1';
-            }
-
             $placeholder = PhpDocUtil::matchInferencePlaceholder($queryExpr, $scope);
             if (null !== $placeholder) {
                 return $placeholder;
+            }
+
+            if ('sql' === PhpDocUtil::matchTaintEscape($queryExpr, $scope)) {
+                return '1';
             }
         }
 

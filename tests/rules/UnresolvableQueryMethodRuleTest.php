@@ -65,4 +65,11 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
             ],
         ]);
     }
+
+    public function testBug536(): void
+    {
+        require_once __DIR__ . '/data/bug-536.php';
+
+        $this->analyse([__DIR__ . '/data/bug-536.php'], []);
+    }
 }
