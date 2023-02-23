@@ -23,7 +23,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 /**
  * @implements Rule<CallLike>
  *
- * @see SyntaxErrorInQueryAssemblerRuleTest
+ * @see DoctrineKeyValueStyleRuleTest
  */
 final class DoctrineKeyValueStyleRule implements Rule
 {
