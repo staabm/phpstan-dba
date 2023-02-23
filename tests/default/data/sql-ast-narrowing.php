@@ -285,4 +285,18 @@ class Foo
         $stmt = $pdo->query('SELECT sum(c_double) as sum from typemix');
         assertType('PDOStatement<array{sum: float, 0: float}>', $stmt);
     }
+
+    public function strReplace(PDO $pdo) {
+        $stmt = $pdo->query("SELECT REPLACE('www.mysql.com', 'w', 'Ww') as str from ada");
+        assertType('PDOStatement<array{str: non-empty-string, 0: non-empty-string}>', $stmt);
+
+        $stmt = $pdo->query("SELECT REPLACE('www.mysql.com', 'w', 'Ww') as str from ada");
+        assertType('PDOStatement<array{str: non-empty-string, 0: non-empty-string}>', $stmt);
+
+        $stmt = $pdo->query("SELECT REPLACE('www.mysql.com', 'w', 'Ww') as str from ada");
+        assertType('PDOStatement<array{str: non-empty-string, 0: non-empty-string}>', $stmt);
+
+        $stmt = $pdo->query("SELECT REPLACE(email, 'w', 'Ww') as str from ada");
+        assertType('PDOStatement<array{str: string, 0: string}>', $stmt);
+    }
 }
