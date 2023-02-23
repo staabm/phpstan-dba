@@ -63,6 +63,18 @@ services:
                 - 'mysqli_execute_query#1'
 
     -
+        class: staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classMethods:
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::assembleNoArrays'
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::assembleOneArray#1'
+                - 'staabm\PHPStanDba\Tests\Fixture\Connection::assembleTwoArrays#1,2'
+                - 'Doctrine\DBAL\Connection::insert#1'
+                - 'Doctrine\DBAL\Connection::delete#1'
+                - 'Doctrine\DBAL\Connection::update#1,2'
+
+    -
         class: staabm\PHPStanDba\Rules\QueryPlanAnalyzerRule
         tags: [phpstan.rules.rule]
         arguments:

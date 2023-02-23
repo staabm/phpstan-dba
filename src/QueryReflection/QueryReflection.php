@@ -176,7 +176,7 @@ final class QueryReflection
         return $type;
     }
 
-    private function getSchemaReflection(): SchemaReflection
+    public function getSchemaReflection(): SchemaReflection
     {
         if (null === $this->schemaReflection) {
             $this->schemaReflection = new SchemaReflection(function ($queryString) {
