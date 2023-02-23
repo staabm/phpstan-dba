@@ -6,16 +6,17 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryAssemblerRule;
 
 /**
- * @extends RuleTestCase<SyntaxErrorInQueryAssemblerRule>
+ * @extends RuleTestCase<DoctrineKeyValueStyleRule>
  */
-class SyntaxErrorInQueryAssemblerRuleTest extends RuleTestCase
+class DoctrineKeyValueStyleRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(SyntaxErrorInQueryAssemblerRule::class);
+        return self::getContainer()->getByType(DoctrineKeyValueStyleRule::class);
     }
 
     public static function getAdditionalConfigFiles(): array
@@ -62,7 +63,7 @@ class SyntaxErrorInQueryAssemblerRuleTest extends RuleTestCase
             ],
         ];
 
-        require_once __DIR__ . '/data/syntax-error-in-query-assembler.php';
-        $this->analyse([__DIR__ . '/data/syntax-error-in-query-assembler.php'], $expectedErrors);
+        require_once __DIR__ . '/data/doctrine-key-value-style.php';
+        $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
     }
 }
