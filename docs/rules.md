@@ -55,6 +55,7 @@ __the callable format is `funtionName#parameterIndex`, while the parameter-index
 ## use `DoctrineKeyValueStyleRule` for your custom classes
 
 Reuse the `DoctrineKeyValueStyleRule` within your PHPStan configuration to detect syntax errors in class methods that construct queries from table and column name variables, by registering a service:
+The rule is designed around doctrine's [data-retrieval-and-manipulation-api](https://www.doctrine-project.org/projects/doctrine-dbal/en/current/reference/data-retrieval-and-manipulation.html#insert).
 
 ```
 services:
