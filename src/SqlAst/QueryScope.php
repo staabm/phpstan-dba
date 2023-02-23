@@ -24,6 +24,7 @@ use SqlFtw\Sql\Expression\NullLiteral;
 use SqlFtw\Sql\Expression\NumericValue;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
+use staabm\PHPStanDba\SchemaReflection\Join;
 use staabm\PHPStanDba\SchemaReflection\Table;
 
 final class QueryScope
@@ -39,12 +40,12 @@ final class QueryScope
     private $fromTable;
 
     /**
-     * @var list<Table>
+     * @var list<Join>
      */
     private $joinedTables;
 
     /**
-     * @param list<Table> $joinedTables
+     * @param list<Join> $joinedTables
      */
     public function __construct(Table $fromTable, array $joinedTables)
     {
@@ -106,10 +107,15 @@ final class QueryScope
                 }
             }
 
-            foreach ($this->joinedTables as $joinedTable) {
+            foreach ($this->joinedTables as $join) {
+                $joinedTable = $join->getTable();
+
                 foreach ($joinedTable->getColumns() as $column) {
                     if ($column->getName() === $expression->getName()) {
-                        return $column->getType();
+                        if ($join->getType() === Join::TYPE_OUTER) {
+                            return TypeCombinator::addNull($column->getType());
+                        }
+                        return TypeCombinator::removeNull($column->getType());
                     }
                 }
             }

@@ -15,7 +15,9 @@ use SqlFtw\Platform\Platform;
 use SqlFtw\Session\Session;
 use SqlFtw\Sql\Dml\Query\SelectCommand;
 use SqlFtw\Sql\Dml\TableReference\Join;
+use SqlFtw\Sql\Dml\TableReference\OuterJoin;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
+use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 
 final class ParserInference
@@ -56,12 +58,19 @@ final class ParserInference
                     $fromName = $from->getTable()->getName();
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
+                    if ($fromTable === null) {
+                        $fromName = $from->getLeft()->getTable()->getName();
+                        $fromTable = $this->schemaReflection->getTable($fromName);
+                    }
                     // @phpstan-ignore-next-line
                     $joinName = $from->getRight()->getTable()->getName();
                     $joinedTable = $this->schemaReflection->getTable($joinName);
 
                     if (null !== $joinedTable) {
-                        $joinedTables[] = $joinedTable;
+                        $joinedTables[] = new SchemaJoin(
+                            $from instanceof OuterJoin ? SchemaJoin::TYPE_OUTER : SchemaJoin::TYPE_INNER,
+                            $joinedTable
+                        );
                     }
                 }
             }
@@ -84,6 +93,8 @@ final class ParserInference
             $aliasOffsetType = null;
             if (null !== $column->getAlias()) {
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
+            } elseif (method_exists($expression, 'getName')) {
+                $aliasOffsetType = new ConstantStringType($expression->getName());
             }
 
             $valueType = $resultType->getOffsetValueType($offsetType);
