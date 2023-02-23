@@ -303,6 +303,7 @@ class Foo
         $stmt = $pdo->query("SELECT REPLACE(c_varchar25, 'w', 'Ww') as str from typemix");
         assertType('PDOStatement<array{str: string|null, 0: string|null}>', $stmt);
     }
+
     public function joinNullable(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT adaid, eladaid from ada join ak on (adaid = eladaid)');
