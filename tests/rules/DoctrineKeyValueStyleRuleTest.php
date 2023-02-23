@@ -62,7 +62,6 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
             ],
         ];
 
-        require_once __DIR__ . '/data/doctrine-key-value-style.php';
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
     }
 }
