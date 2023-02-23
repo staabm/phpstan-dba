@@ -25,7 +25,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
  *
  * @see SyntaxErrorInQueryAssemblerRuleTest
  */
-final class SyntaxErrorInQueryAssemblerRule implements Rule
+final class DoctrineKeyValueStyleRule implements Rule
 {
     /**
      * @var array<array{string, string, list<int>}>
