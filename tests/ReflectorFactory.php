@@ -18,9 +18,11 @@ use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 
 final class ReflectorFactory
 {
-    const MODE_RECORDING = 'recording';
-    const MODE_REPLAY = 'replay';
-    const MODE_REPLAY_AND_RECORDING = 'replay-and-recording';
+    public const MODE_RECORDING = 'recording';
+
+    public const MODE_REPLAY = 'replay';
+
+    public const MODE_REPLAY_AND_RECORDING = 'replay-and-recording';
 
     public static function create(string $cacheDir): QueryReflector
     {
