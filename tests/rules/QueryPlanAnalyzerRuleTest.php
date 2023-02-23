@@ -58,7 +58,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
             self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
         }
 
-        if ('recording' !== getenv('DBA_MODE')) {
+        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
             self::markTestSkipped('query plan analyzer requires a active database connection');
         }
 
@@ -107,7 +107,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
             self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
         }
 
-        if ('recording' !== getenv('DBA_MODE')) {
+        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
             self::markTestSkipped('query plan analyzer requires a active database connection');
         }
 

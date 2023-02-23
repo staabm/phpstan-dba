@@ -18,6 +18,12 @@ use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 
 final class ReflectorFactory
 {
+    public const MODE_RECORDING = 'recording';
+
+    public const MODE_REPLAY = 'replay';
+
+    public const MODE_REPLAY_AND_RECORDING = 'replay-and-recording';
+
     public static function create(string $cacheDir): QueryReflector
     {
         // handle defaults
@@ -26,7 +32,7 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: 'root';
             $password = getenv('DBA_PASSWORD') ?: 'root';
             $dbname = getenv('DBA_DATABASE') ?: 'phpstan_dba';
-            $mode = getenv('DBA_MODE') ?: 'recording';
+            $mode = getenv('DBA_MODE') ?: self::MODE_RECORDING;
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
         } else {
             $host = getenv('DBA_HOST') ?: $_ENV['DBA_HOST'];
@@ -61,7 +67,7 @@ final class ReflectorFactory
             $cacheFile
         );
 
-        if ('recording' === $mode || 'replay-and-recording' === $mode) {
+        if (self::MODE_RECORDING === $mode || self::MODE_REPLAY_AND_RECORDING === $mode) {
             $schemaHasher = null;
 
             if ('mysqli' === $reflector) {
@@ -79,7 +85,7 @@ final class ReflectorFactory
                 throw new \RuntimeException('Unknown reflector: ' . $reflector);
             }
 
-            if ('replay-and-recording' === $mode) {
+            if (self::MODE_REPLAY_AND_RECORDING === $mode) {
                 if (null === $schemaHasher) {
                     throw new \RuntimeException('Schema hasher required.');
                 }
@@ -95,7 +101,7 @@ final class ReflectorFactory
                     $reflector
                 );
             }
-        } elseif ('replay' === $mode) {
+        } elseif (self::MODE_REPLAY === $mode) {
             $reflector = new ReplayQueryReflector(
                 $reflectionCache
             );
