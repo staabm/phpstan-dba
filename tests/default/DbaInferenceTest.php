@@ -30,7 +30,12 @@ class DbaInferenceTest extends TypeInferenceTestCase
         } else {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-mysql.php');
         }
-        yield from $this->gatherAssertTypes(__DIR__ . '/data/dibi.php');
+
+        // DbaApi related tests cannot be replayed, because cache file keys do not reflect the used DbaApi
+        if (ReflectorFactory::MODE_RECORDING === getenv('DBA_MODE')) {
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/dibi.php');
+        }
+
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-quote.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-prepare.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-fetch.php');
