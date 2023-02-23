@@ -52,14 +52,14 @@ services:
 
 __the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
-## use `SyntaxErrorInQueryAssemblerRule` for your custom classes
+## use `DoctrineKeyValueStyleRule` for your custom classes
 
-Reuse the `SyntaxErrorInQueryAssemblerRule` within your PHPStan configuration to detect syntax errors in class methods that construct queries from table and column name variables, by registering a service:
+Reuse the `DoctrineKeyValueStyleRule` within your PHPStan configuration to detect syntax errors in class methods that construct queries from table and column name variables, by registering a service:
 
 ```
 services:
     -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule
+        class: staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule
         tags: [phpstan.rules.rule]
         arguments:
             classMethods:

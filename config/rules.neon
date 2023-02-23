@@ -63,7 +63,7 @@ services:
                 - 'mysqli_execute_query#1'
 
     -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryAssemblerRule
+        class: staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule
         tags: [phpstan.rules.rule]
         arguments:
             classMethods:
