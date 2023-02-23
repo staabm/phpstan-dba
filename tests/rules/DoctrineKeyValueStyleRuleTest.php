@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryAssemblerRule;
 
 /**
  * @extends RuleTestCase<DoctrineKeyValueStyleRule>
