@@ -1,6 +1,6 @@
 <?php
 
-namespace SyntaxErrorInQueryAssemblerRuleTest;
+namespace DoctrineKeyValueStyleRuleTest;
 
 use staabm\PHPStanDba\Tests\Fixture\Connection;
 
