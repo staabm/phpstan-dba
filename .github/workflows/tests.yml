@@ -20,72 +20,72 @@ jobs:
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer: "--prefer-lowest"
+            composer-options: "--prefer-lowest"
 
           - php-version: "7.2"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: "7.3"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: "7.4"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
 
           - php-version: "8.2"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: '8.2'
             db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "replay-and-recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-replay-and-recording"
-            composer: "--prefer-dist"
+            composer-options: "--prefer-dist"
 
     env:
       DBA_REFLECTOR: ${{ matrix.reflector }}
@@ -117,7 +117,7 @@ jobs:
       if: "${{matrix.php-version != '7.2'"
       with:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "${{matrix.php-version}} --no-progress --ignore-platform-req=php+"
+        composer-options: "${{matrix.composer-options}} --no-progress --ignore-platform-req=php+"
 
     - name: Install sqlftw/sqlftw (optional dependency)
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
