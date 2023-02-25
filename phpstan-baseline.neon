@@ -6,6 +6,11 @@ parameters:
 			path: src/DbSchema/SchemaHasherMysql.php
 
 		-
+			message: "#^Unresolvable Query\\: Cannot resolve query with variable type\\: non\\-empty\\-string\\.$#"
+			count: 2
+			path: src/Analyzer/QueryPlanAnalyzerMysql.php
+
+		-
 			message: "#^Instanceof between mysqli_result\\<array\\<string, int\\<\\-128, 127\\>\\|string\\|null\\>\\> and mysqli_result will always evaluate to true\\.$#"
 			count: 1
 			path: src/DbSchema/SchemaHasherMysql.php

@@ -52,4 +52,14 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         assertType('PDOStatement<array{adaid: int<-32768, 32767>}>', $stmt);
     }
+
+    public function bug541(PDO $pdo)
+    {
+        $query = 'SELECT email, adaid FROM ada';
+        $query .= 'WHERE email <=> :email';
+        $stmt = $pdo->prepare($query);
+        assertType('PDOStatement', $stmt);
+        $stmt->execute([':email' => null]);
+        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+    }
 }

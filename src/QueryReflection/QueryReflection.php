@@ -270,8 +270,9 @@ final class QueryReflection
     {
         $type = $scope->getType($queryExpr);
 
-        if ($type instanceof UnionType) {
-            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+        $constantStrings = $type->getConstantStrings();
+        if (count($constantStrings) > 0) {
+            foreach ($constantStrings as $constantString) {
                 yield QuerySimulation::stripComments($this->normalizeQueryString($constantString->getValue()));
             }
 
