@@ -81,6 +81,9 @@
 			"phpstan analyse -c tests/defaultFetchAssoc/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/defaultFetchNumeric/config/phpstan.neon.dist"
 		],
+		"phpstan-baseline": [
+			"phpstan analyse -c phpstan.neon.dist --generate-baseline"
+		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
 			"phpunit -c tests/rules/config/phpunit.xml",
