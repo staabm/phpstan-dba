@@ -396,6 +396,16 @@
         )),
       ),
     ),
+    'SELECT * FROM 1' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'1 LIMIT 0\' at line 1
+
+Simulated query: SELECT * FROM 1 LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
     'SELECT * FROM ada' => 
     array (
       'result' => 

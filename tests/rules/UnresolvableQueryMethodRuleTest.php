@@ -68,4 +68,9 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/bug-536.php'], []);
     }
+
+    public function testBug547(): void
+    {
+        $this->analyse([__DIR__ . '/data/bug-547.php'], []);
+    }
 }
