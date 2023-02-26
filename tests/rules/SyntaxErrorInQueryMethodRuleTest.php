@@ -100,6 +100,14 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
                     138,
                 ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'WHERE adaid = 1' at line 1 (1064).",
+                    155,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'WHERE adaid = 1' at line 1 (1064).",
+                    156,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expected = [
