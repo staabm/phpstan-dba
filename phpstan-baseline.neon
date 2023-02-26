@@ -85,14 +85,6 @@ parameters:
 
 		-
 			message: """
-				#^Call to deprecated method getConstantArrays\\(\\) of class PHPStan\\\\Type\\\\TypeUtils\\:
-				Use PHPStan\\\\Type\\\\Type\\:\\:getConstantArrays\\(\\) instead and handle optional keys if necessary\\.$#
-			"""
-			count: 1
-			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: """
 				#^Call to deprecated method resolvePreparedQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
 				use resolvePreparedQueryStrings\\(\\) instead$#
 			"""
