@@ -309,7 +309,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
     {
         $this->analyse([__DIR__ . '/data/bug-547.php'], []);
     }
-    
+
     public function testBug548(): void
     {
         $this->analyse([__DIR__ . '/data/bug-548.php'], []);
