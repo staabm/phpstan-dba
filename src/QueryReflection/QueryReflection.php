@@ -23,7 +23,6 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\TypeUtils;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
@@ -223,7 +222,7 @@ final class QueryReflection
                 return null;
             }
 
-            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+            foreach ($type->getConstantStrings() as $constantString) {
                 $queryString = $constantString->getValue();
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $this->normalizeQueryString($queryString);
@@ -407,7 +406,7 @@ final class QueryReflection
         $parameters = [];
 
         if ($parameterTypes instanceof UnionType) {
-            foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
+            foreach ($parameterTypes->getConstantArrays() as $constantArray) {
                 $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
             }
 
