@@ -44,7 +44,7 @@ final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtensi
 
         $results = [];
         $constantStrings = $argType->getConstantStrings();
-        foreach($constantStrings as $constantString) {
+        foreach ($constantStrings as $constantString) {
             if (\in_array($expression->getFunction()->getName(), [BuiltInFunction::LOWER, BuiltInFunction::LCASE], true)) {
                 $results[] = new ConstantStringType(strtolower($constantString->getValue()));
 
