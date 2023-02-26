@@ -50,6 +50,7 @@
 			"vendor/bin/ecs --ansi --fix"
 		],
 		"test": [
+			"@build",
 			"@putenv DBA_REFLECTOR=mysqli",
 			"@phpunit",
 			"@phpstan",
@@ -58,9 +59,11 @@
 			"@phpunit",
 			"@phpstan",
 
-			"@csfix"
+			"@csfix",
+			"@clean"
 		],
 		"record": [
+			"@build",
 			"phpstan clear-result-cache",
 			"@putenv DBA_MODE=recording",
 
@@ -72,7 +75,8 @@
 			"@phpunit",
 			"@phpstan",
 
-			"@csfix"
+			"@csfix",
+			"@clean"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",
@@ -83,7 +87,9 @@
 			"phpstan analyse -c tests/defaultFetchNumeric/config/phpstan.neon.dist"
 		],
 		"phpstan-baseline": [
-			"phpstan analyse -c phpstan.neon.dist --generate-baseline"
+			"@build",
+			"phpstan analyse -c phpstan.neon.dist --generate-baseline",
+			"@clean"
 		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
@@ -91,6 +97,14 @@
 			"phpunit -c tests/stringify/config/phpunit.xml",
 			"phpunit -c tests/defaultFetchAssoc/config/phpunit.xml",
 			"phpunit -c tests/defaultFetchNumeric/config/phpunit.xml"
+		],
+		"build": [
+			"composer require sqlftw/sqlftw --ignore-platform-req=php+",
+			"composer require doctrine/dbal --ignore-platform-req=php+"
+		],
+		"clean": [
+			"composer remove sqlftw/sqlftw --ignore-platform-req=php+",
+			"composer remove doctrine/dbal --ignore-platform-req=php+"
 		]
 	},
 	"config": {
