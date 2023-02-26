@@ -280,7 +280,13 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            yield QuerySimulation::stripComments($this->normalizeQueryString($queryString));
+            $normalizedQuery = QuerySimulation::stripComments($this->normalizeQueryString($queryString));
+
+            // query simulation might lead in a invalid query, skip those
+            $error = $this->validateQueryString($normalizedQuery);
+            if ($error === null) {
+                yield $normalizedQuery;
+            }
         }
     }
 
