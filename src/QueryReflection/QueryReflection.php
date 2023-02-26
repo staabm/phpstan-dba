@@ -223,7 +223,7 @@ final class QueryReflection
                 return null;
             }
 
-            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+            foreach ($type->getConstantStrings() as $constantString) {
                 $queryString = $constantString->getValue();
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $this->normalizeQueryString($queryString);
