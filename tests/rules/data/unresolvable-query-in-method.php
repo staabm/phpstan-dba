@@ -38,4 +38,12 @@ class Foo
     {
         $pdo->query('SELECT email FROM ada WHERE '.$string);
     }
+
+    public function writes(PDO $pdo, int $adaid): void
+    {
+        $pdo->query('UPDATE `ada` SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('INSERT INTO `ada` SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('REPLACE INTO `ada` SET email="test" WHERE adaid = '.$adaid);
+        $pdo->query('DELETE FROM `ada` WHERE adaid = '.$adaid);
+    }
 }
