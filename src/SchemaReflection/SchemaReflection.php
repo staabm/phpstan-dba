@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\SchemaReflection;
 
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantStringType;
 
 final class SchemaReflection
 {
@@ -43,11 +41,9 @@ final class SchemaReflection
         $valueTypes = $resultType->getValueTypes();
         $columns = [];
         foreach ($keyTypes as $i => $keyType) {
-            if (! $keyType instanceof ConstantStringType) {
-                throw new ShouldNotHappenException();
+            foreach ($keyType->getConstantStrings() as $constantString) {
+                $columns[] = new Column($constantString->getValue(), $valueTypes[$i]);
             }
-
-            $columns[] = new Column($keyType->getValue(), $valueTypes[$i]);
         }
 
         return $this->tables[$tableName] = new Table($tableName, $columns);

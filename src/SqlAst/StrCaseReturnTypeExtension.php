@@ -42,12 +42,20 @@ final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtensi
             return new NullType();
         }
 
-        if ($argType instanceof ConstantStringType) {
+        $results = [];
+        $constantStrings = $argType->getConstantStrings();
+        foreach ($constantStrings as $constantString) {
             if (\in_array($expression->getFunction()->getName(), [BuiltInFunction::LOWER, BuiltInFunction::LCASE], true)) {
-                return new ConstantStringType(strtolower($argType->getValue()));
+                $results[] = new ConstantStringType(strtolower($constantString->getValue()));
+
+                continue;
             }
 
-            return new ConstantStringType(strtoupper($argType->getValue()));
+            $results[] = new ConstantStringType(strtoupper($constantString->getValue()));
+        }
+
+        if (count($results) > 0) {
+            return TypeCombinator::union(...$results);
         }
 
         if (TypeCombinator::containsNull($argType)) {
