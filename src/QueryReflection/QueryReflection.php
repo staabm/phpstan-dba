@@ -32,6 +32,7 @@ use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryInvalidAfterSimulationException;
 
 final class QueryReflection
 {
@@ -297,6 +298,10 @@ final class QueryReflection
             $error = $this->validateQueryString($normalizedQuery);
             if ($error === null) {
                 yield $normalizedQuery;
+            } else {
+                if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                    throw new UnresolvableQueryInvalidAfterSimulationException('Seems the query is too dynamic to be resolved by query simulation');
+                }
             }
         }
     }
