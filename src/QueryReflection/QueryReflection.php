@@ -32,6 +32,7 @@ use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryDynamicFromException;
 
 final class QueryReflection
 {
@@ -291,13 +292,7 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            $normalizedQuery = QuerySimulation::stripComments($this->normalizeQueryString($queryString));
-
-            // query simulation might lead in a invalid query, skip those
-            $error = $this->validateQueryString($normalizedQuery);
-            if ($error === null) {
-                yield $normalizedQuery;
-            }
+            yield QuerySimulation::stripComments($this->normalizeQueryString($queryString));
         }
     }
 
@@ -370,6 +365,13 @@ final class QueryReflection
 
             $leftString = $this->resolveQueryStringExpr($left, $scope);
             $rightString = $this->resolveQueryStringExpr($right, $scope);
+
+            // queries with a dynamic FROM are not resolvable
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                if (str_ends_with(rtrim($leftString), 'FROM') && is_numeric(trim($rightString, '"\''))) {
+                    throw new UnresolvableQueryDynamicFromException('Seems the query is too dynamic to be resolved by query simulation');
+                }
+            }
 
             if (null === $leftString || null === $rightString) {
                 return null;
