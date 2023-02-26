@@ -223,7 +223,7 @@ final class QueryReflection
                 return null;
             }
 
-            foreach ($type->getConstantStrings() as $constantString) {
+            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
                 $queryString = $constantString->getValue();
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $this->normalizeQueryString($queryString);
@@ -232,8 +232,8 @@ final class QueryReflection
             return;
         }
 
-        $queryStrings = $this->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
-        foreach($queryStrings as $queryString) {
+        $queryString = $this->resolvePreparedQueryString($queryExpr, $parameterTypes, $scope);
+        if (null !== $queryString) {
             yield $this->normalizeQueryString($queryString);
         }
     }
@@ -440,34 +440,31 @@ final class QueryReflection
                 $isOptional = true;
             }
 
-            foreach($keyType->getConstantScalarTypes() as $constantKeyType) {
-                if (is_string($constantKeyType->getValue())) {
-                    $placeholderName = $constantKeyType->getValue();
+            if ($keyType instanceof ConstantStringType) {
+                $placeholderName = $keyType->getValue();
 
-                    if ('' === $placeholderName) {
-                        throw new ShouldNotHappenException('Empty placeholder name');
-                    }
-
-                    $param = new Parameter(
-                        $placeholderName,
-                        $valueTypes[$i],
-                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
-                        $isOptional
-                    );
-
-                    $parameters[$param->name] = $param;
-                } elseif (is_int($constantKeyType->getValue())) {
-                    $param = new Parameter(
-                        null,
-                        $valueTypes[$i],
-                        QuerySimulation::simulateParamValueType($valueTypes[$i], true),
-                        $isOptional
-                    );
-
-                    $parameters[$constantKeyType->getValue()] = $param;
+                if ('' === $placeholderName) {
+                    throw new ShouldNotHappenException('Empty placeholder name');
                 }
-            }
 
+                $param = new Parameter(
+                    $placeholderName,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$param->name] = $param;
+            } elseif ($keyType instanceof ConstantIntegerType) {
+                $param = new Parameter(
+                    null,
+                    $valueTypes[$i],
+                    QuerySimulation::simulateParamValueType($valueTypes[$i], true),
+                    $isOptional
+                );
+
+                $parameters[$keyType->getValue()] = $param;
+            }
         }
 
         return $parameters;
