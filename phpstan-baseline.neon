@@ -21,19 +21,6 @@ parameters:
 			path: src/DoctrineReflection/DoctrineReflection.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineReflection.php
-
-		-
-			message: """
-				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
-				use resolveQueryStrings\\(\\) instead$#
-			"""
-			count: 1
-			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
-
-		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
@@ -52,21 +39,6 @@ parameters:
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/Extensions/PdoStatementColumnCountDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and PHPStan\\\\Type\\\\Type will always evaluate to true\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchObjectDynamicReturnTypeExtension.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
@@ -97,22 +69,6 @@ parameters:
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: """
-				#^Call to deprecated method getConstantStrings\\(\\) of class PHPStan\\\\Type\\\\TypeUtils\\:
-				Use PHPStan\\\\Type\\\\Type\\:\\:getConstantStrings\\(\\) instead$#
-			"""
-			count: 1
-			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: """
-				#^Call to deprecated method resolvePreparedQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
-				use resolvePreparedQueryStrings\\(\\) instead$#
-			"""
-			count: 1
-			path: src/QueryReflection/QueryReflection.php
-
-		-
 			message: "#^Casting to \\*NEVER\\* something that's already \\*NEVER\\*\\.$#"
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
@@ -120,11 +76,6 @@ parameters:
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 3
-			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
 			path: src/QueryReflection/QueryReflection.php
 
 		-
