@@ -138,4 +138,15 @@ class Foo
         $pdo->query('REPLACE into adasfd SET email="sdf"');
     }
 
+    /**
+     * @return string|false
+     */
+    private function returnsUnion() {}
+
+    public function bug458(PDO $pdo)
+    {
+        $table = $this->returnsUnion();
+        $pdo->query('SELECT * FROM ' . $table . ' LIMIT 1');
+    }
+
 }
