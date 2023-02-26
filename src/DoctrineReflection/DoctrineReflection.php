@@ -104,10 +104,12 @@ final class DoctrineReflection
                     return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
                 }
 
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
-                    $builder->setOffsetValueType($keyType, $valueTypes[$i]);
+                foreach($keyType->getConstantScalarTypes() as $constantScalarType) {
+                    if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && is_int($constantScalarType->getValue())) {
+                        $builder->setOffsetValueType($constantScalarType, $valueTypes[$i]);
+                    } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && is_string($constantScalarType->getValue())) {
+                        $builder->setOffsetValueType($constantScalarType, $valueTypes[$i]);
+                    }
                 }
             }
 

@@ -234,9 +234,7 @@ final class QueryReflection
 
         $queryStrings = $this->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         foreach($queryStrings as $queryString) {
-            if (null !== $queryString) {
-                yield $this->normalizeQueryString($queryString);
-            }
+            yield $this->normalizeQueryString($queryString);
         }
     }
 
@@ -443,7 +441,7 @@ final class QueryReflection
             }
 
             foreach($keyType->getConstantScalarTypes() as $constantKeyType) {
-                if ($constantKeyType instanceof ConstantStringType) {
+                if (is_string($constantKeyType->getValue())) {
                     $placeholderName = $constantKeyType->getValue();
 
                     if ('' === $placeholderName) {
@@ -458,7 +456,7 @@ final class QueryReflection
                     );
 
                     $parameters[$param->name] = $param;
-                } elseif ($constantKeyType instanceof ConstantIntegerType) {
+                } elseif (is_int($constantKeyType->getValue())) {
                     $param = new Parameter(
                         null,
                         $valueTypes[$i],

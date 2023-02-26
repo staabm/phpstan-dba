@@ -67,7 +67,7 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
         }
 
         // fetchAll() can return false prior to php8
-        if (null !== $returnType && ! $returnType instanceof MixedType && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
+        if (! $returnType instanceof MixedType && 'fetchAll' === $methodReflection->getName() && $this->phpVersion->getVersionId() >= 80000) {
             $returnType = TypeCombinator::remove($returnType, new ConstantBooleanType(false));
         }
 
