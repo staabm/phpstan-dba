@@ -72,7 +72,13 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
 
     public function testBug548(): void
     {
-        $this->analyse([__DIR__ . '/data/bug-548.php'], []);
+        $this->analyse([__DIR__ . '/data/bug-548.php'], [
+            [
+                'Unresolvable Query: Seems the query is too dynamic to be resolved by query simulation.',
+                10,
+                UnresolvableQueryInvalidAfterSimulationException::getTip(),
+            ],
+        ]);
     }
 
     public function testBug547(): void
