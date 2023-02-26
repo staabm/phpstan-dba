@@ -26,16 +26,6 @@ parameters:
 			path: src/DoctrineReflection/DoctrineReflection.php
 
 		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Result not found\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineResultObjectType.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Statement not found\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineStatementObjectType.php
-
-		-
 			message: """
 				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
 				use resolveQueryStrings\\(\\) instead$#
@@ -54,39 +44,9 @@ parameters:
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Connection not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineConnectionExecuteQueryDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Connection not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineConnectionFetchDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Connection not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineConnectionPrepareDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Connection not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineConnectionQueryDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Result not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineResultDynamicReturnTypeExtension.php
-
-		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/Extensions/DoctrineResultDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Class Doctrine\\\\DBAL\\\\Statement not found\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineStatementExecuteDynamicReturnTypeExtension.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"

@@ -5908,7 +5908,13 @@ FROM ada' =>
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                )),
                  'value' => 'adaid',
                  'isClassString' => false,
               )),
@@ -5930,7 +5936,13 @@ FROM ada' =>
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -5962,7 +5974,13 @@ FROM ada' =>
            'keyType' => 
           PHPStan\Type\Constant\ConstantStringType::__set_state(array(
              'objectType' => NULL,
-             'arrayKeyType' => NULL,
+             'arrayKeyType' => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'adaid',
+               'isClassString' => false,
+            )),
              'value' => 'adaid',
              'isClassString' => false,
           )),
@@ -5981,7 +5999,13 @@ FROM ada' =>
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'adaid',
+                 'isClassString' => false,
+              )),
                'value' => 'adaid',
                'isClassString' => false,
             )),
@@ -10491,7 +10515,13 @@ FROM ada' =>
            'keyType' => 
           PHPStan\Type\Constant\ConstantStringType::__set_state(array(
              'objectType' => NULL,
-             'arrayKeyType' => NULL,
+             'arrayKeyType' => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'email',
+               'isClassString' => false,
+            )),
              'value' => 'email',
              'isClassString' => false,
           )),
@@ -10508,7 +10538,13 @@ FROM ada' =>
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
@@ -10542,7 +10578,13 @@ FROM ada' =>
               1 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                   'value' => 'email',
+                   'isClassString' => false,
+                )),
                  'value' => 'email',
                  'isClassString' => false,
               )),
@@ -10562,7 +10604,13 @@ FROM ada' =>
             0 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'email',
+                 'isClassString' => false,
+              )),
                'value' => 'email',
                'isClassString' => false,
             )),
