@@ -33,11 +33,6 @@ final class DoctrineKeyValueStyleRule implements Rule
     private $classMethods;
 
     /**
-     * @var QueryReflection
-     */
-    private $queryReflection;
-
-    /**
      * @param list<string> $classMethods
      */
     public function __construct(array $classMethods)
@@ -55,7 +50,6 @@ final class DoctrineKeyValueStyleRule implements Rule
             }
             $this->classMethods[] = [$className, $methodName, $arrayArgPositions];
         }
-        $this->queryReflection = new QueryReflection();
     }
 
     public function getNodeType(): string
@@ -116,7 +110,8 @@ final class DoctrineKeyValueStyleRule implements Rule
             ];
         }
 
-        $schemaReflection = $this->queryReflection->getSchemaReflection();
+        $queryReflection = new QueryReflection();
+        $schemaReflection = $queryReflection->getSchemaReflection();
 
         // Table name may be escaped with backticks
         $argTableName = trim($tableType->getValue(), '`');
