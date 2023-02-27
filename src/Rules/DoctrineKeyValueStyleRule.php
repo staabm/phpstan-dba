@@ -50,7 +50,7 @@ final class DoctrineKeyValueStyleRule implements Rule
             }
             $this->classMethods[] = [$className, $methodName, $arrayArgPositions];
         }
-   }
+    }
 
     public function getNodeType(): string
     {
