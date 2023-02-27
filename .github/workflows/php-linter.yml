@@ -18,16 +18,20 @@ jobs:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
+      -   run: php -v
+
       -   name: Setup PHP
           uses: shivammathur/setup-php@v2
           with:
             php-version: 7.2
             coverage: none # disable xdebug, pcov
+            
+      -   run: php -v
 
-      -   name: Composer install
-          uses: ramsey/composer-install@v2
+      -   name: Setup PHP
+          uses: shivammathur/setup-php@v2
           with:
-            composer-options: --ansi --prefer-dist
-
-      -   name: Lint PHP
-          run: vendor/bin/parallel-lint src tests config
+            php-version: 8.1
+            coverage: none # disable xdebug, pcov
+            
+      -   run: php -v
