@@ -19,6 +19,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 
 /**
  * @implements Rule<CallLike>
@@ -31,6 +32,11 @@ final class DoctrineKeyValueStyleRule implements Rule
      * @var array<array{string, string, list<int>}>
      */
     private $classMethods;
+
+    /**
+     * @var QueryReflection
+     */
+    private $queryReflection;
 
     /**
      * @param list<string> $classMethods
@@ -110,8 +116,10 @@ final class DoctrineKeyValueStyleRule implements Rule
             ];
         }
 
-        $queryReflection = new QueryReflection();
-        $schemaReflection = $queryReflection->getSchemaReflection();
+        if ($this->queryReflection === null) {
+            $this->queryReflection = new QueryReflection();
+        }
+        $schemaReflection = $this->queryReflection->getSchemaReflection();
 
         // Table name may be escaped with backticks
         $argTableName = trim($tableType->getValue(), '`');
