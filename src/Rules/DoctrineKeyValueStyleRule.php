@@ -19,7 +19,6 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 
 /**
  * @implements Rule<CallLike>
