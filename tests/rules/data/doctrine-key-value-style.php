@@ -46,6 +46,16 @@ class Foo
         $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
+    public function errorIfColumnMaybeAcceptsValueType(Connection $conn, ?int $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
+    public function noErrorIfColumnAcceptsNullableInt(Connection $conn, ?int $value)
+    {
+        $conn->assembleOneArray('ak', ['eladaid' => $value]);
+    }
+
     public function noErrorWithStringValue(Connection $conn, string $value)
     {
         $conn->assembleOneArray('ada', ['email' => 'foo']);

@@ -57,8 +57,12 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 41,
             ],
             [
-                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type string',
+                'Query error: Column "ada.adaid" expects value type int, got type string',
                 46,
+            ],
+            [
+                'Query error: Column "ada.adaid" expects value type int, got type int|null',
+                51,
             ],
         ];
 
