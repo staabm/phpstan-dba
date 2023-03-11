@@ -111,7 +111,7 @@ final class DoctrineKeyValueStyleRule implements Rule
         $tableType = $scope->getType($tableExpr);
         if (! $tableType instanceof ConstantStringType) {
             return [
-                RuleErrorBuilder::message('Argument #0 expects a literal string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getLine())->build(),
             ];
         }
 
