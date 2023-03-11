@@ -366,15 +366,15 @@ final class QueryReflection
             $leftString = $this->resolveQueryStringExpr($left, $scope);
             $rightString = $this->resolveQueryStringExpr($right, $scope);
 
+            if (null === $leftString || null === $rightString) {
+                return null;
+            }
+
             // queries with a dynamic FROM are not resolvable
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
                 if (str_ends_with(rtrim($leftString), 'FROM') && is_numeric(trim($rightString, '"\''))) {
                     throw new UnresolvableQueryDynamicFromException('Seems the query is too dynamic to be resolved by query simulation');
                 }
-            }
-
-            if (null === $leftString || null === $rightString) {
-                return null;
             }
 
             return $leftString . $rightString;
