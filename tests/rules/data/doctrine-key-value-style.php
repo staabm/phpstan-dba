@@ -6,7 +6,7 @@ use staabm\PHPStanDba\Tests\Fixture\Connection;
 
 class Foo
 {
-    public function errorIfTableIsNotLiteralString(Connection $conn, string $tableName)
+    public function errorIfTableIsNotConstantString(Connection $conn, string $tableName)
     {
         $conn->assembleNoArrays($tableName);
     }
@@ -102,5 +102,21 @@ class Foo
     public function noErrorWithBackticks(Connection $conn)
     {
         $conn->assembleOneArray('`ada`', ['`adaid`' => 1]);
+    }
+
+    /**
+     * @param 'ada'|'not_a_table1'|'not_a_table2' $table
+     */
+    public function errorInTableNameUnion(Connection $conn, string $table)
+    {
+        $conn->assembleNoArrays($table);
+    }
+
+    /**
+     * @param array{email: string}|array{not_a_column1: int}|array{not_a_column2: int} $params
+     */
+    public function errorInParamArrayUnion(Connection $conn, array $params)
+    {
+        $conn->assembleOneArray('ada', $params);
     }
 }
