@@ -187,7 +187,7 @@ final class DoctrineKeyValueStyleRule implements Rule
                     $argColumnType = TypeCombinator::union(...$newTypes);
                 }
 
-                if (! $argColumnType->accepts($valueType, true)->yes()) {
+                if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
                     $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
                 }
             }

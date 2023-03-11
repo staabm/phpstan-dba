@@ -51,6 +51,11 @@ class Foo
         $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
+    public function errorIfValueIsMixedType(Connection $conn, mixed $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
     public function noErrorIfColumnAcceptsNullableInt(Connection $conn, ?int $value)
     {
         $conn->assembleOneArray('ak', ['eladaid' => $value]);
@@ -65,7 +70,7 @@ class Foo
     public function noErrorWithIntValue(Connection $conn, int $value)
     {
         $conn->assembleOneArray('ada', ['adaid' => 1]);
-        $conn->assembleOneArray('ada', ['adaid' => $int]);
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
     /**
