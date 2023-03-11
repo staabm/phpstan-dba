@@ -174,17 +174,19 @@ final class DoctrineKeyValueStyleRule implements Rule
                 // Convert IntegerRangeType column types into IntegerType so
                 // that any integer value is accepted for integer columns,
                 // since it is uncommon to check integer value ranges.
-                if ($argColumnType instanceof IntegerRangeType) {
-                    $argColumnType = new IntegerType();
-                } elseif ($argColumnType instanceof UnionType) {
-                    $newTypes = [];
-                    foreach ($argColumnType->getTypes() as $type) {
-                        if ($type instanceof IntegerRangeType) {
-                            $type = new IntegerType();
+                if (! $valueType instanceof IntegerRangeType) {
+                    if ($argColumnType instanceof IntegerRangeType) {
+                        $argColumnType = new IntegerType();
+                    } elseif ($argColumnType instanceof UnionType) {
+                        $newTypes = [];
+                        foreach ($argColumnType->getTypes() as $type) {
+                            if ($type instanceof IntegerRangeType) {
+                                $type = new IntegerType();
+                            }
+                            $newTypes[] = $type;
                         }
-                        $newTypes[] = $type;
+                        $argColumnType = TypeCombinator::union(...$newTypes);
                     }
-                    $argColumnType = TypeCombinator::union(...$newTypes);
                 }
 
                 if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {

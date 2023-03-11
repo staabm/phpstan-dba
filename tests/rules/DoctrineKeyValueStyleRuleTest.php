@@ -68,6 +68,10 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 'Query error: Column "ada.adaid" expects value type int, got type mixed',
                 56,
             ],
+            [
+                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type int<0, 65535>',
+                64,
+            ],
         ];
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);

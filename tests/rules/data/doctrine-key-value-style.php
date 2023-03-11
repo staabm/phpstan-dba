@@ -56,6 +56,14 @@ class Foo
         $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
+    /**
+     * @param int<0, 65535> $value
+     */
+    public function errorIfValueIsImproperIntegerRangeType(Connection $conn, int $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
     public function noErrorIfColumnAcceptsNullableInt(Connection $conn, ?int $value)
     {
         $conn->assembleOneArray('ak', ['eladaid' => $value]);
