@@ -108,8 +108,6 @@ final class ParserInference
             $aliasOffsetType = null;
             if (null !== $column->getAlias()) {
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
-            } elseif (method_exists($expression, 'getName')) {
-                $aliasOffsetType = new ConstantStringType($expression->getName());
             }
 
             $valueType = $resultType->getOffsetValueType($offsetType);
