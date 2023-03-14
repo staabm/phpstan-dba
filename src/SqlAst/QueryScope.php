@@ -167,19 +167,22 @@ final class QueryScope
     {
         $columnType = $column->getType();
         if ($join->getJoinType() === Join::TYPE_INNER) {
-            $columnType = $this->narrowInnerJoinColumnType($column, $join);
+            $columnType = $this->narrowJoinCondition($column, $join);
             if ($columnType !== null) {
-                return $columnType;
+                return TypeCombinator::removeNull($columnType);
             }
         }
 
         if ($join->getJoinType() === Join::TYPE_OUTER) {
-            $columnType = TypeCombinator::addNull($columnType);
+            $columnType = $this->narrowJoinCondition($column, $join);
+            if ($columnType !== null) {
+                return TypeCombinator::addNull($columnType);
+            }
         }
         return $columnType;
     }
 
-    private function narrowInnerJoinColumnType(Column $column, Join $join): ?Type
+    private function narrowJoinCondition(Column $column, Join $join): ?Type
     {
         $joinCondition = $join->getJoinCondition();
         while ($joinCondition instanceof Parentheses) {
@@ -208,9 +211,6 @@ final class QueryScope
             if ($leftType === null || $rightType === null) {
                 return null;
             }
-
-            $leftType = TypeCombinator::removeNull($leftType);
-            $rightType = TypeCombinator::removeNull($rightType);
 
             return TypeCombinator::intersect($leftType, $rightType);
         }
