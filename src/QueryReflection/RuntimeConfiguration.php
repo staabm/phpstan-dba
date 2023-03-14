@@ -60,6 +60,11 @@ final class RuntimeConfiguration
     private $utilizeSqlAst = false;
 
     /**
+     * @var bool
+     */
+    private $doctrineKeyValueIntegerRangeChecks = false;
+
+    /**
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
@@ -147,6 +152,17 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Enables exact integer range checks when comparing PHP value types to
+     * database column types.
+     */
+    public function enableDoctrineKeyValueIntegerRangeChecks(bool $enabled): self
+    {
+        $this->doctrineKeyValueIntegerRangeChecks = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Enables query plan analysis, which indicates performance problems.
      *
      * Requires a active database connection.
@@ -201,6 +217,11 @@ final class RuntimeConfiguration
     public function isUtilizingSqlAst(): bool
     {
         return $this->utilizeSqlAst;
+    }
+
+    public function isDoctrineKeyValueIntegerRangeChecksEnabled(): bool
+    {
+        return $this->doctrineKeyValueIntegerRangeChecks;
     }
 
     /**

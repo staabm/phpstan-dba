@@ -124,6 +124,8 @@ final class DoctrineKeyValueStyleRule implements Rule
         }
         $schemaReflection = $this->queryReflection->getSchemaReflection();
 
+        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isDoctrineKeyValueIntegerRangeChecksEnabled();
+
         // Table name may be escaped with backticks
         $argTableName = trim($tableType->getValue(), '`');
         $table = $schemaReflection->getTable($argTableName);
@@ -171,10 +173,10 @@ final class DoctrineKeyValueStyleRule implements Rule
                 $argColumnType = $argColumn->getType();
                 $valueType = $argType->getValueTypes()[$keyIndex];
 
-                // Convert IntegerRangeType column types into IntegerType so
-                // that any integer value is accepted for integer columns,
-                // since it is uncommon to check integer value ranges.
-                if (! $valueType instanceof IntegerRangeType) {
+                if (false === $checkIntegerRanges) {
+                    // Convert IntegerRangeType column types into IntegerType so
+                    // that any integer value is accepted for integer columns,
+                    // since it is uncommon to check integer value ranges.
                     if ($argColumnType instanceof IntegerRangeType) {
                         $argColumnType = new IntegerType();
                     } elseif ($argColumnType instanceof UnionType) {

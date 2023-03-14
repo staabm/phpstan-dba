@@ -59,7 +59,7 @@ class Foo
     /**
      * @param int<0, 65535> $value
      */
-    public function errorIfValueIsImproperIntegerRangeType(Connection $conn, int $value)
+    public function noErrorIfValueIsImproperIntegerRangeType(Connection $conn, int $value)
     {
         $conn->assembleOneArray('ada', ['adaid' => $value]);
     }

@@ -9,3 +9,4 @@ If not configured otherwise, the following defaults are used:
 - when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 - the fetch mode defaults to `QueryReflector::FETCH_TYPE_BOTH`, but can be configured using the [`defaultFetchMode`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
 - read and write queries are analyzed per default. you may consider disable write query analysis using the [`analyzeWriteQueries`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
+- When validating PHP value types in `DoctrineKeyValueStyleRule`, all integer database column types will be widened to the generic integer type (i.e. the integer range will be ignored) for maximum compatibility. To enable exact integer range checks, use `enableDoctrineKeyValueIntegerRangeChecks`.

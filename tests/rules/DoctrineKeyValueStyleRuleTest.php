@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule;
 
 /**
@@ -13,6 +14,11 @@ use staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule;
  */
 class DoctrineKeyValueStyleRuleTest extends RuleTestCase
 {
+    protected function tearDown(): void
+    {
+        QueryReflection::getRuntimeConfiguration()->enableDoctrineKeyValueIntegerRangeChecks(false);
+    }
+
     protected function getRule(): Rule
     {
         return self::getContainer()->getByType(DoctrineKeyValueStyleRule::class);
@@ -68,12 +74,26 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 'Query error: Column "ada.adaid" expects value type int, got type mixed',
                 56,
             ],
-            [
-                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type int<0, 65535>',
-                64,
-            ],
         ];
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
+    }
+
+    public function testIntegerRanges(): void
+    {
+        $expectedErrors = [
+            [
+                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type int',
+                10,
+            ],
+            [
+                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type int<0, 65535>',
+                18,
+            ],
+        ];
+
+        QueryReflection::getRuntimeConfiguration()->enableDoctrineKeyValueIntegerRangeChecks(true);
+
+        $this->analyse([__DIR__ . '/data/doctrine-key-value-style-integer-ranges.php'], $expectedErrors);
     }
 }
