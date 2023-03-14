@@ -19,10 +19,12 @@ final class Join
      * @var string
      */
     private $joinType;
+
     /**
      * @var Table
      */
     private $table;
+
     /**
      * @var RootNode
      */
@@ -31,7 +33,8 @@ final class Join
     /**
      * @param self::TYPE_* $joinType
      */
-    public function __construct(string $joinType, Table $table, RootNode $joinCondition) {
+    public function __construct(string $joinType, Table $table, RootNode $joinCondition)
+    {
         $this->joinType = $joinType;
         $this->table = $table;
         $this->joinCondition = $joinCondition;

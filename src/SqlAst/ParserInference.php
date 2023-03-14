@@ -17,10 +17,8 @@ use SqlFtw\Sql\Dml\Query\SelectCommand;
 use SqlFtw\Sql\Dml\Query\SelectExpression;
 use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Dml\TableReference\Join;
-use SqlFtw\Sql\Dml\TableReference\OuterJoin;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
 use SqlFtw\Sql\Expression\Identifier;
-use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
@@ -147,7 +145,8 @@ final class ParserInference
     /**
      * @return null|string
      */
-    static public function getIdentifierName(SqlSerializable $expression) {
+    public static function getIdentifierName(SqlSerializable $expression)
+    {
         if ($expression instanceof SelectExpression) {
             $expression = $expression->getExpression();
         }

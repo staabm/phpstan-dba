@@ -13,7 +13,6 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\CaseExpression;
 use SqlFtw\Sql\Expression\ComparisonOperator;
@@ -155,8 +154,7 @@ final class QueryScope
     private function narrowJoinedColumnType(Column $column, Join $join): Type
     {
         $columnType = $column->getType();
-        if ($join->getJoinType() === Join::TYPE_INNER)
-        {
+        if ($join->getJoinType() === Join::TYPE_INNER) {
             $joinCondition = $join->getJoinCondition();
             while ($joinCondition instanceof Parentheses) {
                 $joinCondition = $joinCondition->getContents();
