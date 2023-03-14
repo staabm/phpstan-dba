@@ -58,6 +58,11 @@ final class ParserInference
                 } elseif ($from instanceof Join) {
                     // @phpstan-ignore-next-line
                     $joinName = $from->getRight()->getTable()->getName();
+
+                    if ($fromTable === null) {
+                        $fromTable = $this->schemaReflection->getTable($from->getLeft()->getTable()->getName());
+                    }
+
                     $joinedTable = $this->schemaReflection->getTable($joinName);
 
                     if (null !== $joinedTable) {

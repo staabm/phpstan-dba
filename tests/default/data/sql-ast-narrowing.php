@@ -19,6 +19,12 @@ class Foo
         assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>, count(email): int, 1: int<0, max>}>', $stmt);
     }
 
+    public function join(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT count(email) as myemail from ada left join typemix on pid = adaid');
+        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
+    }
+
     public function coalesce(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT COALESCE(null, eladaid) as col from ak');
