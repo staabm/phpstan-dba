@@ -25,4 +25,5 @@ parameters:
     ignoreErrors:
         - '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
         - '#^Property staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:\$hash \(string\|null\) does not accept float\|int\|string\.$#'
+        - '#^Instanceof between mysqli_result\<array\<string, int\|string\|null\>\> and mysqli_result will always evaluate to true\.$#'
 

@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Instanceof between mysqli_result\<array\<string, int\|string\|null\>\> and mysqli_result will always evaluate to true\.$#'
-			count: 1
-			path: src/DbSchema/SchemaHasherMysql.php
-
-		-
 			message: "#^Unresolvable Query\\: Cannot resolve query with variable type\\: non\\-empty\\-string\\.$#"
 			count: 2
 			path: src/Analyzer/QueryPlanAnalyzerMysql.php
@@ -173,6 +168,16 @@ parameters:
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/SchemaReflection/SchemaReflection.php
+
+		-
+			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\Join\\:\\:getCondition\\(\\)\\.$#"
+			count: 2
+			path: src/SqlAst/ParserInference.php
+
+		-
+			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\TableReferenceNode\\:\\:getTable\\(\\)\\.$#"
+			count: 1
+			path: src/SqlAst/ParserInference.php
 
 		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
