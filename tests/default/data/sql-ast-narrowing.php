@@ -307,9 +307,9 @@ class Foo
     public function joinNullableInCondition(PDO $pdo): void
     {
         // nullable column gets non-nullable on inner join
-        // TODO: join condition equalizes integer-ranges
+        // join condition intersects integer-ranges
         $stmt = $pdo->query('SELECT adaid, eladaid from ada inner join ak on (adaid = eladaid)');
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>, 1: int<-2147483648, 2147483647>}>', $stmt);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
 
         $stmt = $pdo->query('SELECT adaid, eladaid from ada left join ak on (adaid = eladaid)');
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}>', $stmt);

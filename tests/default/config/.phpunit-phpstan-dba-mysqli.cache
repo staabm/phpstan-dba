@@ -7700,7 +7700,7 @@ FROM ada' =>
               )),
               1 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -7771,7 +7771,7 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -7845,7 +7845,7 @@ FROM ada' =>
               )),
               1 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -7916,7 +7916,7 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
