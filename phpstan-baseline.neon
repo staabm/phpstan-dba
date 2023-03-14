@@ -165,11 +165,6 @@ parameters:
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
 
 		-
-			message: "#^Method staabm\\\\PHPStanDba\\\\SchemaReflection\\\\Join\\:\\:getJoinType\\(\\) should return 'inner'\\|'outer' but returns string\\.$#"
-			count: 1
-			path: src/SchemaReflection/Join.php
-
-		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/SchemaReflection/SchemaReflection.php

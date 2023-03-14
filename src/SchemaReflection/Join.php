@@ -16,7 +16,7 @@ final class Join
     public const TYPE_OUTER = 'outer';
 
     /**
-     * @var string
+     * @var self::TYPE_*
      */
     private $joinType;
 
