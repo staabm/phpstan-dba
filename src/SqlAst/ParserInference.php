@@ -144,6 +144,9 @@ final class ParserInference
         return $resultType;
     }
 
+    /**
+     * @return null|string
+     */
     static public function getIdentifierName(SqlSerializable $expression) {
         if ($expression instanceof SelectExpression) {
             $expression = $expression->getExpression();
