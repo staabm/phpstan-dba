@@ -13,6 +13,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\CaseExpression;
 use SqlFtw\Sql\Expression\ExpressionNode;
@@ -111,12 +112,19 @@ final class QueryScope
                 $joinedTable = $join->getTable();
 
                 foreach ($joinedTable->getColumns() as $column) {
-                    if ($column->getName() === $expression->getName()) {
-                        if ($join->getType() === Join::TYPE_OUTER) {
-                            return TypeCombinator::addNull($column->getType());
-                        }
-                        return TypeCombinator::removeNull($column->getType());
+                    if ($column->getName() !== $expression->getName()) {
+                        continue;
                     }
+
+                    $columnType = $column->getType();
+                    if ($join->getJoinType() === Join::TYPE_INNER) {
+                        $columnType = TypeCombinator::removeNull($columnType);
+                    }
+                    if ($join->getJoinType() === Join::TYPE_OUTER) {
+                        $columnType = TypeCombinator::addNull($columnType);
+                    }
+
+                    return $this->narrowJoinCondition($columnType, $join);
                 }
             }
 
@@ -146,5 +154,10 @@ final class QueryScope
         }
 
         return new MixedType();
+    }
+
+    private function narrowJoinCondition(Type $columnType, Join $join): Type
+    {
+        return $columnType;
     }
 }

@@ -14,9 +14,14 @@ use SqlFtw\Parser\Parser;
 use SqlFtw\Platform\Platform;
 use SqlFtw\Session\Session;
 use SqlFtw\Sql\Dml\Query\SelectCommand;
+use SqlFtw\Sql\Dml\Query\SelectExpression;
+use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Dml\TableReference\Join;
 use SqlFtw\Sql\Dml\TableReference\OuterJoin;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
+use SqlFtw\Sql\Expression\Identifier;
+use SqlFtw\Sql\Expression\SimpleName;
+use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 
@@ -45,7 +50,7 @@ final class ParserInference
 
         $fromColumns = null;
         $fromTable = null;
-        $joinedTables = [];
+        $joins = [];
         foreach ($commands as [$command]) {
             // Parser does not throw exceptions. this allows to parse partially invalid code and not fail on first error
             if ($command instanceof SelectCommand) {
@@ -67,8 +72,12 @@ final class ParserInference
                     $joinedTable = $this->schemaReflection->getTable($joinName);
 
                     if (null !== $joinedTable) {
-                        $joinedTables[] = new SchemaJoin(
-                            $from instanceof OuterJoin ? SchemaJoin::TYPE_OUTER : SchemaJoin::TYPE_INNER,
+                        $joinType = SchemaJoin::TYPE_OUTER;
+                        if ($from instanceof InnerJoin) {
+                            $joinType = SchemaJoin::TYPE_INNER;
+                        }
+                        $joins[] = new SchemaJoin(
+                            $joinType,
                             $joinedTable
                         );
                     }
@@ -84,12 +93,18 @@ final class ParserInference
             throw new ShouldNotHappenException();
         }
 
-        $queryScope = new QueryScope($fromTable, $joinedTables);
+        $queryScope = new QueryScope($fromTable, $joins);
 
         foreach ($fromColumns as $i => $column) {
             $expression = $column->getExpression();
 
             $offsetType = new ConstantIntegerType($i);
+
+            $nameType = null;
+            $exprName = $this->getIdentifierName($column);
+            if ($exprName !== null) {
+                $nameType = new ConstantStringType($exprName);
+            }
             $aliasOffsetType = null;
             if (null !== $column->getAlias()) {
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
@@ -110,6 +125,12 @@ final class ParserInference
                     $valueType
                 );
             }
+            if (null !== $nameType && $resultType->hasOffsetValueType($nameType)->yes()) {
+                $resultType = $resultType->setOffsetValueType(
+                    $nameType,
+                    $valueType
+                );
+            }
             if ($resultType->hasOffsetValueType($offsetType)->yes()) {
                 $resultType = $resultType->setOffsetValueType(
                     $offsetType,
@@ -119,5 +140,17 @@ final class ParserInference
         }
 
         return $resultType;
+    }
+
+    private function getIdentifierName(SqlSerializable $expression) {
+        if ($expression instanceof SelectExpression) {
+            $expression = $expression->getExpression();
+        }
+
+        if ($expression instanceof Identifier) {
+            return $expression->getName();
+        }
+
+        return null;
     }
 }
