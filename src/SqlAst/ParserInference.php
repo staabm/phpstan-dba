@@ -76,9 +76,13 @@ final class ParserInference
                         if ($from instanceof InnerJoin) {
                             $joinType = SchemaJoin::TYPE_INNER;
                         }
+                        if ($from->getCondition() === null) {
+                            throw new \RuntimeException('Join condition is null.');
+                        }
                         $joins[] = new SchemaJoin(
                             $joinType,
-                            $joinedTable
+                            $joinedTable,
+                            $from->getCondition()
                         );
                     }
                 }
@@ -101,7 +105,7 @@ final class ParserInference
             $offsetType = new ConstantIntegerType($i);
 
             $nameType = null;
-            $exprName = $this->getIdentifierName($column);
+            $exprName = self::getIdentifierName($column);
             if ($exprName !== null) {
                 $nameType = new ConstantStringType($exprName);
             }
@@ -140,7 +144,7 @@ final class ParserInference
         return $resultType;
     }
 
-    private function getIdentifierName(SqlSerializable $expression) {
+    static public function getIdentifierName(SqlSerializable $expression) {
         if ($expression instanceof SelectExpression) {
             $expression = $expression->getExpression();
         }

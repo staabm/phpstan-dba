@@ -16,6 +16,7 @@ use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\CaseExpression;
+use SqlFtw\Sql\Expression\ComparisonOperator;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 use SqlFtw\Sql\Expression\Identifier;
@@ -23,8 +24,11 @@ use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
 use SqlFtw\Sql\Expression\NumericValue;
+use SqlFtw\Sql\Expression\Operator;
+use SqlFtw\Sql\Expression\Parentheses;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
+use staabm\PHPStanDba\SchemaReflection\Column;
 use staabm\PHPStanDba\SchemaReflection\Join;
 use staabm\PHPStanDba\SchemaReflection\Table;
 
@@ -116,15 +120,7 @@ final class QueryScope
                         continue;
                     }
 
-                    $columnType = $column->getType();
-                    if ($join->getJoinType() === Join::TYPE_INNER) {
-                        $columnType = TypeCombinator::removeNull($columnType);
-                    }
-                    if ($join->getJoinType() === Join::TYPE_OUTER) {
-                        $columnType = TypeCombinator::addNull($columnType);
-                    }
-
-                    return $this->narrowJoinCondition($columnType, $join);
+                    return $this->narrowJoinedColumnType($column, $join);
                 }
             }
 
@@ -156,8 +152,30 @@ final class QueryScope
         return new MixedType();
     }
 
-    private function narrowJoinCondition(Type $columnType, Join $join): Type
+    private function narrowJoinedColumnType(Column $column, Join $join): Type
     {
+        $columnType = $column->getType();
+        if ($join->getJoinType() === Join::TYPE_INNER)
+        {
+            $joinCondition = $join->getJoinCondition();
+            while ($joinCondition instanceof Parentheses) {
+                $joinCondition = $joinCondition->getContents();
+            }
+
+            if ($joinCondition instanceof ComparisonOperator
+                && $joinCondition->getOperator()->getValue() === Operator::EQUAL
+                && (
+                    ParserInference::getIdentifierName($joinCondition->getLeft()) === $column->getName()
+                    || ParserInference::getIdentifierName($joinCondition->getRight()) === $column->getName()
+                )
+            ) {
+                $columnType = TypeCombinator::removeNull($columnType);
+            }
+        }
+
+        if ($join->getJoinType() === Join::TYPE_OUTER) {
+            $columnType = TypeCombinator::addNull($columnType);
+        }
         return $columnType;
     }
 }
