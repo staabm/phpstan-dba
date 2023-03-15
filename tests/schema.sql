@@ -55,6 +55,7 @@ CREATE TABLE `typemix` (
    `c_bigint` bigint NOT NULL,
    `c_double` double NOT NULL,
    `c_real` double NOT NULL,
+   `c_float` float NOT NULL,
    `c_boolean` tinyint(1) NOT NULL,
    `c_blob` blob NOT NULL,
    `c_tinyblob` tinyblob NOT NULL,
