@@ -17,8 +17,6 @@ use SqlFtw\Sql\Dml\Query\SelectCommand;
 use SqlFtw\Sql\Dml\Query\SelectExpression;
 use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Dml\TableReference\Join;
-use SqlFtw\Sql\Dml\TableReference\JoinSide;
-use SqlFtw\Sql\Dml\TableReference\OuterJoin;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceSubquery;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
 use SqlFtw\Sql\Expression\Identifier;
