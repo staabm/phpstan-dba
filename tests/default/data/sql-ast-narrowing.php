@@ -367,8 +367,11 @@ class Foo
 
     public function multipleJoins(PDO $pdo): void
     {
-        $stmt = $pdo->query('SELECT adaid from ada join ak on adaid = eladaid inner join typemix on adaid = c_int');
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int from ada inner join ak on adaid = eladaid inner join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>, c_int: int<-32768, 32767>, 2: int<-32768, 32767>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int from ada left join ak on adaid = eladaid left join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null, c_int: int<-32768, 32767>|null, 2: int<-32768, 32767>|null}>', $stmt);
     }
 
     public function ignoredAstQueries(PDO $pdo): void
