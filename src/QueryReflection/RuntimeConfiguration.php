@@ -30,7 +30,7 @@ final class RuntimeConfiguration
     public const ERROR_MODE_DEFAULT = 'default';
 
     /**
-     * parameter type validation will be strict
+     * parameter type validation based on phpstan `Type->isSuperTypeOf()`.
      */
     public const VALIDATION_MODE_STRICT = 'strict';
 
