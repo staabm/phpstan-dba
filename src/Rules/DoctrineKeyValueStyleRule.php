@@ -14,8 +14,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
@@ -113,7 +111,8 @@ final class DoctrineKeyValueStyleRule implements Rule
 
         $tableExpr = $args[0]->value;
         $tableType = $scope->getType($tableExpr);
-        if (! $tableType instanceof ConstantStringType) {
+        $tableNames = $tableType->getConstantStrings();
+        if (\count($tableNames) === 0) {
             return [
                 RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getLine())->build(),
             ];
@@ -126,73 +125,80 @@ final class DoctrineKeyValueStyleRule implements Rule
 
         $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
 
-        // Table name may be escaped with backticks
-        $argTableName = trim($tableType->getValue(), '`');
-        $table = $schemaReflection->getTable($argTableName);
-        if (null === $table) {
-            return [
-                RuleErrorBuilder::message('Query error: Table "' . $argTableName . '" does not exist')->line($callLike->getLine())->build(),
-            ];
-        }
-
-        // All array arguments should have table columns as keys
         $errors = [];
-        foreach ($arrayArgPositions as $arrayArgPosition) {
-            // If the argument doesn't exist, just skip it since we don't want
-            // to error in case it has a default value
-            if (! \array_key_exists($arrayArgPosition, $args)) {
+        foreach ($tableNames as $tableName) {
+            // Table name may be escaped with backticks
+            $tableName = trim($tableName->getValue(), '`');
+            $table = $schemaReflection->getTable($tableName);
+            if (null === $table) {
+                $errors[] = 'Table "' . $tableName . '" does not exist';
                 continue;
             }
 
-            $argType = $scope->getType($args[$arrayArgPosition]->value);
-            if (! $argType instanceof ConstantArrayType) {
-                $errors[] = 'Argument #' . $arrayArgPosition . ' is not a constant array, got ' . $argType->describe(VerbosityLevel::precise());
-                continue;
-            }
-
-            foreach ($argType->getKeyTypes() as $keyIndex => $keyType) {
-                if (! $keyType instanceof ConstantStringType) {
-                    $errors[] = 'Element #' . $keyIndex . ' of argument #' . $arrayArgPosition . ' must have a string key, got ' . $keyType->describe(VerbosityLevel::precise());
+            // All array arguments should have table columns as keys
+            foreach ($arrayArgPositions as $arrayArgPosition) {
+                // If the argument doesn't exist, just skip it since we don't want
+                // to error in case it has a default value
+                if (! \array_key_exists($arrayArgPosition, $args)) {
                     continue;
                 }
 
-                // Column name may be escaped with backticks
-                $argColumnName = trim($keyType->getValue(), '`');
-
-                $argColumn = null;
-                foreach ($table->getColumns() as $column) {
-                    if ($argColumnName === $column->getName()) {
-                        $argColumn = $column;
-                    }
-                }
-                if (null === $argColumn) {
-                    $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" does not exist';
+                $argType = $scope->getType($args[$arrayArgPosition]->value);
+                $argArrays = $argType->getConstantArrays();
+                if (\count($argArrays) === 0) {
+                    $errors[] = 'Argument #' . $arrayArgPosition . ' is not a constant array, got ' . $argType->describe(VerbosityLevel::precise());
                     continue;
                 }
 
-                $argColumnType = $argColumn->getType();
-                $valueType = $argType->getValueTypes()[$keyIndex];
-
-                if (false === $checkIntegerRanges) {
-                    // Convert IntegerRangeType column types into IntegerType so
-                    // that any integer value is accepted for integer columns,
-                    // since it is uncommon to check integer value ranges.
-                    if ($argColumnType instanceof IntegerRangeType) {
-                        $argColumnType = new IntegerType();
-                    } elseif ($argColumnType instanceof UnionType) {
-                        $newTypes = [];
-                        foreach ($argColumnType->getTypes() as $type) {
-                            if ($type instanceof IntegerRangeType) {
-                                $type = new IntegerType();
-                            }
-                            $newTypes[] = $type;
+                foreach ($argArrays as $argArray) {
+                    foreach ($argArray->getKeyTypes() as $keyIndex => $keyType) {
+                        $keyNames = $keyType->getConstantStrings();
+                        if (\count($keyNames) === 0) {
+                            $errors[] = 'Element #' . $keyIndex . ' of argument #' . $arrayArgPosition . ' must have a string key, got ' . $keyType->describe(VerbosityLevel::precise());
+                            continue;
                         }
-                        $argColumnType = TypeCombinator::union(...$newTypes);
-                    }
-                }
 
-                if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
-                    $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
+                        foreach ($keyNames as $keyName) {
+                            // Column name may be escaped with backticks
+                            $argColumnName = trim($keyName->getValue(), '`');
+
+                            $argColumn = null;
+                            foreach ($table->getColumns() as $column) {
+                                if ($argColumnName === $column->getName()) {
+                                    $argColumn = $column;
+                                }
+                            }
+                            if (null === $argColumn) {
+                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" does not exist';
+                                continue;
+                            }
+
+                            $argColumnType = $argColumn->getType();
+                            $valueType = $argArray->getValueTypes()[$keyIndex];
+
+                            if (false === $checkIntegerRanges) {
+                                // Convert IntegerRangeType column types into IntegerType so
+                                // that any integer value is accepted for integer columns,
+                                // since it is uncommon to check integer value ranges.
+                                if ($argColumnType instanceof IntegerRangeType) {
+                                    $argColumnType = new IntegerType();
+                                } elseif ($argColumnType instanceof UnionType) {
+                                    $newTypes = [];
+                                    foreach ($argColumnType->getTypes() as $type) {
+                                        if ($type instanceof IntegerRangeType) {
+                                            $type = new IntegerType();
+                                        }
+                                        $newTypes[] = $type;
+                                    }
+                                    $argColumnType = TypeCombinator::union(...$newTypes);
+                                }
+                            }
+
+                            if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
+                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
+                            }
+                        }
+                    }
                 }
             }
         }
