@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\SqlAst;
 
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantFloatType;
 use PHPStan\Type\Constant\ConstantIntegerType;
@@ -15,6 +14,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\CaseExpression;
+use SqlFtw\Sql\Expression\ComparisonOperator;
 use SqlFtw\Sql\Expression\ExpressionNode;
 use SqlFtw\Sql\Expression\FunctionCall;
 use SqlFtw\Sql\Expression\Identifier;
@@ -22,8 +22,12 @@ use SqlFtw\Sql\Expression\IntValue;
 use SqlFtw\Sql\Expression\Literal;
 use SqlFtw\Sql\Expression\NullLiteral;
 use SqlFtw\Sql\Expression\NumericValue;
+use SqlFtw\Sql\Expression\Operator;
+use SqlFtw\Sql\Expression\Parentheses;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
+use staabm\PHPStanDba\SchemaReflection\Column;
+use staabm\PHPStanDba\SchemaReflection\Join;
 use staabm\PHPStanDba\SchemaReflection\Table;
 
 final class QueryScope
@@ -39,12 +43,12 @@ final class QueryScope
     private $fromTable;
 
     /**
-     * @var list<Table>
+     * @var list<Join>
      */
     private $joinedTables;
 
     /**
-     * @param list<Table> $joinedTables
+     * @param list<Join> $joinedTables
      */
     public function __construct(Table $fromTable, array $joinedTables)
     {
@@ -100,21 +104,12 @@ final class QueryScope
         }
 
         if ($expression instanceof SimpleName) {
-            foreach ($this->fromTable->getColumns() as $column) {
-                if ($column->getName() === $expression->getName()) {
-                    return $column->getType();
-                }
+            $resolvedType = $this->resolveSimpleName($expression, true);
+            if ($resolvedType !== null) {
+                return $resolvedType;
             }
 
-            foreach ($this->joinedTables as $joinedTable) {
-                foreach ($joinedTable->getColumns() as $column) {
-                    if ($column->getName() === $expression->getName()) {
-                        return $column->getType();
-                    }
-                }
-            }
-
-            throw new ShouldNotHappenException('Unable to resolve column ' . $expression->getName());
+            return new MixedType();
         }
 
         if ($expression instanceof CaseExpression) {
@@ -140,5 +135,86 @@ final class QueryScope
         }
 
         return new MixedType();
+    }
+
+    private function resolveSimpleName(SimpleName $expression, bool $narrowJoinTypes): ?Type
+    {
+        foreach ($this->fromTable->getColumns() as $column) {
+            if ($column->getName() === $expression->getName()) {
+                return $column->getType();
+            }
+        }
+
+        foreach ($this->joinedTables as $join) {
+            $joinedTable = $join->getTable();
+
+            foreach ($joinedTable->getColumns() as $column) {
+                if ($column->getName() !== $expression->getName()) {
+                    continue;
+                }
+
+                if ($narrowJoinTypes) {
+                    return $this->narrowJoinedColumnType($column, $join);
+                }
+                return $column->getType();
+            }
+        }
+
+        return null;
+    }
+
+    private function narrowJoinedColumnType(Column $column, Join $join): ?Type
+    {
+        $columnType = $column->getType();
+        if ($join->getJoinType() === Join::TYPE_INNER) {
+            $columnType = $this->narrowJoinCondition($column, $join);
+            if ($columnType !== null) {
+                return TypeCombinator::removeNull($columnType);
+            }
+        }
+
+        if ($join->getJoinType() === Join::TYPE_OUTER) {
+            $columnType = $this->narrowJoinCondition($column, $join);
+            if ($columnType !== null) {
+                return TypeCombinator::addNull($columnType);
+            }
+        }
+        return $columnType;
+    }
+
+    private function narrowJoinCondition(Column $column, Join $join): ?Type
+    {
+        $joinCondition = $join->getJoinCondition();
+        while ($joinCondition instanceof Parentheses) {
+            $joinCondition = $joinCondition->getContents();
+        }
+
+        if (! $joinCondition instanceof ComparisonOperator) {
+            return null;
+        }
+
+        if ($joinCondition->getOperator()->getValue() !== Operator::EQUAL) {
+            return null;
+        }
+
+        if (! $joinCondition->getLeft() instanceof SimpleName ||
+            ! $joinCondition->getRight() instanceof SimpleName) {
+            return null;
+        }
+
+        $leftName = ParserInference::getIdentifierName($joinCondition->getLeft());
+        $rightName = ParserInference::getIdentifierName($joinCondition->getRight());
+        if ($leftName === $column->getName() || $rightName === $column->getName()) {
+            $leftType = $this->resolveSimpleName($joinCondition->getLeft(), false);
+            $rightType = $this->resolveSimpleName($joinCondition->getRight(), false);
+
+            if ($leftType === null || $rightType === null) {
+                return null;
+            }
+
+            return TypeCombinator::intersect($leftType, $rightType);
+        }
+
+        return null;
     }
 }

@@ -286,7 +286,8 @@ class Foo
         assertType('PDOStatement<array{sum: float, 0: float}>', $stmt);
     }
 
-    public function strReplace(PDO $pdo) {
+    public function strReplace(PDO $pdo)
+    {
         $stmt = $pdo->query("SELECT REPLACE('www.mysql.com', 'w', 'Ww') as str from ada");
         assertType('PDOStatement<array{str: non-empty-string, 0: non-empty-string}>', $stmt);
 
@@ -302,4 +303,85 @@ class Foo
         $stmt = $pdo->query("SELECT REPLACE(c_varchar25, 'w', 'Ww') as str from typemix");
         assertType('PDOStatement<array{str: string|null, 0: string|null}>', $stmt);
     }
+
+    public function joinNullableInCondition(PDO $pdo): void
+    {
+        // nullable column gets non-nullable on inner join
+        // join condition intersects integer-ranges
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada join ak on (adaid = eladaid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada inner join ak on (adaid = eladaid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada left join ak on (adaid = eladaid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada left outer join ak on (adaid = eladaid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null}>', $stmt);
+    }
+
+    public function joinNonNullableInCondition(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT adaid, akid from ada join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, akid from ada inner join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, akid from ada left join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, akid from ada left outer join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null}>', $stmt);
+    }
+
+    public function joinSelectOutsideCondition(PDO $pdo): void
+    {
+        // nullable col from joined table
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada inner join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada left join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid from ada left outer join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}>', $stmt);
+
+        // non-nullable col from joined table
+        $stmt = $pdo->query('SELECT adaid, eadavk from ada join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string, 1: numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eadavk from ada inner join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string, 1: numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eadavk from ada left join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eadavk from ada left outer join ak on (adaid = akid)');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}>', $stmt);
+    }
+
+    public function multipleJoins(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int, c_char5 from ada inner join ak on adaid = eladaid inner join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>, c_int: int<-32768, 32767>, 2: int<-32768, 32767>, c_char5: string, 3: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int, c_char5 from ada left join ak on adaid = eladaid left join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null, c_int: int<-32768, 32767>|null, 2: int<-32768, 32767>|null, c_char5: string|null, 3: string|null}>', $stmt);
+    }
+
+    public function ignoredAstQueries(PDO $pdo): void
+    {
+        // in reality akid would be same type adaid (int<-32768, 32767>)
+        $stmt = $pdo->query('SELECT akid from ada inner join (select akid from ak)t on akid = adaid');
+        assertType('PDOStatement<array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid from ada cross join ak');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+    }
+
 }

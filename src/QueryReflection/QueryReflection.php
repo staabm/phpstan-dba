@@ -114,7 +114,8 @@ final class QueryReflection
             return null;
         }
 
-        $resultType = self::reflector()->getResultType($queryString, $fetchType);
+        $reflector = self::reflector();
+        $resultType = $reflector->getResultType($queryString, $fetchType);
 
         if (null !== $resultType) {
             if (! $resultType instanceof ConstantArrayType) {
@@ -126,6 +127,9 @@ final class QueryReflection
             ) {
                 if (! InstalledVersions::isInstalled('sqlftw/sqlftw')) {
                     throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
+                }
+                if ($reflector instanceof PdoPgSqlQueryReflector) {
+                    throw new \Exception('SQL AST inference is only supported for mysql backends for now.');
                 }
                 $parserInference = new ParserInference($this->getSchemaReflection());
                 $resultType = $parserInference->narrowResultType($queryString, $resultType);

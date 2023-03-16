@@ -29,7 +29,7 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
     {
         $expectedErrors = [
             [
-                'Argument #0 expects a literal string, got string',
+                'Argument #0 expects a constant string, got string',
                 11,
             ],
             [
