@@ -46,6 +46,29 @@ class Foo
         $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
+    public function errorIfColumnMaybeAcceptsValueType(Connection $conn, ?int $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
+    public function errorIfValueIsMixedType(Connection $conn, mixed $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
+    /**
+     * @param int<0, 65535> $value
+     */
+    public function noErrorIfValueIsImproperIntegerRangeType(Connection $conn, int $value)
+    {
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
+    }
+
+    public function noErrorIfColumnAcceptsNullableInt(Connection $conn, ?int $value)
+    {
+        $conn->assembleOneArray('ak', ['eladaid' => $value]);
+    }
+
     public function noErrorWithStringValue(Connection $conn, string $value)
     {
         $conn->assembleOneArray('ada', ['email' => 'foo']);
@@ -55,7 +78,7 @@ class Foo
     public function noErrorWithIntValue(Connection $conn, int $value)
     {
         $conn->assembleOneArray('ada', ['adaid' => 1]);
-        $conn->assembleOneArray('ada', ['adaid' => $int]);
+        $conn->assembleOneArray('ada', ['adaid' => $value]);
     }
 
     /**

@@ -30,6 +30,16 @@ final class RuntimeConfiguration
     public const ERROR_MODE_DEFAULT = 'default';
 
     /**
+     * parameter type validation based on phpstan `Type->isSuperTypeOf()`.
+     */
+    public const VALIDATION_MODE_STRICT = 'strict';
+
+    /**
+     * wider types will be accepted, e.g `int` will be silently accepted for `int<0, 65535>`
+     */
+    public const VALIDATION_MODE_LAX = 'lax';
+
+    /**
      * @var self::ERROR_MODE*
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
@@ -58,6 +68,11 @@ final class RuntimeConfiguration
      * @var bool
      */
     private $utilizeSqlAst = false;
+
+    /**
+     * @var self::VALIDATION_MODE_*
+     */
+    private $parameterTypeValidation = self::VALIDATION_MODE_LAX;
 
     /**
      * @var bool|0|positive-int
@@ -147,6 +162,20 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Set the mode by which to validate parameter types. Strict means that
+     * database column types will be enforced exactly, whereas lax means that
+     * a more generic type (e.g. int and string) are allowed.
+     *
+     * @param self::VALIDATION_MODE_* $mode
+     */
+    public function parameterTypeValidation(string $mode): self
+    {
+        $this->parameterTypeValidation = $mode;
+
+        return $this;
+    }
+
+    /**
      * Enables query plan analysis, which indicates performance problems.
      *
      * Requires a active database connection.
@@ -201,6 +230,11 @@ final class RuntimeConfiguration
     public function isUtilizingSqlAst(): bool
     {
         return $this->utilizeSqlAst;
+    }
+
+    public function isParameterTypeValidationStrict(): bool
+    {
+        return $this->parameterTypeValidation === self::VALIDATION_MODE_STRICT;
     }
 
     /**

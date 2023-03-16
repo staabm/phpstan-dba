@@ -16,7 +16,11 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\IntegerRangeType;
+use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
@@ -120,6 +124,8 @@ final class DoctrineKeyValueStyleRule implements Rule
         }
         $schemaReflection = $this->queryReflection->getSchemaReflection();
 
+        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
+
         // Table name may be escaped with backticks
         $argTableName = trim($tableType->getValue(), '`');
         $table = $schemaReflection->getTable($argTableName);
@@ -164,12 +170,29 @@ final class DoctrineKeyValueStyleRule implements Rule
                     continue;
                 }
 
-                // Be a bit generous here by allowing column value types that
-                // are *maybe* accepted. If we want to be strict, we can warn
-                // unless they are *definitely* accepted.
+                $argColumnType = $argColumn->getType();
                 $valueType = $argType->getValueTypes()[$keyIndex];
-                if ($argColumn->getType()->accepts($valueType, true)->no()) {
-                    $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumn->getType()->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
+
+                if (false === $checkIntegerRanges) {
+                    // Convert IntegerRangeType column types into IntegerType so
+                    // that any integer value is accepted for integer columns,
+                    // since it is uncommon to check integer value ranges.
+                    if ($argColumnType instanceof IntegerRangeType) {
+                        $argColumnType = new IntegerType();
+                    } elseif ($argColumnType instanceof UnionType) {
+                        $newTypes = [];
+                        foreach ($argColumnType->getTypes() as $type) {
+                            if ($type instanceof IntegerRangeType) {
+                                $type = new IntegerType();
+                            }
+                            $newTypes[] = $type;
+                        }
+                        $argColumnType = TypeCombinator::union(...$newTypes);
+                    }
+                }
+
+                if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
+                    $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
                 }
             }
         }
