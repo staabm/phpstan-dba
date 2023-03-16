@@ -30,6 +30,16 @@ final class RuntimeConfiguration
     public const ERROR_MODE_DEFAULT = 'default';
 
     /**
+     * parameter type validation will be strict
+     */
+    public const VALIDATION_MODE_STRICT = 'strict';
+
+    /**
+     * parameter type validation will be lax
+     */
+    public const VALIDATION_MODE_LAX = 'lax';
+
+    /**
      * @var self::ERROR_MODE*
      */
     private $errorMode = self::ERROR_MODE_DEFAULT;
@@ -60,9 +70,9 @@ final class RuntimeConfiguration
     private $utilizeSqlAst = false;
 
     /**
-     * @var bool
+     * @var self::VALIDATION_MODE_*
      */
-    private $doctrineKeyValueIntegerRangeChecks = false;
+    private $parameterTypeValidation = self::VALIDATION_MODE_LAX;
 
     /**
      * @var bool|0|positive-int
@@ -152,12 +162,15 @@ final class RuntimeConfiguration
     }
 
     /**
-     * Enables exact integer range checks when comparing PHP value types to
-     * database column types.
+     * Set the mode by which to validate parameter types. Strict means that
+     * database column types will be enforced exactly, whereas lax means that
+     * a more generic type (e.g. int and string) are allowed.
+     *
+     * @param self::VALIDATION_MODE_* $mode
      */
-    public function enableDoctrineKeyValueIntegerRangeChecks(bool $enabled): self
+    public function parameterTypeValidation(string $mode): self
     {
-        $this->doctrineKeyValueIntegerRangeChecks = $enabled;
+        $this->parameterTypeValidation = $mode;
 
         return $this;
     }
@@ -219,9 +232,9 @@ final class RuntimeConfiguration
         return $this->utilizeSqlAst;
     }
 
-    public function isDoctrineKeyValueIntegerRangeChecksEnabled(): bool
+    public function isParameterTypeValidationStrict(): bool
     {
-        return $this->doctrineKeyValueIntegerRangeChecks;
+        return $this->parameterTypeValidation === self::VALIDATION_MODE_STRICT;
     }
 
     /**

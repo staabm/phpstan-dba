@@ -124,7 +124,7 @@ final class DoctrineKeyValueStyleRule implements Rule
         }
         $schemaReflection = $this->queryReflection->getSchemaReflection();
 
-        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isDoctrineKeyValueIntegerRangeChecksEnabled();
+        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
 
         // Table name may be escaped with backticks
         $argTableName = trim($tableType->getValue(), '`');

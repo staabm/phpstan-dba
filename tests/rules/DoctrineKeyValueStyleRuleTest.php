@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\RuntimeConfiguration;
 use staabm\PHPStanDba\Rules\DoctrineKeyValueStyleRule;
 
 /**
@@ -16,7 +17,7 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
 {
     protected function tearDown(): void
     {
-        QueryReflection::getRuntimeConfiguration()->enableDoctrineKeyValueIntegerRangeChecks(false);
+        QueryReflection::getRuntimeConfiguration()->parameterTypeValidation(RuntimeConfiguration::VALIDATION_MODE_LAX);
     }
 
     protected function getRule(): Rule
@@ -92,7 +93,7 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
             ],
         ];
 
-        QueryReflection::getRuntimeConfiguration()->enableDoctrineKeyValueIntegerRangeChecks(true);
+        QueryReflection::getRuntimeConfiguration()->parameterTypeValidation(RuntimeConfiguration::VALIDATION_MODE_STRICT);
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style-integer-ranges.php'], $expectedErrors);
     }
