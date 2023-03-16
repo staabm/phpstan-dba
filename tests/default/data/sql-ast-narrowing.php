@@ -376,7 +376,9 @@ class Foo
 
     public function ignoredAstQueries(PDO $pdo): void
     {
-        $pdo->query('SELECT adaid from ada inner join (select akid from ak) on akid = adaid');
+        // in reality akid would be same type adaid (int<-32768, 32767>)
+        $stmt = $pdo->query('SELECT akid from ada inner join (select akid from ak)t on akid = adaid');
+        assertType('PDOStatement<array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}>', $stmt);
 
         $stmt = $pdo->query('SELECT adaid from ada cross join ak');
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
