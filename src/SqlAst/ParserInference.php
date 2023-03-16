@@ -24,7 +24,7 @@ use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
-use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableAstInQueryException;
 
 final class ParserInference
 {
@@ -67,7 +67,7 @@ final class ParserInference
                     while (1) {
                         if ($from->getCondition() === null) {
                             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                                throw new UnresolvableQueryMixedTypeException('Cannot narrow down types null join conditions: ' . $queryString);
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types null join conditions: ' . $queryString);
                             }
 
                             return $resultType;
@@ -75,7 +75,7 @@ final class ParserInference
 
                         if ($from->getRight() instanceof TableReferenceSubquery || $from->getLeft() instanceof TableReferenceSubquery) {
                             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                                throw new UnresolvableQueryMixedTypeException('Cannot narrow down types for SQLs with subqueries: ' . $queryString);
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types for SQLs with subqueries: ' . $queryString);
                             }
 
                             return $resultType;
@@ -83,7 +83,7 @@ final class ParserInference
 
                         if ($from instanceof InnerJoin && $from->isCrossJoin()) {
                             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                                throw new UnresolvableQueryMixedTypeException('Cannot narrow down types for cross joins: ' . $queryString);
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types for cross joins: ' . $queryString);
                             }
 
                             return $resultType;
