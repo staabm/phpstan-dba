@@ -72,4 +72,9 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
     }
+
+    public function testLaxIntegerRanges(): void
+    {
+        $this->analyse([__DIR__ . '/data/doctrine-key-value-style-integer-ranges.php'], []);
+    }
 }
