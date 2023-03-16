@@ -35,7 +35,7 @@ final class RuntimeConfiguration
     public const VALIDATION_MODE_STRICT = 'strict';
 
     /**
-     * parameter type validation will be lax
+     * wider types will be accepted, e.g `int` will be silently accepted for `int<0, 65535>`
      */
     public const VALIDATION_MODE_LAX = 'lax';
 
