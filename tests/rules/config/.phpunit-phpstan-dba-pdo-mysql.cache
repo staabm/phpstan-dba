@@ -40,32 +40,12 @@
          'code' => '42S02',
       )),
     ),
-    'EXPLAIN INSERT INTO `ada` SET email="test" WHERE adaid = 1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'WHERE adaid = 1\' at line 1
-
-Simulated query: EXPLAIN INSERT INTO `ada` SET email="test" WHERE adaid = 1',
-         'code' => '42000',
-      )),
-    ),
     'EXPLAIN INSERT into adasfd SET email="sdf"' => 
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
          'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.adasfd\' doesn\'t exist',
          'code' => '42S02',
-      )),
-    ),
-    'EXPLAIN REPLACE INTO `ada` SET email="test" WHERE adaid = 1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'WHERE adaid = 1\' at line 1
-
-Simulated query: EXPLAIN REPLACE INTO `ada` SET email="test" WHERE adaid = 1',
-         'code' => '42000',
       )),
     ),
     'EXPLAIN REPLACE into adasfd SET email="sdf"' => 
@@ -260,25 +240,7 @@ Simulated query: EXPLAIN REPLACE INTO `ada` SET email="test" WHERE adaid = 1',
          'code' => '42S02',
       )),
     ),
-    'SELECT * FROM  LIMIT 1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'LIMIT 0\' at line 1',
-         'code' => '42000',
-      )),
-    ),
     'SELECT * FROM 1' => 
-    array (
-      'error' => 
-      staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'1 LIMIT 0\' at line 1
-
-Simulated query: SELECT * FROM 1 LIMIT 0',
-         'code' => '42000',
-      )),
-    ),
-    'SELECT * FROM 1 LIMIT 1,1' => 
     array (
       'error' => 
       staabm\PHPStanDba\Error::__set_state(array(
@@ -1506,153 +1468,6 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => false,
-        )),
-      ),
-    ),
-    'SELECT * FROM ak' => 
-    array (
-      'result' => 
-      array (
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '\'akid\'|\'eadavk\'|\'eladaid\'',
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'akid',
-                 'isClassString' => false,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'eadavk',
-                 'isClassString' => false,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'eladaid',
-                 'isClassString' => false,
-              )),
-            ),
-             'normalized' => false,
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
-              )),
-              1 => 
-              PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
-                 'types' => 
-                array (
-                  0 => 
-                  PHPStan\Type\StringType::__set_state(array(
-                  )),
-                  1 => 
-                  PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
-                  )),
-                ),
-              )),
-              2 => 
-              PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 0,
-          ),
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'akid',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'eladaid',
-               'isClassString' => false,
-            )),
-            2 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'eadavk',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
-            )),
-            1 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            2 => 
-            PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
-                )),
-              ),
             )),
           ),
            'optionalKeys' => 
