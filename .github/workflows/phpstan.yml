@@ -40,6 +40,15 @@ jobs:
             reflector: "mysqli"
             mode: "recording"
 
+          - php-version: "8.2"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
+            mode: "recording"
+          - php-version: '8.2'
+            db-image: 'mariadb:latest'
+            reflector: "mysqli"
+            mode: "recording"
+
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
