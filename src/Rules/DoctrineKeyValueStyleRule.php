@@ -16,6 +16,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
@@ -194,7 +195,7 @@ final class DoctrineKeyValueStyleRule implements Rule
                                 }
                             }
 
-                            if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
+                            if (! $argColumnType->accepts($valueType, true)->yes() || $valueType instanceof MixedType) {
                                 $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
                             }
                         }
