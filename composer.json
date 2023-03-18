@@ -25,7 +25,7 @@
 		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflict": {
-		"sqlftw/sqlftw": "<0.1.6 || >0.1.7"
+		"sqlftw/sqlftw": "<0.1.10"
 	},
 	"autoload": {
 		"psr-4": {
@@ -63,20 +63,16 @@
 			"@clean"
 		],
 		"record": [
-			"@build",
 			"phpstan clear-result-cache",
 			"@putenv DBA_MODE=recording",
 
 			"@putenv DBA_REFLECTOR=mysqli",
 			"@phpunit",
-			"@phpstan",
 
 			"@putenv DBA_REFLECTOR=pdo-mysql",
 			"@phpunit",
-			"@phpstan",
 
-			"@csfix",
-			"@clean"
+			"@csfix"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",

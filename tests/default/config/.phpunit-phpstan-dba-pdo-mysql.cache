@@ -443,979 +443,6 @@
     array (
       'result' => 
       array (
-        3 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '\'c_bigint\'|\'c_bit\'|\'c_blob\'|\'c_boolean\'|\'c_char5\'|\'c_date\'|\'c_datetime\'|\'c_decimal\'|\'c_decimal_not_null\'|\'c_double\'|\'c_enum\'|\'c_float\'|\'c_int\'|\'c_json\'|\'c_json_not_null\'|\'c_long_text\'|\'c_longblob\'|\'c_medium_text\'|\'c_mediumblog\'|\'c_mediumint\'|\'c_real\'|\'c_set\'|\'c_smallint\'|\'c_text\'|\'c_time\'|\'c_timestamp\'|\'c_tiny_text\'|\'c_tinyblob\'|\'c_tinyint\'|\'c_unsigned_bigint\'|\'c_unsigned_int\'|\'c_unsigned_mediumint\'|\'c_unsigned_smallint\'|\'c_unsigned_tinyint\'|\'c_varbinary25\'|\'c_varbinary255\'|\'c_varchar25\'|\'c_varchar255\'|\'c_year\'|\'pid\'',
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_bigint',
-                 'isClassString' => false,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_bit',
-                 'isClassString' => false,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_blob',
-                 'isClassString' => false,
-              )),
-              3 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_boolean',
-                 'isClassString' => false,
-              )),
-              4 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_char5',
-                 'isClassString' => false,
-              )),
-              5 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_date',
-                 'isClassString' => false,
-              )),
-              6 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_datetime',
-                 'isClassString' => false,
-              )),
-              7 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_decimal',
-                 'isClassString' => false,
-              )),
-              8 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_decimal_not_null',
-                 'isClassString' => false,
-              )),
-              9 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_double',
-                 'isClassString' => false,
-              )),
-              10 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_enum',
-                 'isClassString' => false,
-              )),
-              11 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_float',
-                 'isClassString' => false,
-              )),
-              12 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_int',
-                 'isClassString' => false,
-              )),
-              13 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_json',
-                 'isClassString' => false,
-              )),
-              14 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_json_not_null',
-                 'isClassString' => false,
-              )),
-              15 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_long_text',
-                 'isClassString' => false,
-              )),
-              16 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_longblob',
-                 'isClassString' => false,
-              )),
-              17 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_medium_text',
-                 'isClassString' => false,
-              )),
-              18 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_mediumblog',
-                 'isClassString' => false,
-              )),
-              19 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_mediumint',
-                 'isClassString' => false,
-              )),
-              20 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_real',
-                 'isClassString' => false,
-              )),
-              21 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_set',
-                 'isClassString' => false,
-              )),
-              22 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_smallint',
-                 'isClassString' => false,
-              )),
-              23 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_text',
-                 'isClassString' => false,
-              )),
-              24 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_time',
-                 'isClassString' => false,
-              )),
-              25 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_timestamp',
-                 'isClassString' => false,
-              )),
-              26 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_tiny_text',
-                 'isClassString' => false,
-              )),
-              27 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_tinyblob',
-                 'isClassString' => false,
-              )),
-              28 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_tinyint',
-                 'isClassString' => false,
-              )),
-              29 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_bigint',
-                 'isClassString' => false,
-              )),
-              30 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_int',
-                 'isClassString' => false,
-              )),
-              31 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_mediumint',
-                 'isClassString' => false,
-              )),
-              32 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_smallint',
-                 'isClassString' => false,
-              )),
-              33 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_tinyint',
-                 'isClassString' => false,
-              )),
-              34 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_varbinary25',
-                 'isClassString' => false,
-              )),
-              35 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_varbinary255',
-                 'isClassString' => false,
-              )),
-              36 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_varchar25',
-                 'isClassString' => false,
-              )),
-              37 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_varchar255',
-                 'isClassString' => false,
-              )),
-              38 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'c_year',
-                 'isClassString' => false,
-              )),
-              39 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'pid',
-                 'isClassString' => false,
-              )),
-            ),
-             'normalized' => false,
-          )),
-           'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              PHPStan\Type\FloatType::__set_state(array(
-              )),
-              2 => 
-              PHPStan\Type\IntegerType::__set_state(array(
-              )),
-              3 => 
-              PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 0,
-          ),
-           'keyTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'pid',
-               'isClassString' => false,
-            )),
-            1 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_char5',
-               'isClassString' => false,
-            )),
-            2 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_varchar255',
-               'isClassString' => false,
-            )),
-            3 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_varchar25',
-               'isClassString' => false,
-            )),
-            4 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_varbinary255',
-               'isClassString' => false,
-            )),
-            5 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_varbinary25',
-               'isClassString' => false,
-            )),
-            6 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_date',
-               'isClassString' => false,
-            )),
-            7 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_time',
-               'isClassString' => false,
-            )),
-            8 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_datetime',
-               'isClassString' => false,
-            )),
-            9 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_timestamp',
-               'isClassString' => false,
-            )),
-            10 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_year',
-               'isClassString' => false,
-            )),
-            11 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_tiny_text',
-               'isClassString' => false,
-            )),
-            12 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_medium_text',
-               'isClassString' => false,
-            )),
-            13 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_text',
-               'isClassString' => false,
-            )),
-            14 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_long_text',
-               'isClassString' => false,
-            )),
-            15 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_enum',
-               'isClassString' => false,
-            )),
-            16 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_set',
-               'isClassString' => false,
-            )),
-            17 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_bit',
-               'isClassString' => false,
-            )),
-            18 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_int',
-               'isClassString' => false,
-            )),
-            19 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_tinyint',
-               'isClassString' => false,
-            )),
-            20 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_smallint',
-               'isClassString' => false,
-            )),
-            21 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_mediumint',
-               'isClassString' => false,
-            )),
-            22 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_bigint',
-               'isClassString' => false,
-            )),
-            23 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_double',
-               'isClassString' => false,
-            )),
-            24 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_real',
-               'isClassString' => false,
-            )),
-            25 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_float',
-               'isClassString' => false,
-            )),
-            26 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_boolean',
-               'isClassString' => false,
-            )),
-            27 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_blob',
-               'isClassString' => false,
-            )),
-            28 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_tinyblob',
-               'isClassString' => false,
-            )),
-            29 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_mediumblog',
-               'isClassString' => false,
-            )),
-            30 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_longblob',
-               'isClassString' => false,
-            )),
-            31 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_tinyint',
-               'isClassString' => false,
-            )),
-            32 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_int',
-               'isClassString' => false,
-            )),
-            33 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_smallint',
-               'isClassString' => false,
-            )),
-            34 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_mediumint',
-               'isClassString' => false,
-            )),
-            35 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_bigint',
-               'isClassString' => false,
-            )),
-            36 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_json',
-               'isClassString' => false,
-            )),
-            37 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_json_not_null',
-               'isClassString' => false,
-            )),
-            38 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_decimal',
-               'isClassString' => false,
-            )),
-            39 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-               'value' => 'c_decimal_not_null',
-               'isClassString' => false,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            1 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            2 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            3 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            4 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            5 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            6 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            7 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            8 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            9 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            10 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => 0,
-                   'max' => 2155,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            11 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            12 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            13 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            14 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            15 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            16 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            17 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            18 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
-            )),
-            19 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            20 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-            21 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -8388608,
-               'max' => 8388607,
-            )),
-            22 => 
-            PHPStan\Type\IntegerType::__set_state(array(
-            )),
-            23 => 
-            PHPStan\Type\FloatType::__set_state(array(
-            )),
-            24 => 
-            PHPStan\Type\FloatType::__set_state(array(
-            )),
-            25 => 
-            PHPStan\Type\FloatType::__set_state(array(
-            )),
-            26 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
-            )),
-            27 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            28 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            29 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            30 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            31 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 255,
-            )),
-            32 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 4294967295,
-            )),
-            33 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 65535,
-            )),
-            34 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 16777215,
-            )),
-            35 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => NULL,
-            )),
-            36 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            37 => 
-            PHPStan\Type\StringType::__set_state(array(
-            )),
-            38 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => true,
-                   'types' => 
-                  array (
-                    0 => 
-                    PHPStan\Type\StringType::__set_state(array(
-                    )),
-                    1 => 
-                    PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
-                    )),
-                  ),
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-            )),
-            39 => 
-            PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => true,
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
-                )),
-              ),
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => false,
-        )),
         5 => 
         PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'keyType' => 
@@ -3863,9 +2890,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -3882,9 +2911,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -3937,23 +2968,9 @@
              'normalized' => false,
           )),
            'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
-              )),
-              1 => 
-              PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -2147483648,
+             'max' => 2147483647,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -3977,42 +2994,14 @@
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
             1 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
           ),
            'optionalKeys' => 
@@ -4569,9 +3558,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4586,9 +3577,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4678,9 +3671,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4695,9 +3690,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4787,9 +3784,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4804,9 +3803,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4896,9 +3897,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -4913,9 +3916,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -5005,9 +4010,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -5022,9 +4029,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -5171,9 +4180,11 @@
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -5286,9 +4297,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -5305,9 +4318,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -5472,9 +4487,11 @@
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -5489,9 +4506,11 @@
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -5610,6 +4629,7 @@ FROM ada' =>
              'cachedDescriptions' => 
             array (
               2 => '0|\'adaid\'',
+              1 => 'int|string',
             ),
              'types' => 
             array (
@@ -7605,9 +6625,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -7624,9 +6646,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -7899,9 +6923,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -7918,9 +6944,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -8203,7 +7231,7 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -8348,7 +7376,7 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -8496,15 +7524,17 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -8523,9 +7553,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
@@ -8672,15 +7704,17 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -8699,9 +7733,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
@@ -8835,9 +7871,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -8854,9 +7892,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -8982,9 +8022,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9001,9 +8043,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9129,9 +8173,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9148,9 +8194,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9276,9 +8324,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9295,9 +8345,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9423,9 +8475,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9442,9 +8496,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9570,9 +8626,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9589,9 +8647,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9717,9 +8777,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9736,9 +8798,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9864,9 +8928,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -9883,9 +8949,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10444,9 +9512,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10463,9 +9533,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10654,9 +9726,11 @@ FROM ada' =>
             )),
             2 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10673,9 +9747,11 @@ FROM ada' =>
             )),
             3 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10692,9 +9768,11 @@ FROM ada' =>
             )),
             4 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10711,9 +9789,11 @@ FROM ada' =>
             )),
             5 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -10730,9 +9810,11 @@ FROM ada' =>
             )),
             6 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -10747,9 +9829,11 @@ FROM ada' =>
             )),
             7 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -11331,7 +10415,7 @@ FROM ada' =>
             array (
               0 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -11371,15 +10455,17 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11398,15 +10484,17 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11470,7 +10558,7 @@ FROM ada' =>
             array (
               0 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -11510,15 +10598,17 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11537,15 +10627,17 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11609,7 +10701,7 @@ FROM ada' =>
             array (
               0 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -11649,15 +10741,17 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11676,15 +10770,17 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -11868,9 +10964,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -11885,9 +10983,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -11977,9 +11077,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -11994,9 +11096,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -12086,9 +11190,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12103,9 +11209,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12195,9 +11303,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12212,9 +11322,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12304,9 +11416,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12321,9 +11435,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12413,9 +11529,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12430,9 +11548,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12522,9 +11642,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12539,9 +11661,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12631,9 +11755,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12648,9 +11774,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12740,9 +11868,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12757,9 +11887,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12849,9 +11981,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12866,9 +12000,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12958,9 +12094,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -12975,9 +12113,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -13067,9 +12207,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -13084,9 +12226,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -13553,9 +12697,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -13689,6 +12835,7 @@ FROM ada' =>
              'cachedDescriptions' => 
             array (
               2 => '0|\'email\'',
+              1 => 'int|string',
             ),
              'types' => 
             array (
@@ -17026,7 +16173,7 @@ FROM ada' =>
           )),
            'itemType' => 
           PHPStan\Type\IntersectionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -17060,7 +16207,7 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -17073,7 +16220,7 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -17601,9 +16748,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -17620,9 +16769,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -17860,9 +17011,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -17877,9 +17030,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18038,9 +17193,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -18057,9 +17214,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -18226,9 +17385,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -18245,9 +17406,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -18339,9 +17502,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18356,9 +17521,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18448,9 +17615,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18465,9 +17634,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18557,9 +17728,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18574,9 +17747,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18666,9 +17841,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18683,9 +17860,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18775,9 +17954,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18792,9 +17973,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18884,9 +18067,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18901,9 +18086,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -18993,9 +18180,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -19010,9 +18199,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -19180,9 +18371,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -19199,9 +18392,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -19295,9 +18490,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19314,9 +18511,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19410,9 +18609,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -19429,9 +18630,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-2147483648, 2147483647>|null',
+                3 => 'int<-2147483648, 2147483647>|null',
               ),
                'types' => 
               array (
@@ -19525,9 +18728,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19544,9 +18749,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19640,9 +18847,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19659,9 +18868,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19755,9 +18966,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19774,9 +18987,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19870,9 +19085,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19889,9 +19106,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -19985,9 +19204,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -20004,9 +19225,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-32768, 32767>|null',
+                3 => 'int<-32768, 32767>|null',
               ),
                'types' => 
               array (
@@ -20100,9 +19323,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-128, 127>|null',
+                3 => 'int<-128, 127>|null',
               ),
                'types' => 
               array (
@@ -20119,9 +19344,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int<-128, 127>|null',
+                3 => 'int<-128, 127>|null',
               ),
                'types' => 
               array (
@@ -20213,9 +19440,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -20230,9 +19459,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'int|null',
+                3 => 'int|null',
               ),
                'types' => 
               array (
@@ -20284,7 +19515,7 @@ FROM ada' =>
           )),
            'itemType' => 
           PHPStan\Type\IntersectionType::__set_state(array(
-             'sortedTypes' => false,
+             'sortedTypes' => true,
              'types' => 
             array (
               0 => 
@@ -20318,7 +19549,7 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -20331,7 +19562,7 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\IntersectionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'types' => 
               array (
                 0 => 
@@ -20380,9 +19611,7 @@ FROM ada' =>
              'normalized' => false,
           )),
            'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -32768,
-             'max' => 32767,
+          PHPStan\Type\IntegerType::__set_state(array(
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -20406,14 +19635,10 @@ FROM ada' =>
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -20492,9 +19717,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -20509,9 +19736,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -20571,7 +19800,7 @@ FROM ada' =>
             array (
               0 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -20611,15 +19840,17 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -20638,15 +19869,17 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -20740,9 +19973,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -20757,9 +19992,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -20819,7 +20056,7 @@ FROM ada' =>
             array (
               0 => 
               PHPStan\Type\IntersectionType::__set_state(array(
-                 'sortedTypes' => false,
+                 'sortedTypes' => true,
                  'types' => 
                 array (
                   0 => 
@@ -20859,15 +20096,17 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -20886,15 +20125,17 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'numeric-string|null',
+                3 => 'numeric-string|null',
               ),
                'types' => 
               array (
                 0 => 
                 PHPStan\Type\IntersectionType::__set_state(array(
-                   'sortedTypes' => false,
+                   'sortedTypes' => true,
                    'types' => 
                   array (
                     0 => 
@@ -20988,9 +20229,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -21005,9 +20248,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'float|null',
+                3 => 'float|null',
               ),
                'types' => 
               array (
@@ -21097,9 +20342,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -21114,9 +20361,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -21206,9 +20455,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -21223,9 +20474,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -21315,9 +20568,11 @@ FROM ada' =>
           array (
             0 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (
@@ -21332,9 +20587,11 @@ FROM ada' =>
             )),
             1 => 
             PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
+               'sortedTypes' => true,
                'cachedDescriptions' => 
               array (
+                4 => 'string|null',
+                3 => 'string|null',
               ),
                'types' => 
               array (

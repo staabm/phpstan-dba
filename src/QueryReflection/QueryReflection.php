@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use Composer\InstalledVersions;
+use ECSPrefix202302\Symfony\Component\VarDumper\VarDumper;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\Encapsed;
