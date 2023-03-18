@@ -16,7 +16,7 @@ class Foo
         assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
 
         $stmt = $pdo->query('SELECT count(email) as myemail, count(email) from ada');
-        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>, count(email): int, 1: int<0, max>}>', $stmt);
+        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>, count(email): int<0, max>, 1: int<0, max>}>', $stmt);
 
         $stmt = $pdo->query('SELECT count(*), max(adaid), min(adaid) as i from ada');
         assertType('PDOStatement<array{count(*): int<0, max>, 0: int<0, max>, max(adaid): int<-32768, 32767>, 1: int<-32768, 32767>, i: int<-32768, 32767>, 2: int<-32768, 32767>}>', $stmt);

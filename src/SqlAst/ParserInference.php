@@ -140,6 +140,10 @@ final class ParserInference
             if ($exprName !== null) {
                 $nameType = new ConstantStringType($exprName);
             }
+            $rawExpressionType = null;
+            if ($column->getRawExpression() !== null) {
+                $rawExpressionType = new ConstantStringType($column->getRawExpression());
+            }
             $aliasOffsetType = null;
             if (null !== $column->getAlias()) {
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
@@ -152,6 +156,12 @@ final class ParserInference
                 $valueType = $type;
             }
 
+            if (null !== $rawExpressionType && $resultType->hasOffsetValueType($rawExpressionType)->yes()) {
+                $resultType = $resultType->setOffsetValueType(
+                    $rawExpressionType,
+                    $valueType
+                );
+            }
             if (null !== $aliasOffsetType && $resultType->hasOffsetValueType($aliasOffsetType)->yes()) {
                 $resultType = $resultType->setOffsetValueType(
                     $aliasOffsetType,

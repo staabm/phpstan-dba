@@ -25,7 +25,7 @@ class Foo
     {
         $query = 'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{MAX(adaid): int<-32768, 32767>|null, MIN(adaid): int<-32768, 32767>|null, COUNT(adaid): int, AVG(adaid): numeric-string|null}>', $stmt);
+        assertType('PDOStatement<array{MAX(adaid): int<-32768, 32767>, MIN(adaid): int<-32768, 32767>, COUNT(adaid): int<0, max>, AVG(adaid): int<-32768, 32767>}>', $stmt);
     }
 
     public function placeholderInDataPrepared(PDO $pdo)

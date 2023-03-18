@@ -210,14 +210,14 @@ class Foo
     {
         $query = 'SELECT count(*) FROM typemix WHERE c_datetime = ?';
         $fetchResult = $conn->fetchOne($query, [date('Y-m-d H:i:s', strtotime('-3hour'))]);
-        assertType('int|false', $fetchResult);
+        assertType('int<0, max>|false', $fetchResult);
     }
 
     public function dateParameter(Connection $conn)
     {
         $query = 'SELECT count(*) FROM typemix WHERE c_date = ?';
         $fetchResult = $conn->fetchOne($query, [date('Y-m-d', strtotime('-3hour'))]);
-        assertType('int|false', $fetchResult);
+        assertType('int<0, max>|false', $fetchResult);
     }
 
     public function customTypeParameters(Connection $conn)
