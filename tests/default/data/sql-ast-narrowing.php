@@ -10,13 +10,13 @@ class Foo
     public function count(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT count(*) as myemail from ada');
-        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
+        assertType('PDOStatement<array{myemail: int<0, max>|null, 0: int<0, max>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT count(email) as myemail from ada');
-        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>}>', $stmt);
+        assertType('PDOStatement<array{myemail: int<0, max>|null, 0: int<0, max>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT count(email) as myemail, count(email) from ada');
-        assertType('PDOStatement<array{myemail: int<0, max>, 0: int<0, max>, count(email): int, 1: int<0, max>}>', $stmt);
+        assertType('PDOStatement<array{myemail: int<0, max>|null, 0: int<0, max>|null, count(email): int, 1: int<0, max>|null}>', $stmt);
     }
 
     public function coalesce(PDO $pdo): void
@@ -217,13 +217,13 @@ class Foo
     public function avgMinMax(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT avg(freigabe1u1) as avg from ada');
-        assertType('PDOStatement<array{avg: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{avg: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT min(freigabe1u1) as min from ada');
-        assertType('PDOStatement<array{min: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{min: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT max(freigabe1u1) as max from ada');
-        assertType('PDOStatement<array{max: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        assertType('PDOStatement<array{max: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(eladaid) as avg from ak');
         assertType('PDOStatement<array{avg: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}>', $stmt);
@@ -235,7 +235,7 @@ class Foo
         assertType('PDOStatement<array{max: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(coalesce(eladaid, 9999999999999999)) as avg from ak');
-        assertType('PDOStatement<array{avg: 9999999999999999|int<-2147483648, 2147483647>, 0: 9999999999999999|int<-2147483648, 2147483647>}>', $stmt);
+        assertType('PDOStatement<array{avg: 9999999999999999|int<-2147483648, 2147483647>|null, 0: 9999999999999999|int<-2147483648, 2147483647>|null}>', $stmt);
     }
 
     public function isNull(PDO $pdo): void

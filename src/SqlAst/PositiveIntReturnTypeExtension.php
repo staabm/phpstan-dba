@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\SqlAst;
 
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\FunctionCall;
 
@@ -30,6 +31,12 @@ final class PositiveIntReturnTypeExtension implements QueryFunctionReturnTypeExt
 
     public function getReturnType(FunctionCall $expression, QueryScope $scope): Type
     {
-        return IntegerRangeType::fromInterval(0, null);
+        $positiveInt = IntegerRangeType::fromInterval(0, null);
+
+        if ($expression->getFunction()->getName() === BuiltInFunction::COUNT) {
+            return TypeCombinator::addNull($positiveInt);
+        }
+
+        return $positiveInt;
     }
 }

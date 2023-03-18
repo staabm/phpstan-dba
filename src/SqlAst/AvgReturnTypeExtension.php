@@ -27,10 +27,6 @@ final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
         $argType = $scope->getType($args[0]);
         $numberType = $argType->toNumber();
 
-        if (TypeCombinator::containsNull($argType)) {
-            return TypeCombinator::addNull($numberType);
-        }
-
-        return $numberType;
+        return TypeCombinator::addNull($numberType);
     }
 }
