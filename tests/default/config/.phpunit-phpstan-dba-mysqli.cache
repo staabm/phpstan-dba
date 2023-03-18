@@ -4589,23 +4589,9 @@
              'normalized' => false,
           )),
            'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
-              )),
-              1 => 
-              PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -2147483648,
+             'max' => 2147483647,
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -4629,42 +4615,14 @@
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
             1 => 
-            PHPStan\Type\UnionType::__set_state(array(
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
-               'types' => 
-              array (
-                0 => 
-                PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
           ),
            'optionalKeys' => 
@@ -22593,9 +22551,7 @@ FROM ada' =>
              'normalized' => false,
           )),
            'itemType' => 
-          PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -32768,
-             'max' => 32767,
+          PHPStan\Type\IntegerType::__set_state(array(
           )),
            'allArrays' => NULL,
            'nextAutoIndexes' => 
@@ -22619,14 +22575,10 @@ FROM ada' =>
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
