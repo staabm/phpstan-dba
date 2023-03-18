@@ -161,15 +161,17 @@ final class QueryReflection
 
     private function stringifyType(Type $type): Type
     {
+        $containsNull = TypeCombinator::containsNull($type);
+
         $numberType = new UnionType([new IntegerType(), new FloatType()]);
 
-        if ($numberType->isSuperTypeOf($type)->yes()) {
+        if ($numberType->isSuperTypeOf(TypeCombinator::removeNull($type))->yes()) {
             $stringified = new IntersectionType([
                 new StringType(),
                 new AccessoryNumericStringType(),
             ]);
 
-            if (TypeCombinator::containsNull($type)) {
+            if ($containsNull) {
                 return TypeCombinator::addNull($stringified);
             }
 
