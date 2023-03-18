@@ -13,6 +13,6 @@ class SqlAstNarrowing
         assertType('PDOStatement<array{myemail: numeric-string|null, 0: numeric-string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT count(email) as myemail, count(email) from ada');
-        assertType('PDOStatement<array{myemail: numeric-string|null, 0: numeric-string|null, count(email): numeric-string, 1: numeric-string}>', $stmt);
+        assertType('PDOStatement<array{myemail: numeric-string|null, 0: numeric-string|null, count(email): numeric-string, 1: numeric-string|null}>', $stmt);
     }
 }
