@@ -368,4 +368,23 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}>', $stmt);
     }
 
+    public function multipleJoins(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int, c_char5 from ada inner join ak on adaid = eladaid inner join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>, 1: int<-32768, 32767>, c_int: int<-32768, 32767>, 2: int<-32768, 32767>, c_char5: string, 3: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid, eladaid, c_int, c_char5 from ada left join ak on adaid = eladaid left join typemix on adaid = c_int');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-32768, 32767>|null, 1: int<-32768, 32767>|null, c_int: int<-32768, 32767>|null, 2: int<-32768, 32767>|null, c_char5: string|null, 3: string|null}>', $stmt);
+    }
+
+    public function ignoredAstQueries(PDO $pdo): void
+    {
+        // in reality akid would be same type adaid (int<-32768, 32767>)
+        $stmt = $pdo->query('SELECT akid from ada inner join (select akid from ak)t on akid = adaid');
+        assertType('PDOStatement<array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT adaid from ada cross join ak');
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+    }
+
 }

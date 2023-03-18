@@ -17,11 +17,14 @@ use SqlFtw\Sql\Dml\Query\SelectCommand;
 use SqlFtw\Sql\Dml\Query\SelectExpression;
 use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Dml\TableReference\Join;
+use SqlFtw\Sql\Dml\TableReference\TableReferenceSubquery;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
 use SqlFtw\Sql\Expression\Identifier;
 use SqlFtw\Sql\SqlSerializable;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\UnresolvableAstInQueryException;
 
 final class ParserInference
 {
@@ -61,27 +64,57 @@ final class ParserInference
                     $fromName = $from->getTable()->getName();
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
-                    if ($fromTable === null) {
-                        $fromName = $from->getLeft()->getTable()->getName();
-                        $fromTable = $this->schemaReflection->getTable($fromName);
-                    }
-                    // @phpstan-ignore-next-line
-                    $joinName = $from->getRight()->getTable()->getName();
-                    $joinedTable = $this->schemaReflection->getTable($joinName);
+                    while (1) {
+                        if ($from->getCondition() === null) {
+                            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types null join conditions: ' . $queryString);
+                            }
 
-                    if (null !== $joinedTable) {
+                            return $resultType;
+                        }
+
+                        if ($from->getRight() instanceof TableReferenceSubquery || $from->getLeft() instanceof TableReferenceSubquery) {
+                            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types for SQLs with subqueries: ' . $queryString);
+                            }
+
+                            return $resultType;
+                        }
+
+                        if ($from instanceof InnerJoin && $from->isCrossJoin()) {
+                            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                                throw new UnresolvableAstInQueryException('Cannot narrow down types for cross joins: ' . $queryString);
+                            }
+
+                            return $resultType;
+                        }
+
                         $joinType = SchemaJoin::TYPE_OUTER;
+
                         if ($from instanceof InnerJoin) {
                             $joinType = SchemaJoin::TYPE_INNER;
                         }
-                        if ($from->getCondition() === null) {
-                            throw new \RuntimeException('Join condition is null.');
+
+                        $joinedTable = $this->schemaReflection->getTable($from->getRight()->getTable()->getName());
+
+                        if ($joinedTable !== null) {
+                            $joins[] = new SchemaJoin(
+                                $joinType,
+                                $joinedTable,
+                                $from->getCondition()
+                            );
                         }
-                        $joins[] = new SchemaJoin(
-                            $joinType,
-                            $joinedTable,
-                            $from->getCondition()
-                        );
+
+                        if ($from->getLeft() instanceof TableReferenceTable) {
+                            $from = $from->getLeft();
+
+                            $fromName = $from->getTable()->getName();
+                            $fromTable = $this->schemaReflection->getTable($fromName);
+
+                            break;
+                        }
+
+                        $from = $from->getLeft();
                     }
                 }
             }
