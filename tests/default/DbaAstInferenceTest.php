@@ -5,10 +5,22 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Testing\TypeInferenceTestCase;
+use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use function getenv;
 
-class DbaInferenceTest extends TypeInferenceTestCase
+class DbaAstInferenceTest extends TypeInferenceTestCase
 {
+
+    protected function setUp(): void
+    {
+        QueryReflection::getRuntimeConfiguration()->utilizeSqlAst(true);
+    }
+
+    protected function tearDown(): void
+    {
+        QueryReflection::getRuntimeConfiguration()->utilizeSqlAst(false);
+    }
+
     public function dataFileAsserts(): iterable
     {
         if (\PHP_VERSION_ID >= 70400 && 'pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
