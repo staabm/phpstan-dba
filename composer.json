@@ -63,16 +63,20 @@
 			"@clean"
 		],
 		"record": [
+			"@build",
 			"phpstan clear-result-cache",
 			"@putenv DBA_MODE=recording",
 
 			"@putenv DBA_REFLECTOR=mysqli",
 			"@phpunit",
+			"@phpstan",
 
 			"@putenv DBA_REFLECTOR=pdo-mysql",
 			"@phpunit",
+			"@phpstan",
 
-			"@csfix"
+			"@csfix",
+			"@clean"
 		],
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",
