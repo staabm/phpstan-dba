@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Tests;
 
-use Composer\InstalledVersions;
-use Composer\Semver\VersionParser;
-use ECSPrefix202302\Symfony\Component\VarDumper\VarDumper;
 use PHPStan\Testing\TypeInferenceTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use function getenv;
 
 class DbaAstInferenceTest extends TypeInferenceTestCase
 {
-
     protected function setUp(): void
     {
         QueryReflection::getRuntimeConfiguration()->utilizeSqlAst(true);
