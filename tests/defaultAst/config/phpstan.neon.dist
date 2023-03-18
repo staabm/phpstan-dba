@@ -1,0 +1,19 @@
+includes:
+    - ../../../config/stubFiles.neon
+    - ../../../config/extensions.neon
+
+parameters:
+    level: max
+
+    paths:
+        - ../
+
+    bootstrapFiles:
+        - bootstrap.php
+
+    ignoreErrors:
+        - '#.*has no return type specified.#'
+        - '#.*return type has no value type specified in iterable type iterable.#'
+
+    excludePaths:
+        - *tests/*/data/**
