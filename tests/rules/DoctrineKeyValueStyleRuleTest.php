@@ -25,7 +25,7 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
         ];
     }
 
-    public function testSyntaxErrorInMethod(): void
+    public function testRule(): void
     {
         $expectedErrors = [
             [
@@ -57,11 +57,40 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 41,
             ],
             [
-                'Query error: Column "ada.adaid" expects value type int<-32768, 32767>, got type string',
+                'Query error: Column "ada.adaid" expects value type int, got type string',
                 46,
+            ],
+            [
+                'Query error: Column "ada.adaid" expects value type int, got type int|null',
+                51,
+            ],
+            [
+                'Query error: Column "ada.adaid" expects value type int, got type mixed',
+                56,
+            ],
+            [
+                'Query error: Table "not_a_table1" does not exist',
+                112,
+            ],
+            [
+                'Query error: Table "not_a_table2" does not exist',
+                112,
+            ],
+            [
+                'Query error: Column "ada.not_a_column1" does not exist',
+                120,
+            ],
+            [
+                'Query error: Column "ada.not_a_column2" does not exist',
+                120,
             ],
         ];
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
+    }
+
+    public function testLaxIntegerRanges(): void
+    {
+        $this->analyse([__DIR__ . '/data/doctrine-key-value-style-integer-ranges.php'], []);
     }
 }

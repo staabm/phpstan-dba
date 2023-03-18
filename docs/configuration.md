@@ -9,3 +9,7 @@ If not configured otherwise, the following defaults are used:
 - when analyzing a php8.1+ codebase, [`mysqli_report(\MYSQLI_REPORT_ERROR | \MYSQLI_REPORT_STRICT);` error handling](https://www.php.net/mysqli_report) is assumed.
 - the fetch mode defaults to `QueryReflector::FETCH_TYPE_BOTH`, but can be configured using the [`defaultFetchMode`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
 - read and write queries are analyzed per default. you may consider disable write query analysis using the [`analyzeWriteQueries`](https://github.com/staabm/phpstan-dba/tree/main/src/QueryReflection/RuntimeConfiguration.php) option.
+- When validating parameter types, the type inferred from the database may be narrower than the PHP type.
+  For example, a `SMALLINT UNSIGNED` column has type `int<0, 65535>`, but you may be passing in a value that has type `int`.
+  If you want this case to be an error, then use the configuration function `parameterTypeValidation('strict')`.
+  Currently, this only applies to integer types in `DoctrineKeyValueStyleRule`, but may apply to additional rules and types in the future.
