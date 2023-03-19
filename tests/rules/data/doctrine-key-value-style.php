@@ -121,9 +121,17 @@ class Foo
     }
 
     /**
+     * @param int|float $value
+     */
+    public function errorWithUnacceptableUnionValue(Connection $conn, $value)
+    {
+        $conn->assembleOneArray('typemix', ['c_int' => $value]);
+    }
+
+    /**
      * @param array-key $value A benevolent union type (int|string)
      */
-    public function noErrorInBenevolentUnion(Connection $conn, mixed $value)
+    public function errorWithBenevolentUnionValue(Connection $conn, $value)
     {
         $conn->assembleOneArray('typemix', ['c_int' => $value]);
     }
