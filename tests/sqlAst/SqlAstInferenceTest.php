@@ -7,7 +7,7 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Testing\TypeInferenceTestCase;
 use function getenv;
 
-class DbaInferenceTest extends TypeInferenceTestCase
+class SqlAstInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
