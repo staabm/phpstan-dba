@@ -25,7 +25,7 @@
 		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflict": {
-		"sqlftw/sqlftw": "<0.1.6 || >0.1.7"
+		"sqlftw/sqlftw": "<0.1.10"
 	},
 	"autoload": {
 		"psr-4": {
@@ -81,6 +81,7 @@
 		"phpstan": [
 			"phpstan analyse -c phpstan.neon.dist",
 			"phpstan analyse -c tests/default/config/phpstan.neon.dist",
+			"phpstan analyse -c tests/sqlAst/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/rules/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/stringify/config/phpstan.neon.dist",
 			"phpstan analyse -c tests/defaultFetchAssoc/config/phpstan.neon.dist",
@@ -93,6 +94,7 @@
 		],
 		"phpunit": [
 			"phpunit -c tests/default/config/phpunit.xml",
+			"phpunit -c tests/sqlAst/config/phpunit.xml",
 			"phpunit -c tests/rules/config/phpunit.xml",
 			"phpunit -c tests/stringify/config/phpunit.xml",
 			"phpunit -c tests/defaultFetchAssoc/config/phpunit.xml",
