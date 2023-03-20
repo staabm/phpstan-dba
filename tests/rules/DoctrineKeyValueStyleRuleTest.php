@@ -84,6 +84,14 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 'Query error: Column "ada.not_a_column2" does not exist',
                 120,
             ],
+            [
+                'Query error: Column "typemix.c_int" expects value type int, got type float|int',
+                128,
+            ],
+            [
+                'Query error: Column "typemix.c_int" expects value type int, got type (int|string)',
+                136,
+            ],
         ];
 
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style.php'], $expectedErrors);
