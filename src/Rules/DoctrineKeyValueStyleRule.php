@@ -171,7 +171,7 @@ final class DoctrineKeyValueStyleRule implements Rule
                                 continue;
                             }
 
-                            $acceptedType = $this->columnAcceptsType($argColumn->getType());
+                            $acceptedType = $this->getColumnAcceptsType($argColumn->getType());
                             $valueType = $argArray->getValueTypes()[$keyIndex];
 
                             if (! $acceptedType->isSuperTypeOf($valueType)->yes()) {
@@ -194,7 +194,7 @@ final class DoctrineKeyValueStyleRule implements Rule
      * Converts the column type into the most general type that the column
      * will accept.
      */
-    private function columnAcceptsType(Type $columnType): Type
+    private function getColumnAcceptsType(Type $columnType): Type
     {
         $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
         if (false === $checkIntegerRanges) {
