@@ -16,7 +16,7 @@ class TypemixMysql
         assertType('mysqli_result<' . self::MYSQL_DATATYPES . '>', $result);
     }
 
-    public function typemixPdoPgsql(PDO $pdo)
+    public function typemixPdoMysql(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT * FROM typemix', PDO::FETCH_ASSOC);
         assertType('PDOStatement<' . self::MYSQL_DATATYPES . '>', $stmt);
