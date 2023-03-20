@@ -27,8 +27,10 @@ class DbaInferenceTest extends TypeInferenceTestCase
 
         if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-pgsql.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/typemix-pgsql.php');
         } else {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-mysql.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/typemix-mysql.php');
         }
 
         // DbaApi related tests cannot be replayed, because cache file keys do not reflect the used DbaApi
