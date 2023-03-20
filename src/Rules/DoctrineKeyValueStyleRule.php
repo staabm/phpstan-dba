@@ -171,11 +171,11 @@ final class DoctrineKeyValueStyleRule implements Rule
                                 continue;
                             }
 
-                            $acceptedType = $this->getColumnAcceptsType($argColumn->getType());
+                            $acceptingType = $this->getColumnAcceptingType($argColumn->getType());
                             $valueType = $argArray->getValueTypes()[$keyIndex];
 
-                            if (! $acceptedType->isSuperTypeOf($valueType)->yes()) {
-                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $acceptedType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
+                            if (! $acceptingType->isSuperTypeOf($valueType)->yes()) {
+                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $acceptingType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
                             }
                         }
                     }
@@ -194,7 +194,7 @@ final class DoctrineKeyValueStyleRule implements Rule
      * Converts the column type into the most general type that the column
      * will accept.
      */
-    private function getColumnAcceptsType(Type $columnType): Type
+    private function getColumnAcceptingType(Type $columnType): Type
     {
         $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
         if (false === $checkIntegerRanges) {
