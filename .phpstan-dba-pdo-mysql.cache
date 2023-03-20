@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v11-phpstan1_9_3-update',
-  'schemaHash' => 'ecd027c593ad6ba9cab40691acfd4700',
+  'schemaHash' => 'f8243f08e312cc01a89e4e0e639e78ef',
   'records' => 
   array (
     'SELECT
@@ -267,14 +267,14 @@
              'sortedTypes' => true,
              'cachedDescriptions' => 
             array (
-              1 => 'int<-128, 127>|string|null',
+              1 => 'int<-2147483648, 2147483647>|string|null',
             ),
              'types' => 
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 127,
+                 'min' => -2147483648,
+                 'max' => 2147483647,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -359,13 +359,13 @@
             )),
             2 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
           ),
            'optionalKeys' => 
@@ -407,14 +407,14 @@
              'sortedTypes' => true,
              'cachedDescriptions' => 
             array (
-              1 => 'int<-128, 127>|string|null',
+              1 => 'int<-2147483648, 2147483647>|string|null',
             ),
              'types' => 
             array (
               0 => 
               PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -128,
-                 'max' => 127,
+                 'min' => -2147483648,
+                 'max' => 2147483647,
               )),
               1 => 
               PHPStan\Type\StringType::__set_state(array(
@@ -470,8 +470,8 @@
             )),
             1 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
           ),
            'optionalKeys' => 

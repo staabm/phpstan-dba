@@ -70,21 +70,21 @@ final class MysqlTypeMapper implements TypeMapper
 
         if ($numeric) {
             if ($unsigned) {
-                switch ($length) {
-                    case 3:
-                    case 4:
+                switch ($mysqlType) {
+                    case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
                         break;
-                    case 5:
+                    case 'SHORT':
                         $phpstanType = $mysqlIntegerRanges->unsignedSmallInt();
                         break;
-                    case 8:
+                    case 'INT24':
                         $phpstanType = $mysqlIntegerRanges->unsignedMediumInt();
                         break;
-                    case 10:
+                    case 'LONG':
                         $phpstanType = $mysqlIntegerRanges->unsignedInt();
                         break;
-                    case 20:
+                    case 'LONGLONG':
                         $phpstanType = $mysqlIntegerRanges->unsignedBigInt();
                         break;
                     default:
@@ -92,22 +92,21 @@ final class MysqlTypeMapper implements TypeMapper
                         break;
                 }
             } else {
-                switch ($length) {
-                    case 1:
-                    case 4:
+                switch ($mysqlType) {
+                    case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->signedTinyInt();
                         break;
-                    case 6:
+                    case 'SHORT':
                         $phpstanType = $mysqlIntegerRanges->signedSmallInt();
                         break;
-                    case 9:
+                    case 'INT24':
                         $phpstanType = $mysqlIntegerRanges->signedMediumInt();
                         break;
-                    case 11:
+                    case 'LONG':
                         $phpstanType = $mysqlIntegerRanges->signedInt();
                         break;
-                    case 20:
-                    case 22:
+                    case 'LONGLONG':
                         $phpstanType = $mysqlIntegerRanges->signedBigInt();
                         break;
                     default:
