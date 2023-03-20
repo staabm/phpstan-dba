@@ -17,8 +17,8 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
@@ -123,8 +123,6 @@ final class DoctrineKeyValueStyleRule implements Rule
         }
         $schemaReflection = $this->queryReflection->getSchemaReflection();
 
-        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
-
         $errors = [];
         foreach ($tableNames as $tableName) {
             // Table name may be escaped with backticks
@@ -173,29 +171,11 @@ final class DoctrineKeyValueStyleRule implements Rule
                                 continue;
                             }
 
-                            $argColumnType = $argColumn->getType();
+                            $acceptingType = $this->getColumnAcceptingType($argColumn->getType());
                             $valueType = $argArray->getValueTypes()[$keyIndex];
 
-                            if (false === $checkIntegerRanges) {
-                                // Convert IntegerRangeType column types into IntegerType so
-                                // that any integer value is accepted for integer columns,
-                                // since it is uncommon to check integer value ranges.
-                                if ($argColumnType instanceof IntegerRangeType) {
-                                    $argColumnType = new IntegerType();
-                                } elseif ($argColumnType instanceof UnionType) {
-                                    $newTypes = [];
-                                    foreach ($argColumnType->getTypes() as $type) {
-                                        if ($type instanceof IntegerRangeType) {
-                                            $type = new IntegerType();
-                                        }
-                                        $newTypes[] = $type;
-                                    }
-                                    $argColumnType = TypeCombinator::union(...$newTypes);
-                                }
-                            }
-
-                            if (! $argColumnType->isSuperTypeOf($valueType)->yes()) {
-                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $argColumnType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
+                            if (! $acceptingType->isSuperTypeOf($valueType)->yes()) {
+                                $errors[] = 'Column "' . $table->getName() . '.' . $argColumnName . '" expects value type ' . $acceptingType->describe(VerbosityLevel::precise()) . ', got type ' . $valueType->describe(VerbosityLevel::precise());
                             }
                         }
                     }
@@ -208,5 +188,34 @@ final class DoctrineKeyValueStyleRule implements Rule
             $ruleErrors[] = RuleErrorBuilder::message('Query error: ' . $error)->line($callLike->getLine())->build();
         }
         return $ruleErrors;
+    }
+
+    /**
+     * Converts the column type into the most general type that the column
+     * will accept.
+     */
+    private function getColumnAcceptingType(Type $columnType): Type
+    {
+        $checkIntegerRanges = QueryReflection::getRuntimeConfiguration()->isParameterTypeValidationStrict();
+        if (false === $checkIntegerRanges) {
+            // Convert IntegerRangeType column types into IntegerType so
+            // that any integer value is accepted for integer columns,
+            // since it is uncommon to check integer value ranges.
+            $containedNull = TypeCombinator::containsNull($columnType);
+            $columnType = TypeCombinator::removeNull($columnType);
+            if ($columnType instanceof IntegerRangeType) {
+                $columnType = new IntegerType();
+            }
+            if ($containedNull) {
+                $columnType = TypeCombinator::addNull($columnType);
+            }
+        }
+
+        if ($columnType->isFloat()->yes()) {
+            // Float column should also accept integer values
+            $columnType = TypeCombinator::union(new IntegerType(), $columnType);
+        }
+
+        return $columnType;
     }
 }

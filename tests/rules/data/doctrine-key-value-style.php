@@ -119,4 +119,25 @@ class Foo
     {
         $conn->assembleOneArray('ada', $params);
     }
+
+    /**
+     * @param int|float $value
+     */
+    public function errorWithUnacceptableUnionValue(Connection $conn, $value)
+    {
+        $conn->assembleOneArray('typemix', ['c_int' => $value]);
+    }
+
+    /**
+     * @param array-key $value A benevolent union type (int|string)
+     */
+    public function errorWithBenevolentUnionValue(Connection $conn, $value)
+    {
+        $conn->assembleOneArray('typemix', ['c_int' => $value]);
+    }
+
+    public function noErrorWithIntValueForFloatColumn(Connection $conn, int $value)
+    {
+        $conn->assembleOneArray('typemix', ['c_float' => $value]);
+    }
 }
