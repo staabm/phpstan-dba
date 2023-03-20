@@ -260,7 +260,9 @@
                'max' => 32767,
             )),
             1 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
             )),
             2 => 
             PHPStan\Type\StringType::__set_state(array(
@@ -1268,7 +1270,9 @@
                'max' => 2147483647,
             )),
             19 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
             )),
             20 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -1293,7 +1297,9 @@
             PHPStan\Type\FloatType::__set_state(array(
             )),
             26 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -128,
+               'max' => 127,
             )),
             27 => 
             PHPStan\Type\StringType::__set_state(array(
@@ -1308,7 +1314,9 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             31 => 
-            PHPStan\Type\StringType::__set_state(array(
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => 255,
             )),
             32 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -19512,7 +19520,9 @@ FROM ada' =>
              'types' => 
             array (
               0 => 
-              PHPStan\Type\StringType::__set_state(array(
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
               )),
               1 => 
               PHPStan\Type\NullType::__set_state(array(
@@ -19550,7 +19560,9 @@ FROM ada' =>
                'types' => 
               array (
                 0 => 
-                PHPStan\Type\StringType::__set_state(array(
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(
@@ -19567,7 +19579,9 @@ FROM ada' =>
                'types' => 
               array (
                 0 => 
-                PHPStan\Type\StringType::__set_state(array(
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
                 )),
                 1 => 
                 PHPStan\Type\NullType::__set_state(array(

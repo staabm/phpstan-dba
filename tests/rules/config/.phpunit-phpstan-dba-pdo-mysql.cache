@@ -451,13 +451,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -630,13 +630,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -764,8 +764,8 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -954,13 +954,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -1141,13 +1141,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -1320,13 +1320,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -1499,13 +1499,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -1841,13 +1841,13 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             8 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
@@ -3053,8 +3053,8 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             3 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -3269,13 +3269,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -3496,13 +3496,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -3723,13 +3723,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -3902,13 +3902,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 
@@ -4097,13 +4097,13 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
             )),
             6 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
             7 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -128,
-               'max' => 127,
+               'min' => -32768,
+               'max' => 32767,
             )),
           ),
            'optionalKeys' => 

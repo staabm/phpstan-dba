@@ -72,6 +72,7 @@ final class MysqlTypeMapper implements TypeMapper
             if ($unsigned) {
                 switch ($mysqlType) {
                     case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
                         break;
                     case 'SHORT':
@@ -93,6 +94,7 @@ final class MysqlTypeMapper implements TypeMapper
             } else {
                 switch ($mysqlType) {
                     case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->signedTinyInt();
                         break;
                     case 'SHORT':
