@@ -6,6 +6,8 @@
 .phpunit-phpstan-dba-pdo-pgsql.cache linguist-generated=true
 
 # Exclude non-essential files from dist
+/.github export-ignore
+/docs export-ignore
 /tests export-ignore
 .phpunit-phpstan-dba-mysqli.cache
 .phpunit-phpstan-dba-pdo-mysql.cache
