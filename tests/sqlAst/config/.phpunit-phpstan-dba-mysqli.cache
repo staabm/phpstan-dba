@@ -438,7 +438,7 @@
              'sortedTypes' => true,
              'cachedDescriptions' => 
             array (
-              2 => '\'c_bigint\'|\'c_bit\'|\'c_blob\'|\'c_boolean\'|\'c_char5\'|\'c_date\'|\'c_datetime\'|\'c_decimal\'|\'c_decimal_not_null\'|\'c_double\'|\'c_enum\'|\'c_float\'|\'c_int\'|\'c_json\'|\'c_json_not_null\'|\'c_long_text\'|\'c_longblob\'|\'c_medium_text\'|\'c_mediumblog\'|\'c_mediumint\'|\'c_real\'|\'c_set\'|\'c_smallint\'|\'c_text\'|\'c_time\'|\'c_timestamp\'|\'c_tiny_text\'|\'c_tinyblob\'|\'c_tinyint\'|\'c_unsigned_bigint\'|\'c_unsigned_int\'|\'c_unsigned_mediumint\'|\'c_unsigned_smallint\'|\'c_unsigned_tinyint\'|\'c_varbinary25\'|\'c_varbinary255\'|\'c_varchar25\'|\'c_varchar255\'|\'c_year\'|\'pid\'',
+              2 => '\'c_bigint\'|\'c_bit\'|\'c_blob\'|\'c_boolean\'|\'c_char5\'|\'c_date\'|\'c_datetime\'|\'c_decimal\'|\'c_decimal_not_null\'|\'c_double\'|\'c_enum\'|\'c_float\'|\'c_int\'|\'c_json\'|\'c_json_not_null\'|\'c_long_text\'|\'c_longblob\'|\'c_medium_text\'|\'c_mediumblog\'|\'c_mediumint\'|\'c_nullable_tinyint\'|\'c_real\'|\'c_set\'|\'c_smallint\'|\'c_text\'|\'c_time\'|\'c_timestamp\'|\'c_tiny_text\'|\'c_tinyblob\'|\'c_tinyint\'|\'c_unsigned_bigint\'|\'c_unsigned_int\'|\'c_unsigned_mediumint\'|\'c_unsigned_smallint\'|\'c_unsigned_tinyint\'|\'c_varbinary25\'|\'c_varbinary255\'|\'c_varchar25\'|\'c_varchar255\'|\'c_year\'|\'pid\'',
             ),
              'types' => 
             array (
@@ -586,136 +586,143 @@
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_real',
+                 'value' => 'c_nullable_tinyint',
                  'isClassString' => false,
               )),
               21 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_set',
+                 'value' => 'c_real',
                  'isClassString' => false,
               )),
               22 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_smallint',
+                 'value' => 'c_set',
                  'isClassString' => false,
               )),
               23 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_text',
+                 'value' => 'c_smallint',
                  'isClassString' => false,
               )),
               24 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_time',
+                 'value' => 'c_text',
                  'isClassString' => false,
               )),
               25 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_timestamp',
+                 'value' => 'c_time',
                  'isClassString' => false,
               )),
               26 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_tiny_text',
+                 'value' => 'c_timestamp',
                  'isClassString' => false,
               )),
               27 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_tinyblob',
+                 'value' => 'c_tiny_text',
                  'isClassString' => false,
               )),
               28 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_tinyint',
+                 'value' => 'c_tinyblob',
                  'isClassString' => false,
               )),
               29 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_bigint',
+                 'value' => 'c_tinyint',
                  'isClassString' => false,
               )),
               30 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_int',
+                 'value' => 'c_unsigned_bigint',
                  'isClassString' => false,
               )),
               31 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_mediumint',
+                 'value' => 'c_unsigned_int',
                  'isClassString' => false,
               )),
               32 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_smallint',
+                 'value' => 'c_unsigned_mediumint',
                  'isClassString' => false,
               )),
               33 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_unsigned_tinyint',
+                 'value' => 'c_unsigned_smallint',
                  'isClassString' => false,
               )),
               34 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_varbinary25',
+                 'value' => 'c_unsigned_tinyint',
                  'isClassString' => false,
               )),
               35 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_varbinary255',
+                 'value' => 'c_varbinary25',
                  'isClassString' => false,
               )),
               36 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_varchar25',
+                 'value' => 'c_varbinary255',
                  'isClassString' => false,
               )),
               37 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_varchar255',
+                 'value' => 'c_varchar25',
                  'isClassString' => false,
               )),
               38 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
-                 'value' => 'c_year',
+                 'value' => 'c_varchar255',
                  'isClassString' => false,
               )),
               39 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'c_year',
+                 'isClassString' => false,
+              )),
+              40 => 
               PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'objectType' => NULL,
                  'arrayKeyType' => NULL,
@@ -899,136 +906,143 @@
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_smallint',
+               'value' => 'c_nullable_tinyint',
                'isClassString' => false,
             )),
             21 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_mediumint',
+               'value' => 'c_smallint',
                'isClassString' => false,
             )),
             22 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_bigint',
+               'value' => 'c_mediumint',
                'isClassString' => false,
             )),
             23 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_double',
+               'value' => 'c_bigint',
                'isClassString' => false,
             )),
             24 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_real',
+               'value' => 'c_double',
                'isClassString' => false,
             )),
             25 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_float',
+               'value' => 'c_real',
                'isClassString' => false,
             )),
             26 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_boolean',
+               'value' => 'c_float',
                'isClassString' => false,
             )),
             27 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_blob',
+               'value' => 'c_boolean',
                'isClassString' => false,
             )),
             28 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_tinyblob',
+               'value' => 'c_blob',
                'isClassString' => false,
             )),
             29 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_mediumblog',
+               'value' => 'c_tinyblob',
                'isClassString' => false,
             )),
             30 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_longblob',
+               'value' => 'c_mediumblog',
                'isClassString' => false,
             )),
             31 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_tinyint',
+               'value' => 'c_longblob',
                'isClassString' => false,
             )),
             32 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_int',
+               'value' => 'c_unsigned_tinyint',
                'isClassString' => false,
             )),
             33 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_smallint',
+               'value' => 'c_unsigned_int',
                'isClassString' => false,
             )),
             34 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_mediumint',
+               'value' => 'c_unsigned_smallint',
                'isClassString' => false,
             )),
             35 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_unsigned_bigint',
+               'value' => 'c_unsigned_mediumint',
                'isClassString' => false,
             )),
             36 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_json',
+               'value' => 'c_unsigned_bigint',
                'isClassString' => false,
             )),
             37 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_json_not_null',
+               'value' => 'c_json',
                'isClassString' => false,
             )),
             38 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
-               'value' => 'c_decimal',
+               'value' => 'c_json_not_null',
                'isClassString' => false,
             )),
             39 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'c_decimal',
+               'isClassString' => false,
+            )),
+            40 => 
             PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'objectType' => NULL,
                'arrayKeyType' => NULL,
@@ -1275,20 +1289,36 @@
                'max' => 127,
             )),
             20 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            21 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -32768,
                'max' => 32767,
             )),
-            21 => 
+            22 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -8388608,
                'max' => 8388607,
             )),
-            22 => 
-            PHPStan\Type\IntegerType::__set_state(array(
-            )),
             23 => 
-            PHPStan\Type\FloatType::__set_state(array(
+            PHPStan\Type\IntegerType::__set_state(array(
             )),
             24 => 
             PHPStan\Type\FloatType::__set_state(array(
@@ -1297,12 +1327,12 @@
             PHPStan\Type\FloatType::__set_state(array(
             )),
             26 => 
+            PHPStan\Type\FloatType::__set_state(array(
+            )),
+            27 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -128,
                'max' => 127,
-            )),
-            27 => 
-            PHPStan\Type\StringType::__set_state(array(
             )),
             28 => 
             PHPStan\Type\StringType::__set_state(array(
@@ -1314,31 +1344,34 @@
             PHPStan\Type\StringType::__set_state(array(
             )),
             31 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => 0,
-               'max' => 255,
+            PHPStan\Type\StringType::__set_state(array(
             )),
             32 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
-               'max' => 4294967295,
+               'max' => 255,
             )),
             33 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
-               'max' => 65535,
+               'max' => 4294967295,
             )),
             34 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
-               'max' => 16777215,
+               'max' => 65535,
             )),
             35 => 
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => 0,
-               'max' => NULL,
+               'max' => 16777215,
             )),
             36 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => 0,
+               'max' => NULL,
+            )),
+            37 => 
             PHPStan\Type\UnionType::__set_state(array(
                'sortedTypes' => false,
                'cachedDescriptions' => 
@@ -1355,10 +1388,10 @@
               ),
                'normalized' => true,
             )),
-            37 => 
+            38 => 
             PHPStan\Type\StringType::__set_state(array(
             )),
-            38 => 
+            39 => 
             PHPStan\Type\UnionType::__set_state(array(
                'sortedTypes' => false,
                'cachedDescriptions' => 
@@ -1385,7 +1418,7 @@
               ),
                'normalized' => true,
             )),
-            39 => 
+            40 => 
             PHPStan\Type\IntersectionType::__set_state(array(
                'sortedTypes' => true,
                'types' => 
@@ -16763,6 +16796,942 @@ FROM ada' =>
         )),
       ),
     ),
+    'SELECT ifnull(123.23, c_int) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntersectionType::__set_state(array(
+             'sortedTypes' => false,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+            1 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_float, 123.23) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\FloatType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\FloatType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\FloatType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_int, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_int, 123.23) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntersectionType::__set_state(array(
+             'sortedTypes' => false,
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+              )),
+            ),
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+            1 => 
+            PHPStan\Type\IntersectionType::__set_state(array(
+               'sortedTypes' => false,
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\Accessory\AccessoryNumericStringType::__set_state(array(
+                )),
+              ),
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_int, c_float) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\FloatType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\FloatType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\FloatType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, 5000) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\IntegerType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, c_nullable_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_smallint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_smallint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(c_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -32768,
+             'max' => 32767,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
     'SELECT ifnull(freigabe1u1, "default") as col from ada' => 
     array (
       'result' => 
@@ -17204,6 +18173,73 @@ FROM ada' =>
             PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -32768,
                'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT ifnull(null, "default") as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\StringType::__set_state(array(
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -20153,6 +21189,914 @@ FROM ada' =>
             PHPStan\Type\MixedType::__set_state(array(
                'subtractedType' => NULL,
                'isExplicitMixed' => false,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(2, 2) as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(2, 3) as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerType::__set_state(array(
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerType::__set_state(array(
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_smallint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -32768,
+                   'max' => 32767,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -32768,
+                   'max' => 32767,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, 3) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, 5000) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => false,
+        )),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'keyType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|\'col\'',
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+                 'value' => 'col',
+                 'isClassString' => false,
+              )),
+            ),
+             'normalized' => false,
+          )),
+           'itemType' => 
+          PHPStan\Type\UnionType::__set_state(array(
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+             'types' => 
+            array (
+              0 => 
+              PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -128,
+                 'max' => 127,
+              )),
+              1 => 
+              PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 1,
+          ),
+           'keyTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+               'value' => 'col',
+               'isClassString' => false,
+            )),
+            1 => 
+            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+               'value' => 0,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+            )),
+            1 => 
+            PHPStan\Type\UnionType::__set_state(array(
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+               'types' => 
+              array (
+                0 => 
+                PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -128,
+                   'max' => 127,
+                )),
+                1 => 
+                PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
             )),
           ),
            'optionalKeys' => 

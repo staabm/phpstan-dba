@@ -50,6 +50,7 @@ CREATE TABLE `typemix` (
    `c_bit` bit(7) DEFAULT NULL,
    `c_int` int NOT NULL,
    `c_tinyint` tinyint NOT NULL,
+   `c_nullable_tinyint` tinyint,
    `c_smallint` smallint NOT NULL,
    `c_mediumint` mediumint NOT NULL,
    `c_bigint` bigint NOT NULL,

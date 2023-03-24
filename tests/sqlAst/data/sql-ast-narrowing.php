@@ -46,23 +46,44 @@ class Foo
 
     public function ifnull(PDO $pdo): void
     {
-        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, 5000) as col from ada');
+        $stmt = $pdo->query('SELECT ifnull(null, "default") as col');
+        assertType("PDOStatement<array{col: 'default', 0: 'default'}>", $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_int, "default") as col from typemix');
+        assertType("PDOStatement<array{col: numeric-string, 0: numeric-string}>", $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, "default") as col from typemix');
+        assertType("PDOStatement<array{col: 'default'|numeric-string, 0: 'default'|numeric-string}>", $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, 5000) as col from typemix');
+        assertType('PDOStatement<array{col: 5000|int<-128, 127>, 0: 5000|int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_int, c_float) as col from typemix');
+        assertType('PDOStatement<array{col: float, 0: float}>', $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_float, 123.23) as col from typemix');
+        assertType('PDOStatement<array{col: float, 0: float}>', $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_int, 123.23) as col from typemix');
+        assertType('PDOStatement<array{col: numeric-string, 0: numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(123.23, c_int) as col from typemix');
+        assertType("PDOStatement<array{col: '123.23', 0: '123.23'}>", $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_smallint, c_smallint) as col from typemix');
         assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, 123.23) as col from ada');
-        assertType('PDOStatement<array{col: 123.23|int<-32768, 32767>, 0: 123.23|int<-32768, 32767>}>', $stmt);
-
-        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, "default") as col from ada');
-        assertType("PDOStatement<array{col: 'default'|int<-32768, 32767>, 0: 'default'|int<-32768, 32767>}>", $stmt);
-
-        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, freigabe1u1) as col from ada');
+        $stmt = $pdo->query('SELECT ifnull(c_smallint, c_tinyint) as col from typemix');
         assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT ifnull(freigabe1u1, gesperrt) as col from ada');
+        $stmt = $pdo->query('SELECT ifnull(c_tinyint, c_smallint) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, c_smallint) as col from typemix');
         assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT ifnull(gesperrt, freigabe1u1) as col from ada');
-        assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, c_nullable_tinyint) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT IFNULL(MAX(eladaid),0)+1 as priority from ak');
         assertType('PDOStatement<array{priority: int, 0: int}>', $stmt); // could be more precise integer range
@@ -70,20 +91,32 @@ class Foo
 
     public function nullif(PDO $pdo): void
     {
-        $stmt = $pdo->query('SELECT nullif(freigabe1u1, 500000) as col from ada');
-        assertType('PDOStatement<array{col: 500000|int<-32768, 32767>, 0: 500000|int<-32768, 32767>}>', $stmt);
+        $stmt = $pdo->query('SELECT nullif(2, 2) as col');
+        assertType('PDOStatement<array{col: null, 0: null}>', $stmt);
 
-        $stmt = $pdo->query('SELECT nullif(freigabe1u1, "default") as col from ada');
-        assertType("PDOStatement<array{col: 'default'|int<-32768, 32767>, 0: 'default'|int<-32768, 32767>}>", $stmt);
+        $stmt = $pdo->query('SELECT nullif(2, 3) as col');
+        assertType('PDOStatement<array{col: 2, 0: 2}>', $stmt);
 
-        $stmt = $pdo->query('SELECT nullif(freigabe1u1, freigabe1u1) as col from ada');
-        assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        // Test an integer range against a constant int inside the range
+        $stmt = $pdo->query('SELECT nullif(c_tinyint, 3) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
 
-        $stmt = $pdo->query('SELECT nullif(freigabe1u1, gesperrt) as col from ada');
-        assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        // Test an integer range against a constant int outside the range
+        $stmt = $pdo->query('SELECT nullif(c_tinyint, 5000) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
 
-        $stmt = $pdo->query('SELECT nullif(gesperrt, freigabe1u1) as col from ada');
-        assertType('PDOStatement<array{col: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        // Test an integer range against a constant string
+        $stmt = $pdo->query('SELECT nullif(c_tinyint, "default") as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(c_tinyint, c_tinyint) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(c_tinyint, c_smallint) as col from typemix');
+        assertType('PDOStatement<array{col: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT nullif(c_smallint, c_tinyint) as col from typemix');
+        assertType('PDOStatement<array{col: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}>', $stmt);
     }
 
     public function if(PDO $pdo): void
@@ -246,7 +279,7 @@ class Foo
         assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(ifnull(email, adaid)) as avg from ada');
-        assertType('PDOStatement<array{avg: float|numeric-string|null, 0: float|numeric-string|null}>', $stmt);
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(null) as avg from ada');
         assertType('PDOStatement<array{avg: null, 0: null}>', $stmt);
@@ -270,9 +303,9 @@ class Foo
         assertType('PDOStatement<array{max: string|null, 0: string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT min(ifnull(email, adaid)) as min from ada');
-        assertType('PDOStatement<array{min: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
+        assertType('PDOStatement<array{min: string|null, 0: string|null}>', $stmt);
         $stmt = $pdo->query('SELECT max(ifnull(email, adaid)) as max from ada');
-        assertType('PDOStatement<array{max: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
+        assertType('PDOStatement<array{max: string|null, 0: string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT min(null) as min from ada');
         assertType('PDOStatement<array{min: null, 0: null}>', $stmt);
