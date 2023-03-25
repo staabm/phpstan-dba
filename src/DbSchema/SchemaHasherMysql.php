@@ -76,10 +76,8 @@ final class SchemaHasherMysql
 
             try {
                 $result = $this->connection->query($query);
-                if ($result instanceof \mysqli_result) {
-                    $row = $result->fetch_assoc();
-                    $hash = $row['dbsignature'] ?? '';
-                }
+                $row = $result->fetch_assoc();
+                $hash = $row['dbsignature'] ?? '';
             } finally {
                 $this->connection->rollback();
             }

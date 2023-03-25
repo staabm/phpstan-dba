@@ -120,10 +120,6 @@ final class ParserInference
             }
         }
 
-        if (null === $fromTable) {
-            // not parsable atm, return un-narrowed type
-            return $resultType;
-        }
         if (null === $fromColumns) {
             throw new ShouldNotHappenException();
         }

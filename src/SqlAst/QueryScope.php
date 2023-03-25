@@ -38,7 +38,7 @@ final class QueryScope
     private $extensions;
 
     /**
-     * @var Table
+     * @var ?Table
      */
     private $fromTable;
 
@@ -50,7 +50,7 @@ final class QueryScope
     /**
      * @param list<Join> $joinedTables
      */
-    public function __construct(Table $fromTable, array $joinedTables)
+    public function __construct(?Table $fromTable, array $joinedTables)
     {
         $this->fromTable = $fromTable;
         $this->joinedTables = $joinedTables;
@@ -139,9 +139,11 @@ final class QueryScope
 
     private function resolveSimpleName(SimpleName $expression, bool $narrowJoinTypes): ?Type
     {
-        foreach ($this->fromTable->getColumns() as $column) {
-            if ($column->getName() === $expression->getName()) {
-                return $column->getType();
+        if ($this->fromTable !== null) {
+            foreach ($this->fromTable->getColumns() as $column) {
+                if ($column->getName() === $expression->getName()) {
+                    return $column->getType();
+                }
             }
         }
 
