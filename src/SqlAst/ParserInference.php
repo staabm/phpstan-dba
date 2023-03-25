@@ -24,6 +24,7 @@ use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\SchemaReflection\Table;
 use staabm\PHPStanDba\UnresolvableAstInQueryException;
 
 final class ParserInference
@@ -60,7 +61,10 @@ final class ParserInference
                 }
                 $from = $command->getFrom();
 
-                if ($from instanceof TableReferenceTable) {
+                if (null === $from) {
+                    // no FROM clause, use an empty Table to signify this
+                    $fromTable = new Table('', []);
+                } elseif ($from instanceof TableReferenceTable) {
                     $fromName = $from->getTable()->getName();
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
@@ -120,6 +124,10 @@ final class ParserInference
             }
         }
 
+        if (null === $fromTable) {
+            // not parsable atm, return un-narrowed type
+            return $resultType;
+        }
         if (null === $fromColumns) {
             throw new ShouldNotHappenException();
         }
