@@ -229,7 +229,7 @@ class Foo
         assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(ifnull(email, adaid)) as avg from ada');
-        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+        assertType('PDOStatement<array{avg: float|numeric-string|null, 0: float|numeric-string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT avg(null) as avg from ada');
         assertType('PDOStatement<array{avg: null, 0: null}>', $stmt);
@@ -253,9 +253,9 @@ class Foo
         assertType('PDOStatement<array{max: string|null, 0: string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT min(ifnull(email, adaid)) as min from ada');
-        assertType('PDOStatement<array{min: string|null, 0: string|null}>', $stmt);
+        assertType('PDOStatement<array{min: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
         $stmt = $pdo->query('SELECT max(ifnull(email, adaid)) as max from ada');
-        assertType('PDOStatement<array{max: string|null, 0: string|null}>', $stmt);
+        assertType('PDOStatement<array{max: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT min(null) as min from ada');
         assertType('PDOStatement<array{min: null, 0: null}>', $stmt);

@@ -9,6 +9,7 @@ use PHPStan\Type\IntersectionType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use SqlFtw\Sql\Expression\BuiltInFunction;
 use SqlFtw\Sql\Expression\FunctionCall;
 
@@ -34,18 +35,32 @@ final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
         }
         $argType = TypeCombinator::removeNull($argType);
 
+        if ($argType instanceof UnionType) {
+            $newTypes = [];
+            foreach ($argType->getTypes() as $type) {
+                $newTypes[] = $this->convertToAvgType($type);
+            }
+            $newType = TypeCombinator::union(...$newTypes);
+        } else {
+            $newType = $this->convertToAvgType($argType);
+        }
+
+        return TypeCombinator::addNull($newType);
+    }
+
+    private function convertToAvgType(Type $argType): Type
+    {
         if ($argType->isInteger()->yes()) {
-            $numberType = new IntersectionType([
+            return new IntersectionType([
                 new StringType(),
                 new AccessoryNumericStringType(),
             ]);
-        } elseif ($argType->isSuperTypeOf(new StringType())->yes()) {
-            $numberType = $argType->toFloat();
-        } else {
-            // We don't know how to handle any other types
-            return null;
         }
 
-        return TypeCombinator::addNull($numberType);
+        if ($argType->isString()->yes()) {
+            return $argType->toFloat();
+        }
+
+        return $argType;
     }
 }

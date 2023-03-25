@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\SqlAst;
 
-use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use SqlFtw\Sql\Expression\BuiltInFunction;
@@ -26,10 +25,6 @@ final class MinMaxReturnTypeExtension implements QueryFunctionReturnTypeExtensio
         }
 
         $argType = $scope->getType($args[0]);
-
-        if ($argType->isSuperTypeOf(new StringType())->yes()) {
-            $argType = $argType->toString();
-        }
 
         return TypeCombinator::addNull($argType);
     }
