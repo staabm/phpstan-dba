@@ -7,6 +7,15 @@ use function PHPStan\Testing\assertType;
 
 class Foo
 {
+    public function noFromTable(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT 3');
+        assertType('PDOStatement<array{3: 3, 0: 3}>', $stmt);
+
+        $stmt = $pdo->query('SELECT 3 as col');
+        assertType('PDOStatement<array{col: 3, 0: 3}>', $stmt);
+    }
+
     public function count(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT count(*) as myemail from ada');
