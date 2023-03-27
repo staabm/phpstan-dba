@@ -19,5 +19,5 @@
 /phpstan.neon.dist export-ignore
 /ecs.php export-ignore
 
-.phpunit-phpstan-dba-mysqli.cache export-ignore
-.phpunit-phpstan-dba-pdo-mysql.cache export-ignore
+.phpstan-dba-mysqli.cache export-ignore
+.phpstan-dba-pdo-mysqli.cache export-ignore
