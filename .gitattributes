@@ -9,6 +9,13 @@
 /.github export-ignore
 /docs export-ignore
 /tests export-ignore
+
+/.editorconfig export-ignore
+/.env.dist export-ignore
+/bootstrap.php export-ignore
+/phpstan.neon.dist export-ignore
+/ecs.php export-ignore
+
 .phpunit-phpstan-dba-mysqli.cache
 .phpunit-phpstan-dba-pdo-mysql.cache
 .phpunit-phpstan-dba-pdo-pgsql.cache
