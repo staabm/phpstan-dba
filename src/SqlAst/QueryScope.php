@@ -69,6 +69,7 @@ final class QueryScope
             new IsNullReturnTypeExtension(),
             new AbsReturnTypeExtension(),
             new RoundReturnTypeExtension(),
+            new MinMaxReturnTypeExtension(),
         ];
     }
 

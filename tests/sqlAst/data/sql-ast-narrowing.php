@@ -223,28 +223,61 @@ class Foo
         assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
     }
 
-    public function avgMinMax(PDO $pdo): void
+    public function avg(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT avg(freigabe1u1) as avg from ada');
-        assertType('PDOStatement<array{avg: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}>', $stmt);
+        assertType('PDOStatement<array{avg: numeric-string|null, 0: numeric-string|null}>', $stmt);
 
+        $stmt = $pdo->query('SELECT avg(eladaid) as avg from ak');
+        assertType('PDOStatement<array{avg: numeric-string|null, 0: numeric-string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(coalesce(eladaid, 9999999999999999)) as avg from ak');
+        assertType('PDOStatement<array{avg: numeric-string|null, 0: numeric-string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(email) as avg from ada');
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+
+        // Test numeric-string input
+        $stmt = $pdo->query('SELECT avg(concat("0")) as avg from ada');
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+
+        // Test non-falsy-string input
+        $stmt = $pdo->query('SELECT avg(concat("foo")) as avg from ada');
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(ifnull(email, adaid)) as avg from ada');
+        assertType('PDOStatement<array{avg: float|numeric-string|null, 0: float|numeric-string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(null) as avg from ada');
+        assertType('PDOStatement<array{avg: null, 0: null}>', $stmt);
+    }
+
+    public function minMax(PDO $pdo): void
+    {
         $stmt = $pdo->query('SELECT min(freigabe1u1) as min from ada');
         assertType('PDOStatement<array{min: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}>', $stmt);
-
         $stmt = $pdo->query('SELECT max(freigabe1u1) as max from ada');
         assertType('PDOStatement<array{max: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}>', $stmt);
 
-        $stmt = $pdo->query('SELECT avg(eladaid) as avg from ak');
-        assertType('PDOStatement<array{avg: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}>', $stmt);
-
         $stmt = $pdo->query('SELECT min(eladaid) as min from ak');
         assertType('PDOStatement<array{min: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}>', $stmt);
-
         $stmt = $pdo->query('SELECT max(eladaid) as max from ak');
         assertType('PDOStatement<array{max: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}>', $stmt);
 
-        $stmt = $pdo->query('SELECT avg(coalesce(eladaid, 9999999999999999)) as avg from ak');
-        assertType('PDOStatement<array{avg: 9999999999999999|int<-2147483648, 2147483647>|null, 0: 9999999999999999|int<-2147483648, 2147483647>|null}>', $stmt);
+        $stmt = $pdo->query('SELECT min(email) as min from ada');
+        assertType('PDOStatement<array{min: string|null, 0: string|null}>', $stmt);
+        $stmt = $pdo->query('SELECT max(email) as max from ada');
+        assertType('PDOStatement<array{max: string|null, 0: string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT min(ifnull(email, adaid)) as min from ada');
+        assertType('PDOStatement<array{min: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
+        $stmt = $pdo->query('SELECT max(ifnull(email, adaid)) as max from ada');
+        assertType('PDOStatement<array{max: int<-32768, 32767>|string|null, 0: int<-32768, 32767>|string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT min(null) as min from ada');
+        assertType('PDOStatement<array{min: null, 0: null}>', $stmt);
+        $stmt = $pdo->query('SELECT max(null) as max from ada');
+        assertType('PDOStatement<array{max: null, 0: null}>', $stmt);
     }
 
     public function isNull(PDO $pdo): void
