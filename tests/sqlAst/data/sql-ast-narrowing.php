@@ -228,7 +228,7 @@ class Foo
         $stmt = $pdo->query('SELECT avg(email) as avg from ada');
         assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
-        // Test non-empty-string input
+        // Test numeric-string input
         $stmt = $pdo->query('SELECT avg(concat("0")) as avg from ada');
         assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
