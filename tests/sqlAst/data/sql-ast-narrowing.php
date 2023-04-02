@@ -228,6 +228,14 @@ class Foo
         $stmt = $pdo->query('SELECT avg(email) as avg from ada');
         assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
 
+        // Test non-empty-string input
+        $stmt = $pdo->query('SELECT avg(concat("0")) as avg from ada');
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+
+        // Test non-falsy-string input
+        $stmt = $pdo->query('SELECT avg(concat("foo")) as avg from ada');
+        assertType('PDOStatement<array{avg: float|null, 0: float|null}>', $stmt);
+
         $stmt = $pdo->query('SELECT avg(ifnull(email, adaid)) as avg from ada');
         assertType('PDOStatement<array{avg: float|numeric-string|null, 0: float|numeric-string|null}>', $stmt);
 
