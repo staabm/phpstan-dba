@@ -1,5 +1,4 @@
 parameters:
     stubFiles:
         - DoctrineDbal.stub
-        - PdoStatement.stub
         - Mysqli.stub
