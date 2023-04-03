@@ -1,9 +1,9 @@
 # mark cache files as generated files, so they don't show up in Pull Requests diffs
-.phpstan-dba-mysqli.cache linguist-generated=true
-.phpstan-dba-pdo-mysql.cache linguist-generated=true
-.phpunit-phpstan-dba-mysqli.cache linguist-generated=true
-.phpunit-phpstan-dba-pdo-mysql.cache linguist-generated=true
-.phpunit-phpstan-dba-pdo-pgsql.cache linguist-generated=true
+.phpstan-dba-mysqli.cache linguist-generated=true -diff
+.phpstan-dba-pdo-mysql.cache linguist-generated=true -diff
+.phpunit-phpstan-dba-mysqli.cache linguist-generated=true -diff
+.phpunit-phpstan-dba-pdo-mysql.cache linguist-generated=true -diff
+.phpunit-phpstan-dba-pdo-pgsql.cache linguist-generated=true -diff
 
 # Exclude non-essential files from dist
 /.github export-ignore
