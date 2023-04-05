@@ -10,3 +10,5 @@ parameters:
             - mysqli_result
             - Doctrine\DBAL\Result
             - Doctrine\DBAL\Statement
+
+        duplicateStubs: false  # workaround for: https://github.com/staabm/phpstan-dba/issues/466
