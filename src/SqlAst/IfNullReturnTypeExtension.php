@@ -47,6 +47,7 @@ final class IfNullReturnTypeExtension implements QueryFunctionReturnTypeExtensio
 
         // The result type is always the "more general" of the two args
         // in the order: string, float, integer.
+        // see https://dev.mysql.com/doc/refman/5.7/en/flow-control-functions.html#function_ifnull
         if ($this->isResultString($argType1NoNull, $argType2NoNull)) {
             $resultType = $resultType->toString();
         } elseif ($this->isResultFloat($argType1NoNull, $argType2NoNull)) {
