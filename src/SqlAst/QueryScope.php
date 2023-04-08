@@ -12,6 +12,7 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
+use SqlFtw\Sql\Expression\BinaryOperator;
 use SqlFtw\Sql\Expression\BoolValue;
 use SqlFtw\Sql\Expression\CaseExpression;
 use SqlFtw\Sql\Expression\ComparisonOperator;
@@ -26,6 +27,7 @@ use SqlFtw\Sql\Expression\Operator;
 use SqlFtw\Sql\Expression\Parentheses;
 use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\Expression\StringValue;
+use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\SchemaReflection\Column;
 use staabm\PHPStanDba\SchemaReflection\Join;
 use staabm\PHPStanDba\SchemaReflection\Table;
@@ -48,12 +50,18 @@ final class QueryScope
     private $joinedTables;
 
     /**
+     * @var ?SqlSerializable
+     */
+    private $whereCondition;
+
+    /**
      * @param list<Join> $joinedTables
      */
-    public function __construct(Table $fromTable, array $joinedTables)
+    public function __construct(Table $fromTable, array $joinedTables, ?SqlSerializable $whereCondition)
     {
         $this->fromTable = $fromTable;
         $this->joinedTables = $joinedTables;
+        $this->whereCondition = $whereCondition;
 
         $this->extensions = [
             new PositiveIntReturnTypeExtension(),
@@ -78,6 +86,24 @@ final class QueryScope
      * @param Identifier|Literal|ExpressionNode $expression
      */
     public function getType($expression): Type
+    {
+        $resultType = $this->resolveExpression($expression);
+
+        if ($this->whereCondition !== null && $expression instanceof SimpleName) {
+            $resultType = $this->narrowWhereCondition(
+                $this->whereCondition,
+                $expression->getName(),
+                $resultType
+            );
+        }
+
+        return $resultType;
+    }
+
+    /**
+     * @param Identifier|Literal|ExpressionNode $expression
+     */
+    private function resolveExpression($expression): Type
     {
         if ($expression instanceof NullLiteral) {
             return new NullType();
@@ -218,5 +244,54 @@ final class QueryScope
         }
 
         return null;
+    }
+
+    private function narrowWhereCondition(SqlSerializable $op, string $name, Type $valueType): Type
+    {
+        // If condition is in parentheses, try again with its contents
+        if ($op instanceof Parentheses) {
+            return $this->narrowWhereCondition($op->getContents(), $name, $valueType);
+        }
+
+        // Only binary ops are currently supported
+        if (! ($op instanceof BinaryOperator)) {
+            return $valueType;
+        }
+
+        $left = $op->getLeft();
+        $right = $op->getRight();
+        $operator = $op->getOperator()->getValue();
+
+        // Handle compound conditions
+        if ($operator === Operator::AND) {
+            if ($left instanceof BinaryOperator) {
+                $valueType = $this->narrowWhereCondition($left, $name, $valueType);
+            }
+            if ($right instanceof BinaryOperator) {
+                $valueType = $this->narrowWhereCondition($right, $name, $valueType);
+            }
+            return $valueType;
+        }
+
+        // Only simple names are currently supported
+        if (! ($left instanceof SimpleName)) {
+            return $valueType;
+        }
+        if ($left->getName() !== $name) {
+            return $valueType;
+        }
+
+        // Handle NULL comparisons
+        if ($right instanceof NullLiteral) {
+            if ($operator === Operator::IS_NOT) {
+                return TypeCombinator::removeNull($valueType);
+            }
+            if ($operator === Operator::IS) {
+                return TypeCombinator::intersect($valueType, new NullType());
+            }
+        }
+
+        // Unsupported operator
+        return $valueType;
     }
 }
