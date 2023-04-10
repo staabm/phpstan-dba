@@ -515,6 +515,15 @@ class Foo
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}>', $stmt);
     }
 
+    public function joinWhereCondition(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT c_json FROM typemix LEFT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM typemix RIGHT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+    }
+
     public function multipleJoins(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT adaid, eladaid, c_int, c_char5 from ada inner join ak on adaid = eladaid inner join typemix on adaid = c_int');
