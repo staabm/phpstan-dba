@@ -7,6 +7,81 @@ use function PHPStan\Testing\assertType;
 
 class Foo
 {
+    public function whereIsNotNull(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT c_json FROM typemix');
+        assertType('PDOStatement<array{c_json: string|null, 0: string|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        // condition in parentheses
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE (c_json IS NOT NULL)');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        // selected with an alias
+        $stmt = $pdo->query('SELECT c_json as col FROM typemix WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{col: string, 0: string}>', $stmt);
+
+        // affects input to a function
+        $stmt = $pdo->query('SELECT ifnull(null, c_json) as col FROM typemix WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{col: string, 0: string}>', $stmt);
+
+        // selected with an asterisk
+        $stmt = $pdo->query('SELECT * FROM typemix WHERE c_json IS NOT NULL');
+        assertType('string', $stmt->fetch()['c_json']);
+
+        // compound where condition (AND)
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NOT NULL AND c_int=1');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        // compound where condition (OR)
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NOT NULL OR c_int=1');
+        assertType('PDOStatement<array{c_json: string|null, 0: string|null}>', $stmt);
+
+        // subquery does not impact outer where condition
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_text IN (SELECT c_json FROM typemix WHERE c_json IS NOT NULL)');
+        assertType('PDOStatement<array{c_json: string|null, 0: string|null}>', $stmt);
+    }
+
+    public function whereIsNull(PDO $pdo): void
+    {
+        // empty intersection
+        $stmt = $pdo->query('SELECT c_json_not_null FROM typemix WHERE c_json_not_null IS NULL');
+        assertType('PDOStatement<array{c_json_not_null: *NEVER*, 0: *NEVER*}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NULL');
+        assertType('PDOStatement<array{c_json: null, 0: null}>', $stmt);
+
+        // condition in parentheses
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE (c_json IS NULL)');
+        assertType('PDOStatement<array{c_json: null, 0: null}>', $stmt);
+
+        // selected with an alias
+        $stmt = $pdo->query('SELECT c_json as col FROM typemix WHERE c_json IS NULL');
+        assertType('PDOStatement<array{col: null, 0: null}>', $stmt);
+
+        // affects input to a function
+        $stmt = $pdo->query('SELECT ifnull(c_json, "default") as col FROM typemix WHERE c_json IS NULL');
+        assertType("PDOStatement<array{col: 'default', 0: 'default'}>", $stmt);
+
+        // selected with an asterisk
+        $stmt = $pdo->query('SELECT * FROM typemix WHERE c_json IS NULL');
+        assertType('null', $stmt->fetch()['c_json']);
+
+        // compound where condition (AND)
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NULL AND c_int=1');
+        assertType('PDOStatement<array{c_json: null, 0: null}>', $stmt);
+
+        // compound where condition (OR)
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_json IS NULL OR c_int=1');
+        assertType('PDOStatement<array{c_json: string|null, 0: string|null}>', $stmt);
+
+        // subquery does not impact outer where condition
+        $stmt = $pdo->query('SELECT c_json FROM typemix WHERE c_text IN (SELECT c_json FROM typemix WHERE c_json IS NULL)');
+        assertType('PDOStatement<array{c_json: string|null, 0: string|null}>', $stmt);
+    }
+
     public function noFromTable(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT 3');
@@ -438,6 +513,21 @@ class Foo
 
         $stmt = $pdo->query('SELECT adaid, eadavk from ada left outer join ak on (adaid = akid)');
         assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}>', $stmt);
+    }
+
+    public function joinWhereCondition(PDO $pdo): void
+    {
+        $stmt = $pdo->query('SELECT c_json FROM typemix LEFT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM typemix RIGHT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM ada LEFT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM ada RIGHT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
     }
 
     public function multipleJoins(PDO $pdo): void

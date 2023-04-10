@@ -19,7 +19,9 @@ use SqlFtw\Sql\Dml\TableReference\InnerJoin;
 use SqlFtw\Sql\Dml\TableReference\Join;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceSubquery;
 use SqlFtw\Sql\Dml\TableReference\TableReferenceTable;
+use SqlFtw\Sql\Expression\Asterisk;
 use SqlFtw\Sql\Expression\Identifier;
+use SqlFtw\Sql\Expression\SimpleName;
 use SqlFtw\Sql\SqlSerializable;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\SchemaReflection\Join as SchemaJoin;
@@ -50,16 +52,18 @@ final class ParserInference
         // returns a Generator. will not parse anything if you don't iterate over it
         $commands = $parser->parse($queryString);
 
-        $fromColumns = null;
+        $selectColumns = null;
         $fromTable = null;
+        $where = null;
         $joins = [];
         foreach ($commands as [$command]) {
             // Parser does not throw exceptions. this allows to parse partially invalid code and not fail on first error
             if ($command instanceof SelectCommand) {
-                if (null === $fromColumns) {
-                    $fromColumns = $command->getColumns();
+                if (null === $selectColumns) {
+                    $selectColumns = $command->getColumns();
                 }
                 $from = $command->getFrom();
+                $where = $command->getWhere();
 
                 if (null === $from) {
                     // no FROM clause, use an empty Table to signify this
@@ -128,13 +132,21 @@ final class ParserInference
             // not parsable atm, return un-narrowed type
             return $resultType;
         }
-        if (null === $fromColumns) {
+        if (null === $selectColumns) {
             throw new ShouldNotHappenException();
         }
 
-        $queryScope = new QueryScope($fromTable, $joins);
+        $queryScope = new QueryScope($fromTable, $joins, $where);
 
-        foreach ($fromColumns as $i => $column) {
+        // If we're selecting '*', get the selected columns from the table
+        if (\count($selectColumns) === 1 && $selectColumns[0]->getExpression() instanceof Asterisk) {
+            $selectColumns = [];
+            foreach ($fromTable->getColumns() as $column) {
+                $selectColumns[] = new SelectExpression(new SimpleName($column->getName()));
+            }
+        }
+
+        foreach ($selectColumns as $i => $column) {
             $expression = $column->getExpression();
 
             $offsetType = new ConstantIntegerType($i);
