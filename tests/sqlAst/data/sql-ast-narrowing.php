@@ -522,6 +522,12 @@ class Foo
 
         $stmt = $pdo->query('SELECT c_json FROM typemix RIGHT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL');
         assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM ada LEFT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT c_json FROM ada RIGHT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL');
+        assertType('PDOStatement<array{c_json: string, 0: string}>', $stmt);
     }
 
     public function multipleJoins(PDO $pdo): void
