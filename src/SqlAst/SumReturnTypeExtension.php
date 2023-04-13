@@ -14,6 +14,16 @@ use SqlFtw\Sql\Expression\FunctionCall;
 
 final class SumReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
+    /**
+     * @var bool
+     */
+    private $hasGroupBy;
+
+    public function __construct(bool $hasGroupBy)
+    {
+        $this->hasGroupBy = $hasGroupBy;
+    }
+
     public function isFunctionSupported(FunctionCall $expression): bool
     {
         return \in_array($expression->getFunction()->getName(), [BuiltInFunction::SUM], true);
@@ -43,10 +53,9 @@ final class SumReturnTypeExtension implements QueryFunctionReturnTypeExtension
             $result = $argType;
         }
 
-        if ($containsNull) {
+        if ($containsNull || ! $this->hasGroupBy) {
             $result = TypeCombinator::addNull($result);
         }
-
         return $result;
     }
 }

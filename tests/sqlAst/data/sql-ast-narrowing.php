@@ -358,6 +358,12 @@ class Foo
 
         $stmt = $pdo->query('SELECT avg(null) as avg from ada');
         assertType('PDOStatement<array{avg: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(c_tinyint) as avg from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{avg: numeric-string, 0: numeric-string}>', $stmt);
+
+        $stmt = $pdo->query('SELECT avg(c_nullable_tinyint) as avg from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{avg: numeric-string|null, 0: numeric-string|null}>', $stmt);
     }
 
     public function minMax(PDO $pdo): void
@@ -386,6 +392,16 @@ class Foo
         assertType('PDOStatement<array{min: null, 0: null}>', $stmt);
         $stmt = $pdo->query('SELECT max(null) as max from ada');
         assertType('PDOStatement<array{max: null, 0: null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT min(c_tinyint) as min from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{min: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        $stmt = $pdo->query('SELECT max(c_tinyint) as max from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{max: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+
+        $stmt = $pdo->query('SELECT min(c_nullable_tinyint) as min from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{min: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+        $stmt = $pdo->query('SELECT max(c_nullable_tinyint) as max from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{max: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
     }
 
     public function isNull(PDO $pdo): void
@@ -427,13 +443,19 @@ class Foo
         assertType('PDOStatement<array{sum: null, 0: null}>', $stmt);
 
         $stmt = $pdo->query('SELECT sum(akid) as sum from ak');
-        assertType('PDOStatement<array{sum: int, 0: int}>', $stmt);
+        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT sum(eladaid) as sum from ak');
         assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
 
         $stmt = $pdo->query('SELECT sum(c_double) as sum from typemix');
-        assertType('PDOStatement<array{sum: float, 0: float}>', $stmt);
+        assertType('PDOStatement<array{sum: float|null, 0: float|null}>', $stmt);
+
+        $stmt = $pdo->query('SELECT sum(c_tinyint) as sum from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{sum: int, 0: int}>', $stmt);
+
+        $stmt = $pdo->query('SELECT sum(c_nullable_tinyint) as sum from typemix GROUP BY c_int');
+        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
     }
 
     public function strReplace(PDO $pdo)

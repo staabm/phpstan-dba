@@ -57,7 +57,7 @@ final class QueryScope
     /**
      * @param list<Join> $joinedTables
      */
-    public function __construct(Table $fromTable, array $joinedTables, ?SqlSerializable $whereCondition)
+    public function __construct(Table $fromTable, array $joinedTables, ?SqlSerializable $whereCondition, bool $hasGroupBy)
     {
         $this->fromTable = $fromTable;
         $this->joinedTables = $joinedTables;
@@ -73,12 +73,12 @@ final class QueryScope
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
             new ReplaceReturnTypeExtension(),
-            new AvgReturnTypeExtension(),
-            new SumReturnTypeExtension(),
+            new AvgReturnTypeExtension($hasGroupBy),
+            new SumReturnTypeExtension($hasGroupBy),
             new IsNullReturnTypeExtension(),
             new AbsReturnTypeExtension(),
             new RoundReturnTypeExtension(),
-            new MinMaxReturnTypeExtension(),
+            new MinMaxReturnTypeExtension($hasGroupBy),
         ];
     }
 
