@@ -15,6 +15,16 @@ use SqlFtw\Sql\Expression\FunctionCall;
 
 final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
+    /**
+     * @var bool
+     */
+    private $hasGroupBy;
+
+    public function __construct(bool $hasGroupBy)
+    {
+        $this->hasGroupBy = $hasGroupBy;
+    }
+
     public function isFunctionSupported(FunctionCall $expression): bool
     {
         return \in_array($expression->getFunction()->getName(), [BuiltInFunction::AVG], true);
@@ -33,6 +43,7 @@ final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
         if ($argType->isNull()->yes()) {
             return $argType;
         }
+        $containsNull = TypeCombinator::containsNull($argType);
         $argType = TypeCombinator::removeNull($argType);
 
         if ($argType instanceof UnionType) {
@@ -45,7 +56,10 @@ final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
             $newType = $this->convertToAvgType($argType);
         }
 
-        return TypeCombinator::addNull($newType);
+        if ($containsNull || ! $this->hasGroupBy) {
+            $newType = TypeCombinator::addNull($newType);
+        }
+        return $newType;
     }
 
     private function convertToAvgType(Type $argType): Type

@@ -55,6 +55,7 @@ final class ParserInference
         $selectColumns = null;
         $fromTable = null;
         $where = null;
+        $groupBy = null;
         $joins = [];
         foreach ($commands as [$command]) {
             // Parser does not throw exceptions. this allows to parse partially invalid code and not fail on first error
@@ -64,6 +65,7 @@ final class ParserInference
                 }
                 $from = $command->getFrom();
                 $where = $command->getWhere();
+                $groupBy = $command->getGroupBy();
 
                 if (null === $from) {
                     // no FROM clause, use an empty Table to signify this
@@ -136,7 +138,7 @@ final class ParserInference
             throw new ShouldNotHappenException();
         }
 
-        $queryScope = new QueryScope($fromTable, $joins, $where);
+        $queryScope = new QueryScope($fromTable, $joins, $where, $groupBy !== null);
 
         // If we're selecting '*', get the selected columns from the table
         if (\count($selectColumns) === 1 && $selectColumns[0]->getExpression() instanceof Asterisk) {

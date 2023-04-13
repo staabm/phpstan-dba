@@ -11,6 +11,16 @@ use SqlFtw\Sql\Expression\FunctionCall;
 
 final class MinMaxReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
+    /**
+     * @var bool
+     */
+    private $hasGroupBy;
+
+    public function __construct(bool $hasGroupBy)
+    {
+        $this->hasGroupBy = $hasGroupBy;
+    }
+
     public function isFunctionSupported(FunctionCall $expression): bool
     {
         return \in_array($expression->getFunction()->getName(), [BuiltInFunction::MIN, BuiltInFunction::MAX], true);
@@ -26,6 +36,9 @@ final class MinMaxReturnTypeExtension implements QueryFunctionReturnTypeExtensio
 
         $argType = $scope->getType($args[0]);
 
-        return TypeCombinator::addNull($argType);
+        if (! $this->hasGroupBy) {
+            $argType = TypeCombinator::addNull($argType);
+        }
+        return $argType;
     }
 }
