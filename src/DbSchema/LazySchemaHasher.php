@@ -21,7 +21,7 @@ class LazySchemaHasher implements SchemaHasher
      */
     public function __construct(callable $schemaHasherFactory)
     {
-        $this->reflectorFactory = $schemaHasherFactory;
+        $this->schemaHasherFactory = $schemaHasherFactory;
     }
 
     public function hashDb(): string
