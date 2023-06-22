@@ -8,7 +8,7 @@ use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
 
-final class SchemaHasherMysql
+final class SchemaHasherMysql implements SchemaHasher
 {
     /**
      * @var PDO|mysqli
