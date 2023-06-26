@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasher;
 use staabm\PHPStanDba\Error;
 
 final class ReplayAndRecordingQueryReflector implements QueryReflector, RecordingReflector
@@ -31,11 +31,11 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
     private $reflectionCache;
 
     /**
-     * @var SchemaHasherMysql
+     * @var SchemaHasher
      */
     private $schemaHasher;
 
-    public function __construct(ReflectionCache $reflectionCache, QueryReflector $queryReflector, SchemaHasherMysql $schemaHasher)
+    public function __construct(ReflectionCache $reflectionCache, QueryReflector $queryReflector, SchemaHasher $schemaHasher)
     {
         $this->replayReflector = new ReplayQueryReflector($reflectionCache);
 

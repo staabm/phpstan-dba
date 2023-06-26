@@ -8,7 +8,6 @@ use Iterator;
 use PDO;
 use PDOException;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Type;
 use staabm\PHPStanDba\TypeMapping\MysqlTypeMapper;
 use staabm\PHPStanDba\TypeMapping\TypeMapper;
 
