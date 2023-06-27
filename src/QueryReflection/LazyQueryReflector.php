@@ -7,7 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
 
-final class LazyQueryReflector implements QueryReflector
+final class LazyQueryReflector implements QueryReflector, RecordingReflector
 {
     /**
      * @var callable():QueryReflector
@@ -49,6 +49,17 @@ final class LazyQueryReflector implements QueryReflector
     public function setupDbaApi(?DbaApi $dbaApi): void
     {
         $this->dbaApi = $dbaApi;
+    }
+
+    public function getDatasource()
+    {
+        $this->reflector = $this->createReflector();
+
+        if ($this->reflector instanceof RecordingReflector) {
+            return $this->reflector->getDatasource();
+        }
+
+        return null;
     }
 
     private function createReflector(): QueryReflector
