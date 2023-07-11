@@ -19,6 +19,10 @@ In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [
 **Note:**
 At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
 
+## Talks
+
+[phpstan-dba - check your sql queries like a boss](https://staabm.github.io/talks/phpstan-dba@phpugffm/)
+May 2023, at PHP Usergroup in Frankfurt Main (Germany).
 
 ## DEMO
 
