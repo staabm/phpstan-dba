@@ -71,10 +71,13 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
             return [];
         }
 
+        $queryReflection = new QueryReflection();
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($node);
 
-        $queryReflection = new QueryReflection();
+        if (null === $queryExpr) {
+            return [];
+        }
         if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
