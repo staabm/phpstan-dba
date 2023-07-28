@@ -54,6 +54,10 @@ services:
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
 
     -
+        class: staabm\PHPStanDba\Rules\SyntaxErrorInPdoExecuteMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -104,3 +108,7 @@ services:
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
+
+    -
+        class: staabm\PHPStanDba\Rules\QueryPlanAnalyzerPdoExecuteRule
+        tags: [phpstan.rules.rule]
