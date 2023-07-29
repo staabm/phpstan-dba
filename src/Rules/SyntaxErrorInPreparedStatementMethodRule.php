@@ -123,6 +123,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
+        $parameters = null;
         if ($parameterTypes !== null) {
             try {
                 $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
