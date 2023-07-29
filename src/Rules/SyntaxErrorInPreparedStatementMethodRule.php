@@ -115,6 +115,9 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
         $queryReflection = new QueryReflection();
 
+        if (null === $queryExpr) {
+            return [];
+        }
         if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
