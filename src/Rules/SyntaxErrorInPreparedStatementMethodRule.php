@@ -103,7 +103,8 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         }
 
         $isPdoStatementExecute = PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
-            && 'execute' === strtolower($methodReflection->getName());
+            && 'execute' === strtolower($methodReflection->getName())
+            && $callLike instanceof Methodcall;
 
         if ($isPdoStatementExecute) {
             $stmtReflection = new PdoStatementReflection();

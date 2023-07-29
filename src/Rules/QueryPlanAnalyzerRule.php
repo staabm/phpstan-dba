@@ -121,6 +121,7 @@ final class QueryPlanAnalyzerRule implements Rule
 
         if (PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
             && 'execute' === strtolower($methodReflection->getName())
+            && $callLike instanceof Methodcall
         ) {
             $stmtReflection = new PdoStatementReflection();
             $queryExpr = $stmtReflection->findPrepareQueryStringExpression($callLike);
