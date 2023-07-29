@@ -36,7 +36,7 @@ jobs:
             reflector: "mysqli"
             mode: "recording"
           - php-version: '8.1'
-            db-image: 'mariadb:latest'
+            db-image: 'mariadb:11.0'
             reflector: "mysqli"
             mode: "recording"
 
@@ -45,7 +45,7 @@ jobs:
             reflector: "mysqli"
             mode: "recording"
           - php-version: '8.2'
-            db-image: 'mariadb:latest'
+            db-image: 'mariadb:11.0'
             reflector: "mysqli"
             mode: "recording"
 
