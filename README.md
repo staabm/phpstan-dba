@@ -6,7 +6,7 @@ Additionally errors in code handling the results of sql queries can be detected.
 
 This extension provides the following features, as long as you [stick to the rules](https://staabm.github.io/2022/07/23/phpstan-dba-inference-placeholder.html#the-golden-phpstan-dba-rules):
 
-* [result set type-inferrence](https://staabm.github.io/2022/06/19/phpstan-dba-type-inference.html)
+* [result set type-inference](https://staabm.github.io/2022/06/19/phpstan-dba-type-inference.html)
 * [detect errors in sql queries](https://staabm.github.io/2022/08/05/phpstan-dba-syntax-error-detection.html)
 * [detect placeholder/bound value mismatches](https://staabm.github.io/2022/07/30/phpstan-dba-placeholder-validation.html)
 * [query plan analysis](https://staabm.github.io/2022/08/16/phpstan-dba-query-plan-analysis.html) to detect performance issues

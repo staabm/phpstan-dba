@@ -148,17 +148,17 @@ final class QuerySimulation
         // XXX someday we will use a proper SQL parser
         $queryString = rtrim($queryString);
 
-        // strip trailling delimiting semicolon
+        // strip trailing delimiting semicolon
         $queryString = rtrim($queryString, ';');
 
-        // strip trailling FOR UPDATE/FOR SHARE
+        // strip trailing FOR UPDATE/FOR SHARE
         $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*(SKIP\s+LOCKED|NOWAIT)?$/i', '$1', $queryString);
 
         if (null === $queryString) {
-            throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');
+            throw new ShouldNotHappenException('Could not strip trailing FOR UPDATE/SHARE from query');
         }
 
-        // strip trailling OFFSET
+        // strip trailing OFFSET
         $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
 
         if (null === $queryString) {
