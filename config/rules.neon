@@ -18,6 +18,7 @@ services:
                 - 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery'
                 - 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct'
                 - 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery'
+                - 'PDOStatement::execute'
                 - 'Doctrine\DBAL\Connection::executeQuery'
                 - 'Doctrine\DBAL\Connection::executeCacheQuery'
                 - 'Doctrine\DBAL\Connection::executeStatement'
@@ -52,10 +53,6 @@ services:
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
-
-    -
-        class: staabm\PHPStanDba\Rules\SyntaxErrorInPdoExecuteMethodRule
-        tags: [phpstan.rules.rule]
 
     -
         class: staabm\PHPStanDba\Rules\SyntaxErrorInQueryFunctionRule

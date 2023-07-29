@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Rules;
 
+use PDOStatement;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -83,7 +86,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        return $this->checkErrors($callLike, $scope);
+        return $this->checkErrors($callLike, $scope, $methodReflection);
     }
 
     /**
@@ -91,7 +94,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
      *
      * @return RuleError[]
      */
-    private function checkErrors(CallLike $callLike, Scope $scope): array
+    private function checkErrors(CallLike $callLike, Scope $scope, ExtendedMethodReflection $methodReflection): array
     {
         $args = $callLike->getArgs();
 
@@ -99,22 +102,42 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        $queryExpr = $args[0]->value;
+        $isPdoStatementExecute = PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
+            && 'execute' === strtolower($methodReflection->getName());
+
+        if ($isPdoStatementExecute) {
+            $stmtReflection = new PdoStatementReflection();
+            $queryExpr = $stmtReflection->findPrepareQueryStringExpression($callLike);
+        } else {
+            $queryExpr = $args[0]->value;
+        }
+
         $queryReflection = new QueryReflection();
 
         if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
 
-        $parameters = null;
-        if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+        if ($isPdoStatementExecute) {
+            $parameterTypes = $scope->getType($args[0]->value);
             try {
                 $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
             } catch (UnresolvableQueryException $exception) {
                 return [
                     RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
                 ];
+            }
+        } else {
+            $parameters = null;
+            if (\count($args) > 1) {
+                $parameterTypes = $scope->getType($args[1]->value);
+                try {
+                    $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+                } catch (UnresolvableQueryException $exception) {
+                    return [
+                        RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
+                    ];
+                }
             }
         }
 

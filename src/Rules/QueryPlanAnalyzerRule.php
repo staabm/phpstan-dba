@@ -118,11 +118,11 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $queryReflection = new QueryReflection();
-        $stmtReflection = new PdoStatementReflection();
 
         if (PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
             && 'execute' === strtolower($methodReflection->getName())
         ) {
+            $stmtReflection = new PdoStatementReflection();
             $queryExpr = $stmtReflection->findPrepareQueryStringExpression($callLike);
             $parameterTypes = $scope->getType($args[0]->value);
         } else {
