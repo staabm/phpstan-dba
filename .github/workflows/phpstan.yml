@@ -33,8 +33,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - "3306:3306"
-        options: |
-          --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60
+        options: '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60'
     steps:
       - uses: actions/checkout@v2
         with:
