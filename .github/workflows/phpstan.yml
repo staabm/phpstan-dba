@@ -22,10 +22,10 @@ jobs:
         db-image:
           - "mysql:8.0"
           - "mariadb:latest"
-        mode:
-          - "recording"
         reflector:
           - "mysqli"
+        mode:
+          - "recording"
 
         include:
           # PHPStan development version
