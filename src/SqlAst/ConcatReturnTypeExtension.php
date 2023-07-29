@@ -29,7 +29,7 @@ final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtensio
         $args = $expression->getArguments();
 
         $results = [];
-        $containtsNull = false;
+        $containsNull = false;
         $allNumeric = true;
         $isNonFalsyString = false;
         $isNonEmptyString = false;
@@ -43,7 +43,7 @@ final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtensio
                 }
 
                 if (TypeCombinator::containsNull($argType)) {
-                    $containtsNull = true;
+                    $containsNull = true;
                 }
             }
 
@@ -75,7 +75,7 @@ final class ConcatReturnTypeExtension implements QueryFunctionReturnTypeExtensio
 
         $results[] = TypeCombinator::intersect(new StringType(), ...$accessories);
 
-        if ($containtsNull) {
+        if ($containsNull) {
             $results[] = new NullType();
         }
 

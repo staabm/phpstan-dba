@@ -144,7 +144,7 @@ class Foo
         $connection->preparedQuery($query, [':gesperrt' => 1]);
     }
 
-    public function noErrorOnTraillingSemicolon(Connection $connection)
+    public function noErrorOnTrailingSemicolon(Connection $connection)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;';
         $connection->preparedQuery($query, []);
@@ -307,7 +307,7 @@ class Foo
         $connection->preparedQuery($sql, $args);
     }
 
-    public function noErrorOnTraillingSemicolonAndWhitespace(Connection $connection)
+    public function noErrorOnTriallingSemicolonAndWhitespace(Connection $connection)
     {
         $query = 'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada;  ';
         $connection->preparedQuery($query, []);

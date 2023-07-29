@@ -2,7 +2,7 @@
 
 PGSQL/PostgresSQL is supported since `phpstandba 0.2.26`.
 
-While the `phpstandba` engine requires `pdo-pgsql` at analysis time, the codebase beeing analyzed can either use Doctrine DBAL or PDO.
+While the `phpstandba` engine requires `pdo-pgsql` at analysis time, the codebase being analyzed can either use Doctrine DBAL or PDO.
 
 **Note:** ["Record and Replay" is not yet supported on the PGSQL driver](https://github.com/staabm/phpstan-dba/issues/353)
 
