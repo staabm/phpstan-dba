@@ -32,9 +32,6 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
         if (! $node->name instanceof Node\Identifier) {
             return [];
         }
-        if (! $node->name instanceof MethodCall) {
-            return [];
-        }
 
         $methodReflection = $scope->getMethodReflection($scope->getType($node->var), $node->name->toString());
         if (null === $methodReflection) {
