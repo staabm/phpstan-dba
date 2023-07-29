@@ -102,18 +102,19 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        $isPdoStatementExecute = PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
-            && 'execute' === strtolower($methodReflection->getName())
-            && $callLike instanceof Methodcall;
+        $queryReflection = new QueryReflection();
 
-        if ($isPdoStatementExecute) {
+        if (PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
+            && 'execute' === strtolower($methodReflection->getName())
+            && $callLike instanceof Methodcall
+        ) {
             $stmtReflection = new PdoStatementReflection();
             $queryExpr = $stmtReflection->findPrepareQueryStringExpression($callLike);
+            $parameterTypes = $scope->getType($args[0]->value);
         } else {
             $queryExpr = $args[0]->value;
+            $parameterTypes = \count($args) > 1 ? $scope->getType($args[1]->value) : null;
         }
-
-        $queryReflection = new QueryReflection();
 
         if (null === $queryExpr) {
             return [];
@@ -122,26 +123,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        if ($isPdoStatementExecute) {
-            $parameterTypes = $scope->getType($args[0]->value);
+        if ($parameterTypes !== null) {
             try {
                 $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
             } catch (UnresolvableQueryException $exception) {
                 return [
                     RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
                 ];
-            }
-        } else {
-            $parameters = null;
-            if (\count($args) > 1) {
-                $parameterTypes = $scope->getType($args[1]->value);
-                try {
-                    $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
-                } catch (UnresolvableQueryException $exception) {
-                    return [
-                        RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
-                    ];
-                }
             }
         }
 
