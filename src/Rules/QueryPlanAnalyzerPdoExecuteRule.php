@@ -29,10 +29,10 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->name instanceof MethodCall) {
+        if (! $node->name instanceof Node\Identifier) {
             return [];
         }
-        if (! $node->name instanceof Node\Identifier) {
+        if (! $node->name instanceof MethodCall) {
             return [];
         }
 
