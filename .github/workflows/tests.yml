@@ -58,7 +58,7 @@ jobs:
             mode: "recording"
             composer-options: "--prefer-dist"
           - php-version: '8.1'
-            db-image: 'mariadb:11.0'
+            db-image: 'mariadb:10.11'
             reflector: "mysqli"
             mode: "recording"
             composer-options: "--prefer-dist"
@@ -69,7 +69,7 @@ jobs:
             mode: "recording"
             composer-options: "--prefer-dist"
           - php-version: '8.2'
-            db-image: 'mariadb:11.0'
+            db-image: 'mariadb:10.11'
             reflector: "mysqli"
             mode: "recording"
             composer-options: "--prefer-dist"
@@ -103,7 +103,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin -uroot -proot ping" --health-start-period=10s --health-interval=10s --health-timeout=5s --health-retries=5
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
     - uses: actions/checkout@v2
