@@ -28,6 +28,9 @@ final class SyntaxErrorInPdoExecuteMethodRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node->name instanceof MethodCall) {
+            return [];
+        }
         if (! $node->name instanceof Node\Identifier) {
             return [];
         }
@@ -45,6 +48,14 @@ final class SyntaxErrorInPdoExecuteMethodRule implements Rule
             return [];
         }
 
+        return $this->analyze($node, $scope);
+    }
+
+    /**
+     * @return RuleError[]
+     */
+    private function analyze(MethodCall $node, Scope $scope): array
+    {
         $args = $node->getArgs();
         if (count($args) < 1) {
             return [];
@@ -62,7 +73,7 @@ final class SyntaxErrorInPdoExecuteMethodRule implements Rule
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
-        if (!$parameterTypes->isArray() || $parameterTypes->isEmpty()) {
+        if (! $parameterTypes->isArray() || $parameterTypes->isEmpty()) {
             return [];
         }
 

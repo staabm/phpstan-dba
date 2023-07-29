@@ -13,7 +13,6 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
@@ -30,6 +29,9 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node->name instanceof MethodCall) {
+            return [];
+        }
         if (! $node->name instanceof Node\Identifier) {
             return [];
         }
@@ -59,7 +61,7 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
     /**
      * @return RuleError[]
      */
-    private function analyze(Node $node, Scope $scope): array
+    private function analyze(MethodCall $node, Scope $scope): array
     {
         $args = $node->getArgs();
 
@@ -83,7 +85,7 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
-        if (!$parameterTypes->isArray() || $parameterTypes->isEmpty()) {
+        if (! $parameterTypes->isArray() || $parameterTypes->isEmpty()) {
             return [];
         }
 
