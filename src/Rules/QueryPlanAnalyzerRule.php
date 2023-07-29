@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Rules;
 
+use PDOStatement;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -89,7 +92,7 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         try {
-            return $this->analyze($callLike, $scope);
+            return $this->analyze($callLike, $scope, $methodReflection);
         } catch (UnresolvableQueryException $exception) {
             return [
                 RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
@@ -102,7 +105,7 @@ final class QueryPlanAnalyzerRule implements Rule
      *
      * @return RuleError[]
      */
-    private function analyze(CallLike $callLike, Scope $scope): array
+    private function analyze(CallLike $callLike, Scope $scope, ExtendedMethodReflection $methodReflection): array
     {
         $args = $callLike->getArgs();
 
@@ -114,16 +117,24 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        $queryExpr = $args[0]->value;
         $queryReflection = new QueryReflection();
+        $stmtReflection = new PdoStatementReflection();
 
-        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
-            return [];
+        if (PDOStatement::class === $methodReflection->getDeclaringClass()->getName()
+            && 'execute' === strtolower($methodReflection->getName())
+        ) {
+            $queryExpr = $stmtReflection->findPrepareQueryStringExpression($callLike);
+            $parameterTypes = $scope->getType($args[0]->value);
+        } else {
+            $queryExpr = $args[0]->value;
+            $parameterTypes = \count($args) > 1 ? $scope->getType($args[1]->value) : null;
         }
 
-        $parameterTypes = null;
-        if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+        if (null === $queryExpr) {
+            return [];
+        }
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
+            return [];
         }
 
         $ruleErrors = [];

@@ -104,11 +104,8 @@ services:
                 # regular statements
                 - 'PDO::query#0'
                 - 'PDO::prepare#0'
+                - 'PDOStatement::execute#0'
                 - 'mysqli::query#0'
                 - 'mysqli::execute_query#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
-
-    -
-        class: staabm\PHPStanDba\Rules\QueryPlanAnalyzerPdoExecuteRule
-        tags: [phpstan.rules.rule]
