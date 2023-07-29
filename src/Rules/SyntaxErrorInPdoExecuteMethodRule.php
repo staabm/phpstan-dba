@@ -73,9 +73,6 @@ final class SyntaxErrorInPdoExecuteMethodRule implements Rule
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
-        if (! $parameterTypes->isArray() || $parameterTypes->isEmpty()) {
-            return [];
-        }
 
         try {
             $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);

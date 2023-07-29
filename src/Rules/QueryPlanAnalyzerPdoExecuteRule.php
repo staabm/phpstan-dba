@@ -85,9 +85,6 @@ final class QueryPlanAnalyzerPdoExecuteRule implements Rule
         }
 
         $parameterTypes = $scope->getType($args[0]->value);
-        if (! $parameterTypes->isArray() || $parameterTypes->isEmpty()) {
-            return [];
-        }
 
         $ruleErrors = [];
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
