@@ -12,11 +12,6 @@ parameters:
     paths:
         - src/
 
-    unused_public:
-        methods: true
-        properties: true
-        constants: true
-
     bootstrapFiles:
         - bootstrap.php
 

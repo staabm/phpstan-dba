@@ -15,42 +15,44 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        php-version:
+          - "8.0"
+          - "8.1"
+          - "8.2"
+        db-image:
+          - "mysql:8.0"
+          - "mariadb:latest"
+        reflector:
+          - "mysqli"
+        mode:
+          - "recording"
+
         include:
+          - db-image: "mysql:8.0"
+            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
+
+          - db-image: "mariadb:latest"
+            db-options: '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60'
+
+          # PHPStan development version
           - php-version: "8.0"
-            db-image: 'mysql:8.0'
+            db-image: "mysql:8.0"
+            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "pdo-mysql"
             mode: "recording"
-            phpstan-version: "phpstan@dev"
+            phpstan-version: "dev"
 
+          # PDO MySQL reflector
           - php-version: "8.0"
-            db-image: 'mysql:8.0'
+            db-image: "mysql:8.0"
+            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "pdo-mysql"
             mode: "recording"
-          - php-version: "8.0"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
 
+          # Replay and Recording mode
           - php-version: "8.1"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
-          - php-version: '8.1'
-            db-image: 'mariadb:latest'
-            reflector: "mysqli"
-            mode: "recording"
-
-          - php-version: "8.2"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
-          - php-version: '8.2'
-            db-image: 'mariadb:latest'
-            reflector: "mysqli"
-            mode: "recording"
-
-          - php-version: "8.1"
-            db-image: 'mysql:8.0'
+            db-image: "mysql:8.0"
+            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "replay-and-recording"
 
@@ -66,7 +68,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: ${{ startsWith(matrix.db-image, 'mariadb') && '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60' || '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3' }}
+        options: ${{ matrix.db-options }}
 
     steps:
       - uses: actions/checkout@v3
