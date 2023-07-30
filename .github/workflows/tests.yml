@@ -24,72 +24,72 @@ jobs:
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer-options: "--prefer-lowest"
+            dependencies: "lowest"
 
           - php-version: "7.2"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: "7.3"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: "7.4"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
 
           - php-version: "8.2"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: '8.2'
             db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "replay-and-recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
           - php-version: "8.1"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-replay-and-recording"
-            composer-options: "--prefer-dist"
+            dependencies: "highest"
 
     env:
       DBA_REFLECTOR: ${{ matrix.reflector }}
@@ -119,8 +119,9 @@ jobs:
 
     - uses: "ramsey/composer-install@v2"
       with:
+        dependency-versions: "${{ matrix.dependencies }}"
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "${{matrix.composer-options}} --no-progress --ignore-platform-req=php+"
+        composer-options: "--ignore-platform-req=php+"
 
     - name: Install sqlftw/sqlftw (optional dependency)
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
@@ -134,13 +135,13 @@ jobs:
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
     - name: Lint
-      run: php vendor/bin/parallel-lint --colors src tests
+      run: composer exec -- parallel-lint --colors src/ tests/
 
     - name: Setup mysql
       run: |
         mysql -uroot -h127.0.0.1 -proot < tests/schema.sql
 
-    - run: composer phpunit -- --colors=always
+    - run: composer run phpunit -- --colors=always
 
   replay:
     name: PHPUnit (reflection replay)
@@ -176,7 +177,7 @@ jobs:
     - uses: "ramsey/composer-install@v2"
       with:
         # ignore php8.2 requirement error https://github.com/sebastianbergmann/phpunit/issues/5033
-        composer-options: "--prefer-dist --no-progress --ignore-platform-req=php+"
+        composer-options: "--ignore-platform-req=php+"
 
     - name: Install sqlftw/sqlftw (optional dependency)
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
@@ -189,4 +190,4 @@ jobs:
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-    - run: composer phpunit -- --colors=always
+    - run: composer run phpunit -- --colors=always
