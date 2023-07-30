@@ -59,7 +59,7 @@ final class SchemaHasherMysql implements SchemaHasher
                     information_schema.columns
                 WHERE
                     table_schema = DATABASE()
-                ORDER BY columns
+                ORDER BY table_name, column_name
             ) as InnerSelect
             GROUP BY
                 grouper';
