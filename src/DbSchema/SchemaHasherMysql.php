@@ -43,19 +43,24 @@ final class SchemaHasherMysql implements SchemaHasher
             SELECT
                 MD5(
                     GROUP_CONCAT(
-                        CONCAT(
-                            COALESCE(COLUMN_NAME, ""),
-                            COALESCE(EXTRA, ""),
-                            COLUMN_TYPE,
-                            IS_NULLABLE
-                        )
+                        InnerSelect.columns
                     )
                 ) AS dbsignature,
                 1 AS grouper
-            FROM
-                information_schema.columns
-            WHERE
-                table_schema = DATABASE()
+            FROM (
+                SELECT
+                    CONCAT(
+                        COALESCE(COLUMN_NAME, ""),
+                        COALESCE(EXTRA, ""),
+                        COLUMN_TYPE,
+                        IS_NULLABLE
+                    ) as columns
+                FROM
+                    information_schema.columns
+                WHERE
+                    table_schema = DATABASE()
+                ORDER BY table_name, column_name
+            ) as InnerSelect
             GROUP BY
                 grouper';
 
