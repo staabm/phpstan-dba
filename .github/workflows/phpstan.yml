@@ -18,47 +18,39 @@ jobs:
         include:
           - php-version: "8.0"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "pdo-mysql"
             mode: "recording"
             phpstan-version: "phpstan@dev"
 
           - php-version: "8.0"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "pdo-mysql"
             mode: "recording"
           - php-version: "8.0"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "recording"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "recording"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
-            db-options: '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60'
             reflector: "mysqli"
             mode: "recording"
 
           - php-version: "8.2"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "recording"
           - php-version: '8.2'
             db-image: 'mariadb:latest'
-            db-options: '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60'
             reflector: "mysqli"
             mode: "recording"
 
           - php-version: "8.1"
             db-image: 'mysql:8.0'
-            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "replay-and-recording"
 
@@ -74,7 +66,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        options: ${{ matrix.db-options }}
+        options: ${{ startsWith(matrix.db-image, 'mariadb') && '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60' || '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3' }}
 
     steps:
       - uses: actions/checkout@v3
