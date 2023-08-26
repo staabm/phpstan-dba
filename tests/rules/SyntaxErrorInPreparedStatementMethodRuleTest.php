@@ -270,9 +270,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "invalid_table" does not exist
-LINE 1: SELECT * FROM invalid_table WHERE id = \'123\' LIMIT 0
-                      ^ (42P01).',
+                    "Query error: Table 'phpstan_dba.invalid_table' doesn't exist (1146).",
                     10,
                 ],
             ];
