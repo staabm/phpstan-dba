@@ -5332,6 +5332,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => '42S02',
       )),
     ),
+    'SELECT * FROM invalid_table WHERE id = \'123\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[42S02]: Base table or view not found: 1146 Table \'phpstan_dba.invalid_table\' doesn\'t exist',
+         'code' => '42S02',
+      )),
+    ),
   ),
   'runtimeConfig' => 
   array (

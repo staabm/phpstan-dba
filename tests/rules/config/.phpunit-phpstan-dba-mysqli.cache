@@ -5327,6 +5327,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
          'code' => 1146,
       )),
     ),
+    'SELECT * FROM invalid_table WHERE id = \'123\'' => 
+    array (
+      'error' => 
+      staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.invalid_table\' doesn\'t exist',
+         'code' => 1146,
+      )),
+    ),
   ),
   'runtimeConfig' => 
   array (
