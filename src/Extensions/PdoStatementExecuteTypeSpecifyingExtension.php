@@ -46,13 +46,13 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         $methodCall = $node;
 
         try {
-            $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
+            $inferredType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $e) {
             return new SpecifiedTypes();
         }
 
-        if (null !== $inferedType) {
-            return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
+        if (null !== $inferredType) {
+            return $this->typeSpecifier->create($methodCall->var, $inferredType, TypeSpecifierContext::createTruthy(), true);
         }
 
         return new SpecifiedTypes();

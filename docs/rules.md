@@ -50,7 +50,7 @@ services:
                 - 'Deployer\runMysqlQuery#0'
 ```
 
-__the callable format is `funtionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
+__the callable format is `functionName#parameterIndex`, while the parameter-index defines the position of the query-string argument.__
 
 ## use `DoctrineKeyValueStyleRule` for your custom classes
 
