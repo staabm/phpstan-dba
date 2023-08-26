@@ -58,7 +58,7 @@ jobs:
             mode: "recording"
             composer-options: "--prefer-dist"
           - php-version: '8.1'
-            db-image: 'mariadb:10.11'
+            db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
             composer-options: "--prefer-dist"
@@ -69,7 +69,7 @@ jobs:
             mode: "recording"
             composer-options: "--prefer-dist"
           - php-version: '8.2'
-            db-image: 'mariadb:10.11'
+            db-image: 'mariadb:latest'
             reflector: "mysqli"
             mode: "recording"
             composer-options: "--prefer-dist"

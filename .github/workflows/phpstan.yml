@@ -51,25 +51,8 @@ jobs:
 
           # Replay and Recording mode
           - php-version: "8.1"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
-          - php-version: '8.1'
-            db-image: 'mariadb:10.11'
-            reflector: "mysqli"
-            mode: "recording"
-
-          - php-version: "8.2"
-            db-image: 'mysql:8.0'
-            reflector: "mysqli"
-            mode: "recording"
-          - php-version: '8.2'
-            db-image: 'mariadb:10.11'
-            reflector: "mysqli"
-            mode: "recording"
-
-          - php-version: "8.1"
-            db-image: 'mysql:8.0'
+            db-image: "mysql:8.0"
+            db-options: '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3'
             reflector: "mysqli"
             mode: "replay-and-recording"
 
