@@ -272,10 +272,10 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
-                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
-LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
-                       ^ (42601).',
-                    30,
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "tasks_invalid" does not exist
+LINE 1: SELECT * FROM invalid_table WHERE id = \'123\' LIMIT 0
+                      ^ (42P01).',
+                    10,
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {

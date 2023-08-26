@@ -98,6 +98,11 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 28,
                 $tip,
             ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal,
+                79,
+                $tip,
+            ],
         ]);
     }
 
@@ -167,6 +172,11 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 'Unresolvable Query: Cannot resolve query with variable type: string.',
                 73,
                 UnresolvableQueryStringTypeException::getTip(),
+            ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM `ada` WHERE email = 'test@example.com'",
+                79,
+                $tip,
             ],
         ]);
     }
