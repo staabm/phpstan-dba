@@ -72,4 +72,11 @@ class Foo
         $query = "SELECT email, adaid FROM `$table` WHERE adaid = ?";
         $conn->fetchAssociative($query, [1]);
     }
+
+    public function bug603(PDO $pdo)
+    {
+        $statement = $pdo->prepare('SELECT * FROM `ada` WHERE email = ?');
+        $statement->execute(['test@example.com']);
+        $statement->fetch();
+    }
 }
