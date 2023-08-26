@@ -261,6 +261,37 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
         $this->analyse([__DIR__ . '/data/bug-94.php'], $expectedErrors);
     }
 
+    public function testBug603()
+    {
+        if (\PHP_VERSION_ID < 70400) {
+            self::markTestSkipped('Test requires PHP 7.4.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('Error message different depending on version of the database.');
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
+LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
+                       ^ (42601).',
+                    30,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedErrors = [
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
+                    30,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+        }
+
+        $this->analyse([__DIR__ . '/data/bug-603.php'], $expectedErrors);
+    }
+
     public function testSyntaxErrorWithInferencePlaceholder()
     {
         if (\PHP_VERSION_ID < 70400) {
