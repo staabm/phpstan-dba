@@ -106,7 +106,7 @@ jobs:
         options: ${{ startsWith(matrix.db-image, 'mariadb') && '--health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=1s --health-timeout=10s --health-retries=60' || '--health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3' }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
         ref: ${{ github.event.client_payload.pull_request.head.ref }}
@@ -162,7 +162,7 @@ jobs:
        DBA_MODE: ${{ matrix.mode }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
         ref: ${{ github.event.client_payload.pull_request.head.ref }}
