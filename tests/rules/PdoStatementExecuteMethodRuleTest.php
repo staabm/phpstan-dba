@@ -113,7 +113,8 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
         ]);
     }
 
-    public function testNamedPlaceholderBug(): void {
+    public function testNamedPlaceholderBug(): void
+    {
         $this->analyse([__DIR__ . '/data/named-placeholder-bug.php'], [
         ]);
     }

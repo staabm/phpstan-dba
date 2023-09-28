@@ -34,7 +34,7 @@ final class PlaceholderValidation
             return;
         }
 
-        foreach($queryStrings as $queryString) {
+        foreach ($queryStrings as $queryString) {
             $placeholderCount = $queryReflection->countPlaceholders($queryString);
             yield from $this->validateUnnamedPlaceholders($parameters, $placeholderCount);
         }
@@ -92,7 +92,7 @@ final class PlaceholderValidation
         $queryReflection = new QueryReflection();
 
         $allNamedPlaceholders = [];
-        foreach($queryStrings as $queryString) {
+        foreach ($queryStrings as $queryString) {
             $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
 
             foreach ($namedPlaceholders as $namedPlaceholder) {
