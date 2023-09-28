@@ -72,7 +72,8 @@ final class ReflectorFactory
             $schemaHasher = null;
 
             if ('mysqli' === $reflector) {
-                $mysqli = mysqli_init() || throw new \RuntimeException('Unable to init mysqli');
+                $mysqli = mysqli_init();
+                if (!$mysqli) throw new \RuntimeException('Unable to init mysqli')
                 $mysqli->real_connect($host, $user, $password, $dbname, null, null, $ssl ? MYSQLI_CLIENT_SSL : null);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
