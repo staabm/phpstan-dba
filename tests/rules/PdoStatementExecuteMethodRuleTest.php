@@ -87,10 +87,6 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
                 54,
             ],
             [
-                'Value :adaid is given, but the query does not contain this placeholder.',
-                54,
-            ],
-            [
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 61,
             ],
@@ -114,6 +110,12 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 73,
             ],
+        ]);
+    }
+
+    public function testNamedPlaceholderBug(): void
+    {
+        $this->analyse([__DIR__ . '/data/named-placeholder-bug.php'], [
         ]);
     }
 }
