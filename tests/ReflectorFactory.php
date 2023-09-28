@@ -74,7 +74,7 @@ final class ReflectorFactory
             if ('mysqli' === $reflector) {
                 $mysqli = mysqli_init();
                 if (!$mysqli) throw new \RuntimeException('Unable to init mysqli');
-                $mysqli->real_connect($host, $user, $password, $dbname, null, null, $ssl ? MYSQLI_CLIENT_SSL : null);
+                $mysqli->real_connect($host, $user, $password, $dbname, null, null, $ssl ? MYSQLI_CLIENT_SSL : 0);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo-mysql' === $reflector) {
