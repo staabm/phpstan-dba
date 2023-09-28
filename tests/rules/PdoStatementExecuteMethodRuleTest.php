@@ -116,4 +116,9 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
             ],
         ]);
     }
+
+    public function testNamedPlaceholderBug(): void {
+        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
+        ]);
+    }
 }
