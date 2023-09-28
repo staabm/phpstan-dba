@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Tests;
 
-use mysqli;
 use PDO;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -32,6 +31,9 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: 'root';
             $password = getenv('DBA_PASSWORD') ?: 'root';
             $dbname = getenv('DBA_DATABASE') ?: 'phpstan_dba';
+            $port = null;
+            $socket = null;
+            $flags = null;
             $mode = getenv('DBA_MODE') ?: self::MODE_RECORDING;
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
         } else {
@@ -39,8 +41,15 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
             $password = getenv('DBA_PASSWORD') ?: $_ENV['DBA_PASSWORD'];
             $dbname = getenv('DBA_DATABASE') ?: $_ENV['DBA_DATABASE'];
+            $port = getenv('DBA_PORT') ?: $_ENV['DBA_PORT'] ?? null;
+            $socket = getenv('DBA_SOCKET') ?: $_ENV['DBA_SOCKET'] ?? null;
+            $flags = getenv('DBA_FLAGS') ?: $_ENV['DBA_FLAGS'] ?? null;
             $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
             $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
+
+            if ($flags !== null) {
+                $flags = (int) $flags;
+            }
         }
 
         // make env vars available to tests, in case non are defined yet
@@ -71,7 +80,8 @@ final class ReflectorFactory
             $schemaHasher = null;
 
             if ('mysqli' === $reflector) {
-                $mysqli = new mysqli($host, $user, $password, $dbname);
+                $mysqli = mysqli_init();
+                $mysqli->real_connect($host, $user, $password, $dbname, $port, $socket, $flags);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo-mysql' === $reflector) {
