@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Tests;
 
-use mysqli;
 use PDO;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -32,6 +31,7 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: 'root';
             $password = getenv('DBA_PASSWORD') ?: 'root';
             $dbname = getenv('DBA_DATABASE') ?: 'phpstan_dba';
+            $ssl = false;
             $mode = getenv('DBA_MODE') ?: self::MODE_RECORDING;
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
         } else {
@@ -39,6 +39,7 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
             $password = getenv('DBA_PASSWORD') ?: $_ENV['DBA_PASSWORD'];
             $dbname = getenv('DBA_DATABASE') ?: $_ENV['DBA_DATABASE'];
+            $ssl = (bool) (getenv('DBA_SSL') ?: $_ENV['DBA_SSL'] ?? false);
             $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
             $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
         }
@@ -71,7 +72,11 @@ final class ReflectorFactory
             $schemaHasher = null;
 
             if ('mysqli' === $reflector) {
-                $mysqli = new mysqli($host, $user, $password, $dbname);
+                $mysqli = mysqli_init();
+                if (! $mysqli) {
+                    throw new \RuntimeException('Unable to init mysqli');
+                }
+                $mysqli->real_connect($host, $user, $password, $dbname, null, null, $ssl ? MYSQLI_CLIENT_SSL : 0);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo-mysql' === $reflector) {
