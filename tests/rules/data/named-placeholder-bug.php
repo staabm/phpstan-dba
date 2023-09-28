@@ -17,7 +17,7 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid ' . $fromCondition);
         $stmt->execute([
             'adaid' => 1,
-            'vkFrom' => 'hello world
+            'vkFrom' => 'hello world'
         ]);
     }
 }
