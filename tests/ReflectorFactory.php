@@ -43,7 +43,7 @@ final class ReflectorFactory
             $dbname = getenv('DBA_DATABASE') ?: $_ENV['DBA_DATABASE'];
             $port = getenv('DBA_PORT') ?: $_ENV['DBA_PORT'] ?? null;
             $socket = getenv('DBA_SOCKET') ?: $_ENV['DBA_SOCKET'] ?? null;
-            $flags = getenv('DBA_FLAGS') ?: $_ENV['DBA_FLAGS'] ?? 0;
+            $flags = (int) (getenv('DBA_FLAGS') ?: $_ENV['DBA_FLAGS'] ?? 0);
             $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
             $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
         }
