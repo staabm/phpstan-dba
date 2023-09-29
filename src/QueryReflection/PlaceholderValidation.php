@@ -28,6 +28,10 @@ final class PlaceholderValidation
             }
         }
 
+        if ($queryStrings === []) {
+            return;
+        }
+
         if ($namedPlaceholders) {
             yield from $this->validateNamedPlaceholders($queryStrings, $parameters);
 

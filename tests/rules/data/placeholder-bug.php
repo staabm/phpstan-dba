@@ -50,7 +50,7 @@ class Foo
 
     public function notResolvableQuery(PDO $pdo, $params)
     {
-        $query ='SELECT email, adaid FROM ada WHERE adaid = ? OR adaid = ? '.$params;
+        $query ='SELECT email, adaid FROM ada WHERE email = ? '.$params;
 
         $stmt = $pdo->prepare($query);
         $stmt->execute(['hello world']);
