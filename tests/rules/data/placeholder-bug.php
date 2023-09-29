@@ -41,4 +41,10 @@ class Foo
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? OR adaid = ? ' . $fromCondition);
         $stmt->execute($values);
     }
+
+    public function wrongMinBound(PDO $pdo)
+    {
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? OR adaid = ? ');
+        $stmt->execute([]);
+    }
 }
