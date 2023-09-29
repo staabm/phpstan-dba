@@ -34,10 +34,19 @@ final class PlaceholderValidation
             return;
         }
 
+        $minPlaceholderCount = PHP_INT_MAX;
+        $maxPlaceholderCount = 0;
         foreach ($queryStrings as $queryString) {
             $placeholderCount = $queryReflection->countPlaceholders($queryString);
-            yield from $this->validateUnnamedPlaceholders($parameters, $placeholderCount);
+            if ($placeholderCount < $minPlaceholderCount) {
+                $minPlaceholderCount = $placeholderCount;
+            }
+            if ($placeholderCount > $maxPlaceholderCount) {
+                $maxPlaceholderCount = $placeholderCount;
+            }
         }
+
+        yield from $this->validateUnnamedPlaceholders($parameters, $minPlaceholderCount, $maxPlaceholderCount);
     }
 
     /**
@@ -45,7 +54,7 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    private function validateUnnamedPlaceholders(array $parameters, int $placeholderCount): iterable
+    private function validateUnnamedPlaceholders(array $parameters, int $minPlaceholderCount, int $maxPlaceholderCount): iterable
     {
         $parameterCount = \count($parameters);
         $minParameterCount = 0;
@@ -56,14 +65,22 @@ final class PlaceholderValidation
             ++$minParameterCount;
         }
 
-        if (0 === $parameterCount && 0 === $minParameterCount && 0 === $placeholderCount) {
+        if (0 === $parameterCount
+            && 0 === $minParameterCount
+            && 0 === $minPlaceholderCount
+            && 0 === $maxPlaceholderCount
+        ) {
             return;
         }
 
-        if ($parameterCount !== $placeholderCount && $placeholderCount !== $minParameterCount) {
-            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
-            if ($placeholderCount > 1) {
-                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
+        if ($parameterCount > $maxPlaceholderCount || $minParameterCount < $minPlaceholderCount) {
+            $placeholderExpectation = sprintf('Query expects %s placeholder', $minPlaceholderCount);
+            if ($minPlaceholderCount > 1) {
+                if ($minPlaceholderCount !== $maxPlaceholderCount) {
+                    $placeholderExpectation = sprintf('Query expects %s-%s placeholders', $minPlaceholderCount, $maxPlaceholderCount);
+                } else {
+                    $placeholderExpectation = sprintf('Query expects %s placeholders', $minPlaceholderCount);
+                }
             }
 
             if (0 === $parameterCount) {
