@@ -123,8 +123,8 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
         $this->analyse([__DIR__ . '/data/placeholder-bug.php'], [
             [
                 'Query expects 2-3 placeholders, but 1-3 values are given.',
-                42
-            ]
+                42,
+            ],
         ]);
     }
 }

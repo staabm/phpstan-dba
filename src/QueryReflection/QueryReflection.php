@@ -419,10 +419,10 @@ final class QueryReflection
 
         if ($parameterTypes instanceof UnionType) {
             foreach ($parameterTypes->getConstantArrays() as $constantArray) {
-                foreach($this->resolveConstantArray($constantArray) as $key => $resolvedParameter) {
+                foreach ($this->resolveConstantArray($constantArray) as $key => $resolvedParameter) {
                     if (array_key_exists($key, $parameters)) {
                         // required parameters should overrule optional parameters
-                        if (!$resolvedParameter->isOptional) {
+                        if (! $resolvedParameter->isOptional) {
                             $parameters[$key] = $resolvedParameter;
                         }
                     } else {
