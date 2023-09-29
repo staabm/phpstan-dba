@@ -115,7 +115,16 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
 
     public function testNamedPlaceholderBug(): void
     {
-        $this->analyse([__DIR__ . '/data/named-placeholder-bug.php'], [
+        $this->analyse([__DIR__ . '/data/named-placeholder-bug.php'], []);
+    }
+
+    public function testPlaceholderBug(): void
+    {
+        $this->analyse([__DIR__ . '/data/placeholder-bug.php'], [
+            [
+                'Query expects 2-3 placeholders, but 1-3 values are given.',
+                42,
+            ],
         ]);
     }
 }
