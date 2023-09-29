@@ -7,7 +7,7 @@ use PDO;
 
 class Foo
 {
-    public function errors(PDO $pdo, $vkFrom)
+    public function allGood(PDO $pdo, $vkFrom)
     {
         $values = [];
         $values[] = 1;
