@@ -125,6 +125,10 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
                 'Query expects 2-3 placeholders, but 1-3 values are given.',
                 42,
             ],
+            [
+                'Query expects 2 placeholders, but no values are given.',
+                48,
+            ],
         ]);
     }
 }
