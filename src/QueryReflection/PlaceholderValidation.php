@@ -40,8 +40,8 @@ final class PlaceholderValidation
 
         $minPlaceholderCount = PHP_INT_MAX;
         $maxPlaceholderCount = 0;
-        foreach ($queryStrings as $queryString) {
-            $placeholderCount = $queryReflection->countPlaceholders($queryString);
+        foreach ($queryStrings as $unnamedQueryString) {
+            $placeholderCount = $queryReflection->countPlaceholders($unnamedQueryString);
             if ($placeholderCount < $minPlaceholderCount) {
                 $minPlaceholderCount = $placeholderCount;
             }
