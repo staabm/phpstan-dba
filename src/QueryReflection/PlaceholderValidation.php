@@ -46,6 +46,10 @@ final class PlaceholderValidation
             }
         }
 
+        if ($minPlaceholderCount === PHP_INT_MAX) {
+            $minPlaceholderCount = 0;
+        }
+
         yield from $this->validateUnnamedPlaceholders($parameters, $minPlaceholderCount, $maxPlaceholderCount);
     }
 
