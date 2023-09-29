@@ -419,14 +419,14 @@ final class QueryReflection
 
         if ($parameterTypes instanceof UnionType) {
             foreach ($parameterTypes->getConstantArrays() as $constantArray) {
-                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
+                $parameters = $parameters + $this->resolveConstantArray($constantArray);
             }
 
             return $parameters;
         }
 
         if ($parameterTypes instanceof ConstantArrayType) {
-            return $this->resolveConstantArray($parameterTypes, false);
+            return $this->resolveConstantArray($parameterTypes);
         }
 
         return null;
@@ -437,7 +437,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    private function resolveConstantArray(ConstantArrayType $parameterTypes, bool $forceOptional): array
+    private function resolveConstantArray(ConstantArrayType $parameterTypes): array
     {
         $parameters = [];
 
@@ -447,9 +447,6 @@ final class QueryReflection
 
         foreach ($keyTypes as $i => $keyType) {
             $isOptional = \in_array($i, $optionalKeys, true);
-            if ($forceOptional) {
-                $isOptional = true;
-            }
 
             if ($keyType instanceof ConstantStringType) {
                 $placeholderName = $keyType->getValue();
