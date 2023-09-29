@@ -10,6 +10,7 @@ class Foo
     public function errors(PDO $pdo, $vkFrom)
     {
         $values = [];
+        $values[] = 1;
 
         $fromCondition = '';
         if ('0' !== $vkFrom) {
@@ -17,7 +18,6 @@ class Foo
             $values[] = 'hello world';
         }
 
-        $values[] = 1;
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? ' . $fromCondition);
         $stmt->execute($values);
