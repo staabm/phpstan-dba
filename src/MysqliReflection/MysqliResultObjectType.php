@@ -14,7 +14,7 @@ final class MysqliResultObjectType extends GenericObjectType
     /**
      * @param array<int, Type> $types
      */
-    public function __construct(private array $types, ?Type $subtractedType = null)
+    public function __construct(array $types, ?Type $subtractedType = null)
     {
         parent::__construct(mysqli_result::class, $types, $subtractedType);
     }
