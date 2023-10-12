@@ -25,7 +25,7 @@ final class MysqliResultObjectType extends GenericObjectType
         if ($withoutSubtracted instanceof GenericObjectType) {
             return new self(
                 $withoutSubtracted->getTypes(),
-                $withoutSubtracted->getSubtractedType(),
+                $withoutSubtracted->getSubtractedType()
             );
         }
         return $withoutSubtracted;
