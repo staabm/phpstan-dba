@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\MysqliReflection;
 
 use mysqli_result;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
-use PHPStan\TrinaryLogic;
 
 final class MysqliResultObjectType extends GenericObjectType
 {
@@ -48,5 +48,4 @@ final class MysqliResultObjectType extends GenericObjectType
 
         return parent::isSuperTypeOf($type);
     }
-
 }
