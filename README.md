@@ -16,8 +16,8 @@ This extension provides the following features, as long as you [stick to the rul
 
 In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
 
-**Note:**
-At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
+> [!NOTE]
+> At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
 
 ## Talks
 
@@ -80,7 +80,8 @@ QueryReflection::setupReflector(
 );
 ```
 
-*Note*: [Configuration for PGSQL is pretty similar](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
+> [!NOTE]
+> [Configuration for PGSQL](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md) is pretty similar
 
 **Third**, create or update your `phpstan.neon` file so [bootstrapFiles](https://phpstan.org/config-reference#bootstrap) includes `phpstan-dba-bootstrap.php`.
 
