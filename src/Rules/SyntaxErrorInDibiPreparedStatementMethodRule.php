@@ -112,13 +112,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             $parameterType = $scope->getType($parameterExpr);
 
             if ($parameterType instanceof StringType) {
-                $resolvedString = $queryReflection->resolveQueryString($parameterExpr, $scope);
-
-                if (null === $resolvedString) {
-                    $queryParameters[] = $parameterType;
-                } else {
-                    $queryParameters[] = $resolvedString;
-                }
+                $queryParameters[] = $queryReflection->resolveQueryStrings($parameterExpr, $scope);
             } elseif ($parameterType instanceof ConstantArrayType) {
                 $constantArray = [];
 
