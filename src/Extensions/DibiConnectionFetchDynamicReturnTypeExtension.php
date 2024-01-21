@@ -8,6 +8,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
@@ -113,7 +114,7 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         if ('fetch' === $methodName) {
             return TypeCombinator::addNull($resultType);
         } elseif ('fetchAll' === $methodName) {
-            return new ArrayType(new IntegerType(), $resultType);
+            return AccessoryArrayListType::intersectWith(new ArrayType(new IntegerType(), $resultType));
         } elseif ('fetchPairs' === $methodName && $resultType instanceof ConstantArrayType && 2 === \count($resultType->getValueTypes())) {
             return new ArrayType($resultType->getValueTypes()[0], $resultType->getValueTypes()[1]);
         } elseif ('fetchSingle' === $methodName && $resultType instanceof ConstantArrayType && 1 === \count($resultType->getValueTypes())) {
