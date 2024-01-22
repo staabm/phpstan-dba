@@ -126,6 +126,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             }
         }
 
+        // @phpstan-ignore-next-line
         if (! \is_string($queryParameters[0])) {
             return [];
         }
