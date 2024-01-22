@@ -121,7 +121,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
                 return null;
             }
 
-            $genericObjects[] = new MysqliResultObjectType($resultType);
+            $genericObjects[] = new MysqliResultObjectType([$resultType]);
         }
 
         if (0 === \count($genericObjects)) {
