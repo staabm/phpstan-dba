@@ -126,13 +126,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             }
         }
 
-        // @phpstan-ignore-next-line
-        if (! \is_string($queryParameters[0])) {
-            return [];
-        }
-
         $stringParameterCount = 0;
-
         foreach ($queryParameters as $queryParameter) {
             if (\is_string($queryParameter)) {
                 $stringParameterCount = $stringParameterCount + 1;
