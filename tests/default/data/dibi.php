@@ -19,7 +19,7 @@ class Foo
     public function fetchAll(\Dibi\Connection $connection)
     {
         $row = $connection->fetchAll('SELECT email, adaid FROM ada');
-        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $row);
+        assertType('array<int, array{email: string, adaid: int<-32768, 32767>}>', $row);
     }
 
     public function fetchPairs(\Dibi\Connection $connection)
