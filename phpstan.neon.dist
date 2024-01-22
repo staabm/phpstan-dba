@@ -5,9 +5,6 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    featureToggles:
-        listType: true
-
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
     level: max
