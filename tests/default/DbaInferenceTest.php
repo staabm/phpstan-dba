@@ -82,6 +82,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
+            'phar://phpstan.phar/conf/bleedingEdge.neon',
             __DIR__ . '/../../config/stubFiles.neon',
             __DIR__ . '/../../config/extensions.neon',
         ];
