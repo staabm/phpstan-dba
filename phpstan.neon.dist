@@ -1,11 +1,13 @@
 includes:
-    - phar://phpstan.phar/conf/bleedingEdge.neon
     - config/stubFiles.neon
     - config/extensions.neon
     - config/rules.neon
     - phpstan-baseline.neon
 
 parameters:
+    featureToggles:
+        listType: true
+
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
     level: max
