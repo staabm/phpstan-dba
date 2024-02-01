@@ -17,6 +17,7 @@ final class DibiReflection
         $queryString = preg_replace('#%(t|d|dt)#', '"2000-1-1"', $queryString) ?? '';
         $queryString = preg_replace('#%(and|or)#', '(1 = 1)', $queryString) ?? '';
         $queryString = preg_replace('#%~?like~?#', '"%1%"', $queryString) ?? '';
+        $queryString = preg_replace('#date_format\([\w.]+?,.+?\)#', '"2000-1-1"', $queryString) ?? '';
 
         $unsupportedPlaceholders = ['%ex', '%n', '%by', '%sql', '%m', '%N'];
 
