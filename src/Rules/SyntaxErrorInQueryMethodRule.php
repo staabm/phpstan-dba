@@ -91,13 +91,13 @@ final class SyntaxErrorInQueryMethodRule implements Rule
                 $queryError = $queryReflection->validateQueryString($queryString);
                 if (null !== $queryError) {
                     return [
-                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getStartLine())->build(),
                     ];
                 }
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($node->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($node->getStartLine())->build(),
             ];
         }
 

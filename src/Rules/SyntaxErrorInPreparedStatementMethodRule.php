@@ -113,7 +113,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
             } catch (UnresolvableQueryException $exception) {
                 return [
-                    RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
+                    RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getStartLine())->build(),
                 ];
             }
         }
@@ -144,13 +144,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
             $ruleErrors = [];
             foreach ($errors as $error) {
-                $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
+                $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getStartLine())->build();
             }
 
             return $ruleErrors;
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getStartLine())->build(),
             ];
         }
     }
