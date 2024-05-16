@@ -106,7 +106,7 @@
 		],
 		"clean": [
 			"composer remove sqlftw/sqlftw --ignore-platform-req=php+",
-			"composer remove doctrine/dbal:^3 --ignore-platform-req=php+"
+			"composer remove doctrine/dbal --ignore-platform-req=php+"
 		]
 	},
 	"config": {
