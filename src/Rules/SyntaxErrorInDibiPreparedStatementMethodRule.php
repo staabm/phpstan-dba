@@ -169,7 +169,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
                 }
 
                 return [
-                    RuleErrorBuilder::message($placeholderExpectation . ', ' . $parameterActual . '.')->line($callLike->getLine())->build(),
+                    RuleErrorBuilder::message($placeholderExpectation . ', ' . $parameterActual . '.')->line($callLike->getStartLine())->build(),
                 ];
             }
         }
@@ -194,7 +194,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         $validity = $queryReflection->validateQueryString($queryParameters[0]);
 
         if (null !== $validity) {
-            return [RuleErrorBuilder::message($validity->asRuleMessage())->line($callLike->getLine())->build()];
+            return [RuleErrorBuilder::message($validity->asRuleMessage())->line($callLike->getStartLine())->build()];
         }
 
         $result = $queryReflection->getResultType($queryParameters[0], QueryReflector::FETCH_TYPE_BOTH);
@@ -204,11 +204,11 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             $columnsInResult = \count($result->getValueTypes()) / 2;
 
             if ('fetchPairs' === $methodReflection->getName() && 2 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got ' . $columnsInResult . '.')->line($callLike->getLine())->build()];
+                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got ' . $columnsInResult . '.')->line($callLike->getStartLine())->build()];
             }
 
             if ('fetchSingle' === $methodReflection->getName() && 1 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got ' . $columnsInResult . '.')->line($callLike->getLine())->build()];
+                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got ' . $columnsInResult . '.')->line($callLike->getStartLine())->build()];
             }
         }
 

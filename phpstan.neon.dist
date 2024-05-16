@@ -35,6 +35,3 @@ parameters:
         -
             message: '#^Instanceof between mysqli_result<array<string, int<-2147483648, 2147483647>\|string\|null>> and mysqli_result will always evaluate to true\.$#'
             path: src/DbSchema/SchemaHasherMysql.php
-
-        # nikic/php-parser 4.x compat
-        - '#Call to deprecated method getLine\(\) of class PhpParser\\NodeAbstract.*#'

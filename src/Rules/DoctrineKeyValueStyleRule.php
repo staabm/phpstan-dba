@@ -114,7 +114,7 @@ final class DoctrineKeyValueStyleRule implements Rule
         $tableNames = $tableType->getConstantStrings();
         if (\count($tableNames) === 0) {
             return [
-                RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getStartLine())->build(),
             ];
         }
 
@@ -185,7 +185,7 @@ final class DoctrineKeyValueStyleRule implements Rule
 
         $ruleErrors = [];
         foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message('Query error: ' . $error)->line($callLike->getLine())->build();
+            $ruleErrors[] = RuleErrorBuilder::message('Query error: ' . $error)->line($callLike->getStartLine())->build();
         }
         return $ruleErrors;
     }
