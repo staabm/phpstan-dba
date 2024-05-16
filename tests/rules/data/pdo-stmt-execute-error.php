@@ -131,8 +131,8 @@ class Foo
     public function supportNestedQuotes(PDO $pdo)
     {
         $stmt = $pdo->prepare(<<<SQL
-            SELECT payload ->> '$."dash-separated"' = :value FROM ada WHERE 'foo'
-            SQL
+SELECT payload ->> '$."dash-separated"' = :value FROM ada WHERE 'foo'
+SQL
         );
         $stmt->execute(['value' => 'bar']);
     }
