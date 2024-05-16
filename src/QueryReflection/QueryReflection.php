@@ -42,9 +42,9 @@ final class QueryReflection
     // see https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/pdo/pdo_sql_parser.re#L48
     private const NAMED_PATTERN = ':[a-zA-Z0-9_]+';
 
-    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|(' . self::UNNAMED_PATTERN . ')}';
+    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])((?:(?!\1).)*\1)|(' . self::UNNAMED_PATTERN . ')}';
 
-    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|(' . self::NAMED_PATTERN . ')}';
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])((?:(?!\1).)*\1)|(' . self::NAMED_PATTERN . ')}';
 
     /**
      * @var QueryReflector|null
