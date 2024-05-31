@@ -102,7 +102,7 @@
 		],
 		"build": [
 			"composer require sqlftw/sqlftw --ignore-platform-req=php+",
-			"composer require doctrine/dbal --ignore-platform-req=php+"
+			"composer require doctrine/dbal:3.* --ignore-platform-req=php+"
 		],
 		"clean": [
 			"composer remove sqlftw/sqlftw --ignore-platform-req=php+",
