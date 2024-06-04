@@ -136,4 +136,14 @@ SQL
         );
         $stmt->execute(['value' => 'bar']);
     }
+
+    public function bug657MultilineString(PDO $pdo)
+    {
+        $stmt = $pdo->prepare(<<<SQL
+UPDATE `ada` SET email = "multi
+line" WHERE `email`= ? AND `email` = "value";
+SQL
+        );
+        $stmt->execute(['value']);
+    }
 }
