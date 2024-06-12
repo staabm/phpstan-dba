@@ -228,4 +228,14 @@ class Foo
         );
         assertType('Doctrine\DBAL\Result', $result);
     }
+
+    /**
+     * @param list<positive-int> $idsToUpdate
+     */
+    public function fetchFromListParam(Connection $conn, array $idsToUpdate)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (?)';
+        $fetchResult = $conn->fetchOne($query, $idsToUpdate);
+        assertType('string|false', $fetchResult);
+    }
 }
