@@ -151,10 +151,6 @@ final class ExpressionFinder
         }
 
         $parent = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PARENT);
-        if ($parent instanceof FunctionLike) {
-            return null;
-        }
-
         if ($parent instanceof Node) {
             return $this->findFirstPreviousOfNode($parent, $filter);
         }
