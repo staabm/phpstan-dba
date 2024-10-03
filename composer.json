@@ -22,7 +22,7 @@
 		"phpstan/phpstan-phpunit": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^8.5|^9.5",
-		"symplify/easy-coding-standard": "^11.4",
+		"symplify/easy-coding-standard": "^12.3",
 		"tomasvotruba/unused-public": "^1.0",
 		"vlucas/phpdotenv": "^5.4"
 	},
