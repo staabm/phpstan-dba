@@ -82,6 +82,20 @@ class Foo
     }
 
     /**
+     * @param list $idsToUpdate
+     */
+    public function unspecifiedList(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+    }
+
+    /**
      * @param number $idsToUpdate
      */
     public function numberType(PDO $pdo, $idsToUpdate)
