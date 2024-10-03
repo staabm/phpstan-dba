@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Accessory\AccessoryType;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\IntersectionType;
@@ -36,8 +34,8 @@ final class QuerySimulation
             return (string) $paramType->getValue();
         }
 
-        if ($paramType instanceof ArrayType) {
-            return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
+        if ($paramType->isArray()->yes()) {
+            return self::simulateParamValueType($paramType->getIterableValueType(), $preparedParam);
         }
 
         if (
@@ -90,19 +88,6 @@ final class QuerySimulation
             }
 
             return null;
-        }
-
-        if ($paramType instanceof IntersectionType) {
-            foreach ($paramType->getTypes() as $type) {
-                if ($type instanceof AccessoryType) {
-                    continue;
-                }
-
-                $simulated = self::simulateParamValueType($type, $preparedParam);
-                if (null !== $simulated) {
-                    return $simulated;
-                }
-            }
         }
 
         // all types which we can't simulate and render a query unresolvable at analysis time
