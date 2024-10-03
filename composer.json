@@ -8,8 +8,7 @@
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
 		"doctrine/dbal": "3.*",
-		"phpstan/phpstan": "^1.9.4",
-		"sqlftw/sqlftw": "^0.1.16"
+		"phpstan/phpstan": "^1.9.4"
 	},
 	"require-dev": {
 		"ext-mysqli": "*",
