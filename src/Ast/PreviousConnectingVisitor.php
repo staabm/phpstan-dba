@@ -38,8 +38,10 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
             $node->setAttribute(self::ATTRIBUTE_PARENT, $this->stack[\count($this->stack) - 1]);
         }
 
-        if (null !== $this->previous && $this->previous->getAttribute(self::ATTRIBUTE_PARENT) === $node->getAttribute(self::ATTRIBUTE_PARENT)) {
-            $node->setAttribute(self::ATTRIBUTE_PREVIOUS, $this->previous);
+        if (!$node instanceof Node\FunctionLike && !$node instanceof Node\Stmt\ClassLike) {
+            if (null !== $this->previous && $this->previous->getAttribute(self::ATTRIBUTE_PARENT) === $node->getAttribute(self::ATTRIBUTE_PARENT)) {
+                $node->setAttribute(self::ATTRIBUTE_PREVIOUS, $this->previous);
+            }
         }
 
         $this->stack[] = $node;
