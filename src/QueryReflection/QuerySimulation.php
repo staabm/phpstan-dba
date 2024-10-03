@@ -36,8 +36,8 @@ final class QuerySimulation
             return (string) $paramType->getValue();
         }
 
-        if ($paramType instanceof ArrayType) {
-            return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
+        if ($paramType->isArray()->yes()) {
+            return self::simulateParamValueType($paramType->getIterableValueType(), $preparedParam);
         }
 
         if (
