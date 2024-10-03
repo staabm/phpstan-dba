@@ -89,11 +89,9 @@ jobs:
 
       - name: Install sqlftw/sqlftw (optional dependency)
         run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
       - name: Install doctrine/dbal (optional dependency)
         run: composer require doctrine/dbal:^3 --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.2'}}"
 
       - name: Enable phpstan@dev
         if: "${{matrix.phpstan-version != ''}}"
@@ -144,10 +142,8 @@ jobs:
 
       - name: Install sqlftw/sqlftw (optional dependency)
         run: composer require sqlftw/sqlftw --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.2' && matrix.php-version != '7.3'}}"
 
       - name: Install doctrine/dbal (optional dependency)
         run: composer require doctrine/dbal:^3 --ignore-platform-req=php+
-        if: "${{matrix.php-version != '7.2'}}"
 
       - run: composer phpstan

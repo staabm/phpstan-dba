@@ -59,7 +59,7 @@ final class ParserInference
         $where = null;
         $groupBy = null;
         $joins = [];
-        foreach ($commands as [$command]) {
+        foreach ($commands as $command) {
             // Parser does not throw exceptions. this allows to parse partially invalid code and not fail on first error
             if ($command instanceof SelectCommand) {
                 if (null === $selectColumns) {

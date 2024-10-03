@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"keywords": ["dev", "phpstan", "phpstan-extension", "static analysis", "database access layer", "code quality"],
 	"require": {
-		"php": "^7.2 || ^8.0",
+		"php": "^7.4 || ^8.0",
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
 		"doctrine/dbal": "3.*",
