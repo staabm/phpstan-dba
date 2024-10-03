@@ -11,6 +11,7 @@ use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use SqlFtw\Parser\Parser;
+use SqlFtw\Parser\ParserConfig;
 use SqlFtw\Platform\Platform;
 use SqlFtw\Session\Session;
 use SqlFtw\Sql\Dml\Query\SelectCommand;
@@ -44,8 +45,9 @@ final class ParserInference
     public function narrowResultType(string $queryString, ConstantArrayType $resultType): Type
     {
         $platform = Platform::get(Platform::MYSQL, '8.0'); // version defaults to x.x.99 when no patch number is given
+        $config = new ParserConfig($platform);
         $session = new Session($platform);
-        $parser = new Parser($session);
+        $parser = new Parser($config, $session);
 
         //        $queryString = 'SELECT a.email, b.adaid FROM ada a LEFT JOIN ada b ON a.adaid=b.adaid';
 
