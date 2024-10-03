@@ -43,22 +43,15 @@ final class QuerySimulation
             return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
         }
 
-        $integerType = new IntegerType();
-        if ($integerType->isSuperTypeOf($paramType)->yes()) {
+        if (
+            $paramType->isInteger()->yes()
+            || $paramType->isBoolean()->yes()
+            || $paramType->isNumericString()->yes()
+        ) {
             return '1';
         }
 
-        $booleanType = new BooleanType();
-        if ($booleanType->isSuperTypeOf($paramType)->yes()) {
-            return '1';
-        }
-
-        if ($paramType->isNumericString()->yes()) {
-            return '1';
-        }
-
-        $floatType = new FloatType();
-        if ($floatType->isSuperTypeOf($paramType)->yes()) {
+        if ($paramType->isFloat()->yes()) {
             return '1.0';
         }
 
