@@ -20,22 +20,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: "7.2"
+          - php-version: "7.4"
             db-image: 'mysql:5.7'
             reflector: "pdo-mysql"
             mode: "recording"
             dependencies: "lowest"
 
-          - php-version: "7.2"
-            db-image: 'mysql:5.7'
-            reflector: "pdo-mysql"
-            mode: "recording"
-            dependencies: "highest"
-          - php-version: "7.3"
-            db-image: 'mysql:5.7'
-            reflector: "pdo-mysql"
-            mode: "recording"
-            dependencies: "highest"
           - php-version: "7.4"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
