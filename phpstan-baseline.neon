@@ -102,16 +102,6 @@ parameters:
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 3
-			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/QueryReflection/QueryReflection.php
-
-		-
 			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:\\:extractNamedPlaceholders\\(\\) should return list\\<string\\> but returns array\\<int\\<0, max\\>, string\\>\\.$#"
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
