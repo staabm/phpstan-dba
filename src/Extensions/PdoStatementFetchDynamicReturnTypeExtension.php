@@ -113,8 +113,9 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
             if (\count($args) > 1) {
                 $classStringType = $scope->getType($args[1]->value);
-                if ($classStringType instanceof ConstantStringType) {
-                    $className = $classStringType->getValue();
+                $strings = $classStringType->getConstantStrings();
+                if (count($strings) === 1) {
+                    $className = $strings[0]->getValue();
                 } else {
                     return null;
                 }
