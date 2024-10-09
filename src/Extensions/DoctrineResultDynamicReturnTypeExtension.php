@@ -67,9 +67,10 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         $resultType = $scope->getType($methodCall->var);
         if ('columncount' === strtolower($methodReflection->getName())) {
             if ($resultType instanceof DoctrineResultObjectType) {
-                $resultRowType = $resultType->getRowType();
+                $arrays = $resultType->getRowType()->getConstantArrays();
+                if (count($arrays) === 1) {
+                    $resultRowType = $arrays[0];
 
-                if ($resultRowType instanceof ConstantArrayType) {
                     $columnCount = \count($resultRowType->getKeyTypes()) / 2;
                     if (! \is_int($columnCount)) {
                         throw new ShouldNotHappenException();
