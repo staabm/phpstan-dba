@@ -28,11 +28,20 @@ final class MysqliTypeMapper
     public function __construct(?DbaApi $dbaApi)
     {
         $constants = get_defined_constants(true);
-        foreach ((array) $constants['mysqli'] as $c => $n) {
+        if (!array_key_exists('mysqli', $constants) || !is_array($constants['mysqli'])) {
+            $constants['mysqli'] = [];
+        }
+        
+        foreach ($constants['mysqli'] as $c => $n) {
             if (! \is_int($n)) {
                 // skip bool constants like MYSQLI_IS_MARIADB
                 continue;
             }
+
+            if (!is_string($c)) {
+                continue;
+            }
+
             if (1 === preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
                 if (! \is_string($m[1])) {
                     throw new ShouldNotHappenException();
