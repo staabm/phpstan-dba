@@ -29,11 +29,6 @@ parameters:
 			path: src/Extensions/PdoStatementFetchDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchObjectDynamicReturnTypeExtension.php
-
-		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/PdoReflection/PdoStatementObjectType.php
