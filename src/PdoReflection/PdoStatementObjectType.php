@@ -80,9 +80,9 @@ class PdoStatementObjectType extends GenericObjectType
             $valueTypes = $bothType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType->isInteger()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType->isString()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }
