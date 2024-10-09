@@ -19,8 +19,8 @@ parameters:
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Call to an undefined method PHPStan\\\\Type\\\\Type\\:\\:getValueTypes\\(\\)\\.$#"
-			count: 5
+			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
+			count: 2
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
 
 		-
@@ -45,11 +45,6 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/PdoReflection/PdoStatementObjectType.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
 			count: 1
 			path: src/PdoReflection/PdoStatementObjectType.php
 
@@ -243,11 +238,6 @@ parameters:
 			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInQueryMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError\\}\\.$#"
 			count: 1
 			path: src/Rules/SyntaxErrorInQueryMethodRule.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/SchemaReflection/SchemaReflection.php
 
 		-
 			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
