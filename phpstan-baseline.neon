@@ -6,21 +6,6 @@ parameters:
 			path: src/Analyzer/QueryPlanAnalyzerMysql.php
 
 		-
-			message: "#^Instanceof between mysqli_result\\<array\\<string, int\\<\\-128, 127\\>\\|string\\|null\\>\\> and mysqli_result will always evaluate to true\\.$#"
-			count: 1
-			path: src/DbSchema/SchemaHasherMysql.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineReflection.php
-
-		-
 			message: """
 				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
 				use resolveQueryStrings\\(\\) instead$#
@@ -29,13 +14,13 @@ parameters:
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
+			message: "#^Cannot call method getConstantArrays\\(\\) on PHPStan\\\\Type\\\\Type\\|null\\.$#"
 			count: 1
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 2
+			message: "#^Call to an undefined method PHPStan\\\\Type\\\\Type\\:\\:getValueTypes\\(\\)\\.$#"
+			count: 5
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
 
 		-
@@ -74,9 +59,64 @@ parameters:
 			path: src/PdoReflection/PdoStatementReflection.php
 
 		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\PdoReflection\\\\PdoStatementReflection\\:\\:getClassRowType\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/PdoReflection/PdoStatementReflection.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\PdoReflection\\\\PdoStatementReflection\\:\\:getFetchType\\(\\) never returns 1 so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/PdoReflection/PdoStatementReflection.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\PdoReflection\\\\PdoStatementReflection\\:\\:getFetchType\\(\\) never returns 2 so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/PdoReflection/PdoStatementReflection.php
+
+		-
+			message: "#^Parameter \\#2 \\$flags of method staabm\\\\PHPStanDba\\\\TypeMapping\\\\TypeMapper\\:\\:mapToPHPStanType\\(\\) expects list\\<string\\>, array\\<int, string\\> given\\.$#"
+			count: 2
+			path: src/QueryReflection/BasePdoQueryReflector.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between 'dibi' and 'dibi' will always evaluate to true\\.$#"
 			count: 1
 			path: src/QueryReflection/DbaApi.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\MysqliQueryReflector\\:\\:getDatasource\\(\\) never returns PDO so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/QueryReflection/MysqliQueryReflector.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\MysqliQueryReflector\\:\\:getDatasource\\(\\) never returns null so it can be removed from the return type\\.$#"
+			count: 1
+			path: src/QueryReflection/MysqliQueryReflector.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\PdoMysqlQueryReflector\\:\\:simulateQuery\\(\\) should return list\\<array\\{name\\: string, table\\: string, native_type\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824\\}\\>\\|PDOException\\|null but returns array\\<int\\<0, max\\>, array\\{name\\: string, table\\: string, native_type\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824\\}\\>\\|PDOException\\|null\\.$#"
+			count: 1
+			path: src/QueryReflection/PdoMysqlQueryReflector.php
+
+		-
+			message: "#^Property staabm\\\\PHPStanDba\\\\QueryReflection\\\\BasePdoQueryReflector\\:\\:\\$cache \\(array\\<string, list\\<array\\{name\\: string, table\\: string, native_type\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824\\}\\>\\|PDOException\\|null\\>\\) does not accept non\\-empty\\-array\\<string, array\\<int\\<0, max\\>, array\\{name\\: string, table\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824, native_type\\: string\\}\\>\\|PDOException\\|null\\>\\.$#"
+			count: 1
+			path: src/QueryReflection/PdoMysqlQueryReflector.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\PdoPgSqlQueryReflector\\:\\:simulateQuery\\(\\) should return list\\<array\\{name\\: string, table\\?\\: string, native_type\\: string, len\\: int, flags\\: list\\<string\\>\\}\\>\\|PDOException\\|null but returns array\\<int\\<0, max\\>, array\\{name\\: string, table\\?\\: string, native_type\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824\\}\\>\\|PDOException\\|null\\.$#"
+			count: 1
+			path: src/QueryReflection/PdoPgSqlQueryReflector.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\PdoPgSqlQueryReflector\\:\\:simulateQuery\\(\\) should return list\\<array\\{name\\: string, table\\?\\: string, native_type\\: string, len\\: int, flags\\: list\\<string\\>\\}\\>\\|PDOException\\|null but returns list\\<array\\{name\\: string, table\\: string, native_type\\: string, len\\: int, flags\\: array\\<int, string\\>, precision\\: int\\<0, max\\>, pdo_type\\: \\-2147483648\\|0\\|1\\|2\\|3\\|4\\|5\\|6\\|536870912\\|1073741824\\}\\>\\|PDOException\\|null\\.$#"
+			count: 1
+			path: src/QueryReflection/PdoPgSqlQueryReflector.php
+
+		-
+			message: "#^PHPDoc tag @var with type array\\{column_default\\?\\: string, column_name\\: string, is_nullable\\: string\\} is not subtype of type array\\{COLUMN_NAME\\: string, COLUMN_DEFAULT\\: string\\|null, IS_NULLABLE\\: string\\}\\.$#"
+			count: 1
+			path: src/QueryReflection/PdoPgSqlQueryReflector.php
 
 		-
 			message: """
@@ -102,19 +142,14 @@ parameters:
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between null and null will always evaluate to true\\.$#"
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:\\:extractNamedPlaceholders\\(\\) should return list\\<string\\> but returns array\\<int\\<0, max\\>, string\\>\\.$#"
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Accessory\\\\AccessoryType is error\\-prone and deprecated\\. Use methods on PHPStan\\\\Type\\\\Type instead\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between null and null will always evaluate to true\\.$#"
 			count: 1
-			path: src/QueryReflection/QuerySimulation.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\ArrayType is error\\-prone and deprecated\\. Use Type\\:\\:isArray\\(\\) or Type\\:\\:getArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/QueryReflection/QuerySimulation.php
+			path: src/QueryReflection/QueryReflection.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\ConstantScalarType is error\\-prone and deprecated\\. Use Type\\:\\:isConstantScalarValue\\(\\) or Type\\:\\:getConstantScalarTypes\\(\\) or Type\\:\\:getConstantScalarValues\\(\\) instead\\.$#"
@@ -123,7 +158,7 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\IntersectionType is error\\-prone and deprecated\\.$#"
-			count: 2
+			count: 1
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
@@ -132,19 +167,34 @@ parameters:
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
+			message: "#^Method staabm\\\\PHPStanDba\\\\QueryReflection\\\\ReflectionCache\\:\\:readCachedRecords\\(\\) should return array\\<string, array\\{error\\?\\: staabm\\\\PHPStanDba\\\\Error\\|null, result\\?\\: array\\<1\\|2\\|3\\|4\\|5\\|6\\|7\\|8, PHPStan\\\\Type\\\\Type\\|null\\>\\}\\>\\|null but returns array\\.$#"
 			count: 1
-			path: src/Rules/DoctrineKeyValueStyleRule.php
+			path: src/QueryReflection/ReflectionCache.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 2
+			message: "#^Return type \\(array\\<PHPStan\\\\Rules\\\\RuleError\\>\\) of method staabm\\\\PHPStanDba\\\\Rules\\\\DoctrineKeyValueStyleRule\\:\\:processNode\\(\\) should be covariant with return type \\(list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\>\\) of method PHPStan\\\\Rules\\\\Rule\\<PhpParser\\\\Node\\\\Expr\\\\CallLike\\>\\:\\:processNode\\(\\)$#"
+			count: 1
 			path: src/Rules/DoctrineKeyValueStyleRule.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
 			count: 1
 			path: src/Rules/PdoStatementExecuteMethodRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\PdoStatementExecuteMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\<PHPStan\\\\Rules\\\\RuleError\\>\\.$#"
+			count: 1
+			path: src/Rules/PdoStatementExecuteMethodRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\QueryPlanAnalyzerRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\<PHPStan\\\\Rules\\\\RuleError\\>\\.$#"
+			count: 1
+			path: src/Rules/QueryPlanAnalyzerRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\QueryPlanAnalyzerRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError&PHPStan\\\\Rules\\\\TipRuleError\\}\\.$#"
+			count: 1
+			path: src/Rules/QueryPlanAnalyzerRule.php
 
 		-
 			message: """
@@ -165,19 +215,44 @@ parameters:
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
 
 		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInDibiPreparedStatementMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\<PHPStan\\\\Rules\\\\RuleError\\>\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInPreparedStatementMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\<PHPStan\\\\Rules\\\\RuleError\\>\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInPreparedStatementMethodRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInQueryFunctionRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError&PHPStan\\\\Rules\\\\TipRuleError\\}\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInQueryFunctionRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInQueryFunctionRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError\\}\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInQueryFunctionRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInQueryMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError&PHPStan\\\\Rules\\\\TipRuleError\\}\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInQueryMethodRule.php
+
+		-
+			message: "#^Method staabm\\\\PHPStanDba\\\\Rules\\\\SyntaxErrorInQueryMethodRule\\:\\:processNode\\(\\) should return list\\<PHPStan\\\\Rules\\\\IdentifierRuleError\\> but returns array\\{PHPStan\\\\Rules\\\\LineRuleError\\}\\.$#"
+			count: 1
+			path: src/Rules/SyntaxErrorInQueryMethodRule.php
+
+		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 1
 			path: src/SchemaReflection/SchemaReflection.php
 
 		-
-			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\Join\\:\\:getCondition\\(\\)\\.$#"
-			count: 2
-			path: src/SqlAst/ParserInference.php
-
-		-
-			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\TableReferenceNode\\:\\:getTable\\(\\)\\.$#"
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
 			count: 1
-			path: src/SqlAst/ParserInference.php
+			path: src/TypeMapping/MysqliTypeMapper.php
 
 		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
@@ -187,4 +262,9 @@ parameters:
 		-
 			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
 			count: 1
+			path: src/TypeMapping/MysqliTypeMapper.php
+
+		-
+			message: "#^Parameter \\#2 \\$subject of function preg_match expects string, mixed given\\.$#"
+			count: 2
 			path: src/TypeMapping/MysqliTypeMapper.php
