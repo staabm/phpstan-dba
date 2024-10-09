@@ -43,14 +43,8 @@ final class MysqliTypeMapper
             }
 
             if (1 === preg_match('/^MYSQLI_TYPE_(.*)/', $c, $m)) {
-                if (! \is_string($m[1])) {
-                    throw new ShouldNotHappenException();
-                }
                 $this->nativeTypes[$n] = $m[1];
             } elseif (1 === preg_match('/MYSQLI_(.*)_FLAG$/', $c, $m)) {
-                if (! \is_string($m[1])) {
-                    throw new ShouldNotHappenException();
-                }
                 if (! \array_key_exists($n, $this->nativeFlags)) {
                     $this->nativeFlags[$n] = $m[1];
                 }
