@@ -131,8 +131,14 @@ final class PdoStatementReflection
     public function getColumnRowType(Type $statementType, int $columnIndex): ?Type
     {
         $statementType = $this->getRowType($statementType, QueryReflector::FETCH_TYPE_NUMERIC);
+        if ($statementType === null) {
+            return null;
+        }
 
-        if ($statementType instanceof ConstantArrayType) {
+        $arrays = $statementType->getConstantArrays();
+        if (count($arrays) === 1) {
+            $statementType = $arrays[0];
+
             $valueTypes = $statementType->getValueTypes();
             if (\array_key_exists($columnIndex, $valueTypes)) {
                 return $valueTypes[$columnIndex];
