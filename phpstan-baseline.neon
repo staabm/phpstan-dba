@@ -161,11 +161,6 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 2
-			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\StringType is error\\-prone and deprecated\\. Use Type\\:\\:isString\\(\\) instead\\.$#"
 			count: 1
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
 

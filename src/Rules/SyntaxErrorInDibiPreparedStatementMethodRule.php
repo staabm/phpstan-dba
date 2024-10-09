@@ -111,7 +111,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             $parameterExpr = $arg->value;
             $parameterType = $scope->getType($parameterExpr);
 
-            if ($parameterType instanceof StringType) {
+            if ($parameterType->isString()->yes()) {
                 $resolvedString = $queryReflection->resolveQueryString($parameterExpr, $scope);
 
                 if (null === $resolvedString) {
@@ -119,12 +119,15 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
                 } else {
                     $queryParameters[] = $resolvedString;
                 }
-            } elseif ($parameterType instanceof ConstantArrayType) {
+            } elseif ($parameterType->isConstantArray()->yes()) {
                 $constantArray = [];
-
-                foreach ($parameterType->getKeyTypes() as $i => $keyType) {
-                    $constantArray[$keyType->getValue()] = $parameterType->getValueTypes()[$i];
+                $arrays = $parameterType->getConstantArrays();
+                foreach($arrays as $array) {
+                    foreach ($array->getKeyTypes() as $i => $keyType) {
+                        $constantArray[$keyType->getValue()] = $array->getValueTypes()[$i];
+                    }
                 }
+
 
                 $queryParameters[] = $constantArray;
             } else {
