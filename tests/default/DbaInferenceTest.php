@@ -67,6 +67,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-union-result.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-default-fetch-types.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/bug372.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
     }
 
     /**
