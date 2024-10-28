@@ -15019,26 +15019,14 @@ FROM ada' =>
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               3 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             ),
              'normalized' => false,
@@ -15055,13 +15043,7 @@ FROM ada' =>
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -15072,13 +15054,7 @@ FROM ada' =>
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -17167,21 +17143,39 @@ FROM ada' =>
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'value' => 'adaid',
+                   'isClassString' => false,
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                )),
               )),
               4 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'b',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'value' => 'b',
+                   'isClassString' => false,
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                )),
               )),
               5 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => NULL,
+                 'arrayKeyType' => 
+                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                   'value' => 'email',
+                   'isClassString' => false,
+                   'objectType' => NULL,
+                   'arrayKeyType' => NULL,
+                )),
               )),
             ),
              'normalized' => false,
@@ -17198,7 +17192,13 @@ FROM ada' =>
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -17209,7 +17209,13 @@ FROM ada' =>
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -17220,7 +17226,13 @@ FROM ada' =>
                'value' => 'b',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => NULL,
+               'arrayKeyType' => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'b',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
             )),
             5 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
