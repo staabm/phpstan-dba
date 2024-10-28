@@ -15,9 +15,9 @@ class Test
             ->connection
             ->fetchAssociative(
                 '#cart-persister::load
-                SELECT email, adaid FROM ada WHERE adaid = :token',
+                SELECT email FROM ada WHERE adaid = :token',
                 ['token' => $token],
             );
-        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $content);
+        assertType('array{email: string}|false', $content);
     }
 }
