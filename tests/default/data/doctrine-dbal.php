@@ -228,4 +228,15 @@ class Foo
         );
         assertType('Doctrine\DBAL\Result', $result);
     }
+
+    public function doFoo(Connection $conn, string $token): void
+    {
+        $content = $conn
+            ->fetchAssociative(
+                '#cart-persister::load
+                SELECT email, adaid FROM ada WHERE adaid = :token',
+                ['token' => $token],
+            );
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $content);
+    }
 }
