@@ -9,7 +9,7 @@ class Test
 {
     private Connection $connection;
 
-    public function doFoo(string $token): array
+    public function doFoo(string $token): void
     {
         $content = $this
             ->connection
