@@ -34,7 +34,7 @@ final class QuerySimulation
             return (string) $paramType->getValue();
         }
 
-        if ($paramType->isArray()->yes()) {
+        if ($paramType->isIterable()->yes()) {
             return self::simulateParamValueType($paramType->getIterableValueType(), $preparedParam);
         }
 
