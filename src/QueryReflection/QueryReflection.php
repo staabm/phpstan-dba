@@ -77,6 +77,7 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
+        $queryString = QuerySimulation::stripComments($queryString);
         $queryType = self::getQueryType($queryString);
 
         if (self::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
@@ -110,6 +111,8 @@ final class QueryReflection
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
+        $queryString = QuerySimulation::stripComments($queryString);
+
         if ('SELECT' !== self::getQueryType($queryString)) {
             return null;
         }
@@ -397,6 +400,7 @@ final class QueryReflection
 
     public static function getQueryType(string $query): ?string
     {
+        $query = QuerySimulation::stripComments($query);
         $query = ltrim($query);
 
         if (1 === preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
@@ -546,6 +550,8 @@ final class QueryReflection
      */
     public function countPlaceholders(string $queryString): int
     {
+        $queryString = QuerySimulation::stripComments($queryString);
+
         // match named placeholders first, as the regex involved is more specific/less error prone
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
@@ -573,6 +579,7 @@ final class QueryReflection
      */
     public function containsNamedPlaceholders(string $queryString, array $parameters): bool
     {
+        $queryString = QuerySimulation::stripComments($queryString);
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
         if ([] !== $namedPlaceholders) {
@@ -593,6 +600,8 @@ final class QueryReflection
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
+        $queryString = QuerySimulation::stripComments($queryString);
+
         if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
             $candidates = $matches[0];
 
