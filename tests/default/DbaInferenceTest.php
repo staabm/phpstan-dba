@@ -20,11 +20,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
 
             yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
-
-            // for some reason does not work in pgsql
-            if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
-                yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
-            }
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
         }
 
         // make sure class constants can be resolved
