@@ -125,10 +125,10 @@ class Foo
         assertType("PDOStatement<array{col: 'default', 0: 'default'}>", $stmt);
 
         $stmt = $pdo->query('SELECT ifnull(c_int, "default") as col from typemix');
-        assertType("PDOStatement<array{col: numeric-string, 0: numeric-string}>", $stmt);
+        assertType("PDOStatement<array{col: lowercase-string&numeric-string, 0: lowercase-string&numeric-string}>", $stmt);
 
         $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, "default") as col from typemix');
-        assertType("PDOStatement<array{col: 'default'|numeric-string, 0: 'default'|numeric-string}>", $stmt);
+        assertType("PDOStatement<array{col: 'default'|(lowercase-string&numeric-string), 0: 'default'|(lowercase-string&numeric-string)}>", $stmt);
 
         $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, 5000) as col from typemix');
         assertType('PDOStatement<array{col: 5000|int<-128, 127>, 0: 5000|int<-128, 127>}>', $stmt);
@@ -140,7 +140,7 @@ class Foo
         assertType('PDOStatement<array{col: float, 0: float}>', $stmt);
 
         $stmt = $pdo->query('SELECT ifnull(c_int, 123.23) as col from typemix');
-        assertType('PDOStatement<array{col: numeric-string, 0: numeric-string}>', $stmt);
+        assertType('PDOStatement<array{col: lowercase-string&numeric-string, 0: lowercase-string&numeric-string}>', $stmt);
 
         $stmt = $pdo->query('SELECT ifnull(123.23, c_int) as col from typemix');
         assertType("PDOStatement<array{col: '123.23', 0: '123.23'}>", $stmt);
