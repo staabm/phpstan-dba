@@ -8,105 +8,100 @@
       'result' => 
       array (
         5 => 
-        PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'keyType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '0|1|\'adaid\'|\'email\'',
-            ),
-             'types' => 
-            array (
-              0 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'adaid',
-                 'isClassString' => false,
-              )),
-              3 => 
-              PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-                 'value' => 'email',
-                 'isClassString' => false,
-              )),
-            ),
-             'normalized' => false,
-          )),
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          PHPStan\Type\UnionType::__set_state(array(
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\UnionType::__set_state(array(
              'types' => 
             array (
               0 => 
-              PHPStan\Type\StringType::__set_state(array(
+              \PHPStan\Type\StringType::__set_state(array(
               )),
               1 => 
-              PHPStan\Type\IntegerRangeType::__set_state(array(
+              \PHPStan\Type\IntegerRangeType::__set_state(array(
                  'min' => -32768,
                  'max' => 32767,
               )),
             ),
              'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
           )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 2,
-          ),
+           'keyType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 0,
+              )),
+              1 => 
+              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+                 'value' => 1,
+              )),
+              2 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+              3 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+            ),
+             'normalized' => false,
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '0|1|\'adaid\'|\'email\'',
+            ),
+          )),
            'keyTypes' => 
           array (
             0 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'email',
                'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
             )),
             1 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
                'value' => 0,
             )),
             2 => 
-            PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                'value' => 'adaid',
                'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
             )),
             3 => 
-            PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
+            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
                'value' => 1,
             )),
           ),
            'valueTypes' => 
           array (
             0 => 
-            PHPStan\Type\StringType::__set_state(array(
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            PHPStan\Type\StringType::__set_state(array(
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             2 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -32768,
                'max' => 32767,
             )),
             3 => 
-            PHPStan\Type\IntegerRangeType::__set_state(array(
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
                'min' => -32768,
                'max' => 32767,
             )),
@@ -114,7 +109,15 @@
            'optionalKeys' => 
           array (
           ),
-           'isList' => false,
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 2,
+          ),
         )),
       ),
     ),

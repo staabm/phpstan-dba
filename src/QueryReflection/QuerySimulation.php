@@ -144,13 +144,17 @@ final class QuerySimulation
     }
 
     /**
-     * @see https://larrysteinle.com/2011/02/09/use-regular-expressions-to-clean-sql-statements/
      * @see https://github.com/decemberster/sql-strip-comments/blob/3bef3558211a6f6191d2ad0ceb8577eda39dd303/index.js
      */
     public static function stripComments(string $query): string
     {
+        // one line comments: from "#" to end of line,
+        // one line comments: from "--" to end of line,
+        // or multiline: from "/*" to "*/".
+        // string literals with sql comments omited
+        // nested comments are not supported
         return trim(preg_replace_callback(
-            '/("(""|[^"])*")|(\'(\'\'|[^\'])*\')|(--[^\n\r]*)|(\/\*[\w\W]*?(?=\*\/)\*\/)/m',
+            '/("(""|[^"])*")|(\'(\'\'|[^\'])*\')|((?:--|#)[^\n\r]*)|(\/\*[\w\W]*?(?=\*\/)\*\/)/m',
             static function (array $matches): string {
                 $match = $matches[0];
                 $matchLength = \strlen($match);
