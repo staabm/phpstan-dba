@@ -28,7 +28,7 @@ final class MysqliTypeMapper
     public function __construct(?DbaApi $dbaApi)
     {
         $constants = get_defined_constants(true);
-        foreach ($constants['mysqli'] as $c => $n) {
+        foreach ((array) $constants['mysqli'] as $c => $n) {
             if (! \is_int($n)) {
                 // skip bool constants like MYSQLI_IS_MARIADB
                 continue;
