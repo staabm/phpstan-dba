@@ -1,6 +1,6 @@
 <?php
 
-namespace Test;
+namespace Bug676;
 
 use Doctrine\DBAL\Connection;
 
