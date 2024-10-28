@@ -18,6 +18,6 @@ class Test
                 SELECT email, adaid FROM ada WHERE adaid = :token',
                 ['token' => $token],
             );
-        assertType('array<string, mixed>|false', $content);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $content);
     }
 }
