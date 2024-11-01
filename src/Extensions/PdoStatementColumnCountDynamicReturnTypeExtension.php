@@ -8,7 +8,6 @@ use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
@@ -32,8 +31,9 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {
-            $rowType = $statementType->newWithFetchType(QueryReflector::FETCH_TYPE_NUMERIC)->getRowType();
-            if ($rowType instanceof ConstantArrayType) {
+            $arrays = $statementType->newWithFetchType(QueryReflector::FETCH_TYPE_NUMERIC)->getRowType()->getConstantArrays();
+            if (count($arrays) === 1) {
+                $rowType = $arrays[0];
                 return new ConstantIntegerType(\count($rowType->getKeyTypes()));
             }
         }

@@ -15,8 +15,6 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
@@ -119,11 +117,13 @@ final class QueryReflection
 
         $reflector = self::reflector();
         $resultType = $reflector->getResultType($queryString, $fetchType);
+        if ($resultType === null) {
+            return null;
+        }
+        $arrays = $resultType->getConstantArrays();
 
-        if (null !== $resultType) {
-            if (! $resultType instanceof ConstantArrayType) {
-                throw new ShouldNotHappenException();
-            }
+        if (count($arrays) === 1) {
+            $resultType = $arrays[0];
 
             if (
                 self::getRuntimeConfiguration()->isUtilizingSqlAst()
@@ -148,9 +148,11 @@ final class QueryReflection
 
     private function stringifyResult(Type $type): Type
     {
-        if (! $type instanceof ConstantArrayType) {
+        $arrays = $type->getConstantArrays();
+        if (count($arrays) !== 1) {
             return $type;
         }
+        $type = $arrays[0];
 
         $builder = ConstantArrayTypeBuilder::createEmpty();
 
@@ -438,8 +440,9 @@ final class QueryReflection
             return $parameters;
         }
 
-        if ($parameterTypes instanceof ConstantArrayType) {
-            return $this->resolveConstantArray($parameterTypes);
+        $arrays = $parameterTypes->getConstantArrays();
+        if (count($arrays) === 1) {
+            return $this->resolveConstantArray($arrays[0]);
         }
 
         return null;
@@ -461,10 +464,10 @@ final class QueryReflection
         foreach ($keyTypes as $i => $keyType) {
             $isOptional = \in_array($i, $optionalKeys, true);
 
-            if ($keyType instanceof ConstantStringType) {
+            if ($keyType->isString()->yes()) {
                 $placeholderName = $keyType->getValue();
 
-                if ('' === $placeholderName) {
+                if (! is_string($placeholderName) || '' === $placeholderName) {
                     throw new ShouldNotHappenException('Empty placeholder name');
                 }
 
@@ -476,7 +479,7 @@ final class QueryReflection
                 );
 
                 $parameters[$param->name] = $param;
-            } elseif ($keyType instanceof ConstantIntegerType) {
+            } elseif ($keyType->isInteger()->yes()) {
                 $param = new Parameter(
                     null,
                     $valueTypes[$i],

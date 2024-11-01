@@ -10,7 +10,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -58,8 +57,9 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
 
         if (\count($args) >= 1) {
             $classStringType = $scope->getType($args[0]->value);
-            if ($classStringType instanceof ConstantStringType) {
-                $className = $classStringType->getValue();
+            $strings = $classStringType->getConstantStrings();
+            if (count($strings) === 1) {
+                $className = $strings[0]->getValue();
             } else {
                 return null;
             }

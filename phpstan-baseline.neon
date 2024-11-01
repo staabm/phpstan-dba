@@ -6,21 +6,6 @@ parameters:
 			path: src/Analyzer/QueryPlanAnalyzerMysql.php
 
 		-
-			message: "#^Instanceof between mysqli_result\\<array\\<string, int\\<\\-128, 127\\>\\|string\\|null\\>\\> and mysqli_result will always evaluate to true\\.$#"
-			count: 1
-			path: src/DbSchema/SchemaHasherMysql.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/DoctrineReflection/DoctrineReflection.php
-
-		-
 			message: """
 				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
 				use resolveQueryStrings\\(\\) instead$#
@@ -30,48 +15,8 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 2
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/DoctrineResultDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementColumnCountDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/Extensions/PdoStatementFetchObjectDynamicReturnTypeExtension.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/PdoReflection/PdoStatementObjectType.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/PdoReflection/PdoStatementObjectType.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/PdoReflection/PdoStatementReflection.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between 'dibi' and 'dibi' will always evaluate to true\\.$#"
@@ -92,29 +37,9 @@ parameters:
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 3
-			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 1
-			path: src/QueryReflection/QueryReflection.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between null and null will always evaluate to true\\.$#"
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Accessory\\\\AccessoryType is error\\-prone and deprecated\\. Use methods on PHPStan\\\\Type\\\\Type instead\\.$#"
-			count: 1
-			path: src/QueryReflection/QuerySimulation.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\ArrayType is error\\-prone and deprecated\\. Use Type\\:\\:isArray\\(\\) or Type\\:\\:getArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/QueryReflection/QuerySimulation.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\ConstantScalarType is error\\-prone and deprecated\\. Use Type\\:\\:isConstantScalarValue\\(\\) or Type\\:\\:getConstantScalarTypes\\(\\) or Type\\:\\:getConstantScalarValues\\(\\) instead\\.$#"
@@ -123,23 +48,13 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\IntersectionType is error\\-prone and deprecated\\.$#"
-			count: 2
+			count: 1
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\ObjectType is error\\-prone and deprecated\\. Use Type\\:\\:isObject\\(\\) or Type\\:\\:getObjectClassNames\\(\\) instead\\.$#"
 			count: 2
 			path: src/QueryReflection/QuerySimulation.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/Rules/DoctrineKeyValueStyleRule.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
-			count: 2
-			path: src/Rules/DoctrineKeyValueStyleRule.php
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
@@ -156,33 +71,8 @@ parameters:
 
 		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 2
-			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\StringType is error\\-prone and deprecated\\. Use Type\\:\\:isString\\(\\) instead\\.$#"
 			count: 1
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
-
-		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
-			count: 1
-			path: src/SchemaReflection/SchemaReflection.php
-
-		-
-			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\Join\\:\\:getCondition\\(\\)\\.$#"
-			count: 2
-			path: src/SqlAst/ParserInference.php
-
-		-
-			message: "#^Call to an undefined method SqlFtw\\\\Sql\\\\Dml\\\\TableReference\\\\TableReferenceNode\\:\\:getTable\\(\\)\\.$#"
-			count: 1
-			path: src/SqlAst/ParserInference.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 2
-			path: src/TypeMapping/MysqliTypeMapper.php
 
 		-
 			message: "#^Only booleans are allowed in an if condition, int given\\.$#"

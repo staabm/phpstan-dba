@@ -6,11 +6,8 @@ namespace staabm\PHPStanDba\DoctrineReflection;
 
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
@@ -44,7 +41,6 @@ final class DoctrineReflection
             return $this->reduceResultType($methodReflection, $resultType->getRowType());
         }
 
-        $resultRowType = $resultType;
         $usedMethod = strtolower($methodReflection->getName());
 
         switch ($usedMethod) {
@@ -73,7 +69,9 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_BOTH;
         }
 
-        if (QueryReflector::FETCH_TYPE_BOTH !== $fetchType && $resultRowType instanceof ConstantArrayType) {
+        $resultRowType = $resultType->getConstantArrays();
+        if (QueryReflector::FETCH_TYPE_BOTH !== $fetchType && count($resultRowType) === 1) {
+            $resultRowType = $resultRowType[0];
             $builder = ConstantArrayTypeBuilder::createEmpty();
 
             $keyTypes = $resultRowType->getKeyTypes();
@@ -104,9 +102,9 @@ final class DoctrineReflection
                     return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
                 }
 
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType->isInteger()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType->isString()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }

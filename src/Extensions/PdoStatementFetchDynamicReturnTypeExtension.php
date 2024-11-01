@@ -14,7 +14,6 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -113,8 +112,9 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
             if (\count($args) > 1) {
                 $classStringType = $scope->getType($args[1]->value);
-                if ($classStringType instanceof ConstantStringType) {
-                    $className = $classStringType->getValue();
+                $strings = $classStringType->getConstantStrings();
+                if (count($strings) === 1) {
+                    $className = $strings[0]->getValue();
                 } else {
                     return null;
                 }

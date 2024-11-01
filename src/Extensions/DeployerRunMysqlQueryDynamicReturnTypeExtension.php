@@ -8,7 +8,6 @@ use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntegerType;
@@ -44,8 +43,15 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
             return null;
         }
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
-        if ($resultType instanceof ConstantArrayType) {
+        $resultTypes = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
+        if (null === $resultTypes) {
+            return null;
+        }
+
+        $resultTypes = $resultTypes->getConstantArrays();
+        if (count($resultTypes) === 1) {
+            $resultType = $resultTypes[0];
+
             $builder = ConstantArrayTypeBuilder::createEmpty();
             foreach ($resultType->getKeyTypes() as $keyType) {
                 $builder->setOffsetValueType($keyType, new StringType());

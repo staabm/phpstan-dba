@@ -7,10 +7,8 @@ namespace staabm\PHPStanDba\PdoReflection;
 use PDOStatement;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
@@ -62,9 +60,11 @@ class PdoStatementObjectType extends GenericObjectType
      */
     private function reduceBothType(Type $bothType, int $fetchType): Type
     {
-        if (! $bothType instanceof ConstantArrayType) {
+        $arrays = $bothType->getConstantArrays();
+        if (count($arrays) !== 1) {
             return $bothType;
         }
+        $bothType = $arrays[0];
 
         if (\count($bothType->getValueTypes()) <= 0) {
             return $bothType;
@@ -80,9 +80,9 @@ class PdoStatementObjectType extends GenericObjectType
             $valueTypes = $bothType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType->isInteger()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType->isString()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }
