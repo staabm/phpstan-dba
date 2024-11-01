@@ -14,11 +14,6 @@ parameters:
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Cannot call method getConstantArrays\\(\\) on PHPStan\\\\Type\\\\Type\\|null\\.$#"
-			count: 1
-			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
-
-		-
 			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
 			count: 2
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
