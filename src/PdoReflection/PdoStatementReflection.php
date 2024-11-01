@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\PdoReflection;
 use PDO;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;

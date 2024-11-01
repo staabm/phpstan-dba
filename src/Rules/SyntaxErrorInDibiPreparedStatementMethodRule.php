@@ -17,7 +17,6 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\StringType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -122,7 +121,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             } elseif ($parameterType->isConstantArray()->yes()) {
                 $constantArray = [];
                 $arrays = $parameterType->getConstantArrays();
-                foreach($arrays as $array) {
+                foreach ($arrays as $array) {
                     foreach ($array->getKeyTypes() as $i => $keyType) {
                         $constantArray[$keyType->getValue()] = $array->getValueTypes()[$i];
                     }

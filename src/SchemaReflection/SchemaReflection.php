@@ -33,7 +33,7 @@ final class SchemaReflection
         }
 
         $resultType = ($this->queryResolver)('SELECT * FROM ' . $tableName);
-        if (!$resultType instanceof Type) {
+        if (! $resultType instanceof Type) {
             return $this->tables[$tableName] = null;
         }
         $arrays = $resultType->getConstantArrays();

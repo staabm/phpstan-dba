@@ -15,8 +15,6 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
-use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
@@ -469,7 +467,7 @@ final class QueryReflection
             if ($keyType->isString()->yes()) {
                 $placeholderName = $keyType->getValue();
 
-                if (!is_string($placeholderName) || '' === $placeholderName) {
+                if (! is_string($placeholderName) || '' === $placeholderName) {
                     throw new ShouldNotHappenException('Empty placeholder name');
                 }
 

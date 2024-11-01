@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\TypeMapping;
 
-use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
 
@@ -28,17 +27,17 @@ final class MysqliTypeMapper
     public function __construct(?DbaApi $dbaApi)
     {
         $constants = get_defined_constants(true);
-        if (!array_key_exists('mysqli', $constants) || !is_array($constants['mysqli'])) {
+        if (! array_key_exists('mysqli', $constants) || ! is_array($constants['mysqli'])) {
             $constants['mysqli'] = [];
         }
-        
+
         foreach ($constants['mysqli'] as $c => $n) {
             if (! \is_int($n)) {
                 // skip bool constants like MYSQLI_IS_MARIADB
                 continue;
             }
 
-            if (!is_string($c)) {
+            if (! is_string($c)) {
                 continue;
             }
 
