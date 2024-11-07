@@ -47,7 +47,7 @@ class PdoStatementObjectType extends ObjectType
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    static public function newWithBothAndFetchType(Type $bothType, int $fetchType): self
+    public static function newWithBothAndFetchType(Type $bothType, int $fetchType): self
     {
         $new = new self(PDOStatement::class);
         $new->bothType = $bothType;
