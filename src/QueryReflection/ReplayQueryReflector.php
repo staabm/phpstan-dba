@@ -9,10 +9,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReplayQueryReflector implements QueryReflector
 {
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
+    private ReflectionCache $reflectionCache;
 
     public function __construct(ReflectionCache $cache)
     {
