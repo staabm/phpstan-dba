@@ -12,7 +12,7 @@ use PHPStan\Type\Type;
 
 final class DoctrineResultObjectType extends ObjectType
 {
-    private ?Type $rowType;
+    private ?Type $rowType = null;
 
     public static function newWithRowType(Type $rowType): self
     {
