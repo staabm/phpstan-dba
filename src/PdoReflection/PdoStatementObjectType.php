@@ -156,7 +156,7 @@ class PdoStatementObjectType extends ObjectType
             $type instanceof self
             && $type->fetchType !== null
             && $type->bothType !== null
-            && $this->bothType
+            && $this->bothType !== null
         ) {
             return $type->fetchType === $this->fetchType && $type->bothType->equals($this->bothType);
         }
@@ -170,7 +170,7 @@ class PdoStatementObjectType extends ObjectType
             $type instanceof self
             && $type->fetchType !== null
             && $type->bothType !== null
-            && $this->bothType
+            && $this->bothType !== null
         ) {
             return TrinaryLogic::createFromBoolean(
                 $type->fetchType === $this->fetchType
