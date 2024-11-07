@@ -144,7 +144,7 @@ final class DoctrineReflection
                 return null;
             }
 
-            $genericObjects[] = new DoctrineStatementObjectType($resultType);
+            $genericObjects[] = DoctrineStatementObjectType::newWithRowType($resultType);
         }
 
         if (\count($genericObjects) > 1) {
@@ -173,7 +173,7 @@ final class DoctrineReflection
                 return null;
             }
 
-            $genericObjects[] = new DoctrineResultObjectType($resultType);
+            $genericObjects[] = DoctrineResultObjectType::newWithRowType($resultType);
         }
 
         if (\count($genericObjects) > 1) {

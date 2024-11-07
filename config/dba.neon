@@ -1,12 +1,3 @@
 includes:
-    - stubFiles.neon
     - extensions.neon
     - rules.neon
-
-parameters:
-    featureToggles:
-        skipCheckGenericClasses:
-            - Doctrine\DBAL\Result
-            - Doctrine\DBAL\Statement
-
-        duplicateStubs: false  # workaround for: https://github.com/staabm/phpstan-dba/issues/466

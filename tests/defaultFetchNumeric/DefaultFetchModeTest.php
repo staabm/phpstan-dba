@@ -29,7 +29,6 @@ class DefaultFetchModeTest extends TypeInferenceTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__ . '/../../config/stubFiles.neon',
             __DIR__ . '/../../config/extensions.neon',
         ];
     }
