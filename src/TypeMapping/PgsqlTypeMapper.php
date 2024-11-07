@@ -29,9 +29,6 @@ final class PgsqlTypeMapper implements TypeMapper
         $this->dbaApi = $dbaApi;
     }
 
-    /**
-     * @param list<string> $flags
-     */
     public function mapToPHPStanType(string $type, array $flags, int $length): Type
     {
         $numeric = false;

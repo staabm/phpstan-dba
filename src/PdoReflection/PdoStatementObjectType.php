@@ -24,7 +24,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
 class PdoStatementObjectType extends ObjectType
 {
-    private ?Type $bothType;
+    private ?Type $bothType = null;
 
     /**
      * @var null|QueryReflector::FETCH_TYPE*
