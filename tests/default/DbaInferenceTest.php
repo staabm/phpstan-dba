@@ -18,6 +18,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
                 throw new \Exception('doctrine/dbal 3.x is required to run tests for php 7.3+. Please install it via composer.');
             }
 
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal-union-result.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
 
