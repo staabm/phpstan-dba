@@ -13,7 +13,7 @@ use const LOCK_EX;
 
 final class ReflectionCache
 {
-    private const SCHEMA_VERSION = 'v11-phpstan1_9_3-update';
+    private const SCHEMA_VERSION = 'v12-new-major';
 
     private string $cacheFile;
 
