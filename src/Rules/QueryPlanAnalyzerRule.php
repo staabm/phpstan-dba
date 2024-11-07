@@ -93,7 +93,7 @@ final class QueryPlanAnalyzerRule implements Rule
             return $this->analyze($callLike, $scope);
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($callLike->getStartLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
             ];
         }
     }

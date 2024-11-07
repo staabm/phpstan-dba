@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -65,7 +66,7 @@ final class DoctrineKeyValueStyleRule implements Rule
     }
 
     /**
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     public function processNode(Node $callLike, Scope $scope): array
     {
@@ -114,7 +115,7 @@ final class DoctrineKeyValueStyleRule implements Rule
         $tableNames = $tableType->getConstantStrings();
         if (\count($tableNames) === 0) {
             return [
-                RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->line($callLike->getStartLine())->build(),
+                RuleErrorBuilder::message('Argument #0 expects a constant string, got ' . $tableType->describe(VerbosityLevel::precise()))->identifier('dba.keyValue')->line($callLike->getStartLine())->build(),
             ];
         }
 
@@ -185,7 +186,7 @@ final class DoctrineKeyValueStyleRule implements Rule
 
         $ruleErrors = [];
         foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message('Query error: ' . $error)->line($callLike->getStartLine())->build();
+            $ruleErrors[] = RuleErrorBuilder::message('Query error: ' . $error)->identifier('dba.keyValue')->line($callLike->getStartLine())->build();
         }
         return $ruleErrors;
     }

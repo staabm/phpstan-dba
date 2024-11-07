@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -55,7 +56,7 @@ final class PdoStatementExecuteMethodRule implements Rule
     }
 
     /**
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
     {
@@ -97,7 +98,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($methodCall->getStartLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($methodCall->getStartLine())->build(),
             ];
         }
 
@@ -110,13 +111,13 @@ final class PdoStatementExecuteMethodRule implements Rule
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->line($methodCall->getStartLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($methodCall->getStartLine())->build(),
             ];
         }
 
         $ruleErrors = [];
         foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getStartLine())->build();
+            $ruleErrors[] = RuleErrorBuilder::message($error)->identifier('dba.invalidPlaceholder')->line($methodCall->getStartLine())->build();
         }
 
         return $ruleErrors;
