@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\PdoReflection;
 
 use PDOStatement;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
@@ -144,5 +145,26 @@ class PdoStatementObjectType extends ObjectType
         }
 
         return self::newWithBothAndFetchType(new MixedType(), $fetchType);
+    }
+
+    public function equals(Type $type): bool
+    {
+        if ($type instanceof self) {
+            return $type->fetchType === $this->fetchType && $type->bothType->equals($this->bothType);
+        }
+
+        return parent::equals($type);
+    }
+
+    public function isSuperTypeOf(Type $type): TrinaryLogic
+    {
+        if ($type instanceof self) {
+            return TrinaryLogic::createFromBoolean(
+                $type->fetchType === $this->fetchType
+                && $type->bothType->equals($this->bothType)
+            );
+        }
+
+        return parent::isSuperTypeOf($type);
     }
 }
