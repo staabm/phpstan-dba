@@ -1,4 +1,3 @@
 parameters:
     stubFiles:
         - DoctrineDbal.stub
-        - PdoStatement.stub
