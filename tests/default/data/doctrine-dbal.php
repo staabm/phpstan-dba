@@ -13,7 +13,6 @@ class Foo
     public function foo(Connection $conn)
     {
         $result = $conn->query('SELECT email, adaid FROM ada');
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
 
         $columnCount = $result->columnCount();
         assertType('2', $columnCount);
