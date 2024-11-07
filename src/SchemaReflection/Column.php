@@ -11,15 +11,9 @@ use PHPStan\Type\Type;
  */
 final class Column
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var Type
-     */
-    private $type;
+    private Type $type;
 
     public function __construct(string $name, Type $type)
     {

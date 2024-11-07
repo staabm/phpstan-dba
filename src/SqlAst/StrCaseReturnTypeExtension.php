@@ -16,7 +16,7 @@ final class StrCaseReturnTypeExtension implements QueryFunctionReturnTypeExtensi
     /**
      * @var list<string>
      */
-    private $functions = [
+    private array $functions = [
         BuiltInFunction::LOWER,
         BuiltInFunction::LCASE,
         BuiltInFunction::UPPER,

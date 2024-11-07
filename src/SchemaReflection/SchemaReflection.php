@@ -11,7 +11,7 @@ final class SchemaReflection
     /**
      * @var array<string, Table|null>
      */
-    private $tables = [];
+    private array $tables = [];
 
     /**
      * @var callable(string):?\PHPStan\Type\Type

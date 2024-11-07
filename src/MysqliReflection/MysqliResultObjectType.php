@@ -10,7 +10,7 @@ use PHPStan\Type\Type;
 
 final class MysqliResultObjectType extends ObjectType
 {
-    private ?Type $rowType;
+    private ?Type $rowType = null;
 
     public function setRowType(Type $rowType): void
     {

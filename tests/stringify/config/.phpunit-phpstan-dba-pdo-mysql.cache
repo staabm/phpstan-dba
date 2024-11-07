@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v11-phpstan1_9_3-update',
+  'schemaVersion' => 'v12-new-major',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -394,13 +394,7 @@
                    'value' => 'adaid',
                    'isClassString' => false,
                    'objectType' => NULL,
-                   'arrayKeyType' => 
-                  \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                     'value' => 'adaid',
-                     'isClassString' => false,
-                     'objectType' => NULL,
-                     'arrayKeyType' => NULL,
-                  )),
+                   'arrayKeyType' => NULL,
                 )),
               )),
               5 => 
@@ -413,13 +407,7 @@
                    'value' => 'email',
                    'isClassString' => false,
                    'objectType' => NULL,
-                   'arrayKeyType' => 
-                  \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                     'value' => 'email',
-                     'isClassString' => false,
-                     'objectType' => NULL,
-                     'arrayKeyType' => NULL,
-                  )),
+                   'arrayKeyType' => NULL,
                 )),
               )),
               6 => 
@@ -432,13 +420,7 @@
                    'value' => 'freigabe1u1',
                    'isClassString' => false,
                    'objectType' => NULL,
-                   'arrayKeyType' => 
-                  \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                     'value' => 'freigabe1u1',
-                     'isClassString' => false,
-                     'objectType' => NULL,
-                     'arrayKeyType' => NULL,
-                  )),
+                   'arrayKeyType' => NULL,
                 )),
               )),
               7 => 
@@ -451,13 +433,7 @@
                    'value' => 'gesperrt',
                    'isClassString' => false,
                    'objectType' => NULL,
-                   'arrayKeyType' => 
-                  \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                     'value' => 'gesperrt',
-                     'isClassString' => false,
-                     'objectType' => NULL,
-                     'arrayKeyType' => NULL,
-                  )),
+                   'arrayKeyType' => NULL,
                 )),
               )),
             ),
@@ -480,13 +456,7 @@
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             )),
             1 => 
@@ -503,13 +473,7 @@
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             )),
             3 => 
@@ -526,13 +490,7 @@
                  'value' => 'gesperrt',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'gesperrt',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             )),
             5 => 
@@ -549,13 +507,7 @@
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'freigabe1u1',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             )),
             7 => 

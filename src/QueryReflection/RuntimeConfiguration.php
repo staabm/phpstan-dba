@@ -42,37 +42,25 @@ final class RuntimeConfiguration
     /**
      * @var self::ERROR_MODE*
      */
-    private $errorMode = self::ERROR_MODE_DEFAULT;
+    private string $errorMode = self::ERROR_MODE_DEFAULT;
 
     /**
      * @var QueryReflector::FETCH_TYPE*
      */
-    private $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
+    private int $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
 
-    /**
-     * @var bool
-     */
-    private $debugMode = false;
+    private bool $debugMode = false;
 
-    /**
-     * @var bool
-     */
-    private $stringifyTypes = false;
+    private bool $stringifyTypes = false;
 
-    /**
-     * @var bool
-     */
-    private $writableQueries = true;
+    private bool $writableQueries = true;
 
-    /**
-     * @var bool
-     */
-    private $utilizeSqlAst = false;
+    private bool $utilizeSqlAst = false;
 
     /**
      * @var self::VALIDATION_MODE_*
      */
-    private $parameterTypeValidation = self::VALIDATION_MODE_LAX;
+    private string $parameterTypeValidation = self::VALIDATION_MODE_LAX;
 
     /**
      * @var bool|0|positive-int

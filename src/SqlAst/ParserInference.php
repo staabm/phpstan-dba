@@ -32,10 +32,7 @@ use staabm\PHPStanDba\UnresolvableAstInQueryException;
 
 final class ParserInference
 {
-    /**
-     * @var SchemaReflection
-     */
-    private $schemaReflection;
+    private SchemaReflection $schemaReflection;
 
     public function __construct(SchemaReflection $schemaReflection)
     {

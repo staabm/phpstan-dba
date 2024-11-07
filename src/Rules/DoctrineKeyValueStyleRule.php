@@ -32,12 +32,9 @@ final class DoctrineKeyValueStyleRule implements Rule
     /**
      * @var array<array{string, string, list<int>}>
      */
-    private $classMethods;
+    private array $classMethods;
 
-    /**
-     * @var QueryReflection
-     */
-    private $queryReflection;
+    private ?QueryReflection $queryReflection = null;
 
     /**
      * @param list<string> $classMethods

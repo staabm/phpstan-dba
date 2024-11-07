@@ -29,7 +29,7 @@ class PdoStatementObjectType extends ObjectType
     /**
      * @var null|QueryReflector::FETCH_TYPE*
      */
-    private ?int $fetchType;
+    private ?int $fetchType = null;
 
     public function getRowType(): Type
     {

@@ -15,10 +15,7 @@ use SqlFtw\Sql\Expression\FunctionCall;
 
 final class AvgReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
-    /**
-     * @var bool
-     */
-    private $hasGroupBy;
+    private bool $hasGroupBy;
 
     public function __construct(bool $hasGroupBy)
     {

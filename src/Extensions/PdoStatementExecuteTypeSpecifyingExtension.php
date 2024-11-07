@@ -20,10 +20,7 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-    /**
-     * @var TypeSpecifier
-     */
-    private $typeSpecifier;
+    private TypeSpecifier $typeSpecifier;
 
     public function getClass(): string
     {

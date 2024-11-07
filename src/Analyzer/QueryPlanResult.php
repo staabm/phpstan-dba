@@ -15,12 +15,9 @@ final class QueryPlanResult
     /**
      * @var array<string, self::*>
      */
-    private $result = [];
+    private array $result = [];
 
-    /**
-     * @var string
-     */
-    private $simulatedQuery;
+    private string $simulatedQuery;
 
     public function __construct(string $simulatedQuery)
     {

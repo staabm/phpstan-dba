@@ -42,17 +42,11 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     /**
      * @var array<string, mysqli_sql_exception|list<object>|null>
      */
-    private $cache = [];
+    private array $cache = [];
 
-    /**
-     * @var mysqli
-     */
-    private $db;
+    private mysqli $db;
 
-    /**
-     * @var MysqliTypeMapper
-     */
-    private $typeMapper;
+    private MysqliTypeMapper $typeMapper;
 
     public function __construct(mysqli $mysqli)
     {

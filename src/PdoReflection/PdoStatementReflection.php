@@ -150,7 +150,7 @@ final class PdoStatementReflection
     /**
      * @param class-string $className
      */
-    public function getClassRowType(Type $statementType, string $className): ?Type
+    public function getClassRowType(Type $statementType, string $className): Type
     {
         return new ObjectType($className);
     }

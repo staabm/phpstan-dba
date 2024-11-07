@@ -44,20 +44,11 @@ final class QueryReflection
 
     private const REGEX_NAMED_PLACEHOLDER = '{(["\'])((?:(?!\1)(?s:.))*\1)|(' . self::NAMED_PATTERN . ')}';
 
-    /**
-     * @var QueryReflector|null
-     */
-    private static $reflector;
+    private static ?QueryReflector $reflector = null;
 
-    /**
-     * @var RuntimeConfiguration|null
-     */
-    private static $runtimeConfiguration;
+    private static ?RuntimeConfiguration $runtimeConfiguration = null;
 
-    /**
-     * @var SchemaReflection
-     */
-    private $schemaReflection;
+    private ?SchemaReflection $schemaReflection = null;
 
     public function __construct(?DbaApi $dbaApi = null)
     {
@@ -599,7 +590,7 @@ final class QueryReflection
     }
 
     /**
-     * @return list<string>
+     * @return array<string>
      */
     public function extractNamedPlaceholders(string $queryString): array
     {

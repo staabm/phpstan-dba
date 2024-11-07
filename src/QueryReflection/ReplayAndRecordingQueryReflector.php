@@ -10,30 +10,15 @@ use staabm\PHPStanDba\Error;
 
 final class ReplayAndRecordingQueryReflector implements QueryReflector, RecordingReflector
 {
-    /**
-     * @var ReplayQueryReflector
-     */
-    private $replayReflector;
+    private ReplayQueryReflector $replayReflector;
 
-    /**
-     * @var RecordingQueryReflector|null
-     */
-    private $recordingReflector = null;
+    private ?RecordingQueryReflector $recordingReflector = null;
 
-    /**
-     * @var QueryReflector
-     */
-    private $queryReflector;
+    private QueryReflector $queryReflector;
 
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
+    private ReflectionCache $reflectionCache;
 
-    /**
-     * @var SchemaHasher
-     */
-    private $schemaHasher;
+    private SchemaHasher $schemaHasher;
 
     public function __construct(ReflectionCache $reflectionCache, QueryReflector $queryReflector, SchemaHasher $schemaHasher)
     {

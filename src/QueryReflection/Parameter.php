@@ -14,22 +14,13 @@ final class Parameter
     /**
      * @var non-empty-string|null
      */
-    public $name;
+    public ?string $name = null;
 
-    /**
-     * @var Type
-     */
-    public $type;
+    public Type $type;
 
-    /**
-     * @var ?string
-     */
-    public $simulatedValue;
+    public ?string $simulatedValue = null;
 
-    /**
-     * @var bool
-     */
-    public $isOptional;
+    public bool $isOptional;
 
     /**
      * @param non-empty-string|null $name

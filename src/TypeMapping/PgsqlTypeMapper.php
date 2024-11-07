@@ -19,10 +19,7 @@ use function strtoupper;
 
 final class PgsqlTypeMapper implements TypeMapper
 {
-    /**
-     * @var DbaApi|null
-     */
-    private $dbaApi;
+    private ?DbaApi $dbaApi;
 
     public function __construct(?DbaApi $dbaApi)
     {

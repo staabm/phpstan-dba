@@ -9,15 +9,9 @@ use staabm\PHPStanDba\Error;
 
 final class RecordingQueryReflector implements QueryReflector, RecordingReflector
 {
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
+    private ReflectionCache $reflectionCache;
 
-    /**
-     * @var QueryReflector
-     */
-    private $reflector;
+    private QueryReflector $reflector;
 
     public function __construct(ReflectionCache $cache, QueryReflector $wrappedReflector)
     {

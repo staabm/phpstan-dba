@@ -9,15 +9,12 @@ namespace staabm\PHPStanDba\SchemaReflection;
  */
 final class Table
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     /**
      * @var list<Column>
      */
-    private $columns = [];
+    private array $columns = [];
 
     /**
      * @param list<Column> $columns

@@ -13,37 +13,25 @@ use const LOCK_EX;
 
 final class ReflectionCache
 {
-    private const SCHEMA_VERSION = 'v11-phpstan1_9_3-update';
+    private const SCHEMA_VERSION = 'v12-new-major';
 
-    /**
-     * @var string
-     */
-    private $cacheFile;
+    private string $cacheFile;
 
     /**
      * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
-    private $records = [];
+    private array $records = [];
 
     /**
      * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
-    private $changes = [];
+    private array $changes = [];
 
-    /**
-     * @var string|null
-     */
-    private $schemaHash;
+    private ?string $schemaHash = null;
 
-    /**
-     * @var bool
-     */
-    private $cacheIsDirty = false;
+    private bool $cacheIsDirty = false;
 
-    /**
-     * @var bool
-     */
-    private $initialized = false;
+    private bool $initialized = false;
 
     /**
      * @var resource

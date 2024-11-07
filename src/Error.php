@@ -15,10 +15,7 @@ use staabm\PHPStanDba\QueryReflection\QuerySimulation;
  */
 final class Error
 {
-    /**
-     * @var string
-     */
-    private $message;
+    private string $message;
 
     /**
      * @var ErrorCodes

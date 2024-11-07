@@ -14,15 +14,9 @@ final class LazyQueryReflector implements QueryReflector, RecordingReflector
      */
     private $reflectorFactory;
 
-    /**
-     * @var QueryReflector|null
-     */
-    private $reflector;
+    private ?QueryReflector $reflector = null;
 
-    /**
-     * @var DbaApi|null
-     */
-    private $dbaApi;
+    private ?DbaApi $dbaApi = null;
 
     /**
      * @param callable():QueryReflector $reflectorFactory

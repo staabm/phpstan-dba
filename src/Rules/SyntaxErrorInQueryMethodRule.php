@@ -23,7 +23,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
     /**
      * @var list<string>
      */
-    private $classMethods;
+    private array $classMethods;
 
     /**
      * @param list<string> $classMethods

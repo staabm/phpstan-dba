@@ -25,12 +25,9 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
     /**
      * @var list<string>
      */
-    private $functionNames;
+    private array $functionNames;
 
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
+    private ReflectionProvider $reflectionProvider;
 
     /**
      * @param list<string> $functionNames
