@@ -147,6 +147,9 @@ class PdoStatementObjectType extends ObjectType
         return self::newWithBothAndFetchType(new MixedType(), $fetchType);
     }
 
+    // differentiate objects based on the local properties,
+    // to make sure TypeCombinator::union() will not normalize separate objects away.
+    // this means we need to implement equals() and isSuperTypeOf() to compare the local properties.
     public function equals(Type $type): bool
     {
         if ($type instanceof self && $type->fetchType !== null && $type->bothType !== null) {
