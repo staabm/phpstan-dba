@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -92,7 +93,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
     /**
      * @param MethodCall|New_ $callLike
      *
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     private function checkErrors(CallLike $callLike, Scope $scope, MethodReflection $methodReflection): array
     {
@@ -171,7 +172,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
                 }
 
                 return [
-                    RuleErrorBuilder::message($placeholderExpectation . ', ' . $parameterActual . '.')->line($callLike->getStartLine())->build(),
+                    RuleErrorBuilder::message($placeholderExpectation . ', ' . $parameterActual . '.')->identifier('dba.placeholderMismatch')->line($callLike->getStartLine())->build(),
                 ];
             }
         }
@@ -196,7 +197,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         $validity = $queryReflection->validateQueryString($queryParameters[0]);
 
         if (null !== $validity) {
-            return [RuleErrorBuilder::message($validity->asRuleMessage())->line($callLike->getStartLine())->build()];
+            return [RuleErrorBuilder::message($validity->asRuleMessage())->identifier('dba.syntaxError')->line($callLike->getStartLine())->build()];
         }
 
         $result = $queryReflection->getResultType($queryParameters[0], QueryReflector::FETCH_TYPE_BOTH);
@@ -206,11 +207,11 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             $columnsInResult = \count($result->getValueTypes()) / 2;
 
             if ('fetchPairs' === $methodReflection->getName() && 2 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got ' . $columnsInResult . '.')->line($callLike->getStartLine())->build()];
+                return [RuleErrorBuilder::message('fetchPairs requires exactly 2 selected columns, got ' . $columnsInResult . '.')->identifier('dba.error')->line($callLike->getStartLine())->build()];
             }
 
             if ('fetchSingle' === $methodReflection->getName() && 1 !== $columnsInResult) {
-                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got ' . $columnsInResult . '.')->line($callLike->getStartLine())->build()];
+                return [RuleErrorBuilder::message('fetchSingle requires exactly 1 selected column, got ' . $columnsInResult . '.')->identifier('dba.error')->line($callLike->getStartLine())->build()];
             }
         }
 
