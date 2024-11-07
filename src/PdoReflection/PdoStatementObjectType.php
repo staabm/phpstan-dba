@@ -47,6 +47,11 @@ class PdoStatementObjectType extends GenericObjectType
         return $genericTypes[0];
     }
 
+    public function getIterableValueType(): Type
+    {
+        return $this->getRowType();
+    }
+
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
