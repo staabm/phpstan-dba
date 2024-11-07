@@ -14,10 +14,10 @@ class Foo
         foreach ($queries as $query) {
             $stmt = $conn->prepare($query);
             $result = $stmt->executeQuery([]);
-            assertType('array{adaid: int<-32768, 32767>|array{email: string}', $result->fetchAssociative());
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $result->fetchAssociative());
 
             $result = $stmt->execute([]);
-            assertType('array{adaid: int<-32768, 32767>}|array{email: string}', $result->fetchAssociative());
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $result->fetchAssociative());
 
             $fetch = $result->fetchOne();
             assertType('int<-32768, 32767>|string|false', $fetch);
@@ -33,7 +33,7 @@ class Foo
 
         foreach ($queries as $query) {
             $result = $conn->query($query);
-            assertType('array{adaid: int<-32768, 32767>|array{email: string}', $result->fetchAssociative());
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $result->fetchAssociative());
         }
     }
 }
