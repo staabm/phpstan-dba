@@ -62,7 +62,7 @@ class TypemixMysql
     public function typemixPdoMysql(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT * FROM typemix', PDO::FETCH_ASSOC);
-        
+
         foreach($stmt as $value) {
             assertType('int<0, 4294967295>', $value['pid']);
             assertType('string', $value['c_char5']);
