@@ -44,4 +44,17 @@ class Foo
         $result = mysqli_query($mysqli, $query);
         assertType('mysqli_result|true', $result);
     }
+
+    public function unionResult(mysqli $mysqli)
+    {
+        $queries = ['SELECT adaid FROM ada', 'SELECT email FROM ada'];
+
+        foreach ($queries as $query) {
+            $result = $mysqli->query($query);
+
+            foreach ($result as $row) {
+                assertType('array{adaid: int<-32768, 32767>}|array{email: string}', $row);
+            }
+        }
+    }
 }
