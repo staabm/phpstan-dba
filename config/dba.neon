@@ -7,7 +7,6 @@ parameters:
     featureToggles:
         skipCheckGenericClasses:
             - PDOStatement
-            - mysqli_result
             - Doctrine\DBAL\Result
             - Doctrine\DBAL\Statement
 
