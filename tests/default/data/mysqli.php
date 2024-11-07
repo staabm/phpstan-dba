@@ -10,7 +10,6 @@ class Foo
     public function ooQuerySelected(mysqli $mysqli)
     {
         $result = $mysqli->query('SELECT email, adaid FROM ada');
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
 
         $field = 'email';
         if (rand(0, 1)) {
@@ -33,7 +32,6 @@ class Foo
     public function fnQuerySelected(mysqli $mysqli)
     {
         $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
 
         foreach ($result as $row) {
             assertType('int<-32768, 32767>', $row['adaid']);

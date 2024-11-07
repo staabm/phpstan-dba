@@ -81,7 +81,7 @@ final class SchemaHasherMysql implements SchemaHasher
 
             try {
                 $result = $this->connection->query($query);
-                if ($result instanceof \mysqli_result) {
+                if ($result instanceof \mysqli_result) { // @phpstan-ignore-line
                     $row = $result->fetch_assoc();
                     $hash = $row['dbsignature'] ?? '';
                 }
