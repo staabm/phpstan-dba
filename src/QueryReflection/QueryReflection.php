@@ -590,7 +590,7 @@ final class QueryReflection
     }
 
     /**
-     * @return list<string>
+     * @return array<string>
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
