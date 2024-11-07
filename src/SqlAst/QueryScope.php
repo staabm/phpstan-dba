@@ -37,22 +37,16 @@ final class QueryScope
     /**
      * @var list<QueryFunctionReturnTypeExtension>
      */
-    private $extensions;
+    private array $extensions;
 
-    /**
-     * @var Table
-     */
-    private $fromTable;
+    private Table $fromTable;
 
     /**
      * @var list<Join>
      */
-    private $joinedTables;
+    private array $joinedTables;
 
-    /**
-     * @var ?SqlSerializable
-     */
-    private $whereCondition;
+    private ?SqlSerializable $whereCondition;
 
     /**
      * @param list<Join> $joinedTables

@@ -11,10 +11,7 @@ use SqlFtw\Sql\Expression\FunctionCall;
 
 final class MinMaxReturnTypeExtension implements QueryFunctionReturnTypeExtension
 {
-    /**
-     * @var bool
-     */
-    private $hasGroupBy;
+    private bool $hasGroupBy;
 
     public function __construct(bool $hasGroupBy)
     {

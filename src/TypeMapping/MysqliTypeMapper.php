@@ -12,17 +12,14 @@ final class MysqliTypeMapper
     /**
      * @var array<int, string>
      */
-    private $nativeTypes = [];
+    private array $nativeTypes = [];
 
     /**
      * @var array<int, string>
      */
-    private $nativeFlags = [];
+    private array $nativeFlags = [];
 
-    /**
-     * @var MysqlTypeMapper
-     */
-    private $typeMapper;
+    private MysqlTypeMapper $typeMapper;
 
     public function __construct(?DbaApi $dbaApi)
     {

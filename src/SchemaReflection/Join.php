@@ -18,17 +18,11 @@ final class Join
     /**
      * @var self::TYPE_*
      */
-    private $joinType;
+    private string $joinType;
 
-    /**
-     * @var Table
-     */
-    private $table;
+    private Table $table;
 
-    /**
-     * @var RootNode
-     */
-    private $joinCondition;
+    private RootNode $joinCondition;
 
     /**
      * @param self::TYPE_* $joinType

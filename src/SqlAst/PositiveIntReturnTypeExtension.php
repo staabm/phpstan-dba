@@ -14,7 +14,7 @@ final class PositiveIntReturnTypeExtension implements QueryFunctionReturnTypeExt
     /**
      * @var list<string>
      */
-    private $functions = [
+    private array $functions = [
         BuiltInFunction::COUNT,
         BuiltInFunction::LENGTH,
         BuiltInFunction::CHAR_LENGTH,
