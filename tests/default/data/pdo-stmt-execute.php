@@ -10,29 +10,34 @@ class Foo
     public function execute(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
-        assertType('PDOStatement', $stmt);
         $stmt->execute([':adaid' => 1]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = :adaid');
-        assertType('PDOStatement', $stmt);
         $stmt->execute(['adaid' => 1]); // prefixed ":" is optional
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE email = :email');
-        assertType('PDOStatement', $stmt);
         $stmt->execute([':email' => 'email@example.org']);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
-        assertType('PDOStatement', $stmt);
         $stmt->execute([1]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? and email = ?');
-        assertType('PDOStatement', $stmt);
         $stmt->execute([1, 'email@example.org']);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
     }
 
     public function executeWithBindCalls(PDO $pdo)

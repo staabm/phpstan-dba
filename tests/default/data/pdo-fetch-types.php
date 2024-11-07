@@ -11,24 +11,36 @@ class Foo
     {
         // default fetch-type is BOTH
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_NUM);
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_BOTH);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_OBJ);
-        assertType('PDOStatement<array<int, stdClass>>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array<int, stdClass>', $row);
+        }
     }
 
     public function unsupportedFetchTypes(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_COLUMN);
-        assertType('PDOStatement', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array<int|string, mixed>', $row);
+        }
     }
 }

@@ -6,7 +6,6 @@ includes:
 parameters:
     featureToggles:
         skipCheckGenericClasses:
-            - PDOStatement
             - Doctrine\DBAL\Result
             - Doctrine\DBAL\Statement
 

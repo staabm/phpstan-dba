@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\PdoReflection;
 
 use PDOStatement;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
@@ -21,30 +22,37 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-class PdoStatementObjectType extends GenericObjectType
+class PdoStatementObjectType extends ObjectType
 {
+    private ?Type $bothType;
+
     /**
-     * @var Type
+     * @var null|QueryReflector::FETCH_TYPE*
      */
-    private $bothType;
+    private ?int $fetchType;
+
+    public function getRowType(): Type
+    {
+        if ($this->bothType === null || $this->fetchType === null) {
+            throw new ShouldNotHappenException();
+        }
+        return $this->reduceBothType($this->bothType, $this->fetchType);
+    }
+
+    public function getIterableValueType(): Type
+    {
+        return $this->getRowType();
+    }
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function __construct(Type $bothType, int $fetchType)
+    public static function newWithBothAndFetchType(Type $bothType, int $fetchType): self
     {
-        $this->bothType = $bothType;
-
-        $rowTypeInFetchMode = $this->reduceBothType($bothType, $fetchType);
-
-        parent::__construct(PDOStatement::class, [$rowTypeInFetchMode]);
-    }
-
-    public function getRowType(): Type
-    {
-        $genericTypes = $this->getTypes();
-
-        return $genericTypes[0];
+        $new = new self(PDOStatement::class);
+        $new->bothType = $bothType;
+        $new->fetchType = $fetchType;
+        return $new;
     }
 
     /**
@@ -52,7 +60,10 @@ class PdoStatementObjectType extends GenericObjectType
      */
     public function newWithFetchType(int $fetchType): self
     {
-        return new self($this->bothType, $fetchType);
+        $new = new self($this->getClassName(), $this->getSubtractedType());
+        $new->bothType = $this->bothType;
+        $new->fetchType = $fetchType;
+        return $new;
     }
 
     /**
@@ -116,23 +127,57 @@ class PdoStatementObjectType extends GenericObjectType
 
         switch ($fetchType) {
             case QueryReflector::FETCH_TYPE_CLASS:
-                return new GenericObjectType(PDOStatement::class, [new ObjectType('stdClass')]);
+                return self::newWithBothAndFetchType(new ObjectType('stdClass'), $fetchType);
             case QueryReflector::FETCH_TYPE_KEY_VALUE:
                 $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(0), new MixedType());
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(1), new MixedType());
 
-                return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
+                return self::newWithBothAndFetchType($arrayBuilder->getArray(), $fetchType);
             case QueryReflector::FETCH_TYPE_NUMERIC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType(IntegerRangeType::fromInterval(0, null), $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_ASSOC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(new StringType(), $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType(new StringType(), $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_BOTH:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType($arrayKey, $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType($arrayKey, $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_COLUMN:
-                return new GenericObjectType(PDOStatement::class, [$pdoScalar]);
+                return self::newWithBothAndFetchType($pdoScalar, $fetchType);
         }
 
-        return new GenericObjectType(PDOStatement::class, [new MixedType()]);
+        return self::newWithBothAndFetchType(new MixedType(), $fetchType);
+    }
+
+    // differentiate objects based on the local properties,
+    // to make sure TypeCombinator::union() will not normalize separate objects away.
+    // this means we need to implement equals() and isSuperTypeOf().
+    public function equals(Type $type): bool
+    {
+        if (
+            $type instanceof self
+            && $type->fetchType !== null
+            && $type->bothType !== null
+            && $this->bothType !== null
+        ) {
+            return $type->fetchType === $this->fetchType && $type->bothType->equals($this->bothType);
+        }
+
+        return parent::equals($type);
+    }
+
+    public function isSuperTypeOf(Type $type): TrinaryLogic
+    {
+        if (
+            $type instanceof self
+            && $type->fetchType !== null
+            && $type->bothType !== null
+            && $this->bothType !== null
+        ) {
+            return TrinaryLogic::createFromBoolean(
+                $type->fetchType === $this->fetchType
+                && $type->bothType->equals($this->bothType)
+            );
+        }
+
+        return parent::isSuperTypeOf($type);
     }
 }

@@ -11,7 +11,9 @@ class Foo
     public function numericModeQuery(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch();
         assertType('array{string, int<-32768, 32767>}|false', $result);
     }
@@ -19,9 +21,10 @@ class Foo
     public function numericModeFetch(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch();
         assertType('array{string, int<-32768, 32767>}|false', $result);
     }
@@ -29,9 +32,10 @@ class Foo
     public function numericModeFetchOverridden(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
@@ -39,7 +43,9 @@ class Foo
     public function numericModeQueryFetchOverridden(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
@@ -47,7 +53,9 @@ class Foo
     public function numericModeQueryOverridden(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_ASSOC);
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }

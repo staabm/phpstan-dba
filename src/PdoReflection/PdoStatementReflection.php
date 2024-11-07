@@ -87,7 +87,7 @@ final class PdoStatementReflection
             $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
             if (null !== $bothType) {
-                $genericObjects[] = new PdoStatementObjectType($bothType, $reflectionFetchType);
+                $genericObjects[] = PdoStatementObjectType::newWithBothAndFetchType($bothType, $reflectionFetchType);
             }
         }
 
