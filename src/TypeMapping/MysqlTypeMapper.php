@@ -29,9 +29,6 @@ final class MysqlTypeMapper implements TypeMapper
         $this->dbaApi = $dbaApi;
     }
 
-    /**
-     * @param list<string> $mysqlFlags
-     */
     public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
     {
         $numeric = false;

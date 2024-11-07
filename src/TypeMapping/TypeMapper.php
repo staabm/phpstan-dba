@@ -17,7 +17,7 @@ interface TypeMapper
     public const FLAG_UNSIGNED = 'UNSIGNED';
 
     /**
-     * @param list<string> $flags
+     * @param array<string> $flags
      */
     public function mapToPHPStanType(string $type, array $flags, int $length): Type;
 
