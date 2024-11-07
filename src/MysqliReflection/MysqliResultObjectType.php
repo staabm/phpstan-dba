@@ -12,14 +12,6 @@ final class MysqliResultObjectType extends ObjectType
 {
     private ?Type $rowType;
 
-    public function __construct(
-        string $className,
-        ?Type $subtractedType = null
-    )
-    {
-        parent::__construct($className, $subtractedType);
-    }
-
     public function setRowType(Type $rowType): void {
         $this->rowType = $rowType;
     }
