@@ -7,7 +7,6 @@ namespace staabm\PHPStanDba\DoctrineReflection;
 use Doctrine\DBAL\Statement;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 
@@ -43,8 +42,7 @@ final class DoctrineStatementObjectType extends ObjectType
     {
         if ($type instanceof self
         ) {
-            return
-                $type->rowType !== null
+            return $type->rowType !== null
                 && $this->rowType !== null
                 && $type->rowType === $this->rowType
                 && $type->rowType->equals($this->rowType);

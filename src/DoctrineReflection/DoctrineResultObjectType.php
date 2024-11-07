@@ -42,8 +42,7 @@ final class DoctrineResultObjectType extends ObjectType
     {
         if ($type instanceof self
         ) {
-            return
-                $type->rowType !== null
+            return $type->rowType !== null
                 && $this->rowType !== null
                 && $type->rowType === $this->rowType
                 && $type->rowType->equals($this->rowType);
