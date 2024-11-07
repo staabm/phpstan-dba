@@ -10,7 +10,7 @@ use PHPStan\Type\Type;
 
 final class MysqliResultObjectType extends ObjectType
 {
-    private Type $rowType;
+    private ?Type $rowType;
 
     public function __construct(
         string $className,
@@ -31,5 +31,14 @@ final class MysqliResultObjectType extends ObjectType
         }
 
         return $this->rowType;
+    }
+
+    public function getIterableValueType(): \PHPStan\Type\Type
+    {
+        if($this->rowType !== null) {
+            return $this->rowType;
+        }
+
+        return parent::getIterableValueType();
     }
 }
