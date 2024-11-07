@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\DoctrineReflection;
 
+use Doctrine\DBAL\Result;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\ObjectType;
