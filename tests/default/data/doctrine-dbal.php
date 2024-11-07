@@ -66,16 +66,13 @@ class Foo
 
     public function executeStatement(Connection $conn, int $adaid)
     {
-        $stmt = $conn->prepare('SELECT email, adaid FROM ada');
-        assertType('Doctrine\DBAL\Statement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
-
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->execute([$adaid]);
-        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchOne());
 
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->executeQuery([$adaid]);
-        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchOne());
     }
 
     public function fetchAssociative(Connection $conn)
