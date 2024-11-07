@@ -24,15 +24,6 @@ final class MysqliResultObjectType extends ObjectType
         $this->rowType = $rowType;
     }
 
-    public function getRowType(): Type
-    {
-        if ($this->rowType === null) {
-            throw new ShouldNotHappenException();
-        }
-
-        return $this->rowType;
-    }
-
     public function getIterableValueType(): \PHPStan\Type\Type
     {
         if($this->rowType !== null) {
