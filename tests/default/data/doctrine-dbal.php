@@ -71,11 +71,11 @@ class Foo
 
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->execute([$adaid]);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
+        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchAssociative());
 
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->executeQuery([$adaid]);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
+        assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $result->fetchAssociative());
     }
 
     public function fetchAssociative(Connection $conn)
