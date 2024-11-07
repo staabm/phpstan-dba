@@ -536,13 +536,7 @@
                    'value' => 'COLUMN_NAME',
                    'isClassString' => false,
                    'objectType' => NULL,
-                   'arrayKeyType' => 
-                  \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                     'value' => 'COLUMN_NAME',
-                     'isClassString' => false,
-                     'objectType' => NULL,
-                     'arrayKeyType' => NULL,
-                  )),
+                   'arrayKeyType' => NULL,
                 )),
               )),
               5 => 
@@ -578,13 +572,7 @@
                  'value' => 'COLUMN_NAME',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'COLUMN_NAME',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             )),
             1 => 
@@ -646,10 +634,9 @@
                 )),
               ),
                'normalized' => true,
-               'sortedTypes' => true,
+               'sortedTypes' => false,
                'cachedDescriptions' => 
               array (
-                2 => 'string|null',
               ),
             )),
             3 => 

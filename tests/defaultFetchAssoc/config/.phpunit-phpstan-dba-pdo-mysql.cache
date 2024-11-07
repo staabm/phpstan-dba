@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v11-phpstan1_9_3-update',
+  'schemaVersion' => 'v12-new-major',
   'schemaHash' => NULL,
   'records' => 
   array (
