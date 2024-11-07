@@ -295,19 +295,24 @@ class Foo
         foreach ($stmt as $row) {
             assertType("array{col: 1|'a', 0: 1|'a'}", $row);
         }
-        assertType("PDOStatement<>", $stmt);
 
         $stmt = $pdo->query('SELECT if(freigabe1u1 > 100, freigabe1u1, "nope") as col from ada');
-        assertType("PDOStatement<array{col: 'nope'|int<-32768, 32767>, 0: 'nope'|int<-32768, 32767>}>", $stmt); // could be 'nope'|int<100, 127>
+        foreach ($stmt as $row) {
+            assertType("array{col: 'nope'|int<-32768, 32767>, 0: 'nope'|int<-32768, 32767>}", $row); // could be 'nope'|int<100, 127>
+        }
 
         $stmt = $pdo->query('SELECT if(freigabe1u1 > 100, if(gesperrt <> 1, "a", "b"), "other") as col from ada');
-        assertType("PDOStatement<array{col: 'a'|'b'|'other', 0: 'a'|'b'|'other'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: 'a'|'b'|'other', 0: 'a'|'b'|'other'}", $row);
+        }
     }
 
     public function caseWhen(PDO $pdo): void
     {
         $stmt = $pdo->query("SELECT CASE 1 WHEN 1 THEN 'one' WHEN 2 THEN 'two' ELSE 'more' END as val from ada");
-        assertType("PDOStatement<array{val: 'more'|'one'|'two', 0: 'more'|'one'|'two'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{val: 'more'|'one'|'two', 0: 'more'|'one'|'two'}", $row);
+        }
 
         $stmt = $pdo->query("SELECT
         CASE
@@ -315,118 +320,185 @@ class Foo
             WHEN freigabe1u1 = 50 THEN 'normal'
             ELSE freigabe1u1
         END as val from ada");
-        assertType("PDOStatement<array{val: 'big-one'|'normal'|int<-32768, 32767>, 0: 'big-one'|'normal'|int<-32768, 32767>}>", $stmt); // could be 'big-one'|'normal'|int<-128, 49>
+        foreach ($stmt as $row) {
+            // could be 'big-one'|'normal'|int<-128, 49>
+            assertType("array{val: 'big-one'|'normal'|int<-32768, 32767>, 0: 'big-one'|'normal'|int<-32768, 32767>}", $row);
+        }
     }
 
     public function concat(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT concat(akid, 5000) as col from ak');
-        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat(eladaid, 5000) as col from ak');
-        assertType("PDOStatement<array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat(eladaid, akid) as col from ak');
-        assertType("PDOStatement<array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: (non-empty-string&numeric-string)|null, 0: (non-empty-string&numeric-string)|null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat(eladaid, null) as col from ak');
-        assertType('PDOStatement<array{col: null, 0: null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: null, 0: null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat("abc", akid, 5000) as col from ak');
-        assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-falsy-string, 0: non-falsy-string}", $row);
+        }
     }
 
     public function concat_ws(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT concat_ws(akid, 5000) as col from ak');
-        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat_ws(eladaid, 5000) as col from ak');
-        assertType("PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat_ws(eladaid, akid) as col from ak');
-        assertType("PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat_ws(eladaid, null) as col from ak');
-        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
 
         $stmt = $pdo->query('SELECT concat_ws("abc", akid, 5000) as col from ak');
-        assertType('PDOStatement<array{col: non-falsy-string, 0: non-falsy-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-falsy-string, 0: non-falsy-string}", $row);
+        }
     }
 
     public function posIntReturn(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT length(akid) as col from ak');
-        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT char_length(eladaid) as col from ak');
-        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT character_length(eladaid) as col from ak');
-        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT octet_length(eladaid) as col from ak');
-        assertType("PDOStatement<array{col: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query("SELECT FIELD('Bb', 'Aa', 'Bb', 'Cc', 'Dd', 'Ff') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>, 0: int<0, max>}", $row);
+        }
     }
 
     public function instr(PDO $pdo): void
     {
         $stmt = $pdo->query("SELECT instr('foobarbar', 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query("SELECT instr(eladaid, 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>|null, 0: int<0, max>|null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT instr(akid, 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>, 0: int<0, max>}", $row);
+        }
 
         $stmt = $pdo->query("SELECT locate('foo', eladaid, 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>|null, 0: int<0, max>|null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT locate(eladaid, 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>|null, 0: int<0, max>|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>|null, 0: int<0, max>|null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT locate(akid, 'bar') as field from ak");
-        assertType("PDOStatement<array{field: int<0, max>, 0: int<0, max>}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: int<0, max>, 0: int<0, max>}", $row);
+        }
     }
 
     public function strcase(PDO $pdo): void
     {
         $stmt = $pdo->query("SELECT lcase(c_varbinary255) as field from typemix");
-        assertType("PDOStatement<array{field: string, 0: string}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: string, 0: string}", $row);
+        }
 
         $stmt = $pdo->query("SELECT ucase(c_varbinary25) as field from typemix");
-        assertType("PDOStatement<array{field: string|null, 0: string|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: string|null, 0: string|null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower(c_varbinary255) as field from typemix");
-        assertType("PDOStatement<array{field: string, 0: string}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: string, 0: string}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower(c_varbinary25) as field from typemix");
-        assertType("PDOStatement<array{field: string|null, 0: string|null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: string|null, 0: string|null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower(null) as field from ak");
-        assertType("PDOStatement<array{field: null, 0: null}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: null, 0: null}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower('foobarbar') as field from ak");
-        assertType("PDOStatement<array{field: 'foobarbar', 0: 'foobarbar'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: 'foobarbar', 0: 'foobarbar'}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower('FOO') as field from ak");
-        assertType("PDOStatement<array{field: 'foo', 0: 'foo'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: 'foo', 0: 'foo'}", $row);
+        }
 
         $stmt = $pdo->query("SELECT upper('foobarbar') as field from ak");
-        assertType("PDOStatement<array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}", $row);
+        }
 
         $stmt = $pdo->query("SELECT upper('fooBARbar') as field from ak");
-        assertType("PDOStatement<array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: 'FOOBARBAR', 0: 'FOOBARBAR'}", $row);
+        }
 
         $stmt = $pdo->query("SELECT lower(upper('foobarbar')) as field from ak");
-        assertType("PDOStatement<array{field: 'foobarbar', 0: 'foobarbar'}>", $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{field: 'foobarbar', 0: 'foobarbar'}", $row);
+        }
 
         $stmt = $pdo->query('SELECT lower(concat(akid, 5000)) as col from ak');
-        assertType('PDOStatement<array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{col: non-empty-string&numeric-string, 0: non-empty-string&numeric-string}", $row);
+        }
     }
 
     public function avg(PDO $pdo): void
