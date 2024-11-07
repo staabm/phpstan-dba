@@ -39,7 +39,7 @@ final class ReflectorFactory
             $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
             $password = getenv('DBA_PASSWORD') ?: $_ENV['DBA_PASSWORD'];
             $dbname = getenv('DBA_DATABASE') ?: $_ENV['DBA_DATABASE'];
-            $ssl = (bool) (getenv('DBA_SSL') ?: $_ENV['DBA_SSL'] ?? false);
+            $ssl = (string) (getenv('DBA_SSL') ?: $_ENV['DBA_SSL'] ?? '');
             $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
             $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
         }
@@ -80,7 +80,12 @@ final class ReflectorFactory
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo-mysql' === $reflector) {
-                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password);
+                $options = [];
+                if ($ssl !== '') {
+                    $options[PDO::MYSQL_ATTR_SSL_CA] = $ssl;
+                    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+                }
+                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password, $options);
                 $reflector = new PdoMysqlQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
             } elseif ('pdo-pgsql' === $reflector) {
