@@ -55,7 +55,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     /**
      * @var array<string, PDOException|list<ColumnMeta>|null>
      */
-    protected $cache = [];
+    protected array $cache = [];
 
     /**
      * @var TypeMapper
@@ -71,12 +71,9 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     /**
      * @var array<string, array<string, list<string>>>
      */
-    protected $emulatedFlags = [];
+    protected array $emulatedFlags = [];
 
-    /**
-     * @var PDO
-     */
-    protected $pdo;
+    protected PDO $pdo;
 
     public function __construct(PDO $pdo)
     {

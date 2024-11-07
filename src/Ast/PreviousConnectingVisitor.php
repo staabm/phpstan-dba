@@ -17,12 +17,9 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
     /**
      * @var list<Node>
      */
-    private $stack = [];
+    private array $stack = [];
 
-    /**
-     * @var ?Node
-     */
-    private $previous;
+    private ?Node $previous;
 
     public function beforeTraverse(array $nodes)
     {

@@ -15,10 +15,7 @@ final class SchemaHasherMysql implements SchemaHasher
      */
     private $connection;
 
-    /**
-     * @var string|null
-     */
-    private $hash = null;
+    private ?string $hash = null;
 
     /**
      * @param PDO|mysqli $connection

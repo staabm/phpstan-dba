@@ -11,10 +11,7 @@ class LazySchemaHasher implements SchemaHasher
      */
     private $schemaHasherFactory;
 
-    /**
-     * @var SchemaHasher|null
-     */
-    private $schemaHasher;
+    private ?SchemaHasher $schemaHasher;
 
     /**
      * @param callable():SchemaHasher $schemaHasherFactory

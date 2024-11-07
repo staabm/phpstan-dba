@@ -12,7 +12,7 @@ final class ChainedReflector implements QueryReflector
     /**
      * @var QueryReflector[]
      */
-    private $reflectors;
+    private array $reflectors;
 
     /**
      * @param QueryReflector ...$reflectors

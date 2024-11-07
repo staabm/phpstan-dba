@@ -18,10 +18,7 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementFetchObjectDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
+    private ReflectionProvider $reflectionProvider;
 
     public function __construct(ReflectionProvider $reflectionProvider)
     {
