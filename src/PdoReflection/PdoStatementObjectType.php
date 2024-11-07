@@ -157,8 +157,9 @@ class PdoStatementObjectType extends ObjectType
                 && $type->bothType !== null
                 && $this->bothType !== null
                 && $type->fetchType === $this->fetchType
-                && $type->bothType->equals($this->bothType
-            );
+                && $type->bothType->equals(
+                    $this->bothType
+                );
         }
 
         return parent::equals($type);
