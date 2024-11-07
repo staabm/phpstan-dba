@@ -8,9 +8,10 @@ use Doctrine\DBAL\Statement;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 
-final class DoctrineStatementObjectType extends GenericObjectType
+final class DoctrineStatementObjectType extends ObjectType
 {
     private ?Type $rowType;
 
