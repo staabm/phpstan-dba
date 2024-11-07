@@ -152,13 +152,14 @@ class PdoStatementObjectType extends ObjectType
     // this means we need to implement equals() and isSuperTypeOf().
     public function equals(Type $type): bool
     {
-        if (
-            $type instanceof self
-            && $type->fetchType !== null
-            && $type->bothType !== null
-            && $this->bothType !== null
-        ) {
-            return $type->fetchType === $this->fetchType && $type->bothType->equals($this->bothType);
+        if ($type instanceof self) {
+            return $type->fetchType !== null
+                && $type->bothType !== null
+                && $this->bothType !== null
+                && $type->fetchType === $this->fetchType
+                && $type->bothType->equals(
+                    $this->bothType
+                );
         }
 
         return parent::equals($type);
@@ -166,14 +167,12 @@ class PdoStatementObjectType extends ObjectType
 
     public function isSuperTypeOf(Type $type): TrinaryLogic
     {
-        if (
-            $type instanceof self
-            && $type->fetchType !== null
-            && $type->bothType !== null
-            && $this->bothType !== null
-        ) {
+        if ($type instanceof self) {
             return TrinaryLogic::createFromBoolean(
-                $type->fetchType === $this->fetchType
+                $type->fetchType !== null
+                && $type->bothType !== null
+                && $this->bothType !== null
+                && $type->fetchType === $this->fetchType
                 && $type->bothType->equals($this->bothType)
             );
         }
