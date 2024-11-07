@@ -604,74 +604,112 @@ class Foo
         }
 
         $stmt = $pdo->query('SELECT min(c_tinyint) as min from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{min: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{min: int<-128, 127>, 0: int<-128, 127>}", $row);
+        }
         $stmt = $pdo->query('SELECT max(c_tinyint) as max from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{max: int<-128, 127>, 0: int<-128, 127>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{max: int<-128, 127>, 0: int<-128, 127>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT min(c_nullable_tinyint) as min from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{min: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{min: int<-128, 127>|null, 0: int<-128, 127>|null}", $row);
+        }
         $stmt = $pdo->query('SELECT max(c_nullable_tinyint) as max from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{max: int<-128, 127>|null, 0: int<-128, 127>|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{max: int<-128, 127>|null, 0: int<-128, 127>|null}", $row);
+        }
     }
 
     public function isNull(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT isnull(akid) as n1 from ak');
-        assertType('PDOStatement<array{n1: 0, 0: 0}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{n1: 0, 0: 0}", $row);
+        }
 
         $stmt = $pdo->query('SELECT isnull(eladaid) as n1 from ak');
-        assertType('PDOStatement<array{n1: 0|1, 0: 0|1}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{n1: 0|1, 0: 0|1}", $row);
+        }
     }
 
     public function abs(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT abs(null) as abs from ada');
-        assertType('PDOStatement<array{abs: null, 0: null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: null, 0: null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT abs(freigabe1u1) as abs from ada');
-        assertType('PDOStatement<array{abs: int<0, 32767>, 0: int<0, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: int<0, 32767>, 0: int<0, 32767>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT abs(eladaid) as abs from ak');
-        assertType('PDOStatement<array{abs: int<0, 2147483647>|null, 0: int<0, 2147483647>|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: int<0, 2147483647>|null, 0: int<0, 2147483647>|null}", $row);
+        }
     }
 
     public function round(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT round(null) as abs from ada');
-        assertType('PDOStatement<array{abs: null, 0: null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: null, 0: null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT round(freigabe1u1) as abs from ada');
-        assertType('PDOStatement<array{abs: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: int<-32768, 32767>, 0: int<-32768, 32767>}", $row);
+        }
 
         $stmt = $pdo->query('SELECT round(1.12, 1) as abs from ak');
-        assertType('PDOStatement<array{abs: float|int, 0: float|int}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{abs: float|int, 0: float|int}", $row);
+        }
     }
 
     public function sum(PDO $pdo): void
     {
         $stmt = $pdo->query('SELECT sum(null) as sum from ak');
-        assertType('PDOStatement<array{sum: null, 0: null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: null, 0: null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT sum(akid) as sum from ak');
-        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: int|null, 0: int|null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT sum(eladaid) as sum from ak');
-        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: int|null, 0: int|null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT sum(c_double) as sum from typemix');
-        assertType('PDOStatement<array{sum: float|null, 0: float|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: float|null, 0: float|null}", $row);
+        }
 
         $stmt = $pdo->query('SELECT sum(c_tinyint) as sum from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{sum: int, 0: int}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: int, 0: int}", $row);
+        }
 
         $stmt = $pdo->query('SELECT sum(c_nullable_tinyint) as sum from typemix GROUP BY c_int');
-        assertType('PDOStatement<array{sum: int|null, 0: int|null}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{sum: int|null, 0: int|null}", $row);
+        }
     }
 
     public function strReplace(PDO $pdo)
     {
         $stmt = $pdo->query("SELECT REPLACE('www.mysql.com', 'w', 'Ww') as str from ada");
-        assertType('PDOStatement<array{str: non-empty-string, 0: non-empty-string}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType("array{str: non-empty-string, 0: non-empty-string}", $row);
+        }
 
         $stmt = $pdo->query("SELECT REPLACE(email, 'w', 'Ww') as str from ada");
         assertType('PDOStatement<array{str: string, 0: string}>', $stmt);
