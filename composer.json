@@ -122,6 +122,9 @@
 			"includes": [
 				"config/dba.neon"
 			]
+		},
+		"branch-alias": {
+			"dev-main": "2.x-dev"
 		}
 	}
 }
