@@ -4,14 +4,32 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\MysqliReflection;
 
-use mysqli_result;
-use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\ShouldNotHappenException;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 
-final class MysqliResultObjectType extends GenericObjectType
+final class MysqliResultObjectType extends ObjectType
 {
-    public function __construct(Type $rowType)
+    private Type $rowType;
+
+    public function __construct(
+        string $className,
+        ?Type $subtractedType = null
+    )
     {
-        parent::__construct(mysqli_result::class, [$rowType]);
+        parent::__construct($className, $subtractedType);
+    }
+
+    public function setRowType(Type $rowType): void {
+        $this->rowType = $rowType;
+    }
+
+    public function getRowType(): Type
+    {
+        if ($this->rowType === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->rowType;
     }
 }
