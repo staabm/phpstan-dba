@@ -193,7 +193,7 @@ class Foo
             'SELECT '.implode(', ', $sumQueries).' FROM ada WHERE adaid = :package'
         );
         $stmt->execute(['package' => 'abc']);
-        
+
         // this query is too dynamic for being analyzed.
         // make sure we don't infer a wrong type.
         foreach ($stmt as $row) {
