@@ -54,24 +54,24 @@ class Foo
     public function executeQuery(Connection $conn, array $types, QueryCacheProfile $qcp)
     {
         $result = $conn->executeQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1]);
-        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
         $result = $conn->executeCacheQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1], $types, $qcp);
-        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
         $result = $conn->executeQuery('SELECT email, adaid FROM ada');
-        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
     }
 
     public function executeStatement(Connection $conn, int $adaid)
     {
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->execute([$adaid]);
-        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->executeQuery([$adaid]);
-        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetchAssociative());
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
     }
 
     public function fetchAssociative(Connection $conn)
