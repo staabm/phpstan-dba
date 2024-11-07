@@ -29,7 +29,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     /**
      * @var list<string>
      */
-    private $classMethods;
+    private array $classMethods;
 
     /**
      * @param list<string> $classMethods
