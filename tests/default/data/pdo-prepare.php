@@ -197,7 +197,7 @@ class Foo
         // this query is too dynamic for being analyzed.
         // make sure we don't infer a wrong type.
         foreach ($stmt as $row) {
-            assertType('mixed', $row);
+            assertType('array<int|string, mixed>', $row);
         }
     }
 }

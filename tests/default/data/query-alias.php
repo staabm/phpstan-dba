@@ -14,7 +14,7 @@ class Foo
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
 
         foreach ($stmt as $row) {
-            assertType('array{email: string, adaid: int<-32768, 32767>}|null', $row);
+            assertType('array{email: string, adaid: int<-32768, 32767>|null}', $row);
         }
     }
 }

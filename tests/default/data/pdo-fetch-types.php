@@ -40,7 +40,7 @@ class Foo
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_COLUMN);
         foreach ($stmt as $row) {
-            assertType('mixed', $row);
+            assertType('array<int|string, mixed>', $row);
         }
     }
 }
