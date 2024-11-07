@@ -149,7 +149,7 @@ class PdoStatementObjectType extends ObjectType
 
     // differentiate objects based on the local properties,
     // to make sure TypeCombinator::union() will not normalize separate objects away.
-    // this means we need to implement equals() and isSuperTypeOf() to compare the local properties.
+    // this means we need to implement equals() and isSuperTypeOf().
     public function equals(Type $type): bool
     {
         if (
