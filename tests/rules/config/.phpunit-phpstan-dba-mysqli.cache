@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v11-phpstan1_9_3-update',
+  'schemaVersion' => 'v12-new-major',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -3159,385 +3159,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         )),
       ),
     ),
-    'SELECT email, adaid /* why? ? */ FROM ada /* just ?? :because ?*/ WHERE email = \'a\' -- ?' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -32768,
-                 'max' => 32767,
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-          )),
-           'keyType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-              3 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-            ),
-             'normalized' => false,
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '0|1|\'adaid\'|\'email\'',
-            ),
-          )),
-           'keyTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-            )),
-            1 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            2 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-            )),
-            3 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            2 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-            3 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => 
-          \PHPStan\TrinaryLogic::__set_state(array(
-             'value' => -1,
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 2,
-          ),
-        )),
-      ),
-    ),
     'SELECT email, adaid FROM ada' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -32768,
-                 'max' => 32767,
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-          )),
-           'keyType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
-              )),
-              3 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
-              )),
-            ),
-             'normalized' => false,
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '0|1|\'adaid\'|\'email\'',
-            ),
-          )),
-           'keyTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-            )),
-            1 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            2 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-            )),
-            3 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            2 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-            3 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => 
-          \PHPStan\TrinaryLogic::__set_state(array(
-             'value' => -1,
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 2,
-          ),
-        )),
-      ),
-    ),
-    'SELECT email, adaid FROM ada -- :can have :more ? :placeholders? ?' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
-           'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -32768,
-                 'max' => 32767,
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
-          )),
-           'keyType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 0,
-              )),
-              1 => 
-              \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-                 'value' => 1,
-              )),
-              2 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-              3 => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
-            ),
-             'normalized' => false,
-             'sortedTypes' => true,
-             'cachedDescriptions' => 
-            array (
-              2 => '0|1|\'adaid\'|\'email\'',
-            ),
-          )),
-           'keyTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'email',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-            )),
-            1 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 0,
-            )),
-            2 => 
-            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-               'value' => 'adaid',
-               'isClassString' => false,
-               'objectType' => NULL,
-               'arrayKeyType' => NULL,
-            )),
-            3 => 
-            \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
-               'value' => 1,
-            )),
-          ),
-           'valueTypes' => 
-          array (
-            0 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            1 => 
-            \PHPStan\Type\StringType::__set_state(array(
-            )),
-            2 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-            3 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
-            )),
-          ),
-           'optionalKeys' => 
-          array (
-          ),
-           'isList' => 
-          \PHPStan\TrinaryLogic::__set_state(array(
-             'value' => -1,
-          )),
-           'allArrays' => NULL,
-           'nextAutoIndexes' => 
-          array (
-            0 => 2,
-          ),
-        )),
-      ),
-    ),
-    'SELECT email, adaid FROM ada -- nice :placeholder bro' => 
     array (
       'result' => 
       array (
@@ -4177,26 +3799,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               3 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             ),
              'normalized' => false,
@@ -4213,13 +3823,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4230,13 +3834,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4461,52 +4059,28 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               5 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               6 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'freigabe1u1',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               7 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'gesperrt',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             ),
              'normalized' => false,
@@ -4523,13 +4097,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4540,13 +4108,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4557,13 +4119,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'gesperrt',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'gesperrt',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             5 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4574,13 +4130,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'freigabe1u1',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'freigabe1u1',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             7 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4691,52 +4241,28 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               5 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               6 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'freigabe1u1',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               7 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'gesperrt',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             ),
              'normalized' => false,
@@ -4753,13 +4279,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4770,13 +4290,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4787,13 +4301,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'gesperrt',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'gesperrt',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             5 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4804,13 +4312,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'freigabe1u1',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'freigabe1u1',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             7 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -4921,52 +4423,28 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                  'value' => 'adaid',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'adaid',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               5 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'email',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'email',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               6 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'freigabe1u1',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'freigabe1u1',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
               7 => 
               \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
                  'value' => 'gesperrt',
                  'isClassString' => false,
                  'objectType' => NULL,
-                 'arrayKeyType' => 
-                \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                   'value' => 'gesperrt',
-                   'isClassString' => false,
-                   'objectType' => NULL,
-                   'arrayKeyType' => NULL,
-                )),
+                 'arrayKeyType' => NULL,
               )),
             ),
              'normalized' => false,
@@ -4983,13 +4461,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'email',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'email',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             1 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -5000,13 +4472,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'adaid',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'adaid',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             3 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -5017,13 +4483,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'gesperrt',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'gesperrt',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             5 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
@@ -5034,13 +4494,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
                'value' => 'freigabe1u1',
                'isClassString' => false,
                'objectType' => NULL,
-               'arrayKeyType' => 
-              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
-                 'value' => 'freigabe1u1',
-                 'isClassString' => false,
-                 'objectType' => NULL,
-                 'arrayKeyType' => NULL,
-              )),
+               'arrayKeyType' => NULL,
             )),
             7 => 
             \PHPStan\Type\Constant\ConstantIntegerType::__set_state(array(
