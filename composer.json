@@ -17,7 +17,6 @@
 		"php-parallel-lint/php-parallel-lint": "^1.4",
 		"phpstan/extension-installer": "^1.4",
 		"phpstan/phpstan-deprecation-rules": "^1.1",
-		"phpstan/phpstan-php-parser": "^1.1",
 		"phpstan/phpstan-phpunit": "^1.0",
 		"phpstan/phpstan-strict-rules": "^1.1",
 		"phpunit/phpunit": "^8.5|^9.5",
