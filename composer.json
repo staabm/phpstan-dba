@@ -8,7 +8,7 @@
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
 		"doctrine/dbal": "3.*",
-		"phpstan/phpstan": "^1.9.4"
+		"phpstan/phpstan": "^2.0"
 	},
 	"require-dev": {
 		"ext-mysqli": "*",
@@ -16,9 +16,9 @@
 		"dibi/dibi": "^4.2",
 		"php-parallel-lint/php-parallel-lint": "^1.4",
 		"phpstan/extension-installer": "^1.4",
-		"phpstan/phpstan-deprecation-rules": "^1.1",
-		"phpstan/phpstan-phpunit": "^1.0",
-		"phpstan/phpstan-strict-rules": "^1.1",
+		"phpstan/phpstan-deprecation-rules": "^2.0",
+		"phpstan/phpstan-phpunit": "^2.0",
+		"phpstan/phpstan-strict-rules": "^2.0",
 		"phpunit/phpunit": "^8.5|^9.5",
 		"symplify/easy-coding-standard": "^12.3",
 		"tomasvotruba/unused-public": "^1.0",
