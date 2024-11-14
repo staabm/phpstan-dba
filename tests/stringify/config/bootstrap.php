@@ -17,9 +17,7 @@ if (false === getenv('GITHUB_ACTION')) {
 $config = RuntimeConfiguration::create();
 $config->errorMode(RuntimeConfiguration::ERROR_MODE_EXCEPTION);
 $config->stringifyTypes(true);
-if (\PHP_VERSION_ID >= 70400) {
-    $config->utilizeSqlAst(true);
-}
+$config->utilizeSqlAst(true);
 
 $reflector = ReflectorFactory::create(__DIR__);
 

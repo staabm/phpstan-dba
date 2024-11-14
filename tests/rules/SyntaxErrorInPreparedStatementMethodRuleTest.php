@@ -30,10 +30,6 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [
@@ -232,10 +228,6 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
 
     public function testBug94()
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             self::markTestSkipped('Error message different depending on version of the database.');
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -263,10 +255,6 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
 
     public function testSyntaxErrorWithInferencePlaceholder()
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $expectedErrors = [
                 [

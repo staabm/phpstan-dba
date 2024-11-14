@@ -13,19 +13,17 @@ class DbaInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        if (\PHP_VERSION_ID >= 70300) {
-            if (! InstalledVersions::isInstalled('doctrine/dbal')) {
-                throw new \Exception('doctrine/dbal 3.x is required to run tests for php 7.3+. Please install it via composer.');
-            }
+        if (! InstalledVersions::isInstalled('doctrine/dbal')) {
+            throw new \Exception('doctrine/dbal 3.x is required to run tests for php 7.3+. Please install it via composer.');
+        }
 
-            yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal-union-result.php');
-            yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
-            yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal-union-result.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
+        yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
 
-            // for some reason does not work in pgsql
-            if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
-                yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
-            }
+        // for some reason does not work in pgsql
+        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
         }
 
         // make sure class constants can be resolved
