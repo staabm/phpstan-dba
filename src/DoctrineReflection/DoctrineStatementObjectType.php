@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\DoctrineReflection;
 use Doctrine\DBAL\Statement;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
+use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 
@@ -51,10 +52,10 @@ final class DoctrineStatementObjectType extends ObjectType
         return parent::equals($type);
     }
 
-    public function isSuperTypeOf(Type $type): TrinaryLogic
+    public function isSuperTypeOf(Type $type): IsSuperTypeOfResult
     {
         if ($type instanceof self) {
-            return TrinaryLogic::createFromBoolean(
+            return IsSuperTypeOfResult::createFromBoolean(
                 $type->rowType !== null
                 && $this->rowType !== null
                 && $type->rowType->equals($this->rowType)
