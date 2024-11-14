@@ -1,33 +1,8 @@
 includes:
-    - config/extensions.neon
-    - config/rules.neon
     - phpstan-baseline.neon
 
 parameters:
-    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
-
     level: max
 
     paths:
         - src/
-
-    bootstrapFiles:
-        - bootstrap.php
-
-    reportUnmatchedIgnoredErrors: false
-
-    ignoreErrors:
-        -
-            message: '#.*so it can be removed from the return type#'
-        -
-            message: '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
-            path: src/DbSchema/SchemaHasherMysql.php
-        -
-            message: '#^Property staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:\$hash \(string\|null\) does not accept float\|int\|string\.$#'
-            path: src/DbSchema/SchemaHasherMysql.php
-        -
-            message: '#^Instanceof between mysqli_result\<array\<string, int\|string\|null\>\> and mysqli_result will always evaluate to true\.$#'
-            path: src/DbSchema/SchemaHasherMysql.php
-        -
-            message: '#^Instanceof between mysqli_result<array<string, int<-2147483648, 2147483647>\|string\|null>> and mysqli_result will always evaluate to true\.$#'
-            path: src/DbSchema/SchemaHasherMysql.php
