@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
+use PhpParser\Node\Scalar\InterpolatedString;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
@@ -370,7 +371,7 @@ final class QueryReflection
             return $leftString . $rightString;
         }
 
-        if ($queryExpr instanceof Encapsed) {
+        if ($queryExpr instanceof InterpolatedString) {
             $string = '';
             foreach ($queryExpr->parts as $part) {
                 if ($part instanceof InterpolatedStringPart) {
