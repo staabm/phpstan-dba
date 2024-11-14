@@ -18,7 +18,7 @@ parameters:
 
     ignoreErrors:
         -
-            message: '#.*so it can be removed from the return type#'
+            message: '#.*so it can be removed from the return type.*#' # requires https://github.com/phpstan/phpstan/issues/10312
         -
             message: '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
             path: src/DbSchema/SchemaHasherMysql.php
