@@ -18,6 +18,8 @@ parameters:
 
     ignoreErrors:
         -
+            message: '#.*so it can be removed from the return type#'
+        -
             message: '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
             path: src/DbSchema/SchemaHasherMysql.php
         -
