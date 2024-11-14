@@ -131,7 +131,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     }
 
     /**
-     * @return mysqli_sql_exception|list<object>|null
+     * @return mysqli_sql_exception|array<object>|null
      */
     private function simulateQuery(string $queryString)
     {

@@ -31,7 +31,7 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
     }
 
     /**
-     * @return PDOException|list<ColumnMeta>|null
+     * @return PDOException|array<ColumnMeta>|null
      */
     protected function simulateQuery(string $queryString)
     {
