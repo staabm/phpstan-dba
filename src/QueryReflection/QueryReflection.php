@@ -206,7 +206,7 @@ final class QueryReflection
         }
         $isStringOrMixed = $type->isSuperTypeOf(new StringType());
 
-        return $isStringOrMixed->negate();
+        return $isStringOrMixed->negate()->result;
     }
 
     /**
