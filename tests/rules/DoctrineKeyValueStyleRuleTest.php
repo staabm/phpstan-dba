@@ -27,6 +27,12 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
 
     public function testRule(): void
     {
+        $err56 = 'Query error: Column "ada.adaid" expects value type int, got type mixed';
+        if (PHP_VERSION_ID < 80000) {
+            // PHP 7.x does not support native mixed type
+            $err56 = 'Query error: Column "ada.adaid" expects value type int, got type DoctrineKeyValueStyleRuleTest\mixed';
+        }
+
         $expectedErrors = [
             [
                 'Argument #0 expects a constant string, got string',
@@ -65,7 +71,7 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
                 51,
             ],
             [
-                'Query error: Column "ada.adaid" expects value type int, got type mixed',
+                $err56,
                 56,
             ],
             [
