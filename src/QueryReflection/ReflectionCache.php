@@ -147,6 +147,7 @@ final class ReflectionCache
         if (! \is_array($cache) ||
             ! \array_key_exists('schemaVersion', $cache) ||
             ! \array_key_exists('schemaHash', $cache) ||
+            ! is_string($cache['schemaHash']) ||
             self::SCHEMA_VERSION !== $cache['schemaVersion']) {
             return null;
         }
@@ -166,7 +167,7 @@ final class ReflectionCache
             throw new ShouldNotHappenException();
         }
 
-        return $cache['records'];
+        return $cache['records']; // @phpstan-ignore-line
     }
 
     public function persist(): void
