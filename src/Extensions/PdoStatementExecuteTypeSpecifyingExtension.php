@@ -49,7 +49,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         }
 
         if (null !== $inferredType) {
-            return $this->typeSpecifier->create($methodCall->var, $inferredType, TypeSpecifierContext::createTruthy(), true);
+            return $this->typeSpecifier->create($methodCall->var, $inferredType, TypeSpecifierContext::createTruthy(), $scope)->setAlwaysOverwriteTypes();
         }
 
         return new SpecifiedTypes();
