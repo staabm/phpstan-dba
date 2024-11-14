@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use Composer\InstalledVersions;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PHPStan\Analyser\Scope;
@@ -372,6 +373,11 @@ final class QueryReflection
         if ($queryExpr instanceof Encapsed) {
             $string = '';
             foreach ($queryExpr->parts as $part) {
+                if ($part instanceof InterpolatedStringPart) {
+                    $string .= $part->value;
+                    continue;
+                }
+
                 $resolvedPart = $this->resolveQueryStringExpr($part, $scope);
                 if (null === $resolvedPart) {
                     return null;
@@ -380,10 +386,6 @@ final class QueryReflection
             }
 
             return $string;
-        }
-
-        if ($queryExpr instanceof EncapsedStringPart) {
-            return $queryExpr->value;
         }
 
         $type = $scope->getType($queryExpr);
