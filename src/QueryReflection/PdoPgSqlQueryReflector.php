@@ -13,7 +13,7 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 use function array_shift;
 
 /**
- * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: list<string>}
+ * @phpstan-type PDOColumnMeta array{name: string, table?: string, native_type: string, len: int, flags: array<int, string>}
  */
 final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
 {
@@ -28,9 +28,9 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
     }
 
     /**
-     * @return PDOException|list<PDOColumnMeta>|null
+     * @return PDOException|array<PDOColumnMeta>|null
      */
-    protected function simulateQuery(string $queryString) // @phpstan-ignore-line
+    protected function simulateQuery(string $queryString)
     {
         if (\array_key_exists($queryString, $this->cache)) {
             return $this->cache[$queryString];
