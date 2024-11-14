@@ -40,7 +40,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     private const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, mysqli_sql_exception|list<object>|null>
+     * @var array<string, mysqli_sql_exception|array<object>|null>
      */
     private array $cache = [];
 
@@ -131,7 +131,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     }
 
     /**
-     * @return mysqli_sql_exception|list<object>|null
+     * @return mysqli_sql_exception|array<object>|null
      */
     private function simulateQuery(string $queryString)
     {
