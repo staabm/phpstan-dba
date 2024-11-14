@@ -14,6 +14,7 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
@@ -165,10 +166,10 @@ class PdoStatementObjectType extends ObjectType
         return parent::equals($type);
     }
 
-    public function isSuperTypeOf(Type $type): TrinaryLogic
+    public function isSuperTypeOf(Type $type): IsSuperTypeOfResult
     {
         if ($type instanceof self) {
-            return TrinaryLogic::createFromBoolean(
+            return IsSuperTypeOfResult::createFromBoolean(
                 $type->fetchType !== null
                 && $type->bothType !== null
                 && $this->bothType !== null
