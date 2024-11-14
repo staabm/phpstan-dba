@@ -96,9 +96,13 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
         foreach ($result as $val) {
             if (
                 ! property_exists($val, 'name')
+                || ! is_string($val->name)
                 || ! property_exists($val, 'type')
+                || ! is_int($val->type)
                 || ! property_exists($val, 'flags')
+                || ! is_int($val->flags)
                 || ! property_exists($val, 'length')
+                || ! is_int($val->length)
             ) {
                 throw new ShouldNotHappenException();
             }
