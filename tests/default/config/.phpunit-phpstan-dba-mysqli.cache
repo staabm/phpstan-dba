@@ -4472,6 +4472,100 @@ FROM ada' =>
         )),
       ),
     ),
+    'SELECT adaid, email FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+          )),
+           'keyType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+              1 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+            ),
+             'normalized' => false,
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '\'adaid\'|\'email\'',
+            ),
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+            1 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+            1 => 
+            \PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
+        )),
+      ),
+    ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
       'result' => 
@@ -4620,6 +4714,99 @@ FROM ada' =>
            'nextAutoIndexes' => 
           array (
             0 => 1,
+          ),
+        )),
+      ),
+    ),
+    'SELECT c_datetime FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\ObjectType::__set_state(array(
+                 'className' => 'DateTimeImmutable',
+                 'classReflection' => NULL,
+                 'subtractedType' => NULL,
+                 'cachedParent' => NULL,
+                 'cachedInterfaces' => NULL,
+                 'currentAncestors' => 
+                array (
+                ),
+                 'cachedDescription' => NULL,
+              )),
+              1 => 
+              \PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+          )),
+           'keyType' => 
+          \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+             'value' => 'c_datetime',
+             'isClassString' => false,
+             'objectType' => NULL,
+             'arrayKeyType' => NULL,
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'c_datetime',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                \PHPStan\Type\ObjectType::__set_state(array(
+                   'className' => 'DateTimeImmutable',
+                   'classReflection' => NULL,
+                   'subtractedType' => NULL,
+                   'cachedParent' => NULL,
+                   'cachedInterfaces' => NULL,
+                   'currentAncestors' => 
+                  array (
+                  ),
+                   'cachedDescription' => NULL,
+                )),
+                1 => 
+                \PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
           ),
         )),
       ),
@@ -5021,6 +5208,47 @@ FROM ada' =>
             0 => 1,
           ),
         )),
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\StringType::__set_state(array(
+          )),
+           'keyType' => 
+          \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+             'value' => 'email',
+             'isClassString' => false,
+             'objectType' => NULL,
+             'arrayKeyType' => NULL,
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\StringType::__set_state(array(
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
+        )),
       ),
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
@@ -5145,6 +5373,94 @@ FROM ada' =>
            'nextAutoIndexes' => 
           array (
             0 => 2,
+          ),
+        )),
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              \PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+          )),
+           'keyType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+              1 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+            ),
+             'normalized' => false,
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '\'adaid\'|\'email\'',
+            ),
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+            1 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
           ),
         )),
       ),
@@ -7361,6 +7677,100 @@ FROM ada' =>
         )),
       ),
     ),
+    'SELECT email, adaid FROM ada where adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              \PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+          )),
+           'keyType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'adaid',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+              1 => 
+              \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+                 'value' => 'email',
+                 'isClassString' => false,
+                 'objectType' => NULL,
+                 'arrayKeyType' => NULL,
+              )),
+            ),
+             'normalized' => false,
+             'sortedTypes' => true,
+             'cachedDescriptions' => 
+            array (
+              2 => '\'adaid\'|\'email\'',
+            ),
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'email',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+            1 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'adaid',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\StringType::__set_state(array(
+            )),
+            1 => 
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -32768,
+               'max' => 32767,
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
+          ),
+        )),
+      ),
+    ),
     'SELECT email, adaid, "xy" as b FROM ada WHERE adaid = \'1970-01-01\'' => 
     array (
       'result' => 
@@ -7721,6 +8131,85 @@ FROM ada' =>
            'nextAutoIndexes' => 
           array (
             0 => 4,
+          ),
+        )),
+      ),
+    ),
+    'SELECT max(adaid) FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
+           'itemType' => 
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\IntegerRangeType::__set_state(array(
+                 'min' => -32768,
+                 'max' => 32767,
+              )),
+              1 => 
+              \PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
+          )),
+           'keyType' => 
+          \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+             'value' => 'max(adaid)',
+             'isClassString' => false,
+             'objectType' => NULL,
+             'arrayKeyType' => NULL,
+          )),
+           'keyTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\Constant\ConstantStringType::__set_state(array(
+               'value' => 'max(adaid)',
+               'isClassString' => false,
+               'objectType' => NULL,
+               'arrayKeyType' => NULL,
+            )),
+          ),
+           'valueTypes' => 
+          array (
+            0 => 
+            \PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                \PHPStan\Type\IntegerRangeType::__set_state(array(
+                   'min' => -32768,
+                   'max' => 32767,
+                )),
+                1 => 
+                \PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
+            )),
+          ),
+           'optionalKeys' => 
+          array (
+          ),
+           'isList' => 
+          \PHPStan\TrinaryLogic::__set_state(array(
+             'value' => -1,
+          )),
+           'allArrays' => NULL,
+           'nextAutoIndexes' => 
+          array (
+            0 => 0,
           ),
         )),
       ),

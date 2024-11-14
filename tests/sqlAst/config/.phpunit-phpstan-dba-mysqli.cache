@@ -4826,9 +4826,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -4864,14 +4862,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -4896,9 +4890,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -4940,14 +4932,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -5118,9 +5106,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -5162,14 +5148,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -5312,23 +5294,9 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\IntegerRangeType::__set_state(array(
+             'min' => -2147483648,
+             'max' => 2147483647,
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -5370,42 +5338,14 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\IntegerRangeType::__set_state(array(
+               'min' => -2147483648,
+               'max' => 2147483647,
             )),
           ),
            'optionalKeys' => 
@@ -5430,9 +5370,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -5474,14 +5412,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -5576,21 +5510,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -5632,38 +5552,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -6024,21 +5916,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -6080,38 +5958,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -6248,9 +6098,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -6292,14 +6140,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -12688,9 +12532,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -12746,9 +12588,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -12765,9 +12605,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -12806,9 +12644,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -12864,9 +12700,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -12883,9 +12717,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -12920,21 +12752,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -12976,38 +12794,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -13032,21 +12822,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -13088,38 +12864,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -13480,21 +13228,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -13536,38 +13270,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -13592,21 +13298,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -13648,38 +13340,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -14898,9 +14562,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\MixedType::__set_state(array(
-             'isExplicitMixed' => false,
-             'subtractedType' => NULL,
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -14942,14 +14604,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\MixedType::__set_state(array(
-               'isExplicitMixed' => false,
-               'subtractedType' => NULL,
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\MixedType::__set_state(array(
-               'isExplicitMixed' => false,
-               'subtractedType' => NULL,
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -15044,9 +14702,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -15088,14 +14744,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -15612,9 +15264,21 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\MixedType::__set_state(array(
-             'isExplicitMixed' => false,
-             'subtractedType' => NULL,
+          \PHPStan\Type\UnionType::__set_state(array(
+             'types' => 
+            array (
+              0 => 
+              \PHPStan\Type\StringType::__set_state(array(
+              )),
+              1 => 
+              \PHPStan\Type\NullType::__set_state(array(
+              )),
+            ),
+             'normalized' => true,
+             'sortedTypes' => false,
+             'cachedDescriptions' => 
+            array (
+            ),
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -15656,14 +15320,38 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\MixedType::__set_state(array(
-               'isExplicitMixed' => false,
-               'subtractedType' => NULL,
+            \PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                \PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                \PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
             )),
             1 => 
-            \PHPStan\Type\MixedType::__set_state(array(
-               'isExplicitMixed' => false,
-               'subtractedType' => NULL,
+            \PHPStan\Type\UnionType::__set_state(array(
+               'types' => 
+              array (
+                0 => 
+                \PHPStan\Type\StringType::__set_state(array(
+                )),
+                1 => 
+                \PHPStan\Type\NullType::__set_state(array(
+                )),
+              ),
+               'normalized' => true,
+               'sortedTypes' => false,
+               'cachedDescriptions' => 
+              array (
+              ),
             )),
           ),
            'optionalKeys' => 
@@ -15688,9 +15376,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -15732,14 +15418,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -15764,9 +15446,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -15808,14 +15488,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -15844,9 +15520,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -15902,9 +15576,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -15921,9 +15593,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -15958,9 +15628,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16002,14 +15670,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16034,9 +15698,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16078,14 +15740,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16110,21 +15768,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16166,38 +15810,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16222,9 +15838,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16266,14 +15880,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16302,9 +15912,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -16360,9 +15968,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -16379,9 +15985,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -16416,9 +16020,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -2147483648,
-             'max' => 2147483647,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16460,14 +16062,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -2147483648,
-               'max' => 2147483647,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16496,9 +16094,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -16554,9 +16150,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -16573,9 +16167,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -16610,21 +16202,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16666,38 +16244,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16722,21 +16272,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -16778,38 +16314,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -16946,21 +16454,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -17002,38 +16496,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -17058,21 +16524,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -17114,38 +16566,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -17282,21 +16706,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -17338,38 +16748,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -18090,21 +17472,9 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\MixedType::__set_state(array(
+             'isExplicitMixed' => false,
+             'subtractedType' => NULL,
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -18146,38 +17516,14 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\MixedType::__set_state(array(
+               'isExplicitMixed' => false,
+               'subtractedType' => NULL,
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\MixedType::__set_state(array(
+               'isExplicitMixed' => false,
+               'subtractedType' => NULL,
             )),
           ),
            'optionalKeys' => 
@@ -18898,21 +18244,9 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\MixedType::__set_state(array(
+             'isExplicitMixed' => false,
+             'subtractedType' => NULL,
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -18954,38 +18288,14 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\MixedType::__set_state(array(
+               'isExplicitMixed' => false,
+               'subtractedType' => NULL,
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\MixedType::__set_state(array(
+               'isExplicitMixed' => false,
+               'subtractedType' => NULL,
             )),
           ),
            'optionalKeys' => 
@@ -19014,9 +18324,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -19072,9 +18380,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -19091,9 +18397,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -19132,9 +18436,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -19190,9 +18492,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -19209,9 +18509,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -19958,9 +19256,7 @@
              'types' => 
             array (
               0 => 
-              \PHPStan\Type\IntegerRangeType::__set_state(array(
-                 'min' => -2147483648,
-                 'max' => 2147483647,
+              \PHPStan\Type\IntegerType::__set_state(array(
               )),
               1 => 
               \PHPStan\Type\NullType::__set_state(array(
@@ -20016,9 +19312,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -20035,9 +19329,7 @@
                'types' => 
               array (
                 0 => 
-                \PHPStan\Type\IntegerRangeType::__set_state(array(
-                   'min' => -2147483648,
-                   'max' => 2147483647,
+                \PHPStan\Type\IntegerType::__set_state(array(
                 )),
                 1 => 
                 \PHPStan\Type\NullType::__set_state(array(
@@ -20172,9 +19464,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\IntegerRangeType::__set_state(array(
-             'min' => -32768,
-             'max' => 32767,
+          \PHPStan\Type\IntegerType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -20216,14 +19506,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\IntegerRangeType::__set_state(array(
-               'min' => -32768,
-               'max' => 32767,
+            \PHPStan\Type\IntegerType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -21264,21 +20550,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -21320,38 +20592,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
@@ -21376,21 +20620,7 @@
         5 => 
         \PHPStan\Type\Constant\ConstantArrayType::__set_state(array(
            'itemType' => 
-          \PHPStan\Type\UnionType::__set_state(array(
-             'types' => 
-            array (
-              0 => 
-              \PHPStan\Type\StringType::__set_state(array(
-              )),
-              1 => 
-              \PHPStan\Type\NullType::__set_state(array(
-              )),
-            ),
-             'normalized' => true,
-             'sortedTypes' => false,
-             'cachedDescriptions' => 
-            array (
-            ),
+          \PHPStan\Type\StringType::__set_state(array(
           )),
            'keyType' => 
           \PHPStan\Type\UnionType::__set_state(array(
@@ -21432,38 +20662,10 @@
            'valueTypes' => 
           array (
             0 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
             1 => 
-            \PHPStan\Type\UnionType::__set_state(array(
-               'types' => 
-              array (
-                0 => 
-                \PHPStan\Type\StringType::__set_state(array(
-                )),
-                1 => 
-                \PHPStan\Type\NullType::__set_state(array(
-                )),
-              ),
-               'normalized' => true,
-               'sortedTypes' => false,
-               'cachedDescriptions' => 
-              array (
-              ),
+            \PHPStan\Type\StringType::__set_state(array(
             )),
           ),
            'optionalKeys' => 
