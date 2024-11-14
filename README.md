@@ -1,6 +1,7 @@
 phpstan bug repro
 
-- checkout the repository
+- clone the repository
+- checkout this PR
 - composer install
 
 `vendor/bin/phpstan analyze src/SqlAst/ParserInference.php --debug`
