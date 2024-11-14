@@ -30,10 +30,6 @@ class SyntaxErrorInQueryMethodSubclassedRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
         $this->analyse([__DIR__ . '/data/syntax-error-in-method-subclassed.php'], $this->getExpectedErrors());
     }
 
