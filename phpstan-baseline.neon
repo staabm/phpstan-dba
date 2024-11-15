@@ -1,80 +1,100 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Unresolvable Query\\: Cannot resolve query with variable type\\: non\\-empty\\-string\\.$#"
+			message: '#^Unresolvable Query\: Cannot resolve query with variable type\: non\-empty\-string\.$#'
+			identifier: dba.unresolvableQuery
 			count: 2
 			path: src/Analyzer/QueryPlanAnalyzerMysql.php
 
 		-
-			message: """
-				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
-				use resolveQueryStrings\\(\\) instead$#
-			"""
+			message: '''
+				#^Call to deprecated method resolveQueryString\(\) of class staabm\\PHPStanDba\\QueryReflection\\QueryReflection\:
+				use resolveQueryStrings\(\) instead$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: src/Extensions/DeployerRunMysqlQueryDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\Constant\\ConstantArrayType is error\-prone and deprecated\. Use Type\:\:getConstantArrays\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 2
 			path: src/Extensions/DibiConnectionFetchDynamicReturnTypeExtension.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 'dibi' and 'dibi' will always evaluate to true\\.$#"
+			message: '#^Strict comparison using \=\=\= between ''dibi'' and ''dibi'' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
 			count: 1
 			path: src/QueryReflection/DbaApi.php
 
 		-
-			message: """
-				#^Call to deprecated method resolvePreparedQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
-				use resolvePreparedQueryStrings\\(\\) instead$#
-			"""
+			message: '''
+				#^Call to deprecated method resolvePreparedQueryString\(\) of class staabm\\PHPStanDba\\QueryReflection\\QueryReflection\:
+				use resolvePreparedQueryStrings\(\) instead$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Casting to \\*NEVER\\* something that's already \\*NEVER\\*\\.$#"
+			message: '#^Casting to \*NEVER\* something that''s already \*NEVER\*\.$#'
+			identifier: cast.useless
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between null and null will always evaluate to true\\.$#"
+			message: '#^Strict comparison using \=\=\= between null and null will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
 			count: 1
 			path: src/QueryReflection/QueryReflection.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\ConstantScalarType is error\\-prone and deprecated\\. Use Type\\:\\:isConstantScalarValue\\(\\) or Type\\:\\:getConstantScalarTypes\\(\\) or Type\\:\\:getConstantScalarValues\\(\\) instead\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\ConstantScalarType is error\-prone and deprecated\. Use Type\:\:isConstantScalarValue\(\) or Type\:\:getConstantScalarTypes\(\) or Type\:\:getConstantScalarValues\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 1
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\IntersectionType is error\\-prone and deprecated\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\IntersectionType is error\-prone and deprecated\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 1
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\ObjectType is error\\-prone and deprecated\\. Use Type\\:\\:isObject\\(\\) or Type\\:\\:getObjectClassNames\\(\\) instead\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 2
 			path: src/QueryReflection/QuerySimulation.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantStringType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantStrings\\(\\) instead\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\Constant\\ConstantStringType is error\-prone and deprecated\. Use Type\:\:getConstantStrings\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 1
 			path: src/Rules/PdoStatementExecuteMethodRule.php
 
 		-
-			message: """
-				#^Call to deprecated method resolveQueryString\\(\\) of class staabm\\\\PHPStanDba\\\\QueryReflection\\\\QueryReflection\\:
-				use resolveQueryStrings\\(\\) instead$#
-			"""
+			message: '''
+				#^Call to deprecated method resolveQueryString\(\) of class staabm\\PHPStanDba\\QueryReflection\\QueryReflection\:
+				use resolveQueryStrings\(\) instead$#
+			'''
+			identifier: method.deprecated
 			count: 1
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
 
 		-
-			message: "#^Doing instanceof PHPStan\\\\Type\\\\Constant\\\\ConstantArrayType is error\\-prone and deprecated\\. Use Type\\:\\:getConstantArrays\\(\\) instead\\.$#"
+			message: '#^Doing instanceof PHPStan\\Type\\Constant\\ConstantArrayType is error\-prone and deprecated\. Use Type\:\:getConstantArrays\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
 			count: 1
 			path: src/Rules/SyntaxErrorInDibiPreparedStatementMethodRule.php
 
 		-
-			message: "#^Only booleans are allowed in an if condition, int given\\.$#"
+			message: '#^Parameter \#3 \$joinCondition of class staabm\\PHPStanDba\\SchemaReflection\\Join constructor expects SqlFtw\\Sql\\Expression\\RootNode, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/SqlAst/ParserInference.php
+
+		-
+			message: '#^Only booleans are allowed in an if condition, int given\.$#'
+			identifier: if.condNotBoolean
 			count: 1
 			path: src/TypeMapping/MysqliTypeMapper.php
