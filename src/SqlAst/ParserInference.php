@@ -108,14 +108,16 @@ final class ParserInference
                             $joinType = SchemaJoin::TYPE_INNER;
                         }
 
-                        $joinedTable = $this->schemaReflection->getTable($from->getRight()->getTable()->getName());
+                        if ($from->getRight() instanceof TableReferenceTable) {
+                            $joinedTable = $this->schemaReflection->getTable($from->getRight()->getTable()->getName());
 
-                        if ($joinedTable !== null) {
-                            $joins[] = new SchemaJoin(
-                                $joinType,
-                                $joinedTable,
-                                $from->getCondition()
-                            );
+                            if ($joinedTable !== null) {
+                                $joins[] = new SchemaJoin(
+                                    $joinType,
+                                    $joinedTable,
+                                    $from->getCondition()
+                                );
+                            }
                         }
 
                         if ($from->getLeft() instanceof TableReferenceTable) {
