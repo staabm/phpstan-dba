@@ -74,7 +74,7 @@ final class ParserInference
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
                     while (1) {
-                        if (!$from instanceof Join || !method_exists($from, 'getCondition')) {
+                        if (! $from instanceof Join || ! method_exists($from, 'getCondition')) {
                             return $resultType;
                         }
 
