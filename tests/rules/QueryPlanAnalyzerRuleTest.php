@@ -17,7 +17,7 @@ use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 class QueryPlanAnalyzerRuleTest extends RuleTestCase
 {
     /**
-     * @var bool|0|positive-int
+     * @var bool
      */
     private $numberOfAllowedUnindexedReads;
 
