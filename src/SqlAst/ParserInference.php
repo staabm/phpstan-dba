@@ -74,6 +74,10 @@ final class ParserInference
                     $fromTable = $this->schemaReflection->getTable($fromName);
                 } elseif ($from instanceof Join) {
                     while (1) {
+                        if (!$from instanceof Join || !method_exists($from, 'getCondition')) {
+                            return $resultType;
+                        }
+
                         if ($from->getCondition() === null) {
                             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
                                 throw new UnresolvableAstInQueryException('Cannot narrow down types null join conditions: ' . $queryString);
