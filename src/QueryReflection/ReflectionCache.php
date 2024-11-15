@@ -157,7 +157,7 @@ final class ReflectionCache
 
         // the schemaHash is only available in replay-and-record mode.
         if (null === $this->schemaHash) {
-            if (! is_string($cache['schemaHash'])) {
+            if ($cache['schemaHash'] !== null && ! is_string($cache['schemaHash'])) {
                 throw new ShouldNotHappenException();
             }
             $this->schemaHash = $cache['schemaHash'];
