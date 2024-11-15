@@ -146,8 +146,7 @@ final class ReflectionCache
 
         if (! \is_array($cache) ||
             ! \array_key_exists('schemaVersion', $cache) ||
-            ! \array_key_exists('schemaHash', $cache) ||
-            ! is_string($cache['schemaHash']) ||
+            ! \array_key_exists('schemaHash', $cache) || // schemaHash exists but is null in recording mode
             self::SCHEMA_VERSION !== $cache['schemaVersion']) {
             return null;
         }
