@@ -14,6 +14,11 @@ parameters:
     bootstrapFiles:
         - bootstrap.php
 
+    unused_public:
+        methods: true
+        properties: true
+        constants: true
+
     reportUnmatchedIgnoredErrors: false
 
     ignoreErrors:
