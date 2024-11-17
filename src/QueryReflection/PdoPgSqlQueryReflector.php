@@ -119,8 +119,9 @@ PSQL
         $this->stmt->execute([$tableName]);
         $result = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // pgsql and mysql have a similar named but different information schema, with different cased key-words
         /** @var array{column_default?: string, column_name: string, is_nullable: string} $row */
-        foreach ($result as $row) {
+        foreach ($result as $row) { // @phpstan-ignore varTag.type
             $default = $row['column_default'] ?? '';
             $columnName = $row['column_name'];
             $isNullable = 'YES' === $row['is_nullable'];
