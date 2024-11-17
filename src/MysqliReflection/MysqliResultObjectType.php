@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\MysqliReflection;
 
-use PHPStan\TrinaryLogic;
 use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;

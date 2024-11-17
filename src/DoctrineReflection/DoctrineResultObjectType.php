@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\DoctrineReflection;
 
 use Doctrine\DBAL\Result;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\TrinaryLogic;
 use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;

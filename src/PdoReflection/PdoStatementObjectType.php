@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\PdoReflection;
 
 use PDOStatement;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\TrinaryLogic;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
