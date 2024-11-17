@@ -37,7 +37,7 @@ final class MysqliTypeMapper
                 continue;
             }
 
-            if (! is_string($c)) {
+            if (! is_string($c)) { // @phpstan-ignore-line
                 continue;
             }
 
