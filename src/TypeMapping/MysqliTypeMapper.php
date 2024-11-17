@@ -25,8 +25,8 @@ final class MysqliTypeMapper
     {
         $constants = get_defined_constants(true);
         if (
-            ! is_array($constants['mysqli']) || // @phpstan-ignore-line
             ! array_key_exists('mysqli', $constants)
+            || ! is_array($constants['mysqli']) // @phpstan-ignore-line
         ) {
             $constants['mysqli'] = [];
         }
