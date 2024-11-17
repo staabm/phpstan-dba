@@ -13,7 +13,7 @@ use const LOCK_EX;
 
 final class ReflectionCache
 {
-    private const SCHEMA_VERSION = 'v12-new-major';
+    private const SCHEMA_VERSION = 'v12-new-cache5';
 
     private string $cacheFile;
 
@@ -38,9 +38,12 @@ final class ReflectionCache
      */
     private static $lockHandle;
 
+    private TypeSerializer $typeSerializer;
+
     private function __construct(string $cacheFile)
     {
         $this->cacheFile = $cacheFile;
+        $this->typeSerializer = new TypeSerializer();
 
         if (null === self::$lockHandle) {
             // prevent parallel phpstan-worker-process from writing into the cache file at the same time
@@ -169,7 +172,7 @@ final class ReflectionCache
             throw new ShouldNotHappenException();
         }
 
-        return $cache['records']; // @phpstan-ignore-line
+        return $this->typeSerializer->unserialize($cache['records']); // @phpstan-ignore-line
     }
 
     public function persist(): void
@@ -203,10 +206,9 @@ final class ReflectionCache
             $cacheContent = '<?php return ' . var_export([
                 'schemaVersion' => self::SCHEMA_VERSION,
                 'schemaHash' => $this->schemaHash,
-                'records' => $newRecords,
+                'records' => $this->typeSerializer->serialize($newRecords),
                 'runtimeConfig' => QueryReflection::getRuntimeConfiguration()->toArray(),
             ], true) . ';';
-
             if (false === file_put_contents($this->cacheFile, $cacheContent, LOCK_EX)) {
                 throw new DbaException(sprintf('Unable to write cache file "%s"', $this->cacheFile));
             }

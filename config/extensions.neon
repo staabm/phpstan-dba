@@ -96,3 +96,5 @@ services:
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
 
+    -
+        class: staabm\PHPStanDba\QueryReflection\DIContainerBridge
