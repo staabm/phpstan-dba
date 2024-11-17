@@ -22,6 +22,8 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     private ?Node $previous;
 
+    // a dummy property to force instantiation of DIContainerBridge
+    // for use all over the phpstan-dba codebase
     private DIContainerBridge $containerBridge; // @phpstan-ignore property.onlyWritten
 
     public function __construct(DIContainerBridge $dummyParameter)

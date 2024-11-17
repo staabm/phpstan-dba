@@ -24,7 +24,10 @@ final class MysqliTypeMapper
     public function __construct(?DbaApi $dbaApi)
     {
         $constants = get_defined_constants(true);
-        if (! array_key_exists('mysqli', $constants) || ! is_array($constants['mysqli'])) {
+        if (
+            ! is_array($constants['mysqli']) || // @phpstan-ignore-line
+            ! array_key_exists('mysqli', $constants)
+        ) {
             $constants['mysqli'] = [];
         }
 
