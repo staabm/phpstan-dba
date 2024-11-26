@@ -48,7 +48,7 @@ jobs:
             mode: "recording"
             dependencies: "highest"
           - php-version: '8.1'
-            db-image: 'mariadb:latest'
+            db-image: 'mariadb:11.6'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
@@ -59,7 +59,7 @@ jobs:
             mode: "recording"
             dependencies: "highest"
           - php-version: '8.2'
-            db-image: 'mariadb:latest'
+            db-image: 'mariadb:11.6'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
