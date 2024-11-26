@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\DoctrineReflection;
 
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
@@ -43,6 +44,7 @@ final class DoctrineReflection
 
         $usedMethod = strtolower($methodReflection->getName());
 
+        $returnsList = false;
         switch ($usedMethod) {
             case 'fetchallkeyvalue':
             case 'iteratekeyvalue':
@@ -52,16 +54,25 @@ final class DoctrineReflection
                 $fetchType = QueryReflector::FETCH_TYPE_ONE;
                 break;
             case 'fetchfirstcolumn':
+                $returnsList = true;
+                $fetchType = QueryReflector::FETCH_TYPE_FIRST_COL;
+                break;
             case 'iteratecolumn':
                 $fetchType = QueryReflector::FETCH_TYPE_FIRST_COL;
                 break;
             case 'fetchnumeric':
             case 'fetchallnumeric':
+                $returnsList = true;
+                $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
+                break;
             case 'iteratenumeric':
                 $fetchType = QueryReflector::FETCH_TYPE_NUMERIC;
                 break;
-            case 'fetchassociative':
             case 'fetchallassociative':
+                $returnsList = true;
+                $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
+                break;
+            case 'fetchassociative':
             case 'iterateassociative':
                 $fetchType = QueryReflector::FETCH_TYPE_ASSOC;
                 break;
@@ -99,7 +110,14 @@ final class DoctrineReflection
                         return new GenericObjectType(Traversable::class, [new IntegerType(), $valueTypes[$i]]);
                     }
 
-                    return new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
+                    $arrayType = new ArrayType(IntegerRangeType::fromInterval(0, null), $valueTypes[$i]);
+                    if ($returnsList) {
+                        return TypeCombinator::intersect(
+                            $arrayType,
+                            new AccessoryArrayListType()
+                        );
+                    }
+                    return $arrayType;
                 }
 
                 if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType->isInteger()->yes()) {
@@ -116,7 +134,21 @@ final class DoctrineReflection
             }
 
             if (\in_array($usedMethod, ['fetchallnumeric', 'fetchallassociative'], true)) {
-                return new ArrayType(IntegerRangeType::fromInterval(0, null), $resultType);
+                $arrayType = new ArrayType(IntegerRangeType::fromInterval(0, null), $resultType);
+                if ($returnsList) {
+                    return TypeCombinator::intersect(
+                        $arrayType,
+                        new AccessoryArrayListType()
+                    );
+                }
+                return $arrayType;
+            }
+
+            if ($returnsList) {
+                $resultType = TypeCombinator::intersect(
+                    $resultType,
+                    new AccessoryArrayListType()
+                );
             }
 
             // false is returned if no rows are found.
