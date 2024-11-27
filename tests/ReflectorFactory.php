@@ -77,6 +77,7 @@ final class ReflectorFactory
             $port = null;
             if (str_contains($host, ':')) {
                 [$host, $port] = explode(':', $host, 2);
+                $port = (int) $port;
             }
 
             if ('mysqli' === $reflector) {
