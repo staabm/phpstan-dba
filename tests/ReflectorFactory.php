@@ -34,6 +34,7 @@ final class ReflectorFactory
             $ssl = false;
             $mode = getenv('DBA_MODE') ?: self::MODE_RECORDING;
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
+            $platform = $_ENV['DBA_PLATFORM'] ?: 'mysql';
         } else {
             $host = getenv('DBA_HOST') ?: $_ENV['DBA_HOST'];
             $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
@@ -42,10 +43,12 @@ final class ReflectorFactory
             $ssl = (string) (getenv('DBA_SSL') ?: $_ENV['DBA_SSL'] ?? '');
             $mode = getenv('DBA_MODE') ?: $_ENV['DBA_MODE'];
             $reflector = getenv('DBA_REFLECTOR') ?: $_ENV['DBA_REFLECTOR'];
+            $platform = $_ENV['DBA_PLATFORM'] ?: $_ENV['DBA_PLATFORM'];
         }
 
         // make env vars available to tests, in case non are defined yet
         $_ENV['DBA_REFLECTOR'] = $reflector;
+        $_ENV['DBA_PLATFORM'] = $platform;
 
         // we need to record the reflection information in both, phpunit and phpstan since we are replaying it in both CI jobs.
         // in a regular application you will use phpstan-dba only within your phpstan CI job, therefore you only need 1 cache-file.
