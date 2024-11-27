@@ -74,12 +74,17 @@ final class ReflectorFactory
         if (self::MODE_RECORDING === $mode || self::MODE_REPLAY_AND_RECORDING === $mode) {
             $schemaHasher = null;
 
+            $port = null;
+            if (str_contains($host, ':')) {
+                [$host, $port] = explode(':', $host, 2);
+            }
+
             if ('mysqli' === $reflector) {
                 $mysqli = mysqli_init();
                 if (! $mysqli) {
                     throw new \RuntimeException('Unable to init mysqli');
                 }
-                $mysqli->real_connect($host, $user, $password, $dbname, null, null, $ssl ? MYSQLI_CLIENT_SSL : 0);
+                $mysqli->real_connect($host, $user, $password, $dbname, $port, null, $ssl ? MYSQLI_CLIENT_SSL : 0);
                 $reflector = new MysqliQueryReflector($mysqli);
                 $schemaHasher = new SchemaHasherMysql($mysqli);
             } elseif ('pdo-mysql' === $reflector) {
@@ -88,11 +93,11 @@ final class ReflectorFactory
                     $options[PDO::MYSQL_ATTR_SSL_CA] = $ssl;
                     $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
                 }
-                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host), $user, $password, $options);
+                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s;port=%s', $dbname, $host, $port), $user, $password, $options);
                 $reflector = new PdoMysqlQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
             } elseif ('pdo-pgsql' === $reflector) {
-                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host), $user, $password);
+                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s;port=%s', $dbname, $host, $port), $user, $password);
                 $reflector = new PdoPgSqlQueryReflector($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: ' . $reflector);
