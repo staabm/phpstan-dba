@@ -34,7 +34,7 @@ final class ReflectorFactory
             $ssl = false;
             $mode = getenv('DBA_MODE') ?: self::MODE_RECORDING;
             $reflector = getenv('DBA_REFLECTOR') ?: 'mysqli';
-            $platform = $_ENV['DBA_PLATFORM'] ?: 'mysql';
+            $platform = getenv('DBA_PLATFORM') ?: 'mysql';
         } else {
             $host = getenv('DBA_HOST') ?: $_ENV['DBA_HOST'];
             $user = getenv('DBA_USER') ?: $_ENV['DBA_USER'];
