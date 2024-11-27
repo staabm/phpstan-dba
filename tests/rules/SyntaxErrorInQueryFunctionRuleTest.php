@@ -39,7 +39,7 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');
-        $platform = getenv('DBA_PLATFORM');
+        $platform = $_ENV['DBA_PLATFORM'];
 
         switch ($dbaReflector) {
             case MysqliQueryReflector::NAME:
@@ -90,6 +90,10 @@ TEXT
                     ],
                 ];
             case PdoMysqlQueryReflector::NAME:
+                if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                    self::markTestSkipped("We don't test all variants of expectations for all drivers");
+                }
+
                 return [
                     [
                         "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",

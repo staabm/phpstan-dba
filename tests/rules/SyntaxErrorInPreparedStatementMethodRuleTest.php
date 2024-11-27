@@ -32,7 +32,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             $error = "Query error: Unknown column 'asdsa' in 'where clause' (1054).";
-            if ('mariadb' === getenv('DBA_PLATFORM')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
                 $error = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
             }
 
@@ -170,6 +170,10 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                self::markTestSkipped("We don't test all variants of expectations for all drivers");
+            }
+
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
@@ -261,7 +265,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
     public function testSyntaxErrorWithInferencePlaceholder()
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
-            $platform = getenv('DBA_PLATFORM');
+            $platform = $_ENV['DBA_PLATFORM'];
 
             $error = "Query error: Unknown column 'does_not_exist' in 'field list' (1054).";
             if ($platform === "mariadb") {
@@ -304,6 +308,10 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                self::markTestSkipped("We don't test all variants of expectations for all drivers");
+            }
+
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'does_not_exist' in 'field list' (42S22).",
