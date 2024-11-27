@@ -146,7 +146,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'GROUP BY\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => '42S22',
       )),
     ),
@@ -154,7 +154,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'ORDER BY\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => '42S22',
       )),
     ),
@@ -172,7 +172,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'WHERE\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => '42S22',
       )),
     ),
@@ -268,7 +268,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'SELECT\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'doesNotExist\' in \'field list\'',
          'code' => '42S22',
       )),
     ),
@@ -365,7 +365,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'xy\' in \'GROUP BY\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'xy\' in \'group statement\'',
          'code' => '42S22',
       )),
     ),
@@ -435,6 +435,10 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         array (
           'type-description' => 'array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, freigabe1u1: int<-32768, 32767>}',
         ),
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-32768, 32767>, 3: int<-32768, 32767>}',
+        ),
       ),
     ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada  LIMIT 1' => 
@@ -471,7 +475,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'WHERE\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'where clause\'',
          'code' => '42S22',
       )),
     ),
@@ -479,7 +483,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'WHERE\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'asdsa\' in \'where clause\'',
          'code' => '42S22',
       )),
     ),
@@ -497,7 +501,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'does_not_exist\' in \'SELECT\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'does_not_exist\' in \'field list\'',
          'code' => '42S22',
       )),
     ),
@@ -505,7 +509,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'does_not_exist\' in \'SELECT\'',
+         'message' => 'SQLSTATE[42S22]: Column not found: 1054 Unknown column \'does_not_exist\' in \'field list\'',
          'code' => '42S22',
       )),
     ),
