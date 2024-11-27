@@ -31,6 +31,12 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     public function testSyntaxErrorInQueryRule(): void
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+
+            $error = "Query error: Unknown column 'asdsa' in 'where clause' (1054).";
+            if ( 'mariadb' === getenv('DBA_PLATFORM')) {
+                $error = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
+            }
+
             $expectedErrors = [
                 [
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
@@ -61,7 +67,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                     107,
                 ],
                 [
-                    "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                    $error,
                     122,
                 ],
                 [
@@ -256,17 +262,24 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
     public function testSyntaxErrorWithInferencePlaceholder()
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $platform = getenv('DBA_PLATFORM');
+
+            $error = "Query error: Unknown column 'does_not_exist' in 'field list' (1054).";
+            if ($platform === "mariadb") {
+                $error = "Query error: Unknown column 'does_not_exist' in 'SELECT' (1054).";
+            }
+
             $expectedErrors = [
                 [
-                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    $error,
                     12,
                 ],
                 [
-                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    $error,
                     36,
                 ],
                 [
-                    "Query error: Unknown column 'does_not_exist' in 'field list' (1054).",
+                    $error,
                     60,
                 ],
             ];

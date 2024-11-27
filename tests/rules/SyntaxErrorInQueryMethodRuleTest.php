@@ -31,6 +31,22 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
     public function testSyntaxErrorInQueryRule(): void
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $errSelect = "Query error: Unknown column 'doesNotExist' in 'field list' (1054).";
+            $errWhere = "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).";
+            $errOrder = "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).";
+            $errGroup = "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).";
+            $errWhere2 = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
+            $errGroup2 = "Query error: Unknown column 'xy' in 'GROUP BY' (1054).";
+
+            if ( 'mariadb' === getenv('DBA_PLATFORM')) {
+                $errSelect = "Query error: Unknown column 'doesNotExist' in 'SELECT' (1054).";
+                $errWhere = "Query error: Unknown column 'doesNotExist' in 'WHERE' (1054).";
+                $errOrder = "Query error: Unknown column 'doesNotExist' in 'ORDER BY' (1054).";
+                $errGroup = "Query error: Unknown column 'doesNotExist' in 'GROUP BY' (1054).";
+                $errWhere2 = "Unknown column 'asdsa' in 'WHERE' (1054).";
+                $errGroup2 = "Unknown column 'xy' in 'GROUP BY' (1054).";
+            }
+
             $expected = [
                 [
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
@@ -41,19 +57,19 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     16,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'field list' (1054).",
+                    $errSelect,
                     21,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).",
+                    $errWhere,
                     26,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).",
+                    $errOrder,
                     31,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).",
+                    $errGroup,
                     36,
                 ],
                 [
@@ -73,11 +89,11 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     82,
                 ],
                 [
-                    "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                    $errWhere2,
                     103,
                 ],
                 [
-                    "Query error: Unknown column 'xy' in 'group statement' (1054).",
+                    $errGroup2,
                     118,
                 ],
                 [

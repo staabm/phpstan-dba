@@ -39,6 +39,7 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');
+        $platform = getenv('DBA_PLATFORM');
 
         switch ($dbaReflector) {
             case MysqliQueryReflector::NAME:
@@ -52,7 +53,9 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
                         19,
                     ],
                     [
-                        "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                        $platform === 'mariadb' ?
+                            "Query error: Unknown column 'asdsa' in 'WHERE' (1054)."
+                            : "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
                         39,
                     ],
                 ];
