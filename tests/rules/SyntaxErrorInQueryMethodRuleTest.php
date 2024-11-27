@@ -38,7 +38,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
             $errWhere2 = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
             $errGroup2 = "Query error: Unknown column 'xy' in 'GROUP BY' (1054).";
 
-            if ( 'mariadb' === getenv('DBA_PLATFORM')) {
+            if ('mariadb' === getenv('DBA_PLATFORM')) {
                 $errSelect = "Query error: Unknown column 'doesNotExist' in 'SELECT' (1054).";
                 $errWhere = "Query error: Unknown column 'doesNotExist' in 'WHERE' (1054).";
                 $errOrder = "Query error: Unknown column 'doesNotExist' in 'ORDER BY' (1054).";

@@ -31,9 +31,8 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     public function testSyntaxErrorInQueryRule(): void
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
-
             $error = "Query error: Unknown column 'asdsa' in 'where clause' (1054).";
-            if ( 'mariadb' === getenv('DBA_PLATFORM')) {
+            if ('mariadb' === getenv('DBA_PLATFORM')) {
                 $error = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
             }
 
