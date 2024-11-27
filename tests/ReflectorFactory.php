@@ -94,11 +94,13 @@ final class ReflectorFactory
                     $options[PDO::MYSQL_ATTR_SSL_CA] = $ssl;
                     $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
                 }
-                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s;port=%s', $dbname, $host, $port), $user, $password, $options);
+                $port = $port != null ? ';port='.$port : '';
+                $pdo = new PDO(sprintf('mysql:dbname=%s;host=%s', $dbname, $host). $port, $user, $password, $options);
                 $reflector = new PdoMysqlQueryReflector($pdo);
                 $schemaHasher = new SchemaHasherMysql($pdo);
             } elseif ('pdo-pgsql' === $reflector) {
-                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s;port=%s', $dbname, $host, $port), $user, $password);
+                $port = $port != null ? ';port='.$port : '';
+                $pdo = new PDO(sprintf('pgsql:dbname=%s;host=%s', $dbname, $host). $port, $user, $password);
                 $reflector = new PdoPgSqlQueryReflector($pdo);
             } else {
                 throw new \RuntimeException('Unknown reflector: ' . $reflector);
