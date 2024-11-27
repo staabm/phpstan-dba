@@ -125,7 +125,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'doesNotExist\' in \'GROUP BY\'',
+         'message' => 'Unknown column \'doesNotExist\' in \'group statement\'',
          'code' => 1054,
       )),
     ),
@@ -133,7 +133,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'doesNotExist\' in \'ORDER BY\'',
+         'message' => 'Unknown column \'doesNotExist\' in \'order clause\'',
          'code' => 1054,
       )),
     ),
@@ -151,7 +151,7 @@ Simulated query: SELECT * FROM 1 LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'doesNotExist\' in \'WHERE\'',
+         'message' => 'Unknown column \'doesNotExist\' in \'where clause\'',
          'code' => 1054,
       )),
     ),
@@ -247,7 +247,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'doesNotExist\' in \'SELECT\'',
+         'message' => 'Unknown column \'doesNotExist\' in \'field list\'',
          'code' => 1054,
       )),
     ),
@@ -344,7 +344,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'xy\' in \'GROUP BY\'',
+         'message' => 'Unknown column \'xy\' in \'group statement\'',
          'code' => 1054,
       )),
     ),
@@ -454,7 +454,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'asdsa\' in \'WHERE\'',
+         'message' => 'Unknown column \'asdsa\' in \'where clause\'',
          'code' => 1054,
       )),
     ),
@@ -462,7 +462,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'asdsa\' in \'WHERE\'',
+         'message' => 'Unknown column \'asdsa\' in \'where clause\'',
          'code' => 1054,
       )),
     ),
@@ -480,7 +480,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'does_not_exist\' in \'SELECT\'',
+         'message' => 'Unknown column \'does_not_exist\' in \'field list\'',
          'code' => 1054,
       )),
     ),
@@ -488,7 +488,7 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(
-         'message' => 'Unknown column \'does_not_exist\' in \'SELECT\'',
+         'message' => 'Unknown column \'does_not_exist\' in \'field list\'',
          'code' => 1054,
       )),
     ),
