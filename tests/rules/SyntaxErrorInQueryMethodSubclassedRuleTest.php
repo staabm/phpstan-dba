@@ -38,7 +38,7 @@ class SyntaxErrorInQueryMethodSubclassedRuleTest extends RuleTestCase
      */
     public function getExpectedErrors(): array
     {
-        $dbaReflector = getenv('DBA_REFLECTOR');
+        $dbaReflector = $_ENV['DBA_REFLECTOR'];
 
         switch ($dbaReflector) {
             case MysqliQueryReflector::NAME:

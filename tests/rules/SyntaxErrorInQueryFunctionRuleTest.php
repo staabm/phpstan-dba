@@ -38,7 +38,7 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
      */
     public function getExpectedErrors(): array
     {
-        $dbaReflector = getenv('DBA_REFLECTOR');
+        $dbaReflector = $_ENV['DBA_REFLECTOR'];
         $platform = $_ENV['DBA_PLATFORM'];
 
         switch ($dbaReflector) {
@@ -118,7 +118,7 @@ TEXT
             self::markTestSkipped('Test requires PHP 8.2.');
         }
 
-        if (MysqliQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME !== $_ENV['DBA_REFLECTOR']) {
             self::markTestSkipped('mysqli test only.');
         }
 

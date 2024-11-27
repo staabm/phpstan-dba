@@ -22,14 +22,14 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
 
         // for some reason does not work in pgsql
-        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' !== $_ENV['DBA_REFLECTOR']) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-680.php');
         }
 
         // make sure class constants can be resolved
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo.php');
 
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' === $_ENV['DBA_REFLECTOR']) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-pgsql.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/typemix-pgsql.php');
         } else {
@@ -58,7 +58,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__ . '/data/runMysqlQuery.php');
 
         // TODO pgsql: doesn't resolve null?
-        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' !== $_ENV['DBA_REFLECTOR']) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/query-alias.php');
         }
 

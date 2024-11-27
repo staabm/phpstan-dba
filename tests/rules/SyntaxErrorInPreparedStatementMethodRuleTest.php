@@ -30,7 +30,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $error = "Query error: Unknown column 'asdsa' in 'where clause' (1054).";
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
                 $error = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
@@ -90,7 +90,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                     325,
                 ],
             ];
-        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
@@ -169,7 +169,7 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     325,
                 ],
             ];
-        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
                 self::markTestSkipped("We don't test all variants of expectations for all drivers");
             }
@@ -229,7 +229,7 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . $_ENV['DBA_REFLECTOR']);
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
@@ -237,9 +237,9 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
 
     public function testBug94()
     {
-        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             self::markTestSkipped('Error message different depending on version of the database.');
-        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "IGNORE"
@@ -248,7 +248,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
                     30,
                 ],
             ];
-        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.s_articles_supplier' doesn't exist (42S02).",
@@ -256,7 +256,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . $_ENV['DBA_REFLECTOR']);
         }
 
         $this->analyse([__DIR__ . '/data/bug-94.php'], $expectedErrors);
@@ -264,7 +264,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
 
     public function testSyntaxErrorWithInferencePlaceholder()
     {
-        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $platform = $_ENV['DBA_PLATFORM'];
 
             $error = "Query error: Unknown column 'does_not_exist' in 'field list' (1054).";
@@ -286,7 +286,7 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
                     60,
                 ],
             ];
-        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
@@ -307,7 +307,7 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
                     60,
                 ],
             ];
-        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
                 self::markTestSkipped("We don't test all variants of expectations for all drivers");
             }
@@ -327,7 +327,7 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . $_ENV['DBA_REFLECTOR']);
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);

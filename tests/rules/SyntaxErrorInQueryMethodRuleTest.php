@@ -30,7 +30,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $errSelect = "Query error: Unknown column 'doesNotExist' in 'field list' (1054).";
             $errWhere = "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).";
             $errOrder = "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).";
@@ -113,7 +113,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     138,
                 ],
             ];
-        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
                 self::markTestSkipped("We don't test all variants of expectations for all drivers");
             }
@@ -184,7 +184,7 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     138,
                 ],
             ];
-        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expected = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
@@ -296,7 +296,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . $_ENV['DBA_REFLECTOR']);
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-in-query-method.php'], $expected);
@@ -308,7 +308,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
             self::markTestSkipped('Test requires PHP 8.2.');
         }
 
-        if (MysqliQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME !== $_ENV['DBA_REFLECTOR']) {
             self::markTestSkipped('mysqli test only.');
         }
 

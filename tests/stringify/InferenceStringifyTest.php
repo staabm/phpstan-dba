@@ -12,7 +12,7 @@ class InferenceStringifyTest extends TypeInferenceTestCase
     {
         yield from $this->gatherAssertTypes(__DIR__ . '/data/stringify.php');
 
-        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' !== $_ENV['DBA_REFLECTOR']) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/ast-narrowed-stringify.php');
         }
     }

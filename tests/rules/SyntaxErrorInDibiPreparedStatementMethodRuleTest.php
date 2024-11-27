@@ -30,7 +30,7 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        if (MysqliQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (1064).",
@@ -81,7 +81,7 @@ class SyntaxErrorInDibiPreparedStatementMethodRuleTest extends RuleTestCase
                     69,
                 ],
             ];
-        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoPgSqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
@@ -154,7 +154,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                     69,
                 ],
             ];
-        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+        } elseif (PdoMysqlQueryReflector::NAME === $_ENV['DBA_REFLECTOR']) {
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'FROM ada LIMIT 0' at line 1 (42000).",
@@ -206,7 +206,7 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                 ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . $_ENV['DBA_REFLECTOR']);
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-in-dibi-prepared-statement.php'], $expectedErrors);

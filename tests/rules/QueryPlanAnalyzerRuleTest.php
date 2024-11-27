@@ -54,7 +54,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndex(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' === $_ENV['DBA_REFLECTOR']) {
             self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
         }
 
@@ -99,7 +99,7 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndexInDebugMode(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' === $_ENV['DBA_REFLECTOR']) {
             self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
         }
 

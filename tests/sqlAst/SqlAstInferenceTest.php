@@ -11,7 +11,7 @@ class SqlAstInferenceTest extends TypeInferenceTestCase
 {
     public function dataFileAsserts(): iterable
     {
-        if ('pdo-pgsql' !== getenv('DBA_REFLECTOR')) {
+        if ('pdo-pgsql' !== $_ENV['DBA_REFLECTOR']) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/sql-ast-narrowing.php');
         }
     }
