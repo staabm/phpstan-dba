@@ -49,6 +49,7 @@ jobs:
             dependencies: "highest"
           - php-version: '8.1'
             db-image: 'mariadb:latest'
+            platform: 'mariadb'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
@@ -60,6 +61,7 @@ jobs:
             dependencies: "highest"
           - php-version: '8.2'
             db-image: 'mariadb:latest'
+            platform: 'mariadb'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
@@ -82,8 +84,7 @@ jobs:
             dependencies: "highest"
 
     env:
-      # github actions ternary, see https://7tonshark.com/posts/github-actions-ternary-operator/
-      DBA_PLATFORM: ${{ startsWith(matrix.db-image, 'mariadb') && 'mariadb' || 'mysql' }}
+      DBA_PLATFORM: ${{ matrix.platform }}
       DBA_REFLECTOR: ${{ matrix.reflector }}
       DBA_MODE: ${{ matrix.mode }}
 
