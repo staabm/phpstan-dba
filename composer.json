@@ -19,7 +19,7 @@
 		"phpstan/phpstan-deprecation-rules": "^2.0",
 		"phpstan/phpstan-phpunit": "^2.0",
 		"phpstan/phpstan-strict-rules": "^2.0",
-		"phpunit/phpunit": "^8.5|^9.5",
+		"phpunit/phpunit": "^9.6.22",
 		"symplify/easy-coding-standard": "^12.3",
 		"vlucas/phpdotenv": "^5.4"
 	},
