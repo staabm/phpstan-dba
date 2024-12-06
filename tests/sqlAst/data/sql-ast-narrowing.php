@@ -178,12 +178,12 @@ class Foo
 
         $stmt = $pdo->query('SELECT ifnull(c_int, "default") as col from typemix');
         foreach ($stmt as $row) {
-            assertType('array{col: lowercase-string&numeric-string, 0: lowercase-string&numeric-string}', $row);
+            assertType('array{col: lowercase-string&numeric-string&uppercase-string, 0: lowercase-string&numeric-string&uppercase-string}', $row);
         }
 
         $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, "default") as col from typemix');
         foreach ($stmt as $row) {
-            assertType("array{col: 'default'|(lowercase-string&numeric-string), 0: 'default'|(lowercase-string&numeric-string)}", $row);
+            assertType("array{col: 'default'|(lowercase-string&numeric-string&uppercase-string), 0: 'default'|(lowercase-string&numeric-string&uppercase-string)}", $row);
         }
 
         $stmt = $pdo->query('SELECT ifnull(c_nullable_tinyint, 5000) as col from typemix');
@@ -203,7 +203,7 @@ class Foo
 
         $stmt = $pdo->query('SELECT ifnull(c_int, 123.23) as col from typemix');
         foreach ($stmt as $row) {
-            assertType("array{col: lowercase-string&numeric-string, 0: lowercase-string&numeric-string}", $row);
+            assertType("array{col: lowercase-string&numeric-string&uppercase-string, 0: lowercase-string&numeric-string&uppercase-string}", $row);
         }
 
         $stmt = $pdo->query('SELECT ifnull(123.23, c_int) as col from typemix');
