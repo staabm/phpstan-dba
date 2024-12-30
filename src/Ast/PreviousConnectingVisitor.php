@@ -39,7 +39,7 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
             && ! $this->previous instanceof Node\Stmt\ClassLike
             && ! $this->previous instanceof VirtualNode
         ) {
-            $node->setAttribute(self::ATTRIBUTE_PREVIOUS, $this->previous);
+            $node->setAttribute(self::ATTRIBUTE_PREVIOUS, \WeakReference::create($this->previous));
         }
 
         return null;
