@@ -41,6 +41,8 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
+
+        return null;
         if ([] !== $this->stack) {
             $node->setAttribute(self::ATTRIBUTE_PARENT, $this->stack[\count($this->stack) - 1]);
         }
@@ -56,6 +58,9 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function leaveNode(Node $node)
     {
+
+        return null;
+
         $this->previous = $node;
 
         array_pop($this->stack);
