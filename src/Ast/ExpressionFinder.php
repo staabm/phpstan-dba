@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\ShouldNotHappenException;
 
@@ -145,15 +144,6 @@ final class ExpressionFinder
             }
 
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
-        }
-
-        $parent = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PARENT);
-        if ($parent instanceof FunctionLike) {
-            return null;
-        }
-
-        if ($parent instanceof Node) {
-            return $this->findFirstPreviousOfNode($parent, $filter);
         }
 
         return null;

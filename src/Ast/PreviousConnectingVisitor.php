@@ -6,19 +6,12 @@ namespace staabm\PHPStanDba\Ast;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use PHPStan\Node\VirtualNode;
 use staabm\PHPStanDba\QueryReflection\DIContainerBridge;
-use function array_pop;
 
 final class PreviousConnectingVisitor extends NodeVisitorAbstract
 {
-    public const ATTRIBUTE_PARENT = 'dba-parent';
-
     public const ATTRIBUTE_PREVIOUS = 'dba-previous';
-
-    /**
-     * @var list<Node>
-     */
-    private array $stack = [];
 
     private ?Node $previous;
 
@@ -33,7 +26,6 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function beforeTraverse(array $nodes)
     {
-        $this->stack = [];
         $this->previous = null;
 
         return null;
@@ -41,15 +33,14 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if ([] !== $this->stack) {
-            $node->setAttribute(self::ATTRIBUTE_PARENT, $this->stack[\count($this->stack) - 1]);
-        }
-
-        if (null !== $this->previous && $this->previous->getAttribute(self::ATTRIBUTE_PARENT) === $node->getAttribute(self::ATTRIBUTE_PARENT)) {
+        if (
+            null !== $this->previous
+            && ! $this->previous instanceof Node\FunctionLike
+            && ! $this->previous instanceof Node\Stmt\ClassLike
+            && ! $this->previous instanceof VirtualNode
+        ) {
             $node->setAttribute(self::ATTRIBUTE_PREVIOUS, $this->previous);
         }
-
-        $this->stack[] = $node;
 
         return null;
     }
@@ -57,8 +48,6 @@ final class PreviousConnectingVisitor extends NodeVisitorAbstract
     public function leaveNode(Node $node)
     {
         $this->previous = $node;
-
-        array_pop($this->stack);
 
         return null;
     }
