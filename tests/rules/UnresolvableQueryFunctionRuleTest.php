@@ -47,9 +47,9 @@ class UnresolvableQueryFunctionRuleTest extends RuleTestCase
                 UnresolvableQueryMixedTypeException::getTip(),
             ],
             [
-                'Unresolvable Query: Cannot simulate parameter value for type: mixed.',
+                'Unresolvable Query: Cannot resolve query with variable type: non-falsy-string.',
                 15,
-                UnresolvableQueryMixedTypeException::getTip(),
+                UnresolvableQueryStringTypeException::getTip(),
             ],
             [
                 'Unresolvable Query: Cannot resolve query with variable type: string.',
