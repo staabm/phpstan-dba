@@ -30,7 +30,7 @@ ALTER TABLE `ak`
 
 
 CREATE TABLE `typemix` (
-   `pid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+   `pid` int unsigned NOT NULL AUTO_INCREMENT,
    `c_char5` char(5) NOT NULL,
    `c_varchar255` varchar(255) NOT NULL,
    `c_varchar25` varchar(25) DEFAULT NULL,
