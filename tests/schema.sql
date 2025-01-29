@@ -30,7 +30,7 @@ ALTER TABLE `ak`
 
 
 CREATE TABLE `typemix` (
-   `pid` int NOT NULL,
+   `pid` int(11) unsigned NOT NULL AUTO_INCREMENT,
    `c_char5` char(5) NOT NULL,
    `c_varchar255` varchar(255) NOT NULL,
    `c_varchar25` varchar(25) DEFAULT NULL,
@@ -70,14 +70,9 @@ CREATE TABLE `typemix` (
    `c_json` json,
    `c_json_not_null` json NOT NULL,
    `c_decimal` decimal(12, 2),
-   `c_decimal_not_null` decimal(12, 2) NOT NULL
+   `c_decimal_not_null` decimal(12, 2) NOT NULL,
+    PRIMARY KEY(`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-ALTER TABLE `typemix`
-    ADD PRIMARY KEY (`pid`);
-
-ALTER TABLE `typemix`
-    MODIFY `pid` int NOT NULL AUTO_INCREMENT;
 
 CREATE TABLE `cmsdomain` (
     `id` int(11) NOT NULL,
