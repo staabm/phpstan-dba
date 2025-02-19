@@ -55,8 +55,6 @@ use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$cacheFile = __DIR__.'/.phpstan-dba.cache';
-
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
@@ -65,17 +63,22 @@ $config = new RuntimeConfiguration();
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');
+// Alternatively you can use PdoMysqlQueryReflector, PdoPgSqlQueryReflector instead
+$reflector = new MysqliQueryReflector($mysqli);
+
+/*
+$cacheFile = __DIR__.'/.phpstan-dba.cache';
+$reflector = new ReplayAndRecordingQueryReflector(
+    ReflectionCache::create(
+        $cacheFile
+    ),
+    new SchemaHasherMysql($mysqli)
+    $reflector
+);
+*/
 
 QueryReflection::setupReflector(
-    new ReplayAndRecordingQueryReflector(
-        ReflectionCache::create(
-            $cacheFile
-        ),
-        // XXX alternatively you can use PdoMysqlQueryReflector instead
-        new MysqliQueryReflector($mysqli),
-        new SchemaHasherMysql($mysqli)
-
-    ),
+    $reflector,
     $config
 );
 ```
