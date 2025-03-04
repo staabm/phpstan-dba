@@ -332,4 +332,9 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
 
         $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
     }
+
+    public function testBug749(): void
+    {
+        $this->analyse([__DIR__ . '/data/bug-749.php'], []);
+    }
 }
