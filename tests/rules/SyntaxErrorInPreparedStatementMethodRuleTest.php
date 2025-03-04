@@ -335,6 +335,10 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
 
     public function testBug749(): void
     {
+        if (MysqliQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('This test is only for MySQLi');
+        }
+
         $this->analyse([__DIR__ . '/data/bug-749.php'], [
             [
                 "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'table WHERE err-or id IN ('1') LIMIT 0' at line 1 (1064).",
