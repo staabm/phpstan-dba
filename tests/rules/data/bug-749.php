@@ -23,6 +23,23 @@ class Test
     }
 
     /**
+     * @param array<int> $ids
+     */
+    public function getMoreIds(string $s, array $ids): array
+    {
+        return $this
+            ->connection
+            ->executeQuery(
+                'SELECT id FROM table WHERE a=? AND err-or id IN ('. self::inPlaceholders($ids) .')',
+                [
+                    $s,
+                    ...$ids
+                ],
+            )
+            ->fetchFirstColumn();
+    }
+
+    /**
      * Returns a string containing all required "?"-placeholders to pass $ids into a IN()-expression.
      *
      * @phpstandba-inference-placeholder '?'

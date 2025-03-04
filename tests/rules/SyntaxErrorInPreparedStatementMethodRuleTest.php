@@ -335,6 +335,15 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
 
     public function testBug749(): void
     {
-        $this->analyse([__DIR__ . '/data/bug-749.php'], []);
+        $this->analyse([__DIR__ . '/data/bug-749.php'], [
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'table WHERE err-or id IN ('1') LIMIT 0' at line 1 (1064).",
+                16
+            ],
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'table WHERE a='1970-01-01' AND err-or id IN ('1') LIMIT 0' at line 1 (1064).",
+                30
+            ]
+        ]);
     }
 }
