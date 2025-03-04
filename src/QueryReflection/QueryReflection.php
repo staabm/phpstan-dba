@@ -13,14 +13,12 @@ use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
-use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -416,19 +414,19 @@ final class QueryReflection
     {
         if ($parameter instanceof Expr\Array_) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
-            foreach($parameter->items as $i => $item) {
+            foreach ($parameter->items as $i => $item) {
                 if ($item->key !== null) {
                     $builder = null;
                     break;
                 }
 
-                if ($item->unpack){
+                if ($item->unpack) {
                     $valueType = $scope->getType($item->value)->getIterableValueType();
                 } else {
                     $valueType = $scope->getType($item->value);
                 }
 
-                if (!$valueType->isScalar()->yes()) {
+                if (! $valueType->isScalar()->yes()) {
                     $builder = null;
                     break;
                 }
