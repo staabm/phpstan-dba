@@ -108,7 +108,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
         $parameters = null;
         if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[1]->value, $scope);
             try {
                 $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
             } catch (UnresolvableQueryException $exception) {

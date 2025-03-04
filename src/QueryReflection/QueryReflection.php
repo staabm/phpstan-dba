@@ -13,11 +13,14 @@ use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Accessory\AccessoryNumericStringType;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -402,6 +405,46 @@ final class QueryReflection
         }
 
         return null;
+    }
+
+    /**
+     * Resolves prepared statement parameter types.
+     *
+     * @throws UnresolvableQueryException
+     */
+    public function resolveParameterTypes(Expr $parameter, Scope $scope): Type
+    {
+        if ($parameter instanceof Expr\Array_) {
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+            foreach($parameter->items as $i => $item) {
+                if ($item->key !== null) {
+                    $builder = null;
+                    break;
+                }
+
+                if ($item->unpack){
+                    $valueType = $scope->getType($item->value)->getIterableValueType();
+                } else {
+                    $valueType = $scope->getType($item->value);
+                }
+
+                if (!$valueType->isScalar()->yes()) {
+                    $builder = null;
+                    break;
+                }
+
+                $builder->setOffsetValueType(
+                    new ConstantIntegerType($i),
+                    $valueType
+                );
+            }
+
+            if ($builder !== null) {
+                return $builder->getArray();
+            }
+        }
+
+        return $scope->getType($parameter);
     }
 
     /**
