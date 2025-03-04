@@ -56,16 +56,15 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Expr $paramsExpr, Scope $scope): ?Type
     {
         $doctrineReflection = new DoctrineReflection();
-
-        $parameterTypes = $scope->getType($paramsExpr);
-
         $stmtReflection = new PdoStatementReflection();
+
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
         if (null === $queryExpr) {
             return null;
         }
 
         $queryReflection = new QueryReflection();
+        $parameterTypes = $queryReflection->resolveParameterTypes($paramsExpr, $scope);
         $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
 
         return $doctrineReflection->createGenericResult($queryStrings, QueryReflector::FETCH_TYPE_BOTH);

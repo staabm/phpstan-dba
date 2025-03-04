@@ -83,7 +83,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         if (null === $paramsExpr) {
             $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
-            $parameterTypes = $scope->getType($paramsExpr);
+            $parameterTypes = $queryReflection->resolveParameterTypes($paramsExpr, $scope);
             $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 
