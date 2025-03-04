@@ -405,11 +405,6 @@ final class QueryReflection
         return null;
     }
 
-    /**
-     * Resolves prepared statement parameter types.
-     *
-     * @throws UnresolvableQueryException
-     */
     public function resolveParameterTypes(Expr $parameter, Scope $scope): Type
     {
         if ($parameter instanceof Expr\Array_) {
