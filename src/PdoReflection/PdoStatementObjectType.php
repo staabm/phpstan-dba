@@ -13,9 +13,11 @@ use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
+use PHPStan\Type\ObjectShapeType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -102,7 +104,21 @@ class PdoStatementObjectType extends ObjectType
         }
 
         if (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
-            return new ArrayType(new IntegerType(), new ObjectType('stdClass'));
+            $keyTypes = $bothType->getKeyTypes();
+            $valueTypes = $bothType->getValueTypes();
+
+            $properties = [];
+            foreach ($keyTypes as $i => $keyType) {
+                if (! $keyType->isString()->yes()) {
+                    continue;
+                }
+                $properties[(string) $keyType->getValue()] = $valueTypes[$i];
+            }
+
+            return new IntersectionType([
+                new ObjectType(\stdClass::class),
+                new ObjectShapeType($properties, []),
+            ]);
         }
 
         // both types contains numeric and string keys, therefore the count is doubled
