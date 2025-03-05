@@ -90,7 +90,7 @@ final class PdoStatementExecuteMethodRule implements Rule
 
             $parameterTypes = new ConstantArrayType($parameterKeys, $parameterValues);
         } else {
-            $parameterTypes = $scope->getType($args[0]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[0]->value, $scope);
         }
 
         try {

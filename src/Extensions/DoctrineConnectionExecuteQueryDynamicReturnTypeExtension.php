@@ -68,9 +68,8 @@ final class DoctrineConnectionExecuteQueryDynamicReturnTypeExtension implements 
             $queryReflection = new QueryReflection();
             $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
-            $parameterTypes = $scope->getType($paramsExpr);
-
             $queryReflection = new QueryReflection();
+            $parameterTypes = $queryReflection->resolveParameterTypes($paramsExpr, $scope);
             $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 

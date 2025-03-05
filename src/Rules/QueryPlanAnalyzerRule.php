@@ -123,7 +123,7 @@ final class QueryPlanAnalyzerRule implements Rule
 
         $parameterTypes = null;
         if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[1]->value, $scope);
         }
 
         $ruleErrors = [];

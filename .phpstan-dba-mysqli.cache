@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v12-new-cache5',
-  'schemaHash' => '6132e9e3b6fb27d2953badea4154109f',
+  'schemaHash' => 'f94fe2b38e193ad685009d3f4942f476',
   'records' => 
   array (
     'SELECT
@@ -15,21 +15,6 @@
         5 => 
         array (
           'type-description' => 'array{COLUMN_NAME: string, 0: string, EXTRA: string, 1: string, COLUMN_TYPE: string, 2: string}',
-        ),
-      ),
-    ),
-    'SELECT
-                   coalesce(column_default, \'\') as COLUMN_DEFAULT,
-                   coalesce(column_name, \'\') as COLUMN_NAME,
-                   is_nullable as IS_NULLABLE
-                FROM information_schema.columns
-                WHERE table_name = \'1970-01-01\'' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        array (
-          'type-description' => 'array{COLUMN_DEFAULT: mixed, 0: mixed, COLUMN_NAME: string, 1: string, IS_NULLABLE: string, 2: string}',
         ),
       ),
     ),
@@ -69,6 +54,94 @@
         ),
       ),
     ),
+    'SELECT * FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, email: string, freigabe1u1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT * FROM ak' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{akid: int<-2147483648, 2147483647>, eladaid: int<-2147483648, 2147483647>|null, eadavk: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT akid FROM ak WHERE akid IN (\'1\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT akid FROM ak WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'id\' in \'where clause\'',
+         'code' => 1054,
+      )),
+    ),
+    'SELECT akid FROM table WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT akid FROM table WHERE id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
     'SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = \'1970-01-01\'' => 
@@ -77,9 +150,161 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{COLUMN_NAME: string|null, 0: string|null, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+          'type-description' => 'array{COLUMN_NAME: string, 0: string, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
         ),
       ),
+    ),
+    'SELECT email adaid
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
+            FROM ada
+            LIMIT        1' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 3
+
+Simulated query: SELECT email adaid
+            WHERE gesperrt = \'1\' AND email LIKE \'%@example.com\'
+            FROM ada LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'freigabe1u1 FROM ada LIMIT 0\' at line 1
+
+Simulated query: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email adaid gesperrt freigabe1u1 FROM ada' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'gesperrt freigabe1u1 FROM ada LIMIT 0\' at line 1
+
+Simulated query: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email, adaid  FROM ada  WHERE email = \'a\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-32768, 32767>, 3: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\'' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'asdsa\' in \'where clause\'',
+         'code' => 1054,
+      )),
+    ),
+    'SELECT id FROM table WHERE a=\'1970-01-01\' AND err-or id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE a=\'1970-01-01\' AND err-or id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT id FROM table WHERE a=\'1970-01-01\' AND err-or id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT id FROM table WHERE err-or id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE err-or id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT id FROM table WHERE err-or id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT id FROM table WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT id FROM table WHERE id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'Select * from ada
+            where adakzid = 15' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'adakzid\' in \'where clause\'',
+         'code' => 1054,
+      )),
     ),
   ),
   'runtimeConfig' => 
