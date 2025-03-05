@@ -42,13 +42,27 @@ class Test
     /**
      * @param array<int> $ids
      */
-    public function getArrayIds(string $s, array $ids): array
+    public function getArrayIds(array $ids): array
     {
         return $this
             ->connection
             ->executeQuery(
                 'SELECT akid FROM ak WHERE akid IN ('. self::inPlaceholders($ids) .')',
                 $ids,
+            )
+            ->fetchFirstColumn();
+    }
+
+    /**
+     * @param array<int> $ids
+     */
+    public function getArrayIdMix(int $i, array $ids): array
+    {
+        return $this
+            ->connection
+            ->executeQuery(
+                'SELECT akid FROM ak WHERE eladaid = ? AND akid IN ('. self::inPlaceholders($ids) .')',
+                array_merge([$i], $ids),
             )
             ->fetchFirstColumn();
     }

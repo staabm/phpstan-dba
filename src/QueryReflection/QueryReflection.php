@@ -437,7 +437,18 @@ final class QueryReflection
             }
         }
 
-        return $scope->getType($parameter);
+        $parameterType = $scope->getType($parameter);
+        if (
+            $parameter instanceof Expr\Variable
+            && $parameterType->isArray()->yes()
+            && $parameterType->isIterableAtLeastOnce()->maybe()
+        ) {
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+            $builder->setOffsetValueType(new ConstantIntegerType(0), $parameterType->getIterableValueType());
+            return $builder->getArray();
+        }
+
+        return $parameterType;
     }
 
     /**
@@ -472,20 +483,6 @@ final class QueryReflection
         if (count($arrays) === 1) {
             return $this->resolveConstantArray($arrays[0]);
         }
-
-        if ($parameterTypes->isArray()->yes()) {
-            $valueType = $parameterTypes->getIterableValueType();
-
-            if ($valueType->isScalar()->yes()) {
-                return [new Parameter(
-                    null,
-                    $valueType,
-                    QuerySimulation::simulateParamValueType($valueType, true),
-                    false
-                )];
-            }
-        }
-
 
         return null;
     }

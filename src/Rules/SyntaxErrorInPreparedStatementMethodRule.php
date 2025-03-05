@@ -110,7 +110,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         if (\count($args) > 1) {
             $parameterTypes = $queryReflection->resolveParameterTypes($args[1]->value, $scope);
             try {
-                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+                $parameters = $queryReflection->resolveParameters($parameterTypes);
             } catch (UnresolvableQueryException $exception) {
                 return [
                     RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
