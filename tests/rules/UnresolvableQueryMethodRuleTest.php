@@ -8,6 +8,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
+use staabm\PHPStanDba\UnresolvableQueryDynamicFromException;
 use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
 use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
@@ -71,12 +72,24 @@ class UnresolvableQueryMethodRuleTest extends RuleTestCase
 
     public function testBug548(): void
     {
-        $this->analyse([__DIR__ . '/data/bug-548.php'], []);
+        $this->analyse([__DIR__ . '/data/bug-548.php'], [
+            [
+                'Unresolvable Query: Seems the query is too dynamic to be resolved by query simulation.',
+                10,
+                UnresolvableQueryDynamicFromException::getTip(),
+            ],
+        ]);
     }
 
     public function testBug547(): void
     {
-        $this->analyse([__DIR__ . '/data/bug-547.php'], []);
+        $this->analyse([__DIR__ . '/data/bug-547.php'], [
+            [
+                'Unresolvable Query: Seems the query is too dynamic to be resolved by query simulation.',
+                10,
+                UnresolvableQueryDynamicFromException::getTip(),
+            ],
+        ]);
     }
 
     public function testBug676(): void
