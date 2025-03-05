@@ -440,6 +440,7 @@ final class QueryReflection
         $parameterType = $scope->getType($parameter);
         if (
             $parameter instanceof Expr\Variable
+            && !$parameterType->isConstantArray()->yes()
             && $parameterType->isArray()->yes()
             && $parameterType->isIterableAtLeastOnce()->maybe()
         ) {
