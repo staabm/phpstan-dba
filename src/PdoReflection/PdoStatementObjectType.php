@@ -102,7 +102,7 @@ class PdoStatementObjectType extends ObjectType
         }
 
         if (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
-            return new ArrayType(new IntegerType(), new ObjectType('stdClass'));
+            return new ObjectType('stdClass');
         }
 
         // both types contains numeric and string keys, therefore the count is doubled

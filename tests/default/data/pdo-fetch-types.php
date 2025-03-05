@@ -32,7 +32,7 @@ class Foo
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_OBJ);
         foreach ($stmt as $row) {
-            assertType('array<int, stdClass>', $row);
+            assertType('stdClass', $row);
         }
     }
 
