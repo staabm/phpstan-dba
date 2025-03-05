@@ -40,6 +40,20 @@ class Test
     }
 
     /**
+     * @param array<int> $ids
+     */
+    public function getArrayIds(string $s, array $ids): array
+    {
+        return $this
+            ->connection
+            ->executeQuery(
+                'SELECT akid FROM ak WHERE akid IN ('. self::inPlaceholders($ids) .')',
+                $ids,
+            )
+            ->fetchFirstColumn();
+    }
+
+    /**
      * Returns a string containing all required "?"-placeholders to pass $ids into a IN()-expression.
      *
      * @phpstandba-inference-placeholder '?'

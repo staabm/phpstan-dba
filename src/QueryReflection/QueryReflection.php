@@ -473,6 +473,20 @@ final class QueryReflection
             return $this->resolveConstantArray($arrays[0]);
         }
 
+        if ($parameterTypes->isArray()->yes()) {
+            $valueType = $parameterTypes->getIterableValueType();
+
+            if ($valueType->isScalar()->yes()) {
+                return [new Parameter(
+                    null,
+                    $valueType,
+                    QuerySimulation::simulateParamValueType($valueType, true),
+                    false
+                )];
+            }
+        }
+
+
         return null;
     }
 

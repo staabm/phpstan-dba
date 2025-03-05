@@ -54,6 +54,34 @@
         ),
       ),
     ),
+    'SELECT akid FROM ak WHERE akid IN (\'1\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT akid FROM ak WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'id\' in \'where clause\'',
+         'code' => 1054,
+      )),
+    ),
+    'SELECT akid FROM table WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT akid FROM table WHERE id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
     'SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = \'1970-01-01\'' => 
@@ -83,6 +111,16 @@ Simulated query: SELECT id FROM table WHERE a=\'1970-01-01\' AND err-or id IN (\
          'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE err-or id IN (\'1\') LIMIT 0\' at line 1
 
 Simulated query: SELECT id FROM table WHERE err-or id IN (\'1\') LIMIT 0',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT id FROM table WHERE id IN (\'1\')' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'table WHERE id IN (\'1\') LIMIT 0\' at line 1
+
+Simulated query: SELECT id FROM table WHERE id IN (\'1\') LIMIT 0',
          'code' => 1064,
       )),
     ),
