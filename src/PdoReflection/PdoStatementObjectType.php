@@ -109,15 +109,15 @@ class PdoStatementObjectType extends ObjectType
 
             $properties = [];
             foreach ($keyTypes as $i => $keyType) {
-                if (!$keyType->isString()->yes()) {
+                if (! $keyType->isString()->yes()) {
                     continue;
                 }
-                $properties[$keyType->getValue()] = $valueTypes[$i];
+                $properties[(string) $keyType->getValue()] = $valueTypes[$i];
             }
 
             return new IntersectionType([
                 new ObjectType(\stdClass::class),
-                new ObjectShapeType($properties, [])
+                new ObjectShapeType($properties, []),
             ]);
         }
 
