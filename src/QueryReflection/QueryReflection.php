@@ -442,7 +442,6 @@ final class QueryReflection
             $parameter instanceof Expr\Variable
             && $parameterType->isConstantArray()->no()
             && $parameterType->isArray()->yes()
-            && $parameterType->isIterableAtLeastOnce()->maybe()
         ) {
             $builder = ConstantArrayTypeBuilder::createEmpty();
             $builder->setOffsetValueType(new ConstantIntegerType(0), $parameterType->getIterableValueType());
