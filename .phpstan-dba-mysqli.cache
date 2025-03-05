@@ -54,6 +54,16 @@
         ),
       ),
     ),
+    'SELECT * FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, email: string, freigabe1u1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
     'SELECT * FROM ak' => 
     array (
       'result' => 
@@ -61,6 +71,46 @@
         3 => 
         array (
           'type-description' => 'array{akid: int<-2147483648, 2147483647>, eladaid: int<-2147483648, 2147483647>|null, eadavk: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
         ),
       ),
     ),
@@ -139,6 +189,76 @@ Simulated query: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0',
          'code' => 1064,
       )),
     ),
+    'SELECT email, adaid  FROM ada  WHERE email = \'a\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>, gesperrt: int<-128, 127>, 2: int<-128, 127>, freigabe1u1: int<-32768, 32767>, 3: int<-32768, 32767>}',
+        ),
+      ),
+    ),
     'SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\'' => 
     array (
       'error' => 
@@ -175,6 +295,15 @@ Simulated query: SELECT id FROM table WHERE err-or id IN (\'1\') LIMIT 0',
 
 Simulated query: SELECT id FROM table WHERE id IN (\'1\') LIMIT 0',
          'code' => 1064,
+      )),
+    ),
+    'Select * from ada
+            where adakzid = 15' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Unknown column \'adakzid\' in \'where clause\'',
+         'code' => 1054,
       )),
     ),
   ),

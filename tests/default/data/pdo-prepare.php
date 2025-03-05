@@ -200,4 +200,34 @@ class Foo
             assertType('array<int|string, mixed>', $row);
         }
     }
+
+    /** @param list<int> $ids */
+    public function spreadIds(PDO $pdo, array $ids)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN ('. self::inPlaceholders($ids) .')';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(...$ids);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
+    }
+
+    /**
+     * Returns a string containing all required "?"-placeholders to pass $ids into a IN()-expression.
+     *
+     * @phpstandba-inference-placeholder '?'
+     *
+     * @param non-empty-array<int|string> $ids
+     *
+     * @return literal-string
+     */
+    public static function inPlaceholders(array $ids): string
+    {
+        // no matter whether $ids contains user input or not,
+        // we can safely say what we return here will no longer contain user input.
+        // therefore we type the return with "literal-string"
+        return implode(',', array_fill(0, count($ids), '?'));
+    }
+
 }
