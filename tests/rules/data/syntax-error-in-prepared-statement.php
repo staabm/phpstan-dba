@@ -361,4 +361,25 @@ class Foo
         $table = $this->returnsUnion();
         $conn->executeQuery('SELECT * FROM ' . $table . ' LIMIT 1');
     }
+
+    /**
+     * @param array<int> $ids
+     */
+    protected function conditionalUnnamedPlaceholder(Connection $connection, array $ids, int $adaid): void
+    {
+        $values = [];
+        $query = 'SELECT email, adaid FROM ada';
+
+        $query .= ' AND adaid IN (' . someCall($ids) . ')';
+        $values = array_merge($values, $ids);
+
+        if (rand(0, 1) === 1) {
+            $query .= ' AND email = ?';
+            $values[] = 'test@example.org';
+        }
+
+        $query .= ' ORDER BY adaid';
+
+        $connection->preparedQuery($query, $values);
+    }
 }
