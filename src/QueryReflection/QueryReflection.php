@@ -268,7 +268,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
+    public function resolveQueryStrings(Expr $queryExpr, Scope $scope, bool $resolveNonConstantQueries = true): iterable
     {
         $type = $scope->getType($queryExpr);
 
@@ -287,7 +287,12 @@ final class QueryReflection
 
             // query simulation might lead in a invalid query, skip those
             $error = $this->validateQueryString($normalizedQuery);
-            if ($error === null) {
+            if (
+                $error === null
+                // late abort the query, so we allow the query simulation/validation to throw
+                // UnresolvableQueryException
+                && $resolveNonConstantQueries
+            ) {
                 yield $normalizedQuery;
             }
         }

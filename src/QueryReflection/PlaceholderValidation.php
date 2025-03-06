@@ -20,7 +20,7 @@ final class PlaceholderValidation
 
         $queryStrings = [];
         $namedPlaceholders = false;
-        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
+        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope, false) as $queryString) {
             $queryStrings[] = $queryString;
 
             if ($queryReflection->containsNamedPlaceholders($queryString, $parameters)) {
