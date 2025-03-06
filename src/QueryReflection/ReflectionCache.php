@@ -172,7 +172,7 @@ final class ReflectionCache
             throw new ShouldNotHappenException();
         }
 
-        return $this->typeSerializer->unserialize($cache['records']); // @phpstan-ignore-line
+        return $this->typeSerializer->unserialize($cache['records']); // @phpstan-ignore argument.type
     }
 
     public function persist(): void
