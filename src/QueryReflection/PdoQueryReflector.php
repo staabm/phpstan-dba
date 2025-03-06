@@ -11,8 +11,7 @@ use PDO;
  *
  * @deprecated use PdoMysqlQueryReflector instead
  */
-final class PdoQueryReflector extends PdoMysqlQueryReflector // @phpstan-ignore-line
-{
+final class PdoQueryReflector extends PdoMysqlQueryReflector { // @phpstan-ignore class.extendsFinalByPhpDoc
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
