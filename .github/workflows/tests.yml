@@ -27,27 +27,32 @@ jobs:
           #  dependencies: "lowest"
 
           - php-version: "7.4"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
             dependencies: "highest"
           - php-version: "8.0"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "recording"
             dependencies: "highest"
           - php-version: "8.0"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
 
           - php-version: "8.1"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
           - php-version: '8.1'
+            dbal-version: "^3"
             db-image: 'mariadb:latest'
             platform: 'mariadb'
             reflector: "mysqli"
@@ -55,29 +60,48 @@ jobs:
             dependencies: "highest"
 
           - php-version: "8.2"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
           - php-version: '8.2'
+            dbal-version: "^3"
             db-image: 'mariadb:latest'
             platform: 'mariadb'
             reflector: "mysqli"
             mode: "recording"
             dependencies: "highest"
 
+          - php-version: "8.3"
+            dbal-version: "^4"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
+            mode: "recording"
+            dependencies: "highest"
+
+          - php-version: "8.4"
+            dbal-version: "^4"
+            db-image: 'mysql:8.0'
+            reflector: "mysqli"
+            mode: "recording"
+            dependencies: "highest"
+
           - php-version: "8.1"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "replay-and-recording"
             dependencies: "highest"
 
           - php-version: "8.1"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-recording"
             dependencies: "highest"
           - php-version: "8.1"
+            dbal-version: "^3"
             db-image: 'mysql:8.0'
             reflector: "pdo-mysql"
             mode: "empty-replay-and-recording"
@@ -120,7 +144,7 @@ jobs:
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
 
     - name: Install doctrine/dbal (optional dependency)
-      run: composer require doctrine/dbal:^3 --ignore-platform-req=php+
+      run: composer require "doctrine/dbal:${{ matrix.dbal-version }}" --ignore-platform-req=php+
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
