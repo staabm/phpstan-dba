@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -34,12 +35,15 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
      */
     private array $classMethods;
 
+    private ReflectionProvider $reflectionProvider;
+
     /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
@@ -76,7 +80,7 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
+                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))) {
                 $unsupportedMethod = false;
                 break;
             }

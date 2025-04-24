@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
@@ -25,12 +26,15 @@ final class SyntaxErrorInQueryMethodRule implements Rule
      */
     private array $classMethods;
 
+    private ReflectionProvider $reflectionProvider;
+
     /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
@@ -58,7 +62,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))
+                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
             ) {
                 $unsupportedMethod = false;
                 break;
