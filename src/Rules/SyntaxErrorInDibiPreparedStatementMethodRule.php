@@ -80,7 +80,11 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
             }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))) {
+                (
+                    $methodReflection->getDeclaringClass()->getName() === $className
+                    || ($this->reflectionProvider->hasClass($className) && $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
+                )
+            ) {
                 $unsupportedMethod = false;
                 break;
             }

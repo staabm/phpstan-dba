@@ -94,7 +94,11 @@ final class DoctrineKeyValueStyleRule implements Rule
         $arrayArgPositions = [];
         foreach ($this->classMethods as [$className, $methodName, $arrayArgPositionsConfig]) {
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))) {
+                (
+                    $methodReflection->getDeclaringClass()->getName() === $className
+                    || ($this->reflectionProvider->hasClass($className) && $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
+                )
+            ) {
                 $arrayArgPositions = $arrayArgPositionsConfig;
                 $unsupportedMethod = false;
                 break;
