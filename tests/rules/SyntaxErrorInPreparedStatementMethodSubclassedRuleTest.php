@@ -18,7 +18,9 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
 {
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+        $rule = self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery';
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array

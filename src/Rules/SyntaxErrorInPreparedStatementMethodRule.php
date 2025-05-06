@@ -31,7 +31,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     /**
      * @var list<string>
      */
-    private array $classMethods;
+    public array $classMethods;
 
     private ReflectionProvider $reflectionProvider;
 
