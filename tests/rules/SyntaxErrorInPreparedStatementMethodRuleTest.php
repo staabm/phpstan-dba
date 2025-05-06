@@ -19,10 +19,10 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
     protected function getRule(): Rule
     {
         $rule = self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery';
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct';
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery';
-        return $rule;    }
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct';
+        return $rule;
+    }
 
     public static function getAdditionalConfigFiles(): array
     {

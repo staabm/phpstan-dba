@@ -10,7 +10,6 @@ use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoMysqlQueryReflector;
 use staabm\PHPStanDba\QueryReflection\PdoPgSqlQueryReflector;
 use staabm\PHPStanDba\Rules\SyntaxErrorInPreparedStatementMethodRule;
-use staabm\PHPStanDba\Rules\SyntaxErrorInQueryMethodRule;
 
 /**
  * @extends RuleTestCase<SyntaxErrorInPreparedStatementMethodRule>
@@ -20,9 +19,7 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
     protected function getRule(): Rule
     {
         $rule = self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery';
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct';
-        $rule->classMethods[] ='staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery';
         return $rule;
     }
 

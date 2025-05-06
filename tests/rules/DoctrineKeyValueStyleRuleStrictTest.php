@@ -30,7 +30,7 @@ class DoctrineKeyValueStyleRuleStrictTest extends RuleTestCase
         $rule = self::getContainer()->getByType(DoctrineKeyValueStyleRule::class);
         $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleNoArrays', []];
         $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleOneArray', [1]];
-        $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleTwoArrays', [1,2]];
+        $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleTwoArrays', [1, 2]];
         return $rule;
     }
 
