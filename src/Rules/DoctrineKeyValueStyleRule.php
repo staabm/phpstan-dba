@@ -33,7 +33,7 @@ final class DoctrineKeyValueStyleRule implements Rule
     /**
      * @var array<array{string, string, list<int>}>
      */
-    private array $classMethods;
+    public array $classMethods;
 
     private ReflectionProvider $reflectionProvider;
 

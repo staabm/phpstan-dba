@@ -27,7 +27,11 @@ class DoctrineKeyValueStyleRuleStrictTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(DoctrineKeyValueStyleRule::class);
+        $rule = self::getContainer()->getByType(DoctrineKeyValueStyleRule::class);
+        $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleNoArrays', []];
+        $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleOneArray', [1]];
+        $rule->classMethods[] = ['staabm\PHPStanDba\Tests\Fixture\Connection', 'assembleTwoArrays', [1,2]];
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array
