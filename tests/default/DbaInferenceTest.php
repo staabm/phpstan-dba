@@ -18,6 +18,9 @@ class DbaInferenceTest extends TypeInferenceTestCase
         }
 
         yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal-union-result.php');
+        if (InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal3.php');
+        }
         yield from $this->gatherAssertTypes(__DIR__ . '/data/doctrine-dbal.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/inference-placeholder.php');
 

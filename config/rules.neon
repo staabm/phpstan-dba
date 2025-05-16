@@ -46,6 +46,8 @@ services:
                 - 'PDO::prepare#0'
                 - 'mysqli::query#0'
                 - 'mysqli::execute_query#0'
+                - 'Doctrine\DBAL\Connection::executeQuery#0'
+                - 'Doctrine\DBAL\Connection::executeStatement#0'
                 - 'Doctrine\DBAL\Connection::query#0' # deprecated in doctrine
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
 

@@ -48,7 +48,7 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         // make sure we don't report wrong types in doctrine 2.x
-        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*|4.*')) {
             return null;
         }
 

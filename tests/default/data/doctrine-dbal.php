@@ -10,9 +10,9 @@ use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 
 class Foo
 {
-    public function foo(Connection $conn)
+    public function resultFetching(Connection $conn)
     {
-        $result = $conn->query('SELECT email, adaid FROM ada');
+        $result = $conn->executeQuery('SELECT email, adaid FROM ada');
 
         $columnCount = $result->columnCount();
         assertType('2', $columnCount);
