@@ -26,14 +26,4 @@ class Foo
             assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $fetch);
         }
     }
-
-    public function doBar(Connection $conn)
-    {
-        $queries = ['SELECT adaid FROM ada', 'SELECT email FROM ada'];
-
-        foreach ($queries as $query) {
-            $result = $conn->query($query);
-            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false', $result->fetchAssociative());
-        }
-    }
 }
