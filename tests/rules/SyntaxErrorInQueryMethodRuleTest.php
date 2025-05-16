@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Tests;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -300,6 +302,46 @@ LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-in-query-method.php'], $expected);
+    }
+
+    public function testSyntaxErrorInQueryRuleForDoctrineDbal3(): void
+    {
+        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+            self::markTestSkipped('Doctrine DBAL 3.x test only.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expected = [
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    12,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                self::markTestSkipped("We don't test all variants of expectations for all drivers");
+            }
+
+            $expected = [
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    12,
+                ],
+            ];
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expected = [
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    12,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+        }
+
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-method-dbal3.php'], $expected);
     }
 
     public function testMysqliExecuteQuery(): void
