@@ -144,7 +144,7 @@ jobs:
       run: composer require sqlftw/sqlftw --ignore-platform-req=php+
 
     - name: Install doctrine/dbal (optional dependency)
-      run: composer require "doctrine/dbal:${{ matrix.dbal-version }}" --ignore-platform-req=php+
+      run: "composer require doctrine/dbal:${{ matrix.dbal-version }} --ignore-platform-req=php+"
 
     - name: Setup Problem Matchers for PHPUnit
       run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
