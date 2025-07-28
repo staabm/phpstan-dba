@@ -42,7 +42,8 @@
 			"tests/defaultFetchAssoc/data/",
 			"tests/defaultFetchNumeric/data/",
 			"tests/rules/data/",
-			"tests/stringify/data/"
+			"tests/stringify/data/",
+			"tests/sqlAst/data"
 		]
 	},
 	"scripts": {
