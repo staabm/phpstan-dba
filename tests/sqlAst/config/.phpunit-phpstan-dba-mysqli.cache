@@ -164,7 +164,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{str: string, 0: string}',
+          'type-description' => 'array{str: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -204,7 +204,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{str: string, 0: string}',
+          'type-description' => 'array{str: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -744,7 +744,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -754,7 +754,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -794,7 +794,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -804,7 +804,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -954,7 +954,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: mixed, 0: mixed}',
         ),
       ),
     ),
@@ -1104,7 +1104,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1154,7 +1154,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1164,7 +1164,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1184,7 +1184,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1194,7 +1194,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string, 0: string}',
+          'type-description' => 'array{col: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1214,7 +1214,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1554,7 +1554,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1564,7 +1564,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string, 0: string}',
+          'type-description' => 'array{field: string|null, 0: string|null}',
         ),
       ),
     ),

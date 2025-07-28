@@ -141,7 +141,7 @@ class Foo
 
         $stmt = $pdo->query('SELECT count(email) as myemail, count(email) from ada');
         foreach ($stmt as $row) {
-            assertType('array{myemail: int<0, max>, 0: int<0, max>, count(email): int<0, max>, 1: int<0, max>}', $row);
+            assertType("array{myemail: int<0, max>, 0: int<0, max>, 'count(email)': int<0, max>, 1: int<0, max>}", $row);
         }
     }
 

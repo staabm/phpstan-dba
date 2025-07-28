@@ -21,7 +21,7 @@ class Foo
         $query = 'SELECT MAX(adaid), MIN(adaid), COUNT(adaid), AVG(adaid) FROM ada WHERE adaid = 1';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         foreach ($stmt as $row) {
-            assertType('array{MAX(adaid): int<-32768, 32767>|null, MIN(adaid): int<-32768, 32767>|null, COUNT(adaid): int, AVG(adaid): numeric-string|null}', $row);
+            assertType("array{'MAX(adaid)': int<-32768, 32767>|null, 'MIN(adaid)': int<-32768, 32767>|null, 'COUNT(adaid)': int, 'AVG(adaid)': numeric-string|null}", $row);
         }
     }
 
