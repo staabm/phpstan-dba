@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Tests;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\StringType;
 use PHPUnit\Framework\TestCase;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
@@ -42,6 +43,17 @@ class QuerySimulationTest extends TestCase
 
         $simulatedValue = QuerySimulation::simulateParamValueType($builder->getArray(), false);
         self::assertNotNull($simulatedValue);
+    }
+
+    /**
+     * Prevent endless loop.
+     *
+     * see https://github.com/yakamara/ydeploy/pull/101
+     */
+    public function testNeverType()
+    {
+        self::assertNull(QuerySimulation::simulateParamValueType(new NeverType(), true));
+        self::assertNull(QuerySimulation::simulateParamValueType(new NeverType(), false));
     }
 
     /**

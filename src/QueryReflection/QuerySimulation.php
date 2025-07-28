@@ -9,6 +9,7 @@ use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -30,6 +31,10 @@ final class QuerySimulation
      */
     public static function simulateParamValueType(Type $paramType, bool $preparedParam): ?string
     {
+        if ($paramType instanceof NeverType) {
+            return null;
+        }
+
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
         }
