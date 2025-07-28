@@ -16,7 +16,7 @@ class SqlAstNarrowing
 
         $stmt = $pdo->query('SELECT count(email) as myemail, count(email) from ada');
         foreach ($stmt as $row) {
-            assertType("array{myemail: numeric-string, 0: numeric-string, count(email): numeric-string, 1: numeric-string}", $row);
+            assertType("array{myemail: numeric-string, 0: numeric-string, 'count(email)': numeric-string, 1: numeric-string}", $row);
         }
     }
 }

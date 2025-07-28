@@ -28,6 +28,12 @@ parameters:
 			path: src/QueryReflection/DbaApi.php
 
 		-
+			message: '#^Cannot access offset int\<0, max\> on array\<array\{name\: string, table\: string, native_type\: string, len\: int, flags\: array\<int, string\>, precision\: int\<0, max\>, pdo_type\: 0\|1\|2\|3\|4\|5\|6\|536870912\|1073741824\|2147483648\}\>\|PDOException\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/QueryReflection/PdoMysqlQueryReflector.php
+
+		-
 			message: '''
 				#^Call to deprecated method resolvePreparedQueryString\(\) of class staabm\\PHPStanDba\\QueryReflection\\QueryReflection\:
 				use resolvePreparedQueryStrings\(\) instead$#

@@ -150,7 +150,7 @@ Simulated query: SELECT akid FROM table WHERE id IN (\'1\') LIMIT 0',
       array (
         5 => 
         array (
-          'type-description' => 'array{COLUMN_NAME: string, 0: string, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+          'type-description' => 'array{COLUMN_NAME: string|null, 0: string|null, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
         ),
       ),
     ),
