@@ -55,6 +55,14 @@ Simulated query: EXPLAIN REPLACE INTO `ada` SET email="test" WHERE adaid = 1',
          'code' => 1146,
       )),
     ),
+    'EXPLAIN UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (\'1\') AND (indexedAt IS NULL OR indexedAt <= crawledAt)' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'Table \'phpstan_dba.package\' doesn\'t exist',
+         'code' => 1146,
+      )),
+    ),
     'EXPLAIN UPDATE package SET indexedAt=\'1970-01-01\' WHERE id IN (NULL) AND (indexedAt IS NULL OR indexedAt <= crawledAt)' => 
     array (
       'error' => 
@@ -409,6 +417,14 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
       ),
     ),
     'SELECT email, adaid GROUP BY xy FROM ada  LIMIT 1' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near \'FROM ada LIMIT 0\' at line 1',
+         'code' => 1064,
+      )),
+    ),
+    'SELECT email, adaid GROUP BY xy FROM ada LIMIT 1' => 
     array (
       'error' => 
       \staabm\PHPStanDba\Error::__set_state(array(

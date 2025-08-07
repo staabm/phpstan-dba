@@ -149,4 +149,9 @@ class Foo
         $pdo->query('SELECT * FROM ' . $table . ' LIMIT 1');
     }
 
+    public function staticCallQueryTests(): void
+    {
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
+    }
 }
