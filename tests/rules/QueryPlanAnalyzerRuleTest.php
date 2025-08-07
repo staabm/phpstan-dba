@@ -174,12 +174,12 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 UnresolvableQueryStringTypeException::getTip(),
             ],
             [
-                "Query is not using an index on table 'ada'." . $proposal,
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT * FROM `ada` WHERE email = 'test@example.com'",
                 78,
                 $tip,
             ],
             [
-                "Query is not using an index on table 'ada'." . $proposal,
+                "Query is not using an index on table 'ada'." . $proposal . "\n\nSimulated query: EXPLAIN SELECT *,adaid FROM `ada` WHERE email = 'test@example.com'",
                 79,
                 $tip,
             ],
