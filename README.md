@@ -119,3 +119,10 @@ includes:
 - [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
 - [Reflector Overview](https://github.com/staabm/phpstan-dba/blob/main/docs/reflectors.md)
 - [How to analyze a PHP 7.x codebase?](https://github.com/staabm/phpstan-dba/blob/main/docs/faq.md)
+
+## Contribute
+
+Setup the test-suite
+
+- copy `.env.dist` into a new file `.env` and adjust the credentials in it for your local needs
+- import the database [`schema.sql` (MySQL, MariaDB)](https://github.com/staabm/phpstan-dba/blob/main/tests/schema.sql) or [`pgsql-schema.sql` (Postgres)](https://github.com/staabm/phpstan-dba/blob/main/tests/pgsql-schema.sql)
