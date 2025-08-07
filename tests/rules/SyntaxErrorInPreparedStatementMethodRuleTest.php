@@ -99,7 +99,7 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                     388,
                 ],
                 [
-                    "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                    $error,
                     389,
                 ],
             ];
