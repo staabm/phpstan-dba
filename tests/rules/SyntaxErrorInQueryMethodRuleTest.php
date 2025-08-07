@@ -20,7 +20,10 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+        $rule = self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query#0';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare#0';
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array
@@ -114,6 +117,14 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
                     138,
                 ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    155,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    156,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
@@ -184,6 +195,14 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                 [
                     "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
                     138,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    155,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    156,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -295,6 +314,18 @@ LINE 1: EXPLAIN INSERT into adasfd SET email="sdf"
 LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
                 ^ (42601).',
                     138,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    155,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    156,
                 ],
             ];
         } else {

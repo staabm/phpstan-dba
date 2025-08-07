@@ -72,4 +72,10 @@ class Foo
         $query = "SELECT email, adaid FROM `$table` WHERE adaid = ?";
         $conn->fetchAssociative($query, [1]);
     }
+
+    public function staticCallTests(): void
+    {
+        staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query("SELECT * FROM `ada` WHERE email = 'test@example.com';");
+        staabm\PHPStanDba\Tests\Fixture\StaticDatabase::executeQuery("SELECT *,adaid FROM `ada` WHERE email = 'test@example.com';");
+    }
 }

@@ -74,7 +74,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{3: int, 0: int}',
+          'type-description' => 'array{3: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -84,7 +84,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int, 0: int}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -114,7 +114,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int, 0: int}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -134,7 +134,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -144,7 +144,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int, 0: int}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -224,7 +224,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{abs: int, 0: int}',
+          'type-description' => 'array{abs: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -724,7 +724,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int|null, 0: int|null}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -734,7 +734,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int|null, 0: int|null}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -974,7 +974,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int, 0: int}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1044,7 +1044,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: mixed, 0: mixed}',
         ),
       ),
     ),
@@ -1054,7 +1054,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int, 0: int}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1064,7 +1064,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int, 0: int}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1074,7 +1074,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int|null, 0: int|null}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1084,7 +1084,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{n1: int, 0: int}',
+          'type-description' => 'array{n1: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1094,7 +1094,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{n1: int, 0: int}',
+          'type-description' => 'array{n1: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1114,7 +1114,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int, 0: int}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1124,7 +1124,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int|null, 0: int|null}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1134,7 +1134,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int, 0: int}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
         ),
       ),
     ),
@@ -1144,7 +1144,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: int|null, 0: int|null}',
+          'type-description' => 'array{field: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1284,7 +1284,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{max: mixed, 0: mixed}',
+          'type-description' => 'array{max: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1354,7 +1354,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{min: mixed, 0: mixed}',
+          'type-description' => 'array{min: string|null, 0: string|null}',
         ),
       ),
     ),
@@ -1364,7 +1364,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int|null, 0: int|null}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1374,7 +1374,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int|null, 0: int|null}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1444,7 +1444,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: int|null, 0: int|null}',
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
         ),
       ),
     ),
@@ -1464,7 +1464,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{abs: int, 0: int}',
+          'type-description' => 'array{abs: int<-32768, 32767>, 0: int<-32768, 32767>}',
         ),
       ),
     ),

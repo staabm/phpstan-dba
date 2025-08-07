@@ -42,7 +42,10 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
         QueryReflection::getRuntimeConfiguration()->debugMode($this->debugMode);
         QueryReflection::getRuntimeConfiguration()->analyzeQueryPlans($this->numberOfAllowedUnindexedReads, $this->numberOfRowsNotRequiringIndex);
 
-        return self::getContainer()->getByType(QueryPlanAnalyzerRule::class);
+        $rule = self::getContainer()->getByType(QueryPlanAnalyzerRule::class);
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query#0';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::executeQuery#0';
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array
@@ -54,14 +57,6 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndex(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
-            self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
-        }
-
-        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
-            self::markTestSkipped('query plan analyzer requires a active database connection');
-        }
-
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
 
@@ -94,19 +89,21 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 28,
                 $tip,
             ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal,
+                78,
+                $tip,
+            ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal,
+                79,
+                $tip,
+            ],
         ]);
     }
 
     public function testNotUsingIndexInDebugMode(): void
     {
-        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
-            self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
-        }
-
-        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
-            self::markTestSkipped('query plan analyzer requires a active database connection');
-        }
-
         $this->debugMode = true;
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
@@ -159,6 +156,16 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
                 'Unresolvable Query: Cannot resolve query with variable type: string.',
                 73,
                 UnresolvableQueryStringTypeException::getTip(),
+            ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal,
+                78,
+                $tip,
+            ],
+            [
+                "Query is not using an index on table 'ada'." . $proposal,
+                79,
+                $tip,
             ],
         ]);
     }

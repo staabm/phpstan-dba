@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
@@ -15,7 +19,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
- * @implements Rule<MethodCall>
+ * @implements Rule<CallLike>
  *
  * @see SyntaxErrorInQueryMethodRuleTest
  */
@@ -39,16 +43,29 @@ final class SyntaxErrorInQueryMethodRule implements Rule
 
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return CallLike::class;
     }
 
-    public function processNode(Node $node, Scope $scope): array
+    public function processNode(Node $callLike, Scope $scope): array
     {
-        if (! $node->name instanceof Node\Identifier) {
+        if ($callLike instanceof MethodCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        } elseif ($callLike instanceof StaticCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            if (! $callLike->class instanceof Name) {
+                return [];
+            }
+            $classType = $scope->resolveTypeByName($callLike->class);
+            $methodReflection = $scope->getMethodReflection($classType, $callLike->name->toString());
+        } else {
             return [];
         }
 
-        $methodReflection = $scope->getMethodReflection($scope->getType($node->var), $node->name->toString());
         if (null === $methodReflection) {
             return [];
         }
@@ -79,7 +96,7 @@ final class SyntaxErrorInQueryMethodRule implements Rule
             return [];
         }
 
-        $args = $node->getArgs();
+        $args = $callLike->getArgs();
 
         if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
@@ -98,13 +115,13 @@ final class SyntaxErrorInQueryMethodRule implements Rule
                 $queryError = $queryReflection->validateQueryString($queryString);
                 if (null !== $queryError) {
                     return [
-                        RuleErrorBuilder::message($queryError->asRuleMessage())->identifier('dba.syntaxError')->line($node->getStartLine())->build(),
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->identifier('dba.syntaxError')->line($callLike->getStartLine())->build(),
                     ];
                 }
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($node->getStartLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
             ];
         }
 

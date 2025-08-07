@@ -21,6 +21,8 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
         $rule = self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
         $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\Connection::preparedQuery';
         $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\PreparedStatement::__construct';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::preparedQuery';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare';
         return $rule;
     }
 
@@ -91,6 +93,14 @@ class SyntaxErrorInPreparedStatementMethodRuleTest extends RuleTestCase
                 [
                     'Query expects placeholder :freigabe1u1, but it is missing from values given.',
                     325,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    388,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    389,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -171,6 +181,18 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                     'Query expects placeholder :freigabe1u1, but it is missing from values given.',
                     325,
                 ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    388,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    389,
+                ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
             if ('mariadb' === $_ENV['DBA_PLATFORM']) {
@@ -229,6 +251,14 @@ LINE 1: SELECT email adaid gesperrt freigabe1u1 FROM ada LIMIT 0
                 [
                     'Query expects placeholder :freigabe1u1, but it is missing from values given.',
                     325,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    388,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    389,
                 ],
             ];
         } else {

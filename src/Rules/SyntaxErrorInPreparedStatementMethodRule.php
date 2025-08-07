@@ -8,6 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
@@ -57,6 +60,15 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        } elseif ($callLike instanceof StaticCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            if (! $callLike->class instanceof Name) {
+                return [];
+            }
+            $classType = $scope->resolveTypeByName($callLike->class);
+            $methodReflection = $scope->getMethodReflection($classType, $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
             if (! $callLike->class instanceof FullyQualified) {
                 return [];
@@ -96,7 +108,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     }
 
     /**
-     * @param MethodCall|New_ $callLike
+     * @param MethodCall|StaticCall|New_ $callLike
      *
      * @return list<IdentifierRuleError>
      */
