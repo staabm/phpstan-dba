@@ -1,23 +1,8 @@
 <?php return array (
   'schemaVersion' => 'v12-new-cache5',
-  'schemaHash' => 'f94fe2b38e193ad685009d3f4942f476',
+  'schemaHash' => '72813316a311d2e2b9384c458247d011',
   'records' => 
   array (
-    'SELECT
-                    coalesce(COLUMN_NAME, \'\') as COLUMN_NAME,
-                    coalesce(EXTRA, \'\') as EXTRA,
-                    COLUMN_TYPE
-                 FROM information_schema.columns
-                 WHERE table_name = \'1970-01-01\' AND table_schema = DATABASE()' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        array (
-          'type-description' => 'array{COLUMN_NAME: string, 0: string, EXTRA: string, 1: string, COLUMN_TYPE: string, 2: string}',
-        ),
-      ),
-    ),
     'SELECT
                 MD5(
                     GROUP_CONCAT(
@@ -47,22 +32,6 @@
         5 => 
         array (
           'type-description' => 'array{dbsignature: string|null, 0: string|null, grouper: int, 1: int}',
-        ),
-        3 => 
-        array (
-          'type-description' => 'array{dbsignature: string|null, grouper: int}',
-        ),
-      ),
-    ),
-    'SELECT column_name, column_default, is_nullable
-                FROM information_schema.columns
-                WHERE table_name = \'1970-01-01\'' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        array (
-          'type-description' => 'array{COLUMN_NAME: string|null, 0: string|null, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
         ),
       ),
     ),
