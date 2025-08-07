@@ -57,6 +57,14 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndex(): void
     {
+        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
+        }
+
+        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
+            self::markTestSkipped('query plan analyzer requires a active database connection');
+        }
+
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
 
@@ -104,6 +112,14 @@ class QueryPlanAnalyzerRuleTest extends RuleTestCase
 
     public function testNotUsingIndexInDebugMode(): void
     {
+        if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('query plan analyzer is not yet implemented for pgsql');
+        }
+
+        if (ReflectorFactory::MODE_RECORDING !== getenv('DBA_MODE')) {
+            self::markTestSkipped('query plan analyzer requires a active database connection');
+        }
+
         $this->debugMode = true;
         $this->numberOfAllowedUnindexedReads = true;
         $this->numberOfRowsNotRequiringIndex = 2;
