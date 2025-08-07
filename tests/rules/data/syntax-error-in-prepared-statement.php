@@ -385,7 +385,7 @@ class Foo
 
     public function staticCallPreparedStatementTests(): void
     {
-        staabm\PHPStanDba\Tests\Fixture\StaticDatabase::preparedQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
-        staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=?', [1]);
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::preparedQuery('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', []);
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=?', [1]);
     }
 }
