@@ -188,7 +188,9 @@ LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
                     388,
                 ],
                 [
-                    "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                    'Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
+LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\' ...
+                                                             ^ (42703).',
                     389,
                 ],
             ];
