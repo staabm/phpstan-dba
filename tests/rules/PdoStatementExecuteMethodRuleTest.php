@@ -131,4 +131,22 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
             ],
         ]);
     }
+
+    public function testSubclassedPdoStatement(): void
+    {
+        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-subclassed.php'], [
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                14,
+            ],
+            [
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
+                14,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                18,
+            ],
+        ]);
+    }
 }
