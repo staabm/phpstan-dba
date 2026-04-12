@@ -43,7 +43,7 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if (PDOStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
+        if (!(new \PHPStan\Type\ObjectType(PDOStatement::class))->isSuperTypeOf($scope->getType($methodCall->var))->yes()) {
             return [];
         }
 
