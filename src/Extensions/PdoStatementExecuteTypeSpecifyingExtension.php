@@ -84,8 +84,11 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
                 if (\count($bindArgs) >= 2) {
                     $keyType = $scope->getType($bindArgs[0]->value);
                     $constantStrings = $keyType->getConstantStrings();
-                    if ($keyType instanceof ConstantIntegerType || [] !== $constantStrings) {
-                        $parameterKeys[] = [] !== $constantStrings ? $constantStrings[0] : $keyType;
+                    if ($keyType instanceof ConstantIntegerType) {
+                        $parameterKeys[] = $keyType;
+                        $parameterValues[] = $scope->getType($bindArgs[1]->value);
+                    } elseif ([] !== $constantStrings) {
+                        $parameterKeys[] = $constantStrings[0];
                         $parameterValues[] = $scope->getType($bindArgs[1]->value);
                     }
                 }
