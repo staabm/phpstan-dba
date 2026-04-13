@@ -14,7 +14,6 @@ use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
@@ -84,8 +83,9 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
                 $bindArgs = $bindCall->getArgs();
                 if (\count($bindArgs) >= 2) {
                     $keyType = $scope->getType($bindArgs[0]->value);
-                    if ($keyType instanceof ConstantIntegerType || $keyType instanceof ConstantStringType) {
-                        $parameterKeys[] = $keyType;
+                    $constantStrings = $keyType->getConstantStrings();
+                    if ($keyType instanceof ConstantIntegerType || [] !== $constantStrings) {
+                        $parameterKeys[] = [] !== $constantStrings ? $constantStrings[0] : $keyType;
                         $parameterValues[] = $scope->getType($bindArgs[1]->value);
                     }
                 }
