@@ -115,7 +115,30 @@ final class DoctrineKeyValueStyleRule implements Rule
             return [];
         }
 
-        $tableExpr = $args[0]->value;
+        // Map function parameter names to parameter index
+        $params = $methodReflection->getVariants()[0]->getParameters();
+        $paramNameToIndex = [];
+        foreach ($params as $i => $param) {
+            $paramNameToIndex[$param->getName()] = $i;
+        }
+
+        // Map parameter positions to actual call arguments
+        $paramIndexToArg = [];
+        foreach ($args as $i => $arg) {
+            if ($arg->name === null) {
+                // Positional argument
+                $paramIndexToArg[$i] = $arg;
+            } else {
+                // Named argument (PHP 8.0+)
+                $name = $arg->name->toString();
+                $index = $paramNameToIndex[$name] ?? null;
+                if ($index !== null) {
+                    $paramIndexToArg[$index] = $arg;
+                }
+            }
+        }
+
+        $tableExpr = $paramIndexToArg[0]->value;
         $tableType = $scope->getType($tableExpr);
         $tableNames = $tableType->getConstantStrings();
         if (\count($tableNames) === 0) {
@@ -143,11 +166,11 @@ final class DoctrineKeyValueStyleRule implements Rule
             foreach ($arrayArgPositions as $arrayArgPosition) {
                 // If the argument doesn't exist, just skip it since we don't want
                 // to error in case it has a default value
-                if (! \array_key_exists($arrayArgPosition, $args)) {
+                if (! \array_key_exists($arrayArgPosition, $paramIndexToArg)) {
                     continue;
                 }
 
-                $argType = $scope->getType($args[$arrayArgPosition]->value);
+                $argType = $scope->getType($paramIndexToArg[$arrayArgPosition]->value);
                 $argArrays = $argType->getConstantArrays();
                 if (\count($argArrays) === 0) {
                     $errors[] = 'Argument #' . $arrayArgPosition . ' is not a constant array, got ' . $argType->describe(VerbosityLevel::precise());

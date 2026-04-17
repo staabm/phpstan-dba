@@ -111,4 +111,18 @@ class DoctrineKeyValueStyleRuleTest extends RuleTestCase
     {
         $this->analyse([__DIR__ . '/data/doctrine-key-value-style-integer-ranges.php'], []);
     }
+
+    public function testNamedParameters(): void
+    {
+        if (PHP_VERSION_ID < 80000) {
+            self::markTestSkipped('Test requires PHP 8.0');
+        }
+
+        $this->analyse([__DIR__ . '/data/doctrine-key-value-style-named-parameters.php'], [
+            [
+                'Query error: Column "ada.not_a_column" does not exist',
+                16,
+            ],
+        ]);
+    }
 }
