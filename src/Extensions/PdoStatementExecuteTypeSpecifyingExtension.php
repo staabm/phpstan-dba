@@ -14,6 +14,7 @@ use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
@@ -64,7 +65,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
     {
         $args = $methodCall->getArgs();
 
-       
+
 
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
@@ -73,7 +74,6 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         }
 
         $queryReflection = new QueryReflection();
-        
 
         if (0 === \count($args)) {
             $parameterKeys = [];
@@ -83,12 +83,8 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
                 $bindArgs = $bindCall->getArgs();
                 if (\count($bindArgs) >= 2) {
                     $keyType = $scope->getType($bindArgs[0]->value);
-                    $constantStrings = $keyType->getConstantStrings();
-                    if ($keyType instanceof ConstantIntegerType) {
+                    if ($keyType instanceof ConstantIntegerType || $keyType instanceof ConstantStringType) {
                         $parameterKeys[] = $keyType;
-                        $parameterValues[] = $scope->getType($bindArgs[1]->value);
-                    } elseif ([] !== $constantStrings) {
-                        $parameterKeys[] = $constantStrings[0];
                         $parameterValues[] = $scope->getType($bindArgs[1]->value);
                     }
                 }
