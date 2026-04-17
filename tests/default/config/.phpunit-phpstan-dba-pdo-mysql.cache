@@ -310,10 +310,6 @@ FROM ada' =>
         array (
           'type-description' => 'array{email: string, 0: string}',
         ),
-        3 => 
-        array (
-          'type-description' => 'array{email: string}',
-        ),
       ),
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
@@ -331,10 +327,6 @@ FROM ada' =>
         5 => 
         array (
           'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
-        ),
-        3 => 
-        array (
-          'type-description' => 'array{email: string, adaid: int<-32768, 32767>}',
         ),
       ),
     ),
@@ -369,6 +361,16 @@ FROM ada' =>
       ),
     ),
     'SELECT email, adaid FROM ada WHERE adaid = \'1\' and email = \'email@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = \'email@example.org\' and email = \'1\'' => 
     array (
       'result' => 
       array (
@@ -483,6 +485,16 @@ FROM ada' =>
       ),
     ),
     'SELECT email, adaid FROM ada WHERE email = \'webmaster@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = NULL AND email = \'1001\'' => 
     array (
       'result' => 
       array (
