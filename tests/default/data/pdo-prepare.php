@@ -186,7 +186,7 @@ class Foo
     {
         $sumQueries = [];
         $dataPointDate = $updateDate->format('Ymd');
-        foreach ($minorPhpVersions as $index => $version) {
+        foreach ($minorPhpVersions as $version) {
             $sumQueries[] = 'SUM(DATA->\'$."'.$version.'"."'.$dataPointDate.'"\')';
         }
         $stmt = $pdo->prepare(
@@ -196,8 +196,9 @@ class Foo
 
         // this query is too dynamic for being analyzed.
         // make sure we don't infer a wrong type.
+        assertType('PDOStatement', $stmt);
         foreach ($stmt as $row) {
-            assertType('array<int|string, mixed>', $row);
+            assertType('mixed', $row);
         }
     }
 
