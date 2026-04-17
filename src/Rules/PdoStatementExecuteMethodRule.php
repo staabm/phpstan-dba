@@ -15,6 +15,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -38,16 +39,17 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        $methodReflection = $scope->getMethodReflection($scope->getType($methodCall->var), $methodCall->name->toString());
+        $varType = $scope->getType($methodCall->var);
+        $methodReflection = $scope->getMethodReflection($varType, $methodCall->name->toString());
         if (null === $methodReflection) {
             return [];
         }
 
-        if (PDOStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
+        if ('execute' !== strtolower($methodReflection->getName())) {
             return [];
         }
 
-        if ('execute' !== strtolower($methodReflection->getName())) {
+        if (! (new ObjectType(PDOStatement::class))->isSuperTypeOf($varType)->yes()) {
             return [];
         }
 
