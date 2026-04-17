@@ -12,6 +12,9 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
@@ -62,9 +65,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
     {
         $args = $methodCall->getArgs();
 
-        if (0 === \count($args)) {
-            return null;
-        }
+
 
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
@@ -73,7 +74,27 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         }
 
         $queryReflection = new QueryReflection();
-        $parameterTypes = $queryReflection->resolveParameterTypes($args[0]->value, $scope);
+
+        if (0 === \count($args)) {
+            $parameterKeys = [];
+            $parameterValues = [];
+
+            foreach ($stmtReflection->findPrepareBindCalls($methodCall) as $bindCall) {
+                $bindArgs = $bindCall->getArgs();
+                if (\count($bindArgs) >= 2) {
+                    $keyType = $scope->getType($bindArgs[0]->value);
+                    if ($keyType instanceof ConstantIntegerType || $keyType instanceof ConstantStringType) {
+                        $parameterKeys[] = $keyType;
+                        $parameterValues[] = $scope->getType($bindArgs[1]->value);
+                    }
+                }
+            }
+
+            $parameterTypes = new ConstantArrayType($parameterKeys, $parameterValues);
+        } else {
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[0]->value, $scope);
+        }
+
         $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
 
         $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();
