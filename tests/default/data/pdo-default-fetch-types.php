@@ -49,7 +49,7 @@ class HelloWorld
 
         $stmt = $pdo->query($q, PDO::FETCH_COLUMN);
         foreach ($stmt as $row) {
-            assertType('array<int|string, mixed>', $row); // could be array<int|string, float|int|string|null>
+            assertType('mixed', $row); // could be array<int|string, float|int|string|null>
         }
     }
 }
