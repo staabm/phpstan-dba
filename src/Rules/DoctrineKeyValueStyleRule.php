@@ -9,7 +9,9 @@ use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
+use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
@@ -109,36 +111,29 @@ final class DoctrineKeyValueStyleRule implements Rule
             return [];
         }
 
-        $args = $callLike->getArgs();
+        // Reorder arguments to account for named parameters
+        $parametersAcceptor = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $callLike->getArgs(),
+            $methodReflection->getVariants(),
+            $methodReflection->getNamedArgumentsVariants(),
+        );
 
-        if (\count($args) < 1) {
+        $reorderedMethodCall = ArgumentsNormalizer::reorderMethodArguments(
+            $parametersAcceptor,
+            $callLike,
+        );
+
+        if ($reorderedMethodCall === null) {
+            return [];
+        }
+        $reorderedArgs = $reorderedMethodCall->getArgs();
+
+        if (\count($reorderedArgs) < 1) {
             return [];
         }
 
-        // Map function parameter names to parameter index
-        $params = $methodReflection->getVariants()[0]->getParameters();
-        $paramNameToIndex = [];
-        foreach ($params as $i => $param) {
-            $paramNameToIndex[$param->getName()] = $i;
-        }
-
-        // Map parameter positions to actual call arguments
-        $paramIndexToArg = [];
-        foreach ($args as $i => $arg) {
-            if ($arg->name === null) {
-                // Positional argument
-                $paramIndexToArg[$i] = $arg;
-            } else {
-                // Named argument (PHP 8.0+)
-                $name = $arg->name->toString();
-                $index = $paramNameToIndex[$name] ?? null;
-                if ($index !== null) {
-                    $paramIndexToArg[$index] = $arg;
-                }
-            }
-        }
-
-        $tableExpr = $paramIndexToArg[0]->value;
+        $tableExpr = $reorderedArgs[0]->value;
         $tableType = $scope->getType($tableExpr);
         $tableNames = $tableType->getConstantStrings();
         if (\count($tableNames) === 0) {
@@ -166,11 +161,11 @@ final class DoctrineKeyValueStyleRule implements Rule
             foreach ($arrayArgPositions as $arrayArgPosition) {
                 // If the argument doesn't exist, just skip it since we don't want
                 // to error in case it has a default value
-                if (! \array_key_exists($arrayArgPosition, $paramIndexToArg)) {
+                if (! \array_key_exists($arrayArgPosition, $reorderedArgs)) {
                     continue;
                 }
 
-                $argType = $scope->getType($paramIndexToArg[$arrayArgPosition]->value);
+                $argType = $scope->getType($reorderedArgs[$arrayArgPosition]->value);
                 $argArrays = $argType->getConstantArrays();
                 if (\count($argArrays) === 0) {
                     $errors[] = 'Argument #' . $arrayArgPosition . ' is not a constant array, got ' . $argType->describe(VerbosityLevel::precise());
