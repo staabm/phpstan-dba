@@ -119,15 +119,22 @@ final class DoctrineKeyValueStyleRule implements Rule
             $methodReflection->getNamedArgumentsVariants(),
         );
 
-        $reorderedMethodCall = ArgumentsNormalizer::reorderMethodArguments(
-            $parametersAcceptor,
-            $callLike,
-        );
+        if ($callLike instanceof MethodCall) {
+            $reorderedCall = ArgumentsNormalizer::reorderMethodArguments(
+                $parametersAcceptor,
+                $callLike,
+            );
+        } else {
+            $reorderedCall = ArgumentsNormalizer::reorderNewArguments(
+                $parametersAcceptor,
+                $callLike,
+            );
+        }
 
-        if ($reorderedMethodCall === null) {
+        if ($reorderedCall === null) {
             return [];
         }
-        $reorderedArgs = $reorderedMethodCall->getArgs();
+        $reorderedArgs = $reorderedCall->getArgs();
 
         if (\count($reorderedArgs) < 1) {
             return [];
