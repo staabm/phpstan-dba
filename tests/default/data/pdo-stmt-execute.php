@@ -34,7 +34,7 @@ class Foo
             assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
         }
 
-        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? and email = ? ');
+        $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ? and email = ?');
         $stmt->execute([1, 'email@example.org']);
         foreach ($stmt as $row) {
             assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
