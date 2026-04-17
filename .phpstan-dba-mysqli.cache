@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v12-new-cache5',
-  'schemaHash' => '72813316a311d2e2b9384c458247d011',
+  'schemaHash' => 'f94fe2b38e193ad685009d3f4942f476',
   'records' => 
   array (
     'SELECT
@@ -54,6 +54,66 @@
         ),
       ),
     ),
+    'SELECT * FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, email: string, freigabe1u1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE adaid IN (\'1.0\')' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'%questions ?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid FROM ada WHERE email LIKE \'hello?%\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
     'SELECT column_name, column_default, is_nullable
                 FROM information_schema.columns
                 WHERE table_name = \'1970-01-01\'' => 
@@ -62,7 +122,57 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{COLUMN_NAME: string|null, 0: string|null, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+          'type-description' => 'array{COLUMN_NAME: string, 0: string, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid = \'1\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE adaid=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email = \'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid FROM ada WHERE email=\'test@example.org\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
         ),
       ),
     ),
