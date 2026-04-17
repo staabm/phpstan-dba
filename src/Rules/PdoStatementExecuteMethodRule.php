@@ -45,11 +45,11 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
-        if (! (new ObjectType(PDOStatement::class))->isSuperTypeOf($varType)->yes()) {
+        if ('execute' !== strtolower($methodReflection->getName())) {
             return [];
         }
 
-        if ('execute' !== strtolower($methodReflection->getName())) {
+        if (! (new ObjectType(PDOStatement::class))->isSuperTypeOf($varType)->yes()) {
             return [];
         }
 
