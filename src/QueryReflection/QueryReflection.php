@@ -407,6 +407,12 @@ final class QueryReflection
             return strtoupper($matches[1]);
         }
 
+        // WITH [RECURSIVE] cte [(col_list)] AS (subquery) [, ...] <SELECT|INSERT|UPDATE|DELETE|REPLACE>
+        // (?1) recurses group 1 to balance parentheses inside subqueries.
+        if (1 === preg_match('/^\s*WITH\s+(?:RECURSIVE\s+)?[`"\w]+\s*(?:\([^)]*\))?\s*AS\s*(\((?:[^()]|(?1))*\))(?:\s*,\s*[`"\w]+\s*(?:\([^)]*\))?\s*AS\s*(?1))*\s*(SELECT|INSERT|UPDATE|DELETE|REPLACE)\b/i', $query, $matches)) {
+            return strtoupper($matches[2]);
+        }
+
         return null;
     }
 
