@@ -8,6 +8,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use SqlFtw\Parser\Parser;
@@ -177,6 +178,15 @@ final class ParserInference
             $type = $queryScope->getType($expression);
             if (! $type instanceof MixedType) {
                 $valueType = $type;
+            }
+
+            // PHPStan 2.2+ returns ErrorType when reading a missing offset (here
+            // the integer offset is missing on a string-keyed assoc row shape).
+            // If QueryScope couldn't refine the column either (e.g. alias-qualified
+            // references like `t.col`, which resolveExpression() returns MixedType
+            // for), there is nothing to narrow — keep the reflector-derived type.
+            if ($valueType instanceof ErrorType) {
+                continue;
             }
 
             if (null !== $rawExpressionType && $resultType->hasOffsetValueType($rawExpressionType)->yes()) {
