@@ -9,7 +9,9 @@ use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
+use PHPStan\Analyser\ArgumentsNormalizer;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
@@ -109,13 +111,36 @@ final class DoctrineKeyValueStyleRule implements Rule
             return [];
         }
 
-        $args = $callLike->getArgs();
+        // Reorder arguments to account for named parameters
+        $parametersAcceptor = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $callLike->getArgs(),
+            $methodReflection->getVariants(),
+            $methodReflection->getNamedArgumentsVariants(),
+        );
 
-        if (\count($args) < 1) {
+        if ($callLike instanceof MethodCall) {
+            $reorderedCall = ArgumentsNormalizer::reorderMethodArguments(
+                $parametersAcceptor,
+                $callLike,
+            );
+        } else {
+            $reorderedCall = ArgumentsNormalizer::reorderNewArguments(
+                $parametersAcceptor,
+                $callLike,
+            );
+        }
+
+        if ($reorderedCall === null) {
+            return [];
+        }
+        $reorderedArgs = $reorderedCall->getArgs();
+
+        if (\count($reorderedArgs) < 1) {
             return [];
         }
 
-        $tableExpr = $args[0]->value;
+        $tableExpr = $reorderedArgs[0]->value;
         $tableType = $scope->getType($tableExpr);
         $tableNames = $tableType->getConstantStrings();
         if (\count($tableNames) === 0) {
@@ -143,11 +168,11 @@ final class DoctrineKeyValueStyleRule implements Rule
             foreach ($arrayArgPositions as $arrayArgPosition) {
                 // If the argument doesn't exist, just skip it since we don't want
                 // to error in case it has a default value
-                if (! \array_key_exists($arrayArgPosition, $args)) {
+                if (! \array_key_exists($arrayArgPosition, $reorderedArgs)) {
                     continue;
                 }
 
-                $argType = $scope->getType($args[$arrayArgPosition]->value);
+                $argType = $scope->getType($reorderedArgs[$arrayArgPosition]->value);
                 $argArrays = $argType->getConstantArrays();
                 if (\count($argArrays) === 0) {
                     $errors[] = 'Argument #' . $arrayArgPosition . ' is not a constant array, got ' . $argType->describe(VerbosityLevel::precise());
