@@ -25,7 +25,8 @@
 		"vlucas/phpdotenv": "^5.4"
 	},
 	"conflict": {
-		"sqlftw/sqlftw": "<0.1.16"
+		"sqlftw/sqlftw": "<0.1.16",
+		"phpstan/phpstan": "2.1.55||2.1.56||2.2.0||2.2.1"
 	},
 	"autoload": {
 		"psr-4": {
