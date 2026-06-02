@@ -522,6 +522,10 @@ final class QueryReflection
                     $isOptional
                 );
 
+                if ($param->name === null) {
+                    throw new ShouldNotHappenException('Empty parameter name');
+                }
+
                 $parameters[$param->name] = $param;
             } elseif ($keyType->isInteger()->yes()) {
                 $param = new Parameter(
