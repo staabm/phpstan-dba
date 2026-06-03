@@ -582,7 +582,7 @@ FROM ada' =>
         ),
       ),
     ),
-    'WITH RECURSIVE cnt(n) AS (SELECT 1 UNION ALL SELECT n + 1 FROM cnt WHERE n < 5) SELECT n FROM cnt' => 
+    'WITH RECURSIVE cnt(n) AS (SELECT 1 UNION ALL SELECT n + 1 FROM cnt WHERE n < 5) SELECT CAST(n AS SIGNED) AS n FROM cnt' => 
     array (
       'result' => 
       array (

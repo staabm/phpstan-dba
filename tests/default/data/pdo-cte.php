@@ -50,9 +50,12 @@ class Foo
 
     public function recursiveCte(PDO $pdo)
     {
+        // The outer CAST(n AS SIGNED) normalises the recursive integer column to
+        // BIGINT on both engines. Without it MariaDB reports a 32-bit INT (LONG)
+        // and MySQL a BIGINT (LONGLONG), which would infer different int ranges.
         $query = 'WITH RECURSIVE cnt(n) AS ('
             .'SELECT 1 UNION ALL SELECT n + 1 FROM cnt WHERE n < 5'
-            .') SELECT n FROM cnt';
+            .') SELECT CAST(n AS SIGNED) AS n FROM cnt';
         $stmt = $pdo->query($query, PDO::FETCH_ASSOC);
         foreach ($stmt as $row) {
             assertType('array{n: int|null}', $row);
