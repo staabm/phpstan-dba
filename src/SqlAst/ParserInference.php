@@ -8,7 +8,6 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use SqlFtw\Parser\Parser;
@@ -173,19 +172,21 @@ final class ParserInference
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
             }
 
-            $valueType = $resultType->getOffsetValueType($offsetType);
+            // FETCH_TYPE_ASSOC rows are string-keyed; guard the integer-offset
+            // read — since PHPStan 2.2 missing-offset reads return ErrorType.
+            $valueType = null;
+            if ($resultType->hasOffsetValueType($offsetType)->yes()) {
+                $valueType = $resultType->getOffsetValueType($offsetType);
+            }
 
             $type = $queryScope->getType($expression);
             if (! $type instanceof MixedType) {
                 $valueType = $type;
             }
 
-            // PHPStan 2.2+ returns ErrorType when reading a missing offset (here
-            // the integer offset is missing on a string-keyed assoc row shape).
-            // If QueryScope couldn't refine the column either (e.g. alias-qualified
-            // references like `t.col`, which resolveExpression() returns MixedType
-            // for), there is nothing to narrow — keep the reflector-derived type.
-            if ($valueType instanceof ErrorType) {
+            // Hit on alias-qualified columns over assoc rows: no integer seed,
+            // and resolveExpression() falls through to MixedType for `t.col`.
+            if ($valueType === null) {
                 continue;
             }
 
