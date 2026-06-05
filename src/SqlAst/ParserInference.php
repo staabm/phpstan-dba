@@ -172,11 +172,22 @@ final class ParserInference
                 $aliasOffsetType = new ConstantStringType($column->getAlias());
             }
 
-            $valueType = $resultType->getOffsetValueType($offsetType);
+            // FETCH_TYPE_ASSOC rows are string-keyed; guard the integer-offset
+            // read — since PHPStan 2.2 missing-offset reads return ErrorType.
+            $valueType = null;
+            if ($resultType->hasOffsetValueType($offsetType)->yes()) {
+                $valueType = $resultType->getOffsetValueType($offsetType);
+            }
 
             $type = $queryScope->getType($expression);
             if (! $type instanceof MixedType) {
                 $valueType = $type;
+            }
+
+            // Hit on alias-qualified columns over assoc rows: no integer seed,
+            // and resolveExpression() falls through to MixedType for `t.col`.
+            if ($valueType === null) {
+                continue;
             }
 
             if (null !== $rawExpressionType && $resultType->hasOffsetValueType($rawExpressionType)->yes()) {
