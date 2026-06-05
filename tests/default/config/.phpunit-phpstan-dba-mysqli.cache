@@ -310,6 +310,10 @@ FROM ada' =>
         array (
           'type-description' => 'array{email: string, 0: string}',
         ),
+        3 => 
+        array (
+          'type-description' => 'array{email: string}',
+        ),
       ),
     ),
     'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada' => 
@@ -327,6 +331,10 @@ FROM ada' =>
         5 => 
         array (
           'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+        3 => 
+        array (
+          'type-description' => 'array{email: string, adaid: int<-32768, 32767>}',
         ),
       ),
     ),
@@ -571,6 +579,66 @@ FROM ada' =>
         3 => 
         array (
           'type-description' => 'array{\'max(adaid)\': int<-32768, 32767>|null}',
+        ),
+      ),
+    ),
+    'WITH RECURSIVE cnt(n) AS (SELECT 1 UNION ALL SELECT n + 1 FROM cnt WHERE n < 5) SELECT CAST(n AS SIGNED) AS n FROM cnt' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{n: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'WITH active_ada AS (SELECT email, adaid FROM ada WHERE gesperrt = 0) SELECT email, adaid FROM active_ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'WITH counts AS (SELECT gesperrt, COUNT(*) AS total FROM ada GROUP BY gesperrt) SELECT gesperrt, total FROM counts' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gesperrt: int<-128, 127>, 0: int<-128, 127>, total: int, 1: int}',
+        ),
+      ),
+    ),
+    'WITH cte AS (SELECT email, adaid FROM ada) SELECT * FROM cte' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'WITH cte AS (SELECT email, adaid FROM ada) SELECT email, adaid FROM cte' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'WITH emails AS (SELECT adaid, email FROM ada), unlocked AS (SELECT adaid FROM ada WHERE gesperrt = 0) SELECT e.email, e.adaid FROM emails e JOIN unlocked u ON u.adaid = e.adaid' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
         ),
       ),
     ),
