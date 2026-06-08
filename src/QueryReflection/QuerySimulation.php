@@ -57,6 +57,16 @@ final class QuerySimulation
 
         if ($paramType instanceof UnionType) {
             foreach ($paramType->getTypes() as $type) {
+                if (
+                    $type->isInteger()->yes()
+                    || $type->isBoolean()->yes()
+                    || $type->isNumericString()->yes()
+                ) {
+                    return '1';
+                }
+            }
+
+            foreach ($paramType->getTypes() as $type) {
                 // pick one representative value out of the union
                 $simulated = self::simulateParamValueType($type, $preparedParam);
                 if (null !== $simulated) {

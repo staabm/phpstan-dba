@@ -562,6 +562,8 @@ final class QueryReflection
             return $haystack;
         };
 
+        ksort($parameters);
+
         foreach ($parameters as $placeholderKey => $parameter) {
             $value = $parameter->simulatedValue;
 
