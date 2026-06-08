@@ -71,19 +71,19 @@ jobs:
         options: ${{ matrix.db-options }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       - name: Setup PHP
         id: setup-php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c77c69f5c8897d89fe313f4b6dd4d768d6a1b3db # v2
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: none
 
-      - uses: "ramsey/composer-install@v3"
+      - uses: "ramsey/composer-install@a8d0d959dab41457692a5e2041bd9b757a119e3f" # v3
         with:
           composer-options: "--prefer-dist --no-progress"
 
@@ -124,19 +124,19 @@ jobs:
        DBA_MODE: ${{ matrix.mode }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       - name: Setup PHP
         id: setup-php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c77c69f5c8897d89fe313f4b6dd4d768d6a1b3db # v2
         with:
           php-version: "${{ matrix.php-version }}"
           coverage: none
 
-      - uses: "ramsey/composer-install@v3"
+      - uses: "ramsey/composer-install@a8d0d959dab41457692a5e2041bd9b757a119e3f" # v3
         with:
           composer-options: "--prefer-dist --no-progress"
 
