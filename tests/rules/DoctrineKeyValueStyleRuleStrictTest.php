@@ -17,6 +17,8 @@ class DoctrineKeyValueStyleRuleStrictTest extends RuleTestCase
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         QueryReflection::getRuntimeConfiguration()->parameterTypeValidation(RuntimeConfiguration::VALIDATION_MODE_STRICT);
     }
 
