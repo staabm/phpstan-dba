@@ -31,12 +31,15 @@ use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\DbSchema\LazySchemaHasher;
 use staabm\PHPStanDba\DbSchema\SchemaHasher;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasherString;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use function get_debug_type;
 use function sprintf;
+use function var_dump;
 
 final class QueryReflection
 {
@@ -718,22 +721,19 @@ final class QueryReflection
         }
     }
 
-    public function getSchemaHasher(): ?SchemaHasher
+    public function getSchemaHasher(): SchemaHasher
     {
         $reflector = self::reflector();
-        if (
-            $reflector instanceof MysqliQueryReflector
-            || $reflector instanceof PdoMysqlQueryReflector
-        ) {
-            return new LazySchemaHasher(function () use ($reflector) {
-                $ds = $reflector->getDatasource();
-                if (null === $ds) {
-                    throw new DbaException(sprintf('Unable to create datasource from %s', \get_class($reflector)));
-                }
-                return new SchemaHasherMysql($ds);
-            });
-        }
 
-        return null;
+        return new LazySchemaHasher(function () use ($reflector) {
+            $ds = null;
+            if ($reflector instanceof RecordingReflector) {
+                $ds = $reflector->getDatasource();
+            }
+            if (null === $ds) {
+                return new SchemaHasherString('unknown-fixed-hash');
+            }
+            return new SchemaHasherMysql($ds);
+        });
     }
 }

@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\Extensions;
 
 use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use function var_dump;
 
 final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
 {
@@ -18,13 +19,6 @@ final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
     {
         $queryReflection = new QueryReflection();
         $schemaHasher = $queryReflection->getSchemaHasher();
-
-        if ($schemaHasher === null) {
-            // a reflector is used which we don't have a schema hash implementation for.
-            // return a hardcoded string which reflects the situation we had before implementing ResultCacheMetaExtension.
-            // => result cache will not automatically invalidate on schema changes
-            return 'unknown';
-        }
         return $schemaHasher->hashDb();
     }
 }
