@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use Composer\InstalledVersions;
-use mysqli;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\InterpolatedStringPart;
@@ -719,13 +718,14 @@ final class QueryReflection
         }
     }
 
-    public function getSchemaHasher(): ?SchemaHasher {
+    public function getSchemaHasher(): ?SchemaHasher
+    {
         $reflector = self::reflector();
         if (
             $reflector instanceof MysqliQueryReflector
             || $reflector instanceof PdoMysqlQueryReflector
         ) {
-            return new LazySchemaHasher(function() use ($reflector) {
+            return new LazySchemaHasher(function () use ($reflector) {
                 $ds = $reflector->getDatasource();
                 if (null === $ds) {
                     throw new DbaException(sprintf('Unable to create datasource from %s', \get_class($reflector)));
