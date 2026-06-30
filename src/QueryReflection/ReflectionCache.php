@@ -181,6 +181,10 @@ final class ReflectionCache
             return;
         }
 
+        if (!DIContainerBridge::isAvailable()) {
+            return;
+        }
+
         try {
             flock(self::$lockHandle, LOCK_EX);
 
