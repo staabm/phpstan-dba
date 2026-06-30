@@ -206,10 +206,6 @@ final class ReflectionCache
             }
             unset($newRecord);
 
-            if ($newRecords === $cachedRecords) {
-                return;
-            }
-
             $cacheContent = '<?php return ' . var_export([
                 'schemaVersion' => self::SCHEMA_VERSION,
                 'schemaHash' => $this->schemaHash,
