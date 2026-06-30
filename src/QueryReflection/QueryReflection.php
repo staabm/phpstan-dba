@@ -28,11 +28,16 @@ use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\DbSchema\LazySchemaHasher;
+use staabm\PHPStanDba\DbSchema\SchemaHasher;
+use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasherString;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use function sprintf;
 
 final class QueryReflection
 {
@@ -712,5 +717,21 @@ final class QueryReflection
 
             yield $queryPlanAnalyzer->analyze($queryString);
         }
+    }
+
+    public function getSchemaHasher(): SchemaHasher
+    {
+        $reflector = self::reflector();
+
+        return new LazySchemaHasher(function () use ($reflector) {
+            $ds = null;
+            if ($reflector instanceof RecordingReflector) {
+                $ds = $reflector->getDatasource();
+            }
+            if (null === $ds) {
+                return new SchemaHasherString('unknown-fixed-hash');
+            }
+            return new SchemaHasherMysql($ds);
+        });
     }
 }

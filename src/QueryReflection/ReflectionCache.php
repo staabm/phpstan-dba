@@ -149,8 +149,9 @@ final class ReflectionCache
 
         if (! \is_array($cache) ||
             ! \array_key_exists('schemaVersion', $cache) ||
-            ! \array_key_exists('schemaHash', $cache) || // schemaHash exists but is null in recording mode
-            self::SCHEMA_VERSION !== $cache['schemaVersion']) {
+            ! \array_key_exists('schemaHash', $cache) || // schemaHash might be null in recording mode
+            self::SCHEMA_VERSION !== $cache['schemaVersion']
+        ) {
             return null;
         }
 
@@ -158,7 +159,6 @@ final class ReflectionCache
             return null;
         }
 
-        // the schemaHash is only available in replay-and-record mode.
         if (null === $this->schemaHash) {
             if ($cache['schemaHash'] !== null && ! is_string($cache['schemaHash'])) {
                 throw new ShouldNotHappenException();
@@ -181,6 +181,10 @@ final class ReflectionCache
             return;
         }
 
+        if (! DIContainerBridge::isAvailable()) {
+            return;
+        }
+
         try {
             flock(self::$lockHandle, LOCK_EX);
 
@@ -200,7 +204,6 @@ final class ReflectionCache
             foreach ($newRecords as &$newRecord) {
                 ksort($newRecord);
             }
-
             unset($newRecord);
 
             $cacheContent = '<?php return ' . var_export([

@@ -98,3 +98,8 @@ services:
 
     -
         class: staabm\PHPStanDba\QueryReflection\DIContainerBridge
+
+    -
+        class: staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension
+        tags:
+           - phpstan.resultCacheMetaExtension
