@@ -7,8 +7,8 @@ namespace staabm\PHPStanDba\Extensions;
 use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
-final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension {
-
+final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
+{
     public function getKey(): string
     {
         return 'phpstan-dba-schema-hash';
