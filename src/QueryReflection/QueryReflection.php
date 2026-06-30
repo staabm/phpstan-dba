@@ -37,9 +37,7 @@ use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
 use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
 use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
-use function get_debug_type;
 use function sprintf;
-use function var_dump;
 
 final class QueryReflection
 {

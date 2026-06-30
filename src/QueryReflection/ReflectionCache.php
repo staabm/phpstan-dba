@@ -181,7 +181,7 @@ final class ReflectionCache
             return;
         }
 
-        if (!DIContainerBridge::isAvailable()) {
+        if (! DIContainerBridge::isAvailable()) {
             return;
         }
 

@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\DbSchema;
 
-use mysqli;
-use PDO;
-use PHPStan\ShouldNotHappenException;
-
 final class SchemaHasherString implements SchemaHasher
 {
     private string $hash;

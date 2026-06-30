@@ -6,7 +6,6 @@ namespace staabm\PHPStanDba\Extensions;
 
 use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use function var_dump;
 
 final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
 {
