@@ -18,6 +18,8 @@ class UnresolvableQueryFunctionRuleTest extends RuleTestCase
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         QueryReflection::getRuntimeConfiguration()->debugMode(true);
     }
 
