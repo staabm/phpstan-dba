@@ -25,7 +25,7 @@ final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
             // don't break the whole process when reflector is not
             // registered properly. such error should only surface
             // when sql queries in to be analyzed code triggers the analysis
-            return 'dba-not-initialized';
+            return 'reflector-not-initialized';
         }
     }
 }
