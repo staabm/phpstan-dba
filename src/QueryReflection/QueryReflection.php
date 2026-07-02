@@ -728,7 +728,7 @@ final class QueryReflection
             if ($reflector instanceof RecordingReflector) {
                 $ds = $reflector->getDatasource();
             }
-            if (null === $ds || $reflector instanceof PdoPgSqlQueryReflector) {
+            if (null === $ds) {
                 return new SchemaHasherString('unknown-fixed-hash');
             }
             return new SchemaHasherMysql($ds);
