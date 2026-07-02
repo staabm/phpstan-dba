@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\DbSchema;
 use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\DbaException;
 
 final class SchemaHasherMysql implements SchemaHasher
 {
@@ -34,7 +35,11 @@ final class SchemaHasherMysql implements SchemaHasher
         // for a schema with 3.000 columns we need roughly
         // 70.000 group concat max length
         $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
-        $this->connection->query($maxConcatQuery);
+        try {
+            $this->connection->query($maxConcatQuery);
+        } catch (\Throwable $e) {
+            throw new DbaException('Failed to set group_concat_max_len', 0, $e);
+        }
 
         $query = "
             SELECT
