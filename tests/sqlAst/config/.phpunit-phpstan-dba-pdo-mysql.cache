@@ -868,6 +868,66 @@
         ),
       ),
     ),
+    'SELECT group_concat(DISTINCT c_char5 ORDER BY c_char5 SEPARATOR \',\') as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(akid) as gc from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(c_nullable_tinyint) as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(c_tinyint) as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(email) as gc from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(null) as gc from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
     'SELECT if(freigabe1u1 > 100, "a", 1) as col from ada' => 
     array (
       'result' => 

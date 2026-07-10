@@ -64,6 +64,7 @@ final class QueryScope
             new NullIfReturnTypeExtension(),
             new IfReturnTypeExtension(),
             new ConcatReturnTypeExtension(),
+            new GroupConcatReturnTypeExtension($hasGroupBy),
             new InstrReturnTypeExtension(),
             new StrCaseReturnTypeExtension(),
             new ReplaceReturnTypeExtension(),
