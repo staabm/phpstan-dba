@@ -875,4 +875,42 @@ class Foo
         }
     }
 
+    public function groupConcat(PDO $pdo): void
+    {
+        // no GROUP BY: the whole result set is one group, which may be empty -> nullable
+        $stmt = $pdo->query('SELECT group_concat(akid) as gc from ak');
+        foreach ($stmt as $row) {
+            assertType('array{gc: string|null, 0: string|null}', $row);
+        }
+
+        $stmt = $pdo->query('SELECT group_concat(email) as gc from ada');
+        foreach ($stmt as $row) {
+            assertType('array{gc: string|null, 0: string|null}', $row);
+        }
+
+        // all concatenated values are NULL -> null
+        $stmt = $pdo->query('SELECT group_concat(null) as gc from ak');
+        foreach ($stmt as $row) {
+            assertType('array{gc: null, 0: null}', $row);
+        }
+
+        // GROUP BY over a NOT NULL column: every group has a non-null value -> non-null string
+        $stmt = $pdo->query('SELECT group_concat(c_tinyint) as gc from typemix GROUP BY c_int');
+        foreach ($stmt as $row) {
+            assertType('array{gc: string, 0: string}', $row);
+        }
+
+        // GROUP BY over a nullable column: a group may be all-NULL -> nullable
+        $stmt = $pdo->query('SELECT group_concat(c_nullable_tinyint) as gc from typemix GROUP BY c_int');
+        foreach ($stmt as $row) {
+            assertType('array{gc: string|null, 0: string|null}', $row);
+        }
+
+        // DISTINCT / ORDER BY / SEPARATOR modifiers do not change the type
+        $stmt = $pdo->query("SELECT group_concat(DISTINCT c_char5 ORDER BY c_char5 SEPARATOR ',') as gc from typemix GROUP BY c_int");
+        foreach ($stmt as $row) {
+            assertType('array{gc: string, 0: string}', $row);
+        }
+    }
+
 }
