@@ -36,12 +36,13 @@ final class GlobalTransaction {
 
         register_shutdown_function(function() use ($connection) {
             if (self::$inTransaction) {
+                self::$inTransaction = false;
+
                 if ($connection instanceof PDO) {
                     $connection->rollBack();
                 } else {
                     $connection->rollback();
                 }
-                self::$inTransaction = false;
             }
         });
     }
