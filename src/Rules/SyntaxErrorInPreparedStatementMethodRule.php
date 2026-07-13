@@ -89,6 +89,7 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
                 throw new ShouldNotHappenException('Invalid classMethod definition');
             }
 
+            
             if ($methodName === $methodReflection->getName() &&
                 (
                     $methodReflection->getDeclaringClass()->getName() === $className
