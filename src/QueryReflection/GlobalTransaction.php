@@ -40,15 +40,23 @@ final class GlobalTransaction {
             throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
         }
 
-        register_shutdown_function(function() use ($connection) {
-            if (self::$inTransaction) {
-                self::$inTransaction = false;
+        register_shutdown_function(function () use ($connection): void {
+            if (! self::$inTransaction) {
+                return;
+            }
 
+            self::$inTransaction = false;
+
+            try {
                 if ($connection instanceof PDO) {
-                    $connection->rollBack();
+                    if ($connection->inTransaction()) {
+                        $connection->rollBack();
+                    }
                 } else {
                     $connection->rollback();
                 }
+            } catch (\Throwable $e) {
+                // ignore rollback failures during shutdown
             }
         });
     }
