@@ -6,17 +6,18 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use mysqli;
 use PDO;
-use PDOException;
 use Throwable;
 use function register_shutdown_function;
 
-final class GlobalTransaction {
-    static private bool $inTransaction = false;
+final class GlobalTransaction
+{
+    private static bool $inTransaction = false;
 
     /**
      * @param mysqli|PDO $connection
      */
-    static public function ensureStarted($connection):void {
+    public static function ensureStarted($connection): void
+    {
         if (self::$inTransaction) {
             return;
         }

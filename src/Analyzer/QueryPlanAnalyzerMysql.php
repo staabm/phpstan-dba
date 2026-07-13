@@ -57,7 +57,7 @@ final class QueryPlanAnalyzerMysql
         $simulatedQuery = 'EXPLAIN ' . $query;
         $stmt = $this->connection->query($simulatedQuery);
 
-        if (!is_iterable($stmt)) {
+        if (! is_iterable($stmt)) {
             throw new ShouldNotHappenException();
         }
 
