@@ -47,9 +47,12 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
         }
 
         GlobalTransaction::ensureStarted($this->pdo);
+        $this->pdo->exec('SAVEPOINT phpstan_dba_sp');
         try {
             $stmt = $this->pdo->query($simulatedQuery);
+            $this->pdo->exec('RELEASE SAVEPOINT phpstan_dba_sp');
         } catch (PDOException $e) {
+            $this->pdo->exec('ROLLBACK TO SAVEPOINT phpstan_dba_sp');
             return $this->cache[$queryString] = $e;
         }
 
