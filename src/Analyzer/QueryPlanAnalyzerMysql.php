@@ -9,6 +9,7 @@ use PDO;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\QueryReflection\GlobalTransaction;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use function is_iterable;
 
 final class QueryPlanAnalyzerMysql
 {
@@ -56,7 +57,11 @@ final class QueryPlanAnalyzerMysql
         $simulatedQuery = 'EXPLAIN ' . $query;
         $stmt = $this->connection->query($simulatedQuery);
 
-        return $this->buildResult($simulatedQuery, $stmt); // @phpstan-ignore-line
+        if (!is_iterable($stmt)) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->buildResult($simulatedQuery, $stmt);
     }
 
     /**
