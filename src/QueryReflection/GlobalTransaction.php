@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 use mysqli;
 use PDO;
 use PDOException;
+use Throwable;
 use function register_shutdown_function;
 
 final class GlobalTransaction {
@@ -35,7 +36,7 @@ final class GlobalTransaction {
                     $connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
                 }
             }
-        } catch (PDOException $e) {
+        } catch (Throwable $e) {
             // not all drivers may support transactions
             throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
         }
@@ -55,7 +56,7 @@ final class GlobalTransaction {
                 } else {
                     $connection->rollback();
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 // ignore rollback failures during shutdown
             }
         });
