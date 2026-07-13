@@ -149,12 +149,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
             return $this->cache[$queryString] = null;
         }
 
-        if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
-            $this->db->begin_transaction();
-        } else {
-            $this->db->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
-        }
-
+        GlobalTransaction::ensureStarted($this->db);
         try {
             $result = $this->db->query($simulatedQuery);
 
@@ -168,8 +163,6 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
             return $this->cache[$queryString] = $resultInfo;
         } catch (mysqli_sql_exception $e) {
             return $this->cache[$queryString] = $e;
-        } finally {
-            $this->db->rollback();
         }
     }
 

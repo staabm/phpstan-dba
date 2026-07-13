@@ -7,6 +7,7 @@ namespace staabm\PHPStanDba\Analyzer;
 use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\QueryReflection\GlobalTransaction;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class QueryPlanAnalyzerMysql
@@ -50,33 +51,12 @@ final class QueryPlanAnalyzerMysql
      */
     public function analyze(string $query): QueryPlanResult
     {
+        GlobalTransaction::ensureStarted($this->connection);
+
         $simulatedQuery = 'EXPLAIN ' . $query;
+        $stmt = $this->connection->query($simulatedQuery);
 
-        if ($this->connection instanceof PDO) {
-            $this->connection->beginTransaction();
-
-            try {
-                $stmt = $this->connection->query($simulatedQuery);
-
-                // @phpstan-ignore-next-line
-                return $this->buildResult($simulatedQuery, $stmt);
-            } finally {
-                $this->connection->rollBack();
-            }
-        } else {
-            $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
-
-            try {
-                $result = $this->connection->query($simulatedQuery);
-                if ($result instanceof \mysqli_result) {
-                    return $this->buildResult($simulatedQuery, $result);
-                }
-            } finally {
-                $this->connection->rollback();
-            }
-        }
-
-        throw new ShouldNotHappenException();
+        return $this->buildResult($simulatedQuery, $stmt); // @phpstan-ignore-line
     }
 
     /**

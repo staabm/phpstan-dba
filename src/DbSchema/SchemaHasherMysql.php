@@ -8,6 +8,7 @@ use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\QueryReflection\GlobalTransaction;
 
 final class SchemaHasherMysql implements SchemaHasher
 {
@@ -31,6 +32,8 @@ final class SchemaHasherMysql implements SchemaHasher
         if (null !== $this->hash) {
             return $this->hash;
         }
+
+        GlobalTransaction::ensureStarted($this->connection);
 
         // for a schema with 3.000 columns we need roughly
         // 70.000 group concat max length
@@ -68,27 +71,15 @@ final class SchemaHasherMysql implements SchemaHasher
 
         $hash = '';
         if ($this->connection instanceof PDO) {
-            $this->connection->beginTransaction();
-
-            try {
-                $stmt = $this->connection->query($query);
-                foreach ($stmt as $row) {
-                    $hash = $row['dbsignature'] ?? '';
-                }
-            } finally {
-                $this->connection->rollBack();
+            $stmt = $this->connection->query($query);
+            foreach ($stmt as $row) {
+                $hash = $row['dbsignature'] ?? '';
             }
         } else {
-            $this->connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
-
-            try {
-                $result = $this->connection->query($query);
-                if ($result instanceof \mysqli_result) { // @phpstan-ignore instanceof.alwaysTrue
-                    $row = $result->fetch_assoc();
-                    $hash = $row['dbsignature'] ?? '';
-                }
-            } finally {
-                $this->connection->rollback();
+            $result = $this->connection->query($query);
+            if ($result instanceof \mysqli_result) { // @phpstan-ignore instanceof.alwaysTrue
+                $row = $result->fetch_assoc();
+                $hash = $row['dbsignature'] ?? '';
             }
         }
 

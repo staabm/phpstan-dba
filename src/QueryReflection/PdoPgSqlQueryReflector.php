@@ -46,24 +46,11 @@ final class PdoPgSqlQueryReflector extends BasePdoQueryReflector
             return $this->cache[$queryString] = null;
         }
 
-        try {
-            $this->pdo->beginTransaction();
-        } catch (PDOException $e) {
-            // not all drivers may support transactions
-            throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
-        }
-
+        GlobalTransaction::ensureStarted($this->pdo);
         try {
             $stmt = $this->pdo->query($simulatedQuery);
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
-        } finally {
-            try {
-                $this->pdo->rollBack();
-            } catch (PDOException $e) {
-                // not all drivers may support transactions
-                throw new \RuntimeException('Failed to rollback transaction', $e->getCode(), $e);
-            }
         }
 
         $this->cache[$queryString] = [];
