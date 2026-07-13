@@ -49,14 +49,11 @@ class PdoMysqlQueryReflector extends BasePdoQueryReflector
             return $this->cache[$queryString] = null;
         }
 
-        $this->pdo->beginTransaction();
-
+        GlobalTransaction::ensureStarted($this->pdo);
         try {
             $stmt = $this->pdo->query($simulatedQuery);
         } catch (PDOException $e) {
             return $this->cache[$queryString] = $e;
-        } finally {
-            $this->pdo->rollBack();
         }
 
         $this->cache[$queryString] = [];
