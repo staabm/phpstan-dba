@@ -6,6 +6,7 @@ namespace staabm\PHPStanDba\QueryReflection;
 
 use mysqli;
 use PDO;
+use PDOException;
 use function register_shutdown_function;
 
 final class GlobalTransaction {
@@ -20,18 +21,23 @@ final class GlobalTransaction {
         }
         self::$inTransaction = true;
 
-        if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
-            if ($connection instanceof PDO) {
-                $connection->beginTransaction();
+        try {
+            if (QueryReflection::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
+                if ($connection instanceof PDO) {
+                    $connection->beginTransaction();
+                } else {
+                    $connection->begin_transaction();
+                }
             } else {
-                $connection->begin_transaction();
+                if ($connection instanceof PDO) {
+                    $connection->beginTransaction();
+                } else {
+                    $connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
+                }
             }
-        } else {
-            if ($connection instanceof PDO) {
-                $connection->beginTransaction();
-            } else {
-                $connection->begin_transaction(\MYSQLI_TRANS_START_READ_ONLY);
-            }
+        } catch (PDOException $e) {
+            // not all drivers may support transactions
+            throw new \RuntimeException('Failed to start transaction', $e->getCode(), $e);
         }
 
         register_shutdown_function(function() use ($connection) {
