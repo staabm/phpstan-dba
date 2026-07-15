@@ -225,6 +225,20 @@ final class ReflectionCache
         }
     }
 
+    /**
+     * @param QueryReflector::FETCH_TYPE* $fetchType
+     */
+    public function contains(string $queryString): bool
+    {
+        $records     = $this->lazyReadRecords();
+
+        if (! \array_key_exists($queryString, $records)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function hasValidationError(string $queryString): bool
     {
         $records = $this->lazyReadRecords();
