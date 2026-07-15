@@ -225,17 +225,6 @@ final class ReflectionCache
         }
     }
 
-    public function contains(string $queryString): bool
-    {
-        $records     = $this->lazyReadRecords();
-
-        if (! \array_key_exists($queryString, $records)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function hasValidationError(string $queryString): bool
     {
         $records = $this->lazyReadRecords();
