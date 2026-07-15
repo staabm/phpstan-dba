@@ -228,7 +228,7 @@ final class ReflectionCache
 
     public function contains(string $queryString): bool
     {
-        $records     = $this->lazyReadRecords();
+        $records = $this->lazyReadRecords();
 
         if (! \array_key_exists($queryString, $records)) {
             return false;
@@ -247,8 +247,7 @@ final class ReflectionCache
 
         $cacheEntry = $this->records[$queryString];
 
-        return
-            \array_key_exists('error', $cacheEntry)
+        return \array_key_exists('error', $cacheEntry)
             && $cacheEntry['error'] instanceof Error
         ;
     }
@@ -269,7 +268,7 @@ final class ReflectionCache
             return null;
         }
 
-        if (!$cacheEntry['error'] instanceof Error) {
+        if (! $cacheEntry['error'] instanceof Error) {
             return null;
         }
 
@@ -304,7 +303,7 @@ final class ReflectionCache
 
         if (
             ! \array_key_exists('error', $this->records[$queryString])
-            || !$this->records[$queryString]['error'] instanceof Valid
+            || ! $this->records[$queryString]['error'] instanceof Valid
         ) {
             $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = new Valid();
             $this->cacheIsDirty = true;
