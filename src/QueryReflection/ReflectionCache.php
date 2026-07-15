@@ -347,7 +347,7 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
-        if (\array_key_exists('error', $cacheEntry)) {
+        if (\array_key_exists('error', $cacheEntry) && $cacheEntry['error'] instanceof Error) {
             return null;
         }
 

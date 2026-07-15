@@ -6,6 +6,9 @@ namespace staabm\PHPStanDba;
 
 final class Valid
 {
+    /**
+     * @param array{} $array
+     */
     public static function __set_state(array $array): self
     {
         return new self();
