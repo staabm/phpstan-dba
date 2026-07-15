@@ -234,7 +234,6 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
-
         return \array_key_exists('error', $cacheEntry);
     }
 
@@ -250,6 +249,10 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
+        if (\array_key_exists('result', $cacheEntry)) {
+            return null;
+        }
+
         if (! \array_key_exists('error', $cacheEntry)) {
             return null;
         }
@@ -307,6 +310,10 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
+        if (\array_key_exists('error', $cacheEntry)) {
+            return null;
+        }
+
         if (! \array_key_exists('result', $cacheEntry)) {
             throw new CacheNotPopulatedException(sprintf('Cache not populated for query "%s"', $queryString));
         }
