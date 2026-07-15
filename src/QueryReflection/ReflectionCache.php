@@ -19,12 +19,12 @@ final class ReflectionCache
     private string $cacheFile;
 
     /**
-     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: null|Error|Valid, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private array $records = [];
 
     /**
-     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: null|Error|Valid, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private array $changes = [];
 
