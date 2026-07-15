@@ -73,9 +73,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 
@@ -126,9 +123,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 
@@ -139,9 +133,6 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 
@@ -232,9 +223,6 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 
@@ -535,9 +523,6 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 

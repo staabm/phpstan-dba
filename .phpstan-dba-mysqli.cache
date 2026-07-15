@@ -18,6 +18,57 @@
         ),
       ),
     ),
+    'SELECT
+                MD5(
+                    GROUP_CONCAT(
+                        InnerSelect.columns
+                    )
+                ) AS dbsignature,
+                1 AS grouper
+            FROM (
+                SELECT
+                    CONCAT(
+                        COALESCE(COLUMN_NAME, \'\'),
+                        COALESCE(EXTRA, \'\'),
+                        COLUMN_TYPE,
+                        IS_NULLABLE
+                    ) as columns
+                FROM
+                    information_schema.columns
+                WHERE
+                    table_schema = DATABASE()
+                ORDER BY table_name, column_name
+            ) as InnerSelect
+            GROUP BY
+                grouper' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{dbsignature: string|null, 0: string|null, grouper: int, 1: int}',
+        ),
+        3 => 
+        array (
+          'type-description' => 'array{dbsignature: string|null, grouper: int}',
+        ),
+      ),
+    ),
+    'SELECT column_name, column_default, is_nullable
+                FROM information_schema.columns
+                WHERE table_name = \'1970-01-01\'' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{COLUMN_NAME: string, 0: string, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+        ),
+      ),
+    ),
   ),
   'runtimeConfig' => 
   array (
