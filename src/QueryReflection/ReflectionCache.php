@@ -226,9 +226,6 @@ final class ReflectionCache
         }
     }
 
-    /**
-     * @param QueryReflector::FETCH_TYPE* $fetchType
-     */
     public function contains(string $queryString): bool
     {
         $records     = $this->lazyReadRecords();
