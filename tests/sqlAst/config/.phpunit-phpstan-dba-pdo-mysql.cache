@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v12-new-cache5',
+  'schemaVersion' => 'v13-valid-query',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -164,7 +164,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{str: string|null, 0: string|null}',
+          'type-description' => 'array{str: string, 0: string}',
         ),
       ),
     ),
@@ -204,7 +204,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{str: string|null, 0: string|null}',
+          'type-description' => 'array{str: string, 0: string}',
         ),
       ),
     ),
@@ -744,7 +744,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -754,7 +754,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -794,7 +794,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -804,7 +804,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -1014,7 +1014,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: mixed, 0: mixed}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -1164,7 +1164,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1214,7 +1214,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1224,7 +1224,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1244,7 +1244,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1254,7 +1254,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: string|null, 0: string|null}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
@@ -1274,7 +1274,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1614,7 +1614,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),
@@ -1624,7 +1624,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{field: string|null, 0: string|null}',
+          'type-description' => 'array{field: string, 0: string}',
         ),
       ),
     ),

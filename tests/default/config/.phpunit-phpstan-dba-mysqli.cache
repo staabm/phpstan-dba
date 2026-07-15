@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v12-new-cache5',
+  'schemaVersion' => 'v13-valid-query',
   'schemaHash' => NULL,
   'records' => 
   array (
@@ -73,6 +73,9 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -123,6 +126,9 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -133,6 +139,9 @@ FROM ada' =>
     ),
     'SELECT adaid FROM ada LIMIT 1 OFFSET 1 FOR UPDATE' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -152,16 +161,6 @@ FROM ada' =>
       ),
     ),
     'SELECT adaid FROM ada WHERE adaid IN (\'1\') AND email LIKE \'1970-01-01\'' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        array (
-          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
-        ),
-      ),
-    ),
-    'SELECT adaid FROM ada WHERE adaid IN (\'1.0\')' => 
     array (
       'result' => 
       array (
@@ -233,6 +232,9 @@ FROM ada' =>
     ),
     'SELECT akid FROM ak WHERE eadavk>1.0' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -326,6 +328,9 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -378,18 +383,11 @@ FROM ada' =>
         ),
       ),
     ),
-    'SELECT email, adaid FROM ada WHERE adaid = \'email@example.org\' and email = \'1\'' => 
-    array (
-      'result' => 
-      array (
-        5 => 
-        array (
-          'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}',
-        ),
-      ),
-    ),
     'SELECT email, adaid FROM ada WHERE adaid = 1' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -430,6 +428,9 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE adaid=1' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
@@ -534,6 +535,9 @@ FROM ada' =>
     ),
     'SELECT email, adaid FROM ada WHERE gesperrt = \'1\'' => 
     array (
+      'error' => 
+      \staabm\PHPStanDba\Valid::__set_state(array(
+      )),
       'result' => 
       array (
         5 => 
