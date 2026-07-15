@@ -100,7 +100,7 @@ final class ReflectionCache
     }
 
     /**
-     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @return array<string, array{error?: null|Valid|Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private function lazyReadRecords()
     {
