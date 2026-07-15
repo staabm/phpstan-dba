@@ -23,10 +23,12 @@ final class ReflectionCacheTest extends TestCase
         $cache = ReflectionCache::create(self::CACHE_FILE);
         self::assertFalse($cache->hasValidationError($query));
         self::assertFalse($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+        self::assertFalse($cache->contains($query));
 
         $cache->putResultType($query, QueryReflector::FETCH_TYPE_BOTH, new IntegerType());
         self::assertTrue($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
         self::assertInstanceOf(IntegerType::class, $cache->getResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+        self::assertTrue($cache->contains($query));
 
         self::assertFalse($cache->hasValidationError($query));
         self::assertNull($cache->getValidationError($query));
@@ -39,14 +41,38 @@ final class ReflectionCacheTest extends TestCase
         $cache = ReflectionCache::create(self::CACHE_FILE);
         self::assertFalse($cache->hasValidationError($query));
         self::assertFalse($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+        self::assertFalse($cache->contains($query));
 
         $error = new Error('some error', 123);
         $cache->putValidationError($query, $error);
         self::assertTrue($cache->hasValidationError($query));
         self::assertSame($error, $cache->getValidationError($query));
+        self::assertTrue($cache->contains($query));
 
         self::assertFalse($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
         self::assertNull($cache->getResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+    }
+
+    public function testPutValidationSuccess(): void
+    {
+        $query = 'SELECT 1 FROM abc WHERE x = 6';
+
+        $cache = ReflectionCache::create(self::CACHE_FILE);
+        self::assertFalse($cache->hasValidationError($query));
+        self::assertFalse($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+        self::assertFalse($cache->contains($query));
+
+        $cache->putValidationSuccess($query);
+        self::assertFalse($cache->hasValidationError($query));
+        self::assertNull($cache->getValidationError($query));
+        self::assertTrue($cache->contains($query));
+
+        self::assertFalse($cache->hasResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+        try {
+            self::assertNull($cache->getResultType($query, QueryReflector::FETCH_TYPE_BOTH));
+            self::fail();
+        } catch (CacheNotPopulatedException $e) {
+        }
     }
 
     public function testCacheNotPopulated(): void
