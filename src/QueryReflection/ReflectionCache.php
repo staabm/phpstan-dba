@@ -272,6 +272,10 @@ final class ReflectionCache
             return null;
         }
 
+        if (!$cacheEntry['error'] instanceof Error) {
+            return null;
+        }
+
         return $cacheEntry['error'];
     }
 
