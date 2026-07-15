@@ -69,7 +69,7 @@ final class ReflectionCacheTest extends TestCase
         }
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         unlink(self::CACHE_FILE);
     }
