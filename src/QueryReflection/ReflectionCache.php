@@ -9,11 +9,12 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\Valid;
 use const LOCK_EX;
 
 final class ReflectionCache
 {
-    private const SCHEMA_VERSION = 'v12-new-cache5';
+    private const SCHEMA_VERSION = 'v13-valid-query';
 
     private string $cacheFile;
 
@@ -272,6 +273,24 @@ final class ReflectionCache
         }
 
         unset($this->records[$queryString]['result']);
+    }
+
+    public function putValidationSuccess(string $queryString): void
+    {
+        $records = $this->lazyReadRecords();
+
+        if (! \array_key_exists($queryString, $records)) {
+            $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
+        }
+
+        if (
+            ! \array_key_exists('error', $this->records[$queryString])
+            || !$this->records[$queryString]['error'] instanceof Valid
+        ) {
+            $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = new Valid();
+            $this->cacheIsDirty = true;
+        }
     }
 
     /**
