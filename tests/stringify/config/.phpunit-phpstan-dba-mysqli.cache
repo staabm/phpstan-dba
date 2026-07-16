@@ -1,5 +1,5 @@
 <?php return array (
-  'schemaVersion' => 'v12-new-cache5',
+  'schemaVersion' => 'v13-valid-query',
   'schemaHash' => NULL,
   'records' => 
   array (

@@ -53,9 +53,8 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
             return $this->createRecordingReflector()->validateQueryString($queryString);
         }
 
-        $error = $this->replayReflector->validateQueryString($queryString);
-        if (null !== $error) {
-            return $error;
+        if ($this->reflectionCache->contains($queryString)) {
+            return $this->replayReflector->validateQueryString($queryString);
         }
 
         return $this->createRecordingReflector()->validateQueryString($queryString);

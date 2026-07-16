@@ -9,6 +9,7 @@ use PHPStan\PhpDocParser\Printer\Printer;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\Valid;
 
 final class TypeSerializer
 {
@@ -17,8 +18,8 @@ final class TypeSerializer
     private ?TypeStringResolver $typeStringResolver = null;
 
     /**
-     * @param array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}> $records
-     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?array<string>>}>
+     * @param array<string, array{error?: null|Valid|Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}> $records
+     * @return array<string, array{error?: null|Valid|Error, result?: array<QueryReflector::FETCH_TYPE*, ?array<string>>}>
      */
     public function serialize(array $records): array
     {

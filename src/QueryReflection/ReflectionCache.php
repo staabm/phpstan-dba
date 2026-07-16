@@ -9,21 +9,22 @@ use PHPStan\Type\Type;
 use staabm\PHPStanDba\CacheNotPopulatedException;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\Valid;
 use const LOCK_EX;
 
 final class ReflectionCache
 {
-    private const SCHEMA_VERSION = 'v12-new-cache5';
+    private const SCHEMA_VERSION = 'v13-valid-query';
 
     private string $cacheFile;
 
     /**
-     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: null|Error|Valid, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private array $records = [];
 
     /**
-     * @var array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @var array<string, array{error?: null|Error|Valid, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private array $changes = [];
 
@@ -99,7 +100,7 @@ final class ReflectionCache
     }
 
     /**
-     * @return array<string, array{error?: ?Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
+     * @return array<string, array{error?: null|Valid|Error, result?: array<QueryReflector::FETCH_TYPE*, ?Type>}>
      */
     private function lazyReadRecords()
     {
@@ -225,6 +226,17 @@ final class ReflectionCache
         }
     }
 
+    public function contains(string $queryString): bool
+    {
+        $records = $this->lazyReadRecords();
+
+        if (! \array_key_exists($queryString, $records)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function hasValidationError(string $queryString): bool
     {
         $records = $this->lazyReadRecords();
@@ -234,7 +246,10 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
-        return \array_key_exists('error', $cacheEntry);
+
+        return \array_key_exists('error', $cacheEntry)
+            && $cacheEntry['error'] instanceof Error
+        ;
     }
 
     /**
@@ -257,6 +272,10 @@ final class ReflectionCache
             return null;
         }
 
+        if (! $cacheEntry['error'] instanceof Error) {
+            return null;
+        }
+
         return $cacheEntry['error'];
     }
 
@@ -275,6 +294,24 @@ final class ReflectionCache
         }
 
         unset($this->records[$queryString]['result']);
+    }
+
+    public function putValidationSuccess(string $queryString): void
+    {
+        $records = $this->lazyReadRecords();
+
+        if (! \array_key_exists($queryString, $records)) {
+            $this->changes[$queryString] = $this->records[$queryString] = [];
+            $this->cacheIsDirty = true;
+        }
+
+        if (
+            ! \array_key_exists('error', $this->records[$queryString])
+            || ! $this->records[$queryString]['error'] instanceof Valid
+        ) {
+            $this->changes[$queryString]['error'] = $this->records[$queryString]['error'] = new Valid();
+            $this->cacheIsDirty = true;
+        }
     }
 
     /**
@@ -310,7 +347,7 @@ final class ReflectionCache
         }
 
         $cacheEntry = $this->records[$queryString];
-        if (\array_key_exists('error', $cacheEntry)) {
+        if (\array_key_exists('error', $cacheEntry) && $cacheEntry['error'] instanceof Error) {
             return null;
         }
 
