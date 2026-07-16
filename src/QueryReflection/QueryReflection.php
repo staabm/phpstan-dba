@@ -31,6 +31,7 @@ use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\DbSchema\LazySchemaHasher;
 use staabm\PHPStanDba\DbSchema\SchemaHasher;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasherPgsql;
 use staabm\PHPStanDba\DbSchema\SchemaHasherString;
 use staabm\PHPStanDba\Error;
 use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
@@ -730,6 +731,9 @@ final class QueryReflection
             }
             if (null === $ds) {
                 return new SchemaHasherString('unknown-fixed-hash');
+            }
+            if ($ds instanceof \PDO && 'pgsql' === $ds->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
+                return new SchemaHasherPgsql($ds);
             }
             return new SchemaHasherMysql($ds);
         });
