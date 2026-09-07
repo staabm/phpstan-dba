@@ -48,26 +48,20 @@ final class SchemaHasherMysql implements SchemaHasher
             SELECT
                 MD5(
                     GROUP_CONCAT(
-                        InnerSelect.columns
+                        CONCAT(
+                            COALESCE(COLUMN_NAME, ''),
+                            COALESCE(EXTRA, ''),
+                            COLUMN_TYPE,
+                            IS_NULLABLE,
+                            ORDINAL_POSITION
+                        )
+                        ORDER BY TABLE_NAME, COLUMN_NAME
                     )
-                ) AS dbsignature,
-                1 AS grouper
-            FROM (
-                SELECT
-                    CONCAT(
-                        COALESCE(COLUMN_NAME, ''),
-                        COALESCE(EXTRA, ''),
-                        COLUMN_TYPE,
-                        IS_NULLABLE
-                    ) as columns
-                FROM
-                    information_schema.columns
-                WHERE
-                    table_schema = DATABASE()
-                ORDER BY table_name, column_name
-            ) as InnerSelect
-            GROUP BY
-                grouper";
+                ) AS dbsignature
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = DATABASE()";
 
         $hash = '';
         if ($this->connection instanceof PDO) {
