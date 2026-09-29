@@ -1,6 +1,7 @@
 {
 	"name": "staabm/phpstan-dba",
 	"type": "phpstan-extension",
+	"description": "PHPStan based SQL static analysis and type inference for the database access layer",
 	"license": "MIT",
 	"keywords": ["dev", "phpstan", "phpstan-extension", "static analysis", "database access layer", "code quality"],
 	"require": {
@@ -26,7 +27,7 @@
 	"conflict": {
 		"sqlftw/sqlftw": "<0.1.16",
 		"phpstan/phpstan": "2.1.55||2.1.56||2.2.0||2.2.1",
-		"doctrine/dbal": "<3, >=5"
+		"doctrine/dbal": "<3||>=5"
 	},
 	"autoload": {
 		"psr-4": {

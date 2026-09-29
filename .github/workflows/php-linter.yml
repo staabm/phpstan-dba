@@ -31,3 +31,6 @@ jobs:
 
       -   name: Lint PHP
           run: vendor/bin/parallel-lint src tests config
+
+      -   name: Composer validate
+          run: composer validate
