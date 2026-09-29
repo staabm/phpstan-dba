@@ -26,7 +26,7 @@
 	"conflict": {
 		"sqlftw/sqlftw": "<0.1.16",
 		"phpstan/phpstan": "2.1.55||2.1.56||2.2.0||2.2.1",
-		"doctrine/dbal": "<3, >=5"
+		"doctrine/dbal": "<3||>=5"
 	},
 	"autoload": {
 		"psr-4": {
