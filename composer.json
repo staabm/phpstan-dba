@@ -7,7 +7,6 @@
 		"php": "^7.4 || ^8.0",
 		"composer-runtime-api": "^2.0",
 		"composer/semver": "^3.2",
-		"doctrine/dbal": "3.*|4.*",
 		"phpstan/phpstan": "^2.1.2"
 	},
 	"require-dev": {
@@ -26,7 +25,8 @@
 	},
 	"conflict": {
 		"sqlftw/sqlftw": "<0.1.16",
-		"phpstan/phpstan": "2.1.55||2.1.56||2.2.0||2.2.1"
+		"phpstan/phpstan": "2.1.55||2.1.56||2.2.0||2.2.1",
+		"doctrine/dbal": "<3, >=5"
 	},
 	"autoload": {
 		"psr-4": {
