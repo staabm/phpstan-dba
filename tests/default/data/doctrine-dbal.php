@@ -61,6 +61,9 @@ class Foo
 
         $result = $conn->executeQuery('SELECT email, adaid FROM ada');
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
+
+        $result = $conn->executeQuery('SELECT pid FROM typemix');
+        assertType('array{pid: int<0, 4294967295>}|false', $result->fetchAssociative());
     }
 
     public function executeStatement(Connection $conn, int $adaid)
