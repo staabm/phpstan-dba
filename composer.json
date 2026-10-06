@@ -18,7 +18,7 @@
 		"phpstan/extension-installer": "^1.4",
 		"phpstan/phpstan-deprecation-rules": "^2.0",
 		"phpstan/phpstan-phpunit": "^2.0",
-		"phpstan/phpstan-strict-rules": "^2.0",
+		"phpstan/phpstan-strict-rules": "^2.1",
 		"phpunit/phpunit": "^8.5|^9.5",
 		"symplify/easy-coding-standard": "^12.5",
 		"tomasvotruba/unused-public": "^2.2",
