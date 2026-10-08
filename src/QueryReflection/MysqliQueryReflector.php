@@ -21,6 +21,8 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
 
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = 1054;
 
+    private const MYSQL_AMBIGUOUS_COLUMN_IN_FROM_CLAUSE = 1052;
+
     public const MYSQL_UNKNOWN_TABLE = 1146;
 
     private const MYSQL_INCORRECT_TABLE = 1103;
@@ -33,6 +35,7 @@ final class MysqliQueryReflector implements QueryReflector, RecordingReflector
     private const MYSQL_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
+        self::MYSQL_AMBIGUOUS_COLUMN_IN_FROM_CLAUSE,
         self::MYSQL_UNKNOWN_TABLE,
         self::MYSQL_INCORRECT_TABLE,
     ];
