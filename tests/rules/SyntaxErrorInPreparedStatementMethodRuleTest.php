@@ -283,7 +283,8 @@ LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\' ...
         }
 
         $this->analyse(
-            [__DIR__ . '/data/ambiguous-using-column.php'], [[$expectedError, 11]],
+            [__DIR__ . '/data/ambiguous-using-column.php'],
+            [[$expectedError, 11]],
         );
     }
 
