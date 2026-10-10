@@ -49,6 +49,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
 
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $args = $functionCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
             $scope,
@@ -71,6 +73,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
             $scope,

@@ -11,6 +11,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\SyntaxErrorInQueryFunctionRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -45,6 +46,8 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         if (! $node->name instanceof Node\Name) {
             return [];
         }

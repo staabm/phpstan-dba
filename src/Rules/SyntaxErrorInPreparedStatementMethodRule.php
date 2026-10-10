@@ -20,6 +20,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -54,6 +55,8 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
     public function processNode(Node $callLike, Scope $scope): array
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];

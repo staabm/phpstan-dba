@@ -23,6 +23,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\VerbosityLevel;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 /**
@@ -73,6 +74,8 @@ final class DoctrineKeyValueStyleRule implements Rule
      */
     public function processNode(Node $callLike, Scope $scope): array
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];

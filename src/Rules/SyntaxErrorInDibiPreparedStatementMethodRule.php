@@ -18,6 +18,7 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -53,6 +54,8 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
 
     public function processNode(Node $callLike, Scope $scope): array
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];

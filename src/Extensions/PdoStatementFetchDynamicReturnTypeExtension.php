@@ -48,6 +48,8 @@ final class PdoStatementFetchDynamicReturnTypeExtension implements DynamicMethod
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $returnType = ParametersAcceptorSelector::selectFromArgs(
             $scope,
             $methodCall->getArgs(),

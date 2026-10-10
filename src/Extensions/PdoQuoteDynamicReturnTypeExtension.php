@@ -43,6 +43,8 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
             $scope,

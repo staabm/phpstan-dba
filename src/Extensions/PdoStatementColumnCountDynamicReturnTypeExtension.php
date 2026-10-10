@@ -28,6 +28,8 @@ final class PdoStatementColumnCountDynamicReturnTypeExtension implements Dynamic
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {

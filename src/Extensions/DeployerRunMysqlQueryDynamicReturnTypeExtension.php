@@ -27,6 +27,8 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
 
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $args = $functionCall->getArgs();
 
         if (\count($args) < 2) {
