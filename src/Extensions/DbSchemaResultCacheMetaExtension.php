@@ -8,6 +8,7 @@ use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
+// @phpstan-ignore class.implementsDeprecatedInterface
 final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
 {
     public function getKey(): string
