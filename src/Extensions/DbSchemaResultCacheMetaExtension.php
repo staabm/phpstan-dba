@@ -12,7 +12,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class DbSchemaResultCacheMetaExtension implements ResultCacheValueExtension
 {
-    public const SCHEMA_KEY = 'schema';
+    private const SCHEMA_KEY = 'schema';
 
     /**
      * Marks the currently analysed file as dependent on the database schema.
