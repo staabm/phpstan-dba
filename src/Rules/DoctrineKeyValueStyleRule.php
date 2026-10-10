@@ -74,8 +74,6 @@ final class DoctrineKeyValueStyleRule implements Rule
      */
     public function processNode(Node $callLike, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];
@@ -113,6 +111,8 @@ final class DoctrineKeyValueStyleRule implements Rule
         if ($unsupportedMethod) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         // Reorder arguments to account for named parameters
         $parametersAcceptor = ParametersAcceptorSelector::selectFromArgs(

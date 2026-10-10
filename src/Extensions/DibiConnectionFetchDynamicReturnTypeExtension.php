@@ -41,8 +41,6 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         $args = $methodCall->getArgs();
 
         if (\count($args) < 1) {
@@ -52,6 +50,8 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
         if ($scope->getType($args[0]->value) instanceof MixedType) {
             return null;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             return $this->inferType($methodReflection, $args[0]->value, $scope);

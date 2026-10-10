@@ -54,8 +54,6 @@ final class QueryPlanAnalyzerRule implements Rule
 
     public function processNode(Node $callLike, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];
@@ -109,6 +107,8 @@ final class QueryPlanAnalyzerRule implements Rule
         if ($unsupportedMethod) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             return $this->analyze($callLike, $scope);

@@ -37,13 +37,13 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
 
     public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         // keep original param name because named-parameters
         $methodCall = $node;
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {
+            DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {

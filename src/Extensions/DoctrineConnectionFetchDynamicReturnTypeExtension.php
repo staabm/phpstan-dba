@@ -46,8 +46,6 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         $args = $methodCall->getArgs();
 
         if (\count($args) < 1) {
@@ -62,6 +60,8 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*|4.*')) {
             return null;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $params = null;
         if (\count($args) > 1) {

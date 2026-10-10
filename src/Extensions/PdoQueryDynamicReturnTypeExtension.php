@@ -43,8 +43,6 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         $args = $methodCall->getArgs();
         $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
             $scope,
@@ -63,6 +61,8 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         if ($scope->getType($args[0]->value) instanceof MixedType) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $resultType = $this->inferType($methodCall, $args[0]->value, $scope);

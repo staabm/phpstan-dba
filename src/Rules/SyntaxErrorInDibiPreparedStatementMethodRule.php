@@ -54,8 +54,6 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
 
     public function processNode(Node $callLike, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];
@@ -112,6 +110,8 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         if (\count($args) < 1) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $queryReflection = new QueryReflection(new DbaApi(DbaApi::API_DIBI));
         $queryParameters = [];

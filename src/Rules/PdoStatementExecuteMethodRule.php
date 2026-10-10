@@ -36,8 +36,6 @@ final class PdoStatementExecuteMethodRule implements Rule
 
     public function processNode(Node $methodCall, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if (! $methodCall->name instanceof Node\Identifier) {
             return [];
         }
@@ -74,6 +72,8 @@ final class PdoStatementExecuteMethodRule implements Rule
         if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $args = $methodCall->getArgs();
         if (\count($args) < 1) {

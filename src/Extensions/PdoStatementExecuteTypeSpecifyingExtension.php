@@ -42,10 +42,10 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
 
     public function specifyTypes(MethodReflection $methodReflection, MethodCall $node, Scope $scope, TypeSpecifierContext $context): SpecifiedTypes
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         // keep original param name because named-parameters
         $methodCall = $node;
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $inferredType = $this->inferStatementType($methodReflection, $methodCall, $scope);

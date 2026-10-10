@@ -55,8 +55,6 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
     public function processNode(Node $callLike, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if ($callLike instanceof MethodCall) {
             if (! $callLike->name instanceof Node\Identifier) {
                 return [];
@@ -122,6 +120,8 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         if (\count($args) < 1) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $queryExpr = $args[0]->value;
         $queryReflection = new QueryReflection();

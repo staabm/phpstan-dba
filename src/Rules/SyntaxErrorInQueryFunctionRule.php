@@ -46,8 +46,6 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
-
         if (! $node->name instanceof Node\Name) {
             return [];
         }
@@ -83,6 +81,8 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
         if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $queryExpr = $args[$queryArgPosition]->value;
         $queryReflection = new QueryReflection();
