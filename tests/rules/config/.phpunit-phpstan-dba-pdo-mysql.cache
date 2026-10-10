@@ -784,6 +784,17 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         ),
       ),
     ),
+    'SELECT first.adaid
+             FROM ada first
+             JOIN ada second ON second.adaid = first.adaid
+             JOIN ada third USING(adaid)' => 
+    array (
+      'error' => 
+      \staabm\PHPStanDba\Error::__set_state(array(
+         'message' => 'SQLSTATE[23000]: Integrity constraint violation: 1052 Column \'adaid\' in from clause is ambiguous',
+         'code' => '23000',
+      )),
+    ),
     'SELECT with syntax error GROUPY by x' => 
     array (
       'error' => 

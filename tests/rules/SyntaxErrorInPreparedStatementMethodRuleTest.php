@@ -268,6 +268,26 @@ LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=\'1\' ...
         $this->analyse([__DIR__ . '/data/syntax-error-in-prepared-statement.php'], $expectedErrors);
     }
 
+    public function test_prepared_statement_method_reports_ambiguous_using_column(): void
+    {
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                $expectedError = "Query error: Column 'adaid' in FROM is ambiguous (1052).";
+            } else {
+                $expectedError = "Query error: Column 'adaid' in from clause is ambiguous (1052).";
+            }
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expectedError = "Query error: SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'adaid' in from clause is ambiguous (23000).";
+        } else {
+            self::markTestSkipped('This regression only applies to MySQL reflectors.');
+        }
+
+        $this->analyse(
+            [__DIR__ . '/data/ambiguous-using-column.php'],
+            [[$expectedError, 11]],
+        );
+    }
+
     public function testBug94()
     {
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
