@@ -42,6 +42,8 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {
+            DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {

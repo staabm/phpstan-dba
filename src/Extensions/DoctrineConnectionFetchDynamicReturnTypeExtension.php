@@ -61,6 +61,8 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
             return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $params = null;
         if (\count($args) > 1) {
             $params = $args[1]->value;

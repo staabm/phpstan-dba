@@ -19,6 +19,7 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\ObjectType;
 use staabm\PHPStanDba\DibiReflection\DibiReflection;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
@@ -109,6 +110,8 @@ final class SyntaxErrorInDibiPreparedStatementMethodRule implements Rule
         if (\count($args) < 1) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $queryReflection = new QueryReflection(new DbaApi(DbaApi::API_DIBI));
         $queryParameters = [];

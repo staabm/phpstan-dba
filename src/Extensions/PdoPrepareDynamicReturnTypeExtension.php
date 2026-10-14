@@ -60,6 +60,8 @@ final class PdoPrepareDynamicReturnTypeExtension implements DynamicMethodReturnT
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             $resultType = $this->inferType($args[0]->value, $scope);
             if (null !== $resultType) {

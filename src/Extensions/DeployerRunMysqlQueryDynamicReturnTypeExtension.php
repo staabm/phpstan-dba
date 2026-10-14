@@ -37,6 +37,8 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
             return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {

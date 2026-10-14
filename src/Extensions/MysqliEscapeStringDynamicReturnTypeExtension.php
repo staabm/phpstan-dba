@@ -64,6 +64,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $argType = $scope->getType($args[1]->value);
 
         return $this->inferType($argType);
@@ -85,6 +87,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         if (0 === \count($args)) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $argType = $scope->getType($args[0]->value);
 

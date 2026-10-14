@@ -52,6 +52,8 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
             return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {

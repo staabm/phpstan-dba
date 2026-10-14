@@ -58,6 +58,8 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             $stringType = $this->inferType($methodCall, $scope);
             if (null !== $stringType) {

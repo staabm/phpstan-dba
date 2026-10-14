@@ -102,4 +102,4 @@ services:
     -
         class: staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension
         tags:
-           - phpstan.resultCacheMetaExtension
+           - phpstan.resultCacheValueExtension

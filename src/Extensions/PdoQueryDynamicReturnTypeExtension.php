@@ -62,6 +62,8 @@ final class PdoQueryDynamicReturnTypeExtension implements DynamicMethodReturnTyp
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             $resultType = $this->inferType($methodCall, $args[0]->value, $scope);
             if (null !== $resultType) {

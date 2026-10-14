@@ -4,23 +4,32 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\Extensions;
 
-use PHPStan\Analyser\ResultCache\ResultCacheMetaExtension;
+use PHPStan\Analyser\DependencyTracker;
+use PHPStan\Analyser\ResultCache\ResultCacheValueExtension;
+use PHPStan\Analyser\Scope;
 use staabm\PHPStanDba\DbaException;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
-// @phpstan-ignore class.implementsDeprecatedInterface
-final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
+final class DbSchemaResultCacheMetaExtension implements ResultCacheValueExtension
 {
-    public function getKey(): string
+    private const SCHEMA_KEY = 'schema';
+
+    /**
+     * Marks the currently analysed file as dependent on the database schema.
+     */
+    public static function trackSchemaDependency(Scope $scope): void
     {
-        return 'phpstan-dba-schema-hash';
+        if ($scope instanceof DependencyTracker) {
+            $scope->trackValueDependency(self::class, self::SCHEMA_KEY);
+        }
     }
 
-    public function getHash(): string
+    public function getValue(string $key): string
     {
         try {
             $queryReflection = new QueryReflection();
             $schemaHasher = $queryReflection->getSchemaHasher();
+
             return $schemaHasher->hashDb();
         } catch (DbaException $e) {
             // don't break the whole process when reflector is not
@@ -28,5 +37,15 @@ final class DbSchemaResultCacheMetaExtension implements ResultCacheMetaExtension
             // when sql queries in to be analyzed code triggers the analysis
             return 'reflector-not-initialized';
         }
+    }
+
+    public function keyToResultCache(string $key): string
+    {
+        return $key;
+    }
+
+    public function keyFromResultCache(string $storedKey): string
+    {
+        return $storedKey;
     }
 }

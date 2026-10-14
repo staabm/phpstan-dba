@@ -45,6 +45,8 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         // keep original param name because named-parameters
         $methodCall = $node;
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             $inferredType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $e) {

@@ -51,6 +51,8 @@ final class DibiConnectionFetchDynamicReturnTypeExtension implements DynamicMeth
             return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             return $this->inferType($methodReflection, $args[0]->value, $scope);
         } catch (UnresolvableQueryException $exception) {

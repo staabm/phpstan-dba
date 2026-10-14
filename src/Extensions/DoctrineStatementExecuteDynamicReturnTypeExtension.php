@@ -44,6 +44,8 @@ final class DoctrineStatementExecuteDynamicReturnTypeExtension implements Dynami
             return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             return $this->inferType($methodReflection, $methodCall, $args[0]->value, $scope);
         } catch (UnresolvableQueryException $exception) {

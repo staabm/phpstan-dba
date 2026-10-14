@@ -37,6 +37,8 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {

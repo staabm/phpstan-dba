@@ -65,6 +65,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
             $resultType = $this->inferResultType($args[1]->value, $scope);
             if (null !== $resultType) {
@@ -97,6 +99,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         if ($scope->getType($args[0]->value) instanceof MixedType) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $resultType = $this->inferResultType($args[0]->value, $scope);
