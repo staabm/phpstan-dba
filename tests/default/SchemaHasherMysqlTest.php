@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Tests;
 
 use PDO;
+use PDOException;
 use PHPUnit\Framework\TestCase;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use function getenv;
+use function str_contains;
 
 class SchemaHasherMysqlTest extends TestCase
 {
@@ -28,7 +30,12 @@ class SchemaHasherMysqlTest extends TestCase
             self::markTestSkipped('Hashing a schema requires a database connection.');
         }
 
-        $this->connection = self::connect(null);
+        try {
+            $this->connection = self::connect(null);
+        } catch (PDOException $e) {
+            self::markTestSkipped('Unable to connect to MySQL server: ' . $e->getMessage());
+        }
+
         $this->exec('DROP DATABASE IF EXISTS ' . self::DATABASE_NAME);
         $this->exec('CREATE DATABASE ' . self::DATABASE_NAME);
         $this->exec('USE ' . self::DATABASE_NAME);
