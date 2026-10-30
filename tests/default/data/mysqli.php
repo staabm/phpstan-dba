@@ -57,4 +57,11 @@ class Foo
             }
         }
     }
+
+    public function fetchAssoc(mysqli $mysqli, string $query)
+    {
+        $result = mysqli_query($mysqli, 'SELECT adaid FROM ada');
+        assertType('array{adaid: int<-32768, 32767>}', $result->fetch_assoc());
+    }
+
 }
