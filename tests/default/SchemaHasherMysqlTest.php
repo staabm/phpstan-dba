@@ -9,7 +9,6 @@ use PDOException;
 use PHPUnit\Framework\TestCase;
 use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
 use function getenv;
-use function str_contains;
 
 class SchemaHasherMysqlTest extends TestCase
 {
