@@ -1,0 +1,28 @@
+tests/default/SchemaHasherMysqlTest.php
+  h_53f8f6db02589e 8,12,38
+  s_c298ae84c0509b::t_c0e54ec5fd29ae 33,35
+  s_c298ae84c0509b::t_30ea461336369a 34
+  s_c298ae84c0509b::t_c5b7d6f604a33f 36
+  h_53f8f6db02589e 37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ce3a7b3315e5501289f205c2c1c2ca21b1a4ac64",
+  "prompts": {},
+  "humans": {
+    "h_53f8f6db02589e": {
+      "author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  },
+  "sessions": {
+    "s_c298ae84c0509b": {
+      "agent_id": {
+        "tool": "github-copilot-jetbrains",
+        "id": "1793169115758",
+        "model": "unknown"
+      },
+      "human_author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  }
+}
