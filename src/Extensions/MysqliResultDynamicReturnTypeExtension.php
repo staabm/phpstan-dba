@@ -142,7 +142,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicMethodRetur
         return TypeCombinator::union(...$rowTypes);
     }
 
-    private function convertRowType(ConstantArrayType $rowType, int $mode): ConstantArrayType
+    private function convertRowType(ConstantArrayType $rowType, int $mode): Type
     {
         $builder = ConstantArrayTypeBuilder::createEmpty();
         $numericIndex = 0;
