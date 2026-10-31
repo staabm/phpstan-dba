@@ -12,9 +12,11 @@ use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
+use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\NullType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
@@ -38,7 +40,14 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicMethodRetur
         $methodName = strtolower($methodReflection->getName());
         if ('fetch_assoc' === $methodName) {
             if (count($methodCall->getArgs()) === 0) {
-                return $this->getRowType($resultType);
+                $rowType = $this->getRowType($resultType);
+                if ($rowType !== null) {
+                    return TypeCombinator::union(
+                        $rowType,
+                        new NullType(),
+                        new ConstantBooleanType(false)
+                    );
+                }
             }
 
             return null;
