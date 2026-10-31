@@ -1014,7 +1014,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{col: mixed, 0: mixed}',
+          'type-description' => 'array{col: string, 0: string}',
         ),
       ),
     ),
