@@ -1,0 +1,28 @@
+tests/default/data/mysqli.php
+  s_3ae7ae53baf7a0::t_6d45227207dc51 67-83
+  s_3ae7ae53baf7a0::t_86b61285056ba7 104
+  s_3ae7ae53baf7a0::t_291527e163362a 84,86-103,105-106
+  h_53f8f6db02589e 61,65-66
+  s_3ae7ae53baf7a0::t_c4be8da5f64a83 85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "02f755832e1c35477759e83d124dfdbe5f98b207",
+  "prompts": {},
+  "humans": {
+    "h_53f8f6db02589e": {
+      "author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  },
+  "sessions": {
+    "s_3ae7ae53baf7a0": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "05d84cbe-025d-4c10-a36f-edc9f1cd38ff",
+        "model": "unknown"
+      },
+      "human_author": null
+    }
+  }
+}
