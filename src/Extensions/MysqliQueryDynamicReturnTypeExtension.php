@@ -130,10 +130,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
                 return null;
             }
 
-            $resultObjectType = new MysqliResultObjectType(\mysqli_result::class);
-            $resultObjectType->setRowType($resultType);
-
-            $objects[] = $resultObjectType;
+            $objects[] = MysqliResultObjectType::newWithRowType($resultType);
         }
 
         if (0 === \count($objects)) {

@@ -10,6 +10,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
+use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
 final class MysqliResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
@@ -27,12 +29,32 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicMethodRetur
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $resultType = $scope->getType($methodCall->var);
-        if (
-            count($methodCall->getArgs()) === 0
-            && $resultType instanceof MysqliResultObjectType
-        ) {
-            return $resultType->getIterableValueType();
+        if (count($methodCall->getArgs()) === 0) {
+            return $this->getRowType($resultType);
         }
         return null;
+    }
+
+    private function getRowType(Type $resultType): ?Type
+    {
+        if ($resultType instanceof MysqliResultObjectType) {
+            return $resultType->getRowType();
+        }
+
+        if (! $resultType instanceof UnionType) {
+            return null;
+        }
+
+        $rowTypes = [];
+        foreach ($resultType->getTypes() as $type) {
+            $rowType = $this->getRowType($type);
+            if ($rowType === null) {
+                return null;
+            }
+
+            $rowTypes[] = $rowType;
+        }
+
+        return TypeCombinator::union(...$rowTypes);
     }
 }
