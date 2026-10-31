@@ -69,10 +69,6 @@ FROM ada' =>
         array (
           'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
         ),
-        3 => 
-        array (
-          'type-description' => 'array{adaid: int<-32768, 32767>}',
-        ),
       ),
     ),
     'SELECT adaid FROM ada LIMIT 1 FOR SHARE' => 
