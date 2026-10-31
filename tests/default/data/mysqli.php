@@ -58,10 +58,52 @@ class Foo
         }
     }
 
-    public function fetchAssoc(mysqli $mysqli, string $query)
+    public function mysqliResultfetch(mysqli $mysqli)
     {
         $result = mysqli_query($mysqli, 'SELECT adaid FROM ada');
         assertType('array{adaid: int<-32768, 32767>}', $result->fetch_assoc());
+
+        $result = mysqli_query($mysqli, 'SELECT adaid FROM ada');
+        assertType('list<array{int<-32768, 32767>}>', $result->fetch_all());
+        assertType('list<array{adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
+        assertType('list<array{int<-32768, 32767>}>', $result->fetch_all(MYSQLI_NUM));
+        assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_BOTH));
+    }
+
+    public function fetchAllColumns(mysqli $mysqli)
+    {
+        $result = $mysqli->query('SELECT email, adaid FROM ada');
+        assertType('list<array{string, int<-32768, 32767>}>', $result->fetch_all());
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
+        assertType('list<array{string, int<-32768, 32767>}>', $result->fetch_all(MYSQLI_NUM));
+        assertType('list<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_BOTH));
+        assertType('array{email: string, adaid: int<-32768, 32767>}', $result->fetch_assoc());
+        foreach ($result as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+    }
+
+    public function fetchAllUnionResult(mysqli $mysqli)
+    {
+        $queries = ['SELECT adaid FROM ada', 'SELECT email FROM ada'];
+
+        foreach ($queries as $query) {
+            $result = $mysqli->query($query);
+            assertType('list<array{int<-32768, 32767>}|array{string}>', $result->fetch_all());
+            assertType('list<array{adaid: int<-32768, 32767>}|array{email: string}>', $result->fetch_all(MYSQLI_ASSOC));
+            assertType('list<array{int<-32768, 32767>}|array{string}>', $result->fetch_all(MYSQLI_NUM));
+            assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}|array{email: string, 0: string}>', $result->fetch_all(MYSQLI_BOTH));
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}', $result->fetch_assoc());
+        }
+    }
+
+    public function fetchAllUnionMode(mysqli $mysqli)
+    {
+        $result = $mysqli->query('SELECT adaid FROM ada');
+        $mode = rand(0, 1) ? MYSQLI_ASSOC : MYSQLI_NUM;
+        assertType('list<array{adaid: int<-32768, 32767>}|array{int<-32768, 32767>}>', $result->fetch_all($mode));
+        assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC | MYSQLI_NUM));
+        assertType('list<array{adaid: int<-32768, 32767>}>', $result->FETCH_ALL(mode: MYSQLI_ASSOC));
     }
 
 }
