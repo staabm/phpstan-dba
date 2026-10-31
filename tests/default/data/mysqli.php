@@ -103,7 +103,7 @@ class Foo
         $mode = rand(0, 1) ? MYSQLI_ASSOC : MYSQLI_NUM;
         assertType('list<array{adaid: int<-32768, 32767>}|array{int<-32768, 32767>}>', $result->fetch_all($mode));
         assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC | MYSQLI_NUM));
-        assertType('list<array{adaid: int<-32768, 32767>}>', $result->FETCH_ALL(mode: MYSQLI_ASSOC));
+        assertType('list<array{adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
     }
 
 }
