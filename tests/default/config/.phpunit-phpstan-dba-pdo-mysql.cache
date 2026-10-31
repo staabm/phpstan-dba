@@ -247,7 +247,7 @@ FROM ada' =>
       array (
         3 => 
         array (
-          'type-description' => 'array{c_datetime: DateTimeImmutable|null}',
+          'type-description' => 'array{c_datetime: \\DateTimeImmutable|null}',
         ),
       ),
     ),

@@ -52,9 +52,11 @@ class DbaInferenceTest extends TypeInferenceTestCase
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-column-count.php');
         yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-stmt-execute.php');
 
-        // XXX skip mysqli tests for now
-        // yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
-        // yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-union-result.php');
+        // the mysqli queries are only recorded in the mysqli reflector cache
+        if ('mysqli' === getenv('DBA_REFLECTOR')) {
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-union-result.php');
+        }
 
         yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-escape.php');
 
