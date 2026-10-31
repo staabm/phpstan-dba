@@ -405,8 +405,6 @@ final class QueryReflection
             return $string;
         }
 
-        $type = $scope->getType($queryExpr);
-
         return QuerySimulation::simulateParamValueType($type, false);
     }
 
