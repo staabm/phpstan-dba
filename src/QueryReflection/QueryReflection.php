@@ -344,6 +344,12 @@ final class QueryReflection
      */
     private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
+        $type = $scope->getType($queryExpr);
+        $constStrings = $type->getConstantStrings();
+        if (count($constStrings) === 1) {
+            return QuerySimulation::simulateParamValueType($constStrings[0], false);
+        }
+
         if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
             // atm we cannot reason about variables which are manipulated via assign ops
@@ -398,8 +404,6 @@ final class QueryReflection
 
             return $string;
         }
-
-        $type = $scope->getType($queryExpr);
 
         return QuerySimulation::simulateParamValueType($type, false);
     }
