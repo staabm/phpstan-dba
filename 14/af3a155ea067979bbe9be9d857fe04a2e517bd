@@ -1,0 +1,30 @@
+src/Extensions/MysqliResultDynamicReturnTypeExtension.php
+  s_c298ae84c0509b::t_64a86d2a40c4f0 45-49
+  s_c298ae84c0509b::t_5fb702d71caff3 43-44
+  s_c298ae84c0509b::t_8e2c9b3fd96eb8 50
+tests/default/data/mysqli.php
+  s_c298ae84c0509b::t_f88d563ea9d51f 64
+  s_c298ae84c0509b::t_4040e50cd18c34 80
+  s_c298ae84c0509b::t_598ca1fc2ba63a 96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "14af3a155ea067979bbe9be9d857fe04a2e517bd",
+  "prompts": {},
+  "humans": {
+    "h_53f8f6db02589e": {
+      "author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  },
+  "sessions": {
+    "s_c298ae84c0509b": {
+      "agent_id": {
+        "tool": "github-copilot-jetbrains",
+        "id": "1793169115758",
+        "model": "unknown"
+      },
+      "human_author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  }
+}
