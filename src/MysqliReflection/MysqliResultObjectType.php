@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\MysqliReflection;
 
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -12,18 +13,25 @@ final class MysqliResultObjectType extends ObjectType
 {
     private ?Type $rowType = null;
 
-    public function setRowType(Type $rowType): void
+    public static function newWithRowType(Type $rowType): self
     {
-        $this->rowType = $rowType;
+        $new = new self(\mysqli_result::class);
+        $new->rowType = $rowType;
+        return $new;
     }
 
-    public function getIterableValueType(): \PHPStan\Type\Type
+    public function getRowType(): Type
     {
-        if ($this->rowType !== null) {
-            return $this->rowType;
+        if ($this->rowType === null) {
+            throw new ShouldNotHappenException();
         }
 
-        return parent::getIterableValueType();
+        return $this->rowType;
+    }
+
+    public function getIterableValueType(): Type
+    {
+        return $this->getRowType();
     }
 
     // differentiate objects based on the local properties,
