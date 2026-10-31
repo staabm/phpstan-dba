@@ -1,0 +1,26 @@
+src/QueryReflection/QueryReflection.php
+  s_c298ae84c0509b::t_63e04ce5686d3e 347-349,351
+  s_c298ae84c0509b::t_e4c6f92035a5f4 350
+  h_53f8f6db02589e 352
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "47241c1eb3fd691c860e8a4421f559dd2884bc75",
+  "prompts": {},
+  "humans": {
+    "h_53f8f6db02589e": {
+      "author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  },
+  "sessions": {
+    "s_c298ae84c0509b": {
+      "agent_id": {
+        "tool": "github-copilot-jetbrains",
+        "id": "1793169115758",
+        "model": "unknown"
+      },
+      "human_author": "Markus Staab <markus.staab@redaxo.de>"
+    }
+  }
+}
