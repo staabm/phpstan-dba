@@ -255,6 +255,26 @@ FROM ada' =>
         ),
       ),
     ),
+    'SELECT c_text, c_smallint, c_float FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{c_text: string|null, c_smallint: int<-32768, 32767>, c_float: float}',
+        ),
+      ),
+    ),
+    'SELECT c_varchar255, c_smallint, c_float FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{c_varchar255: string, c_smallint: int<-32768, 32767>, c_float: float}',
+        ),
+      ),
+    ),
     'SELECT count(*) FROM typemix WHERE c_date = \'1970-01-01\'' => 
     array (
       'result' => 
@@ -552,6 +572,16 @@ FROM ada' =>
         5 => 
         array (
           'type-description' => 'array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>, b: string, 2: string}',
+        ),
+      ),
+    ),
+    'SELECT email, adaid, gesperrt FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{email: string, adaid: int<-32768, 32767>, gesperrt: int<-128, 127>}',
         ),
       ),
     ),

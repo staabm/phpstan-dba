@@ -5,28 +5,213 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Extensions;
 
 use mysqli_result;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\NullType;
+use PHPStan\Type\ObjectShapeType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
-final class MysqliResultDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension, DynamicMethodReturnTypeExtension
 {
+    private ReflectionProvider $reflectionProvider;
+
+    public function __construct(ReflectionProvider $reflectionProvider)
+    {
+        $this->reflectionProvider = $reflectionProvider;
+    }
+
     public function getClass(): string
     {
         return mysqli_result::class;
+    }
+
+    public function isFunctionSupported(FunctionReflection $functionReflection): bool
+    {
+        return \in_array(
+            strtolower($functionReflection->getName()),
+            ['mysqli_fetch_assoc', 'mysqli_fetch_column', 'mysqli_fetch_object', 'mysqli_fetch_row'],
+            true
+        );
+    }
+
+    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
+    {
+        $args = $functionCall->getArgs();
+        $name = strtolower($functionReflection->getName());
+
+        // mysqli_fetch_ functions all have at least 1 arg: the mysqli_result
+        switch ($name) {
+            case 'mysqli_fetch_assoc': // $result
+            case 'mysqli_fetch_row':   // $result
+                if (\count($args) !== 1) {
+                    return null;
+                }
+                break;
+            case 'mysqli_fetch_object': // $result, $class = 'stdClass', $constructor = []
+                if (\count($args) < 1 || \count($args) > 3) {
+                    return null;
+                }
+                break;
+            case 'mysqli_fetch_column': // $result, $column = 0; added in PHP 8.1
+                $phpVersion = $scope->getPhpVersion()->getType();
+                if (\count($args) < 1 || \count($args) > 2 ||
+                    IntegerRangeType::fromInterval(80100, null)->isSuperTypeOf($phpVersion)->no()) {
+                    return null;
+                }
+                break;
+        }
+
+        $rowType = $this->getRowType($scope->getType($args[0]->value));
+        if ($rowType === null) {
+            return null;
+        }
+
+        // The return type is sealed array w. SQL fields as elements|null|false
+        if ($name === 'mysqli_fetch_assoc') {
+            return TypeCombinator::union(
+                $rowType,
+                new NullType(),
+                new ConstantBooleanType(false)
+            );
+        }
+
+
+        // The return type is stdClass w. SQL fields as properties|null|false
+        if ($name === 'mysqli_fetch_object') {
+            $countExpr = (\count($args) >= 2)
+                 ? $args[1]->value
+                 : new String_('stdClass');
+            $classType = $this->getExprObjectType($scope, $countExpr);
+            if ($classType === null) {
+                return null;
+            }
+
+            $objectTypes = [];
+            foreach ($rowType->getConstantArrays() as $assocRow) {
+                $properties = [];
+                foreach ($assocRow->getKeyTypes() as $index => $keyType) {
+                    // Only keep string column names
+                    $columnNames = $keyType->getConstantStrings();
+                    foreach ($columnNames as $columnName) {
+                        $properties[$columnName->getValue()] = $assocRow->getValueTypes()[$index];
+                    }
+                }
+
+                $objectTypes[] = TypeCombinator::intersect(
+                    $classType,
+                    new ObjectShapeType($properties, [])
+                );
+            }
+
+            if ($objectTypes === []) {
+                return null;
+            }
+
+            return TypeCombinator::union(
+                TypeCombinator::union(...$objectTypes),
+                new NullType(),
+                new ConstantBooleanType(false)
+            );
+        }
+
+        $numericRowType = $this->getRowTypeForMode($rowType, \MYSQLI_NUM);
+        if ($numericRowType === null) {
+            return null;
+        }
+
+        // The return type is enumerated array of SQL fields|null|false
+        if ($name === 'mysqli_fetch_row') {
+            return TypeCombinator::union(
+                $numericRowType,
+                new NullType(),
+                new ConstantBooleanType(false)
+            );
+        }
+
+        // The return type is a single SQL field|false
+        if ($name === 'mysqli_fetch_column') {
+            $columnTypes = [];
+            if (count($args) === 1 || count($args) === 2) {
+                // arg[1] is int $column, is optional and defaults to 0
+                $offsetType = count($args) === 2
+                    ? $scope->getType($args[1]->value)
+                    : new ConstantIntegerType(0);
+                // * column arg is a constant OR
+                // * column arg may be one of several possible constants
+                //   Occurs with, eg, column=rand() ? 0 : 1  OR
+                // * column arg may be one of several possible constants
+                //   Occurs in, eg, a for loop
+                // If any of the types are non-integral, it isn't a valid
+                // call to mysqli_fetch_column
+                foreach ($offsetType->getFiniteTypes() as $type) {
+                    if (! $type instanceof ConstantIntegerType) {
+                        return null;
+                    }
+                    foreach ($numericRowType->getConstantArrays() as $numericRow) {
+                        $columnTypes[] =
+                            $numericRow->hasOffsetValueType($offsetType)->yes()
+                            ? $numericRow->getOffsetValueType($offsetType)
+                            : new ConstantBooleanType(false);
+                    }
+                }
+            } else {
+                return null;
+            }
+
+            if ($columnTypes === []) {
+                return null;
+            }
+
+            // The ...|false on DB connection failure
+            $columnTypes[] = new ConstantBooleanType(false);
+            return TypeCombinator::union(...$columnTypes);
+        }
+
+        return null;
+    }
+
+    /***
+     * Evaluate an expression for all possible class name strings it may
+     * produce and generate ObjectTypes for each of those.
+     *
+     * @return A union of possible ObjectTypes, or null on failure
+     */
+    private function getExprObjectType(Scope $scope, Expr $expr): ?Type
+    {
+        $classNameType = $scope->getType($expr);
+        $objectTypes = [];
+        foreach ($classNameType->getConstantStrings() as $type) {
+            $className = $type->getValue();
+
+            // Does PHPStan know about the class?
+            if (! $this->reflectionProvider->hasClass($className)) {
+                return null;
+            }
+            // Get its fully qualified name
+            $className = $this->reflectionProvider->getClass($className)->getName();
+            $objectTypes[] = new ObjectType($className);
+        }
+        return TypeCombinator::union(...$objectTypes);
     }
 
     public function isMethodSupported(MethodReflection $methodReflection): bool

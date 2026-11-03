@@ -5,6 +5,13 @@ namespace MysqliTest;
 use mysqli;
 use function PHPStan\Testing\assertType;
 
+class AdaClass1 {
+}
+
+class AdaClass2 {
+}
+
+
 class Foo
 {
     public function ooQuerySelected(mysqli $mysqli)
@@ -106,4 +113,35 @@ class Foo
         assertType('list<array{adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
     }
 
+    public function proceduralFetchAssoc(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+        $row = mysqli_fetch_assoc($result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false|null', $row);
+    }
+
+    public function proceduralFetchObject(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+        $row = mysqli_fetch_object($result);
+        assertType('(object{email: string, adaid: int<-32768, 32767>}&stdClass)|false|null', $row);
+
+        $row = mysqli_fetch_object($result, 'AdaClass1');
+        assertType('AdaClass1|false|null', $row);
+
+        $row = mysqli_fetch_object($result, rand() ? 'AdaClass1' : 'AdaClass2');
+        assertType('AdaClass1|AdaClass2|false|null', $row);
+
+        for($i = 1; $i < 3; $i++) {
+            $row = mysqli_fetch_object($result, 'AdaClass' . $i);
+            assertType('AdaClass1|AdaClass2|false|null', $row);
+        }
+    }
+
+    public function proceduralFetchRow(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+        $row = mysqli_fetch_row($result);
+        assertType('array{string, int<-32768, 32767>}|false|null', $row);
+    }
 }
