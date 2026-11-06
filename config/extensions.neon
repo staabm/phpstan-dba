@@ -73,6 +73,7 @@ services:
         class: staabm\PHPStanDba\Extensions\MysqliResultDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
+        	- phpstan.broker.dynamicFunctionReturnTypeExtension
 
     -
         class: staabm\PHPStanDba\Extensions\MysqliQueryDynamicReturnTypeExtension

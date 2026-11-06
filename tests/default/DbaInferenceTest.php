@@ -56,6 +56,11 @@ class DbaInferenceTest extends TypeInferenceTestCase
         if ('mysqli' === getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-union-result.php');
+
+            // PHP >= 8.1.0
+            if (function_exists('mysqli_fetch_column')) {
+                yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-fetch-column.php');
+            }
         }
 
         yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-escape.php');
