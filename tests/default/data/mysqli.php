@@ -84,6 +84,9 @@ class Foo
         assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
         assertType('list<array{string, int<-32768, 32767>}>', $result->fetch_all(MYSQLI_NUM));
         assertType('list<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_BOTH));
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $result->fetch_all(1));
+        assertType('list<array{string, int<-32768, 32767>}>', $result->fetch_all(2));
+        assertType('list<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result->fetch_all(3));
         assertType('array{email: string, adaid: int<-32768, 32767>}|false|null', $result->fetch_assoc());
         foreach ($result as $row) {
             assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
