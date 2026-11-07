@@ -33,7 +33,7 @@ use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
 final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension, DynamicMethodReturnTypeExtension
 {
-    // 1:1 replacements for MYSQLI_ASSOC, MYSQLI_NUM, MYSQLI_BOTH constants in mysqli extension
+    // same-value replacements for MYSQLI_ASSOC, MYSQLI_NUM, MYSQLI_BOTH constants in mysqli extension
     private const MYSQLI_ASSOC = 1;
 
     private const MYSQLI_NUM = 2;
