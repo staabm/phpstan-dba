@@ -12,7 +12,9 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -105,10 +107,9 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
 
         // The return type is stdClass w. SQL fields as properties|null|false
         if ($name === 'mysqli_fetch_object') {
-            $countExpr = (\count($args) >= 2)
-                 ? $args[1]->value
-                 : new String_('stdClass');
-            $classType = $this->getExprObjectType($scope, $countExpr);
+            // arg[1] is string $class = "stdClass"
+            $classNameType = $this->getArgOrDefault($functionReflection, $functionCall, $scope, 1);
+            $classType = $this->getObjectTypeFromName($scope, $classNameType);
             if ($classType === null) {
                 return null;
             }
@@ -159,10 +160,8 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         if ($name === 'mysqli_fetch_column') {
             $columnTypes = [];
             if (count($args) === 1 || count($args) === 2) {
-                // arg[1] is int $column, is optional and defaults to 0
-                $offsetType = count($args) === 2
-                    ? $scope->getType($args[1]->value)
-                    : new ConstantIntegerType(0);
+                // arg[1] is int $column = 0
+                $offsetType = $this->getArgOrDefault($functionReflection, $functionCall, $scope, 1);
                 // * column arg is a constant OR
                 // * column arg may be one of several possible constants
                 //   Occurs with, eg, column=rand() ? 0 : 1  OR
@@ -197,17 +196,28 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         return null;
     }
 
-    /***
-     * Evaluate an expression for all possible class name strings it may
-     * produce and generate ObjectTypes for each of those.
-     *
-     * @return A union of possible ObjectTypes, or null on failure
-     */
-    private function getExprObjectType(Scope $scope, Expr $expr): ?Type
+    private function getArgOrDefault(FunctionReflection $functionReflection, FuncCall $funcCall, Scope $scope, int $i): Type
     {
-        $classNameType = $scope->getType($expr);
+        $args = $funcCall->getArgs();
+        if (\count($args) > $i) {
+            return $scope->getType($args[$i]->value);
+        }
+        $variant = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $args,
+            $functionReflection->getVariants()
+        );
+        $default = $variant->getParameters()[$i]->getDefaultValue();
+        if ($default === null) {
+            throw new ShouldNotHappenException("Argument $i does not have a default");
+        }
+        return $default;
+    }
+
+    private function getObjectTypeFromName(Scope $scope, Type $name): ?Type
+    {
         $objectTypes = [];
-        foreach ($classNameType->getConstantStrings() as $type) {
+        foreach ($name->getConstantStrings() as $type) {
             $className = $type->getValue();
 
             // Does PHPStan know about the class?
