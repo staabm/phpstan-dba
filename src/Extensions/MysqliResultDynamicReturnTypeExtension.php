@@ -33,6 +33,12 @@ use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
 final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension, DynamicMethodReturnTypeExtension
 {
+    private const MYSQLI_ASSOC = 1;
+
+    private const MYSQLI_NUM = 2;
+
+    private const MYSQLI_BOTH = 3;
+
     private ReflectionProvider $reflectionProvider;
 
     public function __construct(ReflectionProvider $reflectionProvider)
@@ -134,7 +140,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
             );
         }
 
-        $numericRowType = $this->getRowTypeForMode($rowType, \MYSQLI_NUM);
+        $numericRowType = $this->getRowTypeForMode($rowType, self::MYSQLI_NUM);
         if ($numericRowType === null) {
             return null;
         }
@@ -238,7 +244,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
             return null;
         }
 
-        $modes = [\MYSQLI_NUM];
+        $modes = [self::MYSQLI_NUM];
         if (count($methodCall->getArgs()) > 0) {
             $modes = $this->getModes($scope->getType($methodCall->getArgs()[0]->value));
             if ($modes === null) {
@@ -320,7 +326,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
 
     private function getRowTypeForMode(Type $rowType, int $mode): ?Type
     {
-        if (! \in_array($mode, [\MYSQLI_NUM, \MYSQLI_ASSOC, \MYSQLI_BOTH], true)) {
+        if (! \in_array($mode, [self::MYSQLI_NUM, self::MYSQLI_ASSOC, self::MYSQLI_BOTH], true)) {
             return null;
         }
 
@@ -343,11 +349,11 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
 
         foreach ($rowType->getKeyTypes() as $index => $keyType) {
             $valueType = $rowType->getValueTypes()[$index];
-            if ($mode === \MYSQLI_ASSOC || $mode === \MYSQLI_BOTH) {
+            if ($mode === self::MYSQLI_ASSOC || $mode === self::MYSQLI_BOTH) {
                 $builder->setOffsetValueType($keyType, $valueType);
             }
 
-            if ($mode === \MYSQLI_NUM || $mode === \MYSQLI_BOTH) {
+            if ($mode === self::MYSQLI_NUM || $mode === self::MYSQLI_BOTH) {
                 $builder->setOffsetValueType(new ConstantIntegerType($numericIndex), $valueType);
                 $numericIndex++;
             }
