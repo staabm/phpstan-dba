@@ -24,6 +24,13 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
+    // Values of PDO::PARAM_* constants, independent of the loaded extensions.
+    private const PARAM_INT = 1;
+
+    private const PARAM_STR = 2;
+
+    private const PARAM_BOOL = 5;
+
     private PhpVersion $phpVersion;
 
     public function __construct(PhpVersion $phpVersion)
@@ -77,7 +84,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
 
         if (1 === \count($args)) {
-            $type = PDO::PARAM_STR;
+            $type = self::PARAM_STR;
         } else {
             $typeType = $scope->getType($args[1]->value);
             if (! $typeType instanceof ConstantIntegerType) {
@@ -90,7 +97,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $stringType = $this->inferStringType($argType);
 
         // check for types which are supported by all drivers, therefore cannot return false.
-        if (PDO::PARAM_STR === $type || PDO::PARAM_INT === $type || PDO::PARAM_BOOL === $type) {
+        if (self::PARAM_STR === $type || self::PARAM_INT === $type || self::PARAM_BOOL === $type) {
             return $stringType;
         }
 
