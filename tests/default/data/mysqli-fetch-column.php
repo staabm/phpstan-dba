@@ -39,6 +39,18 @@ class Foo
             // TODO PHPStan shouldn't recognize this method at all <8.1. Fix stubs?
             assertType('float|int|string|false|null', $unknown);
         }
+
+        // explict column (named arg)
+        $col1 = $result->fetch_column(column: 1);
+        assertType('int<-32768, 32767>|false', $col1);
+
+        // out-of-range column (named arg)
+        $col999 = $result->fetch_column(column: 999);
+        assertType('false', $col999);
+
+        // multiple possible columns (named arg)
+        $col0_or_1 = $result->fetch_column(column: rand() ? 0 : 1);
+        assertType('int<-32768, 32767>|string|false', $col0_or_1);
     }
 
     public function proceduralFetchColumn(mysqli $mysqli)
@@ -73,5 +85,17 @@ class Foo
             // TODO PHPStan shouldn't recognize this function at all <8.1. Fix stubs?
             assertType('float|int|string|false|null', $unknown);
         }
+
+        // explicit column (named arg)
+        $col1 = mysqli_fetch_column($result, column: 1);
+        assertType('int<-32768, 32767>|false', $col1);
+
+        // out-of-range column (named arg)
+        $col999 = mysqli_fetch_column($result, column: 999);
+        assertType('false', $col999);
+
+        // multiple possible columns (named arg)
+        $col0_or_1 = mysqli_fetch_column($result, column: rand() ? 0 : 1);
+        assertType('int<-32768, 32767>|string|false', $col0_or_1);
     }
 }
