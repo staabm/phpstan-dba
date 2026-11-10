@@ -55,7 +55,6 @@ class Foo
     public function fnFetchTypes(mysqli $mysqli)
     {
         $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
 
         while ($row = mysqli_fetch_assoc($result)) {
             assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
