@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\MixedType;
+use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
 
 /**
- * @implements Rule<MethodCall>
+ * @implements Rule<CallLike>
  *
  * @see SyntaxErrorInQueryMethodRuleTest
  */
@@ -23,72 +29,102 @@ final class SyntaxErrorInQueryMethodRule implements Rule
     /**
      * @var list<string>
      */
-    private $classMethods;
+    public array $classMethods;
+
+    private ReflectionProvider $reflectionProvider;
 
     /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return CallLike::class;
     }
 
-    public function processNode(Node $node, Scope $scope): array
+    public function processNode(Node $callLike, Scope $scope): array
     {
-        if (!$node->name instanceof Node\Identifier) {
+        if ($callLike instanceof MethodCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        } elseif ($callLike instanceof StaticCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            if (! $callLike->class instanceof Name) {
+                return [];
+            }
+            $classType = $scope->resolveTypeByName($callLike->class);
+            $methodReflection = $scope->getMethodReflection($classType, $callLike->name->toString());
+        } else {
             return [];
         }
 
-        $methodReflection = $scope->getMethodReflection($scope->getType($node->var), $node->name->toString());
         if (null === $methodReflection) {
             return [];
         }
 
-        $unsupportedMethod = true;
         $queryArgPosition = null;
+        $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
+            sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
+            if (! \is_string($className) || ! \is_string($methodName) || ! \is_int($queryArgPosition)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
+                (
+                    $methodReflection->getDeclaringClass()->getName() === $className
+                    || ($this->reflectionProvider->hasClass($className) && $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
+                )
+            ) {
                 $unsupportedMethod = false;
                 break;
             }
         }
 
+        if (null === $queryArgPosition) {
+            throw new ShouldNotHappenException('Invalid classMethod definition');
+        }
         if ($unsupportedMethod) {
             return [];
         }
 
-        $args = $node->getArgs();
+        $args = $callLike->getArgs();
 
-        if (!\array_key_exists($queryArgPosition, $args)) {
+        if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 
-        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
+        $queryExpr = $args[$queryArgPosition]->value;
+        $queryReflection = new QueryReflection();
+
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
 
         try {
-            $queryReflection = new QueryReflection();
-            $queryStrings = $queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope);
+            $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
             foreach ($queryStrings as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
                 if (null !== $queryError) {
                     return [
-                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->identifier('dba.syntaxError')->line($callLike->getStartLine())->build(),
                     ];
                 }
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
             ];
         }
 

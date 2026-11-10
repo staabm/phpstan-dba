@@ -34,7 +34,7 @@ final class QueryPlanQueryResolver
         }
 
         foreach ($queryStrings as $queryString) {
-            $normalizedQuery = QuerySimulation::stripTrailers($queryString);
+            $normalizedQuery = QuerySimulation::stripTrailers(QuerySimulation::stripComments($queryString));
 
             if (null !== $normalizedQuery) {
                 yield $normalizedQuery;

@@ -7,18 +7,17 @@ namespace staabm\PHPStanDba\DbSchema;
 use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\QueryReflection\GlobalTransaction;
 
-final class SchemaHasherMysql
+final class SchemaHasherMysql implements SchemaHasher
 {
     /**
      * @var PDO|mysqli
      */
     private $connection;
 
-    /**
-     * @var string|null
-     */
-    private $hash = null;
+    private ?string $hash = null;
 
     /**
      * @param PDO|mysqli $connection
@@ -34,30 +33,35 @@ final class SchemaHasherMysql
             return $this->hash;
         }
 
+        GlobalTransaction::ensureStarted($this->connection);
+
         // for a schema with 3.000 columns we need roughly
         // 70.000 group concat max length
         $maxConcatQuery = 'SET SESSION group_concat_max_len = 1000000';
-        $this->connection->query($maxConcatQuery);
+        try {
+            $this->connection->query($maxConcatQuery);
+        } catch (\Throwable $e) {
+            throw new DbaException('Failed to set group_concat_max_len', 0, $e);
+        }
 
-        $query = '
+        $query = "
             SELECT
                 MD5(
                     GROUP_CONCAT(
                         CONCAT(
-                            COALESCE(COLUMN_NAME, ""),
-                            COALESCE(EXTRA, ""),
+                            COALESCE(COLUMN_NAME, ''),
+                            COALESCE(EXTRA, ''),
                             COLUMN_TYPE,
-                            IS_NULLABLE
+                            IS_NULLABLE,
+                            ORDINAL_POSITION
                         )
+                        ORDER BY TABLE_NAME, COLUMN_NAME
                     )
-                ) AS dbsignature,
-                1 AS grouper
+                ) AS dbsignature
             FROM
                 information_schema.columns
             WHERE
-                table_schema = DATABASE()
-            GROUP BY
-                grouper';
+                table_schema = DATABASE()";
 
         $hash = '';
         if ($this->connection instanceof PDO) {
@@ -67,7 +71,7 @@ final class SchemaHasherMysql
             }
         } else {
             $result = $this->connection->query($query);
-            if ($result instanceof \mysqli_result) {
+            if ($result instanceof \mysqli_result) { // @phpstan-ignore instanceof.alwaysTrue
                 $row = $result->fetch_assoc();
                 $hash = $row['dbsignature'] ?? '';
             }

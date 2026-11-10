@@ -4,43 +4,67 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\QueryReflection;
 
+use Composer\InstalledVersions;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Identifier;
+use PhpParser\Node\InterpolatedStringPart;
+use PhpParser\Node\Scalar\InterpolatedString;
 use PHPStan\Analyser\Scope;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\TrinaryLogic;
+use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\FloatType;
+use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
+use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeUtils;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzerMysql;
 use staabm\PHPStanDba\Analyzer\QueryPlanQueryResolver;
 use staabm\PHPStanDba\Analyzer\QueryPlanResult;
 use staabm\PHPStanDba\Ast\ExpressionFinder;
 use staabm\PHPStanDba\DbaException;
+use staabm\PHPStanDba\DbSchema\LazySchemaHasher;
+use staabm\PHPStanDba\DbSchema\SchemaHasher;
+use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasherPgsql;
+use staabm\PHPStanDba\DbSchema\SchemaHasherString;
 use staabm\PHPStanDba\Error;
+use staabm\PHPStanDba\PhpDoc\PhpDocUtil;
+use staabm\PHPStanDba\SchemaReflection\SchemaReflection;
+use staabm\PHPStanDba\SqlAst\ParserInference;
 use staabm\PHPStanDba\UnresolvableQueryException;
+use function sprintf;
 
 final class QueryReflection
 {
     private const UNNAMED_PATTERN = '\?';
+
     // see https://github.com/php/php-src/blob/01b3fc03c30c6cb85038250bb5640be3a09c6a32/ext/pdo/pdo_sql_parser.re#L48
     private const NAMED_PATTERN = ':[a-zA-Z0-9_]+';
 
-    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|('.self::UNNAMED_PATTERN.')}';
-    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])([^"\']*\1)|('.self::NAMED_PATTERN.')}';
+    private const REGEX_UNNAMED_PLACEHOLDER = '{(["\'])((?:(?!\1)(?s:.))*\1)|(' . self::UNNAMED_PATTERN . ')}';
+
+    private const REGEX_NAMED_PLACEHOLDER = '{(["\'])((?:(?!\1)(?s:.))*\1)|(' . self::NAMED_PATTERN . ')}';
+
+    private static ?QueryReflector $reflector = null;
+
+    private static ?RuntimeConfiguration $runtimeConfiguration = null;
+
+    private ?SchemaReflection $schemaReflection = null;
+
+    public function __construct(?DbaApi $dbaApi = null)
+    {
+        self::reflector()->setupDbaApi($dbaApi);
+    }
 
     /**
-     * @var QueryReflector|null
+     * @api
      */
-    private static $reflector;
-    /**
-     * @var RuntimeConfiguration|null
-     */
-    private static $runtimeConfiguration;
-
     public static function setupReflector(QueryReflector $reflector, RuntimeConfiguration $runtimeConfiguration): void
     {
         self::$reflector = $reflector;
@@ -49,8 +73,25 @@ final class QueryReflection
 
     public function validateQueryString(string $queryString): ?Error
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
-            return null;
+        $queryString = QuerySimulation::stripComments($queryString);
+        $queryType = self::getQueryType($queryString);
+
+        if (self::getRuntimeConfiguration()->isAnalyzingWriteQueries()) {
+            if (\in_array($queryType, [
+                'INSERT',
+                'DELETE',
+                'UPDATE',
+                'REPLACE',
+            ], true)) {
+                // turn write queries into explain, so we don't need to execute a query which might modify data
+                $queryString = 'EXPLAIN ' . $queryString;
+            } elseif ('SELECT' !== $queryType) {
+                return null;
+            }
+        } else {
+            if ('SELECT' !== $queryType) {
+                return null;
+            }
         }
 
         // this method cannot validate queries which contain placeholders.
@@ -66,11 +107,113 @@ final class QueryReflection
      */
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        if ('SELECT' !== $this->getQueryType($queryString)) {
+        $queryString = QuerySimulation::stripComments($queryString);
+
+        if ('SELECT' !== self::getQueryType($queryString)) {
             return null;
         }
 
-        return self::reflector()->getResultType($queryString, $fetchType);
+        $reflector = self::reflector();
+        $resultType = $reflector->getResultType($queryString, $fetchType);
+        if ($resultType === null) {
+            return null;
+        }
+        $arrays = $resultType->getConstantArrays();
+
+        if (count($arrays) === 1) {
+            $resultType = $arrays[0];
+
+            if (
+                self::getRuntimeConfiguration()->isUtilizingSqlAst()
+            ) {
+                if (! InstalledVersions::isInstalled('sqlftw/sqlftw')) {
+                    throw new \Exception('sqlftw/sqlftw is required to utilize the sql ast. Please install it via composer.');
+                }
+                if ($reflector instanceof PdoPgSqlQueryReflector) {
+                    throw new \Exception('SQL AST inference is only supported for mysql backends for now.');
+                }
+                $parserInference = new ParserInference($this->getSchemaReflection());
+                $resultType = $parserInference->narrowResultType($queryString, $resultType);
+            }
+
+            if (self::getRuntimeConfiguration()->isStringifyTypes()) {
+                return $this->stringifyResult($resultType);
+            }
+        }
+
+        return $resultType;
+    }
+
+    private function stringifyResult(Type $type): Type
+    {
+        $arrays = $type->getConstantArrays();
+        if (count($arrays) !== 1) {
+            return $type;
+        }
+        $type = $arrays[0];
+
+        $builder = ConstantArrayTypeBuilder::createEmpty();
+
+        $keyTypes = $type->getKeyTypes();
+        foreach ($type->getValueTypes() as $i => $valueType) {
+            $builder->setOffsetValueType($keyTypes[$i], $this->stringifyType($valueType));
+        }
+
+        return $builder->getArray();
+    }
+
+    private function stringifyType(Type $type): Type
+    {
+        $containsNull = TypeCombinator::containsNull($type);
+
+        $numberType = new UnionType([new IntegerType(), new FloatType()]);
+
+        if ($numberType->isSuperTypeOf(TypeCombinator::removeNull($type))->yes()) {
+            $stringified = new IntersectionType([
+                new StringType(),
+                new AccessoryNumericStringType(),
+            ]);
+
+            if ($containsNull) {
+                return TypeCombinator::addNull($stringified);
+            }
+
+            return $stringified;
+        }
+
+        return $type;
+    }
+
+    public function getSchemaReflection(): SchemaReflection
+    {
+        if (null === $this->schemaReflection) {
+            $this->schemaReflection = new SchemaReflection(function ($queryString) {
+                return self::reflector()->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
+            });
+        }
+
+        return $this->schemaReflection;
+    }
+
+    /**
+     * Determine if a query will be resolvable.
+     *
+     * - If yes, the query is a literal string.
+     * - If no, the query is a non-literal string or mixed type.
+     * - If maybe, the query is neither of the two.
+     *
+     * We will typically skip processing of queries that return no, which are
+     * likely part of a software abstraction layer that we know nothing about.
+     */
+    public function isResolvable(Expr $queryExpr, Scope $scope): TrinaryLogic
+    {
+        $type = $scope->getType($queryExpr);
+        if ($type->isLiteralString()->yes()) {
+            return TrinaryLogic::createYes();
+        }
+        $isStringOrMixed = $type->isSuperTypeOf(new StringType());
+
+        return $isStringOrMixed->negate()->result;
     }
 
     /**
@@ -88,7 +231,7 @@ final class QueryReflection
                 return null;
             }
 
-            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
+            foreach ($type->getConstantStrings() as $constantString) {
                 $queryString = $constantString->getValue();
                 $queryString = $this->replaceParameters($queryString, $parameters);
                 yield $this->normalizeQueryString($queryString);
@@ -104,6 +247,8 @@ final class QueryReflection
     }
 
     /**
+     * @api
+     *
      * @deprecated use resolvePreparedQueryStrings() instead
      *
      * @throws UnresolvableQueryException
@@ -129,13 +274,14 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    public function resolveQueryStrings(Expr $queryExpr, Scope $scope): iterable
+    public function resolveQueryStrings(Expr $queryExpr, Scope $scope, bool $resolveNonConstantQueries = true): iterable
     {
         $type = $scope->getType($queryExpr);
 
-        if ($type instanceof UnionType) {
-            foreach (TypeUtils::getConstantStrings($type) as $constantString) {
-                yield $this->normalizeQueryString($constantString->getValue());
+        $constantStrings = $type->getConstantStrings();
+        if (count($constantStrings) > 0) {
+            foreach ($constantStrings as $constantString) {
+                yield QuerySimulation::stripComments($this->normalizeQueryString($constantString->getValue()));
             }
 
             return;
@@ -143,7 +289,18 @@ final class QueryReflection
 
         $queryString = $this->resolveQueryExpr($queryExpr, $scope);
         if (null !== $queryString) {
-            yield $this->normalizeQueryString($queryString);
+            $normalizedQuery = QuerySimulation::stripComments($this->normalizeQueryString($queryString));
+
+            // query simulation might lead in a invalid query, skip those
+            $error = $this->validateQueryString($normalizedQuery);
+            if (
+                $error === null
+                // late abort the query, so we allow the query simulation/validation to throw
+                // UnresolvableQueryException
+                && $resolveNonConstantQueries
+            ) {
+                yield $normalizedQuery;
+            }
         }
     }
 
@@ -172,7 +329,7 @@ final class QueryReflection
     {
         if ($queryExpr instanceof Expr\Variable) {
             $finder = new ExpressionFinder();
-            $queryStringExpr = $finder->findQueryStringExpression($queryExpr);
+            $queryStringExpr = $finder->findAssignmentExpression($queryExpr);
 
             if (null !== $queryStringExpr) {
                 return $this->resolveQueryStringExpr($queryStringExpr, $scope);
@@ -185,29 +342,37 @@ final class QueryReflection
     /**
      * @throws UnresolvableQueryException
      */
-    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope): ?string
+    private function resolveQueryStringExpr(Expr $queryExpr, Scope $scope, bool $resolveVariables = true): ?string
     {
-        if ($queryExpr instanceof Expr\MethodCall && $queryExpr->name instanceof Identifier) {
-            $classReflection = $scope->getClassReflection();
+        $type = $scope->getType($queryExpr);
+        $constStrings = $type->getConstantStrings();
+        if (count($constStrings) === 1) {
+            return QuerySimulation::simulateParamValueType($constStrings[0], false);
+        }
 
-            // XXX atm we only support inference-placeholder for method calls within the same class
-            if (null !== $classReflection && $classReflection->hasMethod($queryExpr->name->name)) {
-                $methodReflection = $classReflection->getMethod($queryExpr->name->name, $scope);
+        if (true === $resolveVariables && $queryExpr instanceof Expr\Variable) {
+            $finder = new ExpressionFinder();
+            // atm we cannot reason about variables which are manipulated via assign ops
+            $assignExpr = $finder->findAssignmentExpression($queryExpr, true);
 
-                // atm no resolved phpdoc for methods
-                // see https://github.com/phpstan/phpstan/discussions/7657
-                $phpDocString = $methodReflection->getDocComment();
-                if (null !== $phpDocString && preg_match('/@phpstandba-inference-placeholder\s+(.+)$/m', $phpDocString, $matches)) {
-                    $placeholder = $matches[1];
+            if (null !== $assignExpr) {
+                return $this->resolveQueryStringExpr($assignExpr, $scope);
+            }
 
-                    if (\in_array($placeholder[0], ['"', "'"], true)) {
-                        $placeholder = trim($placeholder, $placeholder[0]);
-                    }
+            return $this->resolveQueryStringExpr($queryExpr, $scope, false);
+        }
 
-                    return $placeholder;
-                }
+        if ($queryExpr instanceof Expr\CallLike) {
+            $placeholder = PhpDocUtil::matchInferencePlaceholder($queryExpr, $scope);
+            if (null !== $placeholder) {
+                return $placeholder;
+            }
+
+            if ('sql' === PhpDocUtil::matchTaintEscape($queryExpr, $scope)) {
+                return '1';
             }
         }
+
         if ($queryExpr instanceof Concat) {
             $left = $queryExpr->left;
             $right = $queryExpr->right;
@@ -219,23 +384,92 @@ final class QueryReflection
                 return null;
             }
 
-            return $leftString.$rightString;
+            return $leftString . $rightString;
         }
 
-        $type = $scope->getType($queryExpr);
+        if ($queryExpr instanceof InterpolatedString) {
+            $string = '';
+            foreach ($queryExpr->parts as $part) {
+                if ($part instanceof InterpolatedStringPart) {
+                    $string .= $part->value;
+                    continue;
+                }
+
+                $resolvedPart = $this->resolveQueryStringExpr($part, $scope);
+                if (null === $resolvedPart) {
+                    return null;
+                }
+                $string .= $resolvedPart;
+            }
+
+            return $string;
+        }
 
         return QuerySimulation::simulateParamValueType($type, false);
     }
 
     public static function getQueryType(string $query): ?string
     {
+        $query = QuerySimulation::stripComments($query);
         $query = ltrim($query);
 
-        if (preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
+        if (1 === preg_match('/^\s*\(?\s*(SELECT|SHOW|UPDATE|INSERT|DELETE|REPLACE|CREATE|CALL|OPTIMIZE)/i', $query, $matches)) {
             return strtoupper($matches[1]);
         }
 
+        // WITH [RECURSIVE] cte [(col_list)] AS (subquery) [, ...] <SELECT|INSERT|UPDATE|DELETE|REPLACE>
+        // (?1) recurses group 1 to balance parentheses inside subqueries.
+        if (1 === preg_match('/^\s*WITH\s+(?:RECURSIVE\s+)?[`"\w]+\s*(?:\([^)]*\))?\s*AS\s*(\((?:[^()]|(?1))*\))(?:\s*,\s*[`"\w]+\s*(?:\([^)]*\))?\s*AS\s*(?1))*\s*(SELECT|INSERT|UPDATE|DELETE|REPLACE)\b/i', $query, $matches)) {
+            return strtoupper($matches[2]);
+        }
+
         return null;
+    }
+
+    public function resolveParameterTypes(Expr $parameter, Scope $scope): Type
+    {
+        if ($parameter instanceof Expr\Array_) {
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+            foreach ($parameter->items as $i => $item) {
+                if ($item->key !== null) {
+                    $builder = null;
+                    break;
+                }
+
+                if ($item->unpack) {
+                    $valueType = $scope->getType($item->value)->getIterableValueType();
+                } else {
+                    $valueType = $scope->getType($item->value);
+                }
+
+                if (! $valueType->isScalar()->yes()) {
+                    $builder = null;
+                    break;
+                }
+
+                $builder->setOffsetValueType(
+                    new ConstantIntegerType($i),
+                    $valueType
+                );
+            }
+
+            if ($builder !== null) {
+                return $builder->getArray();
+            }
+        }
+
+        $parameterType = $scope->getType($parameter);
+        if (
+            $parameter instanceof Expr\Variable
+            && $parameterType->isConstantArray()->no()
+            && $parameterType->isArray()->yes()
+        ) {
+            $builder = ConstantArrayTypeBuilder::createEmpty();
+            $builder->setOffsetValueType(new ConstantIntegerType(0), $parameterType->getIterableValueType());
+            return $builder->getArray();
+        }
+
+        return $parameterType;
     }
 
     /**
@@ -250,15 +484,25 @@ final class QueryReflection
         $parameters = [];
 
         if ($parameterTypes instanceof UnionType) {
-            foreach (TypeUtils::getConstantArrays($parameterTypes) as $constantArray) {
-                $parameters = $parameters + $this->resolveConstantArray($constantArray, true);
+            foreach ($parameterTypes->getConstantArrays() as $constantArray) {
+                foreach ($this->resolveConstantArray($constantArray) as $key => $resolvedParameter) {
+                    if (array_key_exists($key, $parameters)) {
+                        // required parameters should overrule optional parameters
+                        if (! $resolvedParameter->isOptional) {
+                            $parameters[$key] = $resolvedParameter;
+                        }
+                    } else {
+                        $parameters[$key] = $resolvedParameter;
+                    }
+                }
             }
 
             return $parameters;
         }
 
-        if ($parameterTypes instanceof ConstantArrayType) {
-            return $this->resolveConstantArray($parameterTypes, false);
+        $arrays = $parameterTypes->getConstantArrays();
+        if (count($arrays) === 1) {
+            return $this->resolveConstantArray($arrays[0]);
         }
 
         return null;
@@ -269,7 +513,7 @@ final class QueryReflection
      *
      * @throws UnresolvableQueryException
      */
-    private function resolveConstantArray(ConstantArrayType $parameterTypes, bool $forceOptional): array
+    private function resolveConstantArray(ConstantArrayType $parameterTypes): array
     {
         $parameters = [];
 
@@ -279,14 +523,11 @@ final class QueryReflection
 
         foreach ($keyTypes as $i => $keyType) {
             $isOptional = \in_array($i, $optionalKeys, true);
-            if ($forceOptional) {
-                $isOptional = true;
-            }
 
-            if ($keyType instanceof ConstantStringType) {
+            if ($keyType->isString()->yes()) {
                 $placeholderName = $keyType->getValue();
 
-                if ('' === $placeholderName) {
+                if (! is_string($placeholderName) || '' === $placeholderName) {
                     throw new ShouldNotHappenException('Empty placeholder name');
                 }
 
@@ -297,8 +538,12 @@ final class QueryReflection
                     $isOptional
                 );
 
+                if ($param->name === null) {
+                    throw new ShouldNotHappenException('Empty parameter name');
+                }
+
                 $parameters[$param->name] = $param;
-            } elseif ($keyType instanceof ConstantIntegerType) {
+            } elseif ($keyType->isInteger()->yes()) {
                 $param = new Parameter(
                     null,
                     $valueTypes[$i],
@@ -327,12 +572,14 @@ final class QueryReflection
             return $haystack;
         };
 
+        ksort($parameters);
+
         foreach ($parameters as $placeholderKey => $parameter) {
             $value = $parameter->simulatedValue;
 
             if (\is_string($value)) {
                 // XXX escaping
-                $value = "'".$value."'";
+                $value = "'" . $value . "'";
             } elseif (null === $value) {
                 $value = 'NULL';
             } else {
@@ -340,7 +587,7 @@ final class QueryReflection
             }
 
             if (\is_string($placeholderKey)) {
-                $queryString = (string) preg_replace('/'.$placeholderKey.'\\b/', $value, $queryString);
+                $queryString = (string) preg_replace('/' . $placeholderKey . '\\b/', $value, $queryString);
             } else {
                 $queryString = $replaceFirst($queryString, '?', $value);
             }
@@ -352,7 +599,7 @@ final class QueryReflection
     private static function reflector(): QueryReflector
     {
         if (null === self::$reflector) {
-            throw new DbaException('Reflector not initialized, call '.__CLASS__.'::setupReflector() first');
+            throw new DbaException('Reflector not initialized. Make sure a phpstan bootstrap file is configured which calls ' . __CLASS__ . '::setupReflector().');
         }
 
         return self::$reflector;
@@ -361,7 +608,7 @@ final class QueryReflection
     public static function getRuntimeConfiguration(): RuntimeConfiguration
     {
         if (null === self::$runtimeConfiguration) {
-            throw new DbaException('Runtime configuration not initialized, call '.__CLASS__.'::setupReflector() first');
+            throw new DbaException('Runtime configuration not initialized. Make sure a phpstan bootstrap file is configured which calls ' . __CLASS__ . '::setupReflector().');
         }
 
         return self::$runtimeConfiguration;
@@ -372,6 +619,8 @@ final class QueryReflection
      */
     public function countPlaceholders(string $queryString): int
     {
+        $queryString = QuerySimulation::stripComments($queryString);
+
         // match named placeholders first, as the regex involved is more specific/less error prone
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
@@ -399,6 +648,7 @@ final class QueryReflection
      */
     public function containsNamedPlaceholders(string $queryString, array $parameters): bool
     {
+        $queryString = QuerySimulation::stripComments($queryString);
         $namedPlaceholders = $this->extractNamedPlaceholders($queryString);
 
         if ([] !== $namedPlaceholders) {
@@ -415,10 +665,12 @@ final class QueryReflection
     }
 
     /**
-     * @return list<string>
+     * @return array<string>
      */
     public function extractNamedPlaceholders(string $queryString): array
     {
+        $queryString = QuerySimulation::stripComments($queryString);
+
         if (preg_match_all(self::REGEX_NAMED_PLACEHOLDER, $queryString, $matches) > 0) {
             $candidates = $matches[0];
 
@@ -441,7 +693,7 @@ final class QueryReflection
     {
         $reflector = self::reflector();
 
-        if (!$reflector instanceof RecordingReflector) {
+        if (! $reflector instanceof RecordingReflector) {
             throw new DbaException('Query plan analysis is only supported with a recording reflector');
         }
         if ($reflector instanceof PdoPgSqlQueryReflector) {
@@ -470,5 +722,24 @@ final class QueryReflection
 
             yield $queryPlanAnalyzer->analyze($queryString);
         }
+    }
+
+    public function getSchemaHasher(): SchemaHasher
+    {
+        $reflector = self::reflector();
+
+        return new LazySchemaHasher(function () use ($reflector) {
+            $ds = null;
+            if ($reflector instanceof RecordingReflector) {
+                $ds = $reflector->getDatasource();
+            }
+            if (null === $ds) {
+                return new SchemaHasherString('unknown-fixed-hash');
+            }
+            if ($ds instanceof \PDO && 'pgsql' === $ds->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
+                return new SchemaHasherPgsql($ds);
+            }
+            return new SchemaHasherMysql($ds);
+        });
     }
 }

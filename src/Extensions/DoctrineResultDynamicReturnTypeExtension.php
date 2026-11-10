@@ -10,9 +10,7 @@ use Doctrine\DBAL\Result;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
@@ -47,25 +45,22 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         return \in_array(strtolower($methodReflection->getName()), self::METHODS, true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
-
         // make sure we don't report wrong types in doctrine 2.x
-        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
-            return $defaultReturn;
+        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*|4.*')) {
+            return null;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
-            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-            if (null !== $resultType) {
-                return $resultType;
-            }
+            return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $defaultReturn;
+        return null;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
@@ -73,11 +68,12 @@ final class DoctrineResultDynamicReturnTypeExtension implements DynamicMethodRet
         $resultType = $scope->getType($methodCall->var);
         if ('columncount' === strtolower($methodReflection->getName())) {
             if ($resultType instanceof DoctrineResultObjectType) {
-                $resultRowType = $resultType->getRowType();
+                $arrays = $resultType->getRowType()->getConstantArrays();
+                if (count($arrays) === 1) {
+                    $resultRowType = $arrays[0];
 
-                if ($resultRowType instanceof ConstantArrayType) {
                     $columnCount = \count($resultRowType->getKeyTypes()) / 2;
-                    if (!\is_int($columnCount)) {
+                    if (! \is_int($columnCount)) {
                         throw new ShouldNotHappenException();
                     }
 

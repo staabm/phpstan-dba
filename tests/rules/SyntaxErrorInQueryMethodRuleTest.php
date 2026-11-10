@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
+use Composer\InstalledVersions;
+use Composer\Semver\VersionParser;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
@@ -16,23 +20,38 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
 {
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+        $rule = self::getContainer()->getByType(SyntaxErrorInQueryMethodRule::class);
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query#0';
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare#0';
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
         if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $errSelect = "Query error: Unknown column 'doesNotExist' in 'field list' (1054).";
+            $errWhere = "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).";
+            $errOrder = "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).";
+            $errGroup = "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).";
+            $errWhere2 = "Query error: Unknown column 'asdsa' in 'where clause' (1054).";
+            $errGroup2 = "Query error: Unknown column 'xy' in 'group statement' (1054).";
+
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                $errSelect = "Query error: Unknown column 'doesNotExist' in 'SELECT' (1054).";
+                $errWhere = "Query error: Unknown column 'doesNotExist' in 'WHERE' (1054).";
+                $errOrder = "Query error: Unknown column 'doesNotExist' in 'ORDER BY' (1054).";
+                $errGroup = "Query error: Unknown column 'doesNotExist' in 'GROUP BY' (1054).";
+                $errWhere2 = "Query error: Unknown column 'asdsa' in 'WHERE' (1054).";
+                $errGroup2 = "Query error: Unknown column 'xy' in 'GROUP BY' (1054).";
+            }
+
             $expected = [
                 [
                     "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
@@ -43,19 +62,19 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     16,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'field list' (1054).",
+                    $errSelect,
                     21,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'where clause' (1054).",
+                    $errWhere,
                     26,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'order clause' (1054).",
+                    $errOrder,
                     31,
                 ],
                 [
-                    "Query error: Unknown column 'doesNotExist' in 'group statement' (1054).",
+                    $errGroup,
                     36,
                 ],
                 [
@@ -75,15 +94,43 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                     82,
                 ],
                 [
-                    "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                    $errWhere2,
                     103,
                 ],
                 [
-                    "Query error: Unknown column 'xy' in 'group statement' (1054).",
+                    $errGroup2,
                     118,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    135,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    136,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    137,
+                ],
+                [
+                    "Query error: Table 'phpstan_dba.adasfd' doesn't exist (1146).",
+                    138,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    154,
+                ],
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    155,
                 ],
             ];
         } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                self::markTestSkipped("We don't test all variants of expectations for all drivers");
+            }
+
             $expected = [
                 [
                     "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
@@ -132,6 +179,30 @@ class SyntaxErrorInQueryMethodRuleTest extends RuleTestCase
                 [
                     "Query error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'xy' in 'group statement' (42S22).",
                     118,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    135,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    136,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    137,
+                ],
+                [
+                    "Query error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'phpstan_dba.adasfd' doesn't exist (42S02).",
+                    138,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    154,
+                ],
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    155,
                 ],
             ];
         } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
@@ -208,13 +279,132 @@ LINE 1: SELECT email, adaid FROM ada GROUP BY xy LIMIT 0
                                               ^ (42703).',
                     118,
                 ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: EXPLAIN UPDATE ada set email = ""
+                                       ^ (42601).',
+                    129,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: EXPLAIN INSERT into ada SET email="sdf"
+                                ^ (42601).',
+                    130,
+                ],
+                [
+                    'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "adasfd" does not exist
+LINE 1: EXPLAIN DELETE from adasfd
+                            ^ (42P01).',
+                    135,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  zero-length delimited identifier at or near """"
+LINE 1: EXPLAIN UPDATE adasfd SET email = ""
+                                          ^ (42601).',
+                    136,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "SET"
+LINE 1: EXPLAIN INSERT into adasfd SET email="sdf"
+                                   ^ (42601).',
+                    137,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "REPLACE"
+LINE 1: EXPLAIN REPLACE into adasfd SET email="sdf"
+                ^ (42601).',
+                    138,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    154,
+                ],
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    155,
+                ],
             ];
         } else {
-            throw new \RuntimeException('Unsupported DBA_REFLECTOR '.getenv('DBA_REFLECTOR'));
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
         }
 
-        require_once __DIR__.'/data/syntax-error-in-query-method.php';
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-method.php'], $expected);
+    }
 
-        $this->analyse([__DIR__.'/data/syntax-error-in-query-method.php'], $expected);
+    public function testSyntaxErrorInQueryRuleForDoctrineDbal3(): void
+    {
+        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
+            self::markTestSkipped('Doctrine DBAL 3.x test only.');
+        }
+
+        if (MysqliQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expected = [
+                [
+                    "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                    12,
+                ],
+            ];
+        } elseif (PdoMysqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                self::markTestSkipped("We don't test all variants of expectations for all drivers");
+            }
+
+            $expected = [
+                [
+                    "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
+                    12,
+                ],
+            ];
+        } elseif (PdoPgSqlQueryReflector::NAME === getenv('DBA_REFLECTOR')) {
+            $expected = [
+                [
+                    'Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).',
+                    12,
+                ],
+            ];
+        } else {
+            throw new \RuntimeException('Unsupported DBA_REFLECTOR ' . getenv('DBA_REFLECTOR'));
+        }
+
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-method-dbal3.php'], $expected);
+    }
+
+    public function testMysqliExecuteQuery(): void
+    {
+        if (\PHP_VERSION_ID < 80200) {
+            self::markTestSkipped('Test requires PHP 8.2.');
+        }
+
+        if (MysqliQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('mysqli test only.');
+        }
+
+        $this->analyse([__DIR__ . '/data/mysqli_execute_query.php'], [
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                9,
+            ],
+        ]);
+    }
+
+    public function testBugRexstan165()
+    {
+        $this->analyse([__DIR__ . '/data/bug-rexstan-165.php'], []);
+    }
+
+    public function testBug547(): void
+    {
+        $this->analyse([__DIR__ . '/data/bug-547.php'], []);
+    }
+
+    public function testBug548(): void
+    {
+        $this->analyse([__DIR__ . '/data/bug-548.php'], []);
     }
 }

@@ -37,16 +37,28 @@ class Foo
     public function quotedArguments(mysqli $mysqli, int $i, float $f, $n, string $s, $nonE, string $numericString)
     {
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $i));
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
+        foreach ($result as $row) {
+            assertType('int<-32768, 32767>', $row['adaid']);
+            assertType('string', $row['email']);
+        }
 
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $f));
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
+        foreach ($result as $row) {
+            assertType('int<-32768, 32767>', $row['adaid']);
+            assertType('string', $row['email']);
+        }
 
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string((string) $n));
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
+        foreach ($result as $row) {
+            assertType('int<-32768, 32767>', $row['adaid']);
+            assertType('string', $row['email']);
+        }
 
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($numericString));
-        assertType('mysqli_result<array{email: string, adaid: int<-32768, 32767>}>', $result);
+        foreach ($result as $row) {
+            assertType('int<-32768, 32767>', $row['adaid']);
+            assertType('string', $row['email']);
+        }
 
         // when quote() cannot return a numeric-string, we can't infer the precise result-type
         $result = $mysqli->query('SELECT email, adaid FROM ada WHERE adaid='.$mysqli->real_escape_string($s));

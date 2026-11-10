@@ -10,18 +10,22 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\Types\MysqlIntegerRanges;
 
 final class MysqlTypeMapper implements TypeMapper
 {
-    /**
-     * @param list<string> $mysqlFlags
-     */
+    private ?DbaApi $dbaApi;
+
+    public function __construct(?DbaApi $dbaApi)
+    {
+        $this->dbaApi = $dbaApi;
+    }
+
     public function mapToPHPStanType(string $mysqlType, array $mysqlFlags, int $length): Type
     {
         $numeric = false;
@@ -47,7 +51,7 @@ final class MysqlTypeMapper implements TypeMapper
                     $unsigned = true;
                     break;
 
-                // ???
+                    // ???
                 case 'PRI_KEY':
                 case 'PART_KEY':
                 case 'MULTIPLE_KEY':
@@ -60,21 +64,21 @@ final class MysqlTypeMapper implements TypeMapper
 
         if ($numeric) {
             if ($unsigned) {
-                switch ($length) {
-                    case 3:
-                    case 4:
+                switch ($mysqlType) {
+                    case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->unsignedTinyInt();
                         break;
-                    case 5:
+                    case 'SHORT':
                         $phpstanType = $mysqlIntegerRanges->unsignedSmallInt();
                         break;
-                    case 8:
+                    case 'INT24':
                         $phpstanType = $mysqlIntegerRanges->unsignedMediumInt();
                         break;
-                    case 10:
+                    case 'LONG':
                         $phpstanType = $mysqlIntegerRanges->unsignedInt();
                         break;
-                    case 20:
+                    case 'LONGLONG':
                         $phpstanType = $mysqlIntegerRanges->unsignedBigInt();
                         break;
                     default:
@@ -82,22 +86,21 @@ final class MysqlTypeMapper implements TypeMapper
                         break;
                 }
             } else {
-                switch ($length) {
-                    case 1:
-                    case 4:
+                switch ($mysqlType) {
+                    case 'TINY':
+                    case 'CHAR':
                         $phpstanType = $mysqlIntegerRanges->signedTinyInt();
                         break;
-                    case 6:
+                    case 'SHORT':
                         $phpstanType = $mysqlIntegerRanges->signedSmallInt();
                         break;
-                    case 9:
+                    case 'INT24':
                         $phpstanType = $mysqlIntegerRanges->signedMediumInt();
                         break;
-                    case 11:
+                    case 'LONG':
                         $phpstanType = $mysqlIntegerRanges->signedInt();
                         break;
-                    case 20:
-                    case 22:
+                    case 'LONGLONG':
                         $phpstanType = $mysqlIntegerRanges->signedBigInt();
                         break;
                     default:
@@ -117,13 +120,20 @@ final class MysqlTypeMapper implements TypeMapper
             $phpstanType = IntegerRangeType::fromInterval(0, 2155);
         }
         // floats are detected as numerics in mysqli
-        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'NEWDECIMAL', 'REAL'], true)) {
+        if (\in_array(strtoupper($mysqlType), ['DOUBLE', 'REAL', 'FLOAT'], true)) {
             $phpstanType = new FloatType();
         }
 
         // fallbacks
         if (null === $phpstanType) {
             switch (strtoupper($mysqlType)) {
+                case 'DECIMAL':
+                case 'NEWDECIMAL':
+                    $phpstanType = new IntersectionType([
+                        new StringType(),
+                        new AccessoryNumericStringType(),
+                    ]);
+                    break;
                 case 'LONGLONG':
                 case 'LONG':
                 case 'SHORT':
@@ -137,27 +147,22 @@ final class MysqlTypeMapper implements TypeMapper
                 case 'STRING':
                 case 'VAR_STRING':
                 case 'JSON':
+                    $phpstanType = new StringType();
+                    break;
                 case 'DATE':
                 case 'TIME':
                 case 'DATETIME':
                 case 'TIMESTAMP':
+                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTimeImmutable()) {
+                        $phpstanType = new ObjectType(\DateTimeImmutable::class);
+                        break;
+                    }
+
                     $phpstanType = new StringType();
                     break;
                 default:
                     $phpstanType = new MixedType();
                     break;
-            }
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
-            $numberType = new UnionType([new IntegerType(), new FloatType()]);
-            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
-
-            if ($isNumber) {
-                $phpstanType = new IntersectionType([
-                    new StringType(),
-                    new AccessoryNumericStringType(),
-                ]);
             }
         }
 

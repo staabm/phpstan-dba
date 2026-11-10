@@ -38,4 +38,20 @@ class Foo
 
         mysqli_query($mysqli, $query);
     }
+
+    public function bug442(\mysqli $mysqli, string $table)
+    {
+        mysqli_query($mysqli, "SELECT * FROM `$table`");
+    }
+
+    /**
+     * @return string|false
+     */
+    private function returnsUnion() {}
+
+    public function bug458(\mysqli $mysqli)
+    {
+        $table = $this->returnsUnion();
+        mysqli_query($mysqli,'SELECT * FROM ' . $table . ' LIMIT 1');
+    }
 }

@@ -1,22 +1,28 @@
-# `phpstandba`: PHPStan based SQL static analysis and type inference for the database access layer
+# `phpstan-dba`: PHPStan based SQL static analysis and type inference for the database access layer
 
 `phpstan-dba` makes your phpstan static code analysis jobs aware of datatypes within your database.
 With this information at hand we are able to detect type inconsistencies between your domain model and database-schema.
 Additionally errors in code handling the results of sql queries can be detected.
 
-This extension provides the following features:
+This extension provides the following features, as long as you [stick to the rules](https://staabm.github.io/2022/07/23/phpstan-dba-inference-placeholder.html#the-golden-phpstan-dba-rules):
 
-* result set type-inferrence
-* inspect sql queries, detect errors and placeholder/bound value mismatches
-* query plan analysis to detect performance issues
+* [result set type-inference](https://staabm.github.io/2022/06/19/phpstan-dba-type-inference.html)
+* [detect errors in sql queries](https://staabm.github.io/2022/08/05/phpstan-dba-syntax-error-detection.html)
+* [detect placeholder/bound value mismatches](https://staabm.github.io/2022/07/30/phpstan-dba-placeholder-validation.html)
+* [query plan analysis](https://staabm.github.io/2022/08/16/phpstan-dba-query-plan-analysis.html) to detect performance issues
 * builtin support for `doctrine/dbal`, `mysqli`, and `PDO`
 * API to configure the same features for your custom sql based database access layer
+* Opt-In analysis of write queries (since version 0.2.55+)
 
 In case you are using Doctrine ORM, you might use `phpstan-dba` in tandem with [phpstan-doctrine](https://github.com/phpstan/phpstan-doctrine).
 
-**Note:**
-At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
+> [!NOTE]
+> At the moment only MySQL/MariaDB and PGSQL databases are supported. Technically it's not a big problem to support other databases though.
 
+## Talks
+
+[phpstan-dba - check your sql queries like a boss](https://staabm.github.io/talks/phpstan-dba@phpugffm/)
+May 2023, at PHP Usergroup in Frankfurt Main (Germany).
 
 ## DEMO
 
@@ -47,33 +53,40 @@ use staabm\PHPStanDba\QueryReflection\ReplayAndRecordingQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReplayQueryReflector;
 use staabm\PHPStanDba\QueryReflection\ReflectionCache;
 
-require_once __DIR__ . '/vendor/autoload.php';
+/** @var PHPStan\DependencyInjection\Container $container */
 
-$cacheFile = __DIR__.'/.phpstan-dba.cache';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $config = new RuntimeConfiguration();
 // $config->debugMode(true);
 // $config->stringifyTypes(true);
 // $config->analyzeQueryPlans(true);
+// $config->utilizeSqlAst(true);
 
 // TODO: Put your database credentials here
 $mysqli = new mysqli('hostname', 'username', 'password', 'database');
+// Alternatively you can use PdoMysqlQueryReflector, PdoPgSqlQueryReflector instead
+$reflector = new MysqliQueryReflector($mysqli);
+
+/*
+$cacheFile = $container->getParameter('resultCachePath') . '.phpstan-dba.cache';
+$reflector = new ReplayAndRecordingQueryReflector(
+    ReflectionCache::create(
+        $cacheFile
+    ),
+    new SchemaHasherMysql($mysqli)
+    $reflector
+);
+*/
 
 QueryReflection::setupReflector(
-    new ReplayAndRecordingQueryReflector(
-        ReflectionCache::create(
-            $cacheFile
-        ),
-        // XXX alternatively you can use PdoMysqlQueryReflector instead
-        new MysqliQueryReflector($mysqli),
-        new SchemaHasherMysql($mysqli)
-
-    ),
+    $reflector,
     $config
 );
 ```
 
-*Note*: [Configuration for PGSQL is pretty similar](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
+> [!NOTE]
+> [Configuration for PGSQL](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md) is pretty similar
 
 **Third**, create or update your `phpstan.neon` file so [bootstrapFiles](https://phpstan.org/config-reference#bootstrap) includes `phpstan-dba-bootstrap.php`.
 
@@ -103,9 +116,15 @@ includes:
 
 - [Runtime configuration](https://github.com/staabm/phpstan-dba/blob/main/docs/configuration.md)
 - [Record and Replay](https://github.com/staabm/phpstan-dba/blob/main/docs/record-and-replay.md)
-- [Query Plan Analysis](https://github.com/staabm/phpstan-dba/blob/main/docs/query-plan-analysis.md)
-- [Custom Query APIs Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
+- [Custom Query API Support](https://github.com/staabm/phpstan-dba/blob/main/docs/rules.md)
 - [MySQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/mysql.md)
 - [PGSQL Support](https://github.com/staabm/phpstan-dba/blob/main/docs/pgsql.md)
 - [Reflector Overview](https://github.com/staabm/phpstan-dba/blob/main/docs/reflectors.md)
 - [How to analyze a PHP 7.x codebase?](https://github.com/staabm/phpstan-dba/blob/main/docs/faq.md)
+
+## Contribute
+
+Setup the test-suite
+
+- copy `.env.dist` into a new file `.env` and adjust the credentials in it for your local needs
+- import the database [`schema.sql` (MySQL, MariaDB)](https://github.com/staabm/phpstan-dba/blob/main/tests/schema.sql) or [`pgsql-schema.sql` (Postgres)](https://github.com/staabm/phpstan-dba/blob/main/tests/pgsql-schema.sql)

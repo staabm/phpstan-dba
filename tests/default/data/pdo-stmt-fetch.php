@@ -12,7 +12,9 @@ class Foo
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         // default fetch-mode is BOTH
         $all = $stmt->fetchAll();
@@ -53,7 +55,9 @@ class Foo
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         // default fetch-mode is BOTH
         $all = $stmt->fetch();

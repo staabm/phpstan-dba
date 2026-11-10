@@ -7,18 +7,15 @@ namespace staabm\PHPStanDba\Ast;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\FunctionLike;
 use PhpParser\NodeFinder;
 use PHPStan\ShouldNotHappenException;
 
 final class ExpressionFinder
 {
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
+    private NodeFinder $nodeFinder;
 
     public function __construct()
     {
@@ -26,16 +23,38 @@ final class ExpressionFinder
     }
 
     /**
+     * @api
+     *
      * @param Variable|MethodCall $expr
+     *
+     * @deprecated use findAssignmentExpression() instead
      */
     public function findQueryStringExpression(Expr $expr): ?Expr
     {
+        return $this->findAssignmentExpression($expr);
+    }
+
+    /**
+     * @param Variable|MethodCall $expr
+     */
+    public function findAssignmentExpression(Expr $expr, bool $skipAssignOps = false): ?Expr
+    {
         $current = $expr;
         while (null !== $current) {
+            $matchedAssignOp = false;
+
             /** @var Assign|null $assign */
-            $assign = $this->findFirstPreviousOfNode($current, function ($node) {
+            $assign = $this->findFirstPreviousOfNode($current, function ($node) use (&$matchedAssignOp) {
+                if ($node instanceof Node\Stmt\Expression && $node->expr instanceof AssignOp) {
+                    $matchedAssignOp = true;
+                }
+
                 return $node instanceof Assign;
             });
+
+            if ($skipAssignOps && $matchedAssignOp) {
+                return null;
+            }
 
             if (null !== $assign) {
                 if ($expr instanceof Variable && $this->resolveName($assign->var) === $this->resolveName($expr)) {
@@ -86,8 +105,6 @@ final class ExpressionFinder
     }
 
     /**
-     * XXX use astral simpleNameResolver instead.
-     *
      * @param Expr|Variable|MethodCall $node
      *
      * @return string|null
@@ -117,7 +134,11 @@ final class ExpressionFinder
         // move to previous expression
         $previousStatement = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PREVIOUS);
         if (null !== $previousStatement) {
-            if (!$previousStatement instanceof Node) {
+            if ($previousStatement instanceof \WeakReference) {
+                $previousStatement = $previousStatement->get();
+            }
+
+            if (! $previousStatement instanceof Node) {
                 throw new ShouldNotHappenException();
             }
             $foundNode = $this->findFirst([$previousStatement], $filter);
@@ -127,15 +148,6 @@ final class ExpressionFinder
             }
 
             return $this->findFirstPreviousOfNode($previousStatement, $filter);
-        }
-
-        $parent = $node->getAttribute(PreviousConnectingVisitor::ATTRIBUTE_PARENT);
-        if ($parent instanceof FunctionLike) {
-            return null;
-        }
-
-        if ($parent instanceof Node) {
-            return $this->findFirstPreviousOfNode($parent, $filter);
         }
 
         return null;

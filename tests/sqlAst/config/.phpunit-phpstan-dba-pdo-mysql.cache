@@ -1,0 +1,1638 @@
+<?php return array (
+  'schemaVersion' => 'v13-valid-query',
+  'schemaHash' => NULL,
+  'records' => 
+  array (
+    'SELECT
+        CASE
+            WHEN freigabe1u1 > 50 THEN \'big-one\'
+            WHEN freigabe1u1 = 50 THEN \'normal\'
+            ELSE freigabe1u1
+        END as val from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{val: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT * FROM ada' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, gesperrt: int<-128, 127>, email: string, freigabe1u1: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT * FROM ak' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{akid: int<-2147483648, 2147483647>, eladaid: int<-2147483648, 2147483647>|null, eadavk: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT * FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{pid: int<0, 4294967295>, c_char5: string, c_varchar255: string, c_varchar25: string|null, c_varbinary255: string, c_varbinary25: string|null, c_date: string|null, c_time: string|null, c_datetime: string|null, c_timestamp: string|null, c_year: int<0, 2155>|null, c_tiny_text: string|null, c_medium_text: string|null, c_text: string|null, c_long_text: string|null, c_enum: string, c_set: string, c_bit: int|null, c_int: int<-2147483648, 2147483647>, c_tinyint: int<-128, 127>, c_nullable_tinyint: int<-128, 127>|null, c_smallint: int<-32768, 32767>, c_mediumint: int<-8388608, 8388607>, c_bigint: int, c_double: float, c_real: float, c_float: float, c_boolean: int<-128, 127>, c_blob: string, c_tinyblob: string, c_mediumblog: string, c_longblob: string, c_unsigned_tinyint: int<0, 255>, c_unsigned_int: int<0, 4294967295>, c_unsigned_smallint: int<0, 65535>, c_unsigned_mediumint: int<0, 16777215>, c_unsigned_bigint: int<0, max>, c_json: string|null, c_json_not_null: string, c_decimal: numeric-string|null, c_decimal_not_null: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT * FROM typemix WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{pid: int<0, 4294967295>, 0: int<0, 4294967295>, c_char5: string, 1: string, c_varchar255: string, 2: string, c_varchar25: string|null, 3: string|null, c_varbinary255: string, 4: string, c_varbinary25: string|null, 5: string|null, c_date: string|null, 6: string|null, c_time: string|null, 7: string|null, c_datetime: string|null, 8: string|null, c_timestamp: string|null, 9: string|null, c_year: int<0, 2155>|null, 10: int<0, 2155>|null, c_tiny_text: string|null, 11: string|null, c_medium_text: string|null, 12: string|null, c_text: string|null, 13: string|null, c_long_text: string|null, 14: string|null, c_enum: string, 15: string, c_set: string, 16: string, c_bit: int|null, 17: int|null, c_int: int<-2147483648, 2147483647>, 18: int<-2147483648, 2147483647>, c_tinyint: int<-128, 127>, 19: int<-128, 127>, c_nullable_tinyint: int<-128, 127>|null, 20: int<-128, 127>|null, c_smallint: int<-32768, 32767>, 21: int<-32768, 32767>, c_mediumint: int<-8388608, 8388607>, 22: int<-8388608, 8388607>, c_bigint: int, 23: int, c_double: float, 24: float, c_real: float, 25: float, c_float: float, 26: float, c_boolean: int<-128, 127>, 27: int<-128, 127>, c_blob: string, 28: string, c_tinyblob: string, 29: string, c_mediumblog: string, 30: string, c_longblob: string, 31: string, c_unsigned_tinyint: int<0, 255>, 32: int<0, 255>, c_unsigned_int: int<0, 4294967295>, 33: int<0, 4294967295>, c_unsigned_smallint: int<0, 65535>, 34: int<0, 65535>, c_unsigned_mediumint: int<0, 16777215>, 35: int<0, 16777215>, c_unsigned_bigint: int<0, max>, 36: int<0, max>, c_json: string|null, 37: string|null, c_json_not_null: string, 38: string, c_decimal: numeric-string|null, 39: numeric-string|null, c_decimal_not_null: numeric-string, 40: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT * FROM typemix WHERE c_json IS NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{pid: int<0, 4294967295>, 0: int<0, 4294967295>, c_char5: string, 1: string, c_varchar255: string, 2: string, c_varchar25: string|null, 3: string|null, c_varbinary255: string, 4: string, c_varbinary25: string|null, 5: string|null, c_date: string|null, 6: string|null, c_time: string|null, 7: string|null, c_datetime: string|null, 8: string|null, c_timestamp: string|null, 9: string|null, c_year: int<0, 2155>|null, 10: int<0, 2155>|null, c_tiny_text: string|null, 11: string|null, c_medium_text: string|null, 12: string|null, c_text: string|null, 13: string|null, c_long_text: string|null, 14: string|null, c_enum: string, 15: string, c_set: string, 16: string, c_bit: int|null, 17: int|null, c_int: int<-2147483648, 2147483647>, 18: int<-2147483648, 2147483647>, c_tinyint: int<-128, 127>, 19: int<-128, 127>, c_nullable_tinyint: int<-128, 127>|null, 20: int<-128, 127>|null, c_smallint: int<-32768, 32767>, 21: int<-32768, 32767>, c_mediumint: int<-8388608, 8388607>, 22: int<-8388608, 8388607>, c_bigint: int, 23: int, c_double: float, 24: float, c_real: float, 25: float, c_float: float, 26: float, c_boolean: int<-128, 127>, 27: int<-128, 127>, c_blob: string, 28: string, c_tinyblob: string, 29: string, c_mediumblog: string, 30: string, c_longblob: string, 31: string, c_unsigned_tinyint: int<0, 255>, 32: int<0, 255>, c_unsigned_int: int<0, 4294967295>, 33: int<0, 4294967295>, c_unsigned_smallint: int<0, 65535>, 34: int<0, 65535>, c_unsigned_mediumint: int<0, 16777215>, 35: int<0, 16777215>, c_unsigned_bigint: int<0, max>, 36: int<0, max>, c_json: string|null, 37: string|null, c_json_not_null: string, 38: string, c_decimal: numeric-string|null, 39: numeric-string|null, c_decimal_not_null: numeric-string, 40: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT 3' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{3: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT 3 as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT CASE 1 WHEN 1 THEN \'one\' WHEN 2 THEN \'two\' ELSE \'more\' END as val from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{val: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT COALESCE(freigabe1u1) as col from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT COALESCE(freigabe1u1, 500) as col from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT COALESCE(null, eladaid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT COALESCE(null, eladaid, null, akid, null) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT FIELD(\'Bb\', \'Aa\', \'Bb\', \'Cc\', \'Dd\', \'Ff\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT IFNULL(MAX(eladaid),0)+1 as priority from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{priority: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT REPLACE(\'www.mysql.com\', \'w\', \'Ww\') as str from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{str: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT REPLACE(\'www.mysql.com\', \'w\', c_varchar25) as str from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{str: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT REPLACE(\'www.mysql.com\', c_varchar25, \'Ww\') as str from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{str: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT REPLACE(c_varchar25, \'w\', \'Ww\') as str from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{str: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT REPLACE(email, \'w\', \'Ww\') as str from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{str: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT abs(eladaid) as abs from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT abs(freigabe1u1) as abs from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT abs(null) as abs from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid from ada cross join ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT adaid, akid from ada inner join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-2147483648, 2147483647>, 1: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT adaid, akid from ada join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-2147483648, 2147483647>, 1: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT adaid, akid from ada left join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, akid from ada left outer join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, akid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eadavk from ada inner join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string, 1: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eadavk from ada join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string, 1: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eadavk from ada left join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eadavk from ada left outer join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eadavk: numeric-string|null, 1: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada inner join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada inner join ak on (adaid = eladaid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada join ak on (adaid = eladaid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada left join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada left join ak on (adaid = eladaid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada left outer join ak on (adaid = akid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid from ada left outer join ak on (adaid = eladaid)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid, c_int, c_char5 from ada inner join ak on adaid = eladaid inner join typemix on adaid = c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null, c_int: int<-2147483648, 2147483647>, 2: int<-2147483648, 2147483647>, c_char5: string, 3: string}',
+        ),
+      ),
+    ),
+    'SELECT adaid, eladaid, c_int, c_char5 from ada left join ak on adaid = eladaid left join typemix on adaid = c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>, eladaid: int<-2147483648, 2147483647>|null, 1: int<-2147483648, 2147483647>|null, c_int: int<-2147483648, 2147483647>|null, 2: int<-2147483648, 2147483647>|null, c_char5: string|null, 3: string|null}',
+        ),
+      ),
+    ),
+    'SELECT akid from ada inner join (select akid from ak)t on akid = adaid' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{akid: int<-2147483648, 2147483647>, 0: int<-2147483648, 2147483647>}',
+        ),
+      ),
+    ),
+    'SELECT avg(c_nullable_tinyint) as avg from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(c_tinyint) as avg from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(coalesce(eladaid, 9999999999999999)) as avg from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(concat("0")) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(concat("foo")) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(eladaid) as avg from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(email) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(freigabe1u1) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(ifnull(email, adaid)) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT avg(null) as avg from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{avg: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM ada LEFT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM ada RIGHT JOIN typemix ON (c_json = c_json) WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix LEFT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix RIGHT JOIN ada ON (c_int = adaid) WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE (c_json IS NOT NULL)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE (c_json IS NULL)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NOT NULL AND c_int=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NOT NULL OR c_int=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NULL AND c_int=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_json IS NULL OR c_int=1' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_text IN (SELECT c_json FROM typemix WHERE c_json IS NOT NULL)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json FROM typemix WHERE c_text IN (SELECT c_json FROM typemix WHERE c_json IS NULL)' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json as col FROM typemix WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json as col FROM typemix WHERE c_json IS NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT c_json_not_null FROM typemix WHERE c_json_not_null IS NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{c_json_not_null: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT char_length(eladaid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT character_length(eladaid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT concat("abc", akid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat(akid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat(eladaid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat(eladaid, akid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat(eladaid, null) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat_ws("abc", akid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat_ws(akid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat_ws(eladaid, 5000) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat_ws(eladaid, akid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT concat_ws(eladaid, null) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT count(*) as myemail from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{myemail: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT count(email) as myemail from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{myemail: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT count(email) as myemail, count(email) from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{myemail: int, 0: int, \'count(email)\': int, 1: int}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(DISTINCT c_char5 ORDER BY c_char5 SEPARATOR \',\') as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(akid) as gc from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(c_nullable_tinyint) as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(c_tinyint) as gc from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(email) as gc from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT group_concat(null) as gc from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{gc: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT if(freigabe1u1 > 100, "a", 1) as col from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT if(freigabe1u1 > 100, freigabe1u1, "nope") as col from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT if(freigabe1u1 > 100, if(gesperrt <> 1, "a", "b"), "other") as col from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(123.23, c_int) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: numeric-string, 0: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_float, 123.23) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: float, 0: float}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_int, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_int, 123.23) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: numeric-string, 0: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_int, c_float) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: float, 0: float}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_json, "default") as col FROM typemix WHERE c_json IS NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, 5000) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, c_nullable_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_nullable_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_smallint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_smallint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(c_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>, 0: int<-32768, 32767>}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(null, "default") as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string, 0: string}',
+        ),
+      ),
+    ),
+    'SELECT ifnull(null, c_json) as col FROM typemix WHERE c_json IS NOT NULL' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT instr(\'foobarbar\', \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT instr(akid, \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT instr(eladaid, \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT isnull(akid) as n1 from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{n1: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT isnull(eladaid) as n1 from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{n1: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT lcase(c_varbinary255) as field from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT length(akid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT locate(\'foo\', eladaid, \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT locate(akid, \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT locate(eladaid, \'bar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(\'FOO\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(\'foobarbar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(c_varbinary25) as field from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(c_varbinary255) as field from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(concat(akid, 5000)) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(null) as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT lower(upper(\'foobarbar\')) as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT max(c_nullable_tinyint) as max from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT max(c_tinyint) as max from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT max(eladaid) as max from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT max(email) as max from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT max(freigabe1u1) as max from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}',
+        ),
+      ),
+    ),
+    'SELECT max(ifnull(email, adaid)) as max from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT max(null) as max from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{max: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT min(c_nullable_tinyint) as min from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT min(c_tinyint) as min from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT min(eladaid) as min from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: int<-2147483648, 2147483647>|null, 0: int<-2147483648, 2147483647>|null}',
+        ),
+      ),
+    ),
+    'SELECT min(email) as min from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT min(freigabe1u1) as min from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}',
+        ),
+      ),
+    ),
+    'SELECT min(ifnull(email, adaid)) as min from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT min(null) as min from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{min: mixed, 0: mixed}',
+        ),
+      ),
+    ),
+    'SELECT nullif(2, 2) as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(2, 3) as col' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_smallint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-32768, 32767>|null, 0: int<-32768, 32767>|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, "default") as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, 3) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, 5000) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, c_smallint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT nullif(c_tinyint, c_tinyint) as col from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int<-128, 127>|null, 0: int<-128, 127>|null}',
+        ),
+      ),
+    ),
+    'SELECT octet_length(eladaid) as col from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{col: int|null, 0: int|null}',
+        ),
+      ),
+    ),
+    'SELECT round(1.12, 1) as abs from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: numeric-string, 0: numeric-string}',
+        ),
+      ),
+    ),
+    'SELECT round(freigabe1u1) as abs from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: int, 0: int}',
+        ),
+      ),
+    ),
+    'SELECT round(null) as abs from ada' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{abs: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(akid) as sum from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(c_double) as sum from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(c_nullable_tinyint) as sum from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(c_tinyint) as sum from typemix GROUP BY c_int' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(eladaid) as sum from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: numeric-string|null, 0: numeric-string|null}',
+        ),
+      ),
+    ),
+    'SELECT sum(null) as sum from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{sum: float|null, 0: float|null}',
+        ),
+      ),
+    ),
+    'SELECT ucase(c_varbinary25) as field from typemix' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT upper(\'fooBARbar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+    'SELECT upper(\'foobarbar\') as field from ak' => 
+    array (
+      'result' => 
+      array (
+        5 => 
+        array (
+          'type-description' => 'array{field: string|null, 0: string|null}',
+        ),
+      ),
+    ),
+  ),
+  'runtimeConfig' => 
+  array (
+    'errorMode' => 'exception',
+    'debugMode' => false,
+    'stringifyTypes' => false,
+  ),
+);

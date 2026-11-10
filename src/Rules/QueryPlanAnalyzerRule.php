@@ -8,13 +8,18 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\MixedType;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\QueryPlanAnalyzerRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -29,14 +34,17 @@ final class QueryPlanAnalyzerRule implements Rule
     /**
      * @var list<string>
      */
-    private $classMethods;
+    public array $classMethods;
+
+    private ReflectionProvider $reflectionProvider;
 
     /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
@@ -47,13 +55,22 @@ final class QueryPlanAnalyzerRule implements Rule
     public function processNode(Node $callLike, Scope $scope): array
     {
         if ($callLike instanceof MethodCall) {
-            if (!$callLike->name instanceof Node\Identifier) {
+            if (! $callLike->name instanceof Node\Identifier) {
                 return [];
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        } elseif ($callLike instanceof StaticCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            if (! $callLike->class instanceof Name) {
+                return [];
+            }
+            $classType = $scope->resolveTypeByName($callLike->class);
+            $methodReflection = $scope->getMethodReflection($classType, $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
-            if (!$callLike->class instanceof FullyQualified) {
+            if (! $callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
@@ -65,45 +82,47 @@ final class QueryPlanAnalyzerRule implements Rule
             return [];
         }
 
-        $unsupportedMethod = true;
         $queryArgPosition = null;
+        $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
-            sscanf($classMethod, '%[^::]::%[^#]#%s', $className, $methodName, $queryArgPosition);
+            sscanf($classMethod, '%[^::]::%[^#]#%i', $className, $methodName, $queryArgPosition);
+            if (! \is_string($className) || ! \is_string($methodName) || ! \is_int($queryArgPosition)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
+                (
+                    $methodReflection->getDeclaringClass()->getName() === $className
+                    || ($this->reflectionProvider->hasClass($className) && $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
+                )
+            ) {
                 $unsupportedMethod = false;
                 break;
             }
         }
 
+        if (null === $queryArgPosition) {
+            throw new ShouldNotHappenException('Invalid classMethod definition');
+        }
         if ($unsupportedMethod) {
             return [];
         }
 
-        $args = $callLike->getArgs();
-
-        if (!\array_key_exists($queryArgPosition, $args)) {
-            return [];
-        }
-
-        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
-            return [];
-        }
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             return $this->analyze($callLike, $scope);
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
             ];
         }
     }
 
     /**
-     * @param MethodCall|New_ $callLike
+     * @param MethodCall|StaticCall|New_ $callLike
      *
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     private function analyze(CallLike $callLike, Scope $scope): array
     {
@@ -118,24 +137,24 @@ final class QueryPlanAnalyzerRule implements Rule
         }
 
         $queryExpr = $args[0]->value;
+        $queryReflection = new QueryReflection();
 
-        if ($scope->getType($queryExpr) instanceof MixedType) {
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
 
         $parameterTypes = null;
         if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[1]->value, $scope);
         }
 
         $ruleErrors = [];
-        $queryReflection = new QueryReflection();
         $proposal = "\n\nConsider optimizing the query.\nIn some cases this is not a problem and this error should be ignored.";
 
         foreach ($queryReflection->analyzeQueryPlan($scope, $queryExpr, $parameterTypes) as $queryPlanResult) {
             $suffix = $proposal;
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                $suffix = $proposal."\n\nSimulated query: ".$queryPlanResult->getSimulatedQuery();
+                $suffix = $proposal . "\n\nSimulated query: " . $queryPlanResult->getSimulatedQuery();
             }
 
             $notUsingIndex = $queryPlanResult->getTablesNotUsingIndex();
@@ -143,10 +162,12 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($notUsingIndex as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is not using an index on table '%s'.".$suffix,
+                            "Query is not using an index on table '%s'." . $suffix,
                             $table
-                        ))
-                        ->line($callLike->getLine())
+                        )
+                    )
+                        ->identifier('dba.missingIndex')
+                        ->line($callLike->getStartLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();
                 }
@@ -154,10 +175,12 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingTableScan() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                            "Query is using a full-table-scan on table '%s'.".$suffix,
+                            "Query is using a full-table-scan on table '%s'." . $suffix,
                             $table
-                        ))
-                        ->line($callLike->getLine())
+                        )
+                    )
+                        ->identifier('dba.tableScan')
+                        ->line($callLike->getStartLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/table-scan-avoidance.html')
                         ->build();
                 }
@@ -165,10 +188,12 @@ final class QueryPlanAnalyzerRule implements Rule
                 foreach ($queryPlanResult->getTablesDoingUnindexedReads() as $table) {
                     $ruleErrors[] = RuleErrorBuilder::message(
                         sprintf(
-                        "Query is triggering too many unindexed-reads on table '%s'.".$suffix,
+                            "Query is triggering too many unindexed-reads on table '%s'." . $suffix,
                             $table
-                        ))
-                        ->line($callLike->getLine())
+                        )
+                    )
+                        ->identifier('dba.unindexedReads')
+                        ->line($callLike->getStartLine())
                         ->tip('see Mysql Docs https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html')
                         ->build();
                 }

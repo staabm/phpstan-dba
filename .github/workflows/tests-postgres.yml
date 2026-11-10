@@ -38,20 +38,26 @@ jobs:
                     - 5432:5432
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
               with:
                   repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
                   ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
             - name: Setup PHP with PDO
-              uses: shivammathur/setup-php@v2
+              uses: shivammathur/setup-php@c77c69f5c8897d89fe313f4b6dd4d768d6a1b3db # v2
               with:
                   php-version: "${{ matrix.php-version }}"
                   coverage: none
 
-            - uses: "ramsey/composer-install@v2"
+            - uses: "ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda" # v4
               with:
-                  composer-options: "--prefer-dist --no-progress"
+                composer-options: "--prefer-dist --no-progress"
+
+            - name: Install sqlftw/sqlftw (optional dependency)
+              run: composer require sqlftw/sqlftw --ignore-platform-req=php+
+
+            - name: Install doctrine/dbal (optional dependency)
+              run: composer require doctrine/dbal:^3 --ignore-platform-req=php+
 
             - name: Setup Problem Matchers for PHPUnit
               run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -66,4 +72,4 @@ jobs:
               env:
                 PGPASSWORD: postgres
 
-            - run: composer phpunit
+            - run: composer phpunit -- --colors=always

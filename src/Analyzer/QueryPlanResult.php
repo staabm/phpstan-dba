@@ -7,18 +7,17 @@ namespace staabm\PHPStanDba\Analyzer;
 final class QueryPlanResult
 {
     public const NO_INDEX = 'no-index';
+
     public const TABLE_SCAN = 'table-scan';
+
     public const UNINDEXED_READS = 'unindexed-reads';
 
     /**
      * @var array<string, self::*>
      */
-    private $result = [];
+    private array $result = [];
 
-    /**
-     * @var string
-     */
-    private $simulatedQuery;
+    private string $simulatedQuery;
 
     public function __construct(string $simulatedQuery)
     {
@@ -32,10 +31,8 @@ final class QueryPlanResult
 
     /**
      * @param self::* $result
-     *
-     * @return void
      */
-    public function addRow(string $table, string $result)
+    public function addRow(string $table, string $result): void
     {
         $this->result[$table] = $result;
     }

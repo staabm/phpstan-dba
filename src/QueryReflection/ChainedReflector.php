@@ -12,7 +12,7 @@ final class ChainedReflector implements QueryReflector
     /**
      * @var QueryReflector[]
      */
-    private $reflectors;
+    private array $reflectors;
 
     /**
      * @param QueryReflector ...$reflectors
@@ -30,8 +30,8 @@ final class ChainedReflector implements QueryReflector
             $reflectorError = $reflector->validateQueryString($queryString);
 
             // on "not found" error, we try the next reflector.
-            if ($reflectorError) {
-                if (!\in_array($reflectorError->getCode(), [MysqliQueryReflector::MYSQL_UNKNOWN_TABLE], true)) {
+            if (null !== $reflectorError) {
+                if (! \in_array($reflectorError->getCode(), [MysqliQueryReflector::MYSQL_UNKNOWN_TABLE], true)) {
                     return $reflectorError;
                 }
                 if (true === $nooneKnows) {
@@ -54,11 +54,18 @@ final class ChainedReflector implements QueryReflector
         foreach ($this->reflectors as $reflector) {
             $reflectorResult = $reflector->getResultType($queryString, $fetchType);
 
-            if ($reflectorResult) {
+            if (null !== $reflectorResult) {
                 return $reflectorResult;
             }
         }
 
         return null;
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        foreach ($this->reflectors as $reflector) {
+            $reflector->setupDbaApi($dbaApi);
+        }
     }
 }

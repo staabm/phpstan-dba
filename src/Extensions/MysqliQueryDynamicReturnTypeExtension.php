@@ -26,10 +26,7 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
-    /**
-     * @var PhpVersion
-     */
-    private $phpVersion;
+    private PhpVersion $phpVersion;
 
     public function __construct(PhpVersion $phpVersion)
     {
@@ -54,7 +51,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
         $args = $functionCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $functionCall->getArgs(),
+            $functionReflection->getVariants()
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -63,6 +64,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         if (\count($args) < 2) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $resultType = $this->inferResultType($args[1]->value, $scope);
@@ -79,7 +82,11 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $methodCall->getArgs(),
+            $methodReflection->getVariants()
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -92,6 +99,8 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         if ($scope->getType($args[0]->value) instanceof MixedType) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $resultType = $this->inferResultType($args[0]->value, $scope);
@@ -113,7 +122,7 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
         $queryReflection = new QueryReflection();
         $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
 
-        $genericObjects = [];
+        $objects = [];
         foreach ($queryStrings as $queryString) {
             $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_ASSOC);
 
@@ -121,19 +130,19 @@ final class MysqliQueryDynamicReturnTypeExtension implements DynamicMethodReturn
                 return null;
             }
 
-            $genericObjects[] = new MysqliResultObjectType($resultType);
+            $objects[] = MysqliResultObjectType::newWithRowType($resultType);
         }
 
-        if (0 === \count($genericObjects)) {
+        if (0 === \count($objects)) {
             return null;
         }
 
-        $resultType = TypeCombinator::union(...$genericObjects);
+        $resultType = TypeCombinator::union(...$objects);
 
-        if (!QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
+        if (! QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             return TypeCombinator::union(
                 $resultType,
-                new ConstantBooleanType(false),
+                new ConstantBooleanType(false)
             );
         }
 

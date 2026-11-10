@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -16,28 +18,26 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
 {
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+        $rule = self::getContainer()->getByType(SyntaxErrorInPreparedStatementMethodRule::class);
+        $rule->classMethods[] = 'staabm\PHPStanDba\Tests\Fixture\BaseQueryClass::doQuery';
+        return $rule;
     }
 
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/config/subclassed-method-rule.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
-        require_once __DIR__.'/data/syntax-error-in-method-subclassed.php';
-
-        $this->analyse([__DIR__.'/data/syntax-error-in-method-subclassed.php'], $this->getExpectedErrors());
+        $this->analyse([__DIR__ . '/data/syntax-error-in-method-subclassed.php'], $this->getExpectedErrors());
     }
 
-    /** @return list<array{string, int}> */
+    /**
+     * @return list<array{string, int}>
+     */
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');
@@ -62,26 +62,28 @@ class SyntaxErrorInPreparedStatementMethodSubclassedRuleTest extends RuleTestCas
                 return [
                     [
                         <<<TEXT
-    Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "with"
-    LINE 1: SELECT with syntax error GROUPY by x LIMIT 0
-                   ^ (42601).
-    TEXT,
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "with"
+LINE 1: SELECT with syntax error GROUPY by x LIMIT 0
+               ^ (42601).
+TEXT,
                         12,
                     ],
                     [
-                        <<<TEXT
-    Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
-    LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
-                                              ^ (42601).
-    TEXT,
+                        <<<'TEXT'
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).
+TEXT
+                        ,
                         18,
                     ],
                     [
                         <<<TEXT
-    Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
-    LINE 3:             FROM ada LIMIT 0
-                        ^ (42601).
-    TEXT,
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "FROM"
+LINE 3:             FROM ada LIMIT 0
+                    ^ (42601).
+TEXT
+                        ,
                         20,
                     ],
                 ];

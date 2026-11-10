@@ -12,6 +12,9 @@ use PHPStan\Analyser\TypeSpecifier;
 use PHPStan\Analyser\TypeSpecifierAwareExtension;
 use PHPStan\Analyser\TypeSpecifierContext;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\MethodTypeSpecifyingExtension;
 use PHPStan\Type\Type;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
@@ -20,10 +23,7 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-    /**
-     * @var TypeSpecifier
-     */
-    private $typeSpecifier;
+    private TypeSpecifier $typeSpecifier;
 
     public function getClass(): string
     {
@@ -45,14 +45,16 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
         // keep original param name because named-parameters
         $methodCall = $node;
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         try {
-            $inferedType = $this->inferStatementType($methodReflection, $methodCall, $scope);
+            $inferredType = $this->inferStatementType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $e) {
             return new SpecifiedTypes();
         }
 
-        if (null !== $inferedType) {
-            return $this->typeSpecifier->create($methodCall->var, $inferedType, TypeSpecifierContext::createTruthy(), true);
+        if (null !== $inferredType) {
+            return $this->typeSpecifier->create($methodCall->var, $inferredType, TypeSpecifierContext::createTruthy(), $scope)->setAlwaysOverwriteTypes();
         }
 
         return new SpecifiedTypes();
@@ -65,9 +67,7 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
     {
         $args = $methodCall->getArgs();
 
-        if (0 === \count($args)) {
-            return null;
-        }
+
 
         $stmtReflection = new PdoStatementReflection();
         $queryExpr = $stmtReflection->findPrepareQueryStringExpression($methodCall);
@@ -75,9 +75,28 @@ final class PdoStatementExecuteTypeSpecifyingExtension implements MethodTypeSpec
             return null;
         }
 
-        $parameterTypes = $scope->getType($args[0]->value);
-
         $queryReflection = new QueryReflection();
+
+        if (0 === \count($args)) {
+            $parameterKeys = [];
+            $parameterValues = [];
+
+            foreach ($stmtReflection->findPrepareBindCalls($methodCall) as $bindCall) {
+                $bindArgs = $bindCall->getArgs();
+                if (\count($bindArgs) >= 2) {
+                    $keyType = $scope->getType($bindArgs[0]->value);
+                    if ($keyType instanceof ConstantIntegerType || $keyType instanceof ConstantStringType) {
+                        $parameterKeys[] = $keyType;
+                        $parameterValues[] = $scope->getType($bindArgs[1]->value);
+                    }
+                }
+            }
+
+            $parameterTypes = new ConstantArrayType($parameterKeys, $parameterValues);
+        } else {
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[0]->value, $scope);
+        }
+
         $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
 
         $reflectionFetchType = QueryReflection::getRuntimeConfiguration()->getDefaultFetchMode();

@@ -7,19 +7,29 @@ namespace staabm\PHPStanDba\Analyzer;
 use mysqli;
 use PDO;
 use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\QueryReflection\GlobalTransaction;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use function is_iterable;
 
 final class QueryPlanAnalyzerMysql
 {
     /**
+     * @api
+     *
      * @deprecated use QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD instead
      */
     public const DEFAULT_UNINDEXED_READS_THRESHOLD = QueryPlanAnalyzer::DEFAULT_UNINDEXED_READS_THRESHOLD;
+
     /**
+     * @api
+     *
      * @deprecated use QueryPlanAnalyzer::TABLES_WITHOUT_DATA instead
      */
     public const TABLES_WITHOUT_DATA = QueryPlanAnalyzer::TABLES_WITHOUT_DATA;
+
     /**
+     * @api
+     *
      * @deprecated use QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD instead
      */
     public const DEFAULT_SMALL_TABLE_THRESHOLD = QueryPlanAnalyzer::DEFAULT_SMALL_TABLE_THRESHOLD;
@@ -42,21 +52,16 @@ final class QueryPlanAnalyzerMysql
      */
     public function analyze(string $query): QueryPlanResult
     {
-        $simulatedQuery = 'EXPLAIN '.$query;
+        GlobalTransaction::ensureStarted($this->connection);
 
-        if ($this->connection instanceof PDO) {
-            $stmt = $this->connection->query($simulatedQuery);
+        $simulatedQuery = 'EXPLAIN ' . $query;
+        $stmt = $this->connection->query($simulatedQuery);
 
-            // @phpstan-ignore-next-line
-            return $this->buildResult($simulatedQuery, $stmt);
-        } else {
-            $result = $this->connection->query($simulatedQuery);
-            if ($result instanceof \mysqli_result) {
-                return $this->buildResult($simulatedQuery, $result);
-            }
+        if (! is_iterable($stmt)) {
+            throw new ShouldNotHappenException();
         }
 
-        throw new ShouldNotHappenException();
+        return $this->buildResult($simulatedQuery, $stmt);
     }
 
     /**

@@ -5,35 +5,22 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\Type\Type;
-use staabm\PHPStanDba\CacheNotPopulatedException;
-use staabm\PHPStanDba\DbSchema\SchemaHasherMysql;
+use staabm\PHPStanDba\DbSchema\SchemaHasher;
 use staabm\PHPStanDba\Error;
 
 final class ReplayAndRecordingQueryReflector implements QueryReflector, RecordingReflector
 {
-    /**
-     * @var ReplayQueryReflector
-     */
-    private $replayReflector;
+    private ReplayQueryReflector $replayReflector;
 
-    /**
-     * @var RecordingQueryReflector|null
-     */
-    private $recordingReflector = null;
-    /**
-     * @var QueryReflector
-     */
-    private $queryReflector;
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
-    /**
-     * @var SchemaHasherMysql
-     */
-    private $schemaHasher;
+    private ?RecordingQueryReflector $recordingReflector = null;
 
-    public function __construct(ReflectionCache $reflectionCache, QueryReflector $queryReflector, SchemaHasherMysql $schemaHasher)
+    private QueryReflector $queryReflector;
+
+    private ReflectionCache $reflectionCache;
+
+    private SchemaHasher $schemaHasher;
+
+    public function __construct(ReflectionCache $reflectionCache, QueryReflector $queryReflector, SchemaHasher $schemaHasher)
     {
         $this->replayReflector = new ReplayQueryReflector($reflectionCache);
 
@@ -66,11 +53,11 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
             return $this->createRecordingReflector()->validateQueryString($queryString);
         }
 
-        try {
+        if ($this->reflectionCache->contains($queryString)) {
             return $this->replayReflector->validateQueryString($queryString);
-        } catch (CacheNotPopulatedException $e) {
-            return $this->createRecordingReflector()->validateQueryString($queryString);
         }
+
+        return $this->createRecordingReflector()->validateQueryString($queryString);
     }
 
     public function getResultType(string $queryString, int $fetchType): ?Type
@@ -79,11 +66,17 @@ final class ReplayAndRecordingQueryReflector implements QueryReflector, Recordin
             return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
         }
 
-        try {
-            return $this->replayReflector->getResultType($queryString, $fetchType);
-        } catch (CacheNotPopulatedException $e) {
-            return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
+        $resultType = $this->replayReflector->getResultType($queryString, $fetchType);
+        if (null !== $resultType) {
+            return $resultType;
         }
+
+        return $this->createRecordingReflector()->getResultType($queryString, $fetchType);
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->queryReflector->setupDbaApi($dbaApi);
     }
 
     public function getDatasource()

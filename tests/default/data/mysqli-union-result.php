@@ -13,7 +13,11 @@ class Foo
 
         foreach ($queries as $query) {
             $result = $mysqli->query($query);
-            assertType('mysqli_result<array{adaid: int<-32768, 32767>}>|mysqli_result<array{email: string}>', $result);
+
+            foreach ($result as $row) {
+                assertType('int<-32768, 32767>', $row['adaid']);
+                assertType('string', $row['email']);
+            }
         }
     }
 }

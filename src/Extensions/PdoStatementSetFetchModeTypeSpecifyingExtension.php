@@ -18,10 +18,7 @@ use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 
 final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTypeSpecifyingExtension, TypeSpecifierAwareExtension
 {
-    /**
-     * @var TypeSpecifier
-     */
-    private $typeSpecifier;
+    private TypeSpecifier $typeSpecifier;
 
     public function getClass(): string
     {
@@ -45,10 +42,12 @@ final class PdoStatementSetFetchModeTypeSpecifyingExtension implements MethodTyp
         $statementType = $scope->getType($methodCall->var);
 
         if ($statementType instanceof PdoStatementObjectType) {
+            DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
             $reducedType = $this->reduceType($methodCall, $statementType, $scope);
 
             if (null !== $reducedType) {
-                return $this->typeSpecifier->create($methodCall->var, $reducedType, TypeSpecifierContext::createTruthy(), true);
+                return $this->typeSpecifier->create($methodCall->var, $reducedType, TypeSpecifierContext::createTruthy(), $scope)->setAlwaysOverwriteTypes();
             }
         }
 

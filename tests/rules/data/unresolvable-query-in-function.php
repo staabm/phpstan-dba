@@ -26,4 +26,14 @@ class Foo
     {
         mysqli_query($mysqli, $query);
     }
+
+    public function stringParam(\mysqli $mysqli, string $string)
+    {
+        mysqli_query($mysqli, 'SELECT adaid FROM ada WHERE gesperrt='.$string);
+    }
+
+    public function queryStringFragment(\mysqli $mysqli, string $string)
+    {
+        mysqli_query($mysqli, 'SELECT adaid FROM ada WHERE '.$string);
+    }
 }

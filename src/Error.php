@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba;
 
 use staabm\PHPStanDba\QueryReflection\BasePdoQueryReflector;
@@ -7,14 +9,13 @@ use staabm\PHPStanDba\QueryReflection\MysqliQueryReflector;
 use staabm\PHPStanDba\QueryReflection\QuerySimulation;
 
 /**
+ * @api
+ *
  * @phpstan-type ErrorCodes value-of<MysqliQueryReflector::MYSQL_ERROR_CODES>|value-of<BasePdoQueryReflector::PDO_ERROR_CODES>
  */
 final class Error
 {
-    /**
-     * @var string
-     */
-    private $message;
+    private string $message;
 
     /**
      * @var ErrorCodes
@@ -45,7 +46,7 @@ final class Error
 
     public function asRuleMessage(): string
     {
-        return 'Query error: '.$this->getMessage().' ('.$this->getCode().').';
+        return 'Query error: ' . $this->getMessage() . ' (' . $this->getCode() . ').';
     }
 
     /**
@@ -61,7 +62,7 @@ final class Error
 
         // to ease debugging, print the error we simulated
         $simulatedQuery = QuerySimulation::simulate($queryString);
-        $message = $message."\n\nSimulated query: ".$simulatedQuery;
+        $message = $message . "\n\nSimulated query: " . $simulatedQuery;
 
         return new self($message, $code);
     }

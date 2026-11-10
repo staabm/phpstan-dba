@@ -9,10 +9,7 @@ use staabm\PHPStanDba\Error;
 
 final class ReplayQueryReflector implements QueryReflector
 {
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
+    private ReflectionCache $reflectionCache;
 
     public function __construct(ReflectionCache $cache)
     {
@@ -21,16 +18,23 @@ final class ReplayQueryReflector implements QueryReflector
 
     public function validateQueryString(string $queryString): ?Error
     {
+        if (! $this->reflectionCache->hasValidationError($queryString)) {
+            return null;
+        }
+
         return $this->reflectionCache->getValidationError($queryString);
     }
 
     public function getResultType(string $queryString, int $fetchType): ?Type
     {
-        // queries with errors don't have a cached result type
-        if (false === $this->reflectionCache->hasResultType($queryString, $fetchType)) {
+        if (! $this->reflectionCache->hasResultType($queryString, $fetchType)) {
             return null;
         }
 
         return $this->reflectionCache->getResultType($queryString, $fetchType);
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
     }
 }

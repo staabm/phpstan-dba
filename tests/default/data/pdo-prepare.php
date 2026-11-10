@@ -10,11 +10,10 @@ class Foo
     public function prepareSelected(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
 
         foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
             assertType('int<-32768, 32767>', $row['adaid']);
             assertType('string', $row['email']);
         }
@@ -28,11 +27,17 @@ class Foo
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $stmt->execute([$adaid]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
 
         $stmt = $pdo->query('SELECT email, adaid FROM ada WHERE email = ?');
         $stmt->execute([$email]);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
     }
 
     public function queryBranches(PDO $pdo, bool $bool)
@@ -42,24 +47,30 @@ class Foo
         } else {
             $query = "SELECT email, adaid FROM ada WHERE email='test@example.org'";
         }
-
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}', $row);
+        }
     }
 
     public function placeholderInData(PDO $pdo)
     {
         $query = "SELECT adaid FROM ada WHERE email LIKE 'hello?%'";
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
 
         $query = "SELECT adaid FROM ada WHERE email LIKE '%questions ?%'";
         $stmt = $pdo->prepare($query);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
         $stmt->execute();
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
     }
 
     public function arrayParam(PDO $pdo)
@@ -67,7 +78,10 @@ class Foo
         $query = 'SELECT adaid FROM ada WHERE adaid IN (:adaids)';
         $stmt = $pdo->prepare($query);
         $stmt->execute(['adaids' => [1, 2, 3]]);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
     }
 
     public function unspecifiedArray(PDO $pdo, array $idsToUpdate, string $time)
@@ -78,7 +92,44 @@ class Foo
             'ids' => $idsToUpdate,
             'time' => $time,
         ]);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
+    }
+
+    /**
+     * @param list $idsToUpdate
+     */
+    public function unspecifiedList(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
+    }
+
+    /**
+     * @param list<positive-int> $idsToUpdate
+     */
+    public function specifiedList(PDO $pdo, array $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
     }
 
     /**
@@ -91,7 +142,10 @@ class Foo
         $stmt->execute([
             'ids' => $idsToUpdate,
         ]);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
     }
 
     /**
@@ -105,22 +159,76 @@ class Foo
             'ids' => $idsToUpdate,
             'time' => $time,
         ]);
-        assertType('PDOStatement<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', $stmt);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
+    }
+
+    /**
+     * @param iterable<int> $idsToUpdate
+     */
+    public function specifiedIterable(PDO $pdo, iterable $idsToUpdate, string $time)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN (:ids) AND email LIKE :time';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            'ids' => $idsToUpdate,
+            'time' => $time,
+        ]);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
     }
 
     public function noInferenceOnBug196(PDO $pdo, array $minorPhpVersions, \DateTimeImmutable $updateDate)
     {
         $sumQueries = [];
         $dataPointDate = $updateDate->format('Ymd');
-        foreach ($minorPhpVersions as $index => $version) {
+        foreach ($minorPhpVersions as $version) {
             $sumQueries[] = 'SUM(DATA->\'$."'.$version.'"."'.$dataPointDate.'"\')';
         }
         $stmt = $pdo->prepare(
             'SELECT '.implode(', ', $sumQueries).' FROM ada WHERE adaid = :package'
         );
         $stmt->execute(['package' => 'abc']);
-        // this query is too dynamic for beeing analyzed.
+
+        // this query is too dynamic for being analyzed.
         // make sure we don't infer a wrong type.
         assertType('PDOStatement', $stmt);
+        foreach ($stmt as $row) {
+            assertType('mixed', $row);
+        }
     }
+
+    /** @param list<int> $ids */
+    public function spreadIds(PDO $pdo, array $ids)
+    {
+        $query = 'SELECT adaid FROM ada WHERE adaid IN ('. self::inPlaceholders($ids) .')';
+        $stmt = $pdo->prepare($query);
+        $stmt->execute(...$ids);
+
+        foreach ($stmt as $row) {
+            assertType('array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}', $row);
+        }
+    }
+
+    /**
+     * Returns a string containing all required "?"-placeholders to pass $ids into a IN()-expression.
+     *
+     * @phpstandba-inference-placeholder '?'
+     *
+     * @param non-empty-array<int|string> $ids
+     *
+     * @return literal-string
+     */
+    public static function inPlaceholders(array $ids): string
+    {
+        // no matter whether $ids contains user input or not,
+        // we can safely say what we return here will no longer contain user input.
+        // therefore we type the return with "literal-string"
+        return implode(',', array_fill(0, count($ids), '?'));
+    }
+
 }

@@ -8,10 +8,8 @@ use PDOStatement;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\Constant\ConstantBooleanType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -20,10 +18,7 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoStatementFetchObjectDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
+    private ReflectionProvider $reflectionProvider;
 
     public function __construct(ReflectionProvider $reflectionProvider)
     {
@@ -40,20 +35,17 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
         return \in_array($methodReflection->getName(), ['fetchObject'], true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
-            $resultType = $this->inferType($methodReflection, $methodCall, $scope);
-            if (null !== $resultType) {
-                $returnType = $resultType;
-            }
+            return $this->inferType($methodReflection, $methodCall, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $returnType;
+        return null;
     }
 
     private function inferType(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
@@ -64,14 +56,15 @@ final class PdoStatementFetchObjectDynamicReturnTypeExtension implements Dynamic
 
         if (\count($args) >= 1) {
             $classStringType = $scope->getType($args[0]->value);
-            if ($classStringType instanceof ConstantStringType) {
-                $className = $classStringType->getValue();
+            $strings = $classStringType->getConstantStrings();
+            if (count($strings) === 1) {
+                $className = $strings[0]->getValue();
             } else {
                 return null;
             }
         }
 
-        if (!$this->reflectionProvider->hasClass($className)) {
+        if (! $this->reflectionProvider->hasClass($className)) {
             // XXX should we return NEVER or FALSE on unknown classes?
             return null;
         }

@@ -1,8 +1,11 @@
 includes:
-    - config/stubFiles.neon
     - config/extensions.neon
+    - config/rules.neon
+    - phpstan-baseline.neon
 
 parameters:
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
     level: max
 
     paths:
@@ -10,3 +13,29 @@ parameters:
 
     bootstrapFiles:
         - bootstrap.php
+
+    unused_public:
+        methods: true
+        properties: true
+        constants: true
+
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        -
+            message: '#.*so it can be removed from the return type.*#' # requires https://github.com/phpstan/phpstan/issues/10312
+        -
+            message: '#^Method staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:hashDb\(\) should return string but returns float\|int\|string\.$#'
+            path: src/DbSchema/SchemaHasherMysql.php
+        -
+            message: '#^Property staabm\\PHPStanDba\\DbSchema\\SchemaHasherMysql\:\:\$hash \(string\|null\) does not accept float\|int\|string\.$#'
+            path: src/DbSchema/SchemaHasherMysql.php
+        -
+            message: '#^Instanceof between mysqli_result\<array\<string, int\|string\|null\>\> and mysqli_result will always evaluate to true\.$#'
+            path: src/DbSchema/SchemaHasherMysql.php
+        -
+            message: '#^Instanceof between mysqli_result<array<string, int<-2147483648, 2147483647>\|string\|null>> and mysqli_result will always evaluate to true\.$#'
+            path: src/DbSchema/SchemaHasherMysql.php
+        -
+            message: '#^Public property ".*::\$classMethods" is never used$#'
+            path: src/Rules/*

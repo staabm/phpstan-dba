@@ -11,7 +11,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -45,27 +44,24 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         return \in_array(strtolower($methodReflection->getName()), self::METHODS, true);
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
-            $scope,
-            $methodCall->getArgs(),
-            $methodReflection->getVariants(),
-        )->getReturnType();
 
         if (\count($args) < 1) {
-            return $defaultReturn;
+            return null;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
-            return $defaultReturn;
+            return null;
         }
 
         // make sure we don't report wrong types in doctrine 2.x
-        if (!InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*')) {
-            return $defaultReturn;
+        if (! InstalledVersions::satisfies(new VersionParser(), 'doctrine/dbal', '3.*|4.*')) {
+            return null;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $params = null;
         if (\count($args) > 1) {
@@ -73,15 +69,12 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         }
 
         try {
-            $resultType = $this->inferType($methodReflection, $args[0]->value, $params, $scope);
-            if (null !== $resultType) {
-                return $resultType;
-            }
+            return $this->inferType($methodReflection, $args[0]->value, $params, $scope);
         } catch (UnresolvableQueryException $exception) {
             // simulation not possible.. use default value
         }
 
-        return $defaultReturn;
+        return null;
     }
 
     private function inferType(MethodReflection $methodReflection, Expr $queryExpr, ?Expr $paramsExpr, Scope $scope): ?Type
@@ -92,7 +85,7 @@ final class DoctrineConnectionFetchDynamicReturnTypeExtension implements Dynamic
         if (null === $paramsExpr) {
             $queryStrings = $queryReflection->resolveQueryStrings($queryExpr, $scope);
         } else {
-            $parameterTypes = $scope->getType($paramsExpr);
+            $parameterTypes = $queryReflection->resolveParameterTypes($paramsExpr, $scope);
             $queryStrings = $queryReflection->resolvePreparedQueryStrings($queryExpr, $parameterTypes, $scope);
         }
 

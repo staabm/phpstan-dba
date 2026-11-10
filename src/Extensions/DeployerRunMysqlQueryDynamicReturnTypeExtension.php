@@ -7,9 +7,7 @@ namespace staabm\PHPStanDba\Extensions;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
-use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\IntegerType;
@@ -27,27 +25,35 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
         return 'deployer\runmysqlquery' === strtolower($functionReflection->getName());
     }
 
-    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
+    public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
     {
         $args = $functionCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
 
         if (\count($args) < 2) {
-            return $defaultReturn;
+            return null;
         }
 
         if ($scope->getType($args[0]->value) instanceof MixedType) {
-            return $defaultReturn;
+            return null;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $queryReflection = new QueryReflection();
         $queryString = $queryReflection->resolveQueryString($args[0]->value, $scope);
         if (null === $queryString) {
-            return $defaultReturn;
+            return null;
         }
 
-        $resultType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
-        if ($resultType instanceof ConstantArrayType) {
+        $resultTypes = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_NUMERIC);
+        if (null === $resultTypes) {
+            return null;
+        }
+
+        $resultTypes = $resultTypes->getConstantArrays();
+        if (count($resultTypes) === 1) {
+            $resultType = $resultTypes[0];
+
             $builder = ConstantArrayTypeBuilder::createEmpty();
             foreach ($resultType->getKeyTypes() as $keyType) {
                 $builder->setOffsetValueType($keyType, new StringType());
@@ -56,6 +62,6 @@ final class DeployerRunMysqlQueryDynamicReturnTypeExtension implements DynamicFu
             return TypeCombinator::addNull(new ArrayType(new IntegerType(), $builder->getArray()));
         }
 
-        return $defaultReturn;
+        return null;
     }
 }

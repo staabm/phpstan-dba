@@ -9,15 +9,9 @@ use staabm\PHPStanDba\Error;
 
 final class RecordingQueryReflector implements QueryReflector, RecordingReflector
 {
-    /**
-     * @var ReflectionCache
-     */
-    private $reflectionCache;
+    private ReflectionCache $reflectionCache;
 
-    /**
-     * @var QueryReflector
-     */
-    private $reflector;
+    private QueryReflector $reflector;
 
     public function __construct(ReflectionCache $cache, QueryReflector $wrappedReflector)
     {
@@ -34,10 +28,16 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
     {
         $error = $this->reflector->validateQueryString($queryString);
 
-        $this->reflectionCache->putValidationError(
-            $queryString,
-            $error
-        );
+        if (null !== $error) {
+            $this->reflectionCache->putValidationError(
+                $queryString,
+                $error
+            );
+        } else {
+            $this->reflectionCache->putValidationSuccess(
+                $queryString,
+            );
+        }
 
         return $error;
     }
@@ -46,13 +46,20 @@ final class RecordingQueryReflector implements QueryReflector, RecordingReflecto
     {
         $resultType = $this->reflector->getResultType($queryString, $fetchType);
 
-        $this->reflectionCache->putResultType(
-            $queryString,
-            $fetchType,
-            $resultType
-        );
+        if (null !== $resultType) {
+            $this->reflectionCache->putResultType(
+                $queryString,
+                $fetchType,
+                $resultType
+            );
+        }
 
         return $resultType;
+    }
+
+    public function setupDbaApi(?DbaApi $dbaApi): void
+    {
+        $this->reflector->setupDbaApi($dbaApi);
     }
 
     public function getDatasource()

@@ -10,10 +10,9 @@ use staabm\PHPStanDba\Tests\Fixture\StringableObject;
 
 class Foo
 {
-    public function foo(Connection $conn)
+    public function resultFetching(Connection $conn)
     {
-        $result = $conn->query('SELECT email, adaid FROM ada');
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
+        $result = $conn->executeQuery('SELECT email, adaid FROM ada');
 
         $columnCount = $result->columnCount();
         assertType('2', $columnCount);
@@ -25,16 +24,16 @@ class Foo
         assertType('array{string, int<-32768, 32767>}|false', $fetch);
 
         $fetch = $result->fetchFirstColumn();
-        assertType('array<int<0, max>, string>', $fetch);
+        assertType('list<string>', $fetch);
 
         $fetch = $result->fetchAssociative();
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $fetch);
 
         $fetch = $result->fetchAllNumeric();
-        assertType('array<int<0, max>, array{string, int<-32768, 32767>}>', $fetch);
+        assertType('list<array{string, int<-32768, 32767>}>', $fetch);
 
         $fetch = $result->fetchAllAssociative();
-        assertType('array<int<0, max>, array{email: string, adaid: int<-32768, 32767>}>', $fetch);
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $fetch);
 
         $fetch = $result->fetchAllKeyValue();
         assertType('array<string, int<-32768, 32767>>', $fetch);
@@ -54,28 +53,25 @@ class Foo
 
     public function executeQuery(Connection $conn, array $types, QueryCacheProfile $qcp)
     {
-        $stmt = $conn->executeQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1]);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        $result = $conn->executeQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1]);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
-        $stmt = $conn->executeCacheQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1], $types, $qcp);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        $result = $conn->executeCacheQuery('SELECT email, adaid FROM ada WHERE adaid = ?', [1], $types, $qcp);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
-        $stmt = $conn->executeQuery('SELECT email, adaid FROM ada');
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
+        $result = $conn->executeQuery('SELECT email, adaid FROM ada');
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
     }
 
     public function executeStatement(Connection $conn, int $adaid)
     {
-        $stmt = $conn->prepare('SELECT email, adaid FROM ada');
-        assertType('Doctrine\DBAL\Statement<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $stmt);
-
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->execute([$adaid]);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
 
         $stmt = $conn->prepare('SELECT email, adaid FROM ada WHERE adaid = ?');
         $result = $stmt->executeQuery([$adaid]);
-        assertType('Doctrine\DBAL\Result<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', $result);
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result->fetchAssociative());
     }
 
     public function fetchAssociative(Connection $conn)
@@ -159,33 +155,33 @@ class Foo
     {
         $query = 'SELECT email, adaid FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchFirstColumn($query, [1]);
-        assertType('array<int<0, max>, string>', $fetchResult);
+        assertType('list<string>', $fetchResult);
 
         $query = 'SELECT email, adaid FROM ada';
         $fetchResult = $conn->fetchFirstColumn($query);
-        assertType('array<int<0, max>, string>', $fetchResult);
+        assertType('list<string>', $fetchResult);
     }
 
     public function fetchAllNumeric(Connection $conn)
     {
         $query = 'SELECT email, adaid FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchAllNumeric($query, [1]);
-        assertType('array<int<0, max>, array{string, int<-32768, 32767>}>', $fetchResult);
+        assertType('list<array{string, int<-32768, 32767>}>', $fetchResult);
 
         $query = 'SELECT email, adaid FROM ada';
         $fetchResult = $conn->fetchAllNumeric($query);
-        assertType('array<int<0, max>, array{string, int<-32768, 32767>}>', $fetchResult);
+        assertType('list<array{string, int<-32768, 32767>}>', $fetchResult);
     }
 
     public function fetchAllAssociative(Connection $conn)
     {
         $query = 'SELECT email, adaid FROM ada WHERE adaid = ?';
         $fetchResult = $conn->fetchAllAssociative($query, [1]);
-        assertType('array<int<0, max>, array{email: string, adaid: int<-32768, 32767>}>', $fetchResult);
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $fetchResult);
 
         $query = 'SELECT email, adaid FROM ada';
         $fetchResult = $conn->fetchAllAssociative($query);
-        assertType('array<int<0, max>, array{email: string, adaid: int<-32768, 32767>}>', $fetchResult);
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', $fetchResult);
     }
 
     public function fetchAllKeyValue(Connection $conn)

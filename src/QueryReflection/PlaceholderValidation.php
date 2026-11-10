@@ -18,11 +18,43 @@ final class PlaceholderValidation
     {
         $queryReflection = new QueryReflection();
 
-        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
-            foreach ($this->checkErrors($queryString, $parameters) as $error) {
-                yield $error;
+        $queryStrings = [];
+        $namedPlaceholders = false;
+        foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope, false) as $queryString) {
+            $queryStrings[] = $queryString;
+
+            if ($queryReflection->containsNamedPlaceholders($queryString, $parameters)) {
+                $namedPlaceholders = true;
             }
         }
+
+        if ($queryStrings === []) {
+            return;
+        }
+
+        if ($namedPlaceholders) {
+            yield from $this->validateNamedPlaceholders($queryStrings, $parameters);
+
+            return;
+        }
+
+        $minPlaceholderCount = PHP_INT_MAX;
+        $maxPlaceholderCount = 0;
+        foreach ($queryStrings as $unnamedQueryString) {
+            $placeholderCount = $queryReflection->countPlaceholders($unnamedQueryString);
+            if ($placeholderCount < $minPlaceholderCount) {
+                $minPlaceholderCount = $placeholderCount;
+            }
+            if ($placeholderCount > $maxPlaceholderCount) {
+                $maxPlaceholderCount = $placeholderCount;
+            }
+        }
+
+        if ($minPlaceholderCount === PHP_INT_MAX) {
+            $minPlaceholderCount = 0;
+        }
+
+        yield from $this->validateUnnamedPlaceholders($parameters, $minPlaceholderCount, $maxPlaceholderCount);
     }
 
     /**
@@ -30,29 +62,7 @@ final class PlaceholderValidation
      *
      * @return iterable<string>
      */
-    private function checkErrors(string $queryString, array $parameters): iterable
-    {
-        if ('SELECT' !== QueryReflection::getQueryType($queryString)) {
-            return;
-        }
-
-        $queryReflection = new QueryReflection();
-        if ($queryReflection->containsNamedPlaceholders($queryString, $parameters)) {
-            yield from $this->validateNamedPlaceholders($queryString, $parameters);
-
-            return;
-        }
-
-        $placeholderCount = $queryReflection->countPlaceholders($queryString);
-        yield from $this->validateUnnamedPlaceholders($parameters, $placeholderCount);
-    }
-
-    /**
-     * @param array<string|int, Parameter> $parameters
-     *
-     * @return iterable<string>
-     */
-    private function validateUnnamedPlaceholders(array $parameters, int $placeholderCount): iterable
+    private function validateUnnamedPlaceholders(array $parameters, int $minPlaceholderCount, int $maxPlaceholderCount): iterable
     {
         $parameterCount = \count($parameters);
         $minParameterCount = 0;
@@ -63,20 +73,28 @@ final class PlaceholderValidation
             ++$minParameterCount;
         }
 
-        if (0 === $parameterCount && 0 === $minParameterCount && 0 === $placeholderCount) {
+        if (0 === $parameterCount
+            && 0 === $minParameterCount
+            && 0 === $minPlaceholderCount
+            && 0 === $maxPlaceholderCount
+        ) {
             return;
         }
 
-        if ($parameterCount !== $placeholderCount && $placeholderCount !== $minParameterCount) {
-            $placeholderExpectation = sprintf('Query expects %s placeholder', $placeholderCount);
-            if ($placeholderCount > 1) {
-                $placeholderExpectation = sprintf('Query expects %s placeholders', $placeholderCount);
+        if ($parameterCount > $maxPlaceholderCount || $minParameterCount < $minPlaceholderCount) {
+            $placeholderExpectation = sprintf('Query expects %s placeholder', $minPlaceholderCount);
+            if ($minPlaceholderCount > 1) {
+                if ($minPlaceholderCount !== $maxPlaceholderCount) {
+                    $placeholderExpectation = sprintf('Query expects %s-%s placeholders', $minPlaceholderCount, $maxPlaceholderCount);
+                } else {
+                    $placeholderExpectation = sprintf('Query expects %s placeholders', $minPlaceholderCount);
+                }
             }
 
             if (0 === $parameterCount) {
                 $parameterActual = 'but no values are given';
             } elseif ($minParameterCount !== $parameterCount) {
-                $parameterActual = sprintf('but %s values are given', $minParameterCount.'-'.$parameterCount);
+                $parameterActual = sprintf('but %s values are given', $minParameterCount . '-' . $parameterCount);
             } else {
                 $parameterActual = sprintf('but %s value is given', $parameterCount);
                 if ($parameterCount > 1) {
@@ -84,23 +102,30 @@ final class PlaceholderValidation
                 }
             }
 
-            yield $placeholderExpectation.', '.$parameterActual.'.';
+            yield $placeholderExpectation . ', ' . $parameterActual . '.';
         }
     }
 
     /**
+     * @param list<string> $queryStrings
      * @param array<string|int, Parameter> $parameters
      *
      * @return iterable<string>
      */
-    private function validateNamedPlaceholders(string $queryString, array $parameters): iterable
+    private function validateNamedPlaceholders(array $queryStrings, array $parameters): iterable
     {
         $queryReflection = new QueryReflection();
-        $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
 
-        foreach ($namedPlaceholders as $namedPlaceholder) {
-            if (!\array_key_exists($namedPlaceholder, $parameters)) {
-                yield sprintf('Query expects placeholder %s, but it is missing from values given.', $namedPlaceholder);
+        $allNamedPlaceholders = [];
+        foreach ($queryStrings as $queryString) {
+            $namedPlaceholders = $queryReflection->extractNamedPlaceholders($queryString);
+
+            foreach ($namedPlaceholders as $namedPlaceholder) {
+                if (! \array_key_exists($namedPlaceholder, $parameters)) {
+                    yield sprintf('Query expects placeholder %s, but it is missing from values given.', $namedPlaceholder);
+                }
+
+                $allNamedPlaceholders[] = $namedPlaceholder;
             }
         }
 
@@ -111,7 +136,7 @@ final class PlaceholderValidation
             if ($parameter->isOptional) {
                 continue;
             }
-            if (!\in_array($placeholderKey, $namedPlaceholders, true)) {
+            if (! \in_array($placeholderKey, $allNamedPlaceholders, true)) {
                 yield sprintf('Value %s is given, but the query does not contain this placeholder.', $placeholderKey);
             }
         }

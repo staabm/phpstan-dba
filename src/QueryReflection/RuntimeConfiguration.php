@@ -7,16 +7,21 @@ namespace staabm\PHPStanDba\QueryReflection;
 use PHPStan\Php\PhpVersion;
 use staabm\PHPStanDba\Analyzer\QueryPlanAnalyzer;
 
+/**
+ * @api
+ */
 final class RuntimeConfiguration
 {
     /**
      * methods should return `false` on error.
      */
     public const ERROR_MODE_BOOL = 'bool';
+
     /**
      * methods will throw exceptions on errors, therefore will never return `false`.
      */
     public const ERROR_MODE_EXCEPTION = 'exception';
+
     /**
      * use whatever the configured php-src version uses per default.
      *
@@ -25,25 +30,43 @@ final class RuntimeConfiguration
     public const ERROR_MODE_DEFAULT = 'default';
 
     /**
+     * parameter type validation based on phpstan `Type->isSuperTypeOf()`.
+     */
+    public const VALIDATION_MODE_STRICT = 'strict';
+
+    /**
+     * wider types will be accepted, e.g `int` will be silently accepted for `int<0, 65535>`
+     */
+    public const VALIDATION_MODE_LAX = 'lax';
+
+    /**
      * @var self::ERROR_MODE*
      */
-    private $errorMode = self::ERROR_MODE_DEFAULT;
+    private string $errorMode = self::ERROR_MODE_DEFAULT;
+
     /**
      * @var QueryReflector::FETCH_TYPE*
      */
-    private $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
+    private int $defaultFetchMode = QueryReflector::FETCH_TYPE_BOTH;
+
+    private bool $debugMode = false;
+
+    private bool $stringifyTypes = false;
+
+    private bool $writableQueries = true;
+
+    private bool $utilizeSqlAst = false;
+
     /**
-     * @var bool
+     * @var self::VALIDATION_MODE_*
      */
-    private $debugMode = false;
-    /**
-     * @var bool
-     */
-    private $stringifyTypes = false;
+    private string $parameterTypeValidation = self::VALIDATION_MODE_LAX;
+
     /**
      * @var bool|0|positive-int
      */
     private $numberOfAllowedUnindexedReads = false;
+
     /**
      * @var false|0|positive-int
      */
@@ -105,6 +128,42 @@ final class RuntimeConfiguration
     }
 
     /**
+     * Enables checking of writable queries (INSERT, UPDATE, DELETE,...).
+     */
+    public function analyzeWriteQueries(bool $enabled): self
+    {
+        $this->writableQueries = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Enables experimental sql-ast type narrowing.
+     *
+     * Requires "sqlftw/sqlftw" to be additionally installed.
+     */
+    public function utilizeSqlAst(bool $enabled): self
+    {
+        $this->utilizeSqlAst = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Set the mode by which to validate parameter types. Strict means that
+     * database column types will be enforced exactly, whereas lax means that
+     * a more generic type (e.g. int and string) are allowed.
+     *
+     * @param self::VALIDATION_MODE_* $mode
+     */
+    public function parameterTypeValidation(string $mode): self
+    {
+        $this->parameterTypeValidation = $mode;
+
+        return $this;
+    }
+
+    /**
      * Enables query plan analysis, which indicates performance problems.
      *
      * Requires a active database connection.
@@ -149,6 +208,21 @@ final class RuntimeConfiguration
     public function isStringifyTypes(): bool
     {
         return $this->stringifyTypes;
+    }
+
+    public function isAnalyzingWriteQueries(): bool
+    {
+        return $this->writableQueries;
+    }
+
+    public function isUtilizingSqlAst(): bool
+    {
+        return $this->utilizeSqlAst;
+    }
+
+    public function isParameterTypeValidationStrict(): bool
+    {
+        return $this->parameterTypeValidation === self::VALIDATION_MODE_STRICT;
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -19,15 +21,13 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
     public function testParameterErrors(): void
     {
-        require_once __DIR__.'/data/pdo-stmt-execute-error.php';
-
-        $this->analyse([__DIR__.'/data/pdo-stmt-execute-error.php'], [
+        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-error.php'], [
             [
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 12,
@@ -87,10 +87,6 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
                 54,
             ],
             [
-                'Value :adaid is given, but the query does not contain this placeholder.',
-                54,
-            ],
-            [
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 61,
             ],
@@ -113,6 +109,43 @@ class PdoStatementExecuteMethodRuleTest extends RuleTestCase
             [
                 'Query expects placeholder :adaid, but it is missing from values given.',
                 73,
+            ],
+        ]);
+    }
+
+    public function testNamedPlaceholderBug(): void
+    {
+        $this->analyse([__DIR__ . '/data/named-placeholder-bug.php'], []);
+    }
+
+    public function testPlaceholderBug(): void
+    {
+        $this->analyse([__DIR__ . '/data/placeholder-bug.php'], [
+            [
+                'Query expects 2-3 placeholders, but 1-3 values are given.',
+                42,
+            ],
+            [
+                'Query expects 2 placeholders, but no values are given.',
+                48,
+            ],
+        ]);
+    }
+
+    public function testSubclassedPdoStatement(): void
+    {
+        $this->analyse([__DIR__ . '/data/pdo-stmt-execute-subclassed.php'], [
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                14,
+            ],
+            [
+                'Value :wrongParamName is given, but the query does not contain this placeholder.',
+                14,
+            ],
+            [
+                'Query expects placeholder :adaid, but it is missing from values given.',
+                18,
             ],
         ]);
     }

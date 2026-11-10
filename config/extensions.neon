@@ -70,6 +70,12 @@ services:
         	- phpstan.broker.dynamicFunctionReturnTypeExtension
 
     -
+        class: staabm\PHPStanDba\Extensions\MysqliResultDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+        	- phpstan.broker.dynamicFunctionReturnTypeExtension
+
+    -
         class: staabm\PHPStanDba\Extensions\MysqliQueryDynamicReturnTypeExtension
         tags:
         	- phpstan.broker.dynamicMethodReturnTypeExtension
@@ -90,3 +96,16 @@ services:
         class: staabm\PHPStanDba\Ast\PreviousConnectingVisitor
         tags:
         	- phpstan.parser.richParserNodeVisitor
+
+    -
+        class: staabm\PHPStanDba\Extensions\DibiConnectionFetchDynamicReturnTypeExtension
+        tags:
+        	- phpstan.broker.dynamicMethodReturnTypeExtension
+
+    -
+        class: staabm\PHPStanDba\QueryReflection\DIContainerBridge
+
+    -
+        class: staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension
+        tags:
+           - phpstan.resultCacheValueExtension

@@ -9,13 +9,14 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\PdoReflection\PdoStatementReflection;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
@@ -35,16 +36,13 @@ final class PdoStatementExecuteMethodRule implements Rule
 
     public function processNode(Node $methodCall, Scope $scope): array
     {
-        if (!$methodCall->name instanceof Node\Identifier) {
+        if (! $methodCall->name instanceof Node\Identifier) {
             return [];
         }
 
-        $methodReflection = $scope->getMethodReflection($scope->getType($methodCall->var), $methodCall->name->toString());
+        $varType = $scope->getType($methodCall->var);
+        $methodReflection = $scope->getMethodReflection($varType, $methodCall->name->toString());
         if (null === $methodReflection) {
-            return [];
-        }
-
-        if (PdoStatement::class !== $methodReflection->getDeclaringClass()->getName()) {
             return [];
         }
 
@@ -52,11 +50,15 @@ final class PdoStatementExecuteMethodRule implements Rule
             return [];
         }
 
+        if (! (new ObjectType(PDOStatement::class))->isSuperTypeOf($varType)->yes()) {
+            return [];
+        }
+
         return $this->checkErrors($methodReflection, $methodCall, $scope);
     }
 
     /**
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     private function checkErrors(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): array
     {
@@ -67,9 +69,11 @@ final class PdoStatementExecuteMethodRule implements Rule
         if (null === $queryExpr) {
             return [];
         }
-        if ($scope->getType($queryExpr) instanceof MixedType) {
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $args = $methodCall->getArgs();
         if (\count($args) < 1) {
@@ -91,14 +95,14 @@ final class PdoStatementExecuteMethodRule implements Rule
 
             $parameterTypes = new ConstantArrayType($parameterKeys, $parameterValues);
         } else {
-            $parameterTypes = $scope->getType($args[0]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[0]->value, $scope);
         }
 
         try {
             $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($methodCall->getStartLine())->build(),
             ];
         }
 
@@ -111,13 +115,13 @@ final class PdoStatementExecuteMethodRule implements Rule
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($methodCall->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($methodCall->getStartLine())->build(),
             ];
         }
 
         $ruleErrors = [];
         foreach ($errors as $error) {
-            $ruleErrors[] = RuleErrorBuilder::message($error)->line($methodCall->getLine())->build();
+            $ruleErrors[] = RuleErrorBuilder::message($error)->identifier('dba.invalidPlaceholder')->line($methodCall->getStartLine())->build();
         }
 
         return $ruleErrors;

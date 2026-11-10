@@ -79,13 +79,13 @@ class Foo
     public function syntaxErrorDoctrineDbal(\Doctrine\DBAL\Connection $conn)
     {
         $sql = 'SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada';
-        $conn->query($sql);
+        $conn->executeQuery($sql);
     }
 
     public function noErrorOnQueriesContainingPlaceholders(\Doctrine\DBAL\Connection $conn)
     {
         // errors in this scenario are reported by SyntaxErrorInPreparedStatementMethodRule only
-        $conn->query('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
+        $conn->executeQuery('SELECT email, adaid, gesperrt, freigabe1u1 FROM ada WHERE adaid=?');
     }
 
     public function conditionalSyntaxError(PDO $pdo)
@@ -116,5 +116,42 @@ class Foo
         }
 
         $pdo->query('SELECT email, adaid FROM ada '.$add.' LIMIT 1', PDO::FETCH_ASSOC);
+    }
+
+    public function bug442(PDO $pdo, string $table)
+    {
+        $pdo->query("SELECT * FROM `$table`");
+    }
+
+    public function testDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from ada');
+        $pdo->query('UPDATE ada set email = ""'); // pgsql-only syntax error
+        $pdo->query('INSERT into ada SET email="sdf"'); // pgsql-only syntax error
+    }
+
+    public function testInvalidDeleteUpdateInsert(PDO $pdo)
+    {
+        $pdo->query('DELETE from adasfd');
+        $pdo->query('UPDATE adasfd SET email = ""');
+        $pdo->query('INSERT into adasfd SET email="sdf"');
+        $pdo->query('REPLACE into adasfd SET email="sdf"');
+    }
+
+    /**
+     * @return string|false
+     */
+    private function returnsUnion() {}
+
+    public function bug458(PDO $pdo)
+    {
+        $table = $this->returnsUnion();
+        $pdo->query('SELECT * FROM ' . $table . ' LIMIT 1');
+    }
+
+    public function staticCallQueryTests(): void
+    {
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::query('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada', PDO::FETCH_ASSOC);
+        \staabm\PHPStanDba\Tests\Fixture\StaticDatabase::prepare('SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada');
     }
 }

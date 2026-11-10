@@ -5,63 +5,67 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\QueryReflection;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Accessory\AccessoryType;
-use PHPStan\Type\ArrayType;
-use PHPStan\Type\BooleanType;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\ErrorType;
-use PHPStan\Type\FloatType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\DbaException;
-use staabm\PHPStanDba\UnresolvableQueryException;
+use staabm\PHPStanDba\UnresolvableQueryMixedTypeException;
+use staabm\PHPStanDba\UnresolvableQueryStringTypeException;
 
 /**
  * @internal
  */
 final class QuerySimulation
 {
-    public const DATE_FORMAT = 'Y-m-d';
+    private const DATE_FORMAT = 'Y-m-d';
 
     /**
-     * @throws UnresolvableQueryException
+     * @throws \staabm\PHPStanDba\UnresolvableQueryException
      */
     public static function simulateParamValueType(Type $paramType, bool $preparedParam): ?string
     {
+        if ($paramType instanceof NeverType) {
+            return null;
+        }
+
         if ($paramType instanceof ConstantScalarType) {
             return (string) $paramType->getValue();
         }
 
-        if ($paramType instanceof ArrayType) {
-            return self::simulateParamValueType($paramType->getItemType(), $preparedParam);
+        if ($paramType->isIterable()->yes()) {
+            return self::simulateParamValueType($paramType->getIterableValueType(), $preparedParam);
         }
 
-        $integerType = new IntegerType();
-        if ($integerType->isSuperTypeOf($paramType)->yes()) {
+        if (
+            $paramType->isInteger()->yes()
+            || $paramType->isBoolean()->yes()
+            || $paramType->isNumericString()->yes()
+        ) {
             return '1';
         }
 
-        $booleanType = new BooleanType();
-        if ($booleanType->isSuperTypeOf($paramType)->yes()) {
-            return '1';
-        }
-
-        if ($paramType->isNumericString()->yes()) {
-            return '1';
-        }
-
-        $floatType = new FloatType();
-        if ($floatType->isSuperTypeOf($paramType)->yes()) {
+        if ($paramType->isFloat()->yes()) {
             return '1.0';
         }
 
         if ($paramType instanceof UnionType) {
+            foreach ($paramType->getTypes() as $type) {
+                if (
+                    $type->isInteger()->yes()
+                    || $type->isBoolean()->yes()
+                    || $type->isNumericString()->yes()
+                ) {
+                    return '1';
+                }
+            }
+
             foreach ($paramType->getTypes() as $type) {
                 // pick one representative value out of the union
                 $simulated = self::simulateParamValueType($type, $preparedParam);
@@ -80,7 +84,7 @@ final class QuerySimulation
 
         $stringType = new StringType();
         $isStringableObjectType = $paramType instanceof ObjectType
-            && !$paramType->toString() instanceof ErrorType;
+            && ! $paramType->toString() instanceof ErrorType;
         if (
             $stringType->isSuperTypeOf($paramType)->yes()
             || $isStringableObjectType
@@ -94,26 +98,17 @@ final class QuerySimulation
             }
 
             // plain string types can contain anything.. we cannot reason about it
-            return null;
-        }
-
-        if ($paramType instanceof IntersectionType) {
-            foreach ($paramType->getTypes() as $type) {
-                if ($type instanceof AccessoryType) {
-                    continue;
-                }
-
-                $simulated = self::simulateParamValueType($type, $preparedParam);
-                if (null !== $simulated) {
-                    return $simulated;
-                }
+            if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
+                throw new UnresolvableQueryStringTypeException('Cannot resolve query with variable type: ' . $paramType->describe(VerbosityLevel::precise()));
             }
+
+            return null;
         }
 
         // all types which we can't simulate and render a query unresolvable at analysis time
         if ($paramType instanceof MixedType || $paramType instanceof IntersectionType) {
             if (QueryReflection::getRuntimeConfiguration()->isDebugEnabled()) {
-                throw new UnresolvableQueryException('Cannot simulate parameter value for type: '.$paramType->describe(VerbosityLevel::precise()));
+                throw new UnresolvableQueryMixedTypeException('Cannot simulate parameter value for type: ' . $paramType->describe(VerbosityLevel::precise()));
             }
 
             return null;
@@ -124,12 +119,16 @@ final class QuerySimulation
 
     public static function simulate(string $queryString): ?string
     {
-        $queryString = self::stripTrailers($queryString);
+        $queryString = self::stripTrailers(self::stripComments($queryString));
 
         if (null === $queryString) {
             return null;
         }
-        $queryString .= ' LIMIT 0';
+
+        // make sure we don't unnecessarily transfer data, as we are only interested in the statement is succeeding
+        if ('SELECT' === QueryReflection::getQueryType($queryString)) {
+            $queryString .= ' LIMIT 0';
+        }
 
         return $queryString;
     }
@@ -139,17 +138,17 @@ final class QuerySimulation
         // XXX someday we will use a proper SQL parser
         $queryString = rtrim($queryString);
 
-        // strip trailling delimiting semicolon
+        // strip trailing delimiting semicolon
         $queryString = rtrim($queryString, ';');
 
-        // strip trailling FOR UPDATE/FOR SHARE
+        // strip trailing FOR UPDATE/FOR SHARE
         $queryString = preg_replace('/(.*)FOR (UPDATE|SHARE)\s*(SKIP\s+LOCKED|NOWAIT)?$/i', '$1', $queryString);
 
         if (null === $queryString) {
-            throw new ShouldNotHappenException('Could not strip trailling FOR UPDATE/SHARE from query');
+            throw new ShouldNotHappenException('Could not strip trailing FOR UPDATE/SHARE from query');
         }
 
-        // strip trailling OFFSET
+        // strip trailing OFFSET
         $queryString = preg_replace('/(.*)OFFSET\s+["\']?\d+["\']?\s*$/i', '$1', $queryString);
 
         if (null === $queryString) {
@@ -157,5 +156,33 @@ final class QuerySimulation
         }
 
         return preg_replace('/\s*LIMIT\s+["\']?\d+["\']?\s*(,\s*["\']?\d*["\']?)?\s*$/i', '', $queryString);
+    }
+
+    /**
+     * @see https://github.com/decemberster/sql-strip-comments/blob/3bef3558211a6f6191d2ad0ceb8577eda39dd303/index.js
+     */
+    public static function stripComments(string $query): string
+    {
+        // one line comments: from "#" to end of line,
+        // one line comments: from "--" to end of line,
+        // or multiline: from "/*" to "*/".
+        // string literals with sql comments omited
+        // nested comments are not supported
+        return trim(preg_replace_callback(
+            '/("(""|[^"])*")|(\'(\'\'|[^\'])*\')|((?:--|#)[^\n\r]*)|(\/\*[\w\W]*?(?=\*\/)\*\/)/m',
+            static function (array $matches): string {
+                $match = $matches[0];
+                $matchLength = \strlen($match);
+                if (
+                    ('"' === $match[0] && '"' === $match[$matchLength - 1])
+                    || ('\'' === $match[0] && '\'' === $match[$matchLength - 1])
+                ) {
+                    return $match;
+                }
+
+                return '';
+            },
+            $query
+        ) ?? $query);
     }
 }

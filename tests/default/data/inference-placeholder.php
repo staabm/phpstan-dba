@@ -12,6 +12,25 @@ class Foo
         $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->dynamicWhere(rand(0, 100));
         $fetchResult = $conn->fetchOne($query, ['email' => $email]);
         assertType('string|false', $fetchResult);
+
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.self::dynamicWhere(rand(0, 100));
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
+        assertType('string|false', $fetchResult);
+    }
+
+    public function fetchOneWithDynamicQueryPartViaVariable(Connection $conn, string $email)
+    {
+        $dynamicPart = self::dynamicWhere(rand(0, 100));
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$dynamicPart;
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
+        assertType('string|false', $fetchResult);
+    }
+
+    public function bug439(Connection $conn, string $email)
+    {
+        $query = 'SELECT email, adaid FROM ada WHERE email = :email AND '.$this->stuffAfterPlaceholder(rand(0, 100));
+        $fetchResult = $conn->fetchOne($query, ['email' => $email]);
+        assertType('string|false', $fetchResult);
     }
 
     /**
@@ -30,5 +49,33 @@ class Foo
         }
 
         return implode(' AND ', $where);
+    }
+
+    /**
+     * simulating a dynamic where part, not relevant for the query overall result.
+     *
+     * @phpstandba-inference-placeholder '1=1'
+     *
+     * @return string
+     */
+    private static function staticDynamicWhere(int $i)
+    {
+        $where = ['1=1'];
+
+        if ($i > 100) {
+            $where[] = 'adaid = '.$i.'';
+        }
+
+        return implode(' AND ', $where);
+    }
+
+    /**
+     * @phpstandba-inference-placeholder '1=1'  <-- anything behind placeholder value
+     *
+     * @return string
+     */
+    private function stuffAfterPlaceholder(int $i)
+    {
+        return '';
     }
 }

@@ -1,5 +1,4 @@
 includes:
-    - ../../../config/stubFiles.neon
     - ../../../config/extensions.neon
 
 parameters:
@@ -8,10 +7,12 @@ parameters:
     paths:
         - ../
 
+    excludePaths:
+        - *Fixture/**
+        - *tests/*/data/**
+
     bootstrapFiles:
         - bootstrap.php
 
     ignoreErrors:
         - '#.*has no return type specified.#'
-        - '#.*with no type specified.#'
-        - '#.*with no value type specified in iterable type array.#'

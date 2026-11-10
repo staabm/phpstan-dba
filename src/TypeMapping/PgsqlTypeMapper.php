@@ -5,25 +5,27 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\TypeMapping;
 
 use PHPStan\ShouldNotHappenException;
-use PHPStan\Type\Accessory\AccessoryNumericStringType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
-use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\UnionType;
-use staabm\PHPStanDba\QueryReflection\QueryReflection;
+use staabm\PHPStanDba\QueryReflection\DbaApi;
 use staabm\PHPStanDba\Types\PgsqlIntegerRanges;
 use function strtoupper;
 
 final class PgsqlTypeMapper implements TypeMapper
 {
-    /**
-     * @param list<string> $flags
-     */
+    private ?DbaApi $dbaApi;
+
+    public function __construct(?DbaApi $dbaApi)
+    {
+        $this->dbaApi = $dbaApi;
+    }
+
     public function mapToPHPStanType(string $type, array $flags, int $length): Type
     {
         $numeric = false;
@@ -98,28 +100,23 @@ final class PgsqlTypeMapper implements TypeMapper
                     break;
                 case 'JSON':
                 case 'JSONB':
-                case 'DATE':
+                case 'VARCHAR':
                 case 'TEXT':
+                    $phpstanType = new StringType();
+                    break;
+                case 'DATE':
                 case 'TIME':
                 case 'TIMESTAMP':
-                case 'VARCHAR':
+                    if (null !== $this->dbaApi && $this->dbaApi->returnsDateTimeImmutable()) {
+                        $phpstanType = new ObjectType(\DateTimeImmutable::class);
+                        break;
+                    }
+
                     $phpstanType = new StringType();
                     break;
                 default:
                     $phpstanType = new MixedType();
                     break;
-            }
-        }
-
-        if (QueryReflection::getRuntimeConfiguration()->isStringifyTypes()) {
-            $numberType = new UnionType([new IntegerType(), new FloatType()]);
-            $isNumber = $numberType->isSuperTypeOf($phpstanType)->yes();
-
-            if ($isNumber) {
-                $phpstanType = new IntersectionType([
-                    new StringType(),
-                    new AccessoryNumericStringType(),
-                ]);
             }
         }
 

@@ -21,13 +21,20 @@ use staabm\PHPStanDba\TypeMapping\TypeMapper;
 abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflector
 {
     private const PSQL_SYNTAX_ERROR = '42601';
+
     private const PSQL_INVALID_TEXT_REPRESENTATION = '22P02';
+
     private const PSQL_UNDEFINED_COLUMN = '42703';
+
     private const PSQL_UNDEFINED_TABLE = '42P01';
 
     private const MYSQL_SYNTAX_ERROR_CODE = '42000';
+
     private const MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST = '42S22';
+
     private const MYSQL_UNKNOWN_TABLE = '42S02';
+
+    private const MYSQL_INTEGRITY_CONSTRAINT_VIOLATION = '23000';
 
     private const PDO_SYNTAX_ERROR_CODES = [
         self::MYSQL_SYNTAX_ERROR_CODE,
@@ -43,14 +50,15 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         self::MYSQL_SYNTAX_ERROR_CODE,
         self::MYSQL_UNKNOWN_COLUMN_IN_FIELDLIST,
         self::MYSQL_UNKNOWN_TABLE,
+        self::MYSQL_INTEGRITY_CONSTRAINT_VIOLATION,
     ];
 
     protected const MAX_CACHE_SIZE = 50;
 
     /**
-     * @var array<string, PDOException|list<ColumnMeta>|null>
+     * @var array<string, PDOException|array<ColumnMeta>|null>
      */
-    protected $cache = [];
+    protected array $cache = [];
 
     /**
      * @var TypeMapper
@@ -62,29 +70,25 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
      * @phpstan-ignore-next-line
      */
     protected $stmt = null;
-    /**
-     * @var array<string, array<string, list<string>>>
-     */
-    protected $emulatedFlags = [];
 
     /**
-     * @var PDO
+     * @var array<string, array<string, array<int, string>>>
      */
-    protected $pdo;
+    protected array $emulatedFlags = [];
 
-    public function __construct(PDO $pdo, TypeMapper $typeMapper)
+    protected PDO $pdo;
+
+    public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $this->typeMapper = $typeMapper;
     }
 
     public function validateQueryString(string $queryString): ?Error
     {
         $result = $this->simulateQuery($queryString);
 
-        if (!$result instanceof PDOException) {
+        if (! $result instanceof PDOException) {
             return null;
         }
 
@@ -110,7 +114,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     {
         $result = $this->simulateQuery($queryString);
 
-        if (!\is_array($result)) {
+        if (! \is_array($result)) {
             return null;
         }
 
@@ -137,7 +141,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
     }
 
     /**
-     * @return list<string>
+     * @return array<int, string>
      */
     protected function emulateFlags(string $nativeType, string $tableName, string $columnName): array
     {
@@ -159,7 +163,7 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         // determine flags of all columns of the given table once
         $schemaFlags = $this->checkInformationSchema($tableName);
         foreach ($schemaFlags as $schemaColumnName => $flag) {
-            if (!\array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
+            if (! \array_key_exists($schemaColumnName, $this->emulatedFlags[$tableName])) {
                 $this->emulatedFlags[$tableName][$schemaColumnName] = [];
             }
             $this->emulatedFlags[$tableName][$schemaColumnName][] = $flag;
@@ -173,9 +177,13 @@ abstract class BasePdoQueryReflector implements QueryReflector, RecordingReflect
         return $this->pdo;
     }
 
-    /** @return PDOException|list<ColumnMeta>|null */
+    /**
+     * @return PDOException|array<ColumnMeta>|null
+     */
     abstract protected function simulateQuery(string $queryString);
 
-    /** @return Iterator<string, TypeMapper::FLAG_*> */
+    /**
+     * @return Iterator<string, TypeMapper::FLAG_*>
+     */
     abstract protected function checkInformationSchema(string $tableName);
 }

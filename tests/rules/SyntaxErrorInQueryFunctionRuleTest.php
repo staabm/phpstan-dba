@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace staabm\PHPStanDba\Tests;
 
 use PHPStan\Rules\Rule;
@@ -22,25 +24,22 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [
-            __DIR__.'/../../config/dba.neon',
+            __DIR__ . '/../../config/dba.neon',
         ];
     }
 
     public function testSyntaxErrorInQueryRule(): void
     {
-        if (\PHP_VERSION_ID < 70400) {
-            self::markTestSkipped('Test requires PHP 7.4.');
-        }
-
-        require_once __DIR__.'/data/syntax-error-in-query-function.php';
-
-        $this->analyse([__DIR__.'/data/syntax-error-in-query-function.php'], $this->getExpectedErrors());
+        $this->analyse([__DIR__ . '/data/syntax-error-in-query-function.php'], $this->getExpectedErrors());
     }
 
-    /** @return list<array{string, int}> */
+    /**
+     * @return list<array{string, int}>
+     */
     public function getExpectedErrors(): array
     {
         $dbaReflector = getenv('DBA_REFLECTOR');
+        $platform = $_ENV['DBA_PLATFORM'];
 
         switch ($dbaReflector) {
             case MysqliQueryReflector::NAME:
@@ -54,7 +53,9 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
                         19,
                     ],
                     [
-                        "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
+                        $platform === 'mariadb' ?
+                            "Query error: Unknown column 'asdsa' in 'WHERE' (1054)."
+                            : "Query error: Unknown column 'asdsa' in 'where clause' (1054).",
                         39,
                     ],
                 ];
@@ -62,30 +63,37 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
                 return [
                     [
                         <<<TEXT
-    Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
-    LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
-                                              ^ (42601).
-    TEXT,
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).
+TEXT
+                        ,
                         9,
                     ],
                     [
                         <<<TEXT
-    Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
-    LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
-                                              ^ (42601).
-    TEXT,
+Query error: SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "freigabe1u1"
+LINE 1: SELECT email adaid WHERE gesperrt freigabe1u1 FROM ada LIMIT...
+                                          ^ (42601).
+TEXT
+                        ,
                         19,
                     ],
                     [
                         <<<TEXT
-    Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
-    LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
-                                                                 ^ (42703).
-    TEXT,
+Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "asdsa" does not exist
+LINE 1: ...mail, adaid, gesperrt, freigabe1u1 FROM ada WHERE asdsa=1 LI...
+                                                             ^ (42703).
+TEXT
+                        ,
                         39,
                     ],
                 ];
             case PdoMysqlQueryReflector::NAME:
+                if ('mariadb' === $_ENV['DBA_PLATFORM']) {
+                    self::markTestSkipped("We don't test all variants of expectations for all drivers");
+                }
+
                 return [
                     [
                         "Query error: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (42000).",
@@ -102,5 +110,23 @@ class SyntaxErrorInQueryFunctionRuleTest extends RuleTestCase
                 ];
             default: throw new \RuntimeException(sprintf('Unsupported DBA_REFLECTOR %s', $dbaReflector));
         }
+    }
+
+    public function testMysqliExecuteQuery(): void
+    {
+        if (\PHP_VERSION_ID < 80200) {
+            self::markTestSkipped('Test requires PHP 8.2.');
+        }
+
+        if (MysqliQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('mysqli test only.');
+        }
+
+        $this->analyse([__DIR__ . '/data/mysqli_execute_query.php'], [
+            [
+                "Query error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL/MariaDB server version for the right syntax to use near 'freigabe1u1 FROM ada LIMIT 0' at line 1 (1064).",
+                11,
+            ],
+        ]);
     }
 }

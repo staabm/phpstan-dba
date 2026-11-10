@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace staabm\PHPStanDba\PdoReflection;
 
-use PDO;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -20,11 +18,26 @@ use staabm\PHPStanDba\QueryReflection\QueryReflector;
 // XXX move into a "Reflection" package on next major version
 final class PdoStatementReflection
 {
+    // Values of PDO::FETCH_* constants, independent of the loaded extensions.
+    private const FETCH_ASSOC = 2;
+
+    private const FETCH_NUM = 3;
+
+    private const FETCH_BOTH = 4;
+
+    private const FETCH_OBJ = 5;
+
+    private const FETCH_COLUMN = 7;
+
+    private const FETCH_CLASS = 8;
+
+    private const FETCH_KEY_PAIR = 12;
+
     // XXX move into separate class on next major version
     public function findPrepareQueryStringExpression(MethodCall $methodCall): ?Expr
     {
         $exprFinder = new ExpressionFinder();
-        $queryExpr = $exprFinder->findQueryStringExpression($methodCall);
+        $queryExpr = $exprFinder->findAssignmentExpression($methodCall);
 
         // resolve query parameter from "prepare"
         if ($queryExpr instanceof MethodCall) {
@@ -54,21 +67,21 @@ final class PdoStatementReflection
      */
     public function getFetchType(Type $fetchModeType): ?int
     {
-        if (!$fetchModeType instanceof ConstantIntegerType) {
+        if (! $fetchModeType instanceof ConstantIntegerType) {
             return null;
         }
 
-        if (PDO::FETCH_CLASS === $fetchModeType->getValue() || PDO::FETCH_OBJ === $fetchModeType->getValue()) {
+        if (self::FETCH_CLASS === $fetchModeType->getValue() || self::FETCH_OBJ === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_CLASS;
-        } elseif (PDO::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
+        } elseif (self::FETCH_KEY_PAIR === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_KEY_VALUE;
-        } elseif (PDO::FETCH_ASSOC === $fetchModeType->getValue()) {
+        } elseif (self::FETCH_ASSOC === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_ASSOC;
-        } elseif (PDO::FETCH_NUM === $fetchModeType->getValue()) {
+        } elseif (self::FETCH_NUM === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_NUMERIC;
-        } elseif (PDO::FETCH_BOTH === $fetchModeType->getValue()) {
+        } elseif (self::FETCH_BOTH === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_BOTH;
-        } elseif (PDO::FETCH_COLUMN === $fetchModeType->getValue()) {
+        } elseif (self::FETCH_COLUMN === $fetchModeType->getValue()) {
             return QueryReflector::FETCH_TYPE_COLUMN;
         }
 
@@ -87,8 +100,8 @@ final class PdoStatementReflection
         foreach ($queryStrings as $queryString) {
             $bothType = $queryReflection->getResultType($queryString, QueryReflector::FETCH_TYPE_BOTH);
 
-            if ($bothType) {
-                $genericObjects[] = new PdoStatementObjectType($bothType, $reflectionFetchType);
+            if (null !== $bothType) {
+                $genericObjects[] = PdoStatementObjectType::newWithBothAndFetchType($bothType, $reflectionFetchType);
             }
         }
 
@@ -131,8 +144,14 @@ final class PdoStatementReflection
     public function getColumnRowType(Type $statementType, int $columnIndex): ?Type
     {
         $statementType = $this->getRowType($statementType, QueryReflector::FETCH_TYPE_NUMERIC);
+        if ($statementType === null) {
+            return null;
+        }
 
-        if ($statementType instanceof ConstantArrayType) {
+        $arrays = $statementType->getConstantArrays();
+        if (count($arrays) === 1) {
+            $statementType = $arrays[0];
+
             $valueTypes = $statementType->getValueTypes();
             if (\array_key_exists($columnIndex, $valueTypes)) {
                 return $valueTypes[$columnIndex];
@@ -145,7 +164,7 @@ final class PdoStatementReflection
     /**
      * @param class-string $className
      */
-    public function getClassRowType(Type $statementType, string $className): ?Type
+    public function getClassRowType(Type $statementType, string $className): Type
     {
         return new ObjectType($className);
     }

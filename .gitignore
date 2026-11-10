@@ -10,3 +10,6 @@ pdo.php
 .env
 
 .idea/
+
+/test.php
+/mysql80ab-cert.pem

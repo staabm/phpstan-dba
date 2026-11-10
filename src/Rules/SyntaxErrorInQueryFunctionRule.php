@@ -10,7 +10,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\MixedType;
+use PHPStan\ShouldNotHappenException;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\Tests\SyntaxErrorInQueryFunctionRuleTest;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -25,12 +26,9 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
     /**
      * @var list<string>
      */
-    private $functionNames;
+    private array $functionNames;
 
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
+    private ReflectionProvider $reflectionProvider;
 
     /**
      * @param list<string> $functionNames
@@ -48,7 +46,7 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!$node->name instanceof Node\Name) {
+        if (! $node->name instanceof Node\Name) {
             return [];
         }
 
@@ -57,10 +55,13 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             return [];
         }
 
-        $unsupportedFunction = true;
         $queryArgPosition = null;
+        $unsupportedFunction = true;
         foreach ($this->functionNames as $functionName) {
-            sscanf($functionName, '%[^#]#%s', $functionName, $queryArgPosition);
+            sscanf($functionName, '%[^#]#%i', $functionName, $queryArgPosition);
+            if (! \is_string($functionName) || ! \is_int($queryArgPosition)) {
+                throw new ShouldNotHappenException('Invalid functionName definition');
+            }
 
             if (strtolower($functionName) === strtolower($calledFunctionName)) {
                 $unsupportedFunction = false;
@@ -68,33 +69,40 @@ final class SyntaxErrorInQueryFunctionRule implements Rule
             }
         }
 
+        if (null === $queryArgPosition) {
+            throw new ShouldNotHappenException('Invalid classMethod definition');
+        }
         if ($unsupportedFunction) {
             return [];
         }
 
         $args = $node->getArgs();
 
-        if (!\array_key_exists($queryArgPosition, $args)) {
+        if (! \array_key_exists($queryArgPosition, $args)) {
             return [];
         }
 
-        if ($scope->getType($args[$queryArgPosition]->value) instanceof MixedType) {
-            return [];
-        }
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
+        $queryExpr = $args[$queryArgPosition]->value;
         $queryReflection = new QueryReflection();
+
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
+            return [];
+        }
+
         try {
-            foreach ($queryReflection->resolveQueryStrings($args[$queryArgPosition]->value, $scope) as $queryString) {
+            foreach ($queryReflection->resolveQueryStrings($queryExpr, $scope) as $queryString) {
                 $queryError = $queryReflection->validateQueryString($queryString);
                 if (null !== $queryError) {
                     return [
-                        RuleErrorBuilder::message($queryError->asRuleMessage())->line($node->getLine())->build(),
+                        RuleErrorBuilder::message($queryError->asRuleMessage())->identifier('dba.syntaxError')->line($node->getStartLine())->build(),
                     ];
                 }
             }
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($node->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($node->getStartLine())->build(),
             ];
         }
 

@@ -5,48 +5,56 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\PdoReflection;
 
 use PDOStatement;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\BenevolentUnionType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantIntegerType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\FloatType;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\IntersectionType;
+use PHPStan\Type\IsSuperTypeOfResult;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NullType;
+use PHPStan\Type\ObjectShapeType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use staabm\PHPStanDba\QueryReflection\QueryReflector;
 
-class PdoStatementObjectType extends GenericObjectType
+class PdoStatementObjectType extends ObjectType
 {
+    private ?Type $bothType = null;
+
     /**
-     * @var Type
+     * @var null|QueryReflector::FETCH_TYPE*
      */
-    private $bothType;
+    private ?int $fetchType = null;
+
+    public function getRowType(): Type
+    {
+        if ($this->bothType === null || $this->fetchType === null) {
+            throw new ShouldNotHappenException();
+        }
+        return $this->reduceBothType($this->bothType, $this->fetchType);
+    }
+
+    public function getIterableValueType(): Type
+    {
+        return $this->getRowType();
+    }
 
     /**
      * @param QueryReflector::FETCH_TYPE* $fetchType
      */
-    public function __construct(Type $bothType, int $fetchType)
+    public static function newWithBothAndFetchType(Type $bothType, int $fetchType): self
     {
-        $this->bothType = $bothType;
-
-        $rowTypeInFetchMode = $this->reduceBothType($bothType, $fetchType);
-
-        parent::__construct(PDOStatement::class, [$rowTypeInFetchMode]);
-    }
-
-    public function getRowType(): Type
-    {
-        $genericTypes = $this->getTypes();
-
-        return $genericTypes[0];
+        $new = new self(PDOStatement::class);
+        $new->bothType = $bothType;
+        $new->fetchType = $fetchType;
+        return $new;
     }
 
     /**
@@ -54,7 +62,10 @@ class PdoStatementObjectType extends GenericObjectType
      */
     public function newWithFetchType(int $fetchType): self
     {
-        return new self($this->bothType, $fetchType);
+        $new = new self($this->getClassName(), $this->getSubtractedType());
+        $new->bothType = $this->bothType;
+        $new->fetchType = $fetchType;
+        return $new;
     }
 
     /**
@@ -62,9 +73,11 @@ class PdoStatementObjectType extends GenericObjectType
      */
     private function reduceBothType(Type $bothType, int $fetchType): Type
     {
-        if (!$bothType instanceof ConstantArrayType) {
+        $arrays = $bothType->getConstantArrays();
+        if (count($arrays) !== 1) {
             return $bothType;
         }
+        $bothType = $arrays[0];
 
         if (\count($bothType->getValueTypes()) <= 0) {
             return $bothType;
@@ -80,9 +93,9 @@ class PdoStatementObjectType extends GenericObjectType
             $valueTypes = $bothType->getValueTypes();
 
             foreach ($keyTypes as $i => $keyType) {
-                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType instanceof ConstantIntegerType) {
+                if (QueryReflector::FETCH_TYPE_NUMERIC === $fetchType && $keyType->isInteger()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
-                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType instanceof ConstantStringType) {
+                } elseif (QueryReflector::FETCH_TYPE_ASSOC === $fetchType && $keyType->isString()->yes()) {
                     $builder->setOffsetValueType($keyType, $valueTypes[$i]);
                 }
             }
@@ -91,7 +104,21 @@ class PdoStatementObjectType extends GenericObjectType
         }
 
         if (QueryReflector::FETCH_TYPE_CLASS === $fetchType) {
-            return new ArrayType(new IntegerType(), new ObjectType('stdClass'));
+            $keyTypes = $bothType->getKeyTypes();
+            $valueTypes = $bothType->getValueTypes();
+
+            $properties = [];
+            foreach ($keyTypes as $i => $keyType) {
+                if (! $keyType->isString()->yes()) {
+                    continue;
+                }
+                $properties[(string) $keyType->getValue()] = $valueTypes[$i];
+            }
+
+            return new IntersectionType([
+                new ObjectType(\stdClass::class),
+                new ObjectShapeType($properties, []),
+            ]);
         }
 
         // both types contains numeric and string keys, therefore the count is doubled
@@ -116,23 +143,56 @@ class PdoStatementObjectType extends GenericObjectType
 
         switch ($fetchType) {
             case QueryReflector::FETCH_TYPE_CLASS:
-                return new GenericObjectType(PDOStatement::class, [new ObjectType('stdClass')]);
+                return self::newWithBothAndFetchType(new ObjectType('stdClass'), $fetchType);
             case QueryReflector::FETCH_TYPE_KEY_VALUE:
                 $arrayBuilder = ConstantArrayTypeBuilder::createEmpty();
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(0), new MixedType());
                 $arrayBuilder->setOffsetValueType(new ConstantIntegerType(1), new MixedType());
 
-                return new GenericObjectType(PDOStatement::class, [$arrayBuilder->getArray()]);
+                return self::newWithBothAndFetchType($arrayBuilder->getArray(), $fetchType);
             case QueryReflector::FETCH_TYPE_NUMERIC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(IntegerRangeType::fromInterval(0, null), $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType(IntegerRangeType::fromInterval(0, null), $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_ASSOC:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType(new StringType(), $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType(new StringType(), $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_BOTH:
-                return new GenericObjectType(PDOStatement::class, [new ArrayType($arrayKey, $pdoScalar)]);
+                return self::newWithBothAndFetchType(new ArrayType($arrayKey, $pdoScalar), $fetchType);
             case QueryReflector::FETCH_TYPE_COLUMN:
-                return new GenericObjectType(PDOStatement::class, [$pdoScalar]);
+                return self::newWithBothAndFetchType($pdoScalar, $fetchType);
         }
 
-        return new GenericObjectType(PDOStatement::class, [new MixedType()]);
+        return self::newWithBothAndFetchType(new MixedType(), $fetchType);
+    }
+
+    // differentiate objects based on the local properties,
+    // to make sure TypeCombinator::union() will not normalize separate objects away.
+    // this means we need to implement equals() and isSuperTypeOf().
+    public function equals(Type $type): bool
+    {
+        if ($type instanceof self) {
+            return $type->fetchType !== null
+                && $type->bothType !== null
+                && $this->bothType !== null
+                && $type->fetchType === $this->fetchType
+                && $type->bothType->equals(
+                    $this->bothType
+                );
+        }
+
+        return parent::equals($type);
+    }
+
+    public function isSuperTypeOf(Type $type): IsSuperTypeOfResult
+    {
+        if ($type instanceof self) {
+            return IsSuperTypeOfResult::createFromBoolean(
+                $type->fetchType !== null
+                && $type->bothType !== null
+                && $this->bothType !== null
+                && $type->fetchType === $this->fetchType
+                && $type->bothType->equals($this->bothType)
+            );
+        }
+
+        return parent::isSuperTypeOf($type);
     }
 }

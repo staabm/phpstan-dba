@@ -24,10 +24,14 @@ use staabm\PHPStanDba\UnresolvableQueryException;
 
 final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var PhpVersion
-     */
-    private $phpVersion;
+    // Values of PDO::PARAM_* constants, independent of the loaded extensions.
+    private const PARAM_INT = 1;
+
+    private const PARAM_STR = 2;
+
+    private const PARAM_BOOL = 5;
+
+    private PhpVersion $phpVersion;
 
     public function __construct(PhpVersion $phpVersion)
     {
@@ -47,7 +51,11 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $methodCall->getArgs(),
+            $methodReflection->getVariants()
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsPdoExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -56,6 +64,8 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         if (\count($args) < 1) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         try {
             $stringType = $this->inferType($methodCall, $scope);
@@ -74,10 +84,10 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $args = $methodCall->getArgs();
 
         if (1 === \count($args)) {
-            $type = PDO::PARAM_STR;
+            $type = self::PARAM_STR;
         } else {
             $typeType = $scope->getType($args[1]->value);
-            if (!$typeType instanceof ConstantIntegerType) {
+            if (! $typeType instanceof ConstantIntegerType) {
                 return null;
             }
             $type = $typeType->getValue();
@@ -87,7 +97,7 @@ final class PdoQuoteDynamicReturnTypeExtension implements DynamicMethodReturnTyp
         $stringType = $this->inferStringType($argType);
 
         // check for types which are supported by all drivers, therefore cannot return false.
-        if (PDO::PARAM_STR === $type || PDO::PARAM_INT === $type || PDO::PARAM_BOOL === $type) {
+        if (self::PARAM_STR === $type || self::PARAM_INT === $type || self::PARAM_BOOL === $type) {
             return $stringType;
         }
 

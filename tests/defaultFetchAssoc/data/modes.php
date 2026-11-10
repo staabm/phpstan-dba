@@ -11,7 +11,10 @@ class Foo
     public function assocModeQuery(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
         $result = $stmt->fetch();
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
@@ -19,35 +22,52 @@ class Foo
     public function assocModeFetch(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
         $result = $stmt->fetch();
         assertType('array{email: string, adaid: int<-32768, 32767>}|false', $result);
     }
 
-    public function assocModeFetchOverriden(PDO $pdo)
+    public function assocModeFetchOverridden(PDO $pdo)
     {
         $stmt = $pdo->prepare('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
         $stmt->execute();
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
         $result = $stmt->fetch(PDO::FETCH_NUM);
         assertType('array{string, int<-32768, 32767>}|false', $result);
     }
 
-    public function assocModeQueryFetchOverriden(PDO $pdo)
+    public function assocModeQueryFetchOverridden(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada');
-        assertType('PDOStatement<array{email: string, adaid: int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
         $result = $stmt->fetch(PDO::FETCH_NUM);
         assertType('array{string, int<-32768, 32767>}|false', $result);
     }
 
-    public function assocModeQueryOverriden(PDO $pdo)
+    public function assocModeQueryOverridden(PDO $pdo)
     {
         $stmt = $pdo->query('SELECT email, adaid FROM ada', PDO::FETCH_NUM);
-        assertType('PDOStatement<array{string, int<-32768, 32767>}>', $stmt);
+        foreach ($stmt as $row) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
+
         $result = $stmt->fetch(PDO::FETCH_NUM);
         assertType('array{string, int<-32768, 32767>}|false', $result);
     }

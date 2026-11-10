@@ -8,13 +8,19 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
+use staabm\PHPStanDba\Extensions\DbSchemaResultCacheMetaExtension;
 use staabm\PHPStanDba\QueryReflection\PlaceholderValidation;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
 use staabm\PHPStanDba\UnresolvableQueryException;
@@ -29,14 +35,17 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     /**
      * @var list<string>
      */
-    private $classMethods;
+    public array $classMethods;
+
+    private ReflectionProvider $reflectionProvider;
 
     /**
      * @param list<string> $classMethods
      */
-    public function __construct(array $classMethods)
+    public function __construct(array $classMethods, ReflectionProvider $reflectionProvider)
     {
         $this->classMethods = $classMethods;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function getNodeType(): string
@@ -47,13 +56,22 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     public function processNode(Node $callLike, Scope $scope): array
     {
         if ($callLike instanceof MethodCall) {
-            if (!$callLike->name instanceof Node\Identifier) {
+            if (! $callLike->name instanceof Node\Identifier) {
                 return [];
             }
 
             $methodReflection = $scope->getMethodReflection($scope->getType($callLike->var), $callLike->name->toString());
+        } elseif ($callLike instanceof StaticCall) {
+            if (! $callLike->name instanceof Identifier) {
+                return [];
+            }
+            if (! $callLike->class instanceof Name) {
+                return [];
+            }
+            $classType = $scope->resolveTypeByName($callLike->class);
+            $methodReflection = $scope->getMethodReflection($classType, $callLike->name->toString());
         } elseif ($callLike instanceof New_) {
-            if (!$callLike->class instanceof FullyQualified) {
+            if (! $callLike->class instanceof FullyQualified) {
                 return [];
             }
             $methodReflection = $scope->getMethodReflection(new ObjectType($callLike->class->toCodeString()), '__construct');
@@ -68,9 +86,16 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
         $unsupportedMethod = true;
         foreach ($this->classMethods as $classMethod) {
             sscanf($classMethod, '%[^::]::%s', $className, $methodName);
+            if (! \is_string($className) || ! \is_string($methodName)) {
+                throw new ShouldNotHappenException('Invalid classMethod definition');
+            }
 
             if ($methodName === $methodReflection->getName() &&
-                ($methodReflection->getDeclaringClass()->getName() === $className || $methodReflection->getDeclaringClass()->isSubclassOf($className))) {
+                (
+                    $methodReflection->getDeclaringClass()->getName() === $className
+                    || ($this->reflectionProvider->hasClass($className) && $methodReflection->getDeclaringClass()->isSubclassOfClass($this->reflectionProvider->getClass($className)))
+                )
+            ) {
                 $unsupportedMethod = false;
                 break;
             }
@@ -84,9 +109,9 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
     }
 
     /**
-     * @param MethodCall|New_ $callLike
+     * @param MethodCall|StaticCall|New_ $callLike
      *
-     * @return RuleError[]
+     * @return list<IdentifierRuleError>
      */
     private function checkErrors(CallLike $callLike, Scope $scope): array
     {
@@ -96,22 +121,24 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
             return [];
         }
 
-        $queryExpr = $args[0]->value;
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
-        if ($scope->getType($queryExpr) instanceof MixedType) {
+        $queryExpr = $args[0]->value;
+        $queryReflection = new QueryReflection();
+
+        if ($queryReflection->isResolvable($queryExpr, $scope)->no()) {
             return [];
         }
 
-        $queryReflection = new QueryReflection();
-
         $parameters = null;
+        $parameterTypes = new MixedType();
         if (\count($args) > 1) {
-            $parameterTypes = $scope->getType($args[1]->value);
+            $parameterTypes = $queryReflection->resolveParameterTypes($args[1]->value, $scope);
             try {
-                $parameters = $queryReflection->resolveParameters($parameterTypes) ?? [];
+                $parameters = $queryReflection->resolveParameters($parameterTypes);
             } catch (UnresolvableQueryException $exception) {
                 return [
-                    RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+                    RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
                 ];
             }
         }
@@ -142,13 +169,13 @@ final class SyntaxErrorInPreparedStatementMethodRule implements Rule
 
             $ruleErrors = [];
             foreach ($errors as $error) {
-                $ruleErrors[] = RuleErrorBuilder::message($error)->line($callLike->getLine())->build();
+                $ruleErrors[] = RuleErrorBuilder::message($error)->identifier('dba.syntaxError')->line($callLike->getStartLine())->build();
             }
 
             return $ruleErrors;
         } catch (UnresolvableQueryException $exception) {
             return [
-                RuleErrorBuilder::message($exception->asRuleMessage())->tip(UnresolvableQueryException::RULE_TIP)->line($callLike->getLine())->build(),
+                RuleErrorBuilder::message($exception->asRuleMessage())->tip($exception::getTip())->identifier('dba.unresolvableQuery')->line($callLike->getStartLine())->build(),
             ];
         }
     }

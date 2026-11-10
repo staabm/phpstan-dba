@@ -25,10 +25,7 @@ use staabm\PHPStanDba\QueryReflection\QueryReflection;
 
 final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMethodReturnTypeExtension, DynamicFunctionReturnTypeExtension
 {
-    /**
-     * @var PhpVersion
-     */
-    private $phpVersion;
+    private PhpVersion $phpVersion;
 
     public function __construct(PhpVersion $phpVersion)
     {
@@ -53,7 +50,11 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): Type
     {
         $args = $functionCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($functionReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $functionCall->getArgs(),
+            $functionReflection->getVariants()
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -63,6 +64,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
             return $defaultReturn;
         }
 
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
+
         $argType = $scope->getType($args[1]->value);
 
         return $this->inferType($argType);
@@ -71,7 +74,11 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
     {
         $args = $methodCall->getArgs();
-        $defaultReturn = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        $defaultReturn = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $methodCall->getArgs(),
+            $methodReflection->getVariants()
+        )->getReturnType();
 
         if (QueryReflection::getRuntimeConfiguration()->throwsMysqliExceptions($this->phpVersion)) {
             $defaultReturn = TypeCombinator::remove($defaultReturn, new ConstantBooleanType(false));
@@ -80,6 +87,8 @@ final class MysqliEscapeStringDynamicReturnTypeExtension implements DynamicMetho
         if (0 === \count($args)) {
             return $defaultReturn;
         }
+
+        DbSchemaResultCacheMetaExtension::trackSchemaDependency($scope);
 
         $argType = $scope->getType($args[0]->value);
 
