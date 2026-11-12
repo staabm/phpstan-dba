@@ -349,6 +349,16 @@ Simulated query: SELECT FROM WHERE LIMIT 0',
         ),
       ),
     ),
+    'SELECT c_varchar255, c_smallint, c_float FROM typemix' => 
+    array (
+      'result' => 
+      array (
+        3 => 
+        array (
+          'type-description' => 'array{c_varchar255: string, c_smallint: int<-32768, 32767>, c_float: float}',
+        ),
+      ),
+    ),
     'SELECT doesNotExist, adaid, gesperrt, freigabe1u1 FROM ada' => 
     array (
       'error' => 
