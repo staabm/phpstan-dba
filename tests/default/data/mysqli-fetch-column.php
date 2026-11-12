@@ -29,7 +29,7 @@ class Foo
 
         // range of possible columns
         for($i=0; $i<3; $i++) {
-            $col0_to_2 = mysqli_fetch_column($result, $i);
+            $col0_to_2 = $result->fetch_column($i);
             assertType('float|int<-32768, 32767>|string|false', $col0_to_2);
         }
 
