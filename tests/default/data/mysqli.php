@@ -52,6 +52,28 @@ class Foo
         assertType('mysqli_result|true', $result);
     }
 
+    public function fnFetchTypes(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+
+        while ($row = mysqli_fetch_row($result)) {
+            assertType('array{string, int<-32768, 32767>}', $row);
+        }
+
+        while ($row = mysqli_fetch_object($result)) {
+            assertType('int<-32768, 32767>', $row->adaid);
+            assertType('string', $row->email);
+        }
+
+        while ($row = mysqli_fetch_array($result)) {
+            assertType('array{0: string, 1: int<-32768, 32767>, email: string, adaid: int<-32768, 32767>}', $row);
+        }
+    }
+  
     public function unionResult(mysqli $mysqli)
     {
         $queries = ['SELECT adaid FROM ada', 'SELECT email FROM ada'];
