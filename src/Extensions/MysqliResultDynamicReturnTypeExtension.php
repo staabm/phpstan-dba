@@ -158,6 +158,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
     {
         $args = $functionCall->getArgs();
+        $variants = $functionReflection->getVariants();
         $functionName = strtolower($functionReflection->getName());
 
         // mysqli_fetch_ functions all have at least 1 arg: the mysqli_result
@@ -200,12 +201,12 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         // The return type is stdClass w. SQL fields as properties|null|false
         if ($functionName === 'mysqli_fetch_object') {
             // arg[1] is string $class = "stdClass"
-            $classNameType = $this->getArgOrDefault($functionReflection->getVariants(), $functionCall, $scope, 1);
+            $classNameType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
             return $this->fetchObject($scope, $classNameType, $rowType);
         }
 
         if ($functionName === 'mysqli_fetch_all') {
-            $modesType = $this->getArgOrDefault($functionReflection->getVariants(), $functionCall, $scope, 1);
+            $modesType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
             $modes = $this->getModes($modesType);
             if ($modes === null) {
                 return null;
@@ -231,7 +232,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         // The return type is a single SQL field|false
         if ($functionName === 'mysqli_fetch_column') {
             // arg[1] is int $column = 0
-            $offsetType = $this->getArgOrDefault($functionReflection->getVariants(), $functionCall, $scope, 1);
+            $offsetType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
             return $this->fetchColumn($offsetType, $numericRowType);
         }
 
@@ -289,6 +290,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
     {
         $resultType = $scope->getType($methodCall->var);
         $args = $methodCall->getArgs();
+        $variants = $methodReflection->getVariants();
         $methodName = strtolower($methodReflection->getName());
 
         switch ($methodName) {
@@ -334,12 +336,12 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         // The return type is stdClass w. SQL fields as properties|null|false
         if ($methodName === 'fetch_object') {
             // arg[0] is string $class = "stdClass"
-            $classNameType = $this->getArgOrDefault($methodReflection->getVariants(), $methodCall, $scope, 0);
+            $classNameType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
             return $this->fetchObject($scope, $classNameType, $rowType);
         }
 
         if ($methodName === 'fetch_all') {
-            $modesType = $this->getArgOrDefault($methodReflection->getVariants(), $methodCall, $scope, 0);
+            $modesType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
             $modes = $this->getModes($modesType);
             if ($modes === null) {
                 return null;
@@ -366,7 +368,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         if ($methodName === 'fetch_column') {
             $columnTypes = [];
             // arg[0] is int $column = 0
-            $offsetType = $this->getArgOrDefault($methodReflection->getVariants(), $methodCall, $scope, 0);
+            $offsetType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
             return $this->fetchColumn($offsetType, $numericRowType);
         }
 
