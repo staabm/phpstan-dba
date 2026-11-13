@@ -116,11 +116,75 @@ class Foo
         assertType('list<array{adaid: int<-32768, 32767>}>', $result->fetch_all(MYSQLI_ASSOC));
     }
 
+    public function fetchObject(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+        $row = $result->fetch_object();
+        assertType('(object{email: string, adaid: int<-32768, 32767>}&stdClass)|false|null', $row);
+
+        $row = $result->fetch_object('AdaClass1');
+        assertType('AdaClass1|false|null', $row);
+
+        $row = $result->fetch_object(rand() ? 'AdaClass1' : 'AdaClass2');
+        assertType('AdaClass1|AdaClass2|false|null', $row);
+
+        for($i = 1; $i < 3; $i++) {
+            $row = $result->fetch_object('AdaClass' . $i);
+            assertType('AdaClass1|AdaClass2|false|null', $row);
+        }
+    }
+
+    public function fetchRow(mysqli $mysqli)
+    {
+        $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
+        $row = $result->fetch_row();
+        assertType('array{string, int<-32768, 32767>}|false|null', $row);
+    }
+
     public function proceduralFetchAssoc(mysqli $mysqli)
     {
         $result = mysqli_query($mysqli, 'SELECT email, adaid FROM ada');
         $row = mysqli_fetch_assoc($result);
         assertType('array{email: string, adaid: int<-32768, 32767>}|false|null', $row);
+    }
+
+    public function proceduralFetchAllColumns(mysqli $mysqli)
+    {
+        $result = $mysqli->query('SELECT email, adaid FROM ada');
+        assertType('list<array{string, int<-32768, 32767>}>', mysqli_fetch_all($result));
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', mysqli_fetch_all($result, MYSQLI_ASSOC));
+        assertType('list<array{string, int<-32768, 32767>}>', mysqli_fetch_all($result, MYSQLI_NUM));
+        assertType('list<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', mysqli_fetch_all($result, MYSQLI_BOTH));
+        assertType('list<array{email: string, adaid: int<-32768, 32767>}>', mysqli_fetch_all($result, 1));
+        assertType('list<array{string, int<-32768, 32767>}>', mysqli_fetch_all($result, 2));
+        assertType('list<array{email: string, 0: string, adaid: int<-32768, 32767>, 1: int<-32768, 32767>}>', mysqli_fetch_all($result, 3));
+        assertType('array{email: string, adaid: int<-32768, 32767>}|false|null', mysqli_fetch_assoc($result));
+        foreach ($result as $row) {
+            assertType('array{email: string, adaid: int<-32768, 32767>}', $row);
+        }
+    }
+
+    public function proceduralFetchAllUnionResult(mysqli $mysqli)
+    {
+        $queries = ['SELECT adaid FROM ada', 'SELECT email FROM ada'];
+
+        foreach ($queries as $query) {
+            $result = $mysqli->query($query);
+            assertType('list<array{int<-32768, 32767>}|array{string}>', mysqli_fetch_all($result));
+            assertType('list<array{adaid: int<-32768, 32767>}|array{email: string}>', mysqli_fetch_all($result, MYSQLI_ASSOC));
+            assertType('list<array{int<-32768, 32767>}|array{string}>', mysqli_fetch_all($result,MYSQLI_NUM));
+            assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}|array{email: string, 0: string}>', mysqli_fetch_all($result, MYSQLI_BOTH));
+            assertType('array{adaid: int<-32768, 32767>}|array{email: string}|false|null', mysqli_fetch_assoc($result));
+        }
+    }
+
+    public function proceduralFetchAllUnionMode(mysqli $mysqli)
+    {
+        $result = $mysqli->query('SELECT adaid FROM ada');
+        $mode = rand(0, 1) ? MYSQLI_ASSOC : MYSQLI_NUM;
+        assertType('list<array{adaid: int<-32768, 32767>}|array{int<-32768, 32767>}>', mysqli_fetch_all($result, $mode));
+        assertType('list<array{adaid: int<-32768, 32767>, 0: int<-32768, 32767>}>', mysqli_fetch_all($result, MYSQLI_ASSOC | MYSQLI_NUM));
+        assertType('list<array{adaid: int<-32768, 32767>}>', mysqli_fetch_all($result, MYSQLI_ASSOC));
     }
 
     public function proceduralFetchObject(mysqli $mysqli)
