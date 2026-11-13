@@ -35,6 +35,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
         if ('pdo-pgsql' === getenv('DBA_REFLECTOR')) {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-pgsql.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/typemix-pgsql.php');
+            yield from $this->gatherAssertTypes(__DIR__ . '/data/bug-600.php');
         } else {
             yield from $this->gatherAssertTypes(__DIR__ . '/data/pdo-mysql.php');
             yield from $this->gatherAssertTypes(__DIR__ . '/data/typemix-mysql.php');

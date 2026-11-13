@@ -163,7 +163,7 @@ HINT:  Perhaps you meant to reference the column "ada.gesperrt". (42703).',
                 ],
                 [
                     'Query error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "package" does not exist
-LINE 1: EXPLAIN UPDATE package SET indexedAt=\'1970-01-01\' WHERE id I...
+LINE 1: EXPLAIN UPDATE package SET indexedAt=NULL WHERE id IN (NULL)...
                        ^ (42P01).',
                     180,
                 ],
@@ -343,19 +343,19 @@ LINE 1: EXPLAIN INSERT IGNORE INTO `s_articles_supplier` (`id`, `nam...
             $expectedErrors = [
                 [
                     "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
-LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = NULL AND...
                       ^ (42703).",
                     12,
                 ],
                 [
                     "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
-LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = NULL AND...
                       ^ (42703).",
                     36,
                 ],
                 [
                     "Query error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column \"does_not_exist\" does not exist
-LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
+LINE 1: SELECT email, does_not_exist FROM ada WHERE email = NULL AND...
                       ^ (42703).",
                     60,
                 ],
@@ -384,6 +384,15 @@ LINE 1: SELECT email, does_not_exist FROM ada WHERE email = '1970-01...
         }
 
         $this->analyse([__DIR__ . '/data/syntax-error-with-inference-placeholder.php'], $expectedErrors);
+    }
+
+    public function testBug600(): void
+    {
+        if (PdoPgSqlQueryReflector::NAME !== getenv('DBA_REFLECTOR')) {
+            self::markTestSkipped('The uuid_entity table only exists in the PostgreSQL test schema.');
+        }
+
+        $this->analyse([__DIR__ . '/data/bug-600.php'], []);
     }
 
     public function testBug749(): void
