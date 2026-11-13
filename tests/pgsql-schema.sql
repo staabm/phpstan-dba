@@ -59,3 +59,12 @@ ALTER TABLE cmsdomain
 
 CREATE INDEX ON cmsdomain(cmsdomainid);
 CREATE INDEX ON cmsdomain(url);
+
+CREATE TABLE uuid_entity (
+    id uuid NOT NULL,
+    parent_id uuid DEFAULT NULL,
+    name varchar(255) NOT NULL
+);
+
+ALTER TABLE uuid_entity
+    ADD PRIMARY KEY (id);

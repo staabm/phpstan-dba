@@ -577,6 +577,13 @@ final class QueryReflection
         foreach ($parameters as $placeholderKey => $parameter) {
             $value = $parameter->simulatedValue;
 
+            // PostgreSQL parses a quoted literal with the input function of the type it is compared to,
+            // so no simulated string fits every column (e.g. uuid, jsonb, enum). An untyped NULL is
+            // resolved from context instead, like a bind parameter. see https://github.com/staabm/phpstan-dba/issues/600
+            if (null !== $value && $this->isNonConstantString($parameter->type) && $this->isPgsql()) {
+                $value = null;
+            }
+
             if (\is_string($value)) {
                 // XXX escaping
                 $value = "'" . $value . "'";
@@ -594,6 +601,38 @@ final class QueryReflection
         }
 
         return $queryString;
+    }
+
+    /**
+     * Whether the type is a string we know nothing about: not a constant and not numeric,
+     * possibly nullable or a list of such strings.
+     */
+    private function isNonConstantString(Type $type): bool
+    {
+        if ($type->isIterable()->yes()) {
+            $type = $type->getIterableValueType();
+        }
+        $type = TypeCombinator::removeNull($type);
+
+        return $type->isString()->yes()
+            && ! $type->isNumericString()->yes()
+            && ! $type->isConstantScalarValue()->yes();
+    }
+
+    /**
+     * Checks the datasource rather than the reflector class,
+     * so wrapped reflectors (recording, lazy, ...) are detected as well.
+     */
+    private function isPgsql(): bool
+    {
+        $reflector = self::reflector();
+        if (! $reflector instanceof RecordingReflector) {
+            return false;
+        }
+
+        $datasource = $reflector->getDatasource();
+
+        return $datasource instanceof \PDO && 'pgsql' === $datasource->getAttribute(\PDO::ATTR_DRIVER_NAME);
     }
 
     private static function reflector(): QueryReflector
