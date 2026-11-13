@@ -8,12 +8,12 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use staabm\PHPStanDba\QueryReflection\QueryReflection;
-use staabm\PHPStanDba\Rules\MysqliFetchRangeRule;
+use staabm\PHPStanDba\Rules\MysqliFetchColumnRule;
 
 /**
- * @extends RuleTestCase<MysqliFetchRangeRule>
+ * @extends RuleTestCase<MysqliFetchColumnRule>
  */
-class MysqliFetchRangeRuleTest extends RuleTestCase
+class MysqliFetchColumnRuleTest extends RuleTestCase
 {
     private bool $reportMaybes = false;
 
@@ -31,7 +31,7 @@ class MysqliFetchRangeRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new MysqliFetchRangeRule(
+        return new MysqliFetchColumnRule(
             self::getContainer()->getByType(ReflectionProvider::class),
             $this->reportMaybes
         );

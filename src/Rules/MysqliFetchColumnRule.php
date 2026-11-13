@@ -19,7 +19,7 @@ use PHPStan\Type\VerbosityLevel;
 use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
 /** @implements Rule<CallLike> */
-final class MysqliFetchRangeRule implements Rule
+final class MysqliFetchColumnRule implements Rule
 {
     private ReflectionProvider $reflectionProvider;
 

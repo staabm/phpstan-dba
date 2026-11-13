@@ -101,7 +101,7 @@ services:
                 - 'Doctrine\DBAL\Connection::exec#0' # deprecated in doctrine
 
     -
-        class: staabm\PHPStanDba\Rules\MysqliFetchRangeRule
+        class: staabm\PHPStanDba\Rules\MysqliFetchColumnRule
         tags: [phpstan.rules.rule]
         arguments:
             reportMaybes: %reportMaybes%
