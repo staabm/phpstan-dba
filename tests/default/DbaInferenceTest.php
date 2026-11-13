@@ -60,6 +60,7 @@ class DbaInferenceTest extends TypeInferenceTestCase
             // PHP >= 8.1.0
             if (function_exists('mysqli_fetch_column')) {
                 yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-fetch-column.php');
+                yield from $this->gatherAssertTypes(__DIR__ . '/data/mysqli-named-args.php');
             }
         }
 

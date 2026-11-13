@@ -1,6 +1,6 @@
 <?php return array (
   'schemaVersion' => 'v13-valid-query',
-  'schemaHash' => NULL,
+  'schemaHash' => '62696dcc12b773f626b1f2862c6c4e99',
   'records' => 
   array (
     'SELECT
@@ -21,39 +21,30 @@
     'SELECT
                 MD5(
                     GROUP_CONCAT(
-                        InnerSelect.columns
+                        CONCAT(
+                            COALESCE(COLUMN_NAME, \'\'),
+                            COALESCE(EXTRA, \'\'),
+                            COLUMN_TYPE,
+                            IS_NULLABLE,
+                            ORDINAL_POSITION
+                        )
+                        ORDER BY TABLE_NAME, COLUMN_NAME
                     )
-                ) AS dbsignature,
-                1 AS grouper
-            FROM (
-                SELECT
-                    CONCAT(
-                        COALESCE(COLUMN_NAME, \'\'),
-                        COALESCE(EXTRA, \'\'),
-                        COLUMN_TYPE,
-                        IS_NULLABLE
-                    ) as columns
-                FROM
-                    information_schema.columns
-                WHERE
-                    table_schema = DATABASE()
-                ORDER BY table_name, column_name
-            ) as InnerSelect
-            GROUP BY
-                grouper' => 
+                ) AS dbsignature
+            FROM
+                information_schema.columns
+            WHERE
+                table_schema = DATABASE()' => 
     array (
-      'error' => 
-      \staabm\PHPStanDba\Valid::__set_state(array(
-      )),
       'result' => 
       array (
         5 => 
         array (
-          'type-description' => 'array{dbsignature: string|null, 0: string|null, grouper: int, 1: int}',
+          'type-description' => 'array{dbsignature: string|null, 0: string|null}',
         ),
         3 => 
         array (
-          'type-description' => 'array{dbsignature: string|null, grouper: int}',
+          'type-description' => 'array{dbsignature: string|null}',
         ),
       ),
     ),
@@ -65,7 +56,7 @@
       array (
         5 => 
         array (
-          'type-description' => 'array{COLUMN_NAME: string, 0: string, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
+          'type-description' => 'array{COLUMN_NAME: string|null, 0: string|null, COLUMN_DEFAULT: string|null, 1: string|null, IS_NULLABLE: string, 2: string}',
         ),
       ),
     ),

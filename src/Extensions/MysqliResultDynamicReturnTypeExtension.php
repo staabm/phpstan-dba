@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace staabm\PHPStanDba\Extensions;
 
 use mysqli_result;
-use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\FunctionReflection;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ParametersAcceptor;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Constant\ConstantArrayType;
@@ -56,18 +58,111 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
     {
         return \in_array(
             strtolower($functionReflection->getName()),
-            ['mysqli_fetch_assoc', 'mysqli_fetch_column', 'mysqli_fetch_object', 'mysqli_fetch_row'],
+            ['mysqli_fetch_all', 'mysqli_fetch_assoc', 'mysqli_fetch_column', 'mysqli_fetch_object', 'mysqli_fetch_row'],
             true
         );
+    }
+
+    /** Process mysqli_fetch_all func & fetch_all method
+     * @param list<int> $modes
+     **/
+    public function fetchAll(array $modes, Type $rowType): ?Type
+    {
+        $rows = [];
+        foreach ($modes as $mode) {
+            $modeRowType = $this->getRowTypeForMode($rowType, $mode);
+            if ($modeRowType === null) {
+                return null;
+            }
+
+            $rows[] = $modeRowType;
+        }
+
+        return TypeCombinator::intersect(
+            new ArrayType(new IntegerType(), TypeCombinator::union(...$rows)),
+            new AccessoryArrayListType()
+        );
+    }
+
+    /**
+     * Process mysqli_fetch_object func & fetch_object method
+     */
+    public function fetchObject(Scope $scope, Type $classNameType, Type $rowType): ?Type
+    {
+        $classType = $this->getObjectTypeFromName($scope, $classNameType);
+        if ($classType === null) {
+            return null;
+        }
+        $objectTypes = [];
+        foreach ($rowType->getConstantArrays() as $assocRow) {
+            $properties = [];
+            foreach ($assocRow->getKeyTypes() as $index => $keyType) {
+                // Only keep string column names
+                $columnNames = $keyType->getConstantStrings();
+                foreach ($columnNames as $columnName) {
+                    $properties[$columnName->getValue()] = $assocRow->getValueTypes()[$index];
+                }
+            }
+
+            $objectTypes[] = TypeCombinator::intersect(
+                $classType,
+                new ObjectShapeType($properties, [])
+            );
+        }
+
+        if ($objectTypes === []) {
+            return null;
+        }
+
+        return TypeCombinator::union(
+            TypeCombinator::union(...$objectTypes),
+            new NullType(),
+            new ConstantBooleanType(false)
+        );
+    }
+
+    /**
+     * Process mysqli_fetch_column func & fetch_column method
+     */
+    public function fetchColumn(Type $offsetType, Type $numericRowType): ?Type
+    {
+        // * column arg is a constant OR
+        // * column arg may be one of several possible constants
+        //   Occurs with, eg, column=rand() ? 0 : 1  OR
+        // * column arg may be one of several possible constants
+        //   Occurs in, eg, a for loop
+        // If any of the types are non-integral, it isn't a valid
+        // call to mysqli_fetch_column
+        $columnTypes = [];
+        foreach ($offsetType->getFiniteTypes() as $type) {
+            if (! $type instanceof ConstantIntegerType) {
+                return null;
+            }
+            foreach ($numericRowType->getConstantArrays() as $numericRow) {
+                $columnTypes[] =
+                    $numericRow->hasOffsetValueType($offsetType)->yes()
+                    ? $numericRow->getOffsetValueType($offsetType)
+                    : new ConstantBooleanType(false);
+            }
+        }
+
+        if ($columnTypes === []) {
+            return null;
+        }
+
+        // The ...|false on DB connection failure
+        $columnTypes[] = new ConstantBooleanType(false);
+        return TypeCombinator::union(...$columnTypes);
     }
 
     public function getTypeFromFunctionCall(FunctionReflection $functionReflection, FuncCall $functionCall, Scope $scope): ?Type
     {
         $args = $functionCall->getArgs();
-        $name = strtolower($functionReflection->getName());
+        $variants = $functionReflection->getVariants();
+        $functionName = strtolower($functionReflection->getName());
 
         // mysqli_fetch_ functions all have at least 1 arg: the mysqli_result
-        switch ($name) {
+        switch ($functionName) {
             case 'mysqli_fetch_assoc': // $result
             case 'mysqli_fetch_row':   // $result
                 if (\count($args) !== 1) {
@@ -94,7 +189,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         }
 
         // The return type is sealed array w. SQL fields as elements|null|false
-        if ($name === 'mysqli_fetch_assoc') {
+        if ($functionName === 'mysqli_fetch_assoc') {
             return TypeCombinator::union(
                 $rowType,
                 new NullType(),
@@ -104,41 +199,20 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
 
 
         // The return type is stdClass w. SQL fields as properties|null|false
-        if ($name === 'mysqli_fetch_object') {
-            $countExpr = (\count($args) >= 2)
-                 ? $args[1]->value
-                 : new String_('stdClass');
-            $classType = $this->getExprObjectType($scope, $countExpr);
-            if ($classType === null) {
+        if ($functionName === 'mysqli_fetch_object') {
+            // arg[1] is string $class = "stdClass"
+            $classNameType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
+            return $this->fetchObject($scope, $classNameType, $rowType);
+        }
+
+        if ($functionName === 'mysqli_fetch_all') {
+            $modesType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
+            $modes = $this->getModes($modesType);
+            if ($modes === null) {
                 return null;
             }
 
-            $objectTypes = [];
-            foreach ($rowType->getConstantArrays() as $assocRow) {
-                $properties = [];
-                foreach ($assocRow->getKeyTypes() as $index => $keyType) {
-                    // Only keep string column names
-                    $columnNames = $keyType->getConstantStrings();
-                    foreach ($columnNames as $columnName) {
-                        $properties[$columnName->getValue()] = $assocRow->getValueTypes()[$index];
-                    }
-                }
-
-                $objectTypes[] = TypeCombinator::intersect(
-                    $classType,
-                    new ObjectShapeType($properties, [])
-                );
-            }
-
-            if ($objectTypes === []) {
-                return null;
-            }
-
-            return TypeCombinator::union(
-                TypeCombinator::union(...$objectTypes),
-                new NullType(),
-                new ConstantBooleanType(false)
-            );
+            return $this->fetchAll($modes, $rowType);
         }
 
         $numericRowType = $this->getRowTypeForMode($rowType, self::MYSQLI_NUM);
@@ -147,7 +221,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         }
 
         // The return type is enumerated array of SQL fields|null|false
-        if ($name === 'mysqli_fetch_row') {
+        if ($functionName === 'mysqli_fetch_row') {
             return TypeCombinator::union(
                 $numericRowType,
                 new NullType(),
@@ -156,58 +230,40 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         }
 
         // The return type is a single SQL field|false
-        if ($name === 'mysqli_fetch_column') {
-            $columnTypes = [];
-            if (count($args) === 1 || count($args) === 2) {
-                // arg[1] is int $column, is optional and defaults to 0
-                $offsetType = count($args) === 2
-                    ? $scope->getType($args[1]->value)
-                    : new ConstantIntegerType(0);
-                // * column arg is a constant OR
-                // * column arg may be one of several possible constants
-                //   Occurs with, eg, column=rand() ? 0 : 1  OR
-                // * column arg may be one of several possible constants
-                //   Occurs in, eg, a for loop
-                // If any of the types are non-integral, it isn't a valid
-                // call to mysqli_fetch_column
-                foreach ($offsetType->getFiniteTypes() as $type) {
-                    if (! $type instanceof ConstantIntegerType) {
-                        return null;
-                    }
-                    foreach ($numericRowType->getConstantArrays() as $numericRow) {
-                        $columnTypes[] =
-                            $numericRow->hasOffsetValueType($offsetType)->yes()
-                            ? $numericRow->getOffsetValueType($offsetType)
-                            : new ConstantBooleanType(false);
-                    }
-                }
-            } else {
-                return null;
-            }
-
-            if ($columnTypes === []) {
-                return null;
-            }
-
-            // The ...|false on DB connection failure
-            $columnTypes[] = new ConstantBooleanType(false);
-            return TypeCombinator::union(...$columnTypes);
+        if ($functionName === 'mysqli_fetch_column') {
+            // arg[1] is int $column = 0
+            $offsetType = $this->getArgOrDefault($variants, $functionCall, $scope, 1);
+            return $this->fetchColumn($offsetType, $numericRowType);
         }
 
         return null;
     }
 
-    /***
-     * Evaluate an expression for all possible class name strings it may
-     * produce and generate ObjectTypes for each of those.
-     *
-     * @return A union of possible ObjectTypes, or null on failure
+    /**
+     * @param list<ParametersAcceptor> $variants
      */
-    private function getExprObjectType(Scope $scope, Expr $expr): ?Type
+    private function getArgOrDefault(array $variants, CallLike $call, Scope $scope, int $i): Type
     {
-        $classNameType = $scope->getType($expr);
+        $args = $call->getArgs();
+        if (\count($args) > $i) {
+            return $scope->getType($args[$i]->value);
+        }
+        $variant = ParametersAcceptorSelector::selectFromArgs(
+            $scope,
+            $args,
+            $variants
+        );
+        $default = $variant->getParameters()[$i]->getDefaultValue();
+        if ($default === null) {
+            throw new ShouldNotHappenException("Argument $i does not have a default");
+        }
+        return $default;
+    }
+
+    private function getObjectTypeFromName(Scope $scope, Type $name): ?Type
+    {
         $objectTypes = [];
-        foreach ($classNameType->getConstantStrings() as $type) {
+        foreach ($name->getConstantStrings() as $type) {
             $className = $type->getValue();
 
             // Does PHPStan know about the class?
@@ -223,34 +279,44 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return \in_array(strtolower($methodReflection->getName()), ['fetch_assoc', 'fetch_all'], true);
+        return \in_array(
+            strtolower($methodReflection->getName()),
+            ['fetch_all', 'fetch_assoc', 'fetch_column', 'fetch_object', 'fetch_row'],
+            true
+        );
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): ?Type
     {
         $resultType = $scope->getType($methodCall->var);
+        $args = $methodCall->getArgs();
+        $variants = $methodReflection->getVariants();
         $methodName = strtolower($methodReflection->getName());
-        if ('fetch_assoc' === $methodName) {
-            if (count($methodCall->getArgs()) === 0) {
-                $rowType = $this->getRowType($resultType);
-                if ($rowType !== null) {
-                    return TypeCombinator::union(
-                        $rowType,
-                        new NullType(),
-                        new ConstantBooleanType(false)
-                    );
+
+        switch ($methodName) {
+            case 'fetch_all':
+                if (\count($args) > 1) {
+                    return null;
                 }
-            }
-
-            return null;
-        }
-
-        $modes = [self::MYSQLI_NUM];
-        if (count($methodCall->getArgs()) > 0) {
-            $modes = $this->getModes($scope->getType($methodCall->getArgs()[0]->value));
-            if ($modes === null) {
-                return null;
-            }
+                break;
+            case 'fetch_assoc':
+            case 'fetch_row':
+                if (\count($args) !== 0) {
+                    return null;
+                }
+                break;
+            case 'fetch_object': // $class = 'stdClass', $constructor = []
+                if (\count($args) > 2) {
+                    return null;
+                }
+                break;
+            case 'fetch_column': // $column = 0; added in PHP 8.1
+                $phpVersion = $scope->getPhpVersion()->getType();
+                if (\count($args) > 1 ||
+                    IntegerRangeType::fromInterval(80100, null)->isSuperTypeOf($phpVersion)->no()) {
+                    return null;
+                }
+                break;
         }
 
         $rowType = $this->getRowType($resultType);
@@ -258,20 +324,55 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
             return null;
         }
 
-        $rows = [];
-        foreach ($modes as $mode) {
-            $modeRowType = $this->getRowTypeForMode($rowType, $mode);
-            if ($modeRowType === null) {
+        // The return type is sealed array w. SQL fields as elements|null|false
+        if ($methodName === 'fetch_assoc') {
+            return TypeCombinator::union(
+                $rowType,
+                new NullType(),
+                new ConstantBooleanType(false)
+            );
+        }
+
+        // The return type is stdClass w. SQL fields as properties|null|false
+        if ($methodName === 'fetch_object') {
+            // arg[0] is string $class = "stdClass"
+            $classNameType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
+            return $this->fetchObject($scope, $classNameType, $rowType);
+        }
+
+        if ($methodName === 'fetch_all') {
+            $modesType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
+            $modes = $this->getModes($modesType);
+            if ($modes === null) {
                 return null;
             }
 
-            $rows[] = $modeRowType;
+            return $this->fetchAll($modes, $rowType);
         }
 
-        return TypeCombinator::intersect(
-            new ArrayType(new IntegerType(), TypeCombinator::union(...$rows)),
-            new AccessoryArrayListType()
-        );
+        $numericRowType = $this->getRowTypeForMode($rowType, self::MYSQLI_NUM);
+        if ($numericRowType === null) {
+            return null;
+        }
+
+        // The return type is enumerated array of SQL fields|null|false
+        if ($methodName === 'fetch_row') {
+            return TypeCombinator::union(
+                $numericRowType,
+                new NullType(),
+                new ConstantBooleanType(false)
+            );
+        }
+
+        // The return type is a single SQL field|false
+        if ($methodName === 'fetch_column') {
+            $columnTypes = [];
+            // arg[0] is int $column = 0
+            $offsetType = $this->getArgOrDefault($variants, $methodCall, $scope, 0);
+            return $this->fetchColumn($offsetType, $numericRowType);
+        }
+
+        return null;
     }
 
     private function getRowType(Type $resultType): ?Type
