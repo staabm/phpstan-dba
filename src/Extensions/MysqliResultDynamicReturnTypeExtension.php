@@ -17,8 +17,6 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\Accessory\AccessoryArrayListType;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantArrayType;
-use PHPStan\Type\Constant\ConstantArrayTypeBuilder;
 use PHPStan\Type\Constant\ConstantBooleanType;
 use PHPStan\Type\Constant\ConstantIntegerType;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
@@ -35,13 +33,6 @@ use staabm\PHPStanDba\MysqliReflection\MysqliResultObjectType;
 
 final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionReturnTypeExtension, DynamicMethodReturnTypeExtension
 {
-    // same-value replacements for MYSQLI_ASSOC, MYSQLI_NUM, MYSQLI_BOTH constants in mysqli extension
-    private const MYSQLI_ASSOC = 1;
-
-    private const MYSQLI_NUM = 2;
-
-    private const MYSQLI_BOTH = 3;
-
     private ReflectionProvider $reflectionProvider;
 
     public function __construct(ReflectionProvider $reflectionProvider)
@@ -70,7 +61,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
     {
         $rows = [];
         foreach ($modes as $mode) {
-            $modeRowType = $this->getRowTypeForMode($rowType, $mode);
+            $modeRowType = MysqliResultObjectType::getRowTypeForMode($rowType, $mode);
             if ($modeRowType === null) {
                 return null;
             }
@@ -215,7 +206,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
             return $this->fetchAll($modes, $rowType);
         }
 
-        $numericRowType = $this->getRowTypeForMode($rowType, self::MYSQLI_NUM);
+        $numericRowType = MysqliResultObjectType::getRowTypeForMode($rowType);
         if ($numericRowType === null) {
             return null;
         }
@@ -350,7 +341,7 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
             return $this->fetchAll($modes, $rowType);
         }
 
-        $numericRowType = $this->getRowTypeForMode($rowType, self::MYSQLI_NUM);
+        $numericRowType = MysqliResultObjectType::getRowTypeForMode($rowType);
         if ($numericRowType === null) {
             return null;
         }
@@ -424,43 +415,5 @@ final class MysqliResultDynamicReturnTypeExtension implements DynamicFunctionRet
         }
 
         return $modes;
-    }
-
-    private function getRowTypeForMode(Type $rowType, int $mode): ?Type
-    {
-        if (! \in_array($mode, [self::MYSQLI_NUM, self::MYSQLI_ASSOC, self::MYSQLI_BOTH], true)) {
-            return null;
-        }
-
-        $rowTypes = [];
-        foreach ($rowType->getConstantArrays() as $arrayType) {
-            $rowTypes[] = $this->convertRowType($arrayType, $mode);
-        }
-
-        if (count($rowTypes) === 0) {
-            return null;
-        }
-
-        return TypeCombinator::union(...$rowTypes);
-    }
-
-    private function convertRowType(ConstantArrayType $rowType, int $mode): Type
-    {
-        $builder = ConstantArrayTypeBuilder::createEmpty();
-        $numericIndex = 0;
-
-        foreach ($rowType->getKeyTypes() as $index => $keyType) {
-            $valueType = $rowType->getValueTypes()[$index];
-            if ($mode === self::MYSQLI_ASSOC || $mode === self::MYSQLI_BOTH) {
-                $builder->setOffsetValueType($keyType, $valueType);
-            }
-
-            if ($mode === self::MYSQLI_NUM || $mode === self::MYSQLI_BOTH) {
-                $builder->setOffsetValueType(new ConstantIntegerType($numericIndex), $valueType);
-                $numericIndex++;
-            }
-        }
-
-        return $builder->getArray();
     }
 }
