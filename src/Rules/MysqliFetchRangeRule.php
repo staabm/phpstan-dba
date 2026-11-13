@@ -70,16 +70,21 @@ final class MysqliFetchRangeRule implements Rule
                 $reflection->getNamedArgumentsVariants(),
             );
             $call = ArgumentsNormalizer::reorderFuncArguments($acceptor, $node);
-            if ($call === null || ! isset($call->getArgs()[0], $call->getArgs()[1])) {
+            if ($call === null) {
                 return [];
             }
 
-            $resultType = $scope->getType($call->getArgs()[0]->value);
+            $args = $call->getArgs();
+            if (! isset($args[0], $args[1])) {
+                return [];
+            }
+
+            $resultType = $scope->getType($args[0]->value);
             if (! ($resultType instanceof MysqliResultObjectType)) {
                 return [];
             }
 
-            $columnArg = $call->getArgs()[1];
+            $columnArg = $args[1];
         } else { // MethodCall
             if (! $node->name instanceof Node\Identifier
                 || strtolower($node->name->toString()) !== 'fetch_column'
@@ -104,10 +109,15 @@ final class MysqliFetchRangeRule implements Rule
                 $reflection->getNamedArgumentsVariants(),
             );
             $call = ArgumentsNormalizer::reorderMethodArguments($acceptor, $node);
-            if ($call === null || ! isset($call->getArgs()[0])) {
+            if ($call === null) {
                 return [];
             }
-            $columnArg = $call->getArgs()[0];
+
+            $args = $call->getArgs();
+            if (! isset($args[0])) {
+                return [];
+            }
+            $columnArg = $args[0];
         }
 
 
