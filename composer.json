@@ -13,7 +13,7 @@
 	"require-dev": {
 		"ext-mysqli": "*",
 		"ext-pdo": "*",
-		"dibi/dibi": "^4.2",
+		"dibi/dibi": "^5.1",
 		"php-parallel-lint/php-parallel-lint": "^1.4",
 		"phpstan/extension-installer": "^1.4",
 		"phpstan/phpstan-deprecation-rules": "^2.0",
